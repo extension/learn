@@ -1,7 +1,6 @@
 source 'http://systems.extension.org/rubygems/'
 source 'http://rubygems.org'
 
-gem 'rack', '1.3.3'
 gem 'rails', "3.1.1"
 
 # Gems used only for assets and not required
