@@ -1,0 +1,6 @@
+learn_user_agent: "Learn Content Fetcher/1.0 https://github.com/extension/tanagra/wiki/Content-Fetch"
+twitter_app_id: 'notset'
+twitter_app_secret: 'notset'
+session_token: '123456789012345678901234567890'
+airbrake_api_key: 'notset'
+urlwriter_host: 'localhost'
