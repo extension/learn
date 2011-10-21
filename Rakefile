@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Tanagra::Application.load_tasks
+Learn::Application.load_tasks
