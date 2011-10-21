@@ -5,3 +5,15 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+
+class LearnSession < ActiveRecord::Base
+  base_config = Session.connection.instance_variable_get("@config")
+  base_config[:database] = 'prod_darmok'
+  establish_connection(base_config)
+end
+
+# direct inject of Sessions to maintain id's
+
+learn_session_db = LearnSession.connection.instance_variable_get("@config")[:database]
+Session.connection.execute("INSERT into #{Session.table_name} SELECT * from #{learn_session_db}.#{LearnSession.table_name}")
