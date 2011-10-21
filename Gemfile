@@ -34,7 +34,7 @@ gem 'sqlite3'
 gem 'mysql2'
 
 # pagination
-gem 'kaminari'
+gem 'will_paginate'
 
 # server settings
 gem "rails_config"
