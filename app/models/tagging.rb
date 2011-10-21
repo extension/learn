@@ -4,7 +4,7 @@
 # === LICENSE:
 # see LICENSE file
 
-class Session < ActiveRecord::Base
-  has_many :tags, :as => :taggable
-  
+class Tagging < ActiveRecord::Base
+  belongs_to :tag
+  belongs_to :taggable, :polymorphic => true
 end
