@@ -5,6 +5,7 @@
 # see LICENSE file
 
 class Session < ActiveRecord::Base
-  has_many :tags, :as => :taggable
+  has_many :taggings, :as => :taggable
+  has_many :tags, :through => :taggings
   
 end
