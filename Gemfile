@@ -66,6 +66,9 @@ gem "faker"
 # used to post-process mail to convert styles to inline
 gem "inline-style", "0.5.1ex"
 
+# auto_link replacement
+gem "rinku", :require => 'rails_rinku'
+
 # require sunspot_solr for test and dev
 group :test, :development do
   gem 'sunspot_solr', "~> 1.3.0.rc4" 

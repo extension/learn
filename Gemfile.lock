@@ -216,6 +216,7 @@ GEM
       json (~> 1.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rinku (1.2.2)
     rsolr (1.0.2)
       builder (>= 2.1.2)
     ruby-openid (2.1.8)
@@ -294,6 +295,7 @@ DEPENDENCIES
   rails (= 3.1.1)
   rails3-generators
   rails_config
+  rinku
   ruby-readability (~> 0.2.4)
   sass-rails (~> 3.1.4)
   shoulda (>= 3.0.0.beta)
