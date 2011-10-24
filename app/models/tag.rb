@@ -8,6 +8,9 @@ class Tag < ActiveRecord::Base
   has_many :taggings
   validates :name, :presence => true, :uniqueness => true
   
+  SPLITTER = Regexp.new(%r{\s*,\s*})
+  JOINER = ", "
+  
   # normalize tag names 
   # convert whitespace to single space, underscores to space, yank everything that's not alphanumeric : - or whitespace (which is now single spaces)   
   def self.normalizename(name)
