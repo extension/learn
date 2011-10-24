@@ -1,6 +1,6 @@
-class CreateSessions < ActiveRecord::Migration
+class CreateEvents < ActiveRecord::Migration
   def change
-    create_table :sessions do |t|
+    create_table :events do |t|
       t.text     "title",            :null => false
       t.text     "description",      :null => false
       t.datetime "session_start",    :null => false

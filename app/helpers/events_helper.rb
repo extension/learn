@@ -4,7 +4,5 @@
 # === LICENSE:
 # see LICENSE file
 
-Learn::Application.routes.draw do
-  resources :events
-  root :to => 'home#index'
+module EventsHelper
 end

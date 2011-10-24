@@ -1,0 +1,125 @@
+<div id="two_col_col_one">
+   <section id="event">
+   <h1>
+   <%= @event.title -%>
+   </h1>
+
+   <p class="description"><%= format_text_for_display(@event.description) -%></p>
+
+   <h3>Presented by</h3>
+   <p id="presenters">
+   </p>
+      
+      <h4>Tags</h4>
+      <p id="tags">
+      <%-if @event.tags.length != 0 -%>  
+      <%= @event.tags.collect{|t| t.name}.join(Tag::JOINER) -%>
+      <%-else -%>
+      There are no tags at this time
+      <%-end -%>
+      </p>
+      
+      
+        <%-if @event.concluded? -%>
+          <%-if @event.recording.blank? -%>
+            <p class="no_recording_available">
+            There are currently no recordings posted yet.
+            </p>
+          <%-else -%>
+          <h3>Watch</h3>
+            <p class="recording_available mini">
+               <%= link_to(@event.recording, @event.recording) -%>
+            </p>
+          <%-end -%>
+        <%-else -%>
+          <p>View and Participate: <%= link_to(@event.location, @event.location) -%></p>
+          <p>Watch: (This session has not taken place yet. The recording should be available here after the session has taken place.)</p>
+        <%-end -%>
+        
+        <br /><br />
+        <p>Created by: </p>
+        
+        
+        <%- if true -%>
+        <!-- change to authenticated user  -->
+          <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event)) -%></span></p>
+        <%- end -%>
+   </section>
+</div>
+
+<section id="two_col_col_two">
+   <aside id="event_time" class="radius10">
+      
+      <%-if @event.concluded? -%>
+      
+         <%-if @event.recording.blank? -%>
+            <h3>No Recording Yet</h3>
+            <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong>. A recording of this session has not been uploaded yet.</p>
+          <%-else -%>
+          <h3>Watch</h3>
+            <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong></p>
+            <p class="recording_available">
+               <%= link_to("watch recording", @event.recording) -%>
+            </p>
+          <%-end -%>
+      
+      <%-else -%>
+
+        <h2>
+           <span id="session_date"><%= @event.session_start.strftime("%B %e, %Y") -%></span>
+           <div class="calendarblock">
+              <span class="month"><%= @event.session_start.strftime("%b") -%></span>
+              <span class="date"><%= @event.session_start.strftime("%d") -%></span>
+           </div>
+           <span id="session_date_time">
+              <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
+           </span>
+        </h2>
+        <p><%- if current_learner -%>
+          <%- if(!current_learner.has_time_zone?) -%>
+           <%= link_to("Set your time zone", :controller =>  'people/profile', :action => :edit) -%>  to display this session in your local time
+          <%- end -%>
+        <%- else -%>
+          <%= link_to("Login to set your time zone", :controller => :learn, :action => :time_zone_check, :id => @event.id) -%> to display this session in your local time
+        <%- end -%></p>   
+      
+        <p id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</p>
+                        
+      <%-end -%>
+   </aside>
+   
+   <%- if current_learner -%>
+      <%- if @event.started? -%>
+        <aside id="sessionconnection_interest" class="radius10">
+
+        </aside>
+
+        <aside id="sessionconnection_attendance" class="radius10">
+
+        </aside>
+      <%- else -%>
+        <aside id="sessionconnection_interest" class="radius10">
+
+        </aside>
+      <%- end -%>
+   <%- else -%>
+     <aside id="sessionconnection_interest" class="radius10">
+        <%- if @event.started? -%>
+          Are you interested in this topic or did you attend this session? 
+        <%- else -%>
+          Interested in this topic?
+        <%- end -%>
+        <%= link_to("Login and let us know") -%>
+     </aside>
+   <%- end -%>
+
+   <%- if current_learner -%>
+   <aside id="attendees" class="radius10">   
+
+   </aside>
+   <%- end -%>
+   
+   
+   
+   
+</section>

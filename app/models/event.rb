@@ -4,7 +4,7 @@
 # === LICENSE:
 # see LICENSE file
 
-class Session < ActiveRecord::Base
+class Event < ActiveRecord::Base
   has_many :taggings, :as => :taggable
   has_many :tags, :through => :taggings
   
@@ -38,6 +38,22 @@ class Session < ActiveRecord::Base
       write_attribute(:time_zone, mappings[time_zone_string])
     else
       write_attribute(:time_zone, nil)
+    end
+  end
+  
+  def concluded?
+    if(!self.session_end.blank?)
+      return (Time.now.utc > self.session_end)
+    else
+      return false
+    end
+  end
+  
+  def started?(offset = 15.minutes)
+    if(!self.session_start.blank?)
+      return (Time.now.utc > self.session_start - offset)
+    else
+      return false
     end
   end
   

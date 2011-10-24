@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(:version => 20111021180656) do
 
-  create_table "sessions", :force => true do |t|
+  create_table "events", :force => true do |t|
     t.text     "title",            :null => false
     t.text     "description",      :null => false
     t.datetime "session_start",    :null => false

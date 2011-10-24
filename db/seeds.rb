@@ -16,8 +16,8 @@ class LearnSession < ActiveRecord::Base
 end
 
 
-# direct inject of Sessions to maintain id's
-Session.connection.execute("INSERT into #{Session.table_name} SELECT * from #{@darmokdatabase}.#{LearnSession.table_name}")
+# direct inject of Events to maintain id's
+Event.connection.execute("INSERT into #{Event.table_name} SELECT * from #{@darmokdatabase}.#{LearnSession.table_name}")
 
 ## tag injection
 
@@ -33,7 +33,7 @@ Tag.connection.execute(tags_insert_query)
 ## tagging injection
 taggings_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
 INSERT INTO #{@mydatabase}.#{Tagging.table_name} (tag_id, taggable_id, taggable_type, created_at, updated_at) 
-  SELECT #{@mydatabase}.tags.id, #{@darmokdatabase}.taggings.taggable_id, 'Session', #{@darmokdatabase}.taggings.created_at, #{@darmokdatabase}.taggings.updated_at
+  SELECT #{@mydatabase}.tags.id, #{@darmokdatabase}.taggings.taggable_id, 'Event', #{@darmokdatabase}.taggings.created_at, #{@darmokdatabase}.taggings.updated_at
   FROM #{@mydatabase}.tags,#{@darmokdatabase}.tags,#{@darmokdatabase}.taggings
   WHERE #{@darmokdatabase}.taggings.tag_id = #{@darmokdatabase}.tags.id
     AND #{@mydatabase}.tags.name = #{@darmokdatabase}.tags.name

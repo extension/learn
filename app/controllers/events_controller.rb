@@ -4,10 +4,10 @@
 # === LICENSE:
 # see LICENSE file
 
-module ApplicationHelper
+class EventsController < ApplicationController
   
-  def format_text_for_display(content)
-    return word_wrap(simple_format(auto_link(content, :all, :target => "_blank"))).html_safe 
+  
+  def show
+    @event = Event.find(params[:id])
   end
-  
 end
