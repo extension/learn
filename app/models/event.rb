@@ -8,6 +8,15 @@ class Event < ActiveRecord::Base
   has_many :taggings, :as => :taggable
   has_many :tags, :through => :taggings
   
+  validates :title, :presence => true
+  validates :description, :presence => true
+  validates :session_start, :presence => true
+  validates :session_length, :presence => true
+  validates :location, :presence => true
+  
+  validates :recording, :allow_blank => true, :uri => true
+  
+  
   DEFAULT_TIMEZONE = 'America/New_York'
   
   # sunspot/solr search
