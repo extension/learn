@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111021180656) do
+ActiveRecord::Schema.define(:version => 20111024194056) do
+
+  create_table "authmaps", :force => true do |t|
+    t.integer  "learner_id", :null => false
+    t.string   "authname",   :null => false
+    t.string   "source",     :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "authmaps", ["authname", "source"], :name => "index_authmaps_on_authname_and_source", :unique => true
+  add_index "authmaps", ["learner_id"], :name => "index_authmaps_on_learner_id"
 
   create_table "events", :force => true do |t|
     t.text     "title",            :null => false
@@ -27,6 +38,31 @@ ActiveRecord::Schema.define(:version => 20111021180656) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "learners", :force => true do |t|
+    t.string   "email"
+    t.string   "encrypted_password",     :limit => 128
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                         :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "name"
+    t.string   "time_zone"
+    t.boolean  "is_joined",                             :default => false, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "learners", ["confirmation_token"], :name => "index_learners_on_confirmation_token", :unique => true
+  add_index "learners", ["email"], :name => "index_learners_on_email"
+  add_index "learners", ["reset_password_token"], :name => "index_learners_on_reset_password_token", :unique => true
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

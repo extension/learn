@@ -1,0 +1,45 @@
+<ul id="signup_options">
+  <li><%= link_to "Sign in with Twitter", authmap_omniauth_authorize_path(:twitter) %></li>
+  <%= render :partial => "devise/shared/links" %>
+</ul>
+
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "half"}) do |f| %>
+<fieldset>
+  <legend>Sign in</legend>
+  
+  <%= devise_error_messages! %>
+  <div class="clearfix">
+    <%= f.label :email %>
+    <div class="input">
+    <%= f.email_field :email, :class => "xlarge", :size => nil %>
+    </div>
+  </div>
+
+  <div class="clearfix">
+    <%= f.label :password %>
+    <div class="input">
+    <%= f.password_field :password, :class => "xlarge", :size => nil %>
+    </div>
+  </div>
+
+  <% if devise_mapping.rememberable? -%>
+  <div class="input">
+    <ul class="inputs-list">
+      <li>
+        <label>
+        <%= f.check_box :remember_me %> Remember me
+      </label>
+      </li>
+    </ul>
+  </div>
+  <% end -%>
+
+    <div class="actions">
+    <%= f.submit "Sign in", :class => "btn primary" %>
+    <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
+      <%= link_to "Forgot your password?", new_password_path(resource_name), :class => "btn" %>
+    <% end -%>
+  </div>
+</fieldset>
+<% end %>
+
