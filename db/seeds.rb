@@ -6,6 +6,14 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+# test whether a Sunspot server is running
+if(!Sunspot.solr_running?)
+  puts "ERROR! Unable to seed the database!"
+  puts "Solr must be running in order to create and index Knappsack objects"
+  puts "Please run solr before continuing - in development this can be done by typing rake sunspot:solr:start.  See rake --tasks for other tasks"
+  exit(1)
+end
+
 @darmokdatabase = 'prod_darmok'
 @mydatabase = ActiveRecord::Base.connection.instance_variable_get("@config")[:database]
 
@@ -40,3 +48,6 @@ INSERT INTO #{@mydatabase}.#{Tagging.table_name} (tag_id, taggable_id, taggable_
     AND #{@darmokdatabase}.taggings.taggable_type = 'LearnSession'
 END_SQL
 Tagging.connection.execute(taggings_insert_query)
+
+# reindex Events in solr
+Event.reindex

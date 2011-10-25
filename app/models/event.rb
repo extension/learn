@@ -8,8 +8,22 @@ class Event < ActiveRecord::Base
   has_many :taggings, :as => :taggable
   has_many :tags, :through => :taggings
   
+  validates :title, :presence => true
+  validates :description, :presence => true
+  validates :session_start, :presence => true
+  validates :session_length, :presence => true
+  validates :location, :presence => true
+  
+  validates :recording, :allow_blank => true, :uri => true
+  
+  
   DEFAULT_TIMEZONE = 'America/New_York'
   
+  # sunspot/solr search
+  searchable do
+    text :title, more_like_this: true
+    text :description, more_like_this: true
+  end
   
   # override timezone writer/reader
   # returns Eastern by default, use convert=false
@@ -40,6 +54,19 @@ class Event < ActiveRecord::Base
       write_attribute(:time_zone, nil)
     end
   end
+  
+  
+  # return a list of similar articles using sunspot
+  def similar_events(count = 4)
+    search_results = self.more_like_this do
+      paginate(:page => 1, :per_page => count)
+      adjust_solr_params do |params|
+        params[:fl] = 'id,score'
+      end
+    end
+    search_results.results
+  end
+  
   
   def concluded?
     if(!self.session_end.blank?)
