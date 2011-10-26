@@ -1,10 +1,10 @@
-# tanagra 
+# learn 
 
 ## Description
 
-Tanagra is the evolution of the eXtension "learn" site - a place where Cooperative Extension personnel can share upcoming educational opportunities with their colleagues throughout Extension
+Learn is the evolution of the eXtension "learn" site - a place where Cooperative Extension personnel can share event-oriented educational opportunities with their colleagues throughout Extension
 
-Tanagra is a project sponsored by the eXtension initiative of the Cooperative Extension Service. The development work is currently led by a team of technical staff at North Carolina State University.
+Learn is a project sponsored by the eXtension initiative of the Cooperative Extension Service. The development work is currently led by a team of technical staff at North Carolina State University.
 
 ## License
 
