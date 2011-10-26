@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(:version => 20111026194440) do
     t.string   "name"
     t.string   "time_zone"
     t.string   "email"
-    t.boolean  "is_joined",           :default => false, :null => false
+    t.boolean  "has_profile",         :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
