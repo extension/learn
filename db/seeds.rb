@@ -129,7 +129,7 @@ LearnConnection.all.each do |darmok_learn_connection|
     learner = Learner.new
     learner.name = darmok_user.fullname
     learner.email = darmok_user.email
-    learner.is_joined = true
+    learner.has_profile = true
     learner.time_zone = darmok_user.time_zone
     learner.save
   end
