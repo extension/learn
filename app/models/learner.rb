@@ -1,3 +1,9 @@
+# === COPYRIGHT:
+# Copyright (c) North Carolina State University
+# Developed with funding for the National eXtension Initiative.
+# === LICENSE:
+# see LICENSE file
+
 class Learner < ActiveRecord::Base
   devise :rememberable, :trackable
 
@@ -38,5 +44,18 @@ class Learner < ActiveRecord::Base
     else
       write_attribute(:time_zone, nil)
     end
+  end
+  
+  def self.learnbot
+    find(self.learnbot_id)
+  end
+  
+  def self.learnbot_id
+    1
+  end
+  
+  # placeholder for now
+  def recommended_events(count = 4)
+    Event.limit(count)
   end
 end

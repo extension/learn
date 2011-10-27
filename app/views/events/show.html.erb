@@ -123,3 +123,17 @@
    
    
 </section>
+
+<%- @event.questions.each do |question| -%>
+  <div id="question_<%= question.id %>" class="question">
+    <%= render(partial: 'question', locals: {question: question})%>
+  </div>
+<%- end -%>
+
+
+<script class="code" type="text/javascript">
+  $('.submittable').live('change', 
+  function() {
+    $(this).parents('form:first').submit();
+  });
+</script>
