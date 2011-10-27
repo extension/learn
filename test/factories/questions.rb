@@ -5,6 +5,13 @@
 # see LICENSE file
 
 FactoryGirl.define do
-  factory :authmap do
-    end
+  sequence :questionprompt do |integer_value|
+    "This is question prompt ##{integer_value}"
+  end
+  
+    
+  factory :question do
+    prompt {Factory.next(:questionprompt)}
+  end
 end
+

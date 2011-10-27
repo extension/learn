@@ -7,6 +7,8 @@
 class Event < ActiveRecord::Base
   has_many :taggings, :as => :taggable
   has_many :tags, :through => :taggings
+  belongs_to :creator, :class_name => "Learner", :foreign_key => "created_by"
+  belongs_to :last_modifier, :class_name => "Learner", :foreign_key => "last_modified_by"
   
   validates :title, :presence => true
   validates :description, :presence => true
@@ -16,6 +18,7 @@ class Event < ActiveRecord::Base
   
   validates :recording, :allow_blank => true, :uri => true
   
+  before_save :set_session_end
   
   DEFAULT_TIMEZONE = 'America/New_York'
   
@@ -82,6 +85,11 @@ class Event < ActiveRecord::Base
     else
       return false
     end
+  end
+  
+  # calculate end of session time by adding session_length times 60 (session_length is in minutes) to session_start
+  def set_session_end
+    self.session_end = self.session_start + (self.session_length * 60)
   end
   
 end

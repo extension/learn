@@ -5,6 +5,6 @@
 # see LICENSE file
 
 FactoryGirl.define do
-  factory :authmap do
+  factory :answer do
     end
 end
