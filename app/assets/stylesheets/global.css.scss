@@ -1,0 +1,51 @@
+.clearing{clear:both;}
+@mixin boxshadow {
+    border:1px solid #ddd;
+    -webkit-box-shadow: 2px 2px 3px #b8b8b8;
+    -moz-box-shadow: 2px 2px 3px #b8b8b8;
+    box-shadow: 2px 2px 3px #b8b8b8;
+}
+
+@mixin rounded10 {
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+}
+
+
+html, body {
+   background-image: -webkit-radial-gradient(circle, white, black);
+}
+#page_wrapper {
+    background:#fff;
+    margin: 36px auto;
+    width:90%;
+    @include rounded10;
+}
+
+#content {
+    clear:both;
+    padding: 0.8em 5.3333333333%; /* 48px/960px */
+}
+
+header h1 {
+    padding:0;
+    background:url(/assets/knappsack_logo_placeholder_small.png) no-repeat 0 20px;
+    height: 71px;
+    width:280px;
+    margin:.5em .5em .5em 0;
+    float:left;
+}
+
+header img {float:left; padding:10px 0 0 10px;}
+
+.clearing {clear:both;}
+
+input[type="password"],
+input[type="text"],
+input[type="search"],
+input[type="email"] {color:#000; font-size: 1.2em;}
+
+#signup_options {float:left;}
+#signup_options li {list-style:none;}
+
+.half {width: 50%; float:left;}
