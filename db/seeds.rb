@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -13,6 +15,10 @@ if(!Sunspot.solr_running?)
   puts "Please run solr before continuing - in development this can be done by typing rake sunspot:solr:start.  See rake --tasks for other tasks"
   exit(1)
 end
+
+# create a entry 1 "System User"
+learnbot = Learner.create(email: 'system@extension.org', name: 'Learn System User')
+
 
 class SeedConfig
   def self.darmokdatabase
@@ -164,8 +170,9 @@ LearnSession.all.each do |darmok_learn_session|
   event.update_attributes(creator: creator, last_modifier: last_modifier)
 end
 
-
-
 # reindex Events in solr
 Event.reindex
 
+StockQuestion.create(active: true, prompt: 'After attending this session, I feel motivated to learn more about this topic.', responsetype: Question::BOOLEAN, responses: ['no','yes'], creator: learnbot)
+StockQuestion.create(active: true, prompt: 'I wish more of my colleagues would weigh in on the practical applications of the topics covered in this session.', responsetype: Question::SCALE, responses: ['never','always'],  range_start: 1, range_end: 5, creator: knappbot)
+StockQuestion.create(active: true, prompt: 'I’ll share this information with:', responsetype: Question::MULTIVOTE_BOOLEAN, responses: ['Friends and family.','Colleagues at work.','The people in one or more of my online networks.','No one.'], creator: learnbot)
