@@ -174,5 +174,5 @@ end
 Event.reindex
 
 StockQuestion.create(active: true, prompt: 'After attending this session, I feel motivated to learn more about this topic.', responsetype: Question::BOOLEAN, responses: ['no','yes'], creator: learnbot)
-StockQuestion.create(active: true, prompt: 'I wish more of my colleagues would weigh in on the practical applications of the topics covered in this session.', responsetype: Question::SCALE, responses: ['never','always'],  range_start: 1, range_end: 5, creator: knappbot)
+StockQuestion.create(active: true, prompt: 'I wish more of my colleagues would weigh in on the practical applications of the topics covered in this session.', responsetype: Question::SCALE, responses: ['never','always'],  range_start: 1, range_end: 5, creator: learnbot)
 StockQuestion.create(active: true, prompt: 'I’ll share this information with:', responsetype: Question::MULTIVOTE_BOOLEAN, responses: ['Friends and family.','Colleagues at work.','The people in one or more of my online networks.','No one.'], creator: learnbot)
