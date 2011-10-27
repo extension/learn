@@ -6,10 +6,4 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :current_learner
-  
-  def current_learner
-    nil
-  end
-  
 end
