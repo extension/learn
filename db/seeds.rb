@@ -19,20 +19,11 @@ end
 # create a entry 1 "System User"
 learnbot = Learner.create(email: 'system@extension.org', name: 'Learn System User')
 
-
-class SeedConfig
-  def self.darmokdatabase
-    'prod_darmok'
-  end
-  
-  def self.mydatabase
-    ActiveRecord::Base.connection.instance_variable_get("@config")[:database]
-  end
-end
+@mydatabase = ActiveRecord::Base.connection.instance_variable_get("@config")[:database]
 
 class LearnSession < ActiveRecord::Base
   base_config = ActiveRecord::Base.connection.instance_variable_get("@config").dup
-  base_config[:database] = SeedConfig.darmokdatabase
+  base_config[:database] = Settings.darmokdatabase
   establish_connection(base_config)
   has_many :learn_connections
   has_many :users, :through => :learn_connections, :select => "learn_connections.connectiontype as connectiontype, accounts.*"
@@ -44,7 +35,7 @@ end
 
 class Account < ActiveRecord::Base
   base_config = ActiveRecord::Base.connection.instance_variable_get("@config").dup
-  base_config[:database] = SeedConfig.darmokdatabase
+  base_config[:database] = Settings.darmokdatabase
   establish_connection(base_config)
   
   DEFAULT_TIMEZONE = 'America/New_York'
@@ -90,7 +81,7 @@ end
 
 class LearnConnection < ActiveRecord::Base
   base_config = ActiveRecord::Base.connection.instance_variable_get("@config").dup
-  base_config[:database] = SeedConfig.darmokdatabase
+  base_config[:database] = Settings.darmokdatabase
   establish_connection(base_config)
   
   belongs_to :learn_session
@@ -101,8 +92,7 @@ class LearnConnection < ActiveRecord::Base
   ATTENDED = 4
 end
 
-@darmokdatabase = SeedConfig.darmokdatabase
-@mydatabase = SeedConfig.mydatabase
+@darmokdatabase = Settings.darmokdatabase
 
 # direct inject of Events to maintain id's
 Event.connection.execute("INSERT into #{Event.table_name} SELECT * from #{@darmokdatabase}.#{LearnSession.table_name}")
