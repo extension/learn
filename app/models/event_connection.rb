@@ -4,6 +4,11 @@
 # === LICENSE:
 # see LICENSE file
 
-class ApplicationController < ActionController::Base
-  protect_from_forgery
+class EventConnection < ActiveRecord::Base
+  belongs_to :event
+  belongs_to :learner
+  
+  PRESENTER = 2
+  INTERESTED = 3
+  ATTENDED = 4
 end
