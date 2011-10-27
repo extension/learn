@@ -23,7 +23,7 @@ class StockQuestion < ActiveRecord::Base
   
   scope :active, {:conditions => {:active => true}}
   
-  DEFAULT_RANDOM_COUNT = 2
+  DEFAULT_RANDOM_COUNT = 3
   
   def self.random_questions(count = DEFAULT_QUESTION_COUNT)
     # we can get away with loading all of them to shuffle

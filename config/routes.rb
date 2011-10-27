@@ -10,6 +10,11 @@ Learn::Application.routes.draw do
     get '/authmaps/auth/:provider' => 'authmaps/omniauth_callbacks#passthru'
   end
   
-  resources :events
+  resources :events do
+    member do
+      post 'addanswer'
+    end
+  end
+  
   root :to => 'home#index'
 end
