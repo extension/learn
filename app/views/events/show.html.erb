@@ -74,10 +74,10 @@
         
         <p><%- if current_learner -%>
           <%- if(!current_learner.has_time_zone?) -%>
-           <%= link_to("Set your time zone", :controller =>  'people/profile', :action => :edit) -%>  to display this session in your local time
+           <%= link_to("Set your time zone") -%>  to display this session in your local time
           <%- end -%>
         <%- else -%>
-          <%= link_to("Login to set your time zone", :controller => :learn, :action => :time_zone_check, :id => @event.id) -%> to display this session in your local time
+          <%= link_to("Login to set your time zone") -%> to display this session in your local time
         <%- end -%></p>   
       
         <p id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</p>
