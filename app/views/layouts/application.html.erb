@@ -5,10 +5,30 @@
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"></meta>
+  
+  <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="excanvas.js"></script><![endif]-->
+  <%= javascript_include_tag "/jqplot/jquery.jqplot.min.js" %>
+  <%= javascript_include_tag "/jqplot/plugins/jqplot.pieRenderer.min.js" %>
+  <%= javascript_include_tag "/jqplot/plugins/jqplot.barRenderer.min.js" %>
+  <%= javascript_include_tag "/jqplot/plugins/jqplot.categoryAxisRenderer.min.js" %>
+  <%= stylesheet_link_tag "/jqplot/jquery.jqplot.css" %>
+  
 </head>
-<body>
+<body id="<%= params[:controller] %>">
 
-<%= yield %>
+<div id="page_wrapper">
+  <header class="masthead">
+    <a href="/">
+    <%= image_tag("logo_small.png", :size => "264x100",) %>
+    <h1 class="texthide">Learn</h1>
+    </a>
+  </header>
+  
+  <%= yield %>
+
+  <br class="clearing" />
+</div>
 
 </body>
 </html>

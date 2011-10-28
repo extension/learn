@@ -1,3 +1,9 @@
+# === COPYRIGHT:
+# Copyright (c) North Carolina State University
+# Developed with funding for the National eXtension Initiative.
+# === LICENSE:
+# see LICENSE file
+
 class Learner < ActiveRecord::Base
   devise :rememberable, :trackable
 
@@ -38,5 +44,26 @@ class Learner < ActiveRecord::Base
     else
       write_attribute(:time_zone, nil)
     end
+  end
+  
+  # since we return a default string from timezone, this routine
+  # will allow us to check for a null/empty value so we can
+  # prompt people to come set one.
+  def has_time_zone?
+    tzinfo_time_zone_string = read_attribute(:time_zone)
+    return (!tzinfo_time_zone_string.blank?)
+  end
+  
+  def self.learnbot
+    find(self.learnbot_id)
+  end
+  
+  def self.learnbot_id
+    1
+  end
+  
+  # placeholder for now
+  def recommended_events(count = 4)
+    Event.limit(count)
   end
 end

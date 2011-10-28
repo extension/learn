@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -14,27 +16,26 @@ if(!Sunspot.solr_running?)
   exit(1)
 end
 
-class SeedConfig
-  def self.darmokdatabase
-    'prod_darmok'
-  end
-  
-  def self.mydatabase
-    ActiveRecord::Base.connection.instance_variable_get("@config")[:database]
-  end
-end
+# create a entry 1 "System User"
+learnbot = Learner.create(email: 'system@extension.org', name: 'Learn System User')
+
+@mydatabase = ActiveRecord::Base.connection.instance_variable_get("@config")[:database]
 
 class LearnSession < ActiveRecord::Base
   base_config = ActiveRecord::Base.connection.instance_variable_get("@config").dup
-  base_config[:database] = SeedConfig.darmokdatabase
+  base_config[:database] = Settings.darmokdatabase
   establish_connection(base_config)
   has_many :learn_connections
   has_many :users, :through => :learn_connections, :select => "learn_connections.connectiontype as connectiontype, accounts.*"
+  
+  belongs_to :creator, :class_name => "User", :foreign_key => "created_by"
+  belongs_to :last_modifier, :class_name => "User", :foreign_key => "last_modified_by"
+  
 end
 
 class Account < ActiveRecord::Base
   base_config = ActiveRecord::Base.connection.instance_variable_get("@config").dup
-  base_config[:database] = SeedConfig.darmokdatabase
+  base_config[:database] = Settings.darmokdatabase
   establish_connection(base_config)
   
   DEFAULT_TIMEZONE = 'America/New_York'
@@ -80,7 +81,7 @@ end
 
 class LearnConnection < ActiveRecord::Base
   base_config = ActiveRecord::Base.connection.instance_variable_get("@config").dup
-  base_config[:database] = SeedConfig.darmokdatabase
+  base_config[:database] = Settings.darmokdatabase
   establish_connection(base_config)
   
   belongs_to :learn_session
@@ -91,8 +92,7 @@ class LearnConnection < ActiveRecord::Base
   ATTENDED = 4
 end
 
-@darmokdatabase = SeedConfig.darmokdatabase
-@mydatabase = SeedConfig.mydatabase
+@darmokdatabase = Settings.darmokdatabase
 
 # direct inject of Events to maintain id's
 Event.connection.execute("INSERT into #{Event.table_name} SELECT * from #{@darmokdatabase}.#{LearnSession.table_name}")
@@ -119,10 +119,8 @@ INSERT INTO #{@mydatabase}.#{Tagging.table_name} (tag_id, taggable_id, taggable_
 END_SQL
 Tagging.connection.execute(taggings_insert_query)
 
-# reindex Events in solr
-Event.reindex
 
-
+## import Learners and create connections
 LearnConnection.all.each do |darmok_learn_connection|
   darmok_user = darmok_learn_connection.user
   if(!(learner = Learner.find_by_email(darmok_user.email)))
@@ -135,3 +133,36 @@ LearnConnection.all.each do |darmok_learn_connection|
   end
   EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, connectiontype: darmok_learn_connection.connectiontype)
 end
+
+## fix created_by and last_modified_by columns
+LearnSession.all.each do |darmok_learn_session|
+  darmok_creator = darmok_learn_session.creator
+  darmok_last_modifier = darmok_learn_session.last_modifier
+  if(!(creator = Learner.find_by_email(darmok_creator.email)))
+    creator = Learner.new
+    creator.name = darmok_creator.fullname
+    creator.email = darmok_creator.email
+    creator.has_profile = true
+    creator.time_zone = darmok_creator.time_zone
+    creator.save
+  end
+  
+  if(!(last_modifier = Learner.find_by_email(darmok_last_modifier.email)))
+    last_modifier = Learner.new
+    last_modifier.name = darmok_last_modifier.fullname
+    last_modifier.email = darmok_last_modifier.email
+    last_modifier.has_profile = true
+    last_modifier.time_zone = darmok_last_modifier.time_zone
+    last_modifier.save
+  end
+  
+  event = Event.find(darmok_learn_session.id)
+  event.update_attributes(creator: creator, last_modifier: last_modifier)
+end
+
+# reindex Events in solr
+Event.reindex
+
+StockQuestion.create(active: true, prompt: 'After attending this session, I feel motivated to learn more about this topic.', responsetype: Question::BOOLEAN, responses: ['no','yes'], creator: learnbot)
+StockQuestion.create(active: true, prompt: 'I wish more of my colleagues would weigh in on the practical applications of the topics covered in this session.', responsetype: Question::SCALE, responses: ['never','always'],  range_start: 1, range_end: 5, creator: learnbot)
+StockQuestion.create(active: true, prompt: 'I’ll share this information with:', responsetype: Question::MULTIVOTE_BOOLEAN, responses: ['Friends and family.','Colleagues at work.','The people in one or more of my online networks.','No one.'], creator: learnbot)

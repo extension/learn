@@ -17,8 +17,8 @@ class Authmap < ActiveRecord::Base
     
     new_authmap = self.new(:authname => learner_screen_name, :source => learner_provider)
     
-    # TODO: need to handle the case if they're not logged in, and no authmap for twitter has been created yet, and a scientist record does exist, 
-    # they would need to login to associate it with their current account or another scientist record will be created
+    # TODO: need to handle the case if they're not logged in, and no authmap for twitter has been created yet, and a learner record does exist, 
+    # they would need to login to associate it with their current account or another learner record will be created
     new_learner = Learner.create
     new_learner.authmaps << new_authmap
     new_learner.save

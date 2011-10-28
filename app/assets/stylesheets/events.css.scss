@@ -1,3 +1,17 @@
 // Place all the styles related to the sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+#session_date {float:left; display:block;padding:0 0 0 10px; width:180px;}
+#session_date_time {float:left; display:block;padding:10px 0 0 10px; width:190px;}
+#time {font-size:1.4em; display:block;margin-bottom:20px;}
+#timezone {white-space:nowrap;}
+#event_time h2 {background:#fff; float:left; padding: 10px 10px 10px 0;}
+
+#event_time .calendarblock {background: transparent url(/images/learn/calendar_64.png) right top  no-repeat; width:64px; display:block; text-align:center; height:64px;padding-top:0;float:right;}
+#event_time .calendarblock .month {display:block; height:20px; line-height:25px;font-size:.7em; text-transform:uppercase; font-weight:bold;}
+#event_time .calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:1.8em; }
+
+
+aside {background:#ededed; padding:10px; margin:0 0 1em;}

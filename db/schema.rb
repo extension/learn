@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111026194440) do
+ActiveRecord::Schema.define(:version => 20111027181106) do
+
+  create_table "answers", :force => true do |t|
+    t.integer  "question_id"
+    t.integer  "creator_id"
+    t.string   "response"
+    t.integer  "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "answers", ["question_id", "creator_id", "response"], :name => "index_answers_on_question_id_and_creator_id_and_response", :unique => true
 
   create_table "authmaps", :force => true do |t|
     t.integer  "learner_id", :null => false
@@ -65,6 +76,31 @@ ActiveRecord::Schema.define(:version => 20111026194440) do
   end
 
   add_index "learners", ["email"], :name => "index_learners_on_email"
+
+  create_table "questions", :force => true do |t|
+    t.text     "prompt"
+    t.string   "responsetype"
+    t.text     "responses"
+    t.integer  "range_start"
+    t.integer  "range_end"
+    t.integer  "priority"
+    t.integer  "event_id"
+    t.integer  "creator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "stock_questions", :force => true do |t|
+    t.boolean  "active"
+    t.text     "prompt"
+    t.string   "responsetype"
+    t.text     "responses"
+    t.integer  "range_start"
+    t.integer  "range_end"
+    t.integer  "creator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
