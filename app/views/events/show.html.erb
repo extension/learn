@@ -1,23 +1,20 @@
 <div id="two_col_col_one">
-   <section id="event">
-   <h1>
-   <%= @event.title -%>
-   </h1>
+  <section id="event">
+    <h1><%= @event.title -%></h1>
 
-   <p class="description"><%= format_text_for_display(@event.description) -%></p>
+    <p class="description"><%= format_text_for_display(@event.description) -%></p>
 
-   <h3>Presented by</h3>
-   <p id="presenters">
-   </p>
+    <h3>Presented by</h3>
+    <p id="presenters"></p>
       
-      <h4>Tags</h4>
-      <p id="tags">
-      <%-if @event.tags.length != 0 -%>  
+    <h4>Tags</h4>
+    <p id="tags">
+    <%-if @event.tags.length != 0 -%>  
       <%= @event.tags.collect{|t| t.name}.join(Tag::JOINER) -%>
-      <%-else -%>
+    <%-else -%>
       There are no tags at this time
-      <%-end -%>
-      </p>
+    <%-end -%>
+    </p>
       
       
         <%-if @event.concluded? -%>
@@ -36,13 +33,12 @@
           <p>Watch: (This session has not taken place yet. The recording should be available here after the session has taken place.)</p>
         <%-end -%>
         
-        <br /><br />
         <p>Created by: </p>
         
         
         <%- if true -%>
         <!-- change to authenticated user  -->
-          <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event)) -%></span></p>
+          <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "btn primary") -%></span></p>
         <%- end -%>
    </section>
 </div>
@@ -75,6 +71,7 @@
               <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
            </span>
         </h2>
+        
         <p><%- if current_learner -%>
           <%- if(!current_learner.has_time_zone?) -%>
            <%= link_to("Set your time zone", :controller =>  'people/profile', :action => :edit) -%>  to display this session in your local time

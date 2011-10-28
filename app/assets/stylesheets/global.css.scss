@@ -15,6 +15,7 @@
 html, body {
    background-image: -webkit-radial-gradient(circle, white, black);
 }
+
 #page_wrapper {
     background:#fff;
     margin: 36px auto;
@@ -38,6 +39,7 @@ header h1 {
 
 header img {float:left; padding:10px 0 0 10px;}
 
+.texthide {text-indent: -9000px;}
 .clearing {clear:both;}
 
 input[type="password"],
@@ -49,3 +51,6 @@ input[type="email"] {color:#000; font-size: 1.2em;}
 #signup_options li {list-style:none;}
 
 .half {width: 50%; float:left;}
+
+#two_col_col_one {float:left;width:60%; clear:both; padding:2em;}
+#two_col_col_two {float:right;width:30%;}
