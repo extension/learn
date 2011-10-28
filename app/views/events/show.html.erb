@@ -121,6 +121,8 @@
    
 </section>
 
+<br class='clearing' />
+
 <%- @event.questions.each do |question| -%>
   <div id="question_<%= question.id %>" class="question">
     <%= render(partial: 'question', locals: {question: question})%>
