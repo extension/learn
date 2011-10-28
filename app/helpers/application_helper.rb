@@ -10,4 +10,17 @@ module ApplicationHelper
     return word_wrap(simple_format(auto_link(content, :all, :target => "_blank"))).html_safe 
   end
   
+  def formatted_votes(rated_object)
+    positive_ratings_count = rated_object.ratings.positive.count
+    return_string = ''
+  
+    if (positive_ratings_count > 0)
+      return_string << "<strong class='formatted_votes'>+#{positive_ratings_count}</strong>"
+      return_string << "<div id='rating_explanation'>Positive votes: #{positive_ratings_count}</div>"
+      return return_string.html_safe
+    else
+      return "<strong class='formatted_votes'>No Ratings Yet</strong>".html_safe
+    end
+  end
+  
 end

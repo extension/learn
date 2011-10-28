@@ -11,6 +11,9 @@ class Event < ActiveRecord::Base
   belongs_to :last_modifier, :class_name => "Learner", :foreign_key => "last_modified_by"
   has_many :questions, :order => 'priority,created_at'
   has_many :answers, :through => :questions
+  has_many :comments
+  has_many :ratings, :as => :rateable
+  has_many :raters, :through => :ratings, :source => :learner
   
   validates :title, :presence => true
   validates :description, :presence => true
@@ -97,7 +100,7 @@ class Event < ActiveRecord::Base
   # gets a random list of stock questions and creates associated questions from them
   #
   # @param [Hash] options options for the stock question creation
-  # @option options [Integer] :creator - the Scientist ID to attach as the creator
+  # @option options [Integer] :creator - the Learner ID to attach as the creator
   # @option options [Integer] :max_count - the max count of random questions to retrieve and copy
   #
   # @return [Array] array of questions created 

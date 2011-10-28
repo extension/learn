@@ -1,0 +1,5 @@
+<% if @rating.rateable.class.name.downcase == 'comment' %>
+  $("#<%= @rating.rateable.class.name.downcase %>_votes_<%= @rating.rateable.id %>").html("<%= escape_javascript(render :partial => 'partials/ratings', locals: {rateable_object: @rating.rateable}) %>")
+<% else %>
+  $("#<%= @rating.rateable.class.name.downcase %>_votes").html("<%= escape_javascript(render :partial => 'partials/ratings', locals: {rateable_object: @rating.rateable}) %>")
+<% end %>

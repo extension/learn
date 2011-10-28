@@ -15,6 +15,7 @@ class EventsController < ApplicationController
     if(@event.questions.count == 0)
       @event.add_stock_questions
     end
+    @comments = @event.comments
   end
   
   def addanswer

@@ -46,7 +46,7 @@ class Question < ActiveRecord::Base
   # creates or updates the answer or answers associated with this question based on the value or values provided
   #
   # @param [Hash] options options for finding/creating the answer
-  # @option options [Scientist]  :creator - the Scientist object to attach as the creator
+  # @option options [Learner]  :creator - the Learner object to attach as the creator
   # @option options :update_value - the Integer value or Array values (depending on the question type)
   #
   def create_or_update_answers(options = {})
