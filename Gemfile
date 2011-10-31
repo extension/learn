@@ -64,7 +64,8 @@ gem "sunspot_rails", "~> 1.3.0.rc4"
 gem "faker"
 
 # used to post-process mail to convert styles to inline
-gem "inline-style", "0.5.1ex"
+gem "csspool", "2.0.1ex"
+gem "inline-style", "0.5.2ex"
 
 # auto_link replacement
 gem "rinku", :require => 'rails_rinku'
