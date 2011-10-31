@@ -1,0 +1,90 @@
+<div class="comment">
+  <img class="avatar" />
+  <div id='rating_area'>
+    <%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
+    <div id="comment_votes_<%= comment.id %>" class="comment_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: comment} %></div> 
+  </div>
+  <p>
+  <% if comment.parent_removed %>
+    <span>* This is a response to a removed comment</span><br />  
+  <% end %>
+  
+  <%= comment.content %>
+  <%= link_to_function 'reply', "show_element($('#comment_reply_to_#{comment.id}'));" %> 
+  <%= link_to 'view', comment_path(comment) %>
+  <% if current_learner.id == comment.learner_id %>
+    <%= link_to_function 'edit', "show_element($('#comment_edit_for_#{comment.id}'));" %>
+    <% if parent_comment.present? %>
+      <%= link_to 'delete', comment_path(comment, 
+                                         :parent_comment_id => parent_comment.id), 
+                                         :method => :delete, 
+                                         :confirm => 'Are you sure you want to delete this comment?', 
+                                         :remote => true %>
+    <% else %>
+      <%= link_to 'delete', comment_path(comment), 
+                                         :method => :delete, 
+                                         :confirm => 'Are you sure you want to delete this comment?', 
+                                         :remote => true %>
+    <% end %>
+  <% end %>
+  </p>
+  <br class="clearing" /><br />
+</div>
+<div id="comment_reply_to_<%= comment.id %>" style="display:none" class="comment_reply">
+  <%= form_tag(comments_path, :id => 'comment-form-reply', :remote => true) do %>
+    <img class="avatar" />
+    <div id="commentfield">
+    <%= text_area_tag 'comment[content]', nil, {:id => "comment_reply_#{comment.id}", :cols => 20, :rows => 5} %>
+    <%= hidden_field_tag 'comment[event_id]', comment.event.id %>
+    <%= hidden_field_tag 'comment[parent_id]', comment.id %>
+    <!-- parent_comment being present means that we called this template from the parent comment's view page 
+         and we're passing the parent_comment id along to the request to create a new comment so we can then 
+         render the correct thing (the parent comment and it's children) after the comment reply action is executed -->
+    <% if parent_comment.present? %>
+      <%= hidden_field_tag 'parent_comment_id', parent_comment.id %>
+    <% end %>
+    <%= link_to_function 'Cancel', "hide_element($('#comment_reply_to_#{comment.id}'));" %>
+    <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn primary'} %>
+    </div>
+  <% end %>
+  <br class="clearing" />
+</div>
+
+<div id="comment_edit_for_<%= comment.id %>" style="display:none" class="comment_reply">
+  <%= form_tag(comment_path(:id => comment.id), :id => 'comment-form-edit', :remote => true, :method => :put) do %>
+    <img class="avatar" />
+    <div id="commentfield">
+    <%= text_area_tag 'comment[content]', comment.content, {:id => "comment_edit_#{comment.id}", :cols => 20, :rows => 5} %>
+    <!-- parent_comment being present means that we called this template from the parent comment's view page 
+         and we're passing the parent_comment id along to the request to edit that comment so we can then 
+         render the correct thing after the comment edit is executed, because the originating page is a comment and it's 
+         children and not the whole list of comments -->
+    <% if parent_comment.present? %>
+      <%= hidden_field_tag 'parent_comment_id', parent_comment.id %>
+    <% end %>
+    <%= link_to_function 'Cancel', "hide_element($('#comment_edit_for_#{comment.id}'));" %>
+    <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn primary'} %>
+    </div>
+  <% end %>
+  <br class="clearing" />
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#comment-form")
+    .bind("ajax:loading",  $("input#comment-submit").val('Submitting...'))
+    .bind("ajax:complete", $("input#comment-submit").val('Post'))
+    .bind("ajax:success", function(event, data, status, xhr) {
+      $("#response").html(data);
+    });
+});
+
+function show_element(passed_element) {
+  passed_element.show();
+}
+function hide_element(passed_element) {
+  passed_element.hide();
+}
+
+</script>
+

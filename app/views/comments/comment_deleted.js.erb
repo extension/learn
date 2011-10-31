@@ -1,0 +1,5 @@
+<% if @parent_comment == true %>
+  window.location.replace("<%= event_path(@event) %>");
+<% else %>
+  $("#comment-list").html("<%= escape_javascript(render partial: 'comments/comment_list', locals: {comment_list: @comments, parent_comment: nil}) %>");
+<% end %>

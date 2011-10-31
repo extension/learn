@@ -10,6 +10,9 @@ Learn::Application.routes.draw do
     get '/authmaps/auth/:provider' => 'authmaps/omniauth_callbacks#passthru'
   end
   
+  resources :comments, :only => [:create, :update, :destroy, :show]
+  resources :ratings, :only => [:create]
+  
   resources :events do
     member do
       post 'addanswer'

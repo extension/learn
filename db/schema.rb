@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111027181106) do
+ActiveRecord::Schema.define(:version => 20111028192358) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -34,6 +34,20 @@ ActiveRecord::Schema.define(:version => 20111027181106) do
 
   add_index "authmaps", ["authname", "source"], :name => "index_authmaps_on_authname_and_source", :unique => true
   add_index "authmaps", ["learner_id"], :name => "index_authmaps_on_learner_id"
+
+  create_table "comments", :force => true do |t|
+    t.text     "content",                           :null => false
+    t.string   "ancestry"
+    t.integer  "learner_id",                        :null => false
+    t.integer  "event_id",                          :null => false
+    t.boolean  "parent_removed", :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["ancestry"], :name => "index_comments_on_ancestry"
+  add_index "comments", ["event_id"], :name => "index_comments_on_event_id"
+  add_index "comments", ["learner_id"], :name => "index_comments_on_learner_id"
 
   create_table "event_connections", :force => true do |t|
     t.integer  "learner_id"
@@ -89,6 +103,17 @@ ActiveRecord::Schema.define(:version => 20111027181106) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "ratings", :force => true do |t|
+    t.integer  "rateable_id",   :null => false
+    t.string   "rateable_type", :null => false
+    t.integer  "score",         :null => false
+    t.integer  "learner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ratings", ["learner_id", "rateable_type", "rateable_id"], :name => "index_ratings_on_learner_id_and_rateable_type_and_rateable_id"
 
   create_table "stock_questions", :force => true do |t|
     t.boolean  "active"

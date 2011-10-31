@@ -1,0 +1,3 @@
+$("#comment-list").html("<%= escape_javascript(render partial: 'comments/comment_list', locals: {comment_list: @comments, parent_comment: @parent_comment}) %>");
+$("textarea#comment_content").val('');
+
