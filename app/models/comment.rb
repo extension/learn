@@ -5,7 +5,7 @@ class Comment < ActiveRecord::Base
   has_many :raters, :through => :ratings, :source => :learner
   belongs_to :creator, :class_name => 'Learner', :foreign_key => 'learner_id'
   # using the ancestry gem for threaded comments
-  # orphan stragegy will move the parent's children up a level in the hierarchy if the parent gets deleted
+  # orphan strategy will move the parent's children up a level in the hierarchy if the parent gets deleted
   has_ancestry :orphan_strategy => :rootify
   
   validates :content, :learner_id, :event_id, :presence => true

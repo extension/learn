@@ -10,6 +10,17 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
     end
   end
   
+  def people
+    @learner = Authmap.find_for_people_openid(env["omniauth.auth"], current_learner)
+    if @learner.persisted?
+      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "People"
+      sign_in_and_redirect @learner, :event => :authentication
+    else
+      session["devise.people_data"] = env["omniauth.auth"]
+      redirect_to new_learner_registration_url
+    end
+  end
+  
   def failure
     flash[:notice] = "Twitter access denied. Please try again."
     redirect_to new_learner_registration_url

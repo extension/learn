@@ -13,6 +13,13 @@ Devise.setup do |config|
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
   require 'devise/orm/active_record'
+  
+  # ==> OpenID configuration
+  # configure storage for OpenID
+  require 'openid/store/filesystem'
+  
+  config.omniauth :open_id, OpenID::Store::Filesystem.new('/tmp')
+  config.omniauth :open_id, OpenID::Store::Filesystem.new('/tmp'), :name => 'people', :identifier => 'https://people.extension.org'
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is

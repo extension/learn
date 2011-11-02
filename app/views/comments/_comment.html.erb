@@ -12,7 +12,7 @@
   <%= comment.content %>
   <%= link_to_function 'reply', "show_element($('#comment_reply_to_#{comment.id}'));" %> 
   <%= link_to 'view', comment_path(comment) %>
-  <% if current_learner.id == comment.learner_id %>
+  <% if current_learner.present? && (current_learner.id == comment.learner_id) %>
     <%= link_to_function 'edit', "show_element($('#comment_edit_for_#{comment.id}'));" %>
     <% if parent_comment.present? %>
       <%= link_to 'delete', comment_path(comment, 
