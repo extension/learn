@@ -77,6 +77,10 @@ class Account < ActiveRecord::Base
 end
 
 class User < Account
+  
+  def openid
+    "https://people.extension.org/#{self.login}"
+  end
 end
 
 class LearnConnection < ActiveRecord::Base
@@ -130,6 +134,8 @@ LearnConnection.all.each do |darmok_learn_connection|
     learner.has_profile = true
     learner.time_zone = darmok_user.time_zone
     learner.save
+    # authmap
+    learner.authmaps.create(authname: darmok_user.openid, source: 'people')
   end
   EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, connectiontype: darmok_learn_connection.connectiontype)
 end
@@ -145,6 +151,9 @@ LearnSession.all.each do |darmok_learn_session|
     creator.has_profile = true
     creator.time_zone = darmok_creator.time_zone
     creator.save
+    # authmap
+    creator.authmaps.create(authname: darmok_creator.openid, source: 'people')
+    
   end
   
   if(!(last_modifier = Learner.find_by_email(darmok_last_modifier.email)))
@@ -154,6 +163,8 @@ LearnSession.all.each do |darmok_learn_session|
     last_modifier.has_profile = true
     last_modifier.time_zone = darmok_last_modifier.time_zone
     last_modifier.save
+    # authmap
+    last_modifier.authmaps.create(authname: darmok_last_modifier.openid, source: 'people')
   end
   
   event = Event.find(darmok_learn_session.id)
