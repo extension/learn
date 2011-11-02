@@ -25,6 +25,18 @@
     </a>
   </header>
   
+  <nav>
+    <ul>
+      <li>
+        <%- if current_learner -%>
+          Hello (<%= current_learner.name %>)!
+        <%- else -%>
+          <%= link_to("Sign in",  '', :class => "btn primary" )%>
+        <%- end -%>
+      </li>
+    </ul>
+  </nav>
+  
   <%= yield %>
 
   <br class="clearing" />

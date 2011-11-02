@@ -63,6 +63,13 @@ class Learner < ActiveRecord::Base
     return (!tzinfo_time_zone_string.blank?)
   end
   
+  # override name to make sure to print something
+  def name
+    name_string = read_attribute(:name)
+    name_string.blank? ? 'Learner' : name_string
+  end
+  
+  
   def self.learnbot
     find(self.learnbot_id)
   end
@@ -70,6 +77,7 @@ class Learner < ActiveRecord::Base
   def self.learnbot_id
     1
   end
+  
   
   # placeholder for now
   def recommended_events(count = 4)
