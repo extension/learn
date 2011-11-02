@@ -24,7 +24,7 @@ gem 'nokogiri'
 gem 'devise', "~> 1.4.3"
 
 # oauth integration
-gem 'omniauth'
+gem 'omniauth', '0.3.2'
 
 # feed retrieval and parsing
 gem "feedzirra", "0.0.31ex"
@@ -85,7 +85,7 @@ end
  
 group :test do
   # Pretty printed test output
-  gem 'turn', "0.8.2", :require => false
+  gem 'turn', :require => false
   gem 'shoulda', '>= 3.0.0.beta'
   gem 'factory_girl_rails'
   gem 'mocha'

@@ -9,6 +9,13 @@ require 'test_helper'
 class EventTest < ActiveSupport::TestCase
 
   context "Creating a new event" do
+    should have_many(:event_connections)
+    should have_many(:learners)
+    should have_many(:questions)
+    should have_many(:answers)
+    should have_many(:comments)
+    should have_many(:ratings)
+    should have_many(:raters)
     should validate_presence_of(:title)
     should validate_presence_of(:description)
     should validate_presence_of(:session_start)
