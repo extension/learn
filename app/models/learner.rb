@@ -14,8 +14,15 @@ class Learner < ActiveRecord::Base
   has_many :ratings
   has_many :authmaps
   has_many :comments
+  has_many :event_connections
+  has_many :events, through: :event_connections, uniq: true
   
   DEFAULT_TIMEZONE = 'America/New_York'
+  
+  scope :presenters, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::PRESENTER]
+  scope :attendees, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTENDED]
+  scope :interested, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::INTERESTED]
+  scope :willattend, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WILLATTEND]
   
   
   # override timezone writer/reader

@@ -14,6 +14,9 @@ class Event < ActiveRecord::Base
   has_many :comments
   has_many :ratings, :as => :rateable
   has_many :raters, :through => :ratings, :source => :learner
+  has_many :event_connections
+  has_many :learners, through: :event_connections, uniq: true
+  
   
   validates :title, :presence => true
   validates :description, :presence => true
