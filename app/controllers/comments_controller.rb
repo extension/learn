@@ -55,8 +55,6 @@ class CommentsController < ApplicationController
     @event = comment.event
     @comments = @event.comments
     if comment.learner_id == current_learner.id
-      # set a flag on the children so we can denote in the UI that it has no parent
-      comment.set_orphan_flag_on_children
       comment.destroy
       # if parent_comment_id exists, we're going to redirect back to the event's show page, 
       # since we're on the comment's view page and the comment will be going away. 
