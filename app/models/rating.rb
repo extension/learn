@@ -1,6 +1,6 @@
 class Rating < ActiveRecord::Base
   belongs_to :rateable, :polymorphic => true
-  belongs_to :creator, :class_name => 'Learner', :foreign_key => 'learner_id'
+  belongs_to :learner
   
   validates :rateable_id, :rateable_type, :score, :presence => true
   
@@ -19,7 +19,7 @@ class Rating < ActiveRecord::Base
       return_rating.score = rating_params[:score]
     else
       return_rating = Rating.new(rating_params)
-      return_rating.creator = learner
+      return_rating.learner = learner
     end
     return return_rating
   end

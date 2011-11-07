@@ -3,7 +3,7 @@ class CreateComments < ActiveRecord::Migration
     create_table :comments do |t|
       t.text :content, :null => false
       t.string :ancestry
-      t.integer :learner_id, :null => false
+      t.references :learner, :null => false
       t.integer :event_id, :null => false
       t.boolean :parent_removed, :default => false
       t.timestamps

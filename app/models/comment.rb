@@ -3,9 +3,7 @@ class Comment < ActiveRecord::Base
   belongs_to :event
   has_many :ratings, :as => :rateable, :dependent => :destroy
   has_many :raters, :through => :ratings, :source => :learner
-  belongs_to :creator, :class_name => 'Learner', :foreign_key => 'learner_id'
   after_create :log_object_activity
-
   
   # make sure to keep this callback ahead of has_ancestry, which has its own callbacks for destroy
   before_destroy :set_orphan_flag_on_children
@@ -24,6 +22,7 @@ class Comment < ActiveRecord::Base
     self.children.update_all(parent_removed: true)
   end
   
-
-  
+  def is_reply?
+    return !self.is_root?
+  end
 end
