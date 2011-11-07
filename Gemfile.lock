@@ -284,7 +284,7 @@ DEPENDENCIES
   coffee-rails (~> 3.1.1)
   csspool (= 2.0.1ex)
   delayed_job
-  devise (~> 1.4.3)
+  devise (= 1.4.9)
   factory_girl_rails
   faker
   feedzirra (= 0.0.31ex)
