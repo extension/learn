@@ -1,7 +1,7 @@
 class CreateAuthmaps < ActiveRecord::Migration
   def change
     create_table :authmaps do |t|
-      t.integer :learner_id, :null => false
+      t.references :learner, :null => false
       t.string :authname, :null => false
       t.string :source, :null => false
       t.timestamps

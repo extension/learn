@@ -1,6 +1,6 @@
 class Rating < ActiveRecord::Base
   belongs_to :rateable, :polymorphic => true
-  belongs_to :creator, :class_name => 'Learner', :foreign_key => 'learner_id'
+  belongs_to :learner
   
   validates :rateable_id, :rateable_type, :score, :presence => true
   

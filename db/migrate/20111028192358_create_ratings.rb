@@ -4,7 +4,7 @@ class CreateRatings < ActiveRecord::Migration
       t.integer :rateable_id, :null => false
       t.string :rateable_type, :null => false
       t.integer :score, :null => false
-      t.integer :learner_id
+      t.references :learner
       t.timestamps
     end
     
