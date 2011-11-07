@@ -108,12 +108,12 @@ class Event < ActiveRecord::Base
   #
   # @return [Array] array of questions created 
   def add_stock_questions(options = {})
-    creator_id = (options[:creator].nil?) ? Learner.learnbot_id : options[:creator].id 
+    learner_id = (options[:learner].nil?) ? Learner.learnbot_id : options[:learner].id 
     max_count = options[:max_count] || StockQuestion::DEFAULT_RANDOM_COUNT
     
     stock_question_list = StockQuestion.random_questions(max_count)
     stock_question_list.each do |sq|
-      attributes = {creator_id: creator_id}
+      attributes = {learner_id: learner_id}
       ['prompt','responsetype','responses','range_start','range_end'].each do |attribute|
         attributes[attribute] = sq.send(attribute)
       end

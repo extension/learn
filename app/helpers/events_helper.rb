@@ -9,7 +9,7 @@ module EventsHelper
   def is_boolean_answer_checked?(question,answer_value)
     if(!current_learner)
       false
-    elsif(!(value = question.answer_value_for_creator_and_response(creator: current_learner)))
+    elsif(!(value = question.answer_value_for_learner_and_response(learner: current_learner)))
       false
     else
       value == answer_value
@@ -20,7 +20,7 @@ module EventsHelper
   def is_multivote_answer_checked?(question,response)
     if(!current_learner)
       false
-    elsif(!(value = question.answer_value_for_creator_and_response(creator: current_learner, response: response)))
+    elsif(!(value = question.answer_value_for_learner_and_response(learner: current_learner, response: response)))
       false
     else
       # should always be true
@@ -32,7 +32,7 @@ module EventsHelper
     if(!current_learner)
       nil
     else
-      question.answer_value_for_creator_and_response(creator: current_learner)
+      question.answer_value_for_learner_and_response(learner: current_learner)
     end
   end
   
@@ -40,7 +40,7 @@ module EventsHelper
     if(!current_learner)
       nil
     else
-      question.answer_value_for_creator_and_response(creator: current_learner, response: response)
+      question.answer_value_for_learner_and_response(learner: current_learner, response: response)
     end
   end
   
