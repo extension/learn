@@ -93,7 +93,7 @@ class ActivityLog < ActiveRecord::Base
   end
   
   def self.log_comment(comment)
-    if(!comment.is_root?)
+    if(comment.is_reply?)
       activity = COMMENT_ON_COMMENT
     else
       activity = COMMENT
