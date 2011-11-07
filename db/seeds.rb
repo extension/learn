@@ -129,6 +129,7 @@ Tagging.connection.execute(taggings_insert_query)
 
 
 ## import Learners and create connections
+ActiveRecord::Base.record_timestamps = false #temporarily turn off magic column updates
 LearnConnection.all.each do |darmok_learn_connection|
   darmok_user = darmok_learn_connection.user
   if(!(learner = Learner.find_by_email(darmok_user.email)))
@@ -141,8 +142,22 @@ LearnConnection.all.each do |darmok_learn_connection|
     # authmap
     learner.authmaps.create(authname: darmok_user.openid, source: 'people')
   end
-  EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, connectiontype: darmok_learn_connection.connectiontype)
+  
+  EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, 
+                         connectiontype: darmok_learn_connection.connectiontype, 
+                         created_at: darmok_learn_connection.created_at, updated_at: darmok_learn_connection.updated_at)
 end
+
+# for all the activity_logs that were created, set the created_at
+update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
+UPDATE activity_logs,event_connections
+ SET activity_logs.created_at = event_connections.created_at
+ WHERE activity_logs.loggable_id = event_connections.id
+ AND activity_logs.loggable_type = 'EventConnection'
+END_SQL
+ActivityLog.connection.execute(update_timestamp_query)
+
+ActiveRecord::Base.record_timestamps = true #turning updates back on
 
 ## fix creator and last_modifier
 LearnSession.all.each do |darmok_learn_session|
