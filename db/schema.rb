@@ -11,18 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111103165035) do
+ActiveRecord::Schema.define(:version => 20111104001730) do
+
+  create_table "activity_logs", :force => true do |t|
+    t.integer  "learner_id",    :null => false
+    t.integer  "event_id"
+    t.integer  "activity"
+    t.integer  "loggable_id"
+    t.string   "loggable_type"
+    t.integer  "ipaddr"
+    t.datetime "created_at"
+  end
 
   create_table "answers", :force => true do |t|
-    t.integer  "question_id"
-    t.integer  "creator_id"
+    t.integer  "question_id", :null => false
+    t.integer  "learner_id",  :null => false
     t.string   "response"
     t.integer  "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "answers", ["question_id", "creator_id", "response"], :name => "index_answers_on_question_id_and_creator_id_and_response", :unique => true
+  add_index "answers", ["question_id", "learner_id", "response"], :name => "index_answers_on_question_id_and_learner_id_and_response", :unique => true
 
   create_table "authmaps", :force => true do |t|
     t.integer  "learner_id", :null => false
@@ -82,8 +92,8 @@ ActiveRecord::Schema.define(:version => 20111103165035) do
     t.integer  "session_length",   :null => false
     t.text     "location"
     t.text     "recording"
-    t.integer  "created_by",       :null => false
-    t.integer  "last_modified_by", :null => false
+    t.integer  "creator_id",       :null => false
+    t.integer  "last_modifier_id", :null => false
     t.string   "time_zone"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -114,8 +124,8 @@ ActiveRecord::Schema.define(:version => 20111103165035) do
     t.integer  "range_start"
     t.integer  "range_end"
     t.integer  "priority"
-    t.integer  "event_id"
-    t.integer  "creator_id"
+    t.integer  "event_id",     :null => false
+    t.integer  "learner_id",   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -138,7 +148,7 @@ ActiveRecord::Schema.define(:version => 20111103165035) do
     t.text     "responses"
     t.integer  "range_start"
     t.integer  "range_end"
-    t.integer  "creator_id"
+    t.integer  "learner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
