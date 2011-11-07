@@ -34,7 +34,7 @@ after "deploy:update_code", "deploy:migrate"
 
 # don't forget to turn it back on
 after "deploy", "deploy:web:enable"
-#after "deploy", 'deploy:notification:email'
+after "deploy", 'deploy:notification:email'
 
  namespace :deploy do
    
