@@ -7,8 +7,8 @@
 class Event < ActiveRecord::Base
   has_many :taggings, :as => :taggable
   has_many :tags, :through => :taggings
-  belongs_to :creator, :class_name => "Learner", :foreign_key => "created_by"
-  belongs_to :last_modifier, :class_name => "Learner", :foreign_key => "last_modified_by"
+  belongs_to :creator, :class_name => "Learner"
+  belongs_to :last_modifier, :class_name => "Learner"
   has_many :questions, :order => 'priority,created_at'
   has_many :answers, :through => :questions
   has_many :comments
