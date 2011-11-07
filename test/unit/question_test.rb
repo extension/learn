@@ -26,7 +26,7 @@ class QuestionTest < ActiveSupport::TestCase
   context "Creating answers" do 
     setup do
       @learner = Factory.create(:learner)
-      @event = Factory.create(:event, learner: @learner, last_modifier: @learner)
+      @event = Factory.create(:event, creator: @learner, last_modifier: @learner)
     end
     
     context "for a boolean question" do
