@@ -99,7 +99,11 @@ end
 @darmokdatabase = Settings.darmokdatabase
 
 # direct inject of Events to maintain id's
-Event.connection.execute("INSERT into #{Event.table_name} SELECT * from #{@darmokdatabase}.#{LearnSession.table_name}")
+transfer_query = <<-END_SQL.gsub(/\s+/, " ").strip
+INSERT into #{Event.table_name} (id,title,description,session_start,session_end,session_length,location,recording,creator_id,last_modifier_id,time_zone,created_at,updated_at)
+   SELECT id,title,description,session_start,session_end,session_length,location,recording,created_by,last_modified_by,time_zone,created_at,updated_at from #{@darmokdatabase}.#{LearnSession.table_name}
+END_SQL
+Event.connection.execute(transfer_query)
 
 ## tag injection
 
@@ -125,6 +129,7 @@ Tagging.connection.execute(taggings_insert_query)
 
 
 ## import Learners and create connections
+ActiveRecord::Base.record_timestamps = false #temporarily turn off magic column updates
 LearnConnection.all.each do |darmok_learn_connection|
   darmok_user = darmok_learn_connection.user
   if(!(learner = Learner.find_by_email(darmok_user.email)))
@@ -137,10 +142,24 @@ LearnConnection.all.each do |darmok_learn_connection|
     # authmap
     learner.authmaps.create(authname: darmok_user.openid, source: 'people')
   end
-  EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, connectiontype: darmok_learn_connection.connectiontype)
+  
+  EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, 
+                         connectiontype: darmok_learn_connection.connectiontype, 
+                         created_at: darmok_learn_connection.created_at, updated_at: darmok_learn_connection.updated_at)
 end
 
-## fix created_by and last_modified_by columns
+# for all the activity_logs that were created, set the created_at
+update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
+UPDATE activity_logs,event_connections
+ SET activity_logs.created_at = event_connections.created_at
+ WHERE activity_logs.loggable_id = event_connections.id
+ AND activity_logs.loggable_type = 'EventConnection'
+END_SQL
+ActivityLog.connection.execute(update_timestamp_query)
+
+ActiveRecord::Base.record_timestamps = true #turning updates back on
+
+## fix creator and last_modifier
 LearnSession.all.each do |darmok_learn_session|
   darmok_creator = darmok_learn_session.creator
   darmok_last_modifier = darmok_learn_session.last_modifier
@@ -174,6 +193,6 @@ end
 # reindex Events in solr
 Event.reindex
 
-StockQuestion.create(active: true, prompt: 'After attending this session, I feel motivated to learn more about this topic.', responsetype: Question::BOOLEAN, responses: ['no','yes'], creator: learnbot)
-StockQuestion.create(active: true, prompt: 'I wish more of my colleagues would weigh in on the practical applications of the topics covered in this session.', responsetype: Question::SCALE, responses: ['never','always'],  range_start: 1, range_end: 5, creator: learnbot)
-StockQuestion.create(active: true, prompt: 'I’ll share this information with:', responsetype: Question::MULTIVOTE_BOOLEAN, responses: ['Friends and family.','Colleagues at work.','The people in one or more of my online networks.','No one.'], creator: learnbot)
+StockQuestion.create(active: true, prompt: 'After attending this session, I feel motivated to learn more about this topic.', responsetype: Question::BOOLEAN, responses: ['no','yes'], learner: learnbot)
+StockQuestion.create(active: true, prompt: 'I wish more of my colleagues would weigh in on the practical applications of the topics covered in this session.', responsetype: Question::SCALE, responses: ['never','always'],  range_start: 1, range_end: 5, learner: learnbot)
+StockQuestion.create(active: true, prompt: 'I’ll share this information with:', responsetype: Question::MULTIVOTE_BOOLEAN, responses: ['Friends and family.','Colleagues at work.','The people in one or more of my online networks.','No one.'], learner: learnbot)

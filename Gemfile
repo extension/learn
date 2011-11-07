@@ -14,6 +14,9 @@ end
 # rails 3.1 default
 gem 'jquery-rails'
 
+# storage
+gem 'mysql2'
+
 # Deploy with Capistrano
 gem 'capistrano'
 
@@ -27,11 +30,7 @@ gem 'devise', "1.4.9"
 gem 'omniauth', '0.3.2'
 
 # feed retrieval and parsing
-gem "feedzirra", "0.0.31ex"
-
-# storage
-gem 'sqlite3'
-gem 'mysql2'
+gem "feedzirra", "0.1.2"
 
 # pagination
 gem 'will_paginate'
@@ -69,6 +68,9 @@ gem "inline-style", "0.5.2ex"
 
 # auto_link replacement
 gem "rinku", :require => 'rails_rinku'
+
+# semantic forms
+# gem 'formtastic'
 
 # require sunspot_solr for test and dev
 group :test, :development do

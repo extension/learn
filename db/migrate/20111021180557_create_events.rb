@@ -8,8 +8,8 @@ class CreateEvents < ActiveRecord::Migration
       t.integer  "session_length",   :null => false
       t.text     "location"
       t.text     "recording"
-      t.integer  "created_by",       :null => false
-      t.integer  "last_modified_by", :null => false
+      t.references :creator,         :null => false
+      t.references :last_modifier,   :null => false
       t.string   "time_zone"
       t.timestamps
     end

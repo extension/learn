@@ -23,7 +23,7 @@ class Learner < ActiveRecord::Base
   scope :attendees, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTENDED]
   scope :interested, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::INTERESTED]
   scope :willattend, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WILLATTEND]
-  
+  scope :watchers, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
   
   # override timezone writer/reader
   # returns Eastern by default, use convert=false

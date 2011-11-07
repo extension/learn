@@ -6,13 +6,12 @@
 
 require 'test_helper'
 
-class AnswerTest < ActiveSupport::TestCase
+class ActivityLogTest < ActiveSupport::TestCase
 
-  context "Creating a new answer" do
-    should belong_to(:question)
+  context "Creating a new activity" do
     should belong_to(:learner)
-    should validate_presence_of(:question)
-    should validate_presence_of(:value)
+    should belong_to(:event)
+    should belong_to(:loggable)
     should validate_presence_of(:learner)
   end
   

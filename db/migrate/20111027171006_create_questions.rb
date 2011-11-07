@@ -13,8 +13,8 @@ class CreateQuestions < ActiveRecord::Migration
       t.integer 'range_start'
       t.integer 'range_end'
       t.integer 'priority'
-      t.references :event
-      t.references :creator
+      t.references :event, :null => false
+      t.references :learner, :null => false
       t.timestamps
     end
   end

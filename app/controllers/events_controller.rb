@@ -18,6 +18,20 @@ class EventsController < ApplicationController
     @comments = @event.comments
   end
   
+  def new
+    @event = Event.new
+  end
+  
+  def create
+  end
+  
+  def edit
+  end
+  
+  def update
+  end
+  
+  
   def addanswer
     @event = Event.find(params[:id])
     
@@ -41,10 +55,12 @@ class EventsController < ApplicationController
     end
         
     # create or update answers
-    @question.create_or_update_answers(creator: current_learner, update_value: params[:values])
+    @question.create_or_update_answers(learner: current_learner, update_value: params[:values])
     
     respond_to do |format|
       format.js
     end
   end
+  
+  
 end
