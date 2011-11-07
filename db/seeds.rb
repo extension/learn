@@ -99,7 +99,11 @@ end
 @darmokdatabase = Settings.darmokdatabase
 
 # direct inject of Events to maintain id's
-Event.connection.execute("INSERT into #{Event.table_name} SELECT * from #{@darmokdatabase}.#{LearnSession.table_name}")
+transfer_query = <<-END_SQL.gsub(/\s+/, " ").strip
+INSERT into #{Event.table_name} (id,title,description,session_start,session_end,session_length,location,recording,creator_id,last_modifier_id,time_zone,created_at,updated_at)
+   SELECT id,title,description,session_start,session_end,session_length,location,recording,created_by,last_modified_by,time_zone,created_at,updated_at from #{@darmokdatabase}.#{LearnSession.table_name}
+END_SQL
+Event.connection.execute(transfer_query)
 
 ## tag injection
 
@@ -140,7 +144,7 @@ LearnConnection.all.each do |darmok_learn_connection|
   EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, connectiontype: darmok_learn_connection.connectiontype)
 end
 
-## fix created_by and last_modified_by columns
+## fix creator and last_modifier
 LearnSession.all.each do |darmok_learn_session|
   darmok_creator = darmok_learn_session.creator
   darmok_last_modifier = darmok_learn_session.last_modifier
