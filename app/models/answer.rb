@@ -7,7 +7,7 @@
 class Answer < ActiveRecord::Base
   belongs_to :question
   belongs_to :learner
-  belongs_to :event, :through => :question
+  has_one :event, :through => :question
   
   validates :value, :presence => true
   validates :question, :presence => true
