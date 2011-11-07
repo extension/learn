@@ -12,4 +12,7 @@ class EventConnection < ActiveRecord::Base
   INTERESTED = 3
   ATTENDED = 4
   WILLATTEND = 5
+  WATCH = 6
+  
+
 end
