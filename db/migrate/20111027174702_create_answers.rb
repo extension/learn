@@ -7,13 +7,13 @@
 class CreateAnswers < ActiveRecord::Migration
   def change
     create_table :answers do |t|
-      t.references :question
-      t.references :creator
+      t.references :question, :null => false
+      t.references :learner, :null => false
       t.string :response
       t.integer :value
       t.timestamps
     end
     
-    add_index(:answers, [:question_id, :creator_id, :response], :unique => true)
+    add_index(:answers, [:question_id, :learner_id, :response], :unique => true)
   end
 end

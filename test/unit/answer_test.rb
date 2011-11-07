@@ -9,11 +9,11 @@ require 'test_helper'
 class AnswerTest < ActiveSupport::TestCase
 
   context "Creating a new answer" do
+    should belong_to(:question)
+    should belong_to(:learner)
     should validate_presence_of(:question)
     should validate_presence_of(:value)
-    should validate_presence_of(:creator)
-    should belong_to(:question)
-    should belong_to(:creator)
+    should validate_presence_of(:learner)
   end
   
 end

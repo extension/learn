@@ -7,7 +7,7 @@
 class Question < ActiveRecord::Base
   serialize :responses
   belongs_to :event
-  belongs_to :creator, :class_name => 'Learner'
+  belongs_to :learner
   has_many :answers
   
   validates :prompt, :presence => true
@@ -17,7 +17,7 @@ class Question < ActiveRecord::Base
   validates :range_end, :numericality => { :only_integer => true, :allow_nil => true  }
   validates :priority, :numericality => { :only_integer => true, :allow_nil => true  }
   validates :event, :presence => true
-  validates :creator, :presence => true
+  validates :learner, :presence => true
   
   # types, strings in case we ever want to inherit from this model
   BOOLEAN = 'boolean'
@@ -25,18 +25,18 @@ class Question < ActiveRecord::Base
   MULTIVOTE_BOOLEAN = 'multivote_boolean'
   
   
-  def answer_for_creator_and_response(options = {})
-    creator = options[:creator]
+  def answer_for_learner_and_response(options = {})
+    learner = options[:learner]
     response = options[:response]
-    scoped =  self.answers.where(creator_id: creator.id)
+    scoped =  self.answers.where(learner_id: learner.id)
     if(!response.nil?)
       scoped = scoped.where(response: response)
     end
     scoped.first
   end
   
-  def answer_value_for_creator_and_response(options = {})
-    if(answer = self.answer_for_creator_and_response(options))
+  def answer_value_for_learner_and_response(options = {})
+    if(answer = self.answer_for_learner_and_response(options))
       answer.value
     else
       nil
@@ -46,39 +46,39 @@ class Question < ActiveRecord::Base
   # creates or updates the answer or answers associated with this question based on the value or values provided
   #
   # @param [Hash] options options for finding/creating the answer
-  # @option options [Learner]  :creator - the Learner object to attach as the creator
+  # @option options [Learner]  :learner - the Learner object to attach as the learner
   # @option options :update_value - the Integer value or Array values (depending on the question type)
   #
   def create_or_update_answers(options = {})
-    creator = options[:creator]
+    learner = options[:learner]
     update_value = options[:update_value]
     
     case self.responsetype
     when Question::BOOLEAN
-      if(answer = self.answers.where(creator_id: creator.id).first)
+      if(answer = self.answers.where(learner_id: learner.id).first)
         answer.update_attributes({response: self.responses[update_value.to_i], value: update_value})
       else
-        answer = self.answers.create(creator: creator, response: self.responses[update_value.to_i], value: update_value)
+        answer = self.answers.create(learner: learner, response: self.responses[update_value.to_i], value: update_value)
       end  
     when Question::SCALE
-      if(answer = self.answers.where(creator_id: creator.id).first)
+      if(answer = self.answers.where(learner_id: learner.id).first)
         answer.update_attribute(:value,update_value)
       else
-        answer = self.answers.create(creator: creator, value: update_value)
+        answer = self.answers.create(learner: learner, value: update_value)
       end  
     when Question::MULTIVOTE_BOOLEAN
       answers = []
       if(update_value.blank?)
-        self.answers.where(creator_id: creator.id).destroy_all
+        self.answers.where(learner_id: learner.id).destroy_all
       else
         self.responses.each do |response|
           if(update_value.include?(response))
-            if(!(answer = self.answers.where(creator_id: creator.id).where(response: response).first))
-              answer = self.answers.create(creator: creator, value: 1, response: response)
+            if(!(answer = self.answers.where(learner_id: learner.id).where(response: response).first))
+              answer = self.answers.create(learner: learner, value: 1, response: response)
             end
             answers << answer
           else
-            if(answer = self.answers.where(creator_id: creator.id).where(response: response).first)
+            if(answer = self.answers.where(learner_id: learner.id).where(response: response).first)
               answer.destroy
             end
           end

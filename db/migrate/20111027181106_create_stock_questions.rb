@@ -13,7 +13,7 @@ class CreateStockQuestions < ActiveRecord::Migration
       t.text 'responses'
       t.integer 'range_start'
       t.integer 'range_end'
-      t.references :creator
+      t.references :learner
       t.timestamps
     end
   end

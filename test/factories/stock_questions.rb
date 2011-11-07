@@ -13,6 +13,6 @@ FactoryGirl.define do
   factory :stock_question do
     prompt {Factory.next(:stockquestionprompt)}
     active true
-    association :creator, :factory => :learner 
+    association :learner 
   end
 end

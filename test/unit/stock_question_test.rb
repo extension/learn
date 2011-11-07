@@ -9,14 +9,14 @@ require 'test_helper'
 class StockQuestionTest < ActiveSupport::TestCase
 
   context "Creating a new stock question" do
+    should belong_to(:learner)
     should validate_presence_of(:active)
     should validate_presence_of(:prompt)
     should validate_presence_of(:responsetype)
     should validate_presence_of(:responses)
-    should validate_presence_of(:creator)
+    should validate_presence_of(:learner)
     should validate_numericality_of(:range_start) # TODO make sure integer only
     should validate_numericality_of(:range_end) # TODO make sure integer only
-    should belong_to(:creator)
   end
   
   context "Given a set of stock questions" do 

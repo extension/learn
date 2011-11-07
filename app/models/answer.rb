@@ -6,9 +6,11 @@
 
 class Answer < ActiveRecord::Base
   belongs_to :question
-  belongs_to :creator, :class_name => 'Learner'
+  belongs_to :learner
+  belongs_to :event, :through => :question
   
   validates :value, :presence => true
   validates :question, :presence => true
-  validates :creator, :presence => true
+  validates :learner, :presence => true
+
 end
