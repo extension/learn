@@ -24,6 +24,12 @@ class Question < ActiveRecord::Base
   SCALE = 'scale'
   MULTIVOTE_BOOLEAN = 'multivote_boolean'
   
+  after_create :log_object_activity
+
+
+  def log_object_activity
+    ActivityLog.log_object_activity(self)
+  end
   
   def answer_for_learner_and_response(options = {})
     learner = options[:learner]

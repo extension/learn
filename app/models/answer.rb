@@ -12,5 +12,12 @@ class Answer < ActiveRecord::Base
   validates :value, :presence => true
   validates :question, :presence => true
   validates :learner, :presence => true
+  
+  after_create :log_object_activity
 
+
+  def log_object_activity
+    ActivityLog.log_object_activity(self)
+  end
+  
 end

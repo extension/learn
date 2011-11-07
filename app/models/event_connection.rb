@@ -14,5 +14,10 @@ class EventConnection < ActiveRecord::Base
   WILLATTEND = 5
   WATCH = 6
   
+  after_create :log_object_activity
 
+
+  def log_object_activity
+    ActivityLog.log_object_activity(self)
+  end
 end
