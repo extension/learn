@@ -16,4 +16,8 @@ class Comment < ActiveRecord::Base
   def set_orphan_flag_on_children
     self.children.update_all(parent_removed: true)
   end
+  
+  def is_reply?
+    return !self.is_root?
+  end
 end

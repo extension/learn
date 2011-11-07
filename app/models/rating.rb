@@ -12,7 +12,7 @@ class Rating < ActiveRecord::Base
       return_rating.score = rating_params[:score]
     else
       return_rating = Rating.new(rating_params)
-      return_rating.creator = learner
+      return_rating.learner = learner
     end
     return return_rating
   end

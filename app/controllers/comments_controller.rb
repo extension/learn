@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
   
   def create 
     @comment = Comment.new(params[:comment])
-    @comment.creator = current_learner
+    @comment.learner = current_learner
     if !@comment.save
       @errors = @comment.errors.full_messages.to_sentence
     else
