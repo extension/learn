@@ -10,7 +10,7 @@ class CreateLearners < ActiveRecord::Migration
       # creates :current_sign_in_ip (string)
       # creates :last_sign_in_ip (string)
       t.trackable
-      t.string :name, :time_zone, :email, :null => true
+      t.string :name, :time_zone, :email, :mobile_number, :null => true
       t.boolean :has_profile, :null => false, :default => false
   
       t.timestamps

@@ -75,6 +75,12 @@ group :test, :development do
   gem 'sunspot_solr', "~> 1.3.0.rc4" 
 end
 
+# delayed_job
+gem "delayed_job"
+
+# tropo - sms messages
+gem "tropo-webapi-ruby"
+
 group :development do
   # require the powder gem
   gem 'powder'

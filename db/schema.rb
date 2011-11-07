@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111028192358) do
+ActiveRecord::Schema.define(:version => 20111103165035) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -49,6 +49,21 @@ ActiveRecord::Schema.define(:version => 20111028192358) do
   add_index "comments", ["event_id"], :name => "index_comments_on_event_id"
   add_index "comments", ["learner_id"], :name => "index_comments_on_learner_id"
 
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
   create_table "event_connections", :force => true do |t|
     t.integer  "learner_id"
     t.integer  "event_id"
@@ -84,6 +99,7 @@ ActiveRecord::Schema.define(:version => 20111028192358) do
     t.string   "name"
     t.string   "time_zone"
     t.string   "email"
+    t.string   "mobile_number"
     t.boolean  "has_profile",         :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
