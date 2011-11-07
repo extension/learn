@@ -1,3 +1,9 @@
+# === COPYRIGHT:
+# Copyright (c) North Carolina State University
+# Developed with funding for the National eXtension Initiative.
+# === LICENSE:
+# see LICENSE file
+
 class Comment < ActiveRecord::Base
   belongs_to :learner
   belongs_to :event
@@ -23,6 +29,6 @@ class Comment < ActiveRecord::Base
   end
   
   def is_reply?
-    return !self.is_root?
+    !self.is_root?
   end
 end
