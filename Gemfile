@@ -24,7 +24,7 @@ gem 'capistrano'
 gem 'nokogiri'
 
 # authentication
-gem 'devise', "~> 1.4.3"
+gem 'devise', "1.4.9"
 
 # oauth integration
 gem 'omniauth', '0.3.2'
