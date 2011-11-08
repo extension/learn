@@ -22,15 +22,22 @@ class EventsController < ApplicationController
   
   def new
     @event = Event.new
+    # seed defaults
+    @event.session_start = Time.parse("14:00")
+    if(current_learner)
+      @event.time_zone = Time.zone
+    end
   end
   
   def create
   end
   
   def edit
+    @event = Event.find(params[:id])
   end
   
   def update
+    @event = Event.find(params[:id])
   end
   
   
@@ -63,6 +70,5 @@ class EventsController < ApplicationController
       format.js
     end
   end
-  
-  
+    
 end

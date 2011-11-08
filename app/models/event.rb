@@ -123,4 +123,7 @@ class Event < ActiveRecord::Base
     self.questions
   end
   
+  def display_tags
+     self.tags.map(&:name).join(Tag::JOINER)
+  end
 end

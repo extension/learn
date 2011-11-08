@@ -6,6 +6,7 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  before_filter :set_time_zone_from_learner
   
   
   def fake_learner
@@ -19,4 +20,12 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+  
+  def set_time_zone_from_learner
+    if(current_learner)
+      Time.zone = current_learner.time_zone
+    end
+    true
+  end
+  
 end
