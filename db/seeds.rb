@@ -246,39 +246,46 @@ end
 
 
 # let's do this
+puts "Transferring events..."
 benchmark = Benchmark.measure do
   transfer_events
 end
-puts "Events transferred : #{benchmark.real.round(2)}s"
+puts " Events transferred : #{benchmark.real.round(2)}s"
 
+puts "Transferring event tags..."
 benchmark = Benchmark.measure do
   transfer_event_tags
 end
-puts "Event tags transferred : #{benchmark.real.round(2)}s"
+puts " Event tags transferred : #{benchmark.real.round(2)}s"
 
+puts "Transferring accounts..."
 benchmark = Benchmark.measure do
   transfer_accounts
 end
-puts "Accounts transferred : #{benchmark.real.round(2)}s"
+puts " Accounts transferred : #{benchmark.real.round(2)}s"
 
+puts "Transferring event connections (will take some time)..."
 benchmark = Benchmark.measure do
   transfer_event_connections
 end
-puts "Event connections transferred : #{benchmark.real.round(2)}s"
+puts " Event connections transferred : #{benchmark.real.round(2)}s"
 
+puts "Transferring event creators/modifiers (will take some time)..."
 benchmark = Benchmark.measure do
   transfer_creator_and_modifier
 end
-puts "Event creator/modifier transferred : #{benchmark.real.round(2)}s"
+puts " Event creator/modifier transferred : #{benchmark.real.round(2)}s"
 
+puts "Indexing events..."
 benchmark = Benchmark.measure do
   index_events
 end
-puts "Events indexed : #{benchmark.real.round(2)}s"
+puts " Events indexed : #{benchmark.real.round(2)}s"
 
+puts "Creating stock questions..."
 benchmark = Benchmark.measure do
   create_stock_questions
 end
-puts "Stock questions created : #{benchmark.real.round(2)}s"
+puts " Stock questions created : #{benchmark.real.round(2)}s"
 
 
