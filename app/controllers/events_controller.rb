@@ -6,7 +6,7 @@
 
 class EventsController < ApplicationController
   before_filter :fake_learner
-  before_filter :authenticate_learner!, only: [:addanswer]
+  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create]
   
   
   def show

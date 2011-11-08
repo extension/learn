@@ -17,7 +17,7 @@
  <fieldset id="datetime">
    <p>
    <%= event_form.label :session_start, 'Date and Time' %>
-   <%= event_form.text_field :session_start, value: @event.session_start.in_time_zone(@event.time_zone) %>
+   <%= event_form.text_field :session_start, {value: @event.session_start.in_time_zone(@event.time_zone).strftime('%m/%d/%Y %I:%M pm'), id: 'session_start'} %>
    </p>
    
    <p>
@@ -59,3 +59,10 @@
  </fieldset>
 
  <p><%= submit_tag 'Save Session', :class => "bigbutton blue" %></p>
+ 
+ 
+ <script class="code" type="text/javascript">
+   $('#session_start').datetimepicker({
+   	ampm: true
+   });
+ </script>
