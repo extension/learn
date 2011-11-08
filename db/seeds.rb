@@ -17,7 +17,9 @@ if(!Sunspot.solr_running?)
 end
 
 # create a entry 1 "System User"
-learnbot = Learner.create(email: 'system@extension.org', name: 'Learn System User')
+@learnbot = Learner.create(email: 'system@extension.org', name: 'Learn System User')
+
+## setup classes and objects that we'll need
 
 @mydatabase = ActiveRecord::Base.connection.instance_variable_get("@config")[:database]
 
@@ -78,9 +80,16 @@ end
 
 class User < Account
   
+  scope :validaccounts, :conditions => {:retired => false,:vouched => true}
+  
   def openid
     "https://people.extension.org/#{self.login}"
   end
+  
+  def is_validaccount?
+    !retired and vouched
+  end
+  
 end
 
 class LearnConnection < ActiveRecord::Base
@@ -98,101 +107,178 @@ end
 
 @darmokdatabase = Settings.darmokdatabase
 
-# direct inject of Events to maintain id's
-transfer_query = <<-END_SQL.gsub(/\s+/, " ").strip
-INSERT into #{Event.table_name} (id,title,description,session_start,session_end,session_length,location,recording,creator_id,last_modifier_id,time_zone,created_at,updated_at)
-   SELECT id,title,description,session_start,session_end,session_length,location,recording,created_by,last_modified_by,time_zone,created_at,updated_at from #{@darmokdatabase}.#{LearnSession.table_name}
-END_SQL
-Event.connection.execute(transfer_query)
-
-## tag injection
-
-tags_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
-INSERT INTO #{@mydatabase}.#{Tag.table_name}  (name, created_at) 
-  SELECT DISTINCT #{@darmokdatabase}.tags.name, #{@darmokdatabase}.tags.created_at 
-  FROM #{@darmokdatabase}.tags,#{@darmokdatabase}.taggings
-  WHERE #{@darmokdatabase}.taggings.tag_id = #{@darmokdatabase}.tags.id
-    AND #{@darmokdatabase}.taggings.taggable_type = 'LearnSession'
-END_SQL
-Tag.connection.execute(tags_insert_query)
-
-## tagging injection
-taggings_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
-INSERT INTO #{@mydatabase}.#{Tagging.table_name} (tag_id, taggable_id, taggable_type, created_at, updated_at) 
-  SELECT #{@mydatabase}.tags.id, #{@darmokdatabase}.taggings.taggable_id, 'Event', #{@darmokdatabase}.taggings.created_at, #{@darmokdatabase}.taggings.updated_at
-  FROM #{@mydatabase}.tags,#{@darmokdatabase}.tags,#{@darmokdatabase}.taggings
-  WHERE #{@darmokdatabase}.taggings.tag_id = #{@darmokdatabase}.tags.id
-    AND #{@mydatabase}.tags.name = #{@darmokdatabase}.tags.name
-    AND #{@darmokdatabase}.taggings.taggable_type = 'LearnSession'
-END_SQL
-Tagging.connection.execute(taggings_insert_query)
 
 
-## import Learners and create connections
-ActiveRecord::Base.record_timestamps = false #temporarily turn off magic column updates
-LearnConnection.all.each do |darmok_learn_connection|
-  darmok_user = darmok_learn_connection.user
-  if(!(learner = Learner.find_by_email(darmok_user.email)))
-    learner = Learner.new
-    learner.name = darmok_user.fullname
-    learner.email = darmok_user.email
-    learner.has_profile = true
-    learner.time_zone = darmok_user.time_zone
-    learner.save
-    # authmap
-    learner.authmaps.create(authname: darmok_user.openid, source: 'people')
-  end
-  
-  EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, 
-                         connectiontype: darmok_learn_connection.connectiontype, 
-                         created_at: darmok_learn_connection.created_at, updated_at: darmok_learn_connection.updated_at)
+# routines
+
+
+def create_account_from_darmok_user(darmok_user)
+  ActiveRecord::Base.record_timestamps = false #temporarily turn off magic column updates
+  learner = Learner.new
+  learner.name = darmok_user.fullname
+  learner.email = darmok_user.email
+  learner.has_profile = true
+  learner.time_zone = darmok_user.time_zone
+  learner.retired = !darmok_user.is_validaccount?
+  learner.darmok_id = darmok_user.id
+  learner.created_at = darmok_user.created_at
+  learner.updated_at = Time.now
+  learner.save
+  # authmap
+  learner.authmaps.create(authname: darmok_user.openid, source: 'people', created_at: darmok_user.created_at, updated_at: Time.now)
+  ActiveRecord::Base.record_timestamps = true #turning updates back on
 end
 
-# for all the activity_logs that were created, set the created_at
-update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
-UPDATE #{EventActivity.table_name},#{EventConnection.table_name}
- SET #{EventActivity.table_name}.created_at = #{EventConnection.table_name}.created_at
- WHERE #{EventActivity.table_name}.loggable_id = #{EventConnection.table_name}.id
- AND #{EventActivity.table_name}.loggable_type = 'EventConnection'
-END_SQL
-EventActivity.connection.execute(update_timestamp_query)
 
-ActiveRecord::Base.record_timestamps = true #turning updates back on
+def transfer_events
+  # direct inject of Events to maintain id's
+  transfer_query = <<-END_SQL.gsub(/\s+/, " ").strip
+  INSERT into #{Event.table_name} (id,title,description,session_start,session_end,session_length,location,recording,creator_id,last_modifier_id,time_zone,created_at,updated_at)
+     SELECT id,title,description,session_start,session_end,session_length,location,recording,created_by,last_modified_by,time_zone,created_at,updated_at from #{@darmokdatabase}.#{LearnSession.table_name}
+  END_SQL
+  Event.connection.execute(transfer_query)
+end 
 
-## fix creator and last_modifier
-LearnSession.all.each do |darmok_learn_session|
-  darmok_creator = darmok_learn_session.creator
-  darmok_last_modifier = darmok_learn_session.last_modifier
-  if(!(creator = Learner.find_by_email(darmok_creator.email)))
-    creator = Learner.new
-    creator.name = darmok_creator.fullname
-    creator.email = darmok_creator.email
-    creator.has_profile = true
-    creator.time_zone = darmok_creator.time_zone
-    creator.save
-    # authmap
-    creator.authmaps.create(authname: darmok_creator.openid, source: 'people')
-    
-  end
-  
-  if(!(last_modifier = Learner.find_by_email(darmok_last_modifier.email)))
-    last_modifier = Learner.new
-    last_modifier.name = darmok_last_modifier.fullname
-    last_modifier.email = darmok_last_modifier.email
-    last_modifier.has_profile = true
-    last_modifier.time_zone = darmok_last_modifier.time_zone
-    last_modifier.save
-    # authmap
-    last_modifier.authmaps.create(authname: darmok_last_modifier.openid, source: 'people')
-  end
-  
-  event = Event.find(darmok_learn_session.id)
-  event.update_attributes(creator: creator, last_modifier: last_modifier)
+def transfer_event_tags 
+  ## tags
+  tags_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
+  INSERT INTO #{@mydatabase}.#{Tag.table_name}  (name, created_at) 
+    SELECT DISTINCT #{@darmokdatabase}.tags.name, #{@darmokdatabase}.tags.created_at 
+    FROM #{@darmokdatabase}.tags,#{@darmokdatabase}.taggings
+    WHERE #{@darmokdatabase}.taggings.tag_id = #{@darmokdatabase}.tags.id
+      AND #{@darmokdatabase}.taggings.taggable_type = 'LearnSession'
+  END_SQL
+  Tag.connection.execute(tags_insert_query)
+
+  ## tagging injection
+  taggings_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
+  INSERT INTO #{@mydatabase}.#{Tagging.table_name} (tag_id, taggable_id, taggable_type, created_at, updated_at) 
+    SELECT #{@mydatabase}.tags.id, #{@darmokdatabase}.taggings.taggable_id, 'Event', #{@darmokdatabase}.taggings.created_at, #{@darmokdatabase}.taggings.updated_at
+    FROM #{@mydatabase}.tags,#{@darmokdatabase}.tags,#{@darmokdatabase}.taggings
+    WHERE #{@darmokdatabase}.taggings.tag_id = #{@darmokdatabase}.tags.id
+      AND #{@mydatabase}.tags.name = #{@darmokdatabase}.tags.name
+      AND #{@darmokdatabase}.taggings.taggable_type = 'LearnSession'
+  END_SQL
+  Tagging.connection.execute(taggings_insert_query)
 end
 
-# reindex Events in solr
-Event.reindex
+def transfer_accounts
 
-StockQuestion.create(active: true, prompt: 'After attending this session, I feel motivated to learn more about this topic.', responsetype: Question::BOOLEAN, responses: ['no','yes'], learner: learnbot)
-StockQuestion.create(active: true, prompt: 'I wish more of my colleagues would weigh in on the practical applications of the topics covered in this session.', responsetype: Question::SCALE, responses: ['never','always'],  range_start: 1, range_end: 5, learner: learnbot)
-StockQuestion.create(active: true, prompt: 'I’ll share this information with:', responsetype: Question::MULTIVOTE_BOOLEAN, responses: ['Friends and family.','Colleagues at work.','The people in one or more of my online networks.','No one.'], learner: learnbot)
+  # import all non-retired/"valid" accounts
+  account_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
+  INSERT INTO #{@mydatabase}.#{Learner.table_name} (name, email, has_profile, time_zone, darmok_id, created_at, updated_at) 
+    SELECT CONCAT(#{@darmokdatabase}.accounts.first_name,' ', #{@darmokdatabase}.accounts.last_name), #{@darmokdatabase}.accounts.email, 1, 
+           #{@darmokdatabase}.accounts.time_zone, #{@darmokdatabase}.accounts.id,  #{@darmokdatabase}.accounts.created_at, NOW()
+    FROM  #{@darmokdatabase}.accounts
+    WHERE #{@darmokdatabase}.accounts.retired = 0 and #{@darmokdatabase}.accounts.vouched = 1
+  END_SQL
+  Learner.connection.execute(account_insert_query)
+
+  authmap_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
+  INSERT INTO #{@mydatabase}.#{Authmap.table_name} (learner_id, authname, source, created_at, updated_at) 
+    SELECT #{@mydatabase}.learners.id, CONCAT('https://people.extension.org/',#{@darmokdatabase}.accounts.login), 'people', #{@darmokdatabase}.accounts.created_at, NOW()
+    FROM #{@mydatabase}.learners,#{@darmokdatabase}.accounts
+    WHERE #{@mydatabase}.learners.darmok_id = #{@darmokdatabase}.accounts.id
+  END_SQL
+  Authmap.connection.execute(authmap_insert_query)
+
+end
+
+def transfer_event_connections
+
+  ## import Learners and create connections
+  LearnConnection.all.each do |darmok_learn_connection|
+    darmok_user = darmok_learn_connection.user
+    if(!(learner = Learner.find_by_email(darmok_user.email)))
+      # most likely here due to a retired account
+      create_account_from_darmok_user(darmok_user)
+    end
+  
+    ActiveRecord::Base.record_timestamps = false #temporarily turn off magic column updates
+    EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, 
+                           connectiontype: darmok_learn_connection.connectiontype, 
+                           created_at: darmok_learn_connection.created_at, updated_at: darmok_learn_connection.updated_at)
+    ActiveRecord::Base.record_timestamps = true #turning updates back on
+  end
+
+  # for all the activity_logs that were created, set the created_at
+  update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
+  UPDATE #{EventActivity.table_name},#{EventConnection.table_name}
+   SET #{EventActivity.table_name}.created_at = #{EventConnection.table_name}.created_at
+   WHERE #{EventActivity.table_name}.loggable_id = #{EventConnection.table_name}.id
+   AND #{EventActivity.table_name}.loggable_type = 'EventConnection'
+  END_SQL
+  EventActivity.connection.execute(update_timestamp_query)
+
+end
+
+def transfer_creator_and_modifier
+  ## fix creator and last_modifier
+  LearnSession.all.each do |darmok_learn_session|
+    darmok_creator = darmok_learn_session.creator
+    darmok_last_modifier = darmok_learn_session.last_modifier
+    if(!(creator = Learner.find_by_email(darmok_creator.email)))
+      # most likely here due to a retired account
+      create_account_from_darmok_user(darmok_creator)
+    end
+  
+    if(!(last_modifier = Learner.find_by_email(darmok_last_modifier.email)))
+      # most likely here due to a retired account
+      create_account_from_darmok_user(darmok_last_modifier)
+    end
+  
+    event = Event.find(darmok_learn_session.id)
+    event.update_attributes(creator: creator, last_modifier: last_modifier)
+  end
+end
+
+def index_events
+  # reindex Events in solr
+  Event.reindex
+end  
+
+
+def create_stock_questions
+  StockQuestion.create(active: true, prompt: 'After attending this session, I feel motivated to learn more about this topic.', responsetype: Question::BOOLEAN, responses: ['no','yes'], learner: @learnbot)
+  StockQuestion.create(active: true, prompt: 'I wish more of my colleagues would weigh in on the practical applications of the topics covered in this session.', responsetype: Question::SCALE, responses: ['never','always'],    range_start: 1, range_end: 5, learner: @learnbot)
+  StockQuestion.create(active: true, prompt: 'I’ll share this information with:', responsetype: Question::MULTIVOTE_BOOLEAN, responses: ['Friends and family.','Colleagues at work.','The people in one or more of my online networks.','No one.'], learner: @learnbot)
+end
+
+
+# let's do this
+benchmark = Benchmark.measure do
+  transfer_events
+end
+puts "Events transferred : #{benchmark.real.round(2)}s"
+
+benchmark = Benchmark.measure do
+  transfer_event_tags
+end
+puts "Event tags transferred : #{benchmark.real.round(2)}s"
+
+benchmark = Benchmark.measure do
+  transfer_accounts
+end
+puts "Accounts transferred : #{benchmark.real.round(2)}s"
+
+benchmark = Benchmark.measure do
+  transfer_event_connections
+end
+puts "Event connections transferred : #{benchmark.real.round(2)}s"
+
+benchmark = Benchmark.measure do
+  transfer_creator_and_modifier
+end
+puts "Event creator/modifier transferred : #{benchmark.real.round(2)}s"
+
+benchmark = Benchmark.measure do
+  index_events
+end
+puts "Events indexed : #{benchmark.real.round(2)}s"
+
+benchmark = Benchmark.measure do
+  create_stock_questions
+end
+puts "Stock questions created : #{benchmark.real.round(2)}s"
+
+
