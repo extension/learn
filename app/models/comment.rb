@@ -21,7 +21,7 @@ class Comment < ActiveRecord::Base
   validates :content, :learner_id, :event_id, :presence => true
   
   def log_object_activity
-    ActivityLog.log_object_activity(self)
+    EventActivity.log_object_activity(self)
   end
   
   def set_orphan_flag_on_children

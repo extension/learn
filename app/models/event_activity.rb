@@ -3,9 +3,8 @@
 # Developed with funding for the National eXtension Initiative.
 # === LICENSE:
 # see LICENSE file
-require 'ipaddr'
 
-class ActivityLog < ActiveRecord::Base
+class EventActivity < ActiveRecord::Base
   belongs_to :learner
   belongs_to :event
   belongs_to :loggable, :polymorphic => true
@@ -29,30 +28,6 @@ class ActivityLog < ActiveRecord::Base
   CONNECT_ATTEND            = 54
   CONNECT_WATCH             = 55
   
-  # set up class variable that can be set in application.rb
-  @request_ipaddr = '127.0.0.1'
-  class << self
-    attr_accessor :request_ipaddr
-  end
-  
-  before_save :set_ipaddr_from_request_ip
-  
-  def ipaddr
-    int_ip = read_attribute(:ipaddr)
-    i = IPAddr.new(int_ip,Socket::AF_INET)
-    i.to_s
-  end
-  
-  def ipaddr=(value)
-    i = IPAddr.new(value,Socket::AF_INET)
-    write_attribute(:ipaddr,i.to_i)
-  end
-  
-  def set_ipaddr_from_request_ip
-    self.ipaddr = self.class.request_ipaddr
-  end
-  
-  
   def self.log_object_activity(object)
     case object.class.name
     when 'Answer'
@@ -68,25 +43,34 @@ class ActivityLog < ActiveRecord::Base
     end
   end
       
-  def self.log_view
+  def self.log_view(learner,event,source = nil)
+    case source
+    when 'recommendation'
+      activity = VIEW_FROM_RECOMMENDATION
+    when 'share'
+      activity = VIEW_FROM_SHARE
+    else
+      activity = VIEW
+    end
+    self.create_or_update(learner: learner, event: event, activity: activity, loggable: event)
   end
   
   def self.log_share
   end
 
   def self.log_answer(answer)
-    self.create(learner_id: answer.learner_id, event: answer.event, activity: ANSWER, loggable: answer)
+    self.create_or_update(learner: answer.learner, event: answer.event, activity: ANSWER, loggable: answer)
   end
   
   def self.log_rating(rating)
     if(rating.rateable.is_a?(Comment))
       activity = RATING_ON_COMMENT
       event = rating.rateable.event
-      self.create(learner_id: rating.learner_id, event: event, activity: activity, loggable: rating)
+      self.create(learner: rating.learner, event: event, activity: activity, loggable: rating)
     elsif(rating.rateable.is_a?(Event))
       activity = RATING
       event = rating.rateable
-      self.create(learner_id: rating.learner_id, event: event, activity: activity, loggable: rating )
+      self.create_or_update(learner: rating.learner, event: event, activity: activity, loggable: rating )
     else
       nil
     end
@@ -98,7 +82,7 @@ class ActivityLog < ActiveRecord::Base
     else
       activity = COMMENT
     end
-    self.create(learner_id: comment.learner_id, event: comment.event, activity: activity, loggable: comment)
+    self.create_or_update(learner: comment.learner, event: comment.event, activity: activity, loggable: comment)
   end
   
   def self.log_connection(event_connection)
@@ -116,8 +100,26 @@ class ActivityLog < ActiveRecord::Base
     else
       activity = CONNECT
     end
-    self.create(learner_id: event_connection.learner_id, event_id: event_connection.event_id, activity: activity, loggable: event_connection)
+    self.create_or_update(learner: event_connection.learner, event: event_connection.event, activity: activity, loggable: event_connection)
+  end
+
+  def self.find_by_unique_key(attributes)
+    scoped = self.where(learner_id: attributes[:learner].id)
+    scoped = scoped.where(event_id: attributes[:event].id)
+    scoped = scoped.where(activity: attributes[:activity])
+    scoped = scoped.where(loggable_type: attributes[:loggable].class.name)
+    scoped = scoped.where(loggable_id: attributes[:loggable].id)    
+    scoped.first
   end
   
+  def self.create_or_update(attributes)
+    begin 
+      record = self.create(attributes)
+    rescue ActiveRecord::RecordNotUnique => e
+      record = self.find_by_unique_key(attributes)
+      record.increment!(:activity_count)
+    end
+    record
+  end
       
 end

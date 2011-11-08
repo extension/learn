@@ -150,12 +150,12 @@ end
 
 # for all the activity_logs that were created, set the created_at
 update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
-UPDATE activity_logs,event_connections
- SET activity_logs.created_at = event_connections.created_at
- WHERE activity_logs.loggable_id = event_connections.id
- AND activity_logs.loggable_type = 'EventConnection'
+UPDATE #{EventActivity.table_name},#{EventConnection.table_name}
+ SET #{EventActivity.table_name}.created_at = #{EventConnection.table_name}.created_at
+ WHERE #{EventActivity.table_name}.loggable_id = #{EventConnection.table_name}.id
+ AND #{EventActivity.table_name}.loggable_type = 'EventConnection'
 END_SQL
-ActivityLog.connection.execute(update_timestamp_query)
+EventActivity.connection.execute(update_timestamp_query)
 
 ActiveRecord::Base.record_timestamps = true #turning updates back on
 

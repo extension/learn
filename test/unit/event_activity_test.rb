@@ -6,7 +6,7 @@
 
 require 'test_helper'
 
-class ActivityLogTest < ActiveSupport::TestCase
+class EventActivityTest < ActiveSupport::TestCase
 
   context "Creating a new activity" do
     should belong_to(:learner)

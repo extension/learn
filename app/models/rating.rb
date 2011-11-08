@@ -10,7 +10,7 @@ class Rating < ActiveRecord::Base
 
 
   def log_object_activity
-    ActivityLog.log_object_activity(self)
+    EventActivity.log_object_activity(self)
   end
   
   def self.find_or_create_by_params(learner, rating_params)

@@ -7,7 +7,6 @@
 class Learner < ActiveRecord::Base
   devise :rememberable, :trackable
   
-
   # Setup accessible (or protected) attributes
   attr_accessible :email, :remember_me, :name 
   
@@ -16,6 +15,7 @@ class Learner < ActiveRecord::Base
   has_many :comments
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
+  has_many :event_activities
   
   DEFAULT_TIMEZONE = 'America/New_York'
   

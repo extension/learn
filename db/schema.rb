@@ -13,16 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20111104001730) do
 
-  create_table "activity_logs", :force => true do |t|
-    t.integer  "learner_id",    :null => false
-    t.integer  "event_id"
-    t.integer  "activity"
-    t.integer  "loggable_id"
-    t.string   "loggable_type"
-    t.integer  "ipaddr"
-    t.datetime "created_at"
-  end
-
   create_table "answers", :force => true do |t|
     t.integer  "question_id", :null => false
     t.integer  "learner_id",  :null => false
@@ -73,6 +63,18 @@ ActiveRecord::Schema.define(:version => 20111104001730) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "event_activities", :force => true do |t|
+    t.integer  "learner_id",                                  :null => false
+    t.integer  "event_id"
+    t.integer  "activity"
+    t.integer  "loggable_id"
+    t.string   "loggable_type",  :limit => 30
+    t.integer  "activity_count",               :default => 1, :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "event_activities", ["learner_id", "event_id", "activity", "loggable_id", "loggable_type"], :name => "activity_uniq_ndx", :unique => true
 
   create_table "event_connections", :force => true do |t|
     t.integer  "learner_id"

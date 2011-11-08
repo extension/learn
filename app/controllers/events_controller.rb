@@ -16,6 +16,8 @@ class EventsController < ApplicationController
       @event.add_stock_questions
     end
     @comments = @event.comments
+    # log view
+    EventActivity.log_view(current_learner,@event) if(current_learner)
   end
   
   def new

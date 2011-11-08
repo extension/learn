@@ -16,6 +16,7 @@ class Event < ActiveRecord::Base
   has_many :raters, :through => :ratings, :source => :learner
   has_many :event_connections
   has_many :learners, through: :event_connections, uniq: true
+  has_many :event_activities
   
   
   validates :title, :presence => true

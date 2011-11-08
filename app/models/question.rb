@@ -28,7 +28,7 @@ class Question < ActiveRecord::Base
 
 
   def log_object_activity
-    ActivityLog.log_object_activity(self)
+    EventActivity.log_object_activity(self)
   end
   
   def answer_for_learner_and_response(options = {})
