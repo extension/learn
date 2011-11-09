@@ -18,6 +18,7 @@
 <body id="<%= params[:controller] %>">
 
 <div id="page_wrapper">
+  <div id="page">
   <header class="masthead">
     <a href="/">
     <%= image_tag("logo_small.png", :size => "264x100",) %>
@@ -25,7 +26,7 @@
     </a>
   </header>
   
-  <nav>
+  <nav id="useractions">
     <ul>
       <li>
         <%- if current_learner -%>
@@ -40,6 +41,7 @@
   <%= yield %>
 
   <br class="clearing" />
+  </div>
 </div>
 
 </body>

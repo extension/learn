@@ -1,10 +1,12 @@
 <div id="two_col_col_one">
-  <section id="event">
+  <div class="padding">
+    <section id="event">
+      <h1><%= @event.title -%></h1>
+    
     <div id='rating_area'>
       <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
       <div id="event_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %></div> 
     </div>
-    <h1><%= @event.title -%></h1>
     
     <p class="description"><%= format_text_for_display(@event.description) -%></p>
 
@@ -18,45 +20,39 @@
     <%-else -%>
       There are no tags at this time
     <%-end -%>
-    </p>
-      
-      
-        <%-if @event.concluded? -%>
-          <%-if @event.recording.blank? -%>
-            <p class="no_recording_available">
-            There are currently no recordings posted yet.
-            </p>
-          <%-else -%>
-          <h3>Watch</h3>
-            <p class="recording_available mini">
-               <%= link_to(@event.recording, @event.recording) -%>
-            </p>
-          <%-end -%>
-        <%-else -%>
-          <p>View and Participate: <%= link_to(@event.location, @event.location) -%></p>
-          <p>Watch: (This session has not taken place yet. The recording should be available here after the session has taken place.)</p>
-        <%-end -%>
-        
+    </p>        
         <p>Created by: </p>
         
         
         <%- if true -%>
         <!-- change to authenticated user  -->
-          <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "btn primary") -%></span></p>
+          <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
         <%- end -%>
+        
+        <%- @event.questions.each do |question| -%>
+           <div id="question_<%= question.id %>" class="question">
+             <%= render(partial: 'question', locals: {question: question})%>
+           </div>
+         <%- end -%>
+        
    </section>
+   </div>
 </div>
 
+
+
 <section id="two_col_col_two">
+  <div class="padding">
    <aside id="event_time" class="radius10">
       
       <%-if @event.concluded? -%>
-      
+        <h3>Watch</h3>
          <%-if @event.recording.blank? -%>
-            <h3>No Recording Yet</h3>
+            
             <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong>. A recording of this session has not been uploaded yet.</p>
+            <p class="no_recording_available"><strong>No Recording Yet</strong></p>
           <%-else -%>
-          <h3>Watch</h3>
+          
             <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong></p>
             <p class="recording_available">
                <%= link_to("watch recording", @event.recording) -%>
@@ -122,21 +118,13 @@
    <aside id="attendees" class="radius10">   
 
    </aside>
-   <%- end -%>
-   
-   
-   
-   
+   <%- end -%>   
 </section>
 
 <br class='clearing' />
 
-<%- @event.questions.each do |question| -%>
-  <div id="question_<%= question.id %>" class="question">
-    <%= render(partial: 'question', locals: {question: question})%>
-  </div>
-<%- end -%>
 
+</div>
 
 <script class="code" type="text/javascript">
   $('.submittable').live('change', 
