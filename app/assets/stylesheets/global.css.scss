@@ -18,15 +18,31 @@ html, body {
 
 #page_wrapper {
     background:#fff;
-    margin: 36px auto;
-    width:90%;
+    margin: 0 auto;
+    width:960px;
     @include rounded10;
+//    border:1px solid lime;
 }
 
-#content {
+#page {
     clear:both;
-    padding: 0.8em 5.3333333333%; /* 48px/960px */
+    margin: 0 auto;
+    width: 900px;
 }
+
+#two_col_col_one {width: 560px; /* 566px / 900px */
+    float:left;
+    clear:both; background: #eee;
+    }
+#two_col_col_two {
+    width: 340px;
+    float:right;
+    background: #ddd;
+    }
+
+
+#two_col_col_one .padding {margin:18px;}
+#two_col_col_two .padding {margin:18px;}
 
 header h1 {
     padding:0;
@@ -52,5 +68,12 @@ input[type="email"] {color:#000; font-size: 1.2em;}
 
 .half {width: 50%; float:left;}
 
-#two_col_col_one {float:left;width:60%; clear:both; padding:2em;}
-#two_col_col_two {float:right;width:30%;}
+
+#useractions {float:right;}
+
+
+p.no_recording_available {background: transparent url(/assets/play_button_grey.png) left 50% no-repeat; padding-left:45px; font-size:1.4em; height:42px;}
+p.recording_available {background: transparent url(/assets/play_button.png) left 50% no-repeat; padding-left:45px; font-size:1.6em; height:42px;}
+p.recording_available.mini {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:25px; font-size:1.45em; line-height:1em; height:1.3em;}
+span.no_recording_available {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
+span.recording_available {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
