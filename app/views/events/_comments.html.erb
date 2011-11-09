@@ -7,7 +7,11 @@
       <div id="commentfield">
       <%= text_area_tag 'comment[content]', nil, {:cols => 20, :rows => 5} %>
       <%= hidden_field_tag 'comment[event_id]', event.id %>
-      <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn primary'} %>
+      <% if current_learner.present? %>
+        <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn primary'} %>
+      <% else %>
+        <p><%= link_to 'Sign in', new_learner_session_path %> to post</p>
+      <% end %>
       </div>
     <% end %>
     <br class="clearing" />
