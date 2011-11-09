@@ -86,6 +86,6 @@ class Learner < ActiveRecord::Base
   
   # devise override
   def active_for_authentication?
-     super && !retired?
-   end
+    super && !retired?
+  end
 end

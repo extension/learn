@@ -29,7 +29,8 @@
     <ul>
       <li>
         <%- if current_learner -%>
-          Hello (<%= current_learner.name %>)!
+          Hello (<%= current_learner.name %>)! &nbsp
+          <%= link_to('Logout', destroy_learner_session_path, :method => :delete) %>          
         <%- else -%>
           <%= link_to("Sign in", new_learner_session_path, :class => "btn primary" )%>
         <%- end -%>
