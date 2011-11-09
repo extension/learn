@@ -83,4 +83,9 @@ class Learner < ActiveRecord::Base
   def recommended_events(count = 4)
     Event.limit(count)
   end
+  
+  # devise override
+  def active_for_authentication?
+     super && !retired?
+   end
 end

@@ -17,7 +17,8 @@ class CreateLearners < ActiveRecord::Migration
       t.trackable
       t.string :name, :time_zone, :mobile_number, :null => true
       t.boolean :has_profile, :null => false, :default => false
-  
+      t.integer :darmok_id
+      t.boolean :retired, :null => false, :default => false
       t.timestamps
     end
     
