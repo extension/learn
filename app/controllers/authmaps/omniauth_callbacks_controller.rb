@@ -6,7 +6,7 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
       sign_in_and_redirect @learner, :event => :authentication
     else
       session["devise.twitter_data"] = env["omniauth.auth"]
-      redirect_to new_learner_registration_url
+      redirect_to new_learner_session_url
     end
   end
   
@@ -17,13 +17,13 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
       sign_in_and_redirect @learner, :event => :authentication
     else
       session["devise.people_data"] = env["omniauth.auth"]
-      redirect_to new_learner_registration_url
+      redirect_to new_learner_session_url
     end
   end
   
   def failure
     flash[:notice] = "Twitter access denied. Please try again."
-    redirect_to new_learner_registration_url
+    redirect_to new_learner_session_url
     return
   end
   

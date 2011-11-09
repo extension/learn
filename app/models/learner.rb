@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class Learner < ActiveRecord::Base
-  devise :rememberable, :trackable
+  devise :rememberable, :trackable, :database_authenticatable
   
   # Setup accessible (or protected) attributes
   attr_accessible :email, :remember_me, :name 
