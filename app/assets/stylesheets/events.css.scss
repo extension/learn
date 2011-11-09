@@ -86,3 +86,6 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 
 #rating_explanation {display:none; position: absolute; margin-top:2em; background:#fff; padding:.5em; @include boxshadow;}
 #event_votes:hover #rating_explanation {display:block;}
+
+#range_start {float:left;}
+#range_end {float:right;}
