@@ -96,6 +96,10 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def has_recording?
+    !recording.blank?
+  end
+  
   # calculate end of session time by adding session_length times 60 (session_length is in minutes) to session_start
   def set_session_end
     self.session_end = self.session_start + (self.session_length * 60)

@@ -57,4 +57,12 @@ module EventsHelper
     question.answer_data.to_json.html_safe
   end
   
+  def display_presenters(presenters)
+    presenters.collect{|learner| link_to_learner(learner)}.join(', ').html_safe
+  end
+  
+  def display_tags(tags)
+    tags.collect{|tag| link_to_tag(tag)}.join(Tag::JOINER).html_safe
+  end
+  
 end

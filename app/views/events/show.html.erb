@@ -4,8 +4,10 @@
     
       <p class="description"><%= format_text_for_display(@event.description) -%></p>
 
-      <h3>Presenters</h3>
-      <p id="presenters"><a href="">Bob Smith,</a> <a href="">Jane Dangerous</a></p>
+      <%- if @event.learners.presenters.count > 0 -%>
+        <h3>Presenters</h3>
+        <p id="presenters"><%= display_presenters(@event.learners.presenters) %></p>
+      <%- end -%>
    </section>
    
    
@@ -18,7 +20,7 @@
     </section>
    
    <section id="event_meta">
-   <p>Created by: <a href="">Bob Smith</a></p>
+   <p>Created by: <%= link_to_learner(@event.creator) -%></p>
    <%- if true -%>
    <!-- change to authenticated user  -->
      <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
@@ -38,16 +40,14 @@
       
       <%-if @event.concluded? -%>
         <h3>Watch</h3>
-         <%-if @event.recording.blank? -%>
-            
+         <%-if @event.has_recording? -%>
+           <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong></p>
+           <p class="recording_available">
+              <%= link_to("watch recording", @event.recording) -%>
+           </p>
+          <%-else -%>
             <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong>. A recording of this session has not been uploaded yet.</p>
             <p class="no_recording_available"><strong>No Recording Yet</strong></p>
-          <%-else -%>
-          
-            <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong></p>
-            <p class="recording_available">
-               <%= link_to("watch recording", @event.recording) -%>
-            </p>
           <%-end -%>
       
       <%-else -%>
@@ -80,32 +80,24 @@
       <h4>Tags</h4>
       <p>
         <%-if @event.tags.length != 0 -%>  
-          <%= @event.tags.collect{|t| t.name}.join(Tag::JOINER) -%>
+          <%= display_tags(@event.tags) -%>
         <%-else -%>
           There are no tags at this time
         <%-end -%>
       </p>
     </div>
    
-    <%- if current_learner -%>
+    <%- attendee_count = @event.learners.attendees.count -%>
+    <%- if current_learner and attendee_count > 0 -%>
       <aside id="attendees" class="radius10">
-        <h4 id="slidetoggle">12 attendees <small>view</small></h4>
+        <h4 id="slidetoggle"><%= attendee_count %> attendees <small>view</small></h4>
         <ul id="attendee_list">
-          <li>Candace Harker</li>
-          <li>Kim Hand</li>
-          <li>John McQueen</li>
-          <li>Vanessa Weldon *</li>
-          <li>Molly Herndon *</li>
-          <li>Nurgul Fitzgerald</li>
-          <li>Ashley Fondren</li>
-          <li>Lynette Spicer</li>
-          <li>Donna Shanklin</li>
-          <li>Denise Attaway *</li>
-          <li>Judy McGehee</li>
-          <li>Amy Hays *</li>
+          <%- @event.learners.attendees.each do |attendee| %>
+            <li><%= link_to_learner(attendee) -%></li>
+          <%- end -%>
         </ul>
        </aside>
-       <%- end -%>
+    <%- end -%>
    
    
    <div id="comment-section">
@@ -156,7 +148,7 @@
   });
   
   $('#slidetoggle').click(function() {
-    $('#attendee_list').slideToggle();
+    $('#attendee_list').slideToggle('fast','linear');
   });
 </script>
 

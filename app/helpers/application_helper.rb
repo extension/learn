@@ -23,4 +23,12 @@ module ApplicationHelper
     end
   end
   
+  
+  def link_to_learner(learner)
+    link_to(learner.name, '#').html_safe
+  end
+  
+  def link_to_tag(tag)
+    link_to(tag.name, '#').html_safe
+  end
 end
