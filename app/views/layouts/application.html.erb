@@ -30,7 +30,7 @@
     <ul>
       <li>
         <%- if current_learner -%>
-          Hello (<%= current_learner.name %>)!
+          <%= current_learner.name %>
         <%- else -%>
           <%= link_to("Sign in", new_learner_session_path, :class => "btn primary" )%>
         <%- end -%>

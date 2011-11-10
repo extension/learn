@@ -1,49 +1,49 @@
 <div id="two_col_col_one">
-  <div class="padding">
     <section id="event">
       <h1><%= @event.title -%></h1>
     
-    <div id='rating_area'>
-      <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
-      <div id="event_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %></div> 
-    </div>
-    
-    <p class="description"><%= format_text_for_display(@event.description) -%></p>
+      <p class="description"><%= format_text_for_display(@event.description) -%></p>
 
-    <h3>Presented by</h3>
-    <p id="presenters"></p>
+      <h3>Presented by</h3>
+      <p id="presenters"><a href="">Bob Smith,</a> <a href="">Jane Dangerous</a></p>
       
-    <h4>Tags</h4>
-    <p id="tags">
-    <%-if @event.tags.length != 0 -%>  
-      <%= @event.tags.collect{|t| t.name}.join(Tag::JOINER) -%>
-    <%-else -%>
-      There are no tags at this time
-    <%-end -%>
-    </p>        
-        <p>Created by: </p>
-        
-        
-        <%- if true -%>
-        <!-- change to authenticated user  -->
-          <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
-        <%- end -%>
-        
-        <%- @event.questions.each do |question| -%>
-           <div id="question_<%= question.id %>" class="question">
-             <%= render(partial: 'question', locals: {question: question})%>
-           </div>
-         <%- end -%>
-        
+      <h4>Tags</h4>
+      <p id="tags">
+      <%-if @event.tags.length != 0 -%>  
+        <%= @event.tags.collect{|t| t.name}.join(Tag::JOINER) -%>
+      <%-else -%>
+        There are no tags at this time
+      <%-end -%>
+      </p>        
+      <p>Created by: <a href="">Bob Smith</a></p>
    </section>
-   </div>
+   
+   
+   <section id="questions">
+   <%- @event.questions.each do |question| -%>
+      <div id="question_<%= question.id %>" class="question">
+        <%= render(partial: 'question', locals: {question: question})%>
+      </div>
+    <%- end -%>
+    </section>
+   
+   <%- if true -%>
+   <!-- change to authenticated user  -->
+     <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
+   <%- end -%>
 </div>
 
 
 
 <section id="two_col_col_two">
   <div class="padding">
-   <aside id="event_time" class="radius10">
+    <div id='rating_area'>
+      <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
+      <div id="event_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %></div> 
+    </div>
+    <br class="clearing" />
+    
+    <aside id="event_time" class="radius10">
       
       <%-if @event.concluded? -%>
         <h3>Watch</h3>
@@ -125,6 +125,8 @@
 
 
 </div>
+
+
 
 <script class="code" type="text/javascript">
   $('.submittable').live('change', 

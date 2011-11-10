@@ -32,7 +32,7 @@ html, body {
 
 #two_col_col_one {width: 560px; /* 566px / 900px */
     float:left;
-    clear:both; background: #eee;
+    clear:both;
     }
 #two_col_col_two {
     width: 340px;
@@ -70,7 +70,7 @@ input[type="email"] {color:#000; font-size: 1.2em;}
 
 
 #useractions {float:right;}
-
+#useractions li {list-style:none; padding:1em 0 1em 1em;}
 
 p.no_recording_available {background: transparent url(/assets/play_button_grey.png) left 50% no-repeat; padding-left:45px; font-size:1.4em; height:42px;}
 p.recording_available {background: transparent url(/assets/play_button.png) left 50% no-repeat; padding-left:45px; font-size:1.6em; height:42px;}
