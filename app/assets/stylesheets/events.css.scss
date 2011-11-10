@@ -15,7 +15,14 @@
 }
 
 #event {background: #eee; padding:18px;}
-#questions {background: #e5e5e5; padding:18px;}
+#questions {background: #fff; padding:18px;}
+#event_meta {background: #eee; padding:18px;}
+#event_time {border: 2px solid #666; clear:both;}
+#rating_area {margin: 0 0 2em;}
+#tags {margin: 0 0 2em;}
+#comment-section {border: 1px solid #666;}
+#event_meta a {color:#666;}
+//#attendees {border: 1px solid #666;}
 
 #session_date {float:left; display:block;padding:0 0 0 10px; width:180px;}
 #session_date_time {float:left; display:block;padding:10px 0 0 10px; width:190px;}
@@ -30,37 +37,40 @@
 
 aside {background:#ededed; padding:10px; margin:0 0 1em;}
 
-#comments {
-    clear:both;
+#comment-section {
+    padding:18px;
     margin:0 0 1em;
+    background:#fff;
 }
 
 #commentfield_container {
     @include rounded10;
-    padding: 1em;
     background: #eee;
     width:100%;
 }
 
 #comments h5 {color:#555;}
 #commentfield_container .btn {float:right; margin-right:-1em;}
-#commentfield {width:80%; float:left;}
+#commentfield {float:left; width:90%;}
+#commentfield_container form {width:100%;}
+
 #commentfield_container textarea {
     width:100%;
     margin:0 0 .5em 0;
     padding:.5em;
+
 }
 
 .comment_reply {
     @include rounded10;
     padding: 1em;
     background: #eee;
-    width:100%;
+//    width:100%;
     margin-left: 30px;
 }
 
 .comment_reply textarea {
-    width:100%;
+//    width:100%;
     margin:0 0 .5em 0;
     padding:.5em;
 }
