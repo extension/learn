@@ -4,18 +4,8 @@
     
       <p class="description"><%= format_text_for_display(@event.description) -%></p>
 
-      <h3>Presented by</h3>
+      <h3>Presenters</h3>
       <p id="presenters"><a href="">Bob Smith,</a> <a href="">Jane Dangerous</a></p>
-      
-      <h4>Tags</h4>
-      <p id="tags">
-      <%-if @event.tags.length != 0 -%>  
-        <%= @event.tags.collect{|t| t.name}.join(Tag::JOINER) -%>
-      <%-else -%>
-        There are no tags at this time
-      <%-end -%>
-      </p>        
-      <p>Created by: <a href="">Bob Smith</a></p>
    </section>
    
    
@@ -27,23 +17,24 @@
     <%- end -%>
     </section>
    
+   <section id="event_meta">
+   <p>Created by: <a href="">Bob Smith</a></p>
    <%- if true -%>
    <!-- change to authenticated user  -->
      <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
    <%- end -%>
+   </section>
 </div>
 
 
 
-<section id="two_col_col_two">
-  <div class="padding">
-    <div id='rating_area'>
-      <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
-      <div id="event_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %></div> 
-    </div>
-    <br class="clearing" />
-    
-    <aside id="event_time" class="radius10">
+<div id="two_col_col_two">
+  <div id='rating_area'>
+    <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
+    <div id="event_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %></div>
+  </div>
+  
+  <aside id="event_time" class="radius10">
       
       <%-if @event.concluded? -%>
         <h3>Watch</h3>
@@ -83,10 +74,42 @@
         <p id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</p>
                         
       <%-end -%>
-   </aside>
+    </aside>
+   
+    <div id="tags">
+      <h4>Tags</h4>
+      <p>
+        <%-if @event.tags.length != 0 -%>  
+          <%= @event.tags.collect{|t| t.name}.join(Tag::JOINER) -%>
+        <%-else -%>
+          There are no tags at this time
+        <%-end -%>
+      </p>
+    </div>
+   
+    <%- if current_learner -%>
+      <aside id="attendees" class="radius10">
+        <h4 id="slidetoggle">12 attendees <small>view</small></h4>
+        <ul id="attendee_list">
+          <li>Candace Harker</li>
+          <li>Kim Hand</li>
+          <li>John McQueen</li>
+          <li>Vanessa Weldon *</li>
+          <li>Molly Herndon *</li>
+          <li>Nurgul Fitzgerald</li>
+          <li>Ashley Fondren</li>
+          <li>Lynette Spicer</li>
+          <li>Donna Shanklin</li>
+          <li>Denise Attaway *</li>
+          <li>Judy McGehee</li>
+          <li>Amy Hays *</li>
+        </ul>
+       </aside>
+       <%- end -%>
+   
    
    <div id="comment-section">
-   <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
+    <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
    </div>
    
    <%- if current_learner -%>
@@ -114,11 +137,7 @@
      </aside>
    <%- end -%>
 
-   <%- if current_learner -%>
-   <aside id="attendees" class="radius10">   
 
-   </aside>
-   <%- end -%>   
 </section>
 
 <br class='clearing' />
@@ -129,8 +148,16 @@
 
 
 <script class="code" type="text/javascript">
+  $('#attendee_list').hide();
+
   $('.submittable').live('change', 
   function() {
     $(this).parents('form:first').submit();
   });
+  
+  $('#slidetoggle').click(function() {
+    $('#attendee_list').slideToggle();
+  });
 </script>
+
+
