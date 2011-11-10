@@ -59,7 +59,7 @@ class EventActivity < ActiveRecord::Base
   end
 
   def self.log_answer(answer)
-    self.create_or_update(learner: answer.learner, event: answer.event, activity: ANSWER, loggable: answer)
+    self.create_or_update(learner: answer.learner, event: answer.event, activity: ANSWER, loggable: answer.question)
   end
   
   def self.log_rating(rating)

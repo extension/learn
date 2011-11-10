@@ -28,13 +28,12 @@
   
   <nav id="useractions">
     <ul>
-      <li>
-        <%- if current_learner -%>
-          <%= current_learner.name %>
-        <%- else -%>
-          <%= link_to("Sign in", new_learner_session_path, :class => "btn primary" )%>
-        <%- end -%>
-      </li>
+      <%- if current_learner -%>
+        <li><%= current_learner.name %></li>
+        <li><%= link_to('Logout', destroy_learner_session_path, :method => :delete) %></li>
+      <%- else -%>
+        <li><%= link_to("Sign in", new_learner_session_path, :class => "btn primary" )%></li>
+      <%- end -%>
     </ul>
   </nav>
   
