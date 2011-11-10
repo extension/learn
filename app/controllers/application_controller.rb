@@ -28,4 +28,16 @@ class ApplicationController < ActionController::Base
     true
   end
   
+  # devise hook for the url to redirect to after a learner has authenticated
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) || root_path
+  end
+  
+  def stored_location_for(resource)
+    if current_learner && params[:redirect_to]
+      return params[:redirect_to]
+    end
+    return nil
+  end
+  
 end

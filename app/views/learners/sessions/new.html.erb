@@ -1,8 +1,8 @@
 <ul id="signup_options">
-  <li><%= link_to "Sign in with Twitter", authmap_omniauth_authorize_path(:twitter) %></li>
+  <li><%= link_to "Sign in with Twitter", authmap_omniauth_authorize_path(:twitter, :redirect_to => params[:redirect_to]) %></li>
 </ul>
 
 <ul id="signup_options">
-  <li><%= link_to "Sign in with eXtension OpenId", authmap_omniauth_authorize_path(:people) %></li>
+  <li><%= link_to "Sign in with eXtension OpenId", authmap_omniauth_authorize_path(:people, :redirect_to => params[:redirect_to]) %></li>
 </ul>
 
