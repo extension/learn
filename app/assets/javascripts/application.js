@@ -8,5 +8,5 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require jquery-ui-timepicker-addon
-//= require jquery.tools.min
+//= require rangeinput
 //= require_tree .
