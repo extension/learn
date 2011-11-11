@@ -1,4 +1,4 @@
-<p><%= question.prompt %></p>
+<h3><%= question.prompt %></h3>
 
 <%- if !current_learner -%>
   <div class="signintovote">
@@ -7,6 +7,7 @@
 <%- else -%>
 
 <!-- Answer Form -->
+<div class="question_answers">
 <%= form_tag(addanswer_event_url(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
   <ul class="inputs-list a_b">
   <%= hidden_field_tag('question', question.id) %>
@@ -22,6 +23,8 @@
     </li>
   </ul>
 <%- end -%>
+</div>
+
 <script class="code" type="text/javascript">
   <%- if !current_learner -%>
     // disable all form elements since not authenticated

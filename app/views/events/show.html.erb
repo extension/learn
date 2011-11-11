@@ -31,15 +31,16 @@
 
 
 <div id="two_col_col_two">
-  <div id='rating_area'>
-    <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
-    <div id="event_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %></div>
-  </div>
-  
   <aside id="event_time" class="radius10">
       
       <%-if @event.concluded? -%>
         <h3>Watch</h3>
+        <div id="rating_area">
+          <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
+          <div id="event_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %></div>
+        </div>
+        
+        <div id="recording_details">
          <%-if @event.has_recording? -%>
            <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong></p>
            <p class="recording_available">
@@ -49,7 +50,7 @@
             <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong>. A recording of this session has not been uploaded yet.</p>
             <p class="no_recording_available"><strong>No Recording Yet</strong></p>
           <%-end -%>
-      
+        </div>
       <%-else -%>
 
         <h2>
@@ -74,10 +75,15 @@
         <p id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</p>
                         
       <%-end -%>
+      
+      
+      <br class="clearing" />
     </aside>
    
+    
+   
     <div id="tags">
-      <h4>Tags</h4>
+      <h4 class="hide">Tags</h4>
       <p>
         <%-if @event.tags.length != 0 -%>  
           <%= display_tags(@event.tags) -%>
