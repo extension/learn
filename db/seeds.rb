@@ -193,11 +193,16 @@ def transfer_event_connections
       # most likely here due to a retired account
       create_account_from_darmok_user(darmok_user)
     end
-  
-    ActiveRecord::Base.record_timestamps = false #temporarily turn off magic column updates
-    EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, 
-                           connectiontype: darmok_learn_connection.connectiontype, 
-                           created_at: darmok_learn_connection.created_at, updated_at: darmok_learn_connection.updated_at)
+
+    ActiveRecord::Base.record_timestamps = false #temporarily turn off magic column updates    
+    if(darmok_learn_connection.connectiontype == LearnConnection::PRESENTER)
+      PresenterConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, 
+                                 created_at: darmok_learn_connection.created_at)    
+    else
+      EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, 
+                             connectiontype: darmok_learn_connection.connectiontype, 
+                             created_at: darmok_learn_connection.created_at, updated_at: darmok_learn_connection.updated_at)
+    end
     ActiveRecord::Base.record_timestamps = true #turning updates back on
   end
 
@@ -210,6 +215,13 @@ def transfer_event_connections
   END_SQL
   EventActivity.connection.execute(update_timestamp_query)
 
+  another_update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
+  UPDATE #{EventActivity.table_name},#{PresenterConnection.table_name}
+   SET #{EventActivity.table_name}.created_at = #{PresenterConnection.table_name}.created_at
+   WHERE #{EventActivity.table_name}.loggable_id = #{PresenterConnection.table_name}.id
+   AND #{EventActivity.table_name}.loggable_type = 'PresenterConnection'
+  END_SQL
+  EventActivity.connection.execute(another_update_timestamp_query)
 end
 
 def transfer_creator_and_modifier
