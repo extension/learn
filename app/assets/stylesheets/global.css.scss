@@ -37,9 +37,14 @@ html, body {
 #two_col_col_two {
     width: 340px;
     float:right;
-//    background: #ddd;
     }
 
+#single_col {width:80%; margin: 0 auto 4em; clear:both;}
+
+#signup_content {margin: 2em; padding:2em;}
+.signup_option {margin: 0 0 1em; clear:left; float:left;}
+.signup_option img {float:left;}
+.signup_option p {line-height:50px; font-size:1.5em; height:50px; float:left; padding:0 1em;}
 
 #two_col_col_one .padding {margin:18px;}
 #two_col_col_two .padding {margin:18px;}
