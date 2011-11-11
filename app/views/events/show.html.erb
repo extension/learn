@@ -104,37 +104,32 @@
         </ul>
        </aside>
     <%- end -%>
-   
+
+    
+    <%- if current_learner -%>
+      <aside id="sessionconnection_interest" class="radius10">
+        <p>Bookmark this event <small>(we'll add it to your bookmarks and let you know about new activity)</small></p>
+          <%- if @event.started? -%>
+            <p>Watched recording <small>(it will show up in your learning portfolio)</small></p>
+            <p>Attended <small>(it will show up in your learning portfolio)</small></p>
+          <%- else -%>
+            <p>I plan to attend <small>(we can send you an SMS or email reminder)</small></p>
+          <%- end -%>
+      </aside>
+    <%- else -%>
+       <aside id="sessionconnection_interest" class="radius10">
+          <%- if @event.started? -%>
+            <p>Are you interested in this topic or did you attend this session?</p>
+          <%- else -%>
+            <p>Interested in this topic?</p>
+          <%- end -%>
+          <%= link_to("Login and let us know") -%>
+       </aside>
+     <%- end -%>
    
    <div id="comment-section">
     <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
    </div>
-   
-   <%- if current_learner -%>
-      <%- if @event.started? -%>
-        <aside id="sessionconnection_interest" class="radius10">
-
-        </aside>
-
-        <aside id="sessionconnection_attendance" class="radius10">
-
-        </aside>
-      <%- else -%>
-        <aside id="sessionconnection_interest" class="radius10">
-
-        </aside>
-      <%- end -%>
-   <%- else -%>
-     <aside id="sessionconnection_interest" class="radius10">
-        <%- if @event.started? -%>
-          Are you interested in this topic or did you attend this session? 
-        <%- else -%>
-          Interested in this topic?
-        <%- end -%>
-        <%= link_to("Login and let us know") -%>
-     </aside>
-   <%- end -%>
-
 
 </section>
 

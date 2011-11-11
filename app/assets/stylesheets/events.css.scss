@@ -20,14 +20,14 @@
 #event_time {border: 4px solid #aaa; clear:both;  @include rounded10;}
 #rating_area {margin: 0 0 .5em; }
 #tags {margin: 0; clear:both; padding:0 9px;}
-#comment-section {border: 1px solid #666;}
+#comment-section {}
 #event_meta a {color:#666;}
 #attendees {background:#fff; }
 #attendees h4:hover {cursor:pointer;}
 
 #session_date {float:left; display:block;padding:0 0 0 10px; width:180px;}
 #session_date_time {float:left; display:block;padding:10px 0 0 10px; width:190px;}
-#time {font-size:1.4em; display:block;margin-bottom:20px;}
+#time {font-size:1.2em; display:block;margin-bottom:20px;}
 #timezone {white-space:nowrap;}
 #event_time h2 {background:#fff; float:left; padding: 10px 10px 10px 0;}
 
@@ -116,3 +116,8 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .question h3 {line-height:1em; margin-bottom:1em; color:#555;}
 .jqplot-target {float:right;}
 .question_answers {float:left; width: 230px;}
+
+.none {color:#888;}
+#sessionconnection_interest {background:#8bc7f6; @include rounded10;}
+#sessionconnection_interest p {font-size:1.2em; margin:0 0 1em; color:#000; font-weight:bold;}
+#sessionconnection_interest p small {display:block;color:#000; font-size:.9em; margin:.25em 0;}
