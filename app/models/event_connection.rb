@@ -8,8 +8,7 @@ class EventConnection < ActiveRecord::Base
   belongs_to :event
   belongs_to :learner
     
-  PRESENTER = 2
-  INTERESTED = 3
+  BOOKMARK = 3
   ATTENDED = 4
   WILLATTEND = 5
   WATCH = 6
