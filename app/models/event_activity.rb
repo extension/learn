@@ -23,7 +23,7 @@ class EventActivity < ActiveRecord::Base
   COMMENT_ON_COMMENT        = 42
   CONNECT                   = 50
   CONNECT_PRESENTER         = 51
-  CONNECT_INTEREST          = 52
+  CONNECT_BOOKMARK          = 52
   CONNECT_WILLATTEND        = 53
   CONNECT_ATTEND            = 54
   CONNECT_WATCH             = 55
@@ -38,6 +38,8 @@ class EventActivity < ActiveRecord::Base
       self.log_comment(object)
     when 'EventConnection'
       self.log_connection(object)
+    when 'PresenterConnection'
+      self.log_presenter(object)
     else
       nil
     end
@@ -87,10 +89,8 @@ class EventActivity < ActiveRecord::Base
   
   def self.log_connection(event_connection)
     case(event_connection.connectiontype)
-    when EventConnection::PRESENTER
-      activity = CONNECT_PRESENTER
-    when EventConnection::INTERESTED
-      activity = CONNECT_INTEREST
+    when EventConnection::BOOKMARK
+      activity = CONNECT_BOOKMARK
     when EventConnection::ATTENDED
       activity = CONNECT_ATTEND
     when EventConnection::WILLATTEND
@@ -101,6 +101,10 @@ class EventActivity < ActiveRecord::Base
       activity = CONNECT
     end
     self.create_or_update(learner: event_connection.learner, event: event_connection.event, activity: activity, loggable: event_connection)
+  end
+  
+  def self.log_presenter(presenter_connection)
+    self.create_or_update(learner: presenter_connection.learner, event: presenter_connection.event, activity: CONNECT_PRESENTER, loggable: presenter_connection)
   end
 
   def self.find_by_unique_key(attributes)

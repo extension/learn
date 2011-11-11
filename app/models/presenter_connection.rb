@@ -4,20 +4,12 @@
 # === LICENSE:
 # see LICENSE file
 
-class EventConnection < ActiveRecord::Base
+class PresenterConnection < ActiveRecord::Base
   belongs_to :event
-  belongs_to :learner
-    
-  BOOKMARK = 3
-  ATTENDED = 4
-  WILLATTEND = 5
-  WATCH = 6
-  
+  belongs_to :learner  
   after_create :log_object_activity
-
 
   def log_object_activity
     EventActivity.log_object_activity(self)
   end
 end
-

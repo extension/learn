@@ -4,9 +4,9 @@
     
       <p class="description"><%= format_text_for_display(@event.description) -%></p>
 
-      <%- if @event.learners.presenters.count > 0 -%>
+      <%- if @event.presenters.count > 0 -%>
         <h3>Presenters</h3>
-        <p id="presenters"><%= display_presenters(@event.learners.presenters) %></p>
+        <p id="presenters"><%= display_presenters(@event.presenters) %></p>
       <%- end -%>
    </section>
    
@@ -93,12 +93,12 @@
       </p>
     </div>
    
-    <%- attendee_count = @event.learners.attendees.count -%>
+    <%- attendee_count = @event.attendees.count -%>
     <%- if current_learner and attendee_count > 0 -%>
       <aside id="attendees" class="radius10">
         <h4 id="slidetoggle"><%= attendee_count %> attendees <small>view</small></h4>
         <ul id="attendee_list">
-          <%- @event.learners.attendees.each do |attendee| %>
+          <%- @event.attendees.each do |attendee| %>
             <li><%= link_to_learner(attendee) -%></li>
           <%- end -%>
         </ul>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111104001730) do
+ActiveRecord::Schema.define(:version => 20111111191252) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id", :null => false
@@ -121,6 +121,14 @@ ActiveRecord::Schema.define(:version => 20111104001730) do
   end
 
   add_index "learners", ["email"], :name => "index_learners_on_email"
+
+  create_table "presenter_connections", :force => true do |t|
+    t.integer  "learner_id"
+    t.integer  "event_id"
+    t.datetime "created_at"
+  end
+
+  add_index "presenter_connections", ["learner_id", "event_id"], :name => "connection_ndx", :unique => true
 
   create_table "questions", :force => true do |t|
     t.text     "prompt"

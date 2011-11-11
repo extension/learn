@@ -16,9 +16,11 @@ class Event < ActiveRecord::Base
   has_many :raters, :through => :ratings, :source => :learner
   has_many :event_connections
   has_many :learners, through: :event_connections, uniq: true
+  has_many :presenter_connections
+  has_many :presenters, through: :presenter_connections, :source => :learner
   has_many :event_activities
   
-  
+
   validates :title, :presence => true
   validates :description, :presence => true
   validates :session_start, :presence => true
@@ -130,4 +132,9 @@ class Event < ActiveRecord::Base
   def display_tags
      self.tags.map(&:name).join(Tag::JOINER)
   end
+  
+  def attendees
+    learners.where("event_connections.connectiontype = ?", EventConnection::ATTENDED)
+  end
+    
 end
