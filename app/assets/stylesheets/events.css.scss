@@ -14,15 +14,16 @@
     -webkit-border-radius:10px;
 }
 
-#event {background: #eee; padding:18px;}
+#event {background: #eee; padding:18px; @include rounded10;}
 #questions {background: #fff; padding:18px;}
 #event_meta {background: #eee; padding:18px;}
-#event_time {border: 2px solid #666; clear:both;}
-#rating_area {margin: 0 0 2em;}
-#tags {margin: 0 0 2em;}
+#event_time {border: 4px solid #aaa; clear:both;  @include rounded10;}
+#rating_area {margin: 0 0 .5em; }
+#tags {margin: 0; clear:both; padding:0 9px;}
 #comment-section {border: 1px solid #666;}
 #event_meta a {color:#666;}
-//#attendees {border: 1px solid #666;}
+#attendees {background:#fff; }
+#attendees h4:hover {cursor:pointer;}
 
 #session_date {float:left; display:block;padding:0 0 0 10px; width:180px;}
 #session_date_time {float:left; display:block;padding:10px 0 0 10px; width:190px;}
@@ -34,6 +35,8 @@
 #event_time .calendarblock .month {display:block; height:20px; line-height:25px;font-size:.7em; text-transform:uppercase; font-weight:bold;}
 #event_time .calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:1.8em; }
 
+#tags a {padding:.1em .5em; background:#eee; @include rounded10; color:#888;}
+#tags a:hover {background:#ccc; @include rounded10; color:#333; text-decoration:none;}
 
 aside {background:#ededed; padding:10px; margin:0 0 1em;}
 
@@ -90,15 +93,26 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .comment:hover p a {display:inline;}
 .indent1 {margin-left:1em;}
 
+#event_time h3 {float:left;}
+#recording_details {clear:both;}
+
 #rating_area {float:right;}
-#rating_area form {float:left; margin:0; padding:0;}
-#rating_area div {float:left;}
 #rating_area .btn {font-size:1.3em; font-weight:bold; height:20px; line-height:10px;padding:0 0 .2em; width:20px;}
 #event_votes { float:left;}
 .formatted_votes {font-weight:normal; float:left; margin-left:.5em; color:#333;}
+
+
+.comment #rating_area {float:right; background:none; }
+#rating_area form {float:left; margin:0; padding:0;}
+.comment #rating_area div {float:left;}
 
 #rating_explanation {display:none; position: absolute; margin-top:2em; background:#fff; padding:.5em; @include boxshadow;}
 #event_votes:hover #rating_explanation {display:block;}
 
 #range_start {float:left;}
 #range_end {float:right;}
+
+.question {padding:1em; border-bottom:4px solid #e5e5e5; margin: 0 0 1em;}
+.question h3 {line-height:1em; margin-bottom:1em; color:#555;}
+.jqplot-target {float:right;}
+.question_answers {float:left; width: 230px;}

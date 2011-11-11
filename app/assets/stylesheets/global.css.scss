@@ -30,14 +30,14 @@ html, body {
     width: 900px;
 }
 
-#two_col_col_one {width: 560px; /* 566px / 900px */
+#two_col_col_one {width: 540px; /* 566px / 900px */
     float:left;
     clear:both;
     }
 #two_col_col_two {
     width: 340px;
     float:right;
-    background: #ddd;
+//    background: #ddd;
     }
 
 
@@ -77,3 +77,5 @@ p.recording_available {background: transparent url(/assets/play_button.png) left
 p.recording_available.mini {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:25px; font-size:1.45em; line-height:1em; height:1.3em;}
 span.no_recording_available {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
 span.recording_available {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
+
+.hide {display:none;}
