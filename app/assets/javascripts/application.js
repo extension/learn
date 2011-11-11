@@ -9,4 +9,5 @@
 //= require jquery-ui
 //= require jquery-ui-timepicker-addon
 //= require rangeinput
+//= require jqplot
 //= require_tree .
