@@ -12,7 +12,7 @@ group :assets do
 end
 
 # rails 3.1 default
-gem 'jquery-rails'
+gem 'jquery-rails', '1.0.16'
 
 # storage
 gem 'mysql2'
