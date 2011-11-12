@@ -37,7 +37,7 @@
 
 <!-- Answers -->
 <%- if !question.answers.blank? -%>
-  <div id="question_chart_<%= question.id %>" style="height:200px; width:200px;"></div> 
+  <div id="question_chart_<%= question.id %>" style="height:160px; width:160px;"></div> 
   <script class="code" type="text/javascript">
     $(document).ready(function(){
       var data = <%= jqplot_piegraph_data(question) %>
@@ -51,6 +51,7 @@
               // Put data labels on the pie slices.
               // By default, labels show the percentage of the slice.
               showDataLabels: true,
+              padding: 0,
             },
             seriesColors: [ "#8bc7f6", "#ddd", "#c5b47f"],
           },

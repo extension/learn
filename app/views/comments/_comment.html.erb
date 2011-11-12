@@ -10,6 +10,7 @@
   <% end %>
   
   <%= comment.content %>
+  <span class="comment_actions">
   <%= link_to_function 'reply', "show_element($('#comment_reply_to_#{comment.id}'));" %> 
   <%= link_to 'view', comment_path(comment) %>
   <% if current_learner && (current_learner.id == comment.learner_id) %>
@@ -27,8 +28,9 @@
                                          :remote => true %>
     <% end %>
   <% end %>
+  </span>
   </p>
-  <br class="clearing" /><br />
+  <br class="clearing" />
 </div>
 <div id="comment_reply_to_<%= comment.id %>" style="display:none" class="comment_reply">
   <%= form_tag(comments_path, :id => 'comment-form-reply', :remote => true) do %>
