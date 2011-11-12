@@ -8,6 +8,17 @@
         <h3>Presenters</h3>
         <p id="presenters"><%= display_presenters(@event.presenters) %></p>
       <%- end -%>
+      
+      <div id="tags">
+        <h4 class="hide">Tags</h4>
+        <p>
+          <%-if @event.tags.length != 0 -%>  
+            <%= display_tags(@event.tags) -%>
+          <%-else -%>
+            There are no tags at this time
+          <%-end -%>
+        </p>
+      </div>
    </section>
    
    
@@ -26,6 +37,7 @@
      <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
    <%- end -%>
    </section>
+   
 </div>
 
 
@@ -79,19 +91,6 @@
       
       <br class="clearing" />
     </aside>
-   
-    
-   
-    <div id="tags">
-      <h4 class="hide">Tags</h4>
-      <p>
-        <%-if @event.tags.length != 0 -%>  
-          <%= display_tags(@event.tags) -%>
-        <%-else -%>
-          There are no tags at this time
-        <%-end -%>
-      </p>
-    </div>
    
     <%- attendee_count = @event.attendees.count -%>
     <%- if current_learner and attendee_count > 0 -%>

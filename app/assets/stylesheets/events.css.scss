@@ -19,7 +19,7 @@
 #event_meta {background: #eee; padding:18px;}
 #event_time {border: 4px solid #aaa; clear:both;  @include rounded10;}
 #rating_area {margin: 0 0 .5em; }
-#tags {margin: 0; clear:both; padding:0 9px;}
+#tags {margin: 0; clear:both; padding:0}
 #comment-section {}
 #event_meta a {color:#666;}
 #attendees {background:#fff; }
@@ -35,7 +35,7 @@
 #event_time .calendarblock .month {display:block; height:20px; line-height:25px;font-size:.7em; text-transform:uppercase; font-weight:bold;}
 #event_time .calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:1.8em; }
 
-#tags a {padding:.1em .5em; background:#eee; @include rounded10; color:#888;}
+#tags a {padding:.1em .5em; background:#fff; @include rounded10; color:#888;}
 #tags a:hover {background:#ccc; @include rounded10; color:#333; text-decoration:none;}
 
 aside {background:#ededed; padding:10px; margin:0 0 1em;}
@@ -118,6 +118,6 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .question_answers {float:left; width: 230px;}
 
 .none {color:#888;}
-#sessionconnection_interest {background:#8bc7f6; @include rounded10;}
+#sessionconnection_interest {background:#8bc7f6; @include rounded10; padding:2em;}
 #sessionconnection_interest p {font-size:1.2em; margin:0 0 1em; color:#000; font-weight:bold;}
 #sessionconnection_interest p small {display:block;color:#000; font-size:.9em; margin:.25em 0;}
