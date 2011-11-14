@@ -22,7 +22,7 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   end
   
   def failure
-    flash[:notice] = "Twitter access denied. Please try again."
+    flash[:notice] = "Access denied. Please try again."
     redirect_to new_learner_session_url
     return
   end
