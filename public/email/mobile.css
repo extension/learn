@@ -1,0 +1,17 @@
+/* Not to be inlined */
+@media only screen and (max-device-width: 480px) {
+  #wrapper {padding: 0px !important; margin:8px !important;  width:auto !important;}
+
+ body {margin:0 auto !important; padding:0 !important;}
+  .mobilehide {display:none;}
+  tr.tagline td  {background:#000; color:#fff; padding:10px; font: normal 15px Arial, Verdana, sans-serif; width:auto !important;}
+  tr.options td a {font: normal 12px  Arial, Verdana, sans-serif;}
+  tr.date { background: url(http://www.extension.org/share/engineering/html_email/divider.png) middle middle repeat-x;}
+  tr.date td { background: #fff url(http://www.extension.org/share/engineering/html_email/divider.png) repeat-x 50% 50%;}
+  tr.date td span {background:#fff; padding: 0 10px;}  	
+  .spacer {width:100% !important;}
+  .article {width:100% !important;}
+  table {width:100% !important;}
+  #knappsack_logo img {width: 95%; !important;}
+  .article h3 {font: bold 18px  Georgia, serif !important;}
+}
