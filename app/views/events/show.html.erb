@@ -48,7 +48,9 @@
       <%-if @event.concluded? -%>
         <h3>Watch</h3>
         <div id="rating_area">
-          <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
+          <% if current_learner %>
+            <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
+          <% end %>
           <div id="event_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %></div>
         </div>
         
