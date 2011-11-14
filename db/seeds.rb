@@ -127,6 +127,7 @@ def create_account_from_darmok_user(darmok_user)
   # authmap
   learner.authmaps.create(authname: darmok_user.openid, source: 'people', created_at: darmok_user.created_at, updated_at: Time.now)
   ActiveRecord::Base.record_timestamps = true #turning updates back on
+  learner
 end
 
 
@@ -191,7 +192,7 @@ def transfer_event_connections
     darmok_user = darmok_learn_connection.user
     if(!(learner = Learner.find_by_email(darmok_user.email)))
       # most likely here due to a retired account
-      create_account_from_darmok_user(darmok_user)
+      learner = create_account_from_darmok_user(darmok_user)
     end
 
     ActiveRecord::Base.record_timestamps = false #temporarily turn off magic column updates    
@@ -206,10 +207,10 @@ def transfer_event_connections
     ActiveRecord::Base.record_timestamps = true #turning updates back on
   end
 
-  # for all the activity_logs that were created, set the created_at
+  # for all the event_activities that were created, set the updated_at
   update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
   UPDATE #{EventActivity.table_name},#{EventConnection.table_name}
-   SET #{EventActivity.table_name}.created_at = #{EventConnection.table_name}.created_at
+   SET #{EventActivity.table_name}.updated_at = #{EventConnection.table_name}.created_at
    WHERE #{EventActivity.table_name}.loggable_id = #{EventConnection.table_name}.id
    AND #{EventActivity.table_name}.loggable_type = 'EventConnection'
   END_SQL
@@ -217,11 +218,21 @@ def transfer_event_connections
 
   another_update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
   UPDATE #{EventActivity.table_name},#{PresenterConnection.table_name}
-   SET #{EventActivity.table_name}.created_at = #{PresenterConnection.table_name}.created_at
+   SET #{EventActivity.table_name}.updated_at = #{PresenterConnection.table_name}.created_at
    WHERE #{EventActivity.table_name}.loggable_id = #{PresenterConnection.table_name}.id
    AND #{EventActivity.table_name}.loggable_type = 'PresenterConnection'
   END_SQL
   EventActivity.connection.execute(another_update_timestamp_query)
+  
+  # for all the activity_logs that were created, set the created_at
+  update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
+  UPDATE #{ActivityLog.table_name},#{EventActivity.table_name}
+   SET #{ActivityLog.table_name}.created_at = #{EventActivity.table_name}.updated_at
+   WHERE #{ActivityLog.table_name}.loggable_id = #{EventActivity.table_name}.id
+   AND #{ActivityLog.table_name}.loggable_type = 'EventActivity'
+  END_SQL
+  ActivityLog.connection.execute(update_timestamp_query)
+  
 end
 
 def transfer_creator_and_modifier
@@ -231,12 +242,12 @@ def transfer_creator_and_modifier
     darmok_last_modifier = darmok_learn_session.last_modifier
     if(!(creator = Learner.find_by_email(darmok_creator.email)))
       # most likely here due to a retired account
-      create_account_from_darmok_user(darmok_creator)
+      learner = create_account_from_darmok_user(darmok_creator)
     end
   
     if(!(last_modifier = Learner.find_by_email(darmok_last_modifier.email)))
       # most likely here due to a retired account
-      create_account_from_darmok_user(darmok_last_modifier)
+      learner = create_account_from_darmok_user(darmok_last_modifier)
     end
   
     event = Event.find(darmok_learn_session.id)

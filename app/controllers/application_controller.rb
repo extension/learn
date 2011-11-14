@@ -6,6 +6,7 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  before_filter :set_activity_log_ip
   before_filter :set_time_zone_from_learner
   
   
@@ -39,5 +40,12 @@ class ApplicationController < ActionController::Base
     end
     return nil
   end
+  
+  def set_activity_log_ip
+    if(!request.env["REMOTE_ADDR"].blank?)
+      ActivityLog.request_ipaddr = request.env["REMOTE_ADDR"]
+    end
+  end
+  
   
 end

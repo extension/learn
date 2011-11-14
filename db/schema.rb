@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111111191252) do
+ActiveRecord::Schema.define(:version => 20111114202148) do
+
+  create_table "activity_logs", :force => true do |t|
+    t.integer  "learner_id",                  :null => false
+    t.integer  "loggable_id"
+    t.string   "loggable_type", :limit => 30
+    t.integer  "ipaddr"
+    t.text     "additional"
+    t.datetime "created_at"
+  end
+
+  add_index "activity_logs", ["learner_id", "loggable_id", "loggable_type"], :name => "activity_ndx"
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id", :null => false
@@ -71,7 +82,7 @@ ActiveRecord::Schema.define(:version => 20111111191252) do
     t.integer  "loggable_id"
     t.string   "loggable_type",  :limit => 30
     t.integer  "activity_count",               :default => 1, :null => false
-    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "event_activities", ["learner_id", "event_id", "activity", "loggable_id", "loggable_type"], :name => "activity_uniq_ndx", :unique => true
