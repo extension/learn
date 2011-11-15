@@ -133,6 +133,18 @@ ActiveRecord::Schema.define(:version => 20111114202148) do
 
   add_index "learners", ["email"], :name => "index_learners_on_email"
 
+  create_table "notifications", :force => true do |t|
+    t.integer  "learner_id"
+    t.integer  "event_id"
+    t.integer  "delivery_method",                    :null => false
+    t.boolean  "sent",            :default => false, :null => false
+    t.boolean  "silence",         :default => false, :null => false
+    t.datetime "delivery_time",                      :null => false
+    t.integer  "delayed_job_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "presenter_connections", :force => true do |t|
     t.integer  "learner_id"
     t.integer  "event_id"
