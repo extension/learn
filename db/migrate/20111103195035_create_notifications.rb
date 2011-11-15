@@ -5,7 +5,7 @@ class CreateNotifications < ActiveRecord::Migration
       t.references :event
       t.integer  "delivery_method", :null => false
       t.boolean  "sent", :null => false, :default => false
-      t.boolean "silence", :null => false, :default => false
+      t.boolean "silenced", :null => false, :default => false
       t.datetime "delivery_time", :null => false
       t.integer "delayed_job_id"
       t.timestamps
