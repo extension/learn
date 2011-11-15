@@ -6,13 +6,13 @@
 
 class CreateQuestions < ActiveRecord::Migration
   def change
-    create_table :questions do |t|
-      t.text 'prompt'
-      t.string 'responsetype'
-      t.text 'responses'
-      t.integer 'range_start'
-      t.integer 'range_end'
-      t.integer 'priority'
+    create_table "questions" do |t|
+      t.text "prompt"
+      t.string "responsetype"
+      t.text "responses"
+      t.integer "range_start"
+      t.integer "range_end"
+      t.integer "priority"
       t.references :event, :null => false
       t.references :learner, :null => false
       t.timestamps
