@@ -39,6 +39,11 @@ class Event < ActiveRecord::Base
     text :description, more_like_this: true
   end
   
+  scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
+  scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
+  scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
+  
+  
   # override timezone writer/reader
   # returns Eastern by default, use convert=false
   # when you need a timezone string that mysql can handle
@@ -134,7 +139,7 @@ class Event < ActiveRecord::Base
   end
   
   def attendees
-    learners.where("event_connections.connectiontype = ?", EventConnection::ATTENDED)
+    learners.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
   end
     
 end

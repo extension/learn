@@ -9,9 +9,8 @@ class EventConnection < ActiveRecord::Base
   belongs_to :learner
     
   BOOKMARK = 3
-  ATTENDED = 4
-  WILLATTEND = 5
-  WATCH = 6
+  ATTEND = 4
+  WATCH = 5
   
   after_create :log_object_activity
 

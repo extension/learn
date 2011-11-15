@@ -25,9 +25,8 @@ class EventActivity < ActiveRecord::Base
   CONNECT                   = 50
   CONNECT_PRESENTER         = 51
   CONNECT_BOOKMARK          = 52
-  CONNECT_WILLATTEND        = 53
-  CONNECT_ATTEND            = 54
-  CONNECT_WATCH             = 55
+  CONNECT_ATTEND            = 53
+  CONNECT_WATCH             = 54
   
   # don't recommend making this a callback, instead
   # intentionally call it where appropriate (like EventActivity.create_or_update)
@@ -99,10 +98,8 @@ class EventActivity < ActiveRecord::Base
     case(event_connection.connectiontype)
     when EventConnection::BOOKMARK
       activity = CONNECT_BOOKMARK
-    when EventConnection::ATTENDED
+    when EventConnection::ATTEND
       activity = CONNECT_ATTEND
-    when EventConnection::WILLATTEND
-      activity = CONNECT_WILLATTEND
     when EventConnection::WATCH
       activity = CONNECT_WATCH
     else

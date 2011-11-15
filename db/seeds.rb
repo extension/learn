@@ -197,16 +197,22 @@ def transfer_event_connections
 
     ActiveRecord::Base.record_timestamps = false #temporarily turn off magic column updates    
     if(darmok_learn_connection.connectiontype == LearnConnection::PRESENTER)
+      # create a presenter connection
       PresenterConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, 
-                                 created_at: darmok_learn_connection.created_at)    
+                                 created_at: darmok_learn_connection.created_at)
     else
-      EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, 
-                             connectiontype: darmok_learn_connection.connectiontype, 
-                             created_at: darmok_learn_connection.created_at, updated_at: darmok_learn_connection.updated_at)
+      begin 
+        # create a bookmark
+        EventConnection.create(event_id: darmok_learn_connection.learn_session_id, learner: learner, 
+                               connectiontype: darmok_learn_connection.connectiontype, 
+                               created_at: darmok_learn_connection.created_at)
+      rescue ActiveRecord::RecordNotUnique => e
+        # do nothing, dups are coming from presenter bookmarks    
+      end
     end
     ActiveRecord::Base.record_timestamps = true #turning updates back on
   end
-
+  
   # for all the event_activities that were created, set the updated_at
   update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
   UPDATE #{EventActivity.table_name},#{EventConnection.table_name}

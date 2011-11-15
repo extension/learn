@@ -91,10 +91,9 @@ ActiveRecord::Schema.define(:version => 20111114202148) do
     t.integer  "event_id"
     t.integer  "connectiontype", :null => false
     t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
-  add_index "event_connections", ["learner_id", "event_id", "connectiontype"], :name => "connection_ndx"
+  add_index "event_connections", ["learner_id", "event_id", "connectiontype"], :name => "connection_ndx", :unique => true
 
   create_table "events", :force => true do |t|
     t.text     "title",            :null => false

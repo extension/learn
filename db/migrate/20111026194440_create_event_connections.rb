@@ -10,8 +10,8 @@ class CreateEventConnections < ActiveRecord::Migration
         t.references :learner
         t.references :event
         t.integer  "connectiontype",   :null => false
-        t.timestamps
+        t.datetime   "created_at"
     end
-    add_index "event_connections", ["learner_id","event_id", "connectiontype"], :name => "connection_ndx"
+    add_index "event_connections", ["learner_id","event_id", "connectiontype"], :name => "connection_ndx", :unique => true
   end
 end
