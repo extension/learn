@@ -13,8 +13,8 @@ class Answer < ActiveRecord::Base
   validates :question, :presence => true
   validates :learner, :presence => true
   
-  after_create :log_object_activity
-
+  after_create   :log_object_activity
+  before_destroy :log_object_activity
 
   def log_object_activity
     EventActivity.log_object_activity(self)

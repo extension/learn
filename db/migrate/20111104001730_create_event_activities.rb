@@ -10,7 +10,7 @@ class CreateEventActivities < ActiveRecord::Migration
       t.integer    :loggable_id
       t.string     :loggable_type, limit: 30
       t.integer    :activity_count, default: 1, null: false
-      t.datetime   :created_at      
+      t.datetime   :updated_at      
     end
     
     add_index(:event_activities, [:learner_id, :event_id, :activity, :loggable_id, :loggable_type], unique: true, name: 'activity_uniq_ndx')

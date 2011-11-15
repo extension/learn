@@ -9,7 +9,8 @@ class EventActivity < ActiveRecord::Base
   belongs_to :event
   belongs_to :loggable, :polymorphic => true
   validates :learner, :presence => true
-  
+  has_many :activity_logs, :as => :loggable
+
   # types of activities - gaps are between types
   # in case we may need to group/expand
   VIEW                      = 1
@@ -27,6 +28,13 @@ class EventActivity < ActiveRecord::Base
   CONNECT_WILLATTEND        = 53
   CONNECT_ATTEND            = 54
   CONNECT_WATCH             = 55
+  
+  # don't recommend making this a callback, instead
+  # intentionally call it where appropriate (like EventActivity.create_or_update)
+  def create_activity_log(additional_information)
+    self.activity_logs.create(learner: self.learner, additional: additional_information)
+  end
+  
   
   def self.log_object_activity(object)
     case object.class.name
@@ -61,7 +69,7 @@ class EventActivity < ActiveRecord::Base
   end
 
   def self.log_answer(answer)
-    self.create_or_update(learner: answer.learner, event: answer.event, activity: ANSWER, loggable: answer.question)
+    self.create_or_update({learner: answer.learner, event: answer.event, activity: ANSWER, loggable: answer.question}, {answer: answer.id})
   end
   
   def self.log_rating(rating)
@@ -72,7 +80,7 @@ class EventActivity < ActiveRecord::Base
     elsif(rating.rateable.is_a?(Event))
       activity = RATING
       event = rating.rateable
-      self.create_or_update(learner: rating.learner, event: event, activity: activity, loggable: rating )
+      self.create_or_update({learner: rating.learner, event: event, activity: activity, loggable: rating} )
     else
       nil
     end
@@ -84,7 +92,7 @@ class EventActivity < ActiveRecord::Base
     else
       activity = COMMENT
     end
-    self.create_or_update(learner: comment.learner, event: comment.event, activity: activity, loggable: comment)
+    self.create_or_update({learner: comment.learner, event: comment.event, activity: activity, loggable: comment})
   end
   
   def self.log_connection(event_connection)
@@ -100,11 +108,11 @@ class EventActivity < ActiveRecord::Base
     else
       activity = CONNECT
     end
-    self.create_or_update(learner: event_connection.learner, event: event_connection.event, activity: activity, loggable: event_connection)
+    self.create_or_update({learner: event_connection.learner, event: event_connection.event, activity: activity, loggable: event_connection})
   end
   
   def self.log_presenter(presenter_connection)
-    self.create_or_update(learner: presenter_connection.learner, event: presenter_connection.event, activity: CONNECT_PRESENTER, loggable: presenter_connection)
+    self.create_or_update({learner: presenter_connection.learner, event: presenter_connection.event, activity: CONNECT_PRESENTER, loggable: presenter_connection})
   end
 
   def self.find_by_unique_key(attributes)
@@ -116,14 +124,14 @@ class EventActivity < ActiveRecord::Base
     scoped.first
   end
   
-  def self.create_or_update(attributes)
+  def self.create_or_update(attributes,additional_information = nil)
     begin 
       record = self.create(attributes)
     rescue ActiveRecord::RecordNotUnique => e
       record = self.find_by_unique_key(attributes)
       record.increment!(:activity_count)
     end
-    record
+    record.create_activity_log(additional_information)  
   end
       
 end

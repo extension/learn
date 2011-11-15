@@ -20,4 +20,7 @@ Learn::Application.routes.draw do
   end
   
   root :to => 'home#index'
+  
+
+  match "mailer/:action" => 'mailer'
 end

@@ -1,7 +1,9 @@
 <div class="comment">
   <img class="avatar" />
   <div id='rating_area'>
-    <%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
+    <% if current_learner %>
+    <%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %>
+    <% end %> 
     <div id="comment_votes_<%= comment.id %>" class="comment_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: comment} %></div> 
   </div>
   <p>
@@ -11,7 +13,9 @@
   
   <%= comment.content %>
   <span class="comment_actions">
+  <% if current_learner %>
   <%= link_to_function 'reply', "show_element($('#comment_reply_to_#{comment.id}'));" %> 
+  <% end %>
   <%= link_to 'view', comment_path(comment) %>
   <% if current_learner && (current_learner.id == comment.learner_id) %>
     <%= link_to_function 'edit', "show_element($('#comment_edit_for_#{comment.id}'));" %>
