@@ -10,7 +10,7 @@
 
   
 </head>
-<body id="<%= params[:controller] %>">
+<body id="<%= params[:controller].gsub('/','_') %>">
 
 <div id="page_wrapper">
   <div id="page">
