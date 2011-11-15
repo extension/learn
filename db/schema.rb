@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(:version => 20111114202148) do
     t.integer  "event_id"
     t.integer  "delivery_method",                    :null => false
     t.boolean  "sent",            :default => false, :null => false
-    t.boolean  "silence",         :default => false, :null => false
+    t.boolean  "silenced",        :default => false, :null => false
     t.datetime "delivery_time",                      :null => false
     t.integer  "delayed_job_id"
     t.datetime "created_at"
