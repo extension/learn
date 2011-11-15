@@ -84,4 +84,20 @@ class Learner < ActiveRecord::Base
   def active_for_authentication?
     super && !retired?
   end
+  
+  def has_bookmark_for_event?(event)
+    find_event = self.events.bookmarked.where('event_id = ?',event.id)
+    !find_event.blank?
+  end
+  
+  def attended_event?(event)
+    find_event = self.events.attended.where('event_id = ?',event.id)
+    !find_event.blank?
+  end
+  
+  def watched_event?(event)
+    find_event = self.events.watched.where('event_id = ?',event.id)
+    !find_event.blank?
+  end 
+   
 end
