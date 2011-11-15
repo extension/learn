@@ -1,6 +1,6 @@
 class CreateNotifications < ActiveRecord::Migration
   def change
-    create_table :notifications do |t|
+    create_table "notifications" do |t|
       t.references :learner
       t.references :event
       t.integer  "delivery_method", :null => false
