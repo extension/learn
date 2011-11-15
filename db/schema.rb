@@ -57,8 +57,7 @@ ActiveRecord::Schema.define(:version => 20111114202148) do
   end
 
   add_index "comments", ["ancestry"], :name => "index_comments_on_ancestry"
-  add_index "comments", ["event_id"], :name => "index_comments_on_event_id"
-  add_index "comments", ["learner_id"], :name => "index_comments_on_learner_id"
+  add_index "comments", ["learner_id", "event_id"], :name => "index_comments_on_learner_id_and_event_id"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0

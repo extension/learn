@@ -6,13 +6,13 @@
 
 class CreateStockQuestions < ActiveRecord::Migration
   def change
-    create_table :stock_questions do |t|
-      t.boolean 'active'
-      t.text 'prompt'
-      t.string 'responsetype'
-      t.text 'responses'
-      t.integer 'range_start'
-      t.integer 'range_end'
+    create_table "stock_questions" do |t|
+      t.boolean "active"
+      t.text "prompt"
+      t.string "responsetype"
+      t.text "responses"
+      t.integer "range_start"
+      t.integer "range_end"
       t.references :learner
       t.timestamps
     end
