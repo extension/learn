@@ -1,13 +1,12 @@
 <h3><%= question.prompt %></h3>
 
-<%- if !current_learner -%>
-  <div class="signintovote">
-    <p>Sign in to vote</p>
-  </div>
-<%- else -%>
 
 <!-- Answer Form -->
 <div class="question_answers">
+  <%- if !current_learner -%>
+    <div class="signintovote">
+      <p>Sign in to vote</p>
+  <%- end -%>
 <%= form_tag(addanswer_event_url(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
   <ul class="inputs-list a_b">
   <%= hidden_field_tag('question', question.id) %>
@@ -23,6 +22,10 @@
     </li>
   </ul>
 <%- end -%>
+
+<%- if !current_learner -%>
+  </div>
+<%- end -%>
 </div>
 
 <script class="code" type="text/javascript">
@@ -33,7 +36,7 @@
     });
   <%- end -%>
 </script>
-<%- end -%>
+
 
 <!-- Answers -->
 <%- if !question.answers.blank? -%>
@@ -65,6 +68,13 @@
       );
     });
   </script>
-<%- end -%>
+  <%- else -%>
+    <div class="question_chart_placeholder" style="height:160px; width:160px;">
+      <div>
+        <span>waiting for votes</span>
+      </div>
+      <%= image_tag("graph_placeholder_multi.png", :size => "160x160",) %>
+    </div>
+  <%- end -%>
 
 <br class="clearing" />

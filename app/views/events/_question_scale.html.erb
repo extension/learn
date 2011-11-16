@@ -1,18 +1,19 @@
 <h3><%= question.prompt %></h3>
 
-<%- if !current_learner -%>
-  <div class="signintovote">
-    <p>Sign in to vote</p>
-  </div>
-<%- else -%>
-
 <!-- Answer Form -->
 <div class="question_answers">
+  <%- if !current_learner -%>
+    <div class="signintovote">
+      <p>Sign in to vote</p>
+  <%- end -%>
 <%= form_tag(addanswer_event_url(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
   <%= hidden_field_tag('question', question.id) %>
   <span id="range_start"><%= question.responses[0] %> (<%= question.range_start %> )</span>
   <span id="range_end"><%= question.responses[1] %> (<%= question.range_end %> )</span>
   <%= number_field_tag('values', scale_value(question), {min: question.range_start, max: question.range_end,class: 'range submittable', type: 'range'}) %>  
+<%- end -%>
+<%- if !current_learner -%>
+  </div>
 <%- end -%>
 </div>
 <script class="code" type="text/javascript">
@@ -26,12 +27,9 @@
   $(".range").rangeinput();
 </script>
 
-<%- end -%>
-
-
 <!-- Answers -->
 <%- if !question.answers.blank? -%>
-  <div id="question_chart_<%= question.id %>" style="height:200px; width:200px;"></div> 
+  <div id="question_chart_<%= question.id %>" style="height:160px; width:160px;"></div> 
   <script class="code" type="text/javascript">
     $(document).ready(function(){
       var data = <%= jqplot_bargraph_data(question) %>
@@ -60,6 +58,13 @@
       );
     });
   </script>
+<%- else -%>
+  <div class="question_chart_placeholder" style="height:160px; width:160px;">
+    <div>
+      <span>No votes yet</span>
+    </div>
+    <%= image_tag("graph_placeholder_multi.png", :size => "160x160",) %>
+  </div>
 <%- end -%>
 
 <br class="clearing" />
