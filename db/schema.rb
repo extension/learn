@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111114202148) do
+ActiveRecord::Schema.define(:version => 20111116185159) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -142,6 +142,20 @@ ActiveRecord::Schema.define(:version => 20111114202148) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "preferences", :force => true do |t|
+    t.integer  "prefable_id"
+    t.string   "prefable_type", :limit => 30
+    t.string   "group"
+    t.string   "name",                        :null => false
+    t.string   "datatype"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "preferences", ["group"], :name => "index_preferences_on_group"
+  add_index "preferences", ["prefable_id", "prefable_type", "name"], :name => "pref_uniq_ndx", :unique => true
 
   create_table "presenter_connections", :force => true do |t|
     t.integer  "learner_id"

@@ -18,6 +18,7 @@ class Learner < ActiveRecord::Base
   has_many :event_activities
   has_many :presenter_connections
   has_many :presented_events, through: :presenter_connections, source: :event
+  has_many :preferences, :as => :prefable
   
   DEFAULT_TIMEZONE = 'America/New_York'
   
