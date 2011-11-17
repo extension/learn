@@ -126,8 +126,18 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .jqplot-data-label {color:#fff;}
 
 .signintovote {position:relative;}
-.signintovote p {display:none; z-index:1000;}
-.signintovote:hover p {display:block; position:absolute; left:1em; top:-50%;color:#fff; background:#3e83eb; border:3px solid #fff; padding:1em; width:150px; @include boxshadow; @include rounded10;}
+.signintovote .signintovote_content {
+    display:none;
+    z-index:1000;
+    position:absolute;
+    left:1em;
+    top:-50%;
+    color:#fff; 
+    background:#3e83eb; border:3px solid #fff; padding:1em; width:150px; @include boxshadow; @include rounded10;
+    }
+.signintovote:hover .signintovote_content {display:block;}
+.signintovote .signintovote_content p {font-size:1.5em;}
+
 .question_chart_placeholder {background:#eee; float:right; margin-bottom:1em; height:160px; position:relative;}
 .question_chart_placeholder div {display: table; width:160px; height:160px; position:absolute;}
 
