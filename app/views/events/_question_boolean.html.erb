@@ -11,8 +11,8 @@
       </div>
   <%- end -%>
 <%= form_tag(addanswer_event_url(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
-  <ul class="inputs-list a_b">
   <%= hidden_field_tag('question', question.id) %>
+  <ul class="inputs-list a_b">
     <li>
       <label>
         <%= radio_button_tag('values',0, is_boolean_answer_checked?(question,0), {class: 'submittable'}) %> <span><%= question.responses[0] %></span>
