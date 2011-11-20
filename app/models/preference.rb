@@ -25,7 +25,7 @@ class Preference < ActiveRecord::Base
     constant_name = "#{name.gsub('.','_').upcase}"
     default_constant_name = "#{constant_name}_DEFAULT"
     self.const_set(constant_name,name)
-    self.const_set(default_constant_name,value)
+    self.const_set(default_constant_name,default)
   end
 
   def set_datatype
