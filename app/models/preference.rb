@@ -13,21 +13,14 @@ class Preference < ActiveRecord::Base
   FALSE_PARAMETER_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE','no','NO'].to_set
   
   # convenience constants
-  PREFERENCES = { 
+  PREFERENCE_DEFAULTS = { 
    'notification.reminder.email' => true,
    'notification.reminder.sms' => false,
-   'notification.reminder.sms.notice' => 15.minutes, 
+   'notification.reminder.sms.notice' => 15.minutes,  # seconds
    'notification.activity' => true,
    'notification.recording' => true 
   }
   
-  PREFERENCES.each do |name,default|
-    constant_name = "#{name.gsub('.','_').upcase}"
-    default_constant_name = "#{constant_name}_DEFAULT"
-    self.const_set(constant_name,name)
-    self.const_set(default_constant_name,default)
-  end
-
   def set_datatype
     if(self.value.nil?)
       self.datatype = nil
@@ -68,7 +61,7 @@ class Preference < ActiveRecord::Base
     if(setting = where(name: name).first)
       setting.value
     else
-      default
+      self.get_default(name)
     end
   end
   
@@ -77,10 +70,9 @@ class Preference < ActiveRecord::Base
   end
   
   def self.get_default(name)
-    constant_name = "#{self.name}::#{name.gsub('.','_').upcase}_DEFAULT"
-    begin
-      constant_name.constantize
-    rescue
+    if(PREFERENCE_DEFAULTS[name])
+      PREFERENCE_DEFAULTS[name]
+    else
       nil
     end
   end
