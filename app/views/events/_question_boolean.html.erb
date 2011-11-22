@@ -3,16 +3,9 @@
 
 <!-- Answer Form -->
 <div class="question_answers">
-  <%- if !current_learner -%>
-    <div class="signintovote">
-      <div class="signintovote_content">
-        <p>Sign in to vote</p>
-        <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn" )%></p>
-      </div>
-  <%- end -%>
 <%= form_tag(addanswer_event_url(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
   <%= hidden_field_tag('question', question.id) %>
-  <ul class="inputs-list a_b">
+  <ul class="inputs-list a_b <%= "sitv_element" if !current_learner %>">
     <li>
       <label>
         <%= radio_button_tag('values',0, is_boolean_answer_checked?(question,0), {class: 'submittable'}) %> <span><%= question.responses[0] %></span>
@@ -24,10 +17,6 @@
       </label>
     </li>
   </ul>
-<%- end -%>
-
-<%- if !current_learner -%>
-  </div>
 <%- end -%>
 </div>
 

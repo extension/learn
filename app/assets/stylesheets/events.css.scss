@@ -161,9 +161,12 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .sitv_element {}
 .sitv_element_wrapper {position:relative;}
 
-.sitv_targetarea {background:transparent; position:absolute; left:0; top:0; z-index:10; display:block;}
+.sitv_targetarea {background:transparent; position:absolute; left:0; top:0; z-index:10; display:block; cursor:pointer;}
 .sitv_content {
-    background:#e5e5e5; border:4px solid #fff; position: absolute; width:10em; padding:1em; z-index:50; left:-1em; top:-1em;
+    color:#fff; 
+    background:#3e83eb;
+    border:4px solid #fff;
+    border:4px solid #fff; position: absolute; width:10em; padding:1em; z-index:50; left:-1em; top:-1em;
     @include boxshadow; @include rounded10;
     }
 .sitv_content .btn {width:auto !important;}
