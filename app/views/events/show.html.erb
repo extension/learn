@@ -127,6 +127,13 @@
 <br class='clearing' />
 
 
+<div id="sitv_template" style="display:none;">
+<div class="sitv_content">
+  <p>Sign in to vote</p>
+  <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn" )%></p>
+</div>
+</div>
+
 </div>
 
 
@@ -142,22 +149,28 @@
   });
   
 
-  $(document).ready(function() {  
+  $(document).ready(function() {
+    // sitv = sign in to vote
+    // get all <element.sitv_element /> and apply the following markup:
+    // <wrapper><element.sitv_element /><targetarea /><sitv text and button /></wrapper>
+    
     $('.sitv_element').each(function(index) {
         var h =$(this).outerHeight();
         var w = $(this).outerWidth();
+        
+        // get the height/width of the .sitv_element so we can cover it with a "target area" div to capture cursor events.
+        // (We have to overlay the .sitv_element with another div because events don't fire over disabled elements)
         var $sitv_targetarea = $('<div class="sitv_targetarea"></div>').height(h).width(w);
         
+        // wrap the .sitv_element with a div so we can position the "target area"
+        // insert the target area inside the wrapper
         $(this)
           .wrap('<div class="sitv_element_wrapper" />')
           .after($sitv_targetarea);
         
-        var $sitv_content = $('<div class="sitv_content">' +
-                              '<p>Sign in to vote</p>' +
-                              '<p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn" )%></p>' +
-                              '</div>');
-        
-        $sitv_content
+        // clone the sign in button markup from the view, insert inside the wrapper and hide it
+        $('#sitv_template .sitv_content')
+          .clone()
           .appendTo($(this).parent('.sitv_element_wrapper'))
           .hide();
     });
