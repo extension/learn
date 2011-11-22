@@ -100,7 +100,9 @@ after "deploy", 'deploy:notification:email'
        rm -rf #{release_path}/config/settings.local.yml &&
        rm -rf #{shared_path}/cache/* &&
        rm -rf #{release_path}/tmp/temp &&
+       rm -rf #{release_path}/tmp/associations &&
        ln -nfs #{shared_path}/temp #{release_path}/tmp/temp &&
+       ln -nfs #{shared_path}/associations #{release_path}/tmp/associations &&
        ln -nfs #{shared_path}/cache #{release_path}/tmp/cache &&
        ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
        ln -nfs #{shared_path}/config/sunspot.yml #{release_path}/config/sunspot.yml &&
