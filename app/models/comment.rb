@@ -9,6 +9,7 @@ class Comment < ActiveRecord::Base
   belongs_to :event
   has_many :ratings, :as => :rateable, :dependent => :destroy
   has_many :raters, :through => :ratings, :source => :learner
+  has_many :event_activities, :as => :trackable, dependent: :destroy
   after_create :log_object_activity
   
   # make sure to keep this callback ahead of has_ancestry, which has its own callbacks for destroy

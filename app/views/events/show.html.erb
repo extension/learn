@@ -87,7 +87,7 @@
            <%= link_to("Set your time zone") -%>  to display this session in your local time
           <%- end -%>
         <%- else -%>
-          <%= link_to("Login to set your time zone") -%> to display this session in your local time
+          <%= link_to("Sign in to set your time zone") -%> to display this session in your local time
         <%- end -%></p>   
       
         <p id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</p>
@@ -99,37 +99,23 @@
     </aside>
     
     <%- if current_learner -%>
-      <aside id="sessionconnection_interest" class="radius10">
-        <p><%= check_box_tag('values[]') %> Bookmark this event <span><small>We'll add it to your bookmarks and let you know about new activity</small></span></p>
-          <%- if @event.started? -%>
-            <p><%= check_box_tag('values[]') %> Watched recording <span><small>It will show up in your learning portfolio</small></span></p>
-            <p><%= check_box_tag('values[]') %> Attended <span><small>It will show up in your learning portfolio</small></span></p>
-          <%- else -%>
-            <p><%= check_box_tag('values[]') %> I plan to attend <span><small>We can send you an SMS or email reminder</small></span></p>
-          <%- end -%>
+      <aside id="eventconnections" class="radius10">
+        <%= render :partial => 'connections' %>
       </aside>
     <%- else -%>
-       <aside id="sessionconnection_interest" class="radius10">
+       <aside id="eventconnections" class="radius10">
           <%- if @event.started? -%>
-            <p>Are you interested in this topic or did you attend this session?</p>
+            <p>Did you attend or watch this event or want to bookmark it?</p>                                
           <%- else -%>
-            <p>Interested in this topic?</p>
+            <p>Want to bookmark this event?</p>
           <%- end -%>
-          <%= link_to("Login and let us know") -%>
+          <%= link_to("Sign in to connect to this event") -%>
        </aside>
      <%- end -%>
-  
-     <%- attendee_count = @event.attendees.count -%>
-     <%- if current_learner and attendee_count > 0 -%>
-       <aside id="attendees" class="radius10">
-         <h4 id="slidetoggle"><%= attendee_count %> attendees <small>view</small></h4>
-         <ul id="attendee_list">
-           <%- @event.attendees.each do |attendee| %>
-             <li><%= link_to_learner(attendee) -%></li>
-           <%- end -%>
-         </ul>
-        </aside>
-     <%- end -%>
+
+     <aside id="attendees" class="radius10">  
+       <%= render :partial => 'attendees' %>
+     </aside>
      
     
    <div id="comment-section">
@@ -146,8 +132,6 @@
 
 
 <script class="code" type="text/javascript">
-  $('#attendee_list').hide();
-
   $('.submittable').live('change', 
   function() {
     $(this).parents('form:first').submit();
@@ -158,8 +142,7 @@
   });
   
 
-  $(document).ready(function() {
-    
+  $(document).ready(function() {  
     $('.sitv_element').each(function(index) {
         var h =$(this).outerHeight();
         var w = $(this).outerWidth();
@@ -189,12 +172,10 @@
       .mouseleave(function() {
         $(this)
           .fadeOut('fast');
-      });
+    });
       
   });
-  
-  
-  
+
 </script>
 
 

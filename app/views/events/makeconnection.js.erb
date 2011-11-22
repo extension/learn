@@ -1,0 +1,4 @@
+$("#eventconnections").html("<%= escape_javascript(render partial: 'connections') %>")
+<%- if @update_attendee_list -%>
+  $("#attendees").html("<%= escape_javascript(render partial: 'attendees') %>")
+<%- end -%>

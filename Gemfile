@@ -1,7 +1,7 @@
 source 'http://systems.extension.org/rubygems/'
 source 'http://rubygems.org'
 
-gem 'rails', "3.1.1"
+gem 'rails', "3.1.3"
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -30,6 +30,8 @@ gem 'devise', "1.4.9"
 gem 'omniauth', '0.3.2'
 
 # feed retrieval and parsing
+# force curb to 0.7.15 to avoid a constant warning
+gem "curb", "0.7.15"
 gem "feedzirra", "0.1.2"
 
 # pagination
@@ -57,10 +59,7 @@ gem "loofah"
 gem "htmlentities"
 
 # search on solr
-gem "sunspot_rails", "~> 1.3.0.rc4" 
-
-# faker for creating fake data
-gem "faker"
+gem "sunspot_rails", "~> 1.3.0.rc6" 
 
 # used to post-process mail to convert styles to inline
 gem "csspool", "2.0.1ex"
@@ -71,7 +70,7 @@ gem "rinku", :require => 'rails_rinku'
 
 # require sunspot_solr for test and dev
 group :test, :development do
-  gem 'sunspot_solr', "~> 1.3.0.rc4" 
+  gem 'sunspot_solr', "~> 1.3.0.rc6" 
 end
 
 # delayed_job

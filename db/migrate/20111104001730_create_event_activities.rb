@@ -7,12 +7,12 @@ class CreateEventActivities < ActiveRecord::Migration
       # intentionally not using t.references
       # so that we can limit the size of the type
       # and tighten the index
-      t.integer    'loggable_id'
-      t.string     'loggable_type', limit: 30
+      t.integer    'trackable_id'
+      t.string     'trackable_type', limit: 30
       t.integer    'activity_count', default: 1, :null => false
       t.datetime   'updated_at'      
     end
     
-    add_index('event_activities', ['learner_id', 'event_id', 'activity', 'loggable_id', 'loggable_type'], :unique => true, :name => "activity_uniq_ndx")
+    add_index('event_activities', ['learner_id', 'event_id', 'activity', 'trackable_id', 'trackable_type'], :unique => true, :name => "activity_uniq_ndx")
   end
 end

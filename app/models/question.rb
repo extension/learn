@@ -8,7 +8,8 @@ class Question < ActiveRecord::Base
   serialize :responses
   belongs_to :event
   belongs_to :learner
-  has_many :answers
+  has_many :event_activities, :as => :trackable, dependent: :destroy
+  has_many :answers, dependent: :destroy
   
   validates :prompt, :presence => true
   validates :responsetype, :presence => true
