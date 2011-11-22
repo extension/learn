@@ -1,3 +1,4 @@
+
 <div id="two_col_col_one">
     <section id="event">
       <h1><%= @event.title -%></h1>
@@ -47,9 +48,12 @@
       
       <%-if @event.concluded? -%>
         <h3>Watch</h3>
-        <div id="rating_area">
+        
+        <div class="rating_area">
           <% if current_learner %>
             <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
+          <% else %>
+            <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
           <% end %>
           <div id="event_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %></div>
         </div>
@@ -152,6 +156,45 @@
   $('#slidetoggle').click(function() {
     $('#attendee_list').slideToggle('fast','linear');
   });
+  
+
+  $(document).ready(function() {
+    
+    $('.sitv_element').each(function(index) {
+        var h =$(this).outerHeight();
+        var w = $(this).outerWidth();
+        var $sitv_targetarea = $('<div class="sitv_targetarea"></div>').height(h).width(w);
+        
+        $(this)
+          .wrap('<div class="sitv_element_wrapper" />')
+          .after($sitv_targetarea);
+        
+        var $sitv_content = $('<div class="sitv_content">' +
+                              '<p>Sign in to vote</p>' +
+                              '<p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn" )%></p>' +
+                              '</div>');
+        
+        $sitv_content
+          .appendTo($(this).parent('.sitv_element_wrapper'))
+          .hide();
+    });
+    
+    $('.sitv_element_wrapper').bind('click hover', function () {
+        $(this)
+          .find('.sitv_content')
+          .fadeIn('fast');
+    });
+    
+    $('.sitv_content')
+      .mouseleave(function() {
+        $(this)
+          .fadeOut('fast');
+      });
+      
+  });
+  
+  
+  
 </script>
 
 
