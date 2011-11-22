@@ -101,6 +101,8 @@ after "deploy", 'deploy:notification:email'
        rm -rf #{shared_path}/cache/* &&
        rm -rf #{release_path}/tmp/temp &&
        rm -rf #{release_path}/tmp/associations &&
+       rm -rf #{release_path}/tmp/nonces &&
+       ln -nfs #{shared_path}/nonces #{release_path}/tmp/nonces &&
        ln -nfs #{shared_path}/temp #{release_path}/tmp/temp &&
        ln -nfs #{shared_path}/associations #{release_path}/tmp/associations &&
        ln -nfs #{shared_path}/cache #{release_path}/tmp/cache &&
