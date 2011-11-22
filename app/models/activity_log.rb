@@ -8,7 +8,7 @@ require 'ipaddr'
 class ActivityLog < ActiveRecord::Base
   serialize :additional
   belongs_to :learner
-  belongs_to :loggable, :polymorphic => true
+  belongs_to :loggable, polymorphic: true
   validates :learner, :presence => true
   validates :loggable, :presence => true
   

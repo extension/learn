@@ -117,11 +117,11 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .question_answers {float:left; width: 230px;}
 
 .none {color:#888;}
-#sessionconnection_interest {background:none; @include rounded10; padding:2em 2em 1em;}
-#sessionconnection_interest p {font-size:1.2em; margin:0 0 .65em; color:#223c95; font-weight:bold; cursor:pointer;}
-#sessionconnection_interest p span {position:relative;}
-#sessionconnection_interest p:hover small {display:block;color:#fff; font-size:.9em; margin:.25em 0;}
-#sessionconnection_interest p small {display:none; position:absolute; left:1em; top:-50%;color:#fff; background:#3e83eb; border:3px solid #fff; padding:1em; width:150px; @include boxshadow; @include rounded10}
+#eventconnections {background:none; @include rounded10; padding:2em 2em 1em;}
+#eventconnections p {font-size:1.2em; margin:0 0 .65em; color:#223c95; font-weight:bold; cursor:pointer;}
+#eventconnections p span {position:relative;}
+#eventconnections p:hover small {display:block;color:#fff; font-size:.9em; margin:.25em 0;}
+#eventconnections p small {display:none; position:absolute; left:1em; top:-50%;color:#fff; background:#3e83eb; border:3px solid #fff; padding:1em; width:150px; @include boxshadow; @include rounded10}
 
 .jqplot-data-label {color:#fff;}
 

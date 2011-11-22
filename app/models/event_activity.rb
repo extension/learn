@@ -7,9 +7,10 @@
 class EventActivity < ActiveRecord::Base
   belongs_to :learner
   belongs_to :event
-  belongs_to :trackable, :polymorphic => true
+  belongs_to :trackable, polymorphic: true
+  has_many :activity_logs, :as => :loggable, dependent: :destroy
+
   validates :learner, :presence => true
-  has_many :activity_logs, :as => :loggable
 
   # types of activities - gaps are between types
   # in case we may need to group/expand
