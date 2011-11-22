@@ -217,16 +217,16 @@ def transfer_event_connections
   update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
   UPDATE #{EventActivity.table_name},#{EventConnection.table_name}
    SET #{EventActivity.table_name}.updated_at = #{EventConnection.table_name}.created_at
-   WHERE #{EventActivity.table_name}.loggable_id = #{EventConnection.table_name}.id
-   AND #{EventActivity.table_name}.loggable_type = 'EventConnection'
+   WHERE #{EventActivity.table_name}.trackable_id = #{EventConnection.table_name}.id
+   AND #{EventActivity.table_name}.trackable_type = 'EventConnection'
   END_SQL
   EventActivity.connection.execute(update_timestamp_query)
 
   another_update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
   UPDATE #{EventActivity.table_name},#{PresenterConnection.table_name}
    SET #{EventActivity.table_name}.updated_at = #{PresenterConnection.table_name}.created_at
-   WHERE #{EventActivity.table_name}.loggable_id = #{PresenterConnection.table_name}.id
-   AND #{EventActivity.table_name}.loggable_type = 'PresenterConnection'
+   WHERE #{EventActivity.table_name}.trackable_id = #{PresenterConnection.table_name}.id
+   AND #{EventActivity.table_name}.trackable_type = 'PresenterConnection'
   END_SQL
   EventActivity.connection.execute(another_update_timestamp_query)
   
