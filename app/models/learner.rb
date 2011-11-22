@@ -16,6 +16,7 @@ class Learner < ActiveRecord::Base
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
   has_many :event_activities
+  has_many :presenter_connections
   
   DEFAULT_TIMEZONE = 'America/New_York'
   
@@ -63,6 +64,43 @@ class Learner < ActiveRecord::Base
     name_string.blank? ? 'Learner' : name_string
   end
   
+  # this instance method used to merge two learner accounts into one account, particularly used 
+  # when merging two accounts created for the same learner resulting from a learner using 
+  # more than one method of authentication (ie. twitter, eXtension, etc.)
+  def merge_account_with(learner_id)
+    learner_to_merge = Learner.find_by_id(learner_id)
+    # we're keeping the first learner account created and merging the later one with it 
+    # along with destroying the later account when the merging is complete
+    if learner_to_merge.created_at > self.created_at 
+      learner_to_keep = self
+      learner_to_chuck = learner_to_merge
+    else
+      learner_to_keep = learner_to_merge
+      learner_to_chuck = self
+    end
+    
+    Learner.reflect_on_all_associations.each do |association_to_learner|
+      case association_to_learner.macro 
+      when :has_many
+        learner_to_chuck.send(association_to_learner.plural_name).each do |associated_object|
+          associated_object.learner = learner_to_keep
+          associated_object.save
+        end
+      when :has_one
+        associated_object = learner_to_chuck.send(association_to_learner.name)
+        associated_object.learner = learner_to_keep
+        associated_object.save
+      when :has_and_belongs_to_many
+        associated_object = learner_to_chuck.send(association_to_learner.plural_name).each do |associated_object|
+          associated_object.learners.delete(learner_to_chuck)
+          associated_object.learners << learner_to_keep
+          associated_object.save
+        end
+      end
+    end
+    
+    learner_to_chuck.destroy
+  end
   
   def self.learnbot
     find(self.learnbot_id)

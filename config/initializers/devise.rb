@@ -199,6 +199,7 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
   # TODO: replace keys with general account and store in non-version-controlled file
   config.omniauth :twitter, Settings.twitter_app_id, Settings.twitter_app_secret
+  #config.omniauth :facebook, "APP_ID", "APP_SECRET"
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
