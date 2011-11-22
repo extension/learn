@@ -1,0 +1,30 @@
+<%= form_tag(makeconnection_event_url(@event), {remote: true}) do -%>
+  <%= hidden_field_tag('connectiontype', EventConnection::BOOKMARK) %>
+  <p>
+    <%= check_box_tag('wantsconnection','1',current_learner.has_bookmark_for_event?(@event),{class: 'submittable'}) %> 
+    Bookmark this event 
+    <span><small>We'll add it to your bookmarks and let you know about new activity</small></span>
+  </p>
+<%- end -%>
+<%- if @event.started? -%>
+  <p>
+  <%= form_tag(makeconnection_event_url(@event), {remote: true}) do -%>
+    <%= hidden_field_tag('connectiontype', EventConnection::ATTEND) %>
+    <p>
+      <%= check_box_tag('wantsconnection','1',current_learner.attended_event?(@event),{class: 'submittable'}) %> 
+      Attended
+      <span><small>It will show up in your learning portfolio</small></span>
+    </p>
+  <%- end -%>
+  <%= form_tag(makeconnection_event_url(@event), {remote: true}) do -%>
+    <%= hidden_field_tag('connectiontype', EventConnection::WATCH) %>
+    <p>
+      <%= check_box_tag('wantsconnection','1',current_learner.watched_event?(@event),{class: 'submittable'}) %> 
+      Watched Recording 
+      <span><small>It will show up in your learning portfolio</small></span>
+    </p>
+  <%- end -%>
+<%- end -%>
+<%- if current_learner.has_connection_with_event?(@event) -%>
+  <p>TODO: verbiage about notifications</p>
+<%- end -%>

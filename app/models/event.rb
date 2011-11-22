@@ -5,20 +5,20 @@
 # see LICENSE file
 
 class Event < ActiveRecord::Base
-  has_many :taggings, :as => :taggable
+  has_many :taggings, :as => :taggable, dependent: :destroy
   has_many :tags, :through => :taggings
   belongs_to :creator, :class_name => "Learner"
   belongs_to :last_modifier, :class_name => "Learner"
-  has_many :questions, :order => 'priority,created_at'
+  has_many :questions, order: 'priority,created_at', dependent: :destroy
   has_many :answers, :through => :questions
-  has_many :comments
-  has_many :ratings, :as => :rateable
+  has_many :comments, dependent: :destroy
+  has_many :ratings, :as => :rateable, dependent: :destroy
   has_many :raters, :through => :ratings, :source => :learner
-  has_many :event_connections
+  has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
-  has_many :presenter_connections
+  has_many :presenter_connections, dependent: :destroy
   has_many :presenters, through: :presenter_connections, :source => :learner
-  has_many :event_activities
+  has_many :event_activities, dependent: :destroy
   
 
   validates :title, :presence => true
@@ -38,6 +38,11 @@ class Event < ActiveRecord::Base
     text :title, more_like_this: true
     text :description, more_like_this: true
   end
+  
+  scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
+  scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
+  scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
+  
   
   # override timezone writer/reader
   # returns Eastern by default, use convert=false
@@ -134,7 +139,7 @@ class Event < ActiveRecord::Base
   end
   
   def attendees
-    learners.where("event_connections.connectiontype = ?", EventConnection::ATTENDED)
+    learners.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
   end
     
 end

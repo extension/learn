@@ -1,6 +1,12 @@
+# === COPYRIGHT:
+# Copyright (c) North Carolina State University
+# Developed with funding for the National eXtension Initiative.
+# === LICENSE:
+# see LICENSE file
+
 class CreateEvents < ActiveRecord::Migration
   def change
-    create_table :events do |t|
+    create_table "events" do |t|
       t.text     "title",            :null => false
       t.text     "description",      :null => false
       t.datetime "session_start",    :null => false

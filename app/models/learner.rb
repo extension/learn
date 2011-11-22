@@ -16,7 +16,8 @@ class Learner < ActiveRecord::Base
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
   has_many :event_activities
-  has_many :presenter_connections
+  has_many :presented_events, through: :presenter_connections, source: :event
+  has_many :preferences, :as => :prefable
   
   DEFAULT_TIMEZONE = 'America/New_York'
   
@@ -120,4 +121,35 @@ class Learner < ActiveRecord::Base
   def active_for_authentication?
     super && !retired?
   end
+  
+  def has_bookmark_for_event?(event)
+    find_event = self.events.bookmarked.where('event_id = ?',event.id)
+    !find_event.blank?
+  end
+  
+  def attended_event?(event)
+    find_event = self.events.attended.where('event_id = ?',event.id)
+    !find_event.blank?
+  end
+  
+  def watched_event?(event)
+    find_event = self.events.watched.where('event_id = ?',event.id)
+    !find_event.blank?
+  end
+  
+  def has_connection_with_event?(event)
+    find_event = self.events.where('event_id = ?',event.id)
+    !find_event.blank?
+  end
+    
+  def connect_with_event(event,connectiontype)
+    self.event_connections.create(event: event, connectiontype: connectiontype)
+  end
+  
+  def remove_connection_with_event(event,connectiontype)
+    if(connection = EventConnection.where('learner_id =?',self.id).where('event_id = ?',event.id).where('connectiontype = ?',connectiontype).first)
+      connection.destroy
+    end
+  end 
+   
 end

@@ -7,11 +7,11 @@
 class EventConnection < ActiveRecord::Base
   belongs_to :event
   belongs_to :learner
-    
+  has_many :event_activities, :as => :trackable, dependent: :destroy
+      
   BOOKMARK = 3
-  ATTENDED = 4
-  WILLATTEND = 5
-  WATCH = 6
+  ATTEND = 4
+  WATCH = 5
   
   after_create :log_object_activity
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111114202148) do
+ActiveRecord::Schema.define(:version => 20111116185159) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -57,8 +57,7 @@ ActiveRecord::Schema.define(:version => 20111114202148) do
   end
 
   add_index "comments", ["ancestry"], :name => "index_comments_on_ancestry"
-  add_index "comments", ["event_id"], :name => "index_comments_on_event_id"
-  add_index "comments", ["learner_id"], :name => "index_comments_on_learner_id"
+  add_index "comments", ["learner_id", "event_id"], :name => "index_comments_on_learner_id_and_event_id"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -79,23 +78,22 @@ ActiveRecord::Schema.define(:version => 20111114202148) do
     t.integer  "learner_id",                                  :null => false
     t.integer  "event_id"
     t.integer  "activity"
-    t.integer  "loggable_id"
-    t.string   "loggable_type",  :limit => 30
+    t.integer  "trackable_id"
+    t.string   "trackable_type", :limit => 30
     t.integer  "activity_count",               :default => 1, :null => false
     t.datetime "updated_at"
   end
 
-  add_index "event_activities", ["learner_id", "event_id", "activity", "loggable_id", "loggable_type"], :name => "activity_uniq_ndx", :unique => true
+  add_index "event_activities", ["learner_id", "event_id", "activity", "trackable_id", "trackable_type"], :name => "activity_uniq_ndx", :unique => true
 
   create_table "event_connections", :force => true do |t|
     t.integer  "learner_id"
     t.integer  "event_id"
     t.integer  "connectiontype", :null => false
     t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
-  add_index "event_connections", ["learner_id", "event_id", "connectiontype"], :name => "connection_ndx"
+  add_index "event_connections", ["learner_id", "event_id", "connectiontype"], :name => "connection_ndx", :unique => true
 
   create_table "events", :force => true do |t|
     t.text     "title",            :null => false
@@ -132,6 +130,32 @@ ActiveRecord::Schema.define(:version => 20111114202148) do
   end
 
   add_index "learners", ["email"], :name => "index_learners_on_email"
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "learner_id"
+    t.integer  "event_id"
+    t.integer  "delivery_method",                    :null => false
+    t.boolean  "sent",            :default => false, :null => false
+    t.boolean  "silenced",        :default => false, :null => false
+    t.datetime "delivery_time",                      :null => false
+    t.integer  "delayed_job_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "preferences", :force => true do |t|
+    t.integer  "prefable_id"
+    t.string   "prefable_type", :limit => 30
+    t.string   "group"
+    t.string   "name",                        :null => false
+    t.string   "datatype"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "preferences", ["group"], :name => "index_preferences_on_group"
+  add_index "preferences", ["prefable_id", "prefable_type", "name"], :name => "pref_uniq_ndx", :unique => true
 
   create_table "presenter_connections", :force => true do |t|
     t.integer  "learner_id"

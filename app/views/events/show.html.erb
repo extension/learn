@@ -1,3 +1,4 @@
+
 <div id="two_col_col_one">
     <section id="event">
       <h1><%= @event.title -%></h1>
@@ -47,9 +48,12 @@
       
       <%-if @event.concluded? -%>
         <h3>Watch</h3>
-        <div id="rating_area">
+        
+        <div class="rating_area">
           <% if current_learner %>
             <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
+          <% else %>
+            <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
           <% end %>
           <div id="event_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %></div>
         </div>
@@ -83,7 +87,7 @@
            <%= link_to("Set your time zone") -%>  to display this session in your local time
           <%- end -%>
         <%- else -%>
-          <%= link_to("Login to set your time zone") -%> to display this session in your local time
+          <%= link_to("Sign in to set your time zone") -%> to display this session in your local time
         <%- end -%></p>   
       
         <p id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</p>
@@ -95,37 +99,23 @@
     </aside>
     
     <%- if current_learner -%>
-      <aside id="sessionconnection_interest" class="radius10">
-        <p><%= check_box_tag('values[]') %> Bookmark this event <span><small>We'll add it to your bookmarks and let you know about new activity</small></span></p>
-          <%- if @event.started? -%>
-            <p><%= check_box_tag('values[]') %> Watched recording <span><small>It will show up in your learning portfolio</small></span></p>
-            <p><%= check_box_tag('values[]') %> Attended <span><small>It will show up in your learning portfolio</small></span></p>
-          <%- else -%>
-            <p><%= check_box_tag('values[]') %> I plan to attend <span><small>We can send you an SMS or email reminder</small></span></p>
-          <%- end -%>
+      <aside id="eventconnections" class="radius10">
+        <%= render :partial => 'connections' %>
       </aside>
     <%- else -%>
-       <aside id="sessionconnection_interest" class="radius10">
+       <aside id="eventconnections" class="radius10">
           <%- if @event.started? -%>
-            <p>Are you interested in this topic or did you attend this session?</p>
+            <p>Did you attend or watch this event or want to bookmark it?</p>                                
           <%- else -%>
-            <p>Interested in this topic?</p>
+            <p>Want to bookmark this event?</p>
           <%- end -%>
-          <%= link_to("Login and let us know") -%>
+          <%= link_to("Sign in to connect to this event", new_learner_session_path(:redirect_to => request.fullpath)) -%>
        </aside>
      <%- end -%>
-  
-     <%- attendee_count = @event.attendees.count -%>
-     <%- if current_learner and attendee_count > 0 -%>
-       <aside id="attendees" class="radius10">
-         <h4 id="slidetoggle"><%= attendee_count %> attendees <small>view</small></h4>
-         <ul id="attendee_list">
-           <%- @event.attendees.each do |attendee| %>
-             <li><%= link_to_learner(attendee) -%></li>
-           <%- end -%>
-         </ul>
-        </aside>
-     <%- end -%>
+
+     <aside id="attendees" class="radius10">  
+       <%= render :partial => 'attendees' %>
+     </aside>
      
     
    <div id="comment-section">
@@ -137,13 +127,18 @@
 <br class='clearing' />
 
 
+<div id="sitv_template" style="display:none;">
+<div class="sitv_content">
+  <p>Sign in to vote</p>
+  <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn" )%></p>
+</div>
+</div>
+
 </div>
 
 
 
 <script class="code" type="text/javascript">
-  $('#attendee_list').hide();
-
   $('.submittable').live('change', 
   function() {
     $(this).parents('form:first').submit();
@@ -152,6 +147,48 @@
   $('#slidetoggle').click(function() {
     $('#attendee_list').slideToggle('fast','linear');
   });
+  
+
+  $(document).ready(function() {
+    // sitv = sign in to vote
+    // get all <element.sitv_element /> and apply the following markup:
+    // <wrapper><element.sitv_element /><targetarea /><sitv text and button /></wrapper>
+    
+    $('.sitv_element').each(function(index) {
+        var h =$(this).outerHeight();
+        var w = $(this).outerWidth();
+        
+        // get the height/width of the .sitv_element so we can cover it with a "target area" div to capture cursor events.
+        // (We have to overlay the .sitv_element with another div because events don't fire over disabled elements)
+        var $sitv_targetarea = $('<div class="sitv_targetarea"></div>').height(h).width(w);
+        
+        // wrap the .sitv_element with a div so we can position the "target area"
+        // insert the target area inside the wrapper
+        $(this)
+          .wrap('<div class="sitv_element_wrapper" />')
+          .after($sitv_targetarea);
+        
+        // clone the sign in button markup from the view, insert inside the wrapper and hide it
+        $('#sitv_template .sitv_content')
+          .clone()
+          .appendTo($(this).parent('.sitv_element_wrapper'))
+          .hide();
+    });
+    
+    $('.sitv_element_wrapper').bind('click hover', function () {
+        $(this)
+          .find('.sitv_content')
+          .fadeIn('fast');
+    });
+    
+    $('.sitv_content')
+      .mouseleave(function() {
+        $(this)
+          .fadeOut('fast');
+    });
+      
+  });
+
 </script>
 
 

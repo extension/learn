@@ -10,3 +10,14 @@
 }
 .comment_votes { float:left;}
 .comment_votes:hover #rating_explanation {display:block;}
+
+#comment_list {
+    clear:both;
+    padding:2em;
+}
+#comment_list .comment p {font-size:1.3em;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
+#comment_list .comment p a {font-size:.7em; display:none; background:#444; padding:.1em .35em; color:#fff;}
+#comment_list .comment p span.comment_actions {display:block; clear:both; margin-left:70px; height:1em; float:right;}
+#comment_list .comment:hover p span.comment_actions a {display:inline;}
+#comment_list .comment:hover {background:#eee;}
+#comment_list .indent1 {margin-left:1em;}

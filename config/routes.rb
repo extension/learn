@@ -16,6 +16,7 @@ Learn::Application.routes.draw do
   resources :events do
     member do
       post 'addanswer'
+      post 'makeconnection'
     end
   end
   

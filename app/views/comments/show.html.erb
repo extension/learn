@@ -1,3 +1,7 @@
-<div id="comment-list">
+
+
+<div id="comment_list">
 <%= nested_comments @comment.subtree.arrange(:order => 'created_at DESC'), @comment %>
 </div>
+
+<h4>This comment was on <%= link_to(@comment.event.title, @comment.event) %></h4>
