@@ -109,7 +109,7 @@
           <%- else -%>
             <p>Want to bookmark this event?</p>
           <%- end -%>
-          <%= link_to("Sign in to connect to this event") -%>
+          <%= link_to("Sign in to connect to this event", new_learner_session_path(:redirect_to => request.fullpath)) -%>
        </aside>
      <%- end -%>
 
