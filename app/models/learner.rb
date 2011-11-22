@@ -99,6 +99,21 @@ class Learner < ActiveRecord::Base
   def watched_event?(event)
     find_event = self.events.watched.where('event_id = ?',event.id)
     !find_event.blank?
+  end
+  
+  def has_connection_with_event?(event)
+    find_event = self.events.where('event_id = ?',event.id)
+    !find_event.blank?
+  end
+    
+  def connect_with_event(event,connectiontype)
+    self.event_connections.create(event: event, connectiontype: connectiontype)
+  end
+  
+  def remove_connection_with_event(event,connectiontype)
+    if(connection = EventConnection.where('learner_id =?',self.id).where('event_id = ?',event.id).where('connectiontype = ?',connectiontype).first)
+      connection.destroy
+    end
   end 
    
 end

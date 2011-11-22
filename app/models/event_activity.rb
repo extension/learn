@@ -7,9 +7,10 @@
 class EventActivity < ActiveRecord::Base
   belongs_to :learner
   belongs_to :event
-  belongs_to :loggable, :polymorphic => true
+  belongs_to :trackable, polymorphic: true
+  has_many :activity_logs, :as => :loggable, dependent: :destroy
+
   validates :learner, :presence => true
-  has_many :activity_logs, :as => :loggable
 
   # types of activities - gaps are between types
   # in case we may need to group/expand
@@ -61,25 +62,25 @@ class EventActivity < ActiveRecord::Base
     else
       activity = VIEW
     end
-    self.create_or_update(learner: learner, event: event, activity: activity, loggable: event)
+    self.create_or_update(learner: learner, event: event, activity: activity, trackable: event)
   end
   
   def self.log_share
   end
 
   def self.log_answer(answer)
-    self.create_or_update({learner: answer.learner, event: answer.event, activity: ANSWER, loggable: answer.question}, {answer: answer.id})
+    self.create_or_update({learner: answer.learner, event: answer.event, activity: ANSWER, trackable: answer.question}, {answer: answer.id})
   end
   
   def self.log_rating(rating)
     if(rating.rateable.is_a?(Comment))
       activity = RATING_ON_COMMENT
       event = rating.rateable.event
-      self.create(learner: rating.learner, event: event, activity: activity, loggable: rating)
+      self.create(learner: rating.learner, event: event, activity: activity, trackable: rating)
     elsif(rating.rateable.is_a?(Event))
       activity = RATING
       event = rating.rateable
-      self.create_or_update({learner: rating.learner, event: event, activity: activity, loggable: rating} )
+      self.create_or_update({learner: rating.learner, event: event, activity: activity, trackable: rating} )
     else
       nil
     end
@@ -91,7 +92,7 @@ class EventActivity < ActiveRecord::Base
     else
       activity = COMMENT
     end
-    self.create_or_update({learner: comment.learner, event: comment.event, activity: activity, loggable: comment})
+    self.create_or_update({learner: comment.learner, event: comment.event, activity: activity, trackable: comment})
   end
   
   def self.log_connection(event_connection)
@@ -105,19 +106,19 @@ class EventActivity < ActiveRecord::Base
     else
       activity = CONNECT
     end
-    self.create_or_update({learner: event_connection.learner, event: event_connection.event, activity: activity, loggable: event_connection})
+    self.create_or_update({learner: event_connection.learner, event: event_connection.event, activity: activity, trackable: event_connection})
   end
   
   def self.log_presenter(presenter_connection)
-    self.create_or_update({learner: presenter_connection.learner, event: presenter_connection.event, activity: CONNECT_PRESENTER, loggable: presenter_connection})
+    self.create_or_update({learner: presenter_connection.learner, event: presenter_connection.event, activity: CONNECT_PRESENTER, trackable: presenter_connection})
   end
 
   def self.find_by_unique_key(attributes)
     scoped = self.where(learner_id: attributes[:learner].id)
     scoped = scoped.where(event_id: attributes[:event].id)
     scoped = scoped.where(activity: attributes[:activity])
-    scoped = scoped.where(loggable_type: attributes[:loggable].class.name)
-    scoped = scoped.where(loggable_id: attributes[:loggable].id)    
+    scoped = scoped.where(trackable_type: attributes[:trackable].class.name)
+    scoped = scoped.where(trackable_id: attributes[:trackable].id)    
     scoped.first
   end
   

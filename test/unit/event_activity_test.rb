@@ -11,7 +11,7 @@ class EventActivityTest < ActiveSupport::TestCase
   context "Creating a new activity" do
     should belong_to(:learner)
     should belong_to(:event)
-    should belong_to(:loggable)
+    should belong_to(:trackable)
     should validate_presence_of(:learner)
   end
   

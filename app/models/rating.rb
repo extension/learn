@@ -1,13 +1,13 @@
 class Rating < ActiveRecord::Base
   belongs_to :rateable, :polymorphic => true
   belongs_to :learner
-  
+  has_many :event_activities, :as => :trackable, dependent: :destroy
+    
   validates :rateable_id, :rateable_type, :score, :presence => true
-  
-  scope :positive, :conditions => {:score => 1}
-  
+    
   after_create :log_object_activity
 
+  scope :positive, :conditions => {:score => 1}
 
   def log_object_activity
     EventActivity.log_object_activity(self)

@@ -78,13 +78,13 @@ ActiveRecord::Schema.define(:version => 20111116185159) do
     t.integer  "learner_id",                                  :null => false
     t.integer  "event_id"
     t.integer  "activity"
-    t.integer  "loggable_id"
-    t.string   "loggable_type",  :limit => 30
+    t.integer  "trackable_id"
+    t.string   "trackable_type", :limit => 30
     t.integer  "activity_count",               :default => 1, :null => false
     t.datetime "updated_at"
   end
 
-  add_index "event_activities", ["learner_id", "event_id", "activity", "loggable_id", "loggable_type"], :name => "activity_uniq_ndx", :unique => true
+  add_index "event_activities", ["learner_id", "event_id", "activity", "trackable_id", "trackable_type"], :name => "activity_uniq_ndx", :unique => true
 
   create_table "event_connections", :force => true do |t|
     t.integer  "learner_id"

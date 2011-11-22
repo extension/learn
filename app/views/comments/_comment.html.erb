@@ -1,12 +1,14 @@
 <div class="comment">
   <img class="avatar" />
-  <div id='rating_area'>
+  <div class='rating_area'>
     <% if current_learner %>
-    <%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %>
-    <% end %> 
+      <%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %>
+    <% else %>
+      <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>    
+    <% end %>
     <div id="comment_votes_<%= comment.id %>" class="comment_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: comment} %></div> 
   </div>
-  <p>
+  <p class="actions">
   <% if comment.parent_removed %>
     <span>* This is a response to a removed comment</span><br />  
   <% end %>

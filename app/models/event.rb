@@ -5,20 +5,20 @@
 # see LICENSE file
 
 class Event < ActiveRecord::Base
-  has_many :taggings, :as => :taggable
+  has_many :taggings, :as => :taggable, dependent: :destroy
   has_many :tags, :through => :taggings
   belongs_to :creator, :class_name => "Learner"
   belongs_to :last_modifier, :class_name => "Learner"
-  has_many :questions, :order => 'priority,created_at'
+  has_many :questions, order: 'priority,created_at', dependent: :destroy
   has_many :answers, :through => :questions
-  has_many :comments
-  has_many :ratings, :as => :rateable
+  has_many :comments, dependent: :destroy
+  has_many :ratings, :as => :rateable, dependent: :destroy
   has_many :raters, :through => :ratings, :source => :learner
-  has_many :event_connections
+  has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
-  has_many :presenter_connections
+  has_many :presenter_connections, dependent: :destroy
   has_many :presenters, through: :presenter_connections, :source => :learner
-  has_many :event_activities
+  has_many :event_activities, dependent: :destroy
   
 
   validates :title, :presence => true

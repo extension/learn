@@ -17,11 +17,9 @@ module ApplicationHelper
     if (positive_ratings_count > 0)
       return_string << "<strong class='formatted_votes'>+#{positive_ratings_count}</strong>"
       return_string << "<div id='rating_explanation'>Positive votes: #{positive_ratings_count}</div>"
-      return_string << "<br /><strong class='formatted_votes'>" + link_to('Sign in to rate', new_learner_session_path(:redirect_to => request.fullpath)) + "</strong>" if logged_in_learner.blank?
       return return_string.html_safe
     else
       return_string << "<strong class='formatted_votes'>No Ratings Yet</strong>"
-      return_string << "<br /><strong class='formatted_votes'>" + link_to('Sign in to rate', new_learner_session_path(:redirect_to => request.fullpath)) + "</strong>" if logged_in_learner.blank?
       return return_string.html_safe
     end
   end

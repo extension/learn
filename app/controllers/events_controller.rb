@@ -6,7 +6,7 @@
 
 class EventsController < ApplicationController
   before_filter :fake_learner
-  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create]
+  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection]
   
   
   def show
@@ -68,6 +68,35 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       format.js
+    end
+  end
+  
+  def makeconnection
+    @event = Event.find(params[:id])
+    if(connectiontype = params[:connectiontype])
+      case connectiontype.to_i
+      when EventConnection::BOOKMARK
+        if(params[:wantsconnection] and params[:wantsconnection] == '1')
+          current_learner.connect_with_event(@event,EventConnection::BOOKMARK)
+        else
+          current_learner.remove_connection_with_event(@event,EventConnection::BOOKMARK)
+        end
+      when EventConnection::ATTEND
+        @update_attendee_list = true
+        if(params[:wantsconnection] and params[:wantsconnection] == '1')
+          current_learner.connect_with_event(@event,EventConnection::ATTEND)
+        else
+          current_learner.remove_connection_with_event(@event,EventConnection::ATTEND)
+        end
+      when EventConnection::WATCH
+        if(params[:wantsconnection] and params[:wantsconnection] == '1')
+          current_learner.connect_with_event(@event,EventConnection::WATCH)
+        else
+          current_learner.remove_connection_with_event(@event,EventConnection::WATCH)
+        end
+      else
+        # do nothing
+      end
     end
   end
     
