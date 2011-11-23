@@ -18,6 +18,10 @@ Learn::Application.routes.draw do
       post 'addanswer'
       post 'makeconnection'
     end
+    
+    collection do
+      get 'learner_token_search'
+    end
   end
   
   root :to => 'home#index'

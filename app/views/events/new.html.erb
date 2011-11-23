@@ -1,7 +1,7 @@
 <div>
   <%- if @event.errors.any? -%>
     <ul>
-      <%- @event.errors.full_messages.each do |msg|- %>
+      <%- @event.errors.full_messages.each do |msg| -%>
         <li><%= msg %></li>
       <%- end -%>
     </ul>
@@ -9,7 +9,7 @@
 
 <div>
   <h1>Create an event</h1>
-  <%= form_for :event do |form| %>
+  <%= form_for @event do |form| %>
     <%= render(partial: 'event_form', locals: {event_form: form}) %>
   <% end %>
 </div>

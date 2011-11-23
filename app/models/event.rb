@@ -5,6 +5,9 @@
 # see LICENSE file
 
 class Event < ActiveRecord::Base
+  attr_reader :presenter_tokens
+  attr_accessor :tag_list
+  attr_accessor :session_start_string
   has_many :taggings, :as => :taggable, dependent: :destroy
   has_many :tags, :through => :taggings
   belongs_to :creator, :class_name => "Learner"
@@ -43,6 +46,42 @@ class Event < ActiveRecord::Base
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
   
+  
+  def presenter_tokens=(idlist)
+    self.presenter_ids = idlist.split(',')
+  end
+  
+  def presenters_to_tokenhash
+    self.presenters.collect{|presenter| {id: presenter.id, name: presenter.name}}
+  end
+  
+  def tag_list
+    self.tags.map(&:name).join(Tag::JOINER)
+  end
+  
+  def tag_list=(tag_list)
+    tags_to_set = []
+    tag_list.split(Tag::JOINER).each do |tag_name|
+      if(tag = Tag.find_or_create_by_normalizedname(tag_name))
+        tags_to_set << tag
+      end
+    end
+    self.tags = tags_to_set
+  end
+  
+  def session_start_string
+    time = self.session_start.blank? ? Time.zone.now : self.session_start.in_time_zone(self.time_zone)
+    time.strftime('%Y-%m-%d %I:%M pm')
+  end
+  
+  def session_start_string=(datetime_string)
+    begin
+      self.session_start = Time.zone.parse(datetime_string)
+    rescue
+      self.session_start = nil
+      self.errors.add('session_start_string', 'Time specified is invalid.')
+    end
+  end
   
   # override timezone writer/reader
   # returns Eastern by default, use convert=false
@@ -133,11 +172,7 @@ class Event < ActiveRecord::Base
     end
     self.questions
   end
-  
-  def display_tags
-     self.tags.map(&:name).join(Tag::JOINER)
-  end
-  
+    
   def attendees
     learners.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
   end

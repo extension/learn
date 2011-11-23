@@ -30,6 +30,13 @@ class EventsController < ApplicationController
   end
   
   def create
+    @event = Event.new(params[:event])
+    @event.last_modifier = @event.creator = current_learner
+    if @event.save
+      redirect_to(@event, :notice => 'Event was successfully created.')
+    else
+      render :action => 'edit'
+    end
   end
   
   def edit
@@ -38,8 +45,21 @@ class EventsController < ApplicationController
   
   def update
     @event = Event.find(params[:id])
+    update_params = params[:event].merge({last_modifier: current_learner})
+    if @event.update_attributes(update_params)
+      redirect_to(@event, :notice => 'Event was successfully updated.')
+    else
+      render :action => 'edit'
+    end        
   end
   
+  
+  def learner_token_search
+    @learners = Learner.where("name like ?", "%#{params[:q]}%")
+    token_hash = @learners.collect{|learner| {id: learner.id, name: learner.name}}
+    render(json: token_hash)
+  end
+
   
   def addanswer
     @event = Event.find(params[:id])

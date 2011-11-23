@@ -1,5 +1,8 @@
 <fieldset id="presenters">
-    Presenters: TODO:
+  <p>
+    <%= event_form.label :presenter_tokens, "Presenters" %><br />
+    <%= event_form.text_field :presenter_tokens, "data-pre" => @event.presenters_to_tokenhash.to_json %>    
+  </p>
  </fieldset>
  
  <fieldset id="description">
@@ -17,7 +20,7 @@
  <fieldset id="datetime">
    <p>
    <%= event_form.label :session_start, 'Date and Time' %>
-   <%= event_form.text_field :session_start, {value: @event.session_start.in_time_zone(@event.time_zone).strftime('%m/%d/%Y %I:%M pm'), id: 'session_start'} %>
+   <%= event_form.text_field :session_start_string, {id: 'session_start'} %>
    </p>
    
    <p>
@@ -54,7 +57,7 @@
  <fieldset>
    <p>
      <%= event_form.label :tags, 'Tags (comma separated -- e.g., tools, information technology, widgets)' %>
-     <%= text_field_tag :tags, @event.display_tags, :class => "xxl" %>
+     <%= event_form.text_field :tag_list, :class => "xxl" %>
    </p>
  </fieldset>
 
@@ -63,6 +66,15 @@
  
  <script class="code" type="text/javascript">
    $('#session_start').datetimepicker({
+    dateFormat: 'yy-mm-dd',
    	ampm: true
+   });
+   
+   $(function () {
+     $('#event_presenter_tokens').tokenInput('<%= learner_token_search_events_path %>', { 
+       crossDomain: false,
+       prePopulate: $('#event_presenter_tokens').data('pre'),
+       theme: 'facebook' 
+     });
    });
  </script>
