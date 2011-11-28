@@ -5,6 +5,11 @@
 <div class="question_answers">
 <%= form_tag(addanswer_event_url(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
   <%= hidden_field_tag('question', question.id) %>
+  
+  <%- if !current_learner -%>
+    <%= render(partial: 'sign_in_to_vote')%>
+  <%- end -%>
+  
   <ul class="inputs-list a_b <%= "sitv_element" if !current_learner %>">
     <li>
       <label>
@@ -17,6 +22,11 @@
       </label>
     </li>
   </ul>
+  
+  <%- if !current_learner -%>
+    </div> <!-- end .sitv_element_wrapper  -->
+  <%- end -%>
+  
 <%- end -%>
 </div>
 

@@ -4,7 +4,9 @@
     <% if current_learner %>
       <%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %>
     <% else %>
-      <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>    
+      <%= render(partial: 'sign_in_to_vote')%>
+      <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
+      </div> <!-- end .sitv_element_wrapper  -->
     <% end %>
     <div id="comment_votes_<%= comment.id %>" class="comment_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: comment} %></div> 
   </div>

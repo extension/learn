@@ -170,3 +170,5 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
     @include boxshadow; @include rounded10;
     }
 .sitv_content .btn {width:auto !important;}
+
+.question_scale {padding-bottom:1em;} // add extra padding to increase sitv target area so it includes slider element

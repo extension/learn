@@ -1,7 +1,12 @@
 <h3><%= question.prompt %></h3>
 
 <!-- Answer Form -->
-<div class="question_answers <%= "sitv_element" if !current_learner %>">
+
+<%- if !current_learner -%>
+  <%= render(partial: 'sign_in_to_vote')%>
+<%- end -%>
+
+<div class="question_answers question_scale <%= "sitv_element" if !current_learner %>">
 <%= form_tag(addanswer_event_url(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
   <%= hidden_field_tag('question', question.id) %>
   <span id="range_start"><%= question.responses[0] %> (<%= question.range_start %> )</span>
@@ -9,6 +14,11 @@
   <%= number_field_tag('values', scale_value(question), {min: question.range_start, max: question.range_end,class: 'range submittable', type: 'range'}) %>  
 <%- end -%>
 </div>
+
+<%- if !current_learner -%>
+  </div> <!-- end .sitv_element_wrapper  -->
+<%- end -%>
+
 <script class="code" type="text/javascript">
   <%- if !current_learner -%>
     // disable all form elements since not authenticated
