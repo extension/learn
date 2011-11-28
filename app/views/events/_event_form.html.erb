@@ -1,16 +1,15 @@
+<p>
+   <%= event_form.text_field :title, :size => nil, :class => "title" %>
+</p>
+
 <fieldset id="presenters">
   <p>
-    <%= event_form.label :presenter_tokens, "Presenters" %><br />
-    <%= event_form.text_field :presenter_tokens, "data-pre" => @event.presenters_to_tokenhash.to_json %>    
+    <%= event_form.label :presenter_tokens, "Presenters" %>
+    <%= event_form.text_field :presenter_tokens, "data-pre" => @event.presenters_to_tokenhash.to_json  %>
   </p>
  </fieldset>
  
  <fieldset id="description">
-    <p>
-       <%= event_form.label :title, 'Title' %>
-       <%= event_form.text_field :title %>
-    </p>
-
     <p>
        <%= event_form.label :description, 'Description' %>
        <%= event_form.text_area :description, {:rows => "7"} %>
@@ -20,7 +19,7 @@
  <fieldset id="datetime">
    <p>
    <%= event_form.label :session_start, 'Date and Time' %>
-   <%= event_form.text_field :session_start_string, {id: 'session_start'} %>
+   <%= event_form.text_field :session_start_string, {id: 'session_start', :size => nil} %>
    </p>
    
    <p>
@@ -40,15 +39,15 @@
  <fieldset>
  <p>
 
-    <%= event_form.label :location, 'Location (e.g., http://connect.extension.iastate.edu/learn)' %>
+    <%= event_form.label :location, 'Event URL (e.g., http://connect.extension.iastate.edu/learn)' %>
     <%= event_form.text_field :location, :class => "xxl" %>
  </p>
  
  <!-- TODO: use the session_start/session_end settings above to determine whether this is shown. -->
  <% if @event.concluded? %>
    <p>
-      <%= event_form.label :recording, 'Recording' %>
-      <%= event_form.text_field :recording %>
+      <%= event_form.label :recording, 'Recording URL' %>
+      <%= event_form.text_field :recording, :class => "xxl" %>
    </p>
  <% end %>
  
@@ -61,7 +60,7 @@
    </p>
  </fieldset>
 
- <p><%= submit_tag 'Save Session', :class => "bigbutton blue" %></p>
+ <p><%= submit_tag 'Save Session', :class => "btn primary" %></p>
  
  
  <script class="code" type="text/javascript">
