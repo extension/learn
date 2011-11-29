@@ -10,7 +10,7 @@ class EventActivity < ActiveRecord::Base
   belongs_to :trackable, polymorphic: true
   has_many :activity_logs, :as => :loggable, dependent: :destroy
   validates :learner, :presence => true
-  # before_save :set_score
+  before_save :set_score
 
   # types of activities - gaps are between types
   # in case we may need to group/expand
