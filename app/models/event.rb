@@ -46,6 +46,7 @@ class Event < ActiveRecord::Base
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
   
+  scope :through_next_week, conditions: ["session_end >= ? and session_end <= ?", Time.zone.now, (Time.zone.now + 7.days).end_of_week] 
   
   def presenter_tokens=(idlist)
     self.presenter_ids = idlist.split(',')
