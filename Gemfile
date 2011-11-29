@@ -79,6 +79,9 @@ gem "delayed_job"
 # tropo - sms messages
 gem "tropo-webapi-ruby"
 
+# revisioning
+gem "paper_trail", "2.6.0ex"
+
 group :development do
   # require the powder gem
   gem 'powder'

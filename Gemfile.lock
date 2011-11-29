@@ -169,6 +169,8 @@ GEM
       oa-oauth (= 0.3.2)
       oa-openid (= 0.3.2)
     orm_adapter (0.0.5)
+    paper_trail (2.6.0ex)
+      rails (~> 3)
     passenger (3.0.9)
       daemon_controller (>= 0.2.5)
       fastthread (>= 1.0.1)
@@ -292,6 +294,7 @@ DEPENDENCIES
   mysql2
   nokogiri
   omniauth (= 0.3.2)
+  paper_trail (= 2.6.0ex)
   passenger
   powder
   rails (= 3.1.3)

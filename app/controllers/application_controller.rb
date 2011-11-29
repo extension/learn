@@ -47,5 +47,10 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  # used by paper_trail for tracking whodunit 
+  def user_for_paper_trail
+    current_learner
+  end
+  
   
 end

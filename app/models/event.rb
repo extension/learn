@@ -5,9 +5,21 @@
 # see LICENSE file
 
 class Event < ActiveRecord::Base
-  attr_reader :presenter_tokens
+  extend ActiveSupport::Memoizable
+  
+  attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
+  
+  attr_accessor :rev_tags
+  
+  # define accessible attributes
+  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string
+  
+  # revisioning
+  has_paper_trail :virtual => [:rev_presenters, :rev_tags]
+  
+  # relationships
   has_many :taggings, :as => :taggable, dependent: :destroy
   has_many :tags, :through => :taggings
   belongs_to :creator, :class_name => "Learner"
@@ -52,6 +64,23 @@ class Event < ActiveRecord::Base
     self.presenter_ids = idlist.split(',')
   end
   
+  def rev_presenters
+    self.presenter_ids
+  end
+  memoize :rev_presenters
+  
+  def rev_tags
+    self.tag_ids
+  end
+  
+  def rev_presenters=(presenter_id_array)
+    @rev_presenters = presenter_id_array
+  end
+  
+  def rev_tags=(tag_id_array)
+    @rev_tags = tag_id_array
+  end
+  
   def presenters_to_tokenhash
     self.presenters.collect{|presenter| {id: presenter.id, name: presenter.name}}
   end
@@ -61,6 +90,7 @@ class Event < ActiveRecord::Base
   end
   
   def tag_list=(tag_list)
+    @tag_list = tag_list
     tags_to_set = []
     tag_list.split(Tag::JOINER).each do |tag_name|
       if(tag = Tag.find_or_create_by_normalizedname(tag_name))
