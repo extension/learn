@@ -50,6 +50,7 @@ class Event < ActiveRecord::Base
   
   # sunspot/solr search
   searchable do
+    time :session_start
     text :title, more_like_this: true
     text :description, more_like_this: true
   end
@@ -153,9 +154,28 @@ class Event < ActiveRecord::Base
         params[:fl] = 'id,score'
       end
     end
-    search_results.results
+    return_results = {}
+    search_results.each_hit_with_result do |hit,event|
+      return_results[event] = hit.score
+    end
+    return_results
   end
   
+  
+  def similar_events_through_next_week(count = 4)
+    search_results = self.more_like_this do
+      paginate(:page => 1, :per_page => count)
+      adjust_solr_params do |params|
+        params[:fl] = 'id,score'
+      end
+      with(:session_start).between(Time.zone.now..(Time.zone.now + 7.days).end_of_week)
+    end
+    return_results = {}
+    search_results.each_hit_with_result do |hit,event|
+      return_results[event] = hit.score
+    end
+    return_results
+  end
   
   def concluded?
     if(!self.session_end.blank?)
@@ -207,5 +227,7 @@ class Event < ActiveRecord::Base
   def attendees
     learners.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
   end
+  
+  
     
 end
