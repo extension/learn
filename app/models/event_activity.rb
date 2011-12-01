@@ -9,8 +9,8 @@ class EventActivity < ActiveRecord::Base
   belongs_to :event
   belongs_to :trackable, polymorphic: true
   has_many :activity_logs, :as => :loggable, dependent: :destroy
-
   validates :learner, :presence => true
+  before_save :set_score
 
   # types of activities - gaps are between types
   # in case we may need to group/expand
@@ -28,6 +28,28 @@ class EventActivity < ActiveRecord::Base
   CONNECT_BOOKMARK          = 52
   CONNECT_ATTEND            = 53
   CONNECT_WATCH             = 54
+  
+  # scoring
+  SCORING = {
+    VIEW                      => 1,
+    VIEW_FROM_RECOMMENDATION  => 2,
+    VIEW_FROM_SHARE           => 2,
+    SHARE                     => 1,
+    ANSWER                    => 1,
+    RATING                    => 1,
+    RATING_ON_COMMENT         => 1,
+    COMMENT                   => 2,
+    COMMENT_ON_COMMENT        => 2,
+    CONNECT                   => 3,
+    CONNECT_PRESENTER         => 3,
+    CONNECT_BOOKMARK          => 3,
+    CONNECT_ATTEND            => 3,
+    CONNECT_WATCH             => 3,
+  }
+  
+  def set_score
+    self.score = SCORING[self.activity].nil? ? 0 : SCORING[self.activity]
+  end
   
   # don't recommend making this a callback, instead
   # intentionally call it where appropriate (like EventActivity.create_or_update)
