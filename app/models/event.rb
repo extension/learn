@@ -36,7 +36,7 @@ class Event < ActiveRecord::Base
   
   before_save :set_session_end
   after_create :create_event_notifications
-  after_commit :update_event_notifications
+  after_update :update_event_notifications
   
   DEFAULT_TIMEZONE = 'America/New_York'
   

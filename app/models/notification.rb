@@ -61,7 +61,7 @@ class Notification < ActiveRecord::Base
   end
   
   def update_delivery_time(delivery_time)
-    self.update_attribute(:delivery_time, delivery_time - self.offset) unless delivery_time == self.delivery_time
+    self.update_attribute(:delivery_time, delivery_time - self.offset)
   end
   
   def update_delayed_notifications
