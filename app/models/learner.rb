@@ -18,6 +18,10 @@ class Learner < ActiveRecord::Base
   has_many :event_activities
   has_many :presented_events, through: :presenter_connections, source: :event
   has_many :preferences, :as => :prefable
+  has_many :notification_exceptions
+  
+  before_validation :convert_mobile_number
+  validates_length_of :mobile_number, :is => 10, :allow_blank => true
   
   DEFAULT_TIMEZONE = 'America/New_York'
   
@@ -137,6 +141,11 @@ class Learner < ActiveRecord::Base
     !find_event.blank?
   end
   
+  def has_event_notification_exception?(event)
+    find_notification_exception = self.notification_exceptions.where('event_id = ?',event.id)
+    !find_notification_exception.blank?
+  end
+  
   def has_connection_with_event?(event)
     find_event = self.events.where('event_id = ?',event.id)
     !find_event.blank?
@@ -150,6 +159,11 @@ class Learner < ActiveRecord::Base
     if(connection = EventConnection.where('learner_id =?',self.id).where('event_id = ?',event.id).where('connectiontype = ?',connectiontype).first)
       connection.destroy
     end
+  end
+  
+  #get the mobile number down to just the digits
+  def convert_mobile_number
+    self.mobile_number = self.mobile_number.to_s.gsub(/[^0-9]/, '') if self.mobile_number
   end 
    
 end

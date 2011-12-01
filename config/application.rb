@@ -17,6 +17,7 @@ module Learn
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
+    config.autoload_paths += Dir["#{config.root}/lib/"] 
 
     # autoload lib/validators
     config.autoload_paths += Dir["#{config.root}/lib/validators/**/"] 

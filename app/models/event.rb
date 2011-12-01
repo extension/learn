@@ -22,7 +22,9 @@ class Event < ActiveRecord::Base
   has_many :presenter_connections, dependent: :destroy
   has_many :presenters, through: :presenter_connections, :source => :learner
   has_many :event_activities, dependent: :destroy
-  
+  has_many :notifications, :as => :notifiable, dependent: :destroy
+  has_many :notification_exceptions
+
 
   validates :title, :presence => true
   validates :description, :presence => true
@@ -33,6 +35,8 @@ class Event < ActiveRecord::Base
   validates :recording, :allow_blank => true, :uri => true
   
   before_save :set_session_end
+  after_create :create_event_notifications
+  after_commit :update_event_notifications
   
   DEFAULT_TIMEZONE = 'America/New_York'
   
@@ -175,6 +179,26 @@ class Event < ActiveRecord::Base
     
   def attendees
     learners.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
+  end
+  
+  def bookmarked
+    learners.where("event_connections.connectiontype = ?", EventConnection::BOOKMARK)
+  end
+  
+  # when an event is created, 5 notifications need to be created.
+  # 1 notification via email (180 minutes before)
+  # 4 via sms (60,45,30,15 minutes)
+  def create_event_notifications
+    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_EMAIL, :delivery_time => self.session_start - 3.hours, :offset => 3.hours)
+    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 60.minutes, :offset => 60.minutes)
+    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 45.minutes, :offset => 45.minutes)
+    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 30.minutes, :offset => 30.minutes)
+    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 15.minutes, :offset => 15.minutes)
+  end
+  
+  # when an event is updated, the notifications need to be rescheduled if the event session_start changes
+  def update_event_notifications
+    self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
   end
     
 end
