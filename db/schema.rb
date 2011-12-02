@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111116185159) do
+ActiveRecord::Schema.define(:version => 20111129001824) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -75,12 +75,13 @@ ActiveRecord::Schema.define(:version => 20111116185159) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "event_activities", :force => true do |t|
-    t.integer  "learner_id",                                  :null => false
+    t.integer  "learner_id",                                    :null => false
     t.integer  "event_id"
     t.integer  "activity"
     t.integer  "trackable_id"
     t.string   "trackable_type", :limit => 30
-    t.integer  "activity_count",               :default => 1, :null => false
+    t.integer  "activity_count",               :default => 1,   :null => false
+    t.float    "score",                        :default => 0.0
     t.datetime "updated_at"
   end
 
@@ -131,13 +132,21 @@ ActiveRecord::Schema.define(:version => 20111116185159) do
 
   add_index "learners", ["email"], :name => "index_learners_on_email"
 
-  create_table "notifications", :force => true do |t|
+  create_table "notification_exceptions", :force => true do |t|
     t.integer  "learner_id"
     t.integer  "event_id"
-    t.integer  "delivery_method",                    :null => false
-    t.boolean  "sent",            :default => false, :null => false
-    t.boolean  "silenced",        :default => false, :null => false
-    t.datetime "delivery_time",                      :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "notification_exceptions", ["learner_id", "event_id"], :name => "connection_ndx", :unique => true
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "notifiable_id"
+    t.string   "notifiable_type",  :limit => 30
+    t.boolean  "processed",                      :default => false, :null => false
+    t.integer  "notificationtype",                                  :null => false
+    t.datetime "delivery_time",                                     :null => false
+    t.integer  "offset",                         :default => 0
     t.integer  "delayed_job_id"
     t.datetime "created_at"
     t.datetime "updated_at"

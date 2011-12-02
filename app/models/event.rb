@@ -22,7 +22,9 @@ class Event < ActiveRecord::Base
   has_many :presenter_connections, dependent: :destroy
   has_many :presenters, through: :presenter_connections, :source => :learner
   has_many :event_activities, dependent: :destroy
-  
+  has_many :notifications, :as => :notifiable, dependent: :destroy
+  has_many :notification_exceptions
+
 
   validates :title, :presence => true
   validates :description, :presence => true
@@ -33,11 +35,14 @@ class Event < ActiveRecord::Base
   validates :recording, :allow_blank => true, :uri => true
   
   before_save :set_session_end
+  after_create :create_event_notifications
+  after_update :update_event_notifications
   
   DEFAULT_TIMEZONE = 'America/New_York'
   
   # sunspot/solr search
   searchable do
+    time :session_start
     text :title, more_like_this: true
     text :description, more_like_this: true
   end
@@ -46,6 +51,7 @@ class Event < ActiveRecord::Base
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
   
+  scope :through_next_week, conditions: ["session_end >= ? and session_end <= ?", Time.zone.now, (Time.zone.now + 7.days).end_of_week] 
   
   def presenter_tokens=(idlist)
     self.presenter_ids = idlist.split(',')
@@ -122,9 +128,28 @@ class Event < ActiveRecord::Base
         params[:fl] = 'id,score'
       end
     end
-    search_results.results
+    return_results = {}
+    search_results.each_hit_with_result do |hit,event|
+      return_results[event] = hit.score
+    end
+    return_results
   end
   
+  
+  def similar_events_through_next_week(count = 4)
+    search_results = self.more_like_this do
+      paginate(:page => 1, :per_page => count)
+      adjust_solr_params do |params|
+        params[:fl] = 'id,score'
+      end
+      with(:session_start).between(Time.zone.now..(Time.zone.now + 7.days).end_of_week)
+    end
+    return_results = {}
+    search_results.each_hit_with_result do |hit,event|
+      return_results[event] = hit.score
+    end
+    return_results
+  end
   
   def concluded?
     if(!self.session_end.blank?)
@@ -176,5 +201,25 @@ class Event < ActiveRecord::Base
   def attendees
     learners.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
   end
-    
+  
+  def bookmarked
+    learners.where("event_connections.connectiontype = ?", EventConnection::BOOKMARK)
+  end
+  
+  # when an event is created, 5 notifications need to be created.
+  # 1 notification via email (180 minutes before)
+  # 4 via sms (60,45,30,15 minutes)
+  def create_event_notifications
+    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_EMAIL, :delivery_time => self.session_start - 3.hours, :offset => 3.hours)
+    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 60.minutes, :offset => 60.minutes)
+    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 45.minutes, :offset => 45.minutes)
+    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 30.minutes, :offset => 30.minutes)
+    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 15.minutes, :offset => 15.minutes)
+  end
+  
+  # when an event is updated, the notifications need to be rescheduled if the event session_start changes
+  def update_event_notifications
+    self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
+  end
+  
 end

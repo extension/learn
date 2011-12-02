@@ -65,7 +65,8 @@ header img {float:left; padding:10px 0 0 10px;}
 input[type="password"],
 input[type="text"],
 input[type="search"],
-input[type="email"] {color:#000; font-size: 1.2em;}
+input[type="email"],
+select {color:#000; font-size: 1.2em;}
 
 #signup_options {float:left;}
 #signup_options li {list-style:none;}
@@ -86,3 +87,14 @@ span.recording_available {background: transparent url(/assets/play_button_mini.p
 //#learners/sessions .signin {display:none;}
 
 #content_wrapper {clear:both;}
+
+
+//form elements
+textarea {width:80%; font-size:1.2em; line-height:1.3em; color:#000; padding:.5em;}
+//input {width:90%;}
+input.title {font-size:2em; height:auto; width:90%;}
+#editform {background:#e5e5e5; padding:1em; @include boxshadow}
+#editform h1 {color:#999; font-weight:normal; font-size:1.75em; padding:0 1em;}
+label {font-size:1.2em; color:#015890;  margin-bottom:.25em;}
+input.xs {width: 4em;}
+input.xxl {width: 80%;}
