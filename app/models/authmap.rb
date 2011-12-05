@@ -3,12 +3,13 @@ class Authmap < ActiveRecord::Base
   belongs_to :learner
   validates :authname, :uniqueness => {:scope => :source}
   
+  # TODO: Logic needs to be changed here for merging of accounts 
   def self.find_for_twitter_oauth(access_token, logged_in_learner=nil)
     if !logged_in_learner.blank?
       return logged_in_learner
     end
     
-    learner_screen_name = access_token['extra']['user_hash']['screen_name']
+    learner_screen_name = access_token['extra']['raw_info']['screen_name']
     learner_provider = access_token['provider']
     
     if authmap = Authmap.where({:authname => learner_screen_name, :source => learner_provider}).first
@@ -35,13 +36,13 @@ class Authmap < ActiveRecord::Base
     
     if authmap = Authmap.where({:authname => learner_screen_name, :source => learner_provider}).first
       learner = authmap.learner
-      learner.email = access_token['user_info']['email'] if learner.email.blank?
-      learner.name = access_token['user_info']['name'] if learner.name.blank?
+      learner.email = access_token['info']['email'] if learner.email.blank?
+      learner.name = access_token['info']['name'] if learner.name.blank?
       learner.save if learner.changed?
       return learner
     end
-        
-    new_learner = Learner.create({:email => access_token['user_info']['email'], :name => access_token['user_info']['name']})
+    
+    new_learner = Learner.create({:email => access_token['info']['email'], :name => access_token['info']['name']})
     new_learner.authmaps << self.new(:authname => learner_screen_name, :source => learner_provider)
     new_learner.save
     return new_learner

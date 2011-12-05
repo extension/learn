@@ -24,10 +24,13 @@ gem 'capistrano'
 gem 'nokogiri'
 
 # authentication
-gem 'devise', "1.4.9"
+gem 'devise', "~> 1.5.1"
+gem 'omniauth-facebook'
+gem 'omniauth-openid'
+gem 'omniauth-twitter'
 
 # oauth integration
-gem 'omniauth', '0.3.2'
+gem 'omniauth', "~> 1.0"
 
 # feed retrieval and parsing
 # force curb to 0.7.15 to avoid a constant warning
