@@ -72,6 +72,22 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def description=(description)
+    # make valid html if we don't have it - not sure if this
+    # may ever throw an exception, if it does, I probably
+    # want to know what caused it, so not catching for now
+    html_description = Nokogiri::HTML::DocumentFragment.parse(description).to_html
+   
+    # scrub with Loofah prune in order to strip unknown and "unsafe" tags
+    # http://loofah.rubyforge.org/loofah/classes/Loofah/Scrubbers/Prune.html#M000036
+    html_description = Loofah.scrub_fragment(html_description, :prune).to_s
+   
+    # use ActionController sanitize to sanitize the Loofah scrubbed html
+    # see: ActionView::Base.sanitized_allowed_tags for the list of allowed tags
+    html_description =  ActionController::Base.helpers.sanitize(html_description)
+    write_attribute(:description, html_description)
+  end
+    
   def set_presenters_from_tokens
     self.presenter_ids = self.presenter_tokens.split(',')
   end
