@@ -5,6 +5,7 @@
 # see LICENSE file
 
 class Event < ActiveRecord::Base
+  include MarkupScrubber
   attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
@@ -54,7 +55,9 @@ class Event < ActiveRecord::Base
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
   
-  scope :through_next_week, conditions: ["session_end >= ? and session_end <= ?", Time.zone.now, (Time.zone.now + 7.days).end_of_week] 
+  scope :through_this_week, lambda { where('session_end >= ?',Time.zone.now).where('session_end <= ?', (Time.zone.now + 7.days).end_of_week) }
+  scope :upcoming, lambda { |limit=3| where('session_start >= ?',Time.zone.now).order("session_start ASC").limit(limit) }
+  scope :recent,   lambda { |limit=3| where('session_start < ?',Time.zone.now).order("session_start DESC").limit(limit) }
   
   def presenter_tokens
     if(@presenter_tokens.blank?)
@@ -73,19 +76,7 @@ class Event < ActiveRecord::Base
   end
   
   def description=(description)
-    # make valid html if we don't have it - not sure if this
-    # may ever throw an exception, if it does, I probably
-    # want to know what caused it, so not catching for now
-    html_description = Nokogiri::HTML::DocumentFragment.parse(description).to_html
-   
-    # scrub with Loofah prune in order to strip unknown and "unsafe" tags
-    # http://loofah.rubyforge.org/loofah/classes/Loofah/Scrubbers/Prune.html#M000036
-    html_description = Loofah.scrub_fragment(html_description, :prune).to_s
-   
-    # use ActionController sanitize to sanitize the Loofah scrubbed html
-    # see: ActionView::Base.sanitized_allowed_tags for the list of allowed tags
-    html_description =  ActionController::Base.helpers.sanitize(html_description)
-    write_attribute(:description, html_description)
+    write_attribute(:description, self.sanitize_and_scrub(description))
   end
     
   def set_presenters_from_tokens

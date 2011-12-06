@@ -140,6 +140,13 @@ def transfer_events
   Event.connection.execute(transfer_query)
 end 
 
+def scrub_event_descriptions
+  Event.all.each do |event|
+    # update column avoids validation, callbacks, and timestamp updates
+    event.update_column(:description, event.scrub_and_sanitize(event.description))
+  end
+end
+
 def transfer_event_tags 
   ## tags
   tags_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
@@ -280,6 +287,12 @@ benchmark = Benchmark.measure do
   transfer_events
 end
 puts " Events transferred : #{benchmark.real.round(2)}s"
+
+puts "Scrubbing event descriptions..."
+benchmark = Benchmark.measure do
+  scrub_event_descriptions
+end
+puts " Events descriptions scrubbed : #{benchmark.real.round(2)}s"
 
 puts "Transferring event tags..."
 benchmark = Benchmark.measure do
