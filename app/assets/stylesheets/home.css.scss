@@ -17,8 +17,16 @@
 .home h1 {font-family: 'Droid Sans', Arial, Helvetica, sans-serif;}
 
 #three_col_one {width:35%; float:left; padding: 1em; margin-right:1em;}
-#three_col_two {width:28%; float:left; padding: 1em;}
+#three_col_two {width:22%; float:left; padding: 1em; margin-right:1em;}
 #three_col_three {width:30%; float:left; padding: 1em;}
 
 #upcoming_events section.event {@include rounded10; @include boxshadow; margin-bottom:1em; padding:1em; background:#f5f5f5;}
 #upcoming_events section.event h3 {line-height:1em;}
+
+#recent_events {}
+
+#home h2 {font-size:1.3em;}
+#home h3 {line-height:1.3em;}
+
+#upcoming_events .calendarblock {float:right;}
+.marketing_blurb h1 {line-height:1.2em; font-size:1.8em;}

@@ -3,6 +3,11 @@
   <div id="upcoming_events">
   <%- @upcoming_events.each do |event| -%>
     <section class="event">
+      <div class="calendarblock">
+          <span class="month"><%= event.session_start.strftime("%b") -%></span>
+          <span class="date"><%= event.session_start.strftime("%d") -%></span>
+       </div>
+      
       <h3><%= link_to(event.title, event_path(event.id)) -%></h3>
     
       <p class="description"><%= format_text_for_display(event.description) -%></p>
@@ -50,6 +55,25 @@
 </div>
 
 
-<div id="three_col_three">
+<div id="three_col_three" class="marketing_blurb">
+  <h1>Free access to cutting edge Professional Development Events</h1>
+  <p>These professional development sessions are brought to you by eXtension and are open to anyone.</p>
+  
+  <%- if current_learner -%>
+    <h3>What other information do we want to promote/surface here?</h3>
+  <%- else -%>
+    
+    <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn primary" )%></p>
+  
+    <h3>Why Sign in?</h3>
+    <ul>
+      <li>Bookmark events you are interested in</li>
+      <li>Get text/email notifications for events right before they start</li>
+      <li>Comment on and rate events</li>
+    </ul>
+  <%- end -%>
+  
+  
+  
   
 </div>
