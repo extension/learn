@@ -10,6 +10,11 @@ class Learner < ActiveRecord::Base
   # Setup accessible (or protected) attributes
   attr_accessible :email, :remember_me, :name 
   
+  has_many :activity_logs
+  has_many :questions
+  has_many :stock_questions
+  has_many :created_events, :class_name => "Event", :foreign_key => 'creator_id'
+  has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
   has_many :ratings, :as => :rateable
   has_many :authmaps
   has_many :comments
