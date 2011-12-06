@@ -15,6 +15,7 @@ Learn::Application.routes.draw do
   resources :learners do
     member do
       get 'portfolio'
+      get 'learning_history'
     end
   end
   

@@ -7,7 +7,10 @@ class LearnersController < ApplicationController
   end
   
   def portfolio
-    # @learner = Learner.find(params[:id])
+    @learner = Learner.find(params[:id])
+  end
+  
+  def learning_history  
   end
   
 end
