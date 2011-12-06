@@ -12,7 +12,11 @@ Learn::Application.routes.draw do
   
   resources :comments, :only => [:create, :update, :destroy, :show]
   resources :ratings, :only => [:create]  
-  resources :learners
+  resources :learners do
+    member do
+      get 'portfolio'
+    end
+  end
   
   resources :events do
     member do
