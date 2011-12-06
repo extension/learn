@@ -58,7 +58,7 @@ module EventsHelper
   end
   
   def display_presenters(presenters)
-    presenters.collect{|learner| link_to_learner(learner)}.join(', ').html_safe
+    presenters.collect{|learner| link_to learner.name, portfolio_learner_path(learner)}.join(', ').html_safe
   end
   
   def display_tags(tags)
