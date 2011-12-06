@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class Event < ActiveRecord::Base
-  attr_reader :presenter_tokens
+  attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
   has_many :taggings, :as => :taggable, dependent: :destroy
@@ -35,6 +35,9 @@ class Event < ActiveRecord::Base
   validates :recording, :allow_blank => true, :uri => true
   
   before_save :set_session_end
+  before_save :set_presenters_from_tokens
+  before_save :set_tags_from_tag_list
+  
   after_create :create_event_notifications
   after_update :update_event_notifications
   
@@ -53,21 +56,36 @@ class Event < ActiveRecord::Base
   
   scope :through_next_week, conditions: ["session_end >= ? and session_end <= ?", Time.zone.now, (Time.zone.now + 7.days).end_of_week] 
   
-  def presenter_tokens=(idlist)
-    self.presenter_ids = idlist.split(',')
+  def presenter_tokens
+    if(@presenter_tokens.blank?)
+      @presenter_tokens = self.presenter_ids.join(',')
+    end
+    @presenter_tokens
+  end
+    
+  def presenter_tokens_tokeninput
+    if(!self.presenter_tokens.blank?)
+      presenter_list = Learner.where("id IN (#{self.presenter_tokens})").all
+      presenter_list.collect{|presenter| {id: presenter.id, name: presenter.name}}
+    else
+      {}
+    end
   end
   
-  def presenters_to_tokenhash
-    self.presenters.collect{|presenter| {id: presenter.id, name: presenter.name}}
+  def set_presenters_from_tokens
+    self.presenter_ids = self.presenter_tokens.split(',')
   end
-  
+    
   def tag_list
-    self.tags.map(&:name).join(Tag::JOINER)
+    if(@tag_list.blank?)
+      @tag_list = self.tags.map(&:name).join(Tag::JOINER)
+    end
+    @tag_list
   end
   
-  def tag_list=(tag_list)
+  def set_tags_from_tag_list
     tags_to_set = []
-    tag_list.split(Tag::JOINER).each do |tag_name|
+    self.tag_list.split(Tag::JOINER).each do |tag_name|
       if(tag = Tag.find_or_create_by_normalizedname(tag_name))
         tags_to_set << tag
       end
