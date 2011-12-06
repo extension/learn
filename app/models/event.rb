@@ -54,7 +54,9 @@ class Event < ActiveRecord::Base
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
   
-  scope :through_next_week, conditions: ["session_end >= ? and session_end <= ?", Time.zone.now, (Time.zone.now + 7.days).end_of_week] 
+  scope :through_this_week, lambda { where('session_end >= ?',Time.zone.now).where('session_end <= ?', (Time.zone.now + 7.days).end_of_week) }
+  scope :upcoming, lambda { |limit=3| where('session_start >= ?',Time.zone.now).order("session_start ASC").limit(limit) }
+  scope :recent,   lambda { |limit=3| where('session_start < ?',Time.zone.now).order("session_start DESC").limit(limit) }
   
   def presenter_tokens
     if(@presenter_tokens.blank?)
