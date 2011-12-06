@@ -1,7 +1,10 @@
 <div id="learner_info">
-  <h1>Learner name</h1>
-  <p>short one-line bio</p>
+  <h1><%= @learner.name %></h1>
+  <p>short one-line bio. need to add this to settings?</p>
   <img class="avatar" />
+  <%- if current_learner && current_learner.id == @learner.id -%>
+    <%= link_to "View your Learning History", learning_history_learner_path(@learner.id) %>
+  <%- end -%>
 </div>
 
 <br class="clearing" />
