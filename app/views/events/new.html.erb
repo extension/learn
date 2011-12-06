@@ -1,17 +1,15 @@
-<div>
-  <%- if @event.errors.any? -%>
-    <ul>
-      <%- @event.errors.full_messages.each do |msg| -%>
-        <li><%= msg %></li>
-      <%- end -%>
-    </ul>
-  <%- end -%>
+<%- if @event.errors.any? -%>
+  <ul>
+    <%- @event.errors.full_messages.each do |msg| -%>
+      <li><%= msg %></li>
+    <%- end -%>
+  </ul>
+<%- end -%>
 
-<div>
+<div id="editform">
   <h1>Create an event</h1>
-  <%= form_for @event do |form| %>
+  <%= form_for @event,  :html => { :class => "form-stacked"} do |form| %>
     <%= render(partial: 'event_form', locals: {event_form: form}) %>
   <% end %>
-</div>
 </div>
 
