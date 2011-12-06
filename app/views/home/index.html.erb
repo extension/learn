@@ -1,7 +1,55 @@
+<div id="three_col_one">
+  <h2>Upcoming Sessions</h2>
+  <div id="upcoming_events">
+  <%- @upcoming_events.each do |event| -%>
+    <section class="event">
+      <h3><%= link_to(event.title, event_path(event.id)) -%></h3>
+    
+      <p class="description"><%= format_text_for_display(event.description) -%></p>
 
-<div id="two_col_col_one">
+      <%- if event.presenters.count > 0 -%>
+        <h3>Presenters</h3>
+        <p id="presenters"><%= display_presenters(event.presenters) %></p>
+      <%- end -%>
+      
+      <div id="tags">
+        <h4 class="hide">Tags</h4>
+        <p>
+          <%-if event.tags.length != 0 -%>  
+            <%= display_tags(event.tags) -%>
+          <%-else -%>
+            There are no tags at this time
+          <%-end -%>
+        </p>
+      </div>
+   </section>
+  <%- end -%>
+  </div>
+</div>
 
-  <h1>Home#index</h1>
-  <p><%= 'Hello world!'%></p>
 
+<div id="three_col_two">
+  <h2>Recent Sessions</h2>
+  <div id="recent_events">
+  <%- @recent_events.each do |event| -%>
+
+      <% if event.has_recording? %>
+         <dl>
+           <dt><span class="recording_available"><%= link_to(event.title, event_path(event.id)) -%></dt>
+           
+      <% else %>
+         <dl><dt><span class="no_recording_available"><%= link_to(event.title, event_path(event.id)) -%></dt>
+           
+      <% end %>
+      
+      <dd><%= time_ago_in_words(event.session_start) %> ago</dd>
+      </dl>
+   
+  <%- end -%>
+  </div>
+</div>
+
+
+<div id="three_col_three">
+  
 </div>
