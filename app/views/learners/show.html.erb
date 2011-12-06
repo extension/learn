@@ -1,0 +1,63 @@
+<div id="learner_info">
+  <h1>Learner name</h1>
+  <p>short one-line bio</p>
+  <img class="avatar" />
+</div>
+
+<br class="clearing" />
+<div class="pd_events" id="col_one_of_three">
+  <h1>PD Events</h1>
+  
+  <h2>Presented</h2>
+  <p><%= link_to "Google Analytics Q&A" %>
+  
+  <h2>Attended</h2>
+  <p><%= link_to "Google Analytics Q&A" %>
+  
+  <h2>Watched</h2>
+  <p><%= link_to "Google Analytics Q&A" %>
+  
+</div>
+
+
+
+<div class="bookmarks" id="col_two_of_three">
+  <h2>Bookmarks</h2>
+  
+  <div class="event upcoming">
+    <p><%= link_to "ITChatter: Mobile Device Security" %></p>
+    <div class="calendarblock">
+      <% @event = Event.find(2) %>
+        <span class="month"><%= @event.session_start.strftime("%b") -%></span>
+        <span class="date"><%= @event.session_start.strftime("%d") -%></span>
+     </div>
+  </div>
+  
+  
+  <div class="event past">
+    <p><%= link_to "ITChatter: Mobile Device Security" %></p>
+    <p class="recording_available mini"><%= @event.session_start.strftime("%b, %d") -%></p>
+  </div>
+  
+  <div class="event past">
+    <p><%= link_to "ITChatter: Mobile Device Security" %></p>
+    <p class="no_recording_available mini"><%= @event.session_start.strftime("%b, %d") -%></p>
+  </div>
+    
+  <p><%= link_to "view all" %></p>
+</div>
+
+
+
+<div id="col_three_of_three">
+  <h2>Learning Plans</h2>
+  
+  <h3>Currently Learning</h3>
+  <ul>
+    <li>Google Analytics</li>
+    <li>Python</li>
+  </ul>
+  
+  <h3>Learning Overview</h3>
+  <p>Lorem ipsum...</p>
+</div>

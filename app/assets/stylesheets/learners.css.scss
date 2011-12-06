@@ -1,0 +1,34 @@
+// Place all the styles related to the learners controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@mixin boxshadow {
+//    border:1px solid #ddd;
+    -webkit-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+    -moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+}
+
+@mixin rounded10 {
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+}
+
+
+#col_one_of_three {width:30%; float:left; padding: 1em; margin-right:1em;}
+#col_two_of_three {width:28%; float:left; padding: 1em;}
+#col_three_of_three {width:30%; float:left; padding: 1em;}
+
+.pd_events {@include rounded10; background:#e5e5e5;}
+
+.calendarblock { width:64px; display:block; text-align:center; height:64px;padding-top:0;float:right; @include boxshadow; float:left; @include rounded10}
+.calendarblock .month {display:block; height:20px; line-height:25px;font-size:1.1em; text-transform:uppercase; font-weight:bold; background: orange;
+    -moz-border-radius:10px 10px 0 0 / 10px 10px 0 0;
+    -webkit-border-radius:10px 10px 0 0 / 10px 10px 0 0;
+    }
+.calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:2.5em; }
+
+.bookmarks div {clear:both; margin:0 0 1.5em;}
+
+#learner_info {float:right;}
+#learner_info .avatar {float:right;}

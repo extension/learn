@@ -11,7 +11,8 @@ Learn::Application.routes.draw do
   end
   
   resources :comments, :only => [:create, :update, :destroy, :show]
-  resources :ratings, :only => [:create]
+  resources :ratings, :only => [:create]  
+  resources :learners
   
   resources :events do
     member do

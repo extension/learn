@@ -78,6 +78,7 @@ select {color:#000; font-size: 1.2em;}
 #useractions li {list-style:none; padding:1em 0 1em 1em; float:left;}
 
 p.no_recording_available {background: transparent url(/assets/play_button_grey.png) left 50% no-repeat; padding-left:45px; font-size:1.4em; height:42px;}
+p.no_recording_available.mini {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:25px; font-size:1.45em; line-height:1em; height:1.3em;}
 p.recording_available {background: transparent url(/assets/play_button.png) left 50% no-repeat; padding-left:45px; font-size:1.6em; height:42px;}
 p.recording_available.mini {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:25px; font-size:1.45em; line-height:1em; height:1.3em;}
 span.no_recording_available {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
