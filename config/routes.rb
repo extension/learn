@@ -19,6 +19,8 @@ Learn::Application.routes.draw do
     end
   end
   
+  resources :settings
+  
   resources :events do
     member do
       post 'addanswer'
