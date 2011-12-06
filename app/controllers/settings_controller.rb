@@ -4,6 +4,14 @@
 # === LICENSE:
 # see LICENSE file
 
-class Learners::SessionsController < Devise::SessionsController
-  layout 'signin'
+class SettingsController < ApplicationController
+  
+  def profile
+  end
+  
+  def notifications
+  end
+  
+  def portfolio
+  end
 end
