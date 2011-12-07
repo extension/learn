@@ -17,7 +17,9 @@ class WebmailController < ApplicationController
   
   def example_recommendation
     recommendation = ExampleRecommendation.new
-    
+    recommendation.upcoming_limit = params[:upcoming] || 4
+    recommendation.recent_limit = params[:recent] || 4
+        
     # get the email - assumes html only for now
     # we'll need to change this up for multipart
     mail = EventMailer.example_recommendation(recommendation: recommendation)
