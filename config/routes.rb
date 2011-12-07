@@ -29,9 +29,10 @@ Learn::Application.routes.draw do
       get 'learner_token_search'
     end
   end
+  # recommended event tracking
+  match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'  
   
-  root :to => 'home#index'
-  
-
   match "mailer/:action" => 'mailer'
+  root :to => 'home#index'
+
 end

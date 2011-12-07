@@ -24,6 +24,7 @@ class Learner < ActiveRecord::Base
   has_many :presented_events, through: :presenter_connections, source: :event
   has_many :preferences, :as => :prefable
   has_many :notification_exceptions
+  has_many :recommendations
   
   before_validation :convert_mobile_number
   validates_length_of :mobile_number, :is => 10, :allow_blank => true
