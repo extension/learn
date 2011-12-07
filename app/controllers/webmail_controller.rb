@@ -16,13 +16,11 @@ class WebmailController < ApplicationController
   end
   
   def example_recommendation
-    recommendation = ExampleRecommendation.new
-    recommendation.upcoming_limit = params[:upcoming] || 4
-    recommendation.recent_limit = params[:recent] || 4
+    recommendation = ExampleRecommendation.new(upcoming_limit: params[:upcoming], recent_limit: params[:recent])
         
     # get the email - assumes html only for now
     # we'll need to change this up for multipart
-    mail = EventMailer.example_recommendation(recommendation: recommendation)
+    mail = EventMailer.recommendation(recommendation: recommendation, cache_email: false)
     
     # send it through the inline style processing
     inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)

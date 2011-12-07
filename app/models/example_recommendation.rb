@@ -10,8 +10,10 @@ class ExampleRecommendation
   attr_accessor :upcoming_limit
   attr_accessor :recent_limit
   
-  def initialize(learner = Learner.learnbot)
-    @learner = learner
+  def initialize(options = {})
+    @learner = options[:learner] || Learner.learnbot
+    @upcoming_limit = options[:upcoming_limit] || 4
+    @recent_limit = options[:recent_limit] || 4
   end
   
   def upcoming
@@ -20,14 +22,6 @@ class ExampleRecommendation
   
   def recent
     Event.recent(limit=self.recent_limit)
-  end
-  
-  def upcoming_limit
-    @upcoming_limit || 4
-  end
-  
-  def recent_limit
-    @recent_limit || 4
   end
   
 end

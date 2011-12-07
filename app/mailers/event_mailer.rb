@@ -12,30 +12,25 @@ class EventMailer < ActionMailer::Base
     @recommendation = options[:recommendation]
     @subject = options[:subject] || 'Your Weekly Learn Recommendations'
     @learner = @recommendation.learner
+    @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
     
     if(!@learner.email.blank?)
-      # create a cached mail object that can be used for "view this in a browser" within
-      # the rendered email.
-      @mailer_cache = MailerCache.create(learner: @learner, cacheable: @recommendation)
+      if(@will_cache_email)
+        # create a cached mail object that can be used for "view this in a browser" within
+        # the rendered email.
+        @mailer_cache = MailerCache.create(learner: @learner, cacheable: @recommendation)
+      end
+      
       return_email = mail(to: @learner.email, subject: @subject)
-      # now that we have the rendered email - update the cached mail object
-      @mailer_cache.update_attribute(:markup, return_email.body.to_s)
+      
+      if(@mailer_cache)
+        # now that we have the rendered email - update the cached mail object
+        @mailer_cache.update_attribute(:markup, return_email.body.to_s)
+      end
     end
     
     # the email if we got it
     return_email
   end
-  
-  # method to render recommendation email without
-  # caching, and in order to facilitate example options
-  def example_recommendation(options = {})
-    @recommendation = options[:recommendation]
-    @subject = options[:subject] || 'Your Weekly Learn Recommendations'
-    @learner = @recommendation.learner
 
-    return_email = mail(to: @learner.email, subject: @subject) do |format|
-      format.html {render "recommendation"}
-    end
-    return_email
-  end
 end
