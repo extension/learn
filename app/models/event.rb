@@ -76,7 +76,7 @@ class Event < ActiveRecord::Base
   end
   
   def description=(description)
-    write_attribute(:description, self.sanitize_and_scrub(description))
+    write_attribute(:description, self.scrub_and_sanitize(description))
   end
     
   def set_presenters_from_tokens
