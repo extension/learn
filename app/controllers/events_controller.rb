@@ -7,8 +7,7 @@
 class EventsController < ApplicationController
   before_filter :fake_learner
   before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection]
-  
-  
+    
   def show
     @event = Event.find(params[:id])
     # make sure @article has questions
@@ -18,6 +17,16 @@ class EventsController < ApplicationController
     @comments = @event.comments
     # log view
     EventActivity.log_view(current_learner,@event) if(current_learner)
+  end
+  
+  def recommended
+    if(recommended_event = RecommendedEvent.find(params[:id]))
+      # log recommendation view, attach to learner on the recommendation, even if they aren't current_learner
+      EventActivity.log_view(recommended_event.recommendation.learner,recommended_event.event,'recommendation')
+      return redirect_to(event_url(recommended_event.event), status: 301)      
+    else
+      return redirect_to(root_url, :error => 'Unable to find recommended event.', status: 301)
+    end
   end
   
   def new

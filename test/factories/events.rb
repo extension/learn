@@ -15,5 +15,7 @@ FactoryGirl.define do
     session_start Time.parse('2011-10-28 16:42 EDT')
     session_length 30
     location {Factory.next(:event_location_url)}
+    association :creator, :factory => :learner
+    association :last_modifier, :factory => :learner
   end
 end

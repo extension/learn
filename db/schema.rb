@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111129001824) do
+ActiveRecord::Schema.define(:version => 20111206231000) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -197,6 +197,25 @@ ActiveRecord::Schema.define(:version => 20111129001824) do
   end
 
   add_index "ratings", ["learner_id", "rateable_type", "rateable_id"], :name => "index_ratings_on_learner_id_and_rateable_type_and_rateable_id"
+
+  create_table "recommendations", :force => true do |t|
+    t.integer  "learner_id"
+    t.date     "day"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recommendations", ["learner_id", "day"], :name => "recommendation_ndx"
+
+  create_table "recommended_events", :force => true do |t|
+    t.integer  "recommendation_id"
+    t.integer  "event_id"
+    t.float    "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recommended_events", ["recommendation_id", "event_id"], :name => "recommended_event_ndx"
 
   create_table "stock_questions", :force => true do |t|
     t.boolean  "active"
