@@ -4,18 +4,23 @@
 # === LICENSE:
 # see LICENSE file
 
-class MailerController < ApplicationController
+class WebmailController < ApplicationController
   
   def recommendation
-    if(current_learner)
-      learner = current_learner
+    if(mailer_cache = MailerCache.find_by_hashvalue(params[:hashvalue]))
+      inlined_content = InlineStyle.process(mailer_cache.markup,ignore_linked_stylesheets: true)
+      render(:text => inlined_content, :layout => false)
     else
-      learner = Learner.learnbot
+      return render(template: "webmail/missing_recommendation")
     end
+  end
+  
+  def example_recommendation
+    recommendation = ExampleRecommendation.new
     
     # get the email - assumes html only for now
     # we'll need to change this up for multipart
-    mail = EventMailer.recommendation(learner)
+    mail = EventMailer.example_recommendation(recommendation: recommendation)
     
     # send it through the inline style processing
     inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
