@@ -21,6 +21,7 @@ class Learner < ActiveRecord::Base
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
   has_many :event_activities
+  has_many :presenter_connections
   has_many :presented_events, through: :presenter_connections, source: :event
   has_many :preferences, :as => :prefable
   has_many :notification_exceptions
