@@ -26,6 +26,7 @@ class Learner < ActiveRecord::Base
   has_many :preferences, :as => :prefable
   has_many :notification_exceptions
   has_many :recommendations
+  has_many :mailer_caches
   
   before_validation :convert_mobile_number
   validates_length_of :mobile_number, :is => 10, :allow_blank => true
