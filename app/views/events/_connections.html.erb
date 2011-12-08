@@ -1,4 +1,4 @@
-<%= form_tag(makeconnection_event_url(@event), {remote: true}) do -%>
+<%= form_tag(makeconnection_event_path(@event), {remote: true}) do -%>
   <%= hidden_field_tag('connectiontype', EventConnection::BOOKMARK) %>
   <p>
     <%= check_box_tag('wantsconnection','1',current_learner.has_bookmark_for_event?(@event),{class: 'submittable'}) %> 
@@ -8,7 +8,7 @@
 <%- end -%>
 <%- if @event.started? -%>
   <p>
-  <%= form_tag(makeconnection_event_url(@event), {remote: true}) do -%>
+  <%= form_tag(makeconnection_event_path(@event), {remote: true}) do -%>
     <%= hidden_field_tag('connectiontype', EventConnection::ATTEND) %>
     <p>
       <%= check_box_tag('wantsconnection','1',current_learner.attended_event?(@event),{class: 'submittable'}) %> 
@@ -16,7 +16,7 @@
       <span><small>It will show up in your learning portfolio</small></span>
     </p>
   <%- end -%>
-  <%= form_tag(makeconnection_event_url(@event), {remote: true}) do -%>
+  <%= form_tag(makeconnection_event_path(@event), {remote: true}) do -%>
     <%= hidden_field_tag('connectiontype', EventConnection::WATCH) %>
     <p>
       <%= check_box_tag('wantsconnection','1',current_learner.watched_event?(@event),{class: 'submittable'}) %> 

@@ -7,7 +7,7 @@
 <%- end -%>
 
 <div class="question_answers question_scale <%= "sitv_element" if !current_learner %>">
-<%= form_tag(addanswer_event_url(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
+<%= form_tag(addanswer_event_path(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
   <%= hidden_field_tag('question', question.id) %>
   <span id="range_start"><%= question.responses[0] %> (<%= question.range_start %> )</span>
   <span id="range_end"><%= question.responses[1] %> (<%= question.range_end %> )</span>
