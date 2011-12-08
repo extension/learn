@@ -14,6 +14,9 @@
 
 <div id="page_wrapper">
   <div id="page">
+    
+    <%= flash_notifications -%>
+    
   <header class="masthead">
     <a href="/">
     <%= image_tag("logo_small.png", :size => "264x100",) %>
@@ -43,3 +46,12 @@
 
 </body>
 </html>
+
+
+<script class="code" type="text/javascript">
+$(function() {
+   $('#flash_notification').hide().delay(500).slideDown('slow', function() {
+      $(this).delay(4000).fadeOut();
+   });
+});
+</script>

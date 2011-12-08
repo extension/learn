@@ -99,3 +99,21 @@ input.title {font-size:2em; height:auto; width:90%;}
 label {font-size:1.2em; color:#015890;  margin-bottom:.25em;}
 input.xs {width: 4em;}
 input.xxl {width: 80%;}
+
+#flash_notification {
+    height:5em;
+    width:100%;
+    position:fixed;
+    text-align:center;
+    left:0px;
+    z-index:100;
+    opacity: 0.92;
+    -moz-opacity: 0.92;
+    -moz-box-shadow: #555 0px 0px 5px;
+    box-shadow: #555 0px 0px 5px;
+    background-image: -webkit-linear-gradient(top, #049cdb, #0064cd);
+    background-image: -o-linear-gradient(top, #049cdb, #0064cd);
+    background-image: linear-gradient(top, #049cdb, #0064cd);
+}
+#flash_notification.notice {color:#fff;}
+#flash_notification p {padding: 1em; font-size:1.3em;}
