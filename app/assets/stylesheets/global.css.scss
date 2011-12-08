@@ -117,3 +117,17 @@ input.xxl {width: 80%;}
 }
 #flash_notification.notice {color:#fff;}
 #flash_notification p {padding: 1em; font-size:1.3em;}
+
+#error_messages {
+	background: #ffebf3;
+	padding:1em;
+	margin: 0 2em 1em;
+	background-image: -webkit-linear-gradient(top, #ffebf3, #f4c5cb);
+    background-image: -o-linear-gradient(top, #ffebf3, #f4c5cb);
+    background-image: linear-gradient(top, #ffebf3, #f4c5cb);
+    @include rounded10;
+    border:2px solid red;
+}
+#error_messages ul {margin-bottom:0;}
+#error_messages li {font-size: 1.2em;padding:0;margin:0 0 .4em; color: #9b303a}
+#error_messages h3 {color: #9b303a}
