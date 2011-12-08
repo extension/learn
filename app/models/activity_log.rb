@@ -35,4 +35,9 @@ class ActivityLog < ActiveRecord::Base
     self.ipaddr = self.class.request_ipaddr
   end
   
+  def self.log_email_open(mailer_cache,additional_information)
+    self.create(learner: mailer_cache.learner, loggable: mailer_cache, additional: additional_information)
+  end
+  
+  
 end

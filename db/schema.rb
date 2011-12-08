@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(:version => 20111207160625) do
     t.string   "name"
     t.string   "time_zone"
     t.string   "mobile_number"
+    t.string   "bio"
     t.boolean  "has_profile",                        :default => false, :null => false
     t.integer  "darmok_id"
     t.boolean  "retired",                            :default => false, :null => false
@@ -133,17 +134,18 @@ ActiveRecord::Schema.define(:version => 20111207160625) do
   add_index "learners", ["email"], :name => "index_learners_on_email"
 
   create_table "mailer_caches", :force => true do |t|
-    t.string   "hashvalue",      :limit => 40,       :null => false
+    t.string   "hashvalue",      :limit => 40,                      :null => false
     t.integer  "learner_id"
     t.integer  "cacheable_id"
     t.string   "cacheable_type", :limit => 30
+    t.integer  "open_count",                         :default => 0
     t.text     "markup",         :limit => 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "mailer_caches", ["hashvalue"], :name => "hashvalue_ndx"
-  add_index "mailer_caches", ["learner_id"], :name => "index_mailer_caches_on_learner_id"
+  add_index "mailer_caches", ["learner_id", "open_count"], :name => "open_learner_ndx"
 
   create_table "notification_exceptions", :force => true do |t|
     t.integer  "learner_id"
