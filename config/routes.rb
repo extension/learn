@@ -35,6 +35,9 @@ Learn::Application.routes.draw do
   # recommended event tracking
   match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'  
   
+  namespace :feeds do
+    resources :events, :only => [:index, :show], :defaults => { :format => 'xml' }
+  end
 
   # webmail routes - prefer using the named routes instead of 
   # catchalls, but that may get tiring after a while, we'll see
