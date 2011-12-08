@@ -3,7 +3,7 @@
 
 <!-- Answer Form -->
 <div class="question_answers">
-<%= form_tag(addanswer_event_url(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
+<%= form_tag(addanswer_event_path(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
   <%= hidden_field_tag('question', question.id) %>
   
   <%- if !current_learner -%>
