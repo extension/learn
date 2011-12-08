@@ -1,9 +1,19 @@
 <h1>Profile</h1>
 
 <nav id="settings">
-<ul>
-  <li><%= link_to "Profile" %></li>
-  <li><%= link_to "Notifications" %></li>
-  <li><%= link_to "Portfolio" %></li>
-</ul>
+  <ul>
+    <li><%= link_to_unless_current "Profile", settings_profile_path() %></li>
+    <li><%= link_to_unless_current "Notifications", settings_notifications_path() %></li>
+  </ul>
 </nav>
+
+<br class="clearing" />
+
+<div id="extension_people_data">
+  <p id="people_edit">These items can be edited in people.extension.org. <%= link_to("View your People Profile", "http://www.extension.org/people/colleagues/showuser/#{current_learner.darmok_id}") %>.</p>
+  <p><%= current_learner.name %></p>
+  <p><%= current_learner.email %></p>
+  <p><%= current_learner.time_zone %></p>
+</div>
+
+

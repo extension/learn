@@ -1,3 +1,21 @@
 // Place all the styles related to the settings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@mixin boxshadow {
+//    border:1px solid #ddd;
+    -webkit-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+    -moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+}
+
+@mixin rounded10 {
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+}
+
+#settings li {float:left; list-style:none; padding:1em; font-size:1.1em;}
+
+#extension_people_data {background:#f4f4f4; padding:2em; @include rounded10; @include boxshadow}
+#extension_people_data p {font-size:1.3em;}
+#extension_people_data #people_edit {float:right; width:40%;font-size:1.1em;}
