@@ -31,6 +31,7 @@ class WebmailController < ApplicationController
   def logo
     logo_filename = Rails.root.join('public', 'email', 'logo_small.png')
     if(mailer_cache = MailerCache.find_by_id(params[:mailer_cache_id]))
+      mailer_cache.increment!(:open_count)
       ActivityLog.log_email_open(mailer_cache,{referer: request.env['HTTP_REFERER'], useragent: request.env['HTTP_USER_AGENT']})
     end
     
