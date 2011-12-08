@@ -7,3 +7,5 @@ urlwriter_host: 'learn.dev'
 darmokdatabase: 'prod_darmok'
 tropo_url: "http://api.tropo.com/1.0/sessions"
 tropo_token: "notset"
+default_feed_items: 50
+max_feed_items: 200
