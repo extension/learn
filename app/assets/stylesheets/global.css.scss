@@ -111,12 +111,22 @@ input.xxl {width: 80%;}
     -moz-opacity: 0.92;
     -moz-box-shadow: #555 0px 0px 5px;
     box-shadow: #555 0px 0px 5px;
+    background: #049cdb;
     background-image: -webkit-linear-gradient(top, #049cdb, #0064cd);
     background-image: -o-linear-gradient(top, #049cdb, #0064cd);
     background-image: linear-gradient(top, #049cdb, #0064cd);
+    color:#fff;
 }
-#flash_notification.notice {color:#fff;}
-#flash_notification p {padding: 1em; font-size:1.3em;}
+#flash_notification.notice {} //default
+#flash_notification.error,
+#flash_notification.warning {
+    color: #000;
+    background: #f3e942;
+    background-image: -webkit-linear-gradient(top, #f3f1c4, #f3e942);
+    background-image: -o-linear-gradient(top, #049cdb, #0064cd);
+    background-image: linear-gradient(top, #049cdb, #0064cd);
+}
+#flash_notification p {padding: 1em; font-size:1.5em;}
 
 #error_messages {
 	background: #ffebf3;

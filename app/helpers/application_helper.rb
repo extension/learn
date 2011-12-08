@@ -35,7 +35,7 @@ module ApplicationHelper
   
   
   def flash_notifications
-    message = flash[:error] || flash[:notice] || flash[:message] || flash[:warning]
+    message = flash[:error] || flash[:notice] || flash[:warning]
     return_string = ''
     if message
       type = flash.keys[0].to_s
