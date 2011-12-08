@@ -12,11 +12,11 @@ class Recommendation < ActiveRecord::Base
   before_create :set_day
   
   def upcoming
-    self.events.upcoming
+    self.recommended_events.upcoming
   end
   
   def recent
-    self.events.recent
+    self.recommended_events.recent
   end
   
   def set_day
