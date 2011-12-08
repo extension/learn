@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(:version => 20111207160625) do
     t.string   "name"
     t.string   "time_zone"
     t.string   "mobile_number"
+    t.string   "bio"
     t.boolean  "has_profile",                        :default => false, :null => false
     t.integer  "darmok_id"
     t.boolean  "retired",                            :default => false, :null => false
