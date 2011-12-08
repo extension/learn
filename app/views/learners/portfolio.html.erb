@@ -14,45 +14,63 @@
   <h1>PD Events</h1>
   
   <h2>Presented</h2>
-  <p><%= link_to "Google Analytics Q&A" %>
+  <% if @presented_events.length == 0 %>
+    <p>No events presented yet<p>
+  <% else %>
+    <% @presented_events.each do |event| %>
+      <p><%= link_to event.title, event_path(event) %></p>
+    <% end %>
+  <% end %>
   
   <h2>Attended</h2>
-  <p><%= link_to "Google Analytics Q&A" %>
+  <% if @attended_events.length == 0 %>
+    <p>No events attended yet<p>
+  <% else %>
+    <% @attended_events.each do |event| %>
+      <p><%= link_to event.title, event_path(event) %></p>
+    <% end %>
+  <% end %>
   
   <h2>Watched</h2>
-  <p><%= link_to "Google Analytics Q&A" %>
-  
+  <% if @watched_events.length == 0 %>
+    <p>No events watched yet<p>
+  <% else %>
+    <% @watched_events.each do |event| %>
+      <p><%= link_to event.title, event_path(event) %></p>
+    <% end %>
+  <% end %>
 </div>
-
-
 
 <div class="bookmarks" id="col_two_of_three">
   <h2>Bookmarks</h2>
+  <% if @bookmarked_events.length == 0 %>
+    <p>No events bookmarked yet</p>
+  <% end %>
   
-  <div class="event upcoming">
-    <p><%= link_to "ITChatter: Mobile Device Security" %></p>
-    <div class="calendarblock">
-      <% @event = Event.find(2) %>
-        <span class="month"><%= @event.session_start.strftime("%b") -%></span>
-        <span class="date"><%= @event.session_start.strftime("%d") -%></span>
-     </div>
-  </div>
-  
-  
-  <div class="event past">
-    <p><%= link_to "ITChatter: Mobile Device Security" %></p>
-    <p class="recording_available mini"><%= @event.session_start.strftime("%b, %d") -%></p>
-  </div>
-  
-  <div class="event past">
-    <p><%= link_to "ITChatter: Mobile Device Security" %></p>
-    <p class="no_recording_available mini"><%= @event.session_start.strftime("%b, %d") -%></p>
-  </div>
-    
+  <% @bookmarked_events.each do |event| %>
+    <% if event.session_start >= Time.zone.now %>
+      <div class="event upcoming">
+        <p><%= link_to event.title, event_path(event) %></p>
+        <div class="calendarblock">
+          <span class="month"><%= event.session_start.strftime("%b") %></span>
+          <span class="date"><%= event.session_start.strftime("%d") %></span>
+        </div>
+      </div>
+    <% else %>
+      <div class="event past">
+        <p><%= link_to event.title, event_path(event) %></p>
+        <% if event.recording.present? %>
+          <p class="recording_available mini">
+        <% else %>
+          <p class="no_recording_available mini">
+        <% end %>
+        <%= event.session_start.strftime("%b, %d") %></p>
+      </div>
+    <% end %>
+  <% end %>
+      
   <p><%= link_to "view all" %></p>
 </div>
-
-
 
 <div id="col_three_of_three">
   <h2>Learning Plans</h2>

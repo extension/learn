@@ -52,35 +52,58 @@
     <td>Learn Event Recommendations</td>
   </tr>
   <tr class="options">
-    <td><a href="">View in a browser</a> <a href="">Unsubscribe</a></td>
-  </tr>
-  <tr>
     <td>
-      <table cellpadding="0" cellspacing="0" border="0" align="center" width="599">
-        <tr class="date">
-          <td width="33%" class="mobilehide bgcolor"><%= image_tag("#{root_url}email/divider.png", class: 'spacer', size: "180x1") %></td>
-          <td width="33%" class="bgcolor"><span>Monday October 10, 2011</span></td>
-          <td width="33%" class="mobilehide bgcolor"><%= image_tag("#{root_url}email/divider.png", class: 'spacer', size: "180x1") %></td>
-        </tr>
-      </table>
+      <%- if @mailer_cache -%>
+        <%= link_to('View in a browser', webmail_recommendation_url(hashvalue: @mailer_cache.hashvalue)) %>
+      <%- else -%>
+        <a href="">View in a browser</a> 
+      <%- end -%>
+      <a href="">Unsubscribe</a>
     </td>
   </tr>
-  <%- @learner.recommended_events.each do |event| -%>
-  <tr>
-    <td>
-      <table cellpadding="0" cellspacing="0" border="0" align="center" width="599" class="article">
-        <tr>
-          <td class="bgcolor"><h3><%= event.title %></h3></td>
-        </tr>
-        <tr>
-          <td class="bgcolor">
-            <p><%= event.description %></p>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr><td><%= image_tag("#{root_url}email/divider.png", class: 'spacer bgcolor', size: "599x1") %></td></tr>
+  
+  <%- ['upcoming','recent'].each do |group| -%>
+    <tr>
+      <td>
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="599">
+          <tr class="date">
+            <td width="33%" class="mobilehide bgcolor"><%= image_tag("#{root_url}email/divider.png", class: 'spacer', size: "180x1") %></td>
+            <td width="33%" class="bgcolor">
+              <%- case group -%>
+              <%- when 'upcoming' -%>
+                <span>Upcoming Events</span>
+              <%- when 'recent' -%>
+                <span>Recent Events</span>
+              <%- else -%>
+                <span>Unknown Events</span>
+              <%- end -%>
+            </td>
+            <td width="33%" class="mobilehide bgcolor"><%= image_tag("#{root_url}email/divider.png", class: 'spacer', size: "180x1") %></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <%- @recommendation.send(group).each do |event| -%>
+      <tr>
+        <td>
+          <table cellpadding="0" cellspacing="0" border="0" align="center" width="599" class="article">
+            <tr>
+              <td class="bgcolor"><h3><%= event.title %></h3></td>
+            </tr>
+            <tr>
+              <td class="bgcolor"><%= event.session_start.strftime("%B %e, %Y, %l:%M %p %Z") %></td>
+            </tr>
+            <tr>
+              <td class="bgcolor">
+                <p><%= event.description.html_safe %></p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+  
+      <tr><td><%= image_tag("#{root_url}email/divider.png", class: 'spacer bgcolor', size: "599x1") %></td></tr>
+    <%- end -%>
   <%- end -%>
   
   <tr>
@@ -92,7 +115,14 @@
           </td>
         </tr>
         <tr class="options">
-          <td><a href="">View in a browser</a> <a href="">Unsubscribe</a></td>
+          <td>
+            <%- if @mailer_cache -%>
+              <%= link_to('View in a browser', webmail_recommendation_url(hashvalue: @mailer_cache.hashvalue)) %>
+            <%- else -%>
+              <a href="">View in a browser</a> 
+            <%- end -%>
+            <a href="">Unsubscribe</a>
+          </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
       </table>

@@ -35,7 +35,13 @@ Learn::Application.routes.draw do
   # recommended event tracking
   match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'  
   
-  match "mailer/:action" => 'mailer'
+
+  # webmail routes - prefer using the named routes instead of 
+  # catchalls, but that may get tiring after a while, we'll see
+  match "webmail/recommendation/:hashvalue" => "webmail#recommendation", :as => 'webmail_recommendation'
+  match "webmail/examples/recommendation"    => "webmail#example_recommendation"
+  
+  
   root :to => 'home#index'
 
 end
