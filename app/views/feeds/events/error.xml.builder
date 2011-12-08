@@ -1,6 +1,6 @@
 xml.instruct!
 xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
-  xml.id("tag:#{request.host},Error For:#{request.path}")
+  xml.id("tag:#{request.host},2005:Error For:#{request.path}")
   xml.title("eXtension Learn Feed Error")
   xml.link("rel" => "alternate", "href" => root_url)
   xml.link("rel" => "self", "href" => request.url)
@@ -10,7 +10,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
     xml.email("learn@extension.org")
   end
   xml.entry do
-    xml.id("tag:#{request.host},Error For:#{request.path}:#{Time.now.utc.xmlschema}")
+    xml.id("tag:#{request.host},2005:Error For:#{request.path}:#{Time.now.utc.xmlschema}")
     xml.title("eXtension Learn Feed Error")
     xml.link("rel" => "alternate", "href" => request.url)
     xml.updated(Time.now.utc.xmlschema)
