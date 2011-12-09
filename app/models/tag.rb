@@ -6,6 +6,8 @@
 
 class Tag < ActiveRecord::Base
   has_many :taggings
+  has_many :events, :through => :taggings, :source => :taggable, :source_type => 'Event'
+  
   validates :name, :presence => true, :uniqueness => true
   
   SPLITTER = Regexp.new(%r{\s*,\s*})

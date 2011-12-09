@@ -44,6 +44,8 @@ class Event < ActiveRecord::Base
   after_update :update_event_notifications
   
   DEFAULT_TIMEZONE = 'America/New_York'
+  # page default for will_paginate
+  self.per_page = 15
   
   # sunspot/solr search
   searchable do

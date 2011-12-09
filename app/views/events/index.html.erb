@@ -1,0 +1,5 @@
+<% @list_title = params[:type].present? ? ("#{params[:type].capitalize} Sessions") : ("All Sessions") %>
+<h1><%= @list_title %></h1>
+<%= render :partial => 'list' %>
+
+

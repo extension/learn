@@ -7,7 +7,19 @@
 class EventsController < ApplicationController
   before_filter :fake_learner
   before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection]
-    
+  
+  def index
+    if params[:type]
+      if params[:type] == 'recent'
+        @events =  Event.recent(nil).paginate(:page => params[:page]).order('session_start DESC')
+      elsif params[:type] == 'upcoming'
+        @events = Event.upcoming(nil).paginate(:page => params[:page]).order('session_start DESC')
+      end
+    else
+      @events = Event.paginate(:page => params[:page]).order('session_start DESC')
+    end
+  end
+  
   def show
     @event = Event.find(params[:id])
     # make sure @article has questions
@@ -64,6 +76,11 @@ class EventsController < ApplicationController
     end        
   end
   
+  def by_tag
+    @tag = Tag.find_by_id(params[:id])
+    @events = [] if @tag.blank?
+    @events = @tag.events.paginate(:page => params[:page]).order('session_start DESC')
+  end
   
   def learner_token_search
     @learners = Learner.where("name like ?", "%#{params[:q]}%")

@@ -14,11 +14,13 @@ class CreateMailerCaches < ActiveRecord::Migration
       # and tighten any future indexing
       t.integer    "cacheable_id"
       t.string     "cacheable_type", limit: 30
+      t.integer    "open_count", :default => 0
       t.text "markup", :limit => (64.kilobytes + 1)
       t.timestamps
     end
     
     add_index "mailer_caches", ["hashvalue"], :uniq => true, :name => 'hashvalue_ndx'
-    add_index "mailer_caches", ["learner_id"]
+    add_index "mailer_caches", ["learner_id","open_count"], :name => "open_learner_ndx"
+
   end
 end
