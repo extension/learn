@@ -7,6 +7,7 @@
 class MailerCache < ActiveRecord::Base
   belongs_to :learner
   belongs_to :cacheable, :polymorphic => true
+  has_many :activity_logs, :as => :loggable, dependent: :destroy
   
   before_create :generate_hashvalue
   

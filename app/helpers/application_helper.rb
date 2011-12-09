@@ -32,4 +32,16 @@ module ApplicationHelper
   def link_to_tag(tag)
     link_to(tag.name, by_tag_events_path(:id => tag.id)).html_safe
   end
+  
+  
+  def flash_notifications
+    message = flash[:error] || flash[:notice] || flash[:warning]
+    return_string = ''
+    if message
+      type = flash.keys[0].to_s
+      return_string << '<div id="flash_notification" class="' + type + '"><p>' + message + '</p></div>'
+      return return_string.html_safe
+    end
+  end
+  
 end

@@ -6,6 +6,7 @@
 
 class Event < ActiveRecord::Base
   include MarkupScrubber
+  
   attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
@@ -249,4 +250,14 @@ class Event < ActiveRecord::Base
     self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
   end
   
+  
+  def content_for_atom_entry
+    content = self.description + "\n\n"
+    content << "Location: " + self.location + "\n\n" if !self.location.blank?
+    content << "Session Start: " + self.session_start.in_time_zone(self.time_zone).xmlschema + "\n"
+    content << "Session Length: " + self.session_length.to_s + " minutes\n"
+    content << "Recording: " + self.recording if !self.recording.blank?
+    content
+  end
+
 end

@@ -94,8 +94,50 @@ span.recording_available {background: transparent url(/assets/play_button_mini.p
 textarea {width:80%; font-size:1.2em; line-height:1.3em; color:#000; padding:.5em;}
 //input {width:90%;}
 input.title {font-size:2em; height:auto; width:90%;}
-#editform {background:#e5e5e5; padding:1em; @include boxshadow}
+#editform {background:#e5e5e5; padding:1em; @include boxshadow; width:70%;}
 #editform h1 {color:#999; font-weight:normal; font-size:1.75em; padding:0 1em;}
 label {font-size:1.2em; color:#015890;  margin-bottom:.25em;}
 input.xs {width: 4em;}
 input.xxl {width: 80%;}
+
+#flash_notification {
+    height:5em;
+    width:100%;
+    position:fixed;
+    text-align:center;
+    left:0px;
+    z-index:100;
+    opacity: 0.92;
+    -moz-opacity: 0.92;
+    -moz-box-shadow: #555 0px 0px 5px;
+    box-shadow: #555 0px 0px 5px;
+    background: #049cdb;
+    background-image: -webkit-linear-gradient(top, #049cdb, #0064cd);
+    background-image: -o-linear-gradient(top, #049cdb, #0064cd);
+    background-image: linear-gradient(top, #049cdb, #0064cd);
+    color:#fff;
+}
+#flash_notification.notice {} //default
+#flash_notification.error,
+#flash_notification.warning {
+    color: #000;
+    background: #f3e942;
+    background-image: -webkit-linear-gradient(top, #f3f1c4, #f3e942);
+    background-image: -o-linear-gradient(top, #049cdb, #0064cd);
+    background-image: linear-gradient(top, #049cdb, #0064cd);
+}
+#flash_notification p {padding: 1em; font-size:1.5em;}
+
+#error_messages {
+	background: #ffebf3;
+	padding:1em;
+	margin: 0 2em 1em;
+	background-image: -webkit-linear-gradient(top, #ffebf3, #f4c5cb);
+    background-image: -o-linear-gradient(top, #ffebf3, #f4c5cb);
+    background-image: linear-gradient(top, #ffebf3, #f4c5cb);
+    @include rounded10;
+    border:2px solid red;
+}
+#error_messages ul {margin-bottom:0;}
+#error_messages li {font-size: 1.2em;padding:0;margin:0 0 .4em; color: #9b303a}
+#error_messages h3 {color: #9b303a}
