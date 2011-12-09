@@ -30,7 +30,7 @@ module ApplicationHelper
   end
   
   def link_to_tag(tag)
-    link_to(tag.name, event_tag_path(:tagname => tag.name)).html_safe
+    link_to(tag.name, event_tag_path(:tags => tag.name)).html_safe
   end
   
   
