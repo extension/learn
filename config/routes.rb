@@ -22,6 +22,10 @@ Learn::Application.routes.draw do
   match "settings/profile" => "settings#profile", :via => :get
   match "settings/notifications" => "settings#notifications", :via => :get
   
+  # upcoming and recent event listviews
+  match "/events/recent", :controller => :events, :action => :index, :type => 'recent', :via => :get
+  match "/events/upcoming", :controller => :events, :action => :index, :type => 'upcoming', :via => :get
+  
   resources :events do
     member do
       post 'addanswer'
@@ -30,12 +34,12 @@ Learn::Application.routes.draw do
     
     collection do
       get 'learner_token_search'
+      get 'by_tag'
     end
   end
   # recommended event tracking
   match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'  
   
-
   # webmail routes - prefer using the named routes instead of 
   # catchalls, but that may get tiring after a while, we'll see
   match "webmail/recommendation/:hashvalue" => "webmail#recommendation", :as => 'webmail_recommendation'
