@@ -9,16 +9,29 @@ class EventsController < ApplicationController
   before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection]
   
   def index
-    if params[:type]
-      if params[:type] == 'recent'
-        @events =  Event.recent(nil).paginate(:page => params[:page]).order('session_start DESC')
-      elsif params[:type] == 'upcoming'
-        @events = Event.upcoming(nil).paginate(:page => params[:page]).order('session_start DESC')
-      end
+    @events = Event.paginate(:page => params[:page]).order('session_start DESC')
+  end
+  
+  def upcoming
+    @events = Event.upcoming.paginate(:page => params[:page]).order('session_start DESC')
+    render :action => 'index'
+  end
+  
+  def recent
+    @events =  Event.recent.paginate(:page => params[:page]).order('session_start DESC')
+    render :action => 'index'
+  end
+  
+  def tags
+    # proof of concept - needs to be moved to something like Event.tagged_with(taglist)
+    if(params[:tags])
+      @events = Event.tagged_with(params[:tags]).paginate(:page => params[:page]).order('session_start DESC')
     else
       @events = Event.paginate(:page => params[:page]).order('session_start DESC')
     end
+    render :action => 'index'
   end
+    
   
   def show
     @event = Event.find(params[:id])
@@ -74,12 +87,6 @@ class EventsController < ApplicationController
     else
       render :action => 'edit'
     end        
-  end
-  
-  def by_tag
-    @tag = Tag.find_by_id(params[:id])
-    @events = [] if @tag.blank?
-    @events = @tag.events.paginate(:page => params[:page]).order('session_start DESC')
   end
   
   def learner_token_search
