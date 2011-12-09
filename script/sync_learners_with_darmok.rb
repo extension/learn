@@ -4,25 +4,7 @@
 # Developed with funding for the National eXtension Initiative.
 # === LICENSE:
 # see LICENSE file
-require 'getoptlong'
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-
-### Program Options
-progopts = GetoptLong.new(
-  [ "--environment","-e", GetoptLong::OPTIONAL_ARGUMENT ],
-)
-
-@environment = 'production'
-
-progopts.each do |option, arg|
-  case option
-    when '--environment'
-      @environment = arg
-    else
-      puts "Unrecognized option #{opt}"
-      exit 0
-    end
-end
 
 @mydatabase = ActiveRecord::Base.connection.instance_variable_get("@config")[:database]
 @darmokdatabase = Settings.darmokdatabase
