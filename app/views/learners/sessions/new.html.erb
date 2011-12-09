@@ -5,7 +5,8 @@
     <div class="signup_option">
       <%= image_tag("twitter_newbird_boxed_whiteonblue.png", :size => "50x50",) %>
       <p>    
-        <%= link_to "Sign in with Twitter", authmap_omniauth_authorize_path(:twitter, :redirect_to => params[:redirect_to]) %>
+        <% link_to "Sign in with Twitter", authmap_omniauth_authorize_path(:twitter, :redirect_to => params[:redirect_to]) %>
+        Sign in with Twitter <small>(coming soon)</small>
       </p>
     </div>
     
