@@ -1,4 +1,9 @@
 # encoding: UTF-8
+# === COPYRIGHT:
+# Copyright (c) North Carolina State University
+# Developed with funding for the National eXtension Initiative.
+# === LICENSE:
+# see LICENSE file
 
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
