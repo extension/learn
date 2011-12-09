@@ -13,7 +13,7 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   def people
     @learner = Authmap.find_for_people_openid(env["omniauth.auth"], current_learner)
     if @learner.persisted?
-      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "People"
+      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "eXtension"
       sign_in_and_redirect @learner, :event => :authentication
     else
       session["devise.people_data"] = env["omniauth.auth"]
