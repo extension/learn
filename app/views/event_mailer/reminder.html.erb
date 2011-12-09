@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html style="margin: 0; padding: 0;">
+
+<head>
+  <title>
+    [Event Title] is starting soon!
+  </title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <style type="text/css">
+  body {margin:0 auto; padding:10px; background:#f5f5f5;}
+  #wrapper {
+    -webkit-box-shadow: rgba(0,0,0,.4) 0 3px 10px;
+    margin:20px;
+    -webkit-border-radius: 10px;
+    background:#fff;
+    width:599px;
+  }
+	a:hover { text-decoration: none !important; }
+	h1 {color: #d98837 !important; font: normal 30px Georgia, serif; margin: 0 0 0 10px; padding: 0; line-height: 40px;}
+	tr.tagline  {background:#000; color:#fff; padding:10px;}
+	tr.tagline td  {background:#000; color:#fff; padding:10px; font: normal 20px Arial, Verdana, sans-serif;}
+	tr.options  {background:#585858; color:#fff; padding:10px;}
+	tr.options td  {background:#585858; color:#ddd; padding:5px 9px;}
+	tr.options td a {color:#ccc; padding:6px; font: normal 14px  Arial, Verdana, sans-serif; text-decoration:none;}
+	tr.options td a:hover {color:#fff;}	
+	tr.date td {font: normal 12px  Arial, Verdana, sans-serif; text-align:center; padding:15px 10px; color:#888; text-transform:uppercase;}
+	.article h3 {font: bold 24px  Georgia, serif; margin: 0 0 0;}
+	.article p {font: normal 14px  Arial, sans-serif; margin: 20px 0 0; margin:0 0 0; line-height:18px;}
+	.article td {padding:10px;}
+	.footer td {padding:10px;}
+	table.footer {margin:0 0 30px;}
+	table.footer p {color:#888; font: normal 13px  Arial, sans-serif;}
+	table.footer tr.options td {color:#888; font: normal 13px  Arial, sans-serif; background:#fff; padding:0 5px;}
+	table.footer tr.options td a {color:#0069D6; font: normal 13px  Arial, sans-serif; background:#fff;}
+	#learn_logo {height: 96px;}
+	.bgcolor {background:#fff;}
+	</style>
+	<%= stylesheet_link_tag("#{root_url}email/mobile.css") %>
+</head>
+<body>
+
+
+<div id="wrapper">
+<table cellpadding="0" cellspacing="0" border="0" align="center" width="599">
+  <tr>
+    <th align="left" class="bgcolor">
+      <%- logo_url = @mailer_cache.blank? ? "#{root_url}email/logo_small.png" : "#{webmail_logo_url(mailer_cache_id: @mailer_cache.id, format: 'png')}" -%>
+      <h1 id="learn_logo"><%= image_tag(logo_url, alt: "Learn: Event Recommendations") %></h1>      
+    </th>
+  </tr>
+  <tr class="tagline">
+    <td>[Event Title] is starting soon!</td>
+  </tr>
+  <tr class="options">
+    <td>
+      <%- if @mailer_cache -%>
+        <%= link_to('View in a browser', webmail_recommendation_url(hashvalue: @mailer_cache.hashvalue)) %>
+      <%- else -%>
+        <a href="">View in a browser</a> 
+      <%- end -%>
+      <a href="">Unsubscribe</a>
+    </td>
+  </tr>
+  
+  <tr><td>
+  <p>REMINDER GOES HERE</p>
+  </tr></td>
+    
+  <tr>
+    <td>
+      <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" class="footer">
+        <tr>
+          <td class="bgcolor">
+            <p>This email was sent to <%= @learner.email %>. You received this email because you signed up to receive event recommendations from learn.extension.org.</p>
+          </td>
+        </tr>
+        <tr class="options">
+          <td>
+            <%- if @mailer_cache -%>
+              <%= link_to('View in a browser', webmail_recommendation_url(hashvalue: @mailer_cache.hashvalue)) %>
+            <%- else -%>
+              <a href="">View in a browser</a> 
+            <%- end -%>
+            <a href="">Unsubscribe</a>
+          </td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</div>  
+</body>
+</html>

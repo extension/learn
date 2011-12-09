@@ -49,6 +49,7 @@ Learn::Application.routes.draw do
   match "webmail/:mailer_cache_id/logo" => "webmail#logo", :as => 'webmail_logo'
   match "webmail/recommendation/:hashvalue" => "webmail#recommendation", :as => 'webmail_recommendation'
   match "webmail/examples/recommendation"    => "webmail#example_recommendation"
+  match "webmail/examples/reminder"    => "webmail#example_reminder"
   
   
   root :to => 'home#index'
