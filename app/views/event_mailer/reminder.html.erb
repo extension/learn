@@ -78,7 +78,7 @@
         <tr class="options">
           <td>
             <%- if @mailer_cache -%>
-              <%= link_to('View in a browser', webmail_recommendation_url(hashvalue: @mailer_cache.hashvalue)) %>
+              <%= link_to('View in a browser', webmail_view_url(hashvalue: @mailer_cache.hashvalue)) %>
             <%- else -%>
               <a href="">View in a browser</a> 
             <%- end -%>
