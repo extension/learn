@@ -9,21 +9,29 @@ class EventsController < ApplicationController
   before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection]
   
   def index
+    @list_title = 'All Sessions'
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
     @events = Event.paginate(:page => params[:page]).order('session_start DESC')
   end
   
   def upcoming
+    @list_title = 'Upcoming Sessions'
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
     @events = Event.upcoming.paginate(:page => params[:page]).order('session_start DESC')
     render :action => 'index'
   end
   
   def recent
+    @list_title = "Recent Sessions"
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
     @events =  Event.recent.paginate(:page => params[:page]).order('session_start DESC')
     render :action => 'index'
   end
   
   def tags
     # proof of concept - needs to be moved to something like Event.tagged_with(taglist)
+    @list_title = "Sessions Tagged With '#{params[:tags]}'"
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
     if(params[:tags])
       @events = Event.tagged_with(params[:tags]).paginate(:page => params[:page]).order('session_start DESC')
     else
@@ -32,7 +40,6 @@ class EventsController < ApplicationController
     render :action => 'index'
   end
     
-  
   def show
     @event = Event.find(params[:id])
     # make sure @article has questions
