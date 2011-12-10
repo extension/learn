@@ -32,5 +32,9 @@ class EventMailer < ActionMailer::Base
     # the email if we got it
     return_email
   end
+  
+  def reminder
+      @learner = Learner.learnbot
+  end
 
 end

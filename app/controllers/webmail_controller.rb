@@ -15,6 +15,15 @@ class WebmailController < ApplicationController
     end
   end
   
+  def view
+    if(mailer_cache = MailerCache.find_by_hashvalue(params[:hashvalue]))
+      inlined_content = InlineStyle.process(mailer_cache.markup,ignore_linked_stylesheets: true)
+      render(:text => inlined_content, :layout => false)
+    else
+      return render(template: "webmail/missing_view")
+    end
+  end
+  
   def example_recommendation
     recommendation = ExampleRecommendation.new(upcoming_limit: params[:upcoming], recent_limit: params[:recent])
         
@@ -25,6 +34,12 @@ class WebmailController < ApplicationController
     # send it through the inline style processing
     inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
 
+    render(:text => inlined_content, :layout => false)
+  end
+  
+  def example_reminder
+    mail = EventMailer.reminder
+    inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
     render(:text => inlined_content, :layout => false)
   end
   
