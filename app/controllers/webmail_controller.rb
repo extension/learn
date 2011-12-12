@@ -49,6 +49,12 @@ class WebmailController < ApplicationController
     render(:text => inlined_content, :layout => false)
   end
   
+  def example_activity
+    mail = EventMailer.activity
+    inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
+    render(:text => inlined_content, :layout => false)
+  end
+  
   def logo
     logo_filename = Rails.root.join('public', 'email', 'logo_small.png')
     if(mailer_cache = MailerCache.find_by_id(params[:mailer_cache_id]))
