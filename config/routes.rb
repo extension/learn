@@ -22,10 +22,6 @@ Learn::Application.routes.draw do
   match "settings/profile" => "settings#profile", :via => :get
   match "settings/notifications" => "settings#notifications", :via => :get
   
-  # upcoming and recent event listviews
-  match "/events/recent", :controller => :events, :action => :index, :type => 'recent', :via => :get
-  match "/events/upcoming", :controller => :events, :action => :index, :type => 'upcoming', :via => :get
-  
   resources :events do
     member do
       post 'addanswer'
@@ -34,9 +30,14 @@ Learn::Application.routes.draw do
     
     collection do
       get 'learner_token_search'
-      get 'by_tag'
+      get 'upcoming'
+      get 'tags'
+      get 'recent'
     end
   end
+  # individual tag match
+  match "/events/tag/:tags" => "events#tags", :as => 'event_tag'  
+  
   # recommended event tracking
   match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'  
   
