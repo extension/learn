@@ -26,5 +26,21 @@
   <%- end -%>
 <%- end -%>
 <%- if current_learner.has_connection_with_event?(@event) -%>
-  <p>TODO: verbiage about notifications</p>
+  
+  <%- if current_learner.preferences.setting("notification.reminder.sms") and !@event.started? -%>
+    <p> You are signed up to get a test (SMS) notification when this event is about to start </p>
+  <%- end -%>
+
+  <%- if current_learner.preferences.setting("notification.reminder.email") -%>
+    <p> You are signed up to get email notifications for this event </p>
+  <%- end -%>  
+  
+  <%- if current_learner.has_event_notification_exception?(@event) -%>
+    Button - Turn Notifications on for this event
+  <%- else -%>
+    Button - Turn Notifications off for this event
+  <%- end -%>
+  
+  <p>You can change your notification settings on your <%= link_to 'prefs page', {controller: "settings", action: "notifications"} %></p>
+    
 <%- end -%>
