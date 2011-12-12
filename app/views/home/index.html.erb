@@ -1,6 +1,6 @@
 <div id="three_col_one">
   <h2>Upcoming Sessions</h2>
-  <p><%= link_to 'view all', events_upcoming_path %></p>
+  <p><%= link_to 'view all', upcoming_events_path %></p>
   <div id="upcoming_events">
   <%- @upcoming_events.each do |event| -%>
     <section class="event">
@@ -36,7 +36,7 @@
 
 <div id="three_col_two">
   <h2>Recent Sessions</h2>
-  <p><%= link_to 'view all', events_recent_path %></p>
+  <p><%= link_to 'view all', recent_events_path %></p>
   <div id="recent_events">
   <%- @recent_events.each do |event| -%>
 
