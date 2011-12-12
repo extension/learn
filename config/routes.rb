@@ -26,6 +26,7 @@ Learn::Application.routes.draw do
     member do
       post 'addanswer'
       post 'makeconnection'
+      post 'notificationexception'
     end
     
     collection do

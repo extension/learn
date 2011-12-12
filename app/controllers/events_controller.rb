@@ -161,5 +161,15 @@ class EventsController < ApplicationController
       end
     end
   end
+  
+  def notificationexception
+    @event = Event.find(params[:id])
+    exception = NotificationException.where(learner_id: current_learner.id, event_id: @event.id)
+    if !exception.empty?
+      exception[0].destroy  
+    else
+      NotificationException.create(learner: current_learner, event: @event)
+    end
+  end
     
 end
