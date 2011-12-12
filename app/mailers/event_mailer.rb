@@ -36,5 +36,9 @@ class EventMailer < ActionMailer::Base
   def reminder
       @learner = Learner.learnbot
   end
+  
+  def recording
+      @learner = Learner.learnbot
+  end
 
 end

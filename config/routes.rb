@@ -50,6 +50,7 @@ Learn::Application.routes.draw do
   match "webmail/recommendation/:hashvalue" => "webmail#recommendation", :as => 'webmail_recommendation'
   match "webmail/examples/recommendation"    => "webmail#example_recommendation"
   match "webmail/examples/reminder"    => "webmail#example_reminder"
+  match "webmail/examples/recording"    => "webmail#example_recording"
   match "webmail/view/:hashvalue" => "webmail#view", :as => 'webmail_view'
   
   
