@@ -97,7 +97,7 @@ class Event < ActiveRecord::Base
   
   def set_tags_from_tag_list
     tags_to_set = []
-    self.tag_list.split(Tag::JOINER).each do |tag_name|
+    self.tag_list.split(Tag::SPLITTER).each do |tag_name|
       if(tag = Tag.find_or_create_by_normalizedname(tag_name))
         tags_to_set << tag
       end
