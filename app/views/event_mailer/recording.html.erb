@@ -4,7 +4,7 @@
 
 <head>
   <title>
-    The recording for {EVENT TITLE} has been uploaded.
+    A New Recording is Available
   </title>
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
   <style type="text/css">
@@ -22,10 +22,10 @@
 	tr.tagline td  {background:#000; color:#fff; padding:10px; font: normal 20px Arial, Verdana, sans-serif;}
 	tr.options  {background:#585858; color:#fff; padding:10px;}
 	tr.options td  {background:#585858; color:#ddd; padding:5px 9px;}
-	tr.options td a {color:#ccc; padding:6px; font: normal 14px  Arial, Verdana, sans-serif; text-decoration:none;}
+	tr.options td a {color:#aaa; padding:6px; font: normal 14px  Arial, Verdana, sans-serif; text-decoration:none;}
 	tr.options td a:hover {color:#fff;}	
 	tr.date td {font: normal 12px  Arial, Verdana, sans-serif; text-align:center; padding:15px 10px; color:#888; text-transform:uppercase;}
-	.article h3 {font: bold 24px  Georgia, serif; margin: 0 0 0;}
+	.article h3 {font: bold 24px  Georgia, serif; margin: 0;}
 	.article p {font: normal 14px  Arial, sans-serif; margin: 20px 0 0; margin:0 0 0; line-height:18px;}
 	.article td {padding:10px;}
 	.footer td {padding:10px;}
@@ -33,8 +33,17 @@
 	table.footer p {color:#888; font: normal 13px  Arial, sans-serif;}
 	table.footer tr.options td {color:#888; font: normal 13px  Arial, sans-serif; background:#fff; padding:0 5px;}
 	table.footer tr.options td a {color:#0069D6; font: normal 13px  Arial, sans-serif; background:#fff;}
+	td.footer {padding-top:1em;}
 	#learn_logo {height: 96px;}
 	.bgcolor {background:#fff;}
+	#reminder_title {font: bold 20px Arial, Verdana, sans-serif; padding:1.5em 0 .75em;}
+	#reminder_title a {color:#000; text-decoration:none;}
+	#event_start_time {font: normal 20px Arial, Verdana, sans-serif; padding:.65em; background:#e5e5e5;}
+	#event_start_time strong {font-size:24px;}
+	#event_start_time a {color:#000; text-decoration:none;}
+	#button {background:#e5e5e5; padding:10px;}
+	#button a {color:#0069D6; padding:.5em .75em; text-decoration:none; font: bold 22px Arial, Verdana, sans-serif; }
+	#reminder_description {padding-top:1.5em;}
 	</style>
 	<%= stylesheet_link_tag("#{root_url}email/mobile.css") %>
 </head>
@@ -42,7 +51,7 @@
 
 
 <div id="wrapper">
-<table cellpadding="0" cellspacing="0" border="0" align="center" width="599">
+<table cellpadding="0" cellspacing="0" border="0" align="center" width="599" class="bgcolor">
   <tr>
     <th align="left" class="bgcolor">
       <%- logo_url = @mailer_cache.blank? ? "#{root_url}email/logo_small.png" : "#{webmail_logo_url(mailer_cache_id: @mailer_cache.id, format: 'png')}" -%>
@@ -50,7 +59,7 @@
     </th>
   </tr>
   <tr class="tagline">
-    <td>[Event Title] is starting soon!</td>
+    <td>A New Recording is Available</td>
   </tr>
   <tr class="options">
     <td>
@@ -64,15 +73,31 @@
   </tr>
   
   <tr><td>
-  <p>RECORDING GOES HERE</p>
-  </tr></td>
+  
+    <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
+      <tr>
+        <td id="reminder_title">The recording for "<%= link_to(@event.title, event_url(@event.id)) -%>" is now available</td>
+      </tr>
+      <tr>
+        <td id="button">
+          <%= image_tag("#{root_url}email/play_button.png", size: "36x40") %>
+          <%= link_to("Watch Now!", event_url(@event.id)) -%>
+        </td>
+      </tr>
+      <tr>
+        <td id="reminder_description"><%= @event.description %></td>
+      </tr>
+    </table>
+  
+  
+  </td></tr>
     
   <tr>
     <td>
       <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" class="footer">
         <tr>
           <td class="bgcolor">
-            <p>This email was sent to <%= @learner.email %>. You received this email because you signed up to receive event recommendations from learn.extension.org.</p>
+            <p>This email was sent to <%= @learner.email %>. You received this email because you signed up to be notified when your event recordings are uploaded at learn.extension.org.</p>
           </td>
         </tr>
         <tr class="options">

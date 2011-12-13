@@ -40,6 +40,7 @@ class EventMailer < ActionMailer::Base
   
   def recording
       @learner = Learner.learnbot
+      @event = Event.find(2)
   end
   
   def activity
