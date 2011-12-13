@@ -4,7 +4,7 @@
 
 <head>
   <title>
-    A New Recording is Available
+    A New Professional Development Recording is Available
   </title>
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
   <style type="text/css">
@@ -38,6 +38,7 @@
 	.bgcolor {background:#fff;}
 	#reminder_title {font: bold 20px Arial, Verdana, sans-serif; padding:1.5em 0 .75em;}
 	#reminder_title a {color:#000; text-decoration:none;}
+	#reminder_title span a, #reminder_title span  {color:#555; font-weight:normal;}
 	#event_start_time {font: normal 20px Arial, Verdana, sans-serif; padding:.65em; background:#e5e5e5;}
 	#event_start_time strong {font-size:24px;}
 	#event_start_time a {color:#000; text-decoration:none;}
@@ -59,7 +60,7 @@
     </th>
   </tr>
   <tr class="tagline">
-    <td>A New Recording is Available</td>
+    <td>A New Professional Development Recording is Available</td>
   </tr>
   <tr class="options">
     <td>
@@ -68,7 +69,7 @@
       <%- else -%>
         <a href="">View in a browser</a> 
       <%- end -%>
-      <a href="">Unsubscribe</a>
+      <%= link_to "Unsubscribe", settings_notifications_url() %>
     </td>
   </tr>
   
@@ -76,12 +77,16 @@
   
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
       <tr>
-        <td id="reminder_title">The recording for "<%= link_to(@event.title, event_url(@event.id)) -%>" is now available</td>
+        <td id="reminder_title">A new recording has just been uploaded:<br/> <span>"<%= link_to(@event.title, event_url(@event.id)) -%>"</span></td>
       </tr>
       <tr>
         <td id="button">
-          <%= image_tag("#{root_url}email/play_button.png", size: "36x40") %>
-          <%= link_to("Watch Now!", event_url(@event.id)) -%>
+              <table cellpadding="0" cellspacing="0" border="0" align="left">
+            <tr>
+              <td><%= image_tag("#{root_url}email/play_button.png", size: "36x40") %></td>
+              <td><%= link_to("Watch Now!", event_url(@event.id)) -%></td>
+            </tr>
+          </table>
         </td>
       </tr>
       <tr>
@@ -93,7 +98,7 @@
   </td></tr>
     
   <tr>
-    <td>
+    <td class="footer">
       <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" class="footer">
         <tr>
           <td class="bgcolor">
@@ -107,7 +112,7 @@
             <%- else -%>
               <a href="">View in a browser</a> 
             <%- end -%>
-            <a href="">Unsubscribe</a>
+            <%= link_to "Unsubscribe", settings_notifications_url() %>
           </td>
         </tr>
         <tr><td>&nbsp;</td></tr>

@@ -39,10 +39,11 @@
 	#reminder_title {font: bold 20px Arial, Verdana, sans-serif; padding:1.5em 0 .75em;}
 	#reminder_title a {color:#000; text-decoration:none;}
 	#event_start_time {font: normal 20px Arial, Verdana, sans-serif; padding:.65em; background:#e5e5e5;}
-	#event_start_time strong {font-size:24px;}
+	#event_start_time strong {font-size:28px;}
 	#event_start_time a {color:#000; text-decoration:none;}
 	#button a {color:#0069D6; padding:.5em .75em; text-decoration:none; font: bold 22px Arial, Verdana, sans-serif;}
 	#reminder_description {padding-top:1.5em;}
+	.clock {padding-right:1em;}
 	</style>
 	<%= stylesheet_link_tag("#{root_url}email/mobile.css") %>
 </head>
@@ -78,11 +79,20 @@
       </tr>
       <tr>
         <td id="event_start_time">
+          <table cellpadding="0" cellspacing="0" border="0" align="left" >
+            <tr>
+              <td class="clock">
+              <%= image_tag("#{root_url}email/clock.png", size: "60x60") %>
+              </td>
+            <td>
           It's starting soon at: <br/>
           <%= link_to(event_url(@event.id)) do -%>
           <strong><%= @event.session_start.strftime("%l:%M %p %Z") -%></strong>
           <%= @event.session_start.strftime("%B %e, %Y") -%>
           <%- end -%> 
+          </td>
+          </tr>
+          </table>
         </td>
       </tr>
       <tr>

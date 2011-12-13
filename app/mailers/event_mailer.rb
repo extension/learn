@@ -45,6 +45,7 @@ class EventMailer < ActionMailer::Base
   
   def activity
       @learner = Learner.learnbot
+      @event = Event.find(2)
   end
 
 end
