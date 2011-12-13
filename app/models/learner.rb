@@ -231,4 +231,11 @@ class Learner < ActiveRecord::Base
     return_learners
   end
   
+  def send_recommendation?
+    self.preferences.setting('notification.recommendation')
+  end
+  
+  def send_recommendation=(send_it)
+    Preference.create_or_update(self,'notification.recommendation',send_it)
+  end
 end
