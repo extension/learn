@@ -31,7 +31,7 @@ class EventActivity < ActiveRecord::Base
   
   # scoring
   SCORING = {
-    VIEW                      => 1,
+    VIEW                      => 0,
     VIEW_FROM_RECOMMENDATION  => 2,
     VIEW_FROM_SHARE           => 2,
     SHARE                     => 1,
