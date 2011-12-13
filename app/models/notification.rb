@@ -11,6 +11,7 @@ class Notification < ActiveRecord::Base
   REMINDER_NOTIFICATION_EMAIL = 3 # could be used to queue non event-related notifications
   ACTIVITY = 10
   RECORDING = 20
+  RECOMMENDATION = 30
   
   def process
     case self.notificationtype
@@ -22,6 +23,10 @@ class Notification < ActiveRecord::Base
       process_activity_notifications
     when RECORDING
       process_recording_notifications
+    when RECOMMENDATION
+      process_recommendation
+    else
+      # nothing
     end
   end
   
@@ -53,6 +58,11 @@ class Notification < ActiveRecord::Base
     puts "sending recording information"
     list = get_event_notification_list('notification.recording', true)
     list.each{|learner| puts "sending recording notification to #{learner.email}" unless learner.has_event_notification_exception?(self.notifiable)}  
+  end
+  
+  def process_recommendation
+    recommendation = self.notifiable
+    EventMailer.recommendation(recommendation: recommendation).deliver
   end
 
   def queue_delayed_notifications
@@ -86,5 +96,6 @@ class Notification < ActiveRecord::Base
       return false
     end
   end
+  
 
 end
