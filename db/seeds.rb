@@ -225,6 +225,17 @@ def transfer_event_connections
     ActiveRecord::Base.record_timestamps = true #turning updates back on
   end
   
+  # fix event_connection timestamps that came from presenter connections
+  update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
+  UPDATE #{EventConnection.table_name},#{PresenterConnection.table_name}
+   SET #{EventConnection.table_name}.created_at = #{PresenterConnection.table_name}.created_at
+   WHERE #{EventConnection.table_name}.event_id = #{PresenterConnection.table_name}.event_id
+   AND #{EventConnection.table_name}.learner_id = #{PresenterConnection.table_name}.learner_id
+   AND #{EventConnection.table_name}.connectiontype = #{EventConnection::BOOKMARK}
+  END_SQL
+  EventActivity.connection.execute(update_timestamp_query)
+  
+  
   # for all the event_activities that were created, set the updated_at
   update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
   UPDATE #{EventActivity.table_name},#{EventConnection.table_name}
