@@ -59,8 +59,37 @@ class Event < ActiveRecord::Base
   scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
+
+  scope :this_week, lambda {
+    weekday = Time.now.utc.strftime('%u').to_i
+    # if saturday or sunday - do next week, else this week
+    if(weekday >= 6)
+      where('session_start > ?',(Time.zone.now + 7.days).beginning_of_week).where('session_start <= ?', (Time.zone.now + 7.days).end_of_week)
+    else
+      where('session_start > ?',Time.zone.now.beginning_of_week).where('session_start <= ?', Time.zone.now.end_of_week)
+    end
+  }
   
-  scope :through_this_week, lambda { where('session_end >= ?',Time.zone.now).where('session_end <= ?', (Time.zone.now + 7.days).end_of_week) }
+  scope :last_week, lambda {
+    weekday = Time.now.utc.strftime('%u').to_i
+    # if saturday or sunday - do this week, else last week
+    if(weekday >= 6)
+      where('session_start > ?',Time.zone.now.beginning_of_week).where('session_start <= ?', Time.zone.now.end_of_week)
+    else
+      where('session_start > ?',(Time.zone.now - 7.days).beginning_of_week).where('session_start <= ?', (Time.zone.now - 7.days).end_of_week)
+    end
+  }
+  
+  scope :recommendation_epoch, lambda {
+    weekday = Time.now.utc.strftime('%u').to_i
+    # if saturday or sunday - this+next, else last+this
+    if(weekday >= 6)
+      where('session_start > ?',Time.zone.now.beginning_of_week).where('session_start <= ?', (Time.zone.now + 7.days).end_of_week)
+    else
+      where('session_start > ?',(Time.zone.now - 7.days).beginning_of_week).where('session_start <= ?', Time.zone.now.end_of_week)
+    end
+  }
+  
   scope :upcoming, lambda { |limit=3| where('session_start >= ?',Time.zone.now).order("session_start ASC").limit(limit) }
   scope :recent,   lambda { |limit=3| where('session_start < ?',Time.zone.now).order("session_start DESC").limit(limit) }
   
@@ -164,23 +193,7 @@ class Event < ActiveRecord::Base
     end
     return_results
   end
-  
-  
-  def similar_events_through_next_week(count = 4)
-    search_results = self.more_like_this do
-      paginate(:page => 1, :per_page => count)
-      adjust_solr_params do |params|
-        params[:fl] = 'id,score'
-      end
-      with(:session_start).between(Time.zone.now..(Time.zone.now + 7.days).end_of_week)
-    end
-    return_results = {}
-    search_results.each_hit_with_result do |hit,event|
-      return_results[event] = hit.score
-    end
-    return_results
-  end
-  
+    
   def concluded?
     if(!self.session_end.blank?)
       return (Time.now.utc > self.session_end)
@@ -267,5 +280,57 @@ class Event < ActiveRecord::Base
     normalizedlist = taglist.split(Tag::SPLITTER).collect{|tagname| Tag.normalizename(tagname)}
     Event.includes([:tags]).where("tags.name IN (#{normalizedlist.map{|tagname| "'#{tagname}'"}.join(',')})")
   end
+  
+  
+  def potential_learners(options = {})
+    learners = self.learners.all
+    presenters = self.presenters.all
+    min_score = options[:min_score] || 3
+    remove_connectors = options[:remove_connectors].nil? ? true : options[:remove_connectors]
+    learner_list = {}
+    mlt_list = self.similar_events
+    total_mlt_score = 0
+    mlt_list.each do |mlt_event,mlt_score|
+      total_mlt_score += mlt_score
+      learner_scores = mlt_event.event_activities.group(:learner).sum(:score)
+      learner_scores.each do |learner,score|
+        if(remove_connectors)
+          next if learners.include?(learner)
+          next if presenters.include?(learner)
+        end
+        
+        if(learner_list[learner])
+          learner_list[learner] += (score * mlt_score)
+        else
+          learner_list[learner] = (score * mlt_score)
+        end
+      end
+    end
+    
+    learner_list.each do |learner,score|
+      learner_list[learner] = learner_list[learner] / total_mlt_score
+    end
+      
+    if(min_score)
+      learner_list.delete_if{|learner,score| score < min_score}
+    end
+    
+    learner_list
+  end
+  
+  def self.potential_learners(options = {})
+    with_scope do 
+      event_list = {}
+      self.all.each do |event|
+        learners = {}
+        with_exclusive_scope do 
+          learners =  event.potential_learners(options)
+        end
+        event_list[event] = learners
+      end
+      event_list
+    end
+  end
+  
 
 end

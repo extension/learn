@@ -12,11 +12,11 @@ class Recommendation < ActiveRecord::Base
   before_create :set_day
   
   def upcoming
-    self.recommended_events.upcoming
+    self.recommended_events.this_week
   end
   
   def recent
-    self.recommended_events.recent
+    self.recommended_events.last_week
   end
   
   def set_day
@@ -24,4 +24,13 @@ class Recommendation < ActiveRecord::Base
       self.day = Date.today
     end
   end
+  
+  def self.create_from_epoch
+    learners_events = Learner.recommended_events
+    learners_events.each do |learner,eventlist|
+      recommendation = self.create(learner: learner)
+      recommendation.events = eventlist
+    end
+  end
+    
 end

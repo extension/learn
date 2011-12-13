@@ -207,5 +207,28 @@ class Learner < ActiveRecord::Base
   def convert_mobile_number
     self.mobile_number = self.mobile_number.to_s.gsub(/[^0-9]/, '') if self.mobile_number
   end 
-   
+  
+  def self.recommended_events(options = {})
+    learners = {}
+    return_learners = {}
+    local_options = options.dup
+    max_events = local_options.delete(:max_events) || 3
+    
+    event_list = Event.recommendation_epoch.potential_learners(options)    
+    event_list.each do |event,learner_list|
+      learner_list.each do |learner,score|
+        if(learners[learner])
+          learners[learner] << {:event => event, :score => score}
+        else
+          learners[learner] = [{:event => event, :score => score}]
+        end
+      end
+    end
+    
+    learners.each do |learner,score_events|
+      return_learners[learner] = score_events.sort{|hash1,hash2| hash1[:score] <=> hash2[:score]}.map{|h| h[:event]}.slice(0,max_events)
+    end
+    return_learners
+  end
+  
 end
