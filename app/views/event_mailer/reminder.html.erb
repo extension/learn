@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<% root_url = "http://demo.learn.extension.org/" %>
+
 <html style="margin: 0; padding: 0;">
 
 <head>
@@ -67,19 +67,19 @@
       <%- else -%>
         <a href="">View in a browser</a> 
       <%- end -%>
-      <%= link_to "Unsubscribe", settings_notifications_path() %>
+      <%= link_to "Unsubscribe", settings_notifications_url() %>
     </td>
   </tr>
   
   <tr><td>
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
       <tr>
-        <td id="reminder_title"><%= link_to(@event.title, event_path(@event.id)) -%></td>
+        <td id="reminder_title"><%= link_to(@event.title, event_url(@event.id)) -%></td>
       </tr>
       <tr>
         <td id="event_start_time">
           It's starting soon at: <br/>
-          <%= link_to(event_path(@event.id)) do -%>
+          <%= link_to(event_url(@event.id)) do -%>
           <strong><%= @event.session_start.strftime("%l:%M %p %Z") -%></strong>
           <%= @event.session_start.strftime("%B %e, %Y") -%>
           <%- end -%> 
@@ -88,7 +88,7 @@
       <tr>
         <td id="button">
           <br/>
-          <%= link_to("View this event", event_path(@event.id)) -%>
+          <%= link_to("View this event", event_url(@event.id)) -%>
         </td>
       </tr>
       <tr>
@@ -113,7 +113,7 @@
             <%- else -%>
               <a href="">View in a browser</a> 
             <%- end -%>
-              <%= link_to "Unsubscribe", settings_notifications_path() %>
+              <%= link_to "Unsubscribe", settings_notifications_url() %>
           </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
