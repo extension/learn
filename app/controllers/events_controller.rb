@@ -96,6 +96,24 @@ class EventsController < ApplicationController
     end        
   end
   
+  def search
+    # take quotes out to see if it's a blank field and also strip out +, -, and "  as submitted by themselves are apparently special characters 
+    # for solr and will make it crash
+    if params[:q].gsub(/["'+-]/, '').strip.blank?
+      flash[:error] = "Empty/invalid search terms"
+      return redirect_to root_url
+    end
+    
+    @list_title = "Session Search Results for '#{params[:q]}'"
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
+    events = Event.search do
+                fulltext(params[:q])
+                paginate :page => params[:page], :per_page => Event.per_page
+              end
+    @events = events.results
+    render :action => 'index'
+  end
+  
   def learner_token_search
     @learners = Learner.where("name like ?", "%#{params[:q]}%")
     token_hash = @learners.collect{|learner| {id: learner.id, name: learner.name}}
@@ -159,6 +177,16 @@ class EventsController < ApplicationController
       else
         # do nothing
       end
+    end
+  end
+  
+  def notificationexception
+    @event = Event.find(params[:id])
+    exception = NotificationException.where(learner_id: current_learner.id, event_id: @event.id)
+    if !exception.empty?
+      exception[0].destroy  
+    else
+      NotificationException.create(learner: current_learner, event: @event)
     end
   end
     

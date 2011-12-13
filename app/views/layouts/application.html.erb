@@ -34,6 +34,13 @@
         <li class="signin"><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn primary" )%></li>
       <%- end -%>
     </ul>
+    
+    <p>
+      <%= form_tag search_events_path, :method => :get do %>
+        <%= text_field_tag 'q', params[:q], :size => 15 %>
+        <%= submit_tag 'Search' %>
+      <% end %>
+    </p>
   </nav>
   
   <div id="content_wrapper">

@@ -26,6 +26,7 @@ Learn::Application.routes.draw do
     member do
       post 'addanswer'
       post 'makeconnection'
+      post 'notificationexception'
     end
     
     collection do
@@ -33,6 +34,7 @@ Learn::Application.routes.draw do
       get 'upcoming'
       get 'tags'
       get 'recent'
+      get 'search'
     end
   end
   # individual tag match

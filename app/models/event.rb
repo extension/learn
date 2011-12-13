@@ -52,6 +52,8 @@ class Event < ActiveRecord::Base
     time :session_start
     text :title, more_like_this: true
     text :description, more_like_this: true
+    text :title, :description
+    text :tag_list
   end
   
   scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
