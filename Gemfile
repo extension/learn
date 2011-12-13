@@ -82,6 +82,9 @@ gem "delayed_job"
 # tropo - sms messages
 gem "tropo-webapi-ruby"
 
+# command line scripts 
+gem "thor"
+
 group :development do
   # require the powder gem
   gem 'powder'
