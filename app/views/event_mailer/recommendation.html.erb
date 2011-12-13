@@ -22,17 +22,19 @@
 	tr.tagline td  {background:#000; color:#fff; padding:10px; font: normal 20px Arial, Verdana, sans-serif;}
 	tr.options  {background:#585858; color:#fff; padding:10px;}
 	tr.options td  {background:#585858; color:#ddd; padding:5px 9px;}
-	tr.options td a {color:#ccc; padding:6px; font: normal 14px  Arial, Verdana, sans-serif; text-decoration:none;}
+	tr.options td a {color:#aaa; padding:6px; font: normal 14px  Arial, Verdana, sans-serif; text-decoration:none;}
 	tr.options td a:hover {color:#fff;}	
 	tr.date td {font: normal 12px  Arial, Verdana, sans-serif; text-align:center; padding:15px 10px; color:#888; text-transform:uppercase;}
-	.article h3 {font: bold 24px  Georgia, serif; margin: 0 0 0;}
-	.article p {font: normal 14px  Arial, sans-serif; margin: 20px 0 0; margin:0 0 0; line-height:18px;}
-	.article td {padding:10px;}
+	.article h3 {font: bold 20px  Arial, Verdana, sans-serif; margin:0;}
+	.article h3 a {color: #0069D6; text-decoration:none;}
+	.article p {font: normal 14px  Arial, sans-serif; margin: 20px 0 0; margin:0; line-height:18px;}
+	.article td {padding:10px 10px 5px;}
 	.footer td {padding:10px;}
 	table.footer {margin:0 0 30px;}
 	table.footer p {color:#888; font: normal 13px  Arial, sans-serif;}
 	table.footer tr.options td {color:#888; font: normal 13px  Arial, sans-serif; background:#fff; padding:0 5px;}
 	table.footer tr.options td a {color:#0069D6; font: normal 13px  Arial, sans-serif; background:#fff;}
+	td.footer {padding-top:1em;}
 	#learn_logo {height: 96px;}
 	.bgcolor {background:#fff;}
 	</style>
@@ -42,7 +44,7 @@
 
 
 <div id="wrapper">
-<table cellpadding="0" cellspacing="0" border="0" align="center" width="599">
+<table cellpadding="0" cellspacing="0" border="0" align="center" width="599" class="bgcolor">
   <tr>
     <th align="left" class="bgcolor">
       <%- logo_url = @mailer_cache.blank? ? "#{root_url}email/logo_small.png" : "#{webmail_logo_url(mailer_cache_id: @mailer_cache.id, format: 'png')}" -%>
