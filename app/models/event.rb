@@ -52,7 +52,6 @@ class Event < ActiveRecord::Base
     time :session_start
     text :title, more_like_this: true
     text :description, more_like_this: true
-    text :title, :description
     text :tag_list
   end
   
