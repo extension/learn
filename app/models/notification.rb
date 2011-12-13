@@ -62,7 +62,10 @@ class Notification < ActiveRecord::Base
   
   def process_recommendation
     recommendation = self.notifiable
-    EventMailer.recommendation(recommendation: recommendation).deliver
+    # doublecheck delivery setting
+    if(recommendation.learner.send_recommendation?)
+      EventMailer.recommendation(recommendation: recommendation).deliver
+    end
   end
 
   def queue_delayed_notifications

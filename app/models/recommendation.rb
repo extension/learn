@@ -35,7 +35,9 @@ class Recommendation < ActiveRecord::Base
   end
   
   def create_notification
-    Notification.create(notificationtype: Notification::RECOMMENDATION, notifiable: self, delivery_time: self.class.delivery_time(self.learner.time_zone))
+    if(self.learner.send_recommendation?)
+      Notification.create(notificationtype: Notification::RECOMMENDATION, notifiable: self, delivery_time: self.class.delivery_time(self.learner.time_zone))
+    end
   end
   
   def self.delivery_time(time_zone)
