@@ -291,9 +291,24 @@ end
 
 
 def create_stock_questions
-  StockQuestion.create(active: true, prompt: 'After attending this session, I feel motivated to learn more about this topic.', responsetype: Question::BOOLEAN, responses: ['no','yes'], learner: @learnbot)
-  StockQuestion.create(active: true, prompt: 'I wish more of my colleagues would weigh in on the practical applications of the topics covered in this session.', responsetype: Question::SCALE, responses: ['never','always'],    range_start: 1, range_end: 5, learner: @learnbot)
-  StockQuestion.create(active: true, prompt: 'I’ll share this information with:', responsetype: Question::MULTIVOTE_BOOLEAN, responses: ['Friends and family.','Colleagues at work.','The people in one or more of my online networks.','No one.'], learner: @learnbot)
+  sensemaking_questions = YAML::load(File.open("#{Rails.root}/db/sensemaking_questions.yml"))
+  
+  # create sliding scale questions
+  sensemaking_questions['slider'].each do |question|
+    StockQuestion.create(active: true, prompt: question, responsetype: Question::SCALE, responses: ['not at all','very much so'], range_start: 1, range_end: 5, learner: @learnbot)
+  end
+  
+  # create yes/no questions
+  sensemaking_questions['yesno'].each do |question|
+    StockQuestion.create(active: true, prompt: question, responsetype: Question::BOOLEAN, responses: ['no','yes'], learner: @learnbot)
+  end
+  
+  # multiple choice
+  sensemaking_questions['multiplechoice'].each do |question_hash|
+    question_hash.each do |prompt,responses|
+      StockQuestion.create(active: true, prompt: prompt, responsetype: Question::MULTIVOTE_BOOLEAN, responses: responses, learner: @learnbot)
+    end
+  end  
 end
 
 
