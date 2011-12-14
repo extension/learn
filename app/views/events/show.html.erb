@@ -31,15 +31,17 @@
       </div>
     <%- end -%>
     </section>
-   
-   <section id="event_meta">
-   <p>Created by: <%= link_to @event.creator.name, portfolio_learner_path(@event.creator) -%></p>
-   <%- if true -%>
-   <!-- change to authenticated user  -->
-     <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
-   <%- end -%>
-   </section>
 <%- end -%>
+   
+  <section id="event_meta">
+    <%- if current_learner -%>
+      <p>Created by: <%= link_to @event.creator.name, portfolio_learner_path(@event.creator) -%></p>
+      <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
+    <%- else -%>
+      <p>Created by: <%= @event.creator.name -%></p>
+    <%- end -%>
+  </section>
+
 </div>
 
 
@@ -89,11 +91,9 @@
           <%- if(!current_learner.has_time_zone?) -%>
            <%= link_to("Set your time zone") -%>  to display this session in your local time
           <%- end -%>
-        <%- else -%>
-          <%= link_to("Sign in to set your time zone") -%> to display this session in your local time
         <%- end -%></p>   
       
-        <p id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</p>
+        <h3 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h3>
                         
       <%-end -%>
       
@@ -107,12 +107,13 @@
       </aside>
     <%- else -%>
        <aside id="eventconnections" class="radius10">
+         <%= render(partial: 'sign_in_to_vote')%>
           <%- if @event.started? -%>
             <p>Did you attend or watch this event or want to bookmark it?</p>                                
           <%- else -%>
-            <p>Want to bookmark this event?</p>
+            <p class="sitv_element"><%= link_to("Bookmark this event", new_learner_session_path(:redirect_to => request.fullpath)) -%></p>
           <%- end -%>
-          <%= link_to("Sign in to connect to this event", new_learner_session_path(:redirect_to => request.fullpath)) -%>
+          </div> <!-- end .sitv_element_wrapper  -->
        </aside>
      <%- end -%>
 

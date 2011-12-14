@@ -14,10 +14,16 @@
     -webkit-border-radius:10px;
 }
 
+//
+//#col_one_of_three {width:30%; float:left; padding: 1em; margin-right:1em;}
+//#col_two_of_three {width:28%; float:left; padding: 1em;}
+//#col_three_of_three {width:30%; float:left; padding: 1em;}
 
-#col_one_of_three {width:30%; float:left; padding: 1em; margin-right:1em;}
-#col_two_of_three {width:28%; float:left; padding: 1em;}
-#col_three_of_three {width:30%; float:left; padding: 1em;}
+
+#col_one_of_three {width:40%; float:left; padding: 1em; margin-right:1em;}
+#col_two_of_three {width:50%; float:left; padding: 1em;}
+
+
 
 .pd_events {@include rounded10; background:#e5e5e5;}
 
