@@ -29,16 +29,8 @@ class StockQuestion < ActiveRecord::Base
   
   DEFAULT_RANDOM_COUNT = 3
   
-  def self.random_questions(count = DEFAULT_QUESTION_COUNT)
-    list = []
-    # we can get away with loading all of them to shuffle
-    # because there aren't going to be many stock questions
-    # in the database
-    
-    # for now, prevent more than one "random" scale - but will always add a random scale
-    list += StockQuestion.active.scale.shuffle.slice(0,count)
-    list += StockQuestion.active.notscale.shuffle.slice(0,count-1)
-    list
+  def self.random_questions(count = DEFAULT_RANDOM_COUNT)
+     StockQuestion.active.shuffle.slice(0,count)
   end
     
 end
