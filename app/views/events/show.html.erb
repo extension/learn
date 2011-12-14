@@ -111,9 +111,9 @@
        <aside id="eventconnections" class="radius10">
          <%= render(partial: 'sign_in_to_vote')%>
           <%- if @event.started? -%>
-            <p>Did you attend or watch this event or want to bookmark it?</p>                                
+            <p class="cursor">Did you attend or watch this event or want to bookmark it?</p>                                
           <%- else -%>
-            <p class="sitv_element"><%= link_to("Bookmark this event", new_learner_session_path(:redirect_to => request.fullpath)) -%></p>
+            <p class="sitv_element cursor"><%= link_to("Bookmark this event", new_learner_session_path(:redirect_to => request.fullpath)) -%></p>
           <%- end -%>
           </div> <!-- end .sitv_element_wrapper  -->
        </aside>

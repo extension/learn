@@ -22,7 +22,7 @@
 #tags {margin: 0; clear:both; padding:0}
 #comment-section {}
 #event_meta a {color:#666;}
-#attendees {background:#fff; }
+#attendees {background:#fff; clear:left;}
 #attendees h4:hover {cursor:pointer;}
 
 #session_date {float:left; display:block;padding:0 0 0 10px; width:180px; font-size:.8em;}
@@ -117,11 +117,17 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .question_answers {float:left; width: 230px;}
 
 .none {color:#888;}
-#eventconnections {background:none; @include rounded10; padding:2em 2em 1em;}
-#eventconnections p {font-size:1.2em; margin:0 0 .65em; color:#223c95; font-weight:bold; cursor:pointer;}
+#eventconnections {background:none; @include rounded10; padding:1em 2em 0;}
+#eventconnections p {font-size:1.2em; margin:0 0 .65em; color:#223c95; font-weight:bold;}
+
 #eventconnections p span {position:relative;}
 #eventconnections p:hover small {display:block;color:#fff; font-size:.9em; margin:.25em 0;}
 #eventconnections p small {display:none; position:absolute; left:1em; top:-50%;color:#fff; background:#3e83eb; border:3px solid #fff; padding:1em; width:150px; @include boxshadow; @include rounded10}
+
+#notification_prefs li {color:#666; font-weight:normal; font-size:1em; list-style:none; margin:0 0 1em; padding-left:20px; line-height:1.1em;}
+#notification_prefs ul {padding:1em 0 0 0; margin:0; clear:both;}
+#notification_prefs li a {color:#888;}
+#eventconnections label {width:100%; font-size:1.1em !important; display:block; float:left; text-align:left; margin:0; padding:0;}
 
 .jqplot-data-label {color:#fff;}
 
@@ -181,3 +187,5 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .cancel {margin-left:2em;}
 .timezone {padding:.5em; color:#777; display:block; clear:both;} 
 .timezone a {color:#777;}
+.sms {background: transparent url(/assets/sms_mini.png) left top no-repeat; }
+.email {background: transparent url(/assets/email_mini.png) left top no-repeat;}
