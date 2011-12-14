@@ -23,7 +23,7 @@
       </div>
    </section>
    
-   
+<%- if @event.started? %>
    <section id="questions">
    <%- @event.questions.each do |question| -%>
       <div id="question_<%= question.id %>" class="question">
@@ -33,13 +33,13 @@
     </section>
    
    <section id="event_meta">
-   <p>Created by: <%= link_to_learner(@event.creator) -%></p>
+   <p>Created by: <%= link_to @event.creator.name, portfolio_learner_path(@event.creator) -%></p>
    <%- if true -%>
    <!-- change to authenticated user  -->
      <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
    <%- end -%>
    </section>
-   
+<%- end -%>
 </div>
 
 

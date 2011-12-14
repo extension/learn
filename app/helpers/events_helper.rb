@@ -62,7 +62,7 @@ module EventsHelper
   end
   
   def display_tags(tags)
-    tags.collect{|tag| link_to_tag(tag)}.join(Tag::JOINER).html_safe
+    tags.collect{|tag| link_to_tag(tag)}.join(' ').html_safe
   end
   
 end
