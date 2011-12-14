@@ -34,11 +34,10 @@
 <%- end -%>
    
   <section id="event_meta">
+    
+    <p>Created by <%= link_to_learner(@event.creator) %></p>
     <%- if current_learner -%>
-      <p>Created by: <%= link_to @event.creator.name, portfolio_learner_path(@event.creator) -%></p>
       <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
-    <%- else -%>
-      <p>Created by: <%= @event.creator.name -%></p>
     <%- end -%>
   </section>
 
@@ -137,12 +136,7 @@
   $('.submittable').live('change', 
   function() {
     $(this).parents('form:first').submit();
-  });
-  
-  $('#slidetoggle').click(function() {
-    $('#attendee_list').slideToggle('fast','linear');
-  });
-  
+  });  
 
   $(document).ready(function() {
     // sitv = sign in to vote
