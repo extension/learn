@@ -60,8 +60,14 @@
    </p>
  </fieldset>
 
- <p><%= submit_tag 'Save Session', :class => "btn primary large" %></p>
- 
+<p>
+  <%= submit_tag 'Save Session', :class => "btn primary large" %>
+  <%- if @event.id %>
+    <%= link_to("cancel", event_path(@event.id), :class => "cancel") -%>
+  <%- else -%>
+    <%= link_to("cancel", root_path(), :class => "cancel") -%>
+  <%- end -%>
+</p>
  
  <script class="code" type="text/javascript">
    $('#session_start').datetimepicker({
