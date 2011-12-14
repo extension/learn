@@ -18,7 +18,8 @@ class Preference < ActiveRecord::Base
    'notification.reminder.sms' => false,
    'notification.reminder.sms.notice' => 15.minutes,  # seconds
    'notification.activity' => true,
-   'notification.recording' => true 
+   'notification.recording' => true,
+   'notification.recommendation' => true
   }
   
   def set_datatype
@@ -77,5 +78,14 @@ class Preference < ActiveRecord::Base
     end
   end
     
+  def self.create_or_update(prefable,name,value)
+    if(preference = where(prefable_id: prefable.id).where(prefable_type: prefable.class.name).where(name: name).first)
+      preference.update_attribute(:value, value)
+    else
+      preference = self.create(prefable: prefable, name: name, value: value)
+    end
+    preference
+  end
+      
 
 end

@@ -120,6 +120,13 @@ class Question < ActiveRecord::Base
     return returndata
   end
   
+  def self.create_from_stock_question(stock_question)
+    attributes = {}
+    ['learner_id','prompt','responsetype','responses','range_start','range_end'].each do |attribute|
+      attributes[attribute] = stock_question.send(attribute)
+    end
+    self.create(attributes)
+  end
   
 
 end

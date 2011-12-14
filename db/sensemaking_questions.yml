@@ -1,0 +1,110 @@
+slider:
+- I liked it when presenter(s) acknowledge the ethical, cultural, social and/or other dimensions of a topic.
+- l picked up good information from the questions other attendees asked that I wouldn’t have thought to ask myself.
+- The presenter(s) provided appropriate follow-on activities to further my learning after this session.
+- The presenter(s) did a good job of tailoring the presentation to fit the time allotted.
+- I had adequate opportunities to challenge a point made by the presenter(s) during this session .
+- I had adequate opportunities to share what I know about the topic during this session .
+- The people in attendance gave me ideas of how I might apply this learning.
+- The participant interaction enhanced my learning experience.
+- I found the presenter(s) to be trustworthy and credible.
+- I know a subject-matter expert who could speak more knowledgeably on this topic.
+- I found the presenter(s) a bit too far above my head.
+- I found the presenter(s) failed to stretch my understanding adequately.
+- I found the presenter(s) used jargon and speech that I didn’t understand.
+- This session stretched my knowledge and awareness in unexpected ways.
+- The webinar is a good format for learning about this topic.
+- This session allowed about the right amount of time for learning about the topic.
+- This session offered information at just the right level for me.
+- The description for this webinar should have been more explicit about prerequisite knowledge and experience.
+- This session surprised and delighted me.
+- The presenter(s) did a good job of curating and linking to many threads of the topic.
+- This session was so engrossing I hated to see it end. 
+yesno:
+- This session deepened my understanding of the topic.
+- This session offered new information I can act on immediately.
+- The presenter(s) summarized the problem(s) well but didn’t offer ways to get at solutions.
+- The presenter(s) summarized the problem(s) well and also offered suggestions for solving them.
+- This session helped me appreciate aspects of the topic beyond my usual professional focus.
+- This session made me see the topic as much more complex than I’d previously understood.
+- This session helped me appreciate other points of view on the topic.
+- This session gave me a new way of approaching a common dilemma.
+- The presenter(s) should have used more charts, photos and other graphic elements to lend depth and clarity to the topic. (Slider)
+- The presenter(s) introduced new sources of useful information from outside my discipline.
+- The presenter(s) should have explored the potential conflicts of interest implicit in the topic covered.
+- The presenter(s) encouraged learner participation for better understanding.
+- I felt more hopeful after attending this session.
+- I’d like to borrow the presenter(s) slides and tweak them a bit for my own clientele.
+- This session featured mostly abstract information and lacked specific examples that could have provided context.
+- This session offered solutions for problems that weren’t always obvious.
+- This session introduced me to ideas, professional contacts, and other resources I can use.
+- The presenter(s) pitched information at too basic a level. I think most attendees already knew the facts presented.
+- I left this session feeling confident in my understanding of the topic.
+- I found this session confusing.
+- The presenter(s) didn’t offer the most current information on the topic.
+- This session contained jargon and terminology the presenter(s) didn’t define and I didn’t understand.
+- This session offered fresh insights I can share with my clientele.
+- The topic involves moral or ethical aspects the presenter(s) didn’t acknowledge.
+- I found this session too academic.
+- I don’t think the presenter(s) understands the realities (we, our clientele, our organization) face(s) on the ground.
+- I’ll share information from this session with my colleagues.
+- I can use information from this session right away in my work.
+- I’d attend another session by this presenter(s).
+- I found the presenter(s)’s point of view too narrow.
+- I’d attend follow-up sessions featuring different aspects of the same broad topic.
+- I’d like to hear more on this topic from a variety of presenter(s) who come at it from different perspectives.
+- The content seemed based on unexamined or unacknowledged assumptions.
+- Information in this session contradicted facts I’d learned elsewhere.
+- I’ve learned more about this topic from other sources.
+- This session offered a balanced introduction to a controversial topic.
+- I wish this session had offered more opportunity for interaction.
+- The presenter(s) didn’t seem to understand the questions raised by attendees.
+- This session didn’t meet my expectations.
+- This session didn’t deliver on the description of it.
+- I’d like to participate in additional sessions that expand on the topic.
+- I wish this session offered more links or references to help me expand my knowledge of the topic.
+- The presenter(s) clearly acknowledged critical or opposing points of view on this topic.
+- The presenter(s) did a good job of summarizing the complexities and uncertainties surrounding the topic.
+- I appreciated that the presenter(s) acknowledged dimensions of the topic beyond the factual data.
+- The  presenter(s) helped further my learning by offering suggestions for more advanced reading and pondering.
+- This session provided just the right amount of time for the amount of material and concepts presented.
+- I had adequate opportunity to share what I know about the topic during this session. 
+multiplechoice:
+- "I enjoy online sessions that:":
+  - Focus narrowly on new research findings.
+  - Explore new insights that call common practices into question.
+  - Present a sweeping overview of a topic.
+  - Explore a variety of solutions to a thorny problem.
+- I’d be interested in follow-up session:
+  - That expands on the basic information covered
+  - That covers some branches of the topic thi session didn’t cover
+  - That brought in presenter(s) with different perspectives and different kinds of expertise on the topic
+- "If I had access to this session’s visuals and other resources:":
+  - I’d offer a session locally, adding resources tailored to local clientele.
+  - I’d use it as a professional development workshop for colleagues.
+  - I’d use the resources in conjunction with a hands-on workshop.
+  - I’d mix and match them with resources I already use.
+  - I probably wouldn’t use them.
+- "Check the statement(s) that best apply to you:":
+  - I picked up a lot of good information from the questions other attendees asked that I wouldn’t have thought to ask myself.
+  - I liked having a chance to ask questions of the presenter(s) and did
+  - I found the chat-box chatter distracting.
+  - I found the chat-box chatter helpful & interesting.
+- "I liked that the presenter(s):":
+  - Focused narrowly on the data and science-based facts of the topic.
+  - Acknowledged other dimensions to the topic such as cultural, moral, and social.
+  - Provided links to many resources that help me understand the broader dimensions of the topic.
+- "During this session (check one or more):":
+  - I had opportunities to share what I knew about the topic.
+  - I had opportunities to challenge a point made by the presenter(s).
+  - I had opportunities to pick up new information I can use right away.
+  - The presenter(s) didn’t give me a chance to express myself.
+- "Check the statement(s) that best apply:":
+  - The visual aspects helped contribute to greater learning
+  - The visual aspects were a distraction from learning
+  - The visual aspects didn’t matter to my learning.
+- "Check the statement(s) that best apply:":
+  - This session stretched my knowledge and awareness in unexpected ways.
+  - This session pushed me further into some new area of knowledge and awareness.
+  - This session allowed me to stay within my comfort zone.
+  - This session pushed me out of my comfort zone.

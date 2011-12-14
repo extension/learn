@@ -225,6 +225,17 @@ def transfer_event_connections
     ActiveRecord::Base.record_timestamps = true #turning updates back on
   end
   
+  # fix event_connection timestamps that came from presenter connections
+  update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
+  UPDATE #{EventConnection.table_name},#{PresenterConnection.table_name}
+   SET #{EventConnection.table_name}.created_at = #{PresenterConnection.table_name}.created_at
+   WHERE #{EventConnection.table_name}.event_id = #{PresenterConnection.table_name}.event_id
+   AND #{EventConnection.table_name}.learner_id = #{PresenterConnection.table_name}.learner_id
+   AND #{EventConnection.table_name}.connectiontype = #{EventConnection::BOOKMARK}
+  END_SQL
+  EventActivity.connection.execute(update_timestamp_query)
+  
+  
   # for all the event_activities that were created, set the updated_at
   update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
   UPDATE #{EventActivity.table_name},#{EventConnection.table_name}
@@ -280,9 +291,24 @@ end
 
 
 def create_stock_questions
-  StockQuestion.create(active: true, prompt: 'After attending this session, I feel motivated to learn more about this topic.', responsetype: Question::BOOLEAN, responses: ['no','yes'], learner: @learnbot)
-  StockQuestion.create(active: true, prompt: 'I wish more of my colleagues would weigh in on the practical applications of the topics covered in this session.', responsetype: Question::SCALE, responses: ['never','always'],    range_start: 1, range_end: 5, learner: @learnbot)
-  StockQuestion.create(active: true, prompt: 'I’ll share this information with:', responsetype: Question::MULTIVOTE_BOOLEAN, responses: ['Friends and family.','Colleagues at work.','The people in one or more of my online networks.','No one.'], learner: @learnbot)
+  sensemaking_questions = YAML::load(File.open("#{Rails.root}/db/sensemaking_questions.yml"))
+  
+  # create sliding scale questions
+  sensemaking_questions['slider'].each do |question|
+    StockQuestion.create(active: true, prompt: question, responsetype: Question::SCALE, responses: ['not at all','very much so'], range_start: 1, range_end: 5, learner: @learnbot)
+  end
+  
+  # create yes/no questions
+  sensemaking_questions['yesno'].each do |question|
+    StockQuestion.create(active: true, prompt: question, responsetype: Question::BOOLEAN, responses: ['no','yes'], learner: @learnbot)
+  end
+  
+  # multiple choice
+  sensemaking_questions['multiplechoice'].each do |question_hash|
+    question_hash.each do |prompt,responses|
+      StockQuestion.create(active: true, prompt: prompt, responsetype: Question::MULTIVOTE_BOOLEAN, responses: responses, learner: @learnbot)
+    end
+  end  
 end
 
 
