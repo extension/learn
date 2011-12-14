@@ -89,9 +89,9 @@
            </span>
         </h2>
         
-        <p><%- if current_learner -%>
+        <p class="timezone"><%- if current_learner -%>
           <%- if(!current_learner.has_time_zone?) -%>
-           <%= link_to("Set your time zone") -%>  to display this session in your local time
+           <%= link_to("Set your time zone to display this session in your local time", settings_profile_path()) -%> 
           <%- end -%>
         <%- end -%></p>   
       
