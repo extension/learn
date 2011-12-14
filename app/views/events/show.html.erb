@@ -23,7 +23,7 @@
       </div>
    </section>
    
-   
+<%- if @event.started? %>
    <section id="questions">
    <%- @event.questions.each do |question| -%>
       <div id="question_<%= question.id %>" class="question">
@@ -39,7 +39,7 @@
      <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
    <%- end -%>
    </section>
-   
+<%- end -%>
 </div>
 
 
