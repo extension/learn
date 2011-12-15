@@ -1,7 +1,15 @@
+<%
+case Settings.app_location
+    when 'production'   then @gaprofile = "UA-155321-44"
+    when 'demo'         then @gaprofile = "UA-155321-46" 
+    when 'localdev'     then @gaprofile = "UA-155321-0"
+end
+%>
+
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-155321-46']);
+  _gaq.push(['_setAccount', '<%= @gaprofile %>']);
   _gaq.push(['_trackPageview']);
 
   (function() {
