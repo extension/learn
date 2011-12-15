@@ -34,3 +34,15 @@
   </div>
   <br class="clearing" />
 </div>
+
+<script class="code" type="text/javascript">
+
+  $(document).ready(function() {
+    $('.signup_option a').one('click', function() {
+      $(this).after('<%= image_tag("spinner.gif", :size => "54x55", class: "spinner") %>');
+    });    
+  });
+
+</script>
+
+
