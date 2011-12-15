@@ -9,7 +9,6 @@ class CreateRecommendedEvents < ActiveRecord::Migration
     create_table :recommended_events do |t|
       t.references :recommendation
       t.references :event
-      t.float      "score"
       t.timestamps
     end
     
