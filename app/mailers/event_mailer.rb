@@ -33,19 +33,79 @@ class EventMailer < ActionMailer::Base
     return_email
   end
   
-  def reminder
-      @learner = Learner.learnbot
-      @event = Event.find(2)
+  def reminder(options = {})
+    @event = options[:event]
+    @subject = "Needs a subject line please"
+    @learner = options[:learner]  
+    @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
+    
+    if(!@learner.email.blank?)
+      if(@will_cache_email)
+        # create a cached mail object that can be used for "view this in a browser" within
+        # the rendered email.
+        @mailer_cache = MailerCache.create(learner: @learner, cacheable: @event)
+      end
+      
+      return_email = mail(to: @learner.email, subject: @subject)
+      
+      if(@mailer_cache)
+        # now that we have the rendered email - update the cached mail object
+        @mailer_cache.update_attribute(:markup, return_email.body.to_s)
+      end
+    end
+    
+    # the email if we got it
+    return_email
   end
   
-  def recording
-      @learner = Learner.learnbot
-      @event = Event.find(2)
+  def recording(options = {})
+    @event = options[:event]
+    @subject = "Needs a subject line please"
+    @learner = options[:learner]  
+    @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
+    
+    if(!@learner.email.blank?)
+      if(@will_cache_email)
+        # create a cached mail object that can be used for "view this in a browser" within
+        # the rendered email.
+        @mailer_cache = MailerCache.create(learner: @learner, cacheable: @event)
+      end
+      
+      return_email = mail(to: @learner.email, subject: @subject)
+      
+      if(@mailer_cache)
+        # now that we have the rendered email - update the cached mail object
+        @mailer_cache.update_attribute(:markup, return_email.body.to_s)
+      end
+    end
+    
+    # the email if we got it
+    return_email
   end
   
-  def activity
-      @learner = Learner.learnbot
-      @event = Event.find(2)
+  def activity(options = {})
+    @event = options[:event]
+    @subject = "Needs a subject line please"
+    @learner = options[:learner]  
+    @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
+    
+    if(!@learner.email.blank?)
+      if(@will_cache_email)
+        # create a cached mail object that can be used for "view this in a browser" within
+        # the rendered email.
+        @mailer_cache = MailerCache.create(learner: @learner, cacheable: @event)
+      end
+      
+      return_email = mail(to: @learner.email, subject: @subject)
+      
+      if(@mailer_cache)
+        # now that we have the rendered email - update the cached mail object
+        @mailer_cache.update_attribute(:markup, return_email.body.to_s)
+      end
+    end
+    
+    # the email if we got it
+    return_email
   end
 
 end
