@@ -75,13 +75,12 @@ ActiveRecord::Schema.define(:version => 20111207160625) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "event_activities", :force => true do |t|
-    t.integer  "learner_id",                                    :null => false
+    t.integer  "learner_id",                                  :null => false
     t.integer  "event_id"
     t.integer  "activity"
     t.integer  "trackable_id"
     t.string   "trackable_type", :limit => 30
-    t.integer  "activity_count",               :default => 1,   :null => false
-    t.float    "score",                        :default => 0.0
+    t.integer  "activity_count",               :default => 1, :null => false
     t.datetime "updated_at"
   end
 
@@ -225,7 +224,6 @@ ActiveRecord::Schema.define(:version => 20111207160625) do
   create_table "recommended_events", :force => true do |t|
     t.integer  "recommendation_id"
     t.integer  "event_id"
-    t.float    "score"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
