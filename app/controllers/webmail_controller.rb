@@ -38,19 +38,19 @@ class WebmailController < ApplicationController
   end
   
   def example_reminder
-    mail = EventMailer.reminder
+    mail = EventMailer.reminder(learner: Learner.learnbot, event: Event.last, cache_email: false)
     inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
     render(:text => inlined_content, :layout => false)
   end
   
   def example_recording
-    mail = EventMailer.recording
+    mail = EventMailer.recording(learner: Learner.learnbot, event: event.last, cache_email: false)
     inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
     render(:text => inlined_content, :layout => false)
   end
   
   def example_activity
-    mail = EventMailer.activity
+    mail = EventMailer.activity(learner: Learner.learnbot, event: event.last, cache_email: false)
     inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
     render(:text => inlined_content, :layout => false)
   end
