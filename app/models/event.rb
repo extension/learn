@@ -286,7 +286,7 @@ class Event < ActiveRecord::Base
     total_mlt_score = 0
     mlt_list.each do |mlt_event,mlt_score|
       total_mlt_score += mlt_score
-      learner_scores = mlt_event.event_activities.group(:learner).sum(:score)
+      learner_scores = mlt_event.event_activities.learner_scores
       learner_scores.each do |learner,score|
         if(remove_connectors)
           next if learners.include?(learner)
