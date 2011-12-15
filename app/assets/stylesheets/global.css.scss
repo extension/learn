@@ -18,7 +18,7 @@ html, body {
 
 #page_wrapper {
     background:#fff;
-    margin: 0 auto;
+    margin: 10px auto 0;
     width:960px;
     @include rounded10;
 //    border:1px solid lime;
@@ -106,6 +106,7 @@ input.xxl {width: 80%;}
     position:fixed;
     text-align:center;
     left:0px;
+    top:0;
     z-index:100;
     opacity: 0.92;
     -moz-opacity: 0.92;
@@ -145,3 +146,4 @@ input.xxl {width: 80%;}
 #search input {float:left;}
 #search input#q {margin-right:.5em;}
 .cursor {cursor:pointer;}
+#searchform {margin:0;padding:0;}

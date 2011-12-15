@@ -12,9 +12,10 @@
 </head>
 <body id="<%= params[:controller].gsub('/','-') %>">
 
+<%= flash_notifications -%>
+
 <div id="page_wrapper">
   <div id="page">
-    <%= flash_notifications -%>
   <header class="masthead">
     <a href="/">
     <%= image_tag("logo_small.png", :size => "264x100",) %>
@@ -34,7 +35,7 @@
     </ul>
   </nav>
   
-  <%= form_tag search_events_path, :method => :get do %>
+  <%= form_tag(search_events_path, {:method => :get, id: "searchform"}) do %>
   <p id="search">
     <%= text_field_tag 'q', params[:q], :size => 15 %>
     <%= submit_tag 'Search', :class => "btn" %>

@@ -12,9 +12,10 @@
 </head>
 <body id="<%= params[:controller].gsub('/','-') %>">
 
+<%= flash_notifications -%>
+
 <div id="page_wrapper">
   <div id="page">
-    <%= flash_notifications -%>
   <header class="masthead">
     <a href="/">
     <%= image_tag("logo_small.png", :size => "264x100",) %>
