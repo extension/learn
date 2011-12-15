@@ -25,6 +25,8 @@ class ApplicationController < ActionController::Base
   def set_time_zone_from_learner
     if(current_learner)
       Time.zone = current_learner.time_zone
+    else
+      Time.zone = Learn::Application.config.time_zone
     end
     true
   end
