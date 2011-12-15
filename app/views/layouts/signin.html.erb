@@ -10,10 +10,11 @@
 
   
 </head>
-<body id="<%= params[:controller].gsub('/','_') %>">
+<body id="<%= params[:controller].gsub('/','-') %>">
 
 <div id="page_wrapper">
   <div id="page">
+    <%= flash_notifications -%>
   <header class="masthead">
     <a href="/">
     <%= image_tag("logo_small.png", :size => "264x100",) %>
@@ -24,7 +25,7 @@
   <nav id="useractions">
     <ul>
       <%- if current_learner -%>
-        <li><%= link_to current_learner.name, portfolio_learner_path(current_learner.id) %></li>
+        <li><%= link_to_learner(current_learner) %></li>
         <li><%= link_to "Settings", settings_profile_path() %></li>
         <li><%= link_to('Logout', destroy_learner_session_path, :method => :delete) %></li>
       <%- end -%>
