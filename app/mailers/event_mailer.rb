@@ -35,7 +35,7 @@ class EventMailer < ActionMailer::Base
   
   def reminder(options = {})
     @event = options[:event]
-    @subject = "Needs a subject line please"
+    @subject = "Your Learn Event is Starting Soon"
     @learner = options[:learner]  
     @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
     
@@ -60,7 +60,7 @@ class EventMailer < ActionMailer::Base
   
   def recording(options = {})
     @event = options[:event]
-    @subject = "Needs a subject line please"
+    @subject = "A New Learn Recording is Available"
     @learner = options[:learner]  
     @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
     
@@ -85,7 +85,7 @@ class EventMailer < ActionMailer::Base
   
   def activity(options = {})
     @event = options[:event]
-    @subject = "Needs a subject line please"
+    @subject = "There's New Activity on One of Your Learn Events"
     @learner = options[:learner]  
     @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
     
