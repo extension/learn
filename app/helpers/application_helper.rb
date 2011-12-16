@@ -19,7 +19,7 @@ module ApplicationHelper
       return_string << "<div id='rating_explanation'>Positive votes: #{positive_ratings_count}</div>"
       return return_string.html_safe
     else
-      return_string << "<strong class='formatted_votes'>No Ratings Yet</strong>"
+      return_string << "<strong class='formatted_votes none_yet'>No Ratings Yet</strong>"
       return return_string.html_safe
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111214230606) do
+ActiveRecord::Schema.define(:version => 20111207160625) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -123,12 +123,12 @@ ActiveRecord::Schema.define(:version => 20111214230606) do
     t.string   "time_zone"
     t.string   "mobile_number"
     t.string   "bio"
+    t.string   "avatar"
     t.boolean  "has_profile",                        :default => false, :null => false
     t.integer  "darmok_id"
     t.boolean  "retired",                            :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "avatar"
   end
 
   add_index "learners", ["email"], :name => "index_learners_on_email"

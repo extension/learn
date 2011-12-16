@@ -1,5 +1,14 @@
+
+
+
 <div class="comment">
+  
+  <% if comment.parent_removed %>
+    <p class="removed">This is a response to a removed comment</p>
+  <% end %>
+  
   <%= get_avatar(comment.learner, :thumb) %>
+  
   <div class='rating_area'>
     <% if current_learner %>
       <%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %>
@@ -8,35 +17,41 @@
       <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
       </div> <!-- end .sitv_element_wrapper  -->
     <% end %>
-    <div id="comment_votes_<%= comment.id %>" class="comment_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: comment} %></div> 
+    
+    <div id="comment_votes_<%= comment.id %>" class="comment_votes">
+      <%= render :partial => '/partials/ratings', locals: {rateable_object: comment} %>
+    </div>
   </div>
-  <p class="actions">
-  <% if comment.parent_removed %>
-    <span>* This is a response to a removed comment</span><br />  
-  <% end %>
   
-  <%= comment.content %>
+  <p class="content">    
+    <%= comment.content %>
+  </p>
+  
+  <p class="actions">
   <span class="comment_actions">
-  <% if current_learner %>
-  <%= link_to_function 'reply', "show_element($('#comment_reply_to_#{comment.id}'));" %> 
-  <% end %>
-  <%= link_to 'view', comment_path(comment) %>
-  <% if current_learner && (current_learner.id == comment.learner_id) %>
-    <%= link_to_function 'edit', "show_element($('#comment_edit_for_#{comment.id}'));" %>
-    <% if parent_comment.present? %>
-      <%= link_to 'delete', comment_path(comment, 
+    <% if current_learner %>
+      <%= link_to_function 'reply', "show_element($('#comment_reply_to_#{comment.id}'));" %> 
+    <% end %>
+    
+    <%= link_to 'view', comment_path(comment) %>
+    
+    <% if current_learner && (current_learner.id == comment.learner_id) %>
+      <%= link_to_function 'edit', "show_element($('#comment_edit_for_#{comment.id}'));" %>
+      <% if parent_comment.present? %>
+        <%= link_to 'delete', comment_path(comment, 
                                          :parent_comment_id => parent_comment.id), 
                                          :method => :delete, 
                                          :confirm => 'Are you sure you want to delete this comment?', 
                                          :remote => true %>
-    <% else %>
-      <%= link_to 'delete', comment_path(comment), 
+      <% else %>
+        <%= link_to 'delete', comment_path(comment), 
                                          :method => :delete, 
                                          :confirm => 'Are you sure you want to delete this comment?', 
                                          :remote => true %>
+      <% end %>
     <% end %>
-  <% end %>
   </span>
+  
   </p>
   <br class="clearing" />
 </div>

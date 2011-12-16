@@ -23,6 +23,7 @@ on :load, "deploy:setup_environment"
 
 # Disable our app before running the deploy
 before "deploy", "deploy:web:disable"
+before "db:rebuild", "deploy:web:disable"
 
 # After code is updated, do some house cleaning
 after "deploy:update_code", "deploy:bundle_install"
@@ -35,6 +36,8 @@ after "deploy:update_code", "deploy:migrate"
 # don't forget to turn it back on
 after "deploy", "deploy:web:enable"
 after "deploy", 'deploy:notification:email'
+after "db:rebuild", "deploy:restart"
+after "db:rebuild", "deploy:web:enable"
 
  namespace :deploy do
    
@@ -49,7 +52,7 @@ after "deploy", 'deploy:notification:email'
        setup_roles
        set :deploy_to, server_settings['deploy_dir']
        if(ENV['SERVER'] == 'demo')
-         if(ENV['REBUILD'] == 'true')
+         if(ENV['REBUILD'] == 'true' or ENV['REBUILD'] == 'TRUE')
            after "deploy:update_code", "db:rebuild"
          end
          if(branch = ENV['BRANCH'])

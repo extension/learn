@@ -2,6 +2,40 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+@mixin boxshadow {
+//    border:1px solid #ddd;
+    -webkit-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+    -moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+}
+
+@mixin rounded10 {
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+}
+
+
+#comments h5 {color:#555;}
+#commentfield_container {margin:0 0 1em; padding-bottom:.5em;}
+#commentfield_container form {width:100%; padding:10px;}
+#commentfield_container .btn {float:right; margin-right:-1em;}
+#commentfield {float:left; width:250px;}
+#commentfield_container textarea {
+    width:100%;
+    margin:0 0 .5em 0;
+    padding:.5em;
+    color:#000;
+}
+
+
+
+.comment {
+    padding: 1em 1em 0;
+    margin-bottom:0;
+//    outline:1px solid red;
+}
+
+
 .nested_comments {
   margin-left: 30px;
 }
@@ -11,13 +45,42 @@
 .comment_votes { float:left;}
 .comment_votes:hover #rating_explanation {display:block;}
 
-#comment_list {
-    clear:both;
-    padding:2em;
+
+.comment .avatar {width:40px;height:40px;}
+.comment p {font-size:11.5px;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
+
+.comment p.actions a {display:none; background:#444; padding:.1em .35em; color:#fff;}
+.comment p.actions span.comment_actions {display:block; clear:both; margin-left:70px; height:1em; float:right;}
+.comment:hover p.actions span.comment_actions a {display:inline;}
+.comment:hover {background:#eee;}
+.comment_votes {outline:1px solid orange;}
+.indent1 {margin-left:1em;}
+.none_yet {color:#aaa !important;}
+
+.comment .rating_area {float:right; background:none;  outline:1px solid lime;}
+.comment .rating_area div {float:left;}
+
+
+
+.comment_reply {
+    @include rounded10;
+    padding: 1em;
+    background: #eee;
+    margin-left: 30px;
 }
-#comment_list .comment p {font-size:1.3em;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
-#comment_list .comment p a {font-size:.7em; display:none; background:#444; padding:.1em .35em; color:#fff;}
-#comment_list .comment p span.comment_actions {display:block; clear:both; margin-left:70px; height:1em; float:right;}
-#comment_list .comment:hover p span.comment_actions a {display:inline;}
-#comment_list .comment:hover {background:#eee;}
-#comment_list .indent1 {margin-left:1em;}
+
+.comment_reply textarea {
+    margin:0 0 .5em 0;
+    padding:.5em;
+}
+
+.comment_reply .btn {float:right; margin-right:-1em;}
+
+
+#extracted_comments {clear:both; padding:2em;}
+#extracted_comments .comment p {font-size:1.3em;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
+#extracted_comments .comment p a {font-size:.7em; display:none; background:#444; padding:.1em .35em; color:#fff;}
+#extracted_comments .comment p span.comment_actions {display:block; clear:both; margin-left:70px; height:1em; float:right;}
+#extracted_comments .comment:hover p span.comment_actions a {display:inline;}
+#extracted_comments .comment:hover {background:#eee;}
+#extracted_comments .indent1 {margin-left:1em;}
