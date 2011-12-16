@@ -10,7 +10,6 @@ class CreateEventActivities < ActiveRecord::Migration
       t.integer    "trackable_id"
       t.string     "trackable_type", limit: 30
       t.integer    "activity_count", default: 1, :null => false
-      t.float      "score", :default => 0
       t.datetime   "updated_at"      
     end
     
