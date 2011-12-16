@@ -56,7 +56,7 @@
   <tr>
     <th align="left" class="bgcolor">
       <%- logo_url = @mailer_cache.blank? ? "#{root_url}email/logo_small.png" : "#{webmail_logo_url(mailer_cache_id: @mailer_cache.id, format: 'png')}" -%>
-      <h1 id="learn_logo"><%= image_tag(logo_url, alt: "Learn: Event Recommendations") %></h1>      
+      <h1 id="learn_logo"><%= image_tag(logo_url, alt: "Learn") %></h1>      
     </th>
   </tr>
   <tr class="tagline">
@@ -65,7 +65,7 @@
   <tr class="options">
     <td>
       <%- if @mailer_cache -%>
-        <%= link_to('View in a browser', webmail_recommendation_url(hashvalue: @mailer_cache.hashvalue)) %>
+        <%= link_to('View in a browser', webmail_view_url(hashvalue: @mailer_cache.hashvalue)) %>
       <%- else -%>
         <a href="">View in a browser</a> 
       <%- end -%>

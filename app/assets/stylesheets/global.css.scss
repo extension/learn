@@ -18,7 +18,7 @@ html, body {
 
 #page_wrapper {
     background:#fff;
-    margin: 0 auto;
+    margin: 10px auto 0;
     width:960px;
     @include rounded10;
 //    border:1px solid lime;
@@ -45,6 +45,9 @@ html, body {
 .signup_option {margin: 0 0 1em; clear:left; float:left;}
 .signup_option img {float:left;}
 .signup_option p {line-height:50px; font-size:1.5em; height:50px; float:left; padding:0 1em;}
+.signup_option p a {float:left;}
+.signup_option .spinner {float:left; margin-left:1em;}
+
 
 #two_col_col_one .padding {margin:18px;}
 #two_col_col_two .padding {margin:18px;}
@@ -68,8 +71,7 @@ input[type="search"],
 input[type="email"],
 select {color:#000; font-size: 1.2em;}
 
-#signup_options {float:left;}
-#signup_options li {list-style:none;}
+
 
 .half {width: 50%; float:left;}
 
@@ -106,6 +108,7 @@ input.xxl {width: 80%;}
     position:fixed;
     text-align:center;
     left:0px;
+    top:0;
     z-index:100;
     opacity: 0.92;
     -moz-opacity: 0.92;
@@ -145,3 +148,16 @@ input.xxl {width: 80%;}
 #search input {float:left;}
 #search input#q {margin-right:.5em;}
 .cursor {cursor:pointer;}
+#searchform {margin:0;padding:0;}
+
+//extending bootstrap pagination to match completley unsemantic will_paginate
+.pagination a,
+.pagination span,
+.pagination em {float:left;padding:0 14px;line-height:34px;border-right:1px solid;border-right-color:#ddd;border-right-color:rgba(0, 0, 0, 0.15);*border-right-color:#ddd;text-decoration:none; font-style:normal;}
+.pagination a:hover,
+.pagination .active a {background:#eee;}
+
+.pagination .current {font-weight:bold; color:#000; background:#eee;}
+.pagination .disabled {color:#999;}
+.pagination .next_page {border:0;}
+

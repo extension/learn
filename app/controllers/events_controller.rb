@@ -5,7 +5,6 @@
 # see LICENSE file
 
 class EventsController < ApplicationController
-  before_filter :fake_learner
   before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection]
   
   def index

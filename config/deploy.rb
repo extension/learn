@@ -84,7 +84,7 @@ after "deploy", 'deploy:notification:email'
      
      desc "Update maintenance mode page/graphics (valid after an update code invocation)"
      task :update_maint_msg, :roles => :app do
-        run "cp -f #{shared_path}/system/maintenancemessage.html #{release_path}/public/maintenancemessage.html "
+        run "cp -f #{release_path}/public/maintenancemessage.html #{shared_path}/system/maintenancemessage.html"
      end
 
      desc "clean out the assets and recompile"

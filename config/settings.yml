@@ -4,6 +4,7 @@ twitter_app_secret: 'notset'
 session_token: '123456789012345678901234567890'
 airbrake_api_key: 'notset'
 urlwriter_host: 'learn.dev'
+app_location: 'localdev'
 darmokdatabase: 'prod_darmok'
 tropo_url: "http://api.tropo.com/1.0/sessions"
 tropo_token: "notset"
