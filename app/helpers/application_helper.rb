@@ -24,13 +24,22 @@ module ApplicationHelper
     end
   end
   
-  def get_avatar(learner, image_size = :medium)
-    return image_tag(learner.avatar_url(image_size), :class => 'avatar').html_safe if learner.avatar.present?
-    if image_size == :medium
-      return image_tag("avatar_placeholder.png", :size => "100x100", :class => 'avatar').html_safe
-    elsif image_size == :thumb
-      return image_tag("avatar_placeholder.png", :size => "50x50", :class => 'avatar').html_safe
+  def get_avatar(learner, image_size = :medium, portfolio_link = false)
+    case image_size
+        when :medium    then @image_size = "100x100"
+        when :thumb     then @image_size = "50x50"
     end
+    return_string = ''
+    
+    if learner.avatar.present?
+      return_string = image_tag(learner.avatar_url(image_size), :class => 'avatar')
+    else 
+      return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => @image_size)
+    end
+    if portfolio_link == :link_it
+      return_string = link_to(return_string, portfolio_learner_path(learner.id))
+    end
+    return return_string.html_safe
   end
   
   def link_to_learner(learner)
