@@ -26,15 +26,15 @@ module ApplicationHelper
   
   def get_avatar(learner, image_size = :medium, portfolio_link = false)
     case image_size
-        when :medium    then @image_size = "100x100"
-        when :thumb     then @image_size = "50x50"
+        when :medium    then image_size = "100x100"
+        when :thumb     then image_size = "50x50"
     end
     return_string = ''
     
     if learner.avatar.present?
       return_string = image_tag(learner.avatar_url(image_size), :class => 'avatar')
     else 
-      return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => @image_size)
+      return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size)
     end
     if portfolio_link == :link_it
       return_string = link_to(return_string, portfolio_learner_path(learner.id))
