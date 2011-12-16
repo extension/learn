@@ -106,7 +106,7 @@ after "db:rebuild", "deploy:web:enable"
        rm -rf #{release_path}/tmp/associations &&
        rm -rf #{release_path}/tmp/nonces &&
        rm -rf #{release_path}/public/uploads &&
-       ln -nfs #{shared_path}/uploads #{release_path}/public/uploads
+       ln -nfs #{shared_path}/uploads #{release_path}/public/uploads &&
        ln -nfs #{shared_path}/nonces #{release_path}/tmp/nonces &&
        ln -nfs #{shared_path}/temp #{release_path}/tmp/temp &&
        ln -nfs #{shared_path}/associations #{release_path}/tmp/associations &&
