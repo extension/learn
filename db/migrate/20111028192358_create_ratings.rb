@@ -7,6 +7,6 @@ class CreateRatings < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index "ratings", ["learner_id", "rateable_type", "rateable_id"]
+    add_index "ratings", ["learner_id", "rateable_type", "rateable_id"], :unique => true
   end
 end
