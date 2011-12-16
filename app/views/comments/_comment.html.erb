@@ -1,6 +1,7 @@
 <div class="comment">
   
   <%= get_avatar(comment.learner, :thumb) %>
+  <span class="comment_author"><%= link_to_learner(comment.learner) %></span>
   
   <div class='rating_area'>
     <% if current_learner %>
@@ -22,8 +23,9 @@
   
   <p class="content">
     <%= comment.content %>
-    <span class="comment_time"><%= time_ago_in_words(comment.updated_at) %> ago</span>
   </p>
+  
+  <span class="comment_time"><%= time_ago_in_words(comment.updated_at) %> ago</span>
   
   <p class="actions">
   <span class="comment_actions">
