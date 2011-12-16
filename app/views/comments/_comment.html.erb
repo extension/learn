@@ -55,6 +55,7 @@
   </p>
   <br class="clearing" />
 </div>
+<% if current_learner %>
 <div id="comment_reply_to_<%= comment.id %>" style="display:none" class="comment_reply">
   <%= form_tag(comments_path, :id => 'comment-form-reply', :remote => true) do %>
     <%= get_avatar(current_learner, :thumb) %>
@@ -93,7 +94,7 @@
   <% end %>
   <br class="clearing" />
 </div>
-
+<%- end %>
 <script type="text/javascript">
 $(document).ready(function(){
   $("#comment-form")
