@@ -16,19 +16,20 @@
 
 
 #comments h5 {color:#555;}
-#commentfield_container {margin:0 0 1em; padding-bottom:.5em;}
-#commentfield_container form {width:100%; padding:10px;}
-#commentfield_container .btn {float:right; margin-right:-1em;}
+#commentfield_container, .comment_reply {margin:0 0 1em; padding-bottom:.5em;}
+#commentfield_container form,
+.comment_reply form {width:100%; padding:10px;}
+#commentfield_container .btn,
+.comment_reply .btn {float:right; margin-right:-1em;}
 #commentfield {float:left; width:250px;}
-#commentfield_container textarea {
+#commentfield_container textarea,
+.comment_reply textarea {
     width:100%;
     margin:0 0 .5em 0;
     padding:.5em;
     color:#000;
 }
-
-
-
+.comment_reply {@include rounded10;background: #eee; @include boxshadow; margin-top:1em;}
 .comment {
     padding: 1em 1em 1em;
     margin-bottom:0;
@@ -36,14 +37,13 @@
 .comment:hover {background:#eee;}
 
 .comment .content {}
-.comment_time {display:block; font-size:.9em; color:#777;}
+.comment_time {display:block; font-size:.9em; color:#999;}
 .comment_author {display:block; font-size:.9em;}
 .comment_author a {color:#000; font-weight:bold;}
 
-.nested_comments {margin-left: 30px;}
-.nested_comments .nested_comments .nested_comments .nested_comments {
-  margin-left: 0;
-}
+.nested_comments .comment {margin-left: 30px;}
+.nested_comments .nested_comments .comment {margin-left: 60px;}
+.nested_comments .nested_comments .nested_comments .comment {margin-left: 60px;}
 
 .comment_votes { float:left;}
 .comment_votes:hover #rating_explanation {display:block;}
@@ -57,30 +57,13 @@
 .comment p.actions span.comment_actions a {display:none; padding:.5em .75em; color:#333; float:left;}
 .comment:hover p.actions span.comment_actions a {display:block;}
 
-.comment_votes {outline:1px solid orange;}
+.none_yet {color:#aaa !important; display:none;}
 
-.indent1 {margin-left:1em;}
-.none_yet {color:#aaa !important;}
-
-.comment .rating_area {float:right; background:none;  outline:1px solid lime;}
+.comment {position:relative;}
+.comment .rating_area {float:right; background:none;  position:absolute; bottom:0; left:1em;}
 .comment .rating_area div {float:left;}
-
-
-
-.comment_reply {
-    @include rounded10;
-    padding: 1em;
-    background: #eee;
-    margin-left: 30px;
-}
-
-.comment_reply textarea {
-    margin:0 0 .5em 0;
-    padding:.5em;
-}
-
-.comment_reply .btn {float:right; margin-right:-1em;}
-
+.comment_votes {}
+.comment .rating_area input {padding:.2em .5em !important;}
 
 #extracted_comments {clear:both; padding:2em;}
 #extracted_comments .comment p {font-size:1.3em;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
@@ -88,4 +71,4 @@
 #extracted_comments .comment p span.comment_actions {display:block; clear:both; margin-left:70px; height:1em; float:right;}
 #extracted_comments .comment:hover p span.comment_actions a {display:inline;}
 #extracted_comments .comment:hover {background:#eee;}
-#extracted_comments .indent1 {margin-left:1em;}
+
