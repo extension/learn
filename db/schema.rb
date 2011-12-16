@@ -128,7 +128,6 @@ ActiveRecord::Schema.define(:version => 20111214230606) do
     t.boolean  "retired",                            :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "image"
     t.string   "avatar"
   end
 
