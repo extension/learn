@@ -20,7 +20,6 @@
 #event_time {border: 4px solid #aaa; clear:both;  @include rounded10;}
 .rating_area {margin: 0 0 .5em; }
 #tags {margin: 0; clear:both; padding:0}
-#comment-section {}
 #event_meta a {color:#666;}
 #attendees {background:#fff; clear:left;}
 #attendees h4:hover {cursor:pointer;}
@@ -51,46 +50,9 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
     width:100%;
 }
 
-#comments h5 {color:#555;}
-#commentfield_container .btn {float:right; margin-right:-1em;}
-#commentfield {float:left; width:250px;}
-#commentfield_container form {width:100%; padding:10px;}
-
-#commentfield_container textarea {
-    width:100%;
-    margin:0 0 .5em 0;
-    padding:.5em;
-    color:#000;
-}
-
-.comment_reply {
-    @include rounded10;
-    padding: 1em;
-    background: #eee;
-    margin-left: 30px;
-}
-
-.comment_reply textarea {
-    margin:0 0 .5em 0;
-    padding:.5em;
-}
-
-.comment_reply .btn {float:right; margin-right:-1em;}
 
 .avatar {width:50px;height:50px;background:#aaa; margin-right:0.6em; float:left;}
-.comment {
-    padding: 1em 1em 0;
-    margin-bottom:0;
-    width:100%;
-}
-.comment .avatar {width:40px;height:40px;}
-.comment p {font-size:11.5px;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
 
-.comment p.actions a {display:none; background:#444; padding:.1em .35em; color:#fff;}
-.comment p.actions span.comment_actions {display:block; clear:both; margin-left:70px; height:1em; float:right;}
-.comment:hover p.actions span.comment_actions a {display:inline;}
-.comment:hover {background:#eee;}
-.indent1 {margin-left:1em;}
 
 #event_time h3 {float:left;}
 #recording_details {clear:both;}
@@ -101,9 +63,9 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .formatted_votes {font-weight:normal; float:left; margin-left:.5em; color:#333;}
 
 
-.comment .rating_area {float:right; background:none; }
+
 .rating_area form {float:left; margin:0; padding:0;}
-.comment .rating_area div {float:left;}
+
 
 #rating_explanation {display:none; position: absolute; margin-top:2em; background:#fff; padding:.5em; @include boxshadow;}
 #event_votes:hover #rating_explanation {display:block;}
