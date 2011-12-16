@@ -17,6 +17,12 @@ gem 'jquery-rails', '1.0.16'
 # storage
 gem 'mysql2'
 
+# image upload
+gem 'carrierwave'
+
+# image processing
+gem 'rmagick'
+
 # Deploy with Capistrano
 gem 'capistrano'
 

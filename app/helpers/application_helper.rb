@@ -24,6 +24,14 @@ module ApplicationHelper
     end
   end
   
+  def get_avatar(learner, image_size)
+    return image_tag(learner.avatar_url(image_size), :class => 'avatar').html_safe if learner.avatar.present?
+    if image_size == :medium
+      return image_tag("avatar_placeholder.png", :size => "100x100").html_safe
+    elsif image_size == :thumb
+      return image_tag("avatar_placeholder.png", :class => 'avatar').html_safe
+    end
+  end
   
   def link_to_learner(learner)
     if current_learner

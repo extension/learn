@@ -9,9 +9,6 @@ class LearnersController < ApplicationController
   def index
   end
   
-  def show
-  end
-  
   def portfolio
     @learner = Learner.find_by_id(params[:id])
     if @learner.blank?
@@ -23,6 +20,19 @@ class LearnersController < ApplicationController
     @watched_events = @learner.events.watched.order("event_connections.created_at DESC")#.limit(5)
     @bookmarked_events = @learner.events.bookmarked.order("event_connections.created_at DESC")#.limit(5)
     @presented_events = @learner.presented_events.order("session_start DESC")#.limit(5)
+  end
+  
+  def edit
+    @learner = Learner.find_by_id(params[:id])
+  end
+  
+  def update
+    @learner = Learner.find_by_id(params[:id])
+    if @learner.update_attributes(params[:learner])
+      redirect_to(edit_learner_url(@learner), :notice => 'Event was successfully updated.')
+    else
+      render :action => 'edit'
+    end
   end
   
   def learning_history  

@@ -6,9 +6,12 @@
 
 class Learner < ActiveRecord::Base
   devise :rememberable, :trackable, :database_authenticatable
-  
+
   # Setup accessible (or protected) attributes
-  attr_accessible :email, :remember_me, :name 
+  attr_accessible :email, :remember_me, :name, :avatar, :bio, :mobile_number, :remove_avatar
+  
+  # specify image uploader for carrierwave
+  mount_uploader :avatar, AvatarUploader
   
   has_many :activity_logs
   has_many :questions
@@ -77,6 +80,10 @@ class Learner < ActiveRecord::Base
     name_string = read_attribute(:name)
     name_string.blank? ? 'Learner' : name_string
   end
+  
+  # def is_eXtension_account?
+  #     return self.darmok_id.present?
+  #   end
   
   # this instance method used to merge two learner accounts into one account, particularly used 
   # when merging two accounts created for the same learner resulting from a learner using 
