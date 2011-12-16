@@ -60,7 +60,7 @@
 .comment .rating_area {float:right; background:none;  outline:1px solid lime;}
 .comment .rating_area div {float:left;}
 
-
+.comment .comment_time {display:block;}
 
 .comment_reply {
     @include rounded10;

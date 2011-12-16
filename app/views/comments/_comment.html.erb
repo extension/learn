@@ -1,11 +1,4 @@
-
-
-
 <div class="comment">
-  
-  <% if comment.parent_removed %>
-    <p class="removed">This is a response to a removed comment</p>
-  <% end %>
   
   <%= get_avatar(comment.learner, :thumb) %>
   
@@ -23,8 +16,13 @@
     </div>
   </div>
   
-  <p class="content">    
+  <% if comment.parent_removed %>
+    <p class="removed">This is a response to a removed comment</p>
+  <% end %>
+  
+  <p class="content">
     <%= comment.content %>
+    <span class="comment_time"><%= time_ago_in_words(comment.updated_at) %> ago</span>
   </p>
   
   <p class="actions">
