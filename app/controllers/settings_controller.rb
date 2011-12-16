@@ -5,8 +5,17 @@
 # see LICENSE file
 
 class SettingsController < ApplicationController
+  before_filter :authenticate_learner!
   
   def profile
+    @learner = current_learner
+    if request.put?      
+      if @learner.update_attributes(params[:learner])
+        redirect_to(settings_profile_path, :notice => 'Profile was successfully updated.')
+      else
+        render :action => 'profile'
+      end
+    end
   end
   
   def notifications

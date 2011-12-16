@@ -10,3 +10,4 @@ log/*.lck
 .rvmrc
 solr/data
 solr/pids
+public/uploads

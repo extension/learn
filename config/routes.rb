@@ -19,7 +19,7 @@ Learn::Application.routes.draw do
     end
   end
   
-  match "settings/profile" => "settings#profile", :via => :get
+  match "settings/profile" => "settings#profile", :via => [:get, :put]
   match "settings/notifications" => "settings#notifications", :via => :get
   
   resources :events do

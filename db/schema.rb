@@ -211,7 +211,7 @@ ActiveRecord::Schema.define(:version => 20111207160625) do
     t.datetime "updated_at"
   end
 
-  add_index "ratings", ["learner_id", "rateable_type", "rateable_id"], :name => "index_ratings_on_learner_id_and_rateable_type_and_rateable_id"
+  add_index "ratings", ["learner_id", "rateable_type", "rateable_id"], :name => "index_ratings_on_learner_id_and_rateable_type_and_rateable_id", :unique => true
 
   create_table "recommendations", :force => true do |t|
     t.integer  "learner_id"

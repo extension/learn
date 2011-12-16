@@ -1,5 +1,4 @@
 <%= formatted_votes(rateable_object, current_learner) %>
-
 <% if !@errors.blank? %>
-  <strong><p>There were problems saving your rating: <br/> <%= @errors %></p></strong>
+<p><strong>There were problems saving your rating: <%= @errors %></strong></p>
 <% end %>

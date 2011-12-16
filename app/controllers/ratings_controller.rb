@@ -9,9 +9,13 @@ class RatingsController < ApplicationController
   
   def create
     @rating = Rating.find_or_create_by_params(current_learner, params[:rating])
-    
-    if !@rating.save
-      @errors = @rating.errors.full_messages.to_sentence
+    # new rating was created, else it was found and learner cannot rate something twice
+    if !@rating.persisted?
+      if !@rating.save
+        @errors = @rating.errors.full_messages.to_sentence
+      end
+    else
+      return
     end
    
     respond_to do |format|

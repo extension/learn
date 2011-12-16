@@ -19,17 +19,17 @@ module ApplicationHelper
       return_string << "<div id='rating_explanation'>Positive votes: #{positive_ratings_count}</div>"
       return return_string.html_safe
     else
-      return_string << "<strong class='formatted_votes'>No Ratings Yet</strong>"
+      return_string << "<strong class='formatted_votes none_yet'>No Ratings Yet</strong>"
       return return_string.html_safe
     end
   end
   
-  def get_avatar(learner, image_size)
+  def get_avatar(learner, image_size = :medium)
     return image_tag(learner.avatar_url(image_size), :class => 'avatar').html_safe if learner.avatar.present?
     if image_size == :medium
-      return image_tag("avatar_placeholder.png", :size => "100x100").html_safe
+      return image_tag("avatar_placeholder.png", :size => "100x100", :class => 'avatar').html_safe
     elsif image_size == :thumb
-      return image_tag("avatar_placeholder.png", :class => 'avatar').html_safe
+      return image_tag("avatar_placeholder.png", :size => "50x50", :class => 'avatar').html_safe
     end
   end
   
