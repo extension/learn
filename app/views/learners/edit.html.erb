@@ -1,0 +1,36 @@
+<% @page_title = "#{@learner.name} Profile" %>
+
+  <h1><%= @page_title %></h1>
+  
+  
+  <p><%= @learner.name %></p>
+  <p><%= @learner.email %></p>
+  <p><%= @learner.time_zone %></p>
+  
+  <p>
+  <%= form_for @learner, :html => {:multipart => true} do |f| %>
+    <p>
+    <%= f.label :bio, 'Short Bio (140 characters)' %><br />
+    <%= f.text_field :bio, :size => 140, :maxlength => 140 %>
+    </p>
+    <p>
+    <%= f.label :mobile_number, 'Phone Number (for receiving text notifications)' %><br />
+    <%= f.text_field :mobile_number %>
+    </p>
+    
+    <p><%= get_avatar(@learner, :medium) %></p>
+    <p>
+      <%= f.file_field :avatar %>
+      <%= f.hidden_field :avatar_cache %>
+    </p>
+    
+    <p>
+      <label>
+        <%= f.check_box :remove_avatar %>
+        Remove avatar
+      </label> 
+    </p><br />
+    
+    <p><%= f.submit "Save Changes" %></p>
+  <% end %>
+  </p>
