@@ -1,39 +1,37 @@
 <div class="comment">
   
   <%= get_avatar(comment.learner, :thumb, :link_it) %>
+  
   <span class="comment_author"><%= link_to_learner(comment.learner) %></span>
   
-  <div class='rating_area'>
+  <div class='rating_wrapper'>
     <% if current_learner %>
       <%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %>
     <% else %>
-      <%= render(partial: 'sign_in_to_vote')%>
+      <%= render(partial: '/events/sign_in_to_vote')%>
       <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
       </div> <!-- end .sitv_element_wrapper  -->
     <% end %>
-    
-    <div id="comment_votes_<%= comment.id %>" class="comment_votes">
+    <div id="comment_votes_<%= comment.id %>" class="rating_detail">
       <%= render :partial => '/partials/ratings', locals: {rateable_object: comment} %>
     </div>
   </div>
-  
-  <% if comment.parent_removed %>
-    <p class="removed">This is a response to a removed comment</p>
-  <% end %>
   
   <p class="content">
     <%= comment.content %>
   </p>
   
-  <span class="comment_time"><%= time_ago_in_words(comment.updated_at) %> ago</span>
+  <span class="comment_time"><%= link_to time_ago_in_words(comment.updated_at) + ' ago', comment_path(comment) %></span>
+  
+  <% if comment.parent_removed %>
+    <p class="removed">The comment preceding this comment has been deleted</p>
+  <% end %>
   
   <p class="actions">
   <span class="comment_actions">
     <% if current_learner %>
       <%= link_to_function 'reply', "show_element($('#comment_reply_to_#{comment.id}'));" %> 
     <% end %>
-    
-    <%= link_to 'view', comment_path(comment) %>
     
     <% if current_learner && (current_learner.id == comment.learner_id) %>
       <%= link_to_function 'edit', "show_element($('#comment_edit_for_#{comment.id}'));" %>

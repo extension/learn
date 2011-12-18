@@ -54,7 +54,7 @@
       <%-if @event.concluded? -%>
         <h3>Watch</h3>
         
-        <div class="rating_area">
+        <div class="rating_wrapper">
           <% if current_learner %>
             <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
           <% else %>
@@ -62,7 +62,9 @@
             <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
             </div> <!-- end .sitv_element_wrapper  -->
           <% end %>
-          <div id="event_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %></div>
+          <div id="event_votes" class="rating_detail">
+            <%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %>
+          </div>
         </div>
         
         <div id="recording_details">
