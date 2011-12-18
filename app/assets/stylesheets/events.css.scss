@@ -69,7 +69,7 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 
 #eventconnections p span {position:relative;}
 #eventconnections p:hover small {display:block;color:#fff; font-size:.9em; margin:.25em 0;}
-#eventconnections p small {display:none; position:absolute; left:1em; top:-50%;color:#fff; background:#3e83eb; border:3px solid #fff; padding:1em; width:150px; @include boxshadow; @include rounded10}
+#eventconnections p small {display:none; position:absolute; left:1em; top:-50%;color:#fff; background:#3e83eb; border:3px solid #fff; padding:1em; width:150px; @include boxshadow; @include rounded10; z-index:150;}
 
 #notification_prefs li {color:#666; font-weight:normal; font-size:1em; list-style:none; margin:0 0 1em; padding-left:20px; line-height:1.1em;}
 #notification_prefs ul {padding:1em 0 0 0; margin:0; clear:both;}
