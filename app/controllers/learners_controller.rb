@@ -27,24 +27,25 @@ class LearnersController < ApplicationController
     @learner = current_learner
     params[:type].present? ? @type = params[:type].capitalize : @type = 'All'
     
-    @list_title = "Learning History(#{@type})"
+    @list_title = "Learning History (#{@type})"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
     
     case params[:type]
     when 'presented'
-      @events = @learner.presented_events
+      @events = @learner.presented_events.paginate(:page => params[:page]).order('session_start DESC')
     when 'attended'
-      @events = @learner.events.attended
+      @events = @learner.events.attended.paginate(:page => params[:page]).order('session_start DESC')
     when 'watched'
-      @events = @learner.events.watched
+      @events = @learner.events.watched.paginate(:page => params[:page]).order('session_start DESC')
     when 'bookmarked'
-      @events = @learner.events.bookmarked
+      @events = @learner.events.bookmarked.paginate(:page => params[:page]).order('session_start DESC')
     when 'commented'
-      @events = @learner.commented_events
+      @events = @learner.commented_events.paginate(:page => params[:page]).order('session_start DESC')
     when 'rated'
-      @events = @learner.rated_items.events
+      event_ids = @learner.rated_items.event_ratings.map{|e| e.rateable_id}
+      @events = Event.where("id IN (#{event_ids.join(',')})").paginate(:page => params[:page]).order('session_start DESC')
     when 'answered_questions'
-      @events = @learner.events_answered
+      @events = @learner.events_answered.paginate(:page => params[:page]).order('session_start DESC')
     when nil
       event_id_array = []
       @presented_events = @learner.presented_events.map{|e| e.id}

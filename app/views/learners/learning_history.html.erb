@@ -1,4 +1,4 @@
-<h1>Learning History</h1>
+<h1><%= @list_title %></h1>
 
 
 <nav id="learning_history">
@@ -22,7 +22,7 @@
   <table>
     <% @events.each do |event| %>
       <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>"> 
-        <td>activity type</td>
+        <td><%= get_activity_types(event) if @type == 'All' %></td>
         <td><%= link_to event.title, event_path(event) %></td>
       </tr>
     <% end %>
