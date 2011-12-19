@@ -14,16 +14,21 @@
 </ul>
 </nav>
 
-<%= will_paginate @events %>
+<% if @events.total_entries > 0 %>
+  <p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong>
 
-<table>
-  <% @events.each do |event| %>
-    <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>"> 
-      <td>activity type</td>
-      <td><%= link_to event.title, event_path(event) %></td>
-    </tr>
-  <% end %>
-<table>
+  <%= will_paginate @events %>
 
-<%= will_paginate @events %>
+  <table>
+    <% @events.each do |event| %>
+      <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>"> 
+        <td>activity type</td>
+        <td><%= link_to event.title, event_path(event) %></td>
+      </tr>
+    <% end %>
+  <table>
 
+  <%= will_paginate @events %>
+<% else %>
+  <p>No events at this time.</p>
+<% end %>
