@@ -14,8 +14,12 @@
     -webkit-border-radius:10px;
 }
 
-#settings li {float:left; list-style:none; padding:1em; font-size:1.1em;}
+#settings_nav li {float:left; list-style:none; padding:1em; font-size:1.1em;}
 
 #extension_people_data {background:#f4f4f4; padding:2em; @include rounded10; @include boxshadow}
 #extension_people_data p {font-size:1.3em;}
 #extension_people_data #people_edit {float:right; width:40%;font-size:1.1em;}
+
+.bio {width:50em;}
+
+form {margin-top:3em;}

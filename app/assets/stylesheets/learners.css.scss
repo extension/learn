@@ -20,12 +20,23 @@
 //#col_three_of_three {width:30%; float:left; padding: 1em;}
 
 
-#col_one_of_three {width:40%; float:left; padding: 1em; margin-right:1em;}
-#col_two_of_three {width:50%; float:left; padding: 1em;}
+.col_one_of_three {width:40%; float:left; padding: 1em; margin-right:1em;}
+.col_two_of_three {width:50%; float:left; padding: 1em;}
 
 
 
-.pd_events {@include rounded10; background:#e5e5e5;}
+#pd_events {@include rounded10; background:#e5e5e5;}
+#pd_events h1,
+#bookmarks h2 {font-size:1.7em; margin-bottom:0;}
+#pd_events h2 {font-size:1.3em;}
+#pd_events h4 {margin:0 0 1em;}
+#pd_events p {margin:0 0 1em; line-height:1.4em; font-size:1.1em;}
+#pd_events span.event_date {color:#777; font-size:.8em;}
+
+.view_all {margin-top:2em;}
+.coming_soon  {background:yellow; padding:.1em .5em;}
+//.bookmarked_event {outline:1px solid red;}
+.bookmarked_event span {color:#777; font-size:.8em;}
 
 .calendarblock { width:64px; display:block; text-align:center; height:64px;padding-top:0;float:right; @include boxshadow; float:left; @include rounded10}
 .calendarblock .month {display:block; height:20px; line-height:25px;font-size:1.1em; text-transform:uppercase; font-weight:bold; background: orange;
@@ -34,7 +45,13 @@
     }
 .calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:2.5em; }
 
-.bookmarks div {clear:both; margin:0 0 1.5em;}
+
+.bookmarked_event.no_recording_available h4 {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:25px; font-size:1.45em; min-height:1.3em;}
+.bookmarked_event.recording_available h4 {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:25px; font-size:1.45em; min-height:1.3em;}
+#pd_events p.no_recording_available {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:25px;min-height:1.3em; height:auto;}
+#pd_events p.recording_available {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:25px; min-height:1.3em; height:auto;}
+
+#bookmarks .bookmarked_event h4 {line-height:1.1em;margin:0 0 .75em; font-size:1.1em; font-weight:normal;}
 
 #learner_info {float:right; }
 #learner_info_text {float:left; padding-right:1em;}
@@ -47,3 +64,4 @@
 
 #learning_history li {float:left; list-style:none; padding:1em; font-size:1.1em;}
 
+#learners h3.header {clear:both; font-size:1.5em;}

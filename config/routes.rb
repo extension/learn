@@ -16,6 +16,10 @@ Learn::Application.routes.draw do
     member do
       get 'portfolio'
       get 'learning_history'
+      get 'attended'
+      get 'presented'
+      get 'bookmarked'
+      get 'watched'
     end
   end
   
