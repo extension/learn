@@ -17,34 +17,44 @@
   <p><%= link_to "Learning History", learning_history_learner_path(@learner.id) %></p>
 </div>
 
-  <p>
-  <%= form_for @learner, :url => settings_profile_path, :html => {:multipart => true} do |f| %>
-    <p>
-    <%= f.label :bio, 'Short Bio (140 characters)' %><br />
-    <%= f.text_field :bio, :size => 140, :maxlength => 140 %>
+
+<%= form_for @learner, :url => settings_profile_path, :html => {:multipart => true, :class => "form-stacked"} do |f| %>
+
+  <fieldset>
+    <p class="bio">
+      <%= f.label :bio, 'Short Bio (140 characters)' %>
+      <%= f.text_area :bio, :rows => "2", :maxlength => 140,  :class => "l" %>
     </p>
+  
     <p>
-    <%= f.label :mobile_number, 'Phone Number (for receiving text notifications)' %><br />
-    <%= f.text_field :mobile_number %>
+      <%= f.label :mobile_number, 'Phone Number (for receiving text notifications)' %>
+      <%= f.text_field :mobile_number %>
     </p>
+  </fieldset>
     
+  <fieldset>
     <p><%= get_avatar(@learner, :medium) %></p>
-    <p>
+    
+    <p class="clearing">
       <%= f.file_field :avatar %>
       <%= f.hidden_field :avatar_cache %>
     </p>
-    
     <% if @learner.avatar.present? %>
-    <p>
+    <p class="clearing">
       <label>
         <%= f.check_box :remove_avatar %>
         Remove avatar
       </label> 
-    </p><br />
+    </p>
     <% end %>
+  </fieldset>
+  
     
-    <p><%= f.submit "Save Changes" %></p>
+    
+    <fieldset>
+      <p><%= f.submit "Save Changes", :class => "btn primary large" %></p>
+    </fieldset>
+    
   <% end %>
-  </p>
 
 
