@@ -54,29 +54,36 @@ html, body {
 #three_col_two {width:22%; float:left; padding: 1em; margin-right:1em;}
 #three_col_three {width:30%; float:left; padding: 1em;}
 
+.description p {word-wrap:break-word;}
+
 @media screen and (max-width: 1024px) {
-    
     #three_col_one {width:45%; float:left; padding: 1em; margin-right:1em;}
     #three_col_two {width:40%; float:left; padding: 1em; margin-right:1em;}
     #three_col_three {width:100%; padding: 1em;}
-    
+//    .description p {outline:2px solid lime}
 }
 
 @media screen and (max-width: 800px) {
     #page_wrapper {width:96%;}
-    #three_col_one {width:auto; padding: 0; margin:0 0 1em; border:1px solid red;}
-    #three_col_two {width:auto; padding: 0; margin:0 0 1em; border:1px solid lime;}
-    #three_col_three {width:auto; padding: 0; margin:0 0 1em; border:1px solid blue;}
-    
-    #upcoming_events section.event {border:1px solid red;}
-    .description {
-        border:2px solid black; 
-        }
-    .description p a {outline:1px solid lime; word-wrap:break-word;
-        width:auto;
-    //    display:none;
-        }
+    #three_col_one {width:100%; padding: 0; margin:0 0 1em;}
+    #three_col_two {width:100%; padding: 0; margin:0 0 1em;}
+    #three_col_three {width:100%; padding: 0; margin:0 0 1em;}
+    #useractions {float:none;}
+//    .description p {outline:2px solid black}
 }
+
+@media screen and (max-width: 600px) {
+//    .description p {width:300px; outline:2px solid green}
+}
+
+@media screen and (max-width: 480px) {
+//    .description p {width:300px; outline:2px solid blue}
+}
+
+@media screen and (max-width: 320px) {
+//    .description p {width:260px; outline:2px solid red}
+}
+
 
 #single_col {width:80%; margin: 0 auto 4em; clear:both;}
 
