@@ -31,7 +31,7 @@ class Notification < ActiveRecord::Base
   end
   
   def process_event_reminder_emails
-    self.notifiable.learners.each{|learner| EventMailer.reminder(learner: learner, event: self.notifiable).deliver unless !learner.send_sms?(self.offset) or learner.has_event_notification_exception?(self.notifiable)}      
+    self.notifiable.learners.each{|learner| EventMailer.reminder(learner: learner, event: self.notifiable).deliver unless !learner.send_reminder?(self.offset) or learner.has_event_notification_exception?(self.notifiable)}      
   end
 
   def process_event_reminder_sms
