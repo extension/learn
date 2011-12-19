@@ -1,6 +1,4 @@
 <h1>Learning History</h1>
-
-
 <nav id="learning_history">
 <ul>
   <li><%= link_to_unless_current "All", learning_history_learner_path() %></li>
@@ -14,17 +12,6 @@
 </ul>
 </nav>
 
-<h3 class="clearing">NOTE: at the current time, this table is showing "attended sessions", not all activity</h3>
 
-<%= will_paginate @events %>
-
-<table>
-  <% @events.each do |event| %>
-    <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>"> 
-      <td>activity type</td>
-      <td><%= link_to event.title, event_path(event) %></td>
-    </tr>
-  <% end %>
-<table>
-
-<%= will_paginate @events %>
+<h3 class='header'><%= @list_title %></h3>
+<%= render :partial => 'list' %>

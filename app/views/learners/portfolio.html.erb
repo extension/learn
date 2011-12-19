@@ -24,10 +24,6 @@
 
 <br class="clearing" />
 <div id="pd_events" class="col_one_of_three">
-  <%- if current_learner && current_learner.id == @learner.id -%>
-    <p><%= link_to "View your Learning History", learning_history_learner_path(@learner.id) %></p>
-  <%- end -%>
-  
   <h1>PD Events</h1>
   
   <h2>Presented</h2>
@@ -37,6 +33,9 @@
     <% @presented_events.each do |event| %>
       <p class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
     <% end %>
+    <%- if current_learner && current_learner.id == @learner.id -%>
+    <p class="view_all"><%= link_to_unless_current "View all", presented_learner_path() %></p>
+    <%- end -%>
   <% end %>
   
   <h2>Attended</h2>
@@ -46,6 +45,9 @@
     <% @attended_events.each do |event| %>
       <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
     <% end %>
+    <%- if current_learner && current_learner.id == @learner.id -%>
+    <p class="view_all"><%= link_to_unless_current "View all", attended_learner_path() %></p>
+    <%- end -%>
   <% end %>
   
   <h2>Watched</h2>
@@ -55,6 +57,9 @@
     <% @watched_events.each do |event| %>
       <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
     <% end %>
+    <%- if current_learner && current_learner.id == @learner.id -%>
+    <p class="view_all"><%= link_to_unless_current "View all", watched_learner_path() %></p>
+    <%- end -%>
   <% end %>
 </div>
 
@@ -74,7 +79,10 @@
     </div>
   <% end %>
       
-  <p class="view_all"><%= link_to "view all" %></p>
+  <%- if current_learner && current_learner.id == @learner.id -%>
+  <p class="view_all"><%= link_to_unless_current "View all", bookmarked_learner_path() %></p>
+  <%- end -%>
+  
 </div>
 
 <div id="col_three_of_three" style="display:none;">
