@@ -17,15 +17,19 @@ class LearnersController < ApplicationController
       return redirect_to root_url
     end
   
-    @attended_events = @learner.events.attended.order("event_connections.created_at DESC")#.limit(5)
-    @watched_events = @learner.events.watched.order("event_connections.created_at DESC")#.limit(5)
-    @bookmarked_events = @learner.events.bookmarked.order("event_connections.created_at DESC")#.limit(5)
-    @presented_events = @learner.presented_events.order("session_start DESC")#.limit(5)
+    @attended_events = @learner.events.attended.order("event_connections.created_at DESC").limit(5)
+    @watched_events = @learner.events.watched.order("event_connections.created_at DESC").limit(5)
+    @presented_events = @learner.presented_events.order("session_start DESC").limit(5)
+    @bookmarked_events = @learner.events.bookmarked.order("event_connections.created_at DESC").limit(15)
   end
   
   def learning_history
     @learner = current_learner
     params[:type].present? ? @type = params[:type].capitalize : @type = 'All'
+    
+    @list_title = "Learning History(#{@type})"
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
+    
     case params[:type]
     when 'presented'
       @events = @learner.presented_events
@@ -57,10 +61,9 @@ class LearnersController < ApplicationController
       event_id_array.concat(@rated_events)
       @answered_events = @learner.events_answered.map{|e| e.id}
       event_id_array.concat(@answered_events)
-      @events = Event.where("id IN (#{event_id_array.join(',')})").order('session_start DESC')
+      @events = Event.where("id IN (#{event_id_array.join(',')})").paginate(:page => params[:page]).order('session_start DESC')
     else
       return redirect_to(root_url, :error => 'Invalid learning history specified.')
     end
   end
-  
 end

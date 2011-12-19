@@ -31,33 +31,23 @@ class Notification < ActiveRecord::Base
   end
   
   def process_event_reminder_emails
-    if !self.processed
-      list = get_event_notification_list('notification.reminder.email', true)
-      puts "sending email to list"
-      #EventMailer calls go here     
-    end
+    self.notifiable.learners.each{|learner| EventMailer.reminder(learner: learner, event: self.notifiable).deliver unless !learner.send_reminder? or learner.has_event_notification_exception?(self.notifiable)}      
   end
 
-  #this can still be otimized greatly. passing tropo a comma-separated string of phone numbers would mean only POSTing once
   def process_event_reminder_sms
-    if !self.processed
-      puts "sending #{self.offset/60} minute sms notifications"
-      list = get_event_notification_list('notification.reminder.sms.notice', self.offset)
-      list.each{|learner| send_sms_notification(learner) unless learner.has_event_notification_exception?(self.notifiable)}      
-    end
+    puts "sending #{self.offset/60} minute sms notifications"
+    self.notifiable.learners.each{|learner| send_sms_notification(learner) unless !learner.send_sms?(self.offset) or learner.has_event_notification_exception?(self.notifiable)}      
   end  
 
   def process_activity_notifications
     puts "sending activity updates"
-    list = get_event_notification_list('notification.activity', true)
-    list.each{|learner| puts "sending activity notification to #{learner.email}" unless learner.has_event_notification_exception?(self.notifiable)}
+    self.notifiable.learners.each{|learner| EventMailer.activity(learner: learner, event: self.notifiable).deliver unless !learner.send_activity? or learner.has_event_notification_exception?(self.notifiable)}      
   end
   
   #still need to implement email
   def process_recording_notifications
     puts "sending recording information"
-    list = get_event_notification_list('notification.recording', true)
-    list.each{|learner| puts "sending recording notification to #{learner.email}" unless learner.has_event_notification_exception?(self.notifiable)}  
+    self.notifiable.learners.each{|learner| EventMailer.recording(learner: learner, event: self.notifiable).deliver unless !learner.send_recording? or learner.has_event_notification_exception?(self.notifiable)}      
   end
   
   def process_recommendation
@@ -84,19 +74,22 @@ class Notification < ActiveRecord::Base
     end
   end
   
-  #notification_preference should be a value like notification.reminder.email, notification.reminder.sms, notification.activity, etc.
-  def get_event_notification_list(notification_preference, value)
-    self.notifiable.bookmarked.joins(:preferences).where(:preferences => {:name => notification_preference, :value => value})    
+  def sms_message(learner)
+    %Q{#{self.notifiable.title} begins at #{self.notifiable.session_start.in_time_zone(learner.time_zone).strftime("%I:%M%p %Z")}
+    http://#{Settings.urlwriter_host}/events/#{self.notifiable.id}}
   end
   
+  
   def send_sms_notification(learner)
-    uri = URI(Settings.tropo_url)
-    params = { :action => "create", :token => Settings.tropo_token, :remindermessage => "eXtension Learn Event Reminder: #{self.notifiable.title} begins at #{self.notifiable.session_start.in_time_zone(learner.time_zone).strftime("%I:%M%p %Z")}", :phonenumbers => learner.mobile_number }
-    result = Net::HTTP.post_form(uri,params)
-    if result.is_a?(Net::HTTPSuccess)
-      return true
-    else
-      return false
+    if !learner.mobile_number.nil?
+      uri = URI(Settings.tropo_url)
+      params = { :action => "create", :token => Settings.tropo_token, :remindermessage => self.sms_message(learner), :phonenumbers => learner.mobile_number }
+      result = Net::HTTP.post_form(uri,params)
+      if result.is_a?(Net::HTTPSuccess)
+        return true
+      else
+        return false
+      end
     end
   end
   

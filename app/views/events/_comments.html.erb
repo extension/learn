@@ -9,17 +9,19 @@
       <div id="commentfield">
       <%= text_area_tag 'comment[content]', nil, {:cols => 20, :rows => 5} %>
       <%= hidden_field_tag 'comment[event_id]', event.id %>
-      <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn primary'} %>
+      <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn'} %>
       </div>
     <% end %>
     
     <% else %>
         
         <%= form_tag(comments_path, :id => 'comment-form', :remote => true) do %>
+        <%= image_tag("avatar_placeholder.png", :class => 'avatar', :size => "50x50") %>
+        
         <%= render(partial: 'sign_in_to_vote')%>
           <div id="commentfield" class="sitv_element">
           <%= text_area_tag 'comment[content]', nil, {:cols => 20, :rows => 5} %>
-          <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn primary'} %>
+          <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn'} %>
           </div>
           </div> <!-- end .sitv_element_wrapper  -->
         <% end %>

@@ -1,5 +1,6 @@
 <h1>Learning History</h1>
 
+
 <nav id="learning_history">
 <ul>
   <li><%= link_to_unless_current "All", learning_history_learners_path %></li>
@@ -13,11 +14,16 @@
 </ul>
 </nav>
 
+<%= will_paginate @events %>
+
 <table>
-  <tr>
-    <td><%= @type %></td>
-    <% @events.each do |event| %>
+  <% @events.each do |event| %>
+    <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>"> 
+      <td>activity type</td>
       <td><%= link_to event.title, event_path(event) %></td>
-    <% end %>
-  </tr>
+    </tr>
+  <% end %>
 <table>
+
+<%= will_paginate @events %>
+

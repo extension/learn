@@ -246,6 +246,22 @@ class Learner < ActiveRecord::Base
     self.preferences.setting('notification.recommendation')
   end
   
+  def send_reminder?
+    self.preferences.setting('notification.reminder.email')
+  end
+  
+  def send_sms?(notice)
+    self.preferences.setting('notification.reminder.sms') and (self.preferences.setting('notification.reminder.sms.notice').to_f == notice)
+  end
+  
+  def send_activity?
+    self.preferences.setting('notification.activity')
+  end
+  
+  def send_recording?
+    self.preferences.setting('notification.recording')
+  end
+  
   def send_recommendation=(send_it)
     Preference.create_or_update(self,'notification.recommendation',send_it)
   end

@@ -15,11 +15,11 @@ module ApplicationHelper
     return_string = ''
   
     if (positive_ratings_count > 0)
-      return_string << "<strong class='formatted_votes'>+#{positive_ratings_count}</strong>"
-      return_string << "<div id='rating_explanation'>Positive votes: #{positive_ratings_count}</div>"
+      return_string << "<strong class='rating_count'>+#{positive_ratings_count}</strong>"
+      return_string << "<div class='rating_explanation'>#{positive_ratings_count} person up-voted this</div>"
       return return_string.html_safe
     else
-      return_string << "<strong class='formatted_votes none_yet'>No Ratings Yet</strong>"
+      return_string << "<strong class='rating_explanation none_yet'>Be the first to up-vote this</strong>"
       return return_string.html_safe
     end
   end
@@ -32,11 +32,11 @@ module ApplicationHelper
     return_string = ''
     
     if learner.avatar.present?
-      return_string = image_tag(learner.avatar_url(image_size), :class => 'avatar')
+      return_string = image_tag(learner.avatar_url(image_size), :class => 'avatar', :size => image_size_in_px)
     else 
       return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size_in_px)
     end
-    if portfolio_link == :link_it
+    if portfolio_link == :link_it && current_learner
       return_string = link_to(return_string, portfolio_learner_path(learner.id))
     end
     return return_string.html_safe
