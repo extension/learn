@@ -23,6 +23,8 @@ class Learner < ActiveRecord::Base
   has_many :comments
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
+  has_many :commented_events, through: :comments, source: :event, uniq: true
+  has_many :rated_items, class_name: 'Rating', foreign_key: 'learner_id'
   has_many :event_activities
   has_many :presenter_connections
   has_many :presented_events, through: :presenter_connections, source: :event
@@ -30,6 +32,8 @@ class Learner < ActiveRecord::Base
   has_many :notification_exceptions
   has_many :recommendations
   has_many :mailer_caches
+  has_many :answers
+  has_many :events_answered, through: :event_activities, source: :event, conditions: "event_activities.activity = #{EventActivity::ANSWER} AND event_activities.trackable_type = 'Question'", uniq: true
   
   before_validation :convert_mobile_number
   validates_length_of :mobile_number, :is => 10, :allow_blank => true

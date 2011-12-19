@@ -13,11 +13,15 @@ Learn::Application.routes.draw do
   resources :comments, :only => [:create, :update, :destroy, :show]
   resources :ratings, :only => [:create]  
   resources :learners do
-    member do
-      get 'portfolio'
+    collection do
       get 'learning_history'
     end
+    member do
+      get 'portfolio'
+    end
   end
+  
+  match "learners/learning_history/:type" => "learners#learning_history"
   
   match "settings/profile" => "settings#profile", :via => [:get, :put]
   match "settings/notifications" => "settings#notifications", :via => :get

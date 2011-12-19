@@ -2,21 +2,22 @@
 
 <nav id="learning_history">
 <ul>
-  <li><%= link_to "All" %></li>
-  <li><%= link_to "Presented" %></li>
-  <li><%= link_to "Attended" %></li>
-  <li><%= link_to "Watched" %></li>
-  <li><%= link_to "Bookmarks" %></li>
-  <li><%= link_to "Comments" %></li>
-  <li>Rated (?)</li>
-  <li>Answered Questions (?)</li>
+  <li><%= link_to_unless_current "All", learning_history_learners_path %></li>
+  <li><%= link_to_unless_current "Presented", learning_history_learners_path(:type => 'presented') %></li>
+  <li><%= link_to_unless_current "Attended", learning_history_learners_path(:type => 'attended') %></li>
+  <li><%= link_to_unless_current "Watched", learning_history_learners_path(:type => 'watched') %></li>
+  <li><%= link_to_unless_current "Bookmarked", learning_history_learners_path(:type => 'bookmarked') %></li>
+  <li><%= link_to_unless_current "Commented", learning_history_learners_path(:type => 'commented') %></li>
+  <li><%= link_to_unless_current "Rated", learning_history_learners_path(:type => 'rated') %></li>
+  <li><%= link_to_unless_current "Answered Questions", learning_history_learners_path(:type => 'answered_questions') %></li>
 </ul>
 </nav>
 
-
 <table>
   <tr>
-    <td>Watched</td>
-    <td><%= link_to "NeVC: Curate The Cloud. How Too Much Information puts Humans Back In Charge" %></td>
+    <td><%= @type %></td>
+    <% @events.each do |event| %>
+      <td><%= link_to event.title, event_path(event) %></td>
+    <% end %>
   </tr>
 <table>

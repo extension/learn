@@ -58,7 +58,7 @@ class Event < ActiveRecord::Base
   scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
-
+  
   scope :this_week, lambda {
     weekday = Time.now.utc.strftime('%u').to_i
     # if saturday or sunday - do next week, else this week

@@ -25,7 +25,7 @@
 <br class="clearing" />
 <div class="pd_events" id="col_one_of_three">
   <%- if current_learner && current_learner.id == @learner.id -%>
-    <p><%= link_to "View your Learning History", learning_history_learner_path(@learner.id) %></p>
+    <p><%= link_to "View your Learning History", learning_history_learners_path %></p>
   <%- end -%>
   
   <h1>PD Events</h1>
