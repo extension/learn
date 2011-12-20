@@ -2,6 +2,7 @@ $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory
 require 'yaml'
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require "airbrake/capistrano"
+require "delayed/recipes"  
 
 #------------------------------
 # <i>Should</i> only have to edit these three vars for standard eXtension deployments
@@ -17,13 +18,16 @@ set :repository, "git@github.com:extension/#{application}.git"
 set :use_sudo, false
 set :scm, :git
 set :migrate_target, :latest
+set :rails_env, "production" #added for delayed job  
 
 # Make sure environment is loaded as first step
 on :load, "deploy:setup_environment"
 
 # Disable our app before running the deploy
 before "deploy", "deploy:web:disable"
+before "deploy", "delayed_job:stop"
 before "db:rebuild", "deploy:web:disable"
+before "db:rebuild", "delayed_job:stop"
 
 # After code is updated, do some house cleaning
 after "deploy:update_code", "deploy:bundle_install"
@@ -34,9 +38,11 @@ after "deploy:update_code", "deploy:assets"
 after "deploy:update_code", "deploy:migrate"
 
 # don't forget to turn it back on
+after "deploy", "delayed_job:start"
 after "deploy", "deploy:web:enable"
 after "deploy", 'deploy:notification:email'
 after "db:rebuild", "deploy:restart"
+after "db:rebuild", "delayed_job:start"
 after "db:rebuild", "deploy:web:enable"
 
  namespace :deploy do
