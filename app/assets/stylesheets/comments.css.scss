@@ -14,22 +14,27 @@
     -webkit-border-radius:10px;
 }
 
+.commentfield_container {
+    @include rounded10;
+    background: #eee;
+    width:100%;
+}
+
 
 #comments h5 {color:#555;}
-#commentfield_container, .comment_reply {margin:0 0 1em; padding-bottom:.5em;}
-#commentfield_container form,
-.comment_reply form {width:100%; padding:10px;}
-#commentfield_container .btn,
-.comment_reply .btn {float:right; margin-right:-1em;}
-#commentfield {float:left; width:250px;}
-#commentfield_container textarea,
-.comment_reply textarea {
+
+.commentfield_container {margin:1em 0 1em; padding:10px; background: #eee; @include rounded10; @include boxshadow; ; position:relative;}
+.commentfield_container form {margin:0; padding-left:80px;}
+.commentfield_container img {position:absolute; left:10px;top:10px;}
+.commentfield {float:left; width:100%;}
+.commentfield textarea {
     width:100%;
-    margin:0 0 .5em 0;
+    margin:0 auto .5em -1em;
     padding:.5em;
     color:#000;
 }
-.comment_reply {@include rounded10;background: #eee; @include boxshadow; margin-top:1em;}
+.commentfield_container .btn {float:right;}
+
 .comment {padding: 1em;margin-bottom:0;position:relative;}
 .comment:hover {background:#eee;}
 
