@@ -36,6 +36,8 @@ class Event < ActiveRecord::Base
   
   validates :recording, :allow_blank => true, :uri => true
   
+  before_update :schedule_recording_notification
+  
   before_save :set_session_end
   before_save :set_presenters_from_tokens
   before_save :set_tags_from_tag_list
@@ -247,11 +249,11 @@ class Event < ActiveRecord::Base
   # 1 notification via email (180 minutes before)
   # 4 via sms (60,45,30,15 minutes)
   def create_event_notifications
-    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_EMAIL, :delivery_time => self.session_start - 3.hours, :offset => 3.hours)
-    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 60.minutes, :offset => 60.minutes)
-    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 45.minutes, :offset => 45.minutes)
-    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 30.minutes, :offset => 30.minutes)
-    Notification.create(:notifiable => self, :notificationtype => Notification::EVENT_REMINDER_SMS, :delivery_time => self.session_start - 15.minutes, :offset => 15.minutes)
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 3.hours, offset: 3.hours)
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 60.minutes, offset: 60.minutes)
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 45.minutes, offset: 45.minutes)
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 30.minutes, offset: 30.minutes)
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 15.minutes, offset: 15.minutes)
   end
   
   # when an event is updated, the notifications need to be rescheduled if the event session_start changes
@@ -323,6 +325,12 @@ class Event < ActiveRecord::Base
         event_list[event] = learners
       end
       event_list
+    end
+  end
+  
+  def schedule_recording_notification
+    if self.recording_changed?
+      Notification.create(notifiable: self, notificationtype: Notification::RECORDING, delivery_time: 1.minute.from_now)
     end
   end
   
