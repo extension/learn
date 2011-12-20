@@ -75,8 +75,7 @@ class Notification < ActiveRecord::Base
   end
   
   def sms_message(learner)
-    %Q{#{self.notifiable.title} begins at #{self.notifiable.session_start.in_time_zone(learner.time_zone).strftime("%I:%M%p %Z")}
-    http://#{Settings.urlwriter_host}/events/#{self.notifiable.id}}
+    "\"#{self.notifiable.title.truncate(80, separator: ' ')}\" is starting soon! #{self.notifiable.session_start.in_time_zone(learner.time_zone).strftime("%I:%M%p %Z")} @ #{Settings.urlwriter_host}/events/#{self.notifiable.id}"
   end
   
   
