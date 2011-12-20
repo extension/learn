@@ -22,6 +22,7 @@ html, body {
     margin: 10px auto 0;
 //    width:960px;
     width: 90%; /* arbitrary */
+    max-width: 1200px;
     @include rounded10;
 //    border:1px solid lime;
 }
@@ -54,7 +55,21 @@ html, body {
 #three_col_two {width:22%; float:left; padding: 1em; margin-right:1em;}
 #three_col_three {width:30%; float:left; padding: 1em;}
 
-.description p {word-wrap:break-word;}
+
+#useractions {float:right;}
+#useractions li {list-style:none; padding:.75em 1em; float:left;}
+
+.masthead {float:left;}
+.masthead h1 {background: transparent url(/assets/logo_small.png) left top no-repeat; width:264px; height:100px; text-indent: -9000px;}
+
+#search {float:right; clear:right;}
+#search input {float:left;}
+#search input#q {margin-right:.5em;}
+.cursor {cursor:pointer;}
+#searchform {margin:0;padding:0;}
+
+
+p {word-wrap:break-word;}
 
 @media screen and (max-width: 1024px) {
     #three_col_one {width:45%; float:left; padding: 1em; margin-right:1em;}
@@ -69,10 +84,18 @@ html, body {
     #three_col_two {width:100%; padding: 0; margin:0 0 1em;}
     #three_col_three {width:100%; padding: 0; margin:0 0 1em;}
     #useractions {float:none;}
+    #search {float:none; width:100%; clear:both; margin-bottom:10px;}
+    #search #q {width:50%;}
+    .masthead {float:none;}
+    #two_col_col_one {width:100%; padding: 0; margin:0 0 1em;}
+    #two_col_col_two {width:100%; padding: 0; margin:0 0 1em;}
+    #event h1 {font-size:1.5em; line-height:1.3em;}
 //    .description p {outline:2px solid black}
 }
 
 @media screen and (max-width: 600px) {
+    #page_wrapper {width:100%; margin:0 0 0}
+    
 //    .description p {width:300px; outline:2px solid green}
 }
 
@@ -98,15 +121,7 @@ html, body {
 #two_col_col_one .padding {margin:18px;}
 #two_col_col_two .padding {margin:18px;}
 
-header h1 {
-    padding:0;
-    height: 71px;
-    width:280px;
-    margin:.5em .5em .5em 0;
-    float:left;
-}
 
-header img {float:left; padding:10px 0 0 10px;}
 
 .texthide {text-indent: -9000px;}
 .clearing {clear:both;}
@@ -122,8 +137,7 @@ select {color:#000; font-size: 1.2em;}
 .half {width: 50%; float:left;}
 
 
-#useractions {float:right;}
-#useractions li {list-style:none; padding:1em 0 1em 1em; float:left;}
+
 
 
 
@@ -193,11 +207,6 @@ input.xxl {width: 80%;}
 #error_messages ul {margin-bottom:0;}
 #error_messages li {font-size: 1.2em;padding:0;margin:0 0 .4em; color: #9b303a}
 #error_messages h3 {color: #9b303a}
-#search {float:right;}
-#search input {float:left;}
-#search input#q {margin-right:.5em;}
-.cursor {cursor:pointer;}
-#searchform {margin:0;padding:0;}
 
 //extending bootstrap pagination to match completley unsemantic will_paginate
 .pagination a,
