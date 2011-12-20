@@ -23,7 +23,9 @@
 </div>
 
 <br class="clearing" />
+
 <div id="pd_events" class="col_one_of_three">
+
   <h1>PD Events</h1>
   
   <h2>Presented</h2>
@@ -34,7 +36,7 @@
       <p class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
     <% end %>
     <%- if current_learner && current_learner.id == @learner.id -%>
-    <p class="view_all"><%= link_to_unless_current "View all", presented_learner_path() %></p>
+    <p class="view_all"><%= link_to_unless_current "View all", learning_history_learners_path(:type => 'presented') %></p>
     <%- end -%>
   <% end %>
   
@@ -46,7 +48,7 @@
       <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
     <% end %>
     <%- if current_learner && current_learner.id == @learner.id -%>
-    <p class="view_all"><%= link_to_unless_current "View all", attended_learner_path() %></p>
+    <p class="view_all"><%= link_to_unless_current "View all", learning_history_learners_path(:type => 'attended') %></p>
     <%- end -%>
   <% end %>
   
@@ -58,7 +60,7 @@
       <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
     <% end %>
     <%- if current_learner && current_learner.id == @learner.id -%>
-    <p class="view_all"><%= link_to_unless_current "View all", watched_learner_path() %></p>
+    <p class="view_all"><%= link_to_unless_current "View all", learning_history_learners_path(:type => 'watched') %></p>
     <%- end -%>
   <% end %>
 </div>
@@ -80,7 +82,7 @@
   <% end %>
       
   <%- if current_learner && current_learner.id == @learner.id -%>
-  <p class="view_all"><%= link_to_unless_current "View all", bookmarked_learner_path() %></p>
+  <p class="view_all"><%= link_to_unless_current "View all", learning_history_learners_path(:type => 'bookmarked') %></p>
   <%- end -%>
   
 </div>

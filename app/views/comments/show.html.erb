@@ -1,6 +1,6 @@
 
 
-<div id="extracted_comments">
+<div id="comment-list" class="extracted_comments">
 <%= nested_comments @comment.subtree.arrange(:order => 'created_at DESC'), @comment %>
 </div>
 

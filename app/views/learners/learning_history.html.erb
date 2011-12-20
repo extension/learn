@@ -1,30 +1,34 @@
-<h1>Learning History</h1>
+<h1><%= @list_title %></h1>
 
 
 <nav id="learning_history">
 <ul>
-  <li><%= link_to_unless_current "All", learning_history_learner_path() %></li>
-  <li><%= link_to_unless_current "Presented", presented_learner_path() %></li>
-  <li><%= link_to_unless_current "Attended", attended_learner_path() %></li>
-  <li><%= link_to_unless_current "Watched", watched_learner_path() %></li>
-  <li><%= link_to_unless_current "Bookmarks", bookmarked_learner_path() %></li>
-  <li>Comments</li>
-  <li>Rated</li>
-  <li>Answered Questions</li>
+  <li><%= link_to_unless_current "All", learning_history_learners_path %></li>
+  <li><%= link_to_unless_current "Presented", learning_history_learners_path(:type => 'presented') %></li>
+  <li><%= link_to_unless_current "Attended", learning_history_learners_path(:type => 'attended') %></li>
+  <li><%= link_to_unless_current "Watched", learning_history_learners_path(:type => 'watched') %></li>
+  <li><%= link_to_unless_current "Bookmarked", learning_history_learners_path(:type => 'bookmarked') %></li>
+  <li><%= link_to_unless_current "Commented", learning_history_learners_path(:type => 'commented') %></li>
+  <li><%= link_to_unless_current "Rated", learning_history_learners_path(:type => 'rated') %></li>
+  <li><%= link_to_unless_current "Answered Questions", learning_history_learners_path(:type => 'answered_questions') %></li>
 </ul>
 </nav>
 
-<h3 class="clearing">NOTE: at the current time, this table is showing "attended sessions", not all activity</h3>
+<% if @events.total_entries > 0 %>
+  <p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong>
 
-<%= will_paginate @events %>
+  <%= will_paginate @events %>
 
-<table>
-  <% @events.each do |event| %>
-    <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>"> 
-      <td>activity type</td>
-      <td><%= link_to event.title, event_path(event) %></td>
-    </tr>
-  <% end %>
-<table>
+  <table>
+    <% @events.each do |event| %>
+      <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>"> 
+        <td><%= get_activity_types(event) if @type == 'All' %></td>
+        <td><%= link_to event.title, event_path(event) %></td>
+      </tr>
+    <% end %>
+  <table>
 
-<%= will_paginate @events %>
+  <%= will_paginate @events %>
+<% else %>
+  <p>No events at this time.</p>
+<% end %>

@@ -13,13 +13,15 @@
 
 
 html, body {
-   background-image: -webkit-radial-gradient(circle, white, black);
+    background:#666;
+    background-image: -webkit-radial-gradient(circle, white, black);
 }
 
 #page_wrapper {
     background:#fff;
     margin: 10px auto 0;
-    width:960px;
+//    width:960px;
+    width: 90%; /* arbitrary */
     @include rounded10;
 //    border:1px solid lime;
 }
@@ -27,17 +29,61 @@ html, body {
 #page {
     clear:both;
     margin: 0 auto;
-    width: 900px;
+//    width: 900px;
+    width: 93.75%; /* 900 ÷ 960 */
+//    border:1px solid blue;
 }
 
-#two_col_col_one {width: 540px; /* 566px / 900px */
+#two_col_col_one {
+//    width: 540px; 
+    width: 60%; /* 540 ÷ 900 */
     float:left;
     clear:both;
+//    border:1px solid red;
     }
 #two_col_col_two {
-    width: 340px;
+//    width: 340px; 
+    width: 37.7777%; /* 340 ÷ 900 */
     float:right;
+//    border:1px solid black;
     }
+
+/* home
+-----------------------------------*/
+#three_col_one {width:35%; float:left; padding: 1em; margin-right:1em;}
+#three_col_two {width:22%; float:left; padding: 1em; margin-right:1em;}
+#three_col_three {width:30%; float:left; padding: 1em;}
+
+.description p {word-wrap:break-word;}
+
+@media screen and (max-width: 1024px) {
+    #three_col_one {width:45%; float:left; padding: 1em; margin-right:1em;}
+    #three_col_two {width:40%; float:left; padding: 1em; margin-right:1em;}
+    #three_col_three {width:100%; padding: 1em;}
+//    .description p {outline:2px solid lime}
+}
+
+@media screen and (max-width: 800px) {
+    #page_wrapper {width:96%;}
+    #three_col_one {width:100%; padding: 0; margin:0 0 1em;}
+    #three_col_two {width:100%; padding: 0; margin:0 0 1em;}
+    #three_col_three {width:100%; padding: 0; margin:0 0 1em;}
+    #useractions {float:none;}
+//    .description p {outline:2px solid black}
+}
+
+@media screen and (max-width: 600px) {
+//    .description p {width:300px; outline:2px solid green}
+}
+
+@media screen and (max-width: 480px) {
+//    .description p {width:300px; outline:2px solid blue}
+}
+
+@media screen and (max-width: 320px) {
+//    .description p {width:260px; outline:2px solid red}
+}
+
 
 #single_col {width:80%; margin: 0 auto 4em; clear:both;}
 
@@ -208,3 +254,5 @@ input.xxl {width: 80%;}
     }
 .sitv_content .btn {width:auto !important; float:left !important;}
 .sitv_content p {font-size:1.2em !important; color:#fff !important; font-weight:normal !important;}
+
+//a {word-wrap:break-word;}

@@ -11,14 +11,14 @@
       
       <h3><%= link_to(event.title, event_path(event.id)) -%></h3>
     
-      <p class="description"><%= format_text_for_display(event.description) -%></p>
+      <div class="description"><%= format_text_for_display(event.description) -%></div>
 
       <%- if event.presenters.count > 0 -%>
         <h3>Presenters</h3>
-        <p id="presenters"><%= display_presenters(event.presenters) %></p>
+        <p class="presenters"><%= display_presenters(event.presenters) %></p>
       <%- end -%>
       
-      <div id="tags">
+      <div class="tags">
         <h4 class="hide">Tags</h4>
         <p>
           <%-if event.tags.length != 0 -%>  
@@ -39,19 +39,14 @@
   
   <div id="recent_events">
   <%- @recent_events.each do |event| -%>
-
+    <dl>
       <% if event.has_recording? %>
-         <dl>
-           <dt><span class="recording_available"><%= link_to(event.title, event_path(event.id)) -%></dt>
-           
+        <dt><span class="recording_available"><%= link_to(event.title, event_path(event.id)) -%></span></dt>
       <% else %>
-         <dl><dt><span class="no_recording_available"><%= link_to(event.title, event_path(event.id)) -%></dt>
-           
+        <dt><span class="no_recording_available"><%= link_to(event.title, event_path(event.id)) -%></span></dt>
       <% end %>
-      
       <dd><%= time_ago_in_words(event.session_start) %> ago</dd>
-      </dl>
-   
+    </dl>
   <%- end -%>
   </div>
 </div>
@@ -76,8 +71,5 @@
       <li>Comment on and rate events</li>
     </ul>
   <%- end -%>
-  
-  
-  
-  
+
 </div>

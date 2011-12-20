@@ -5,6 +5,7 @@
 # see LICENSE file
 
 class LearnersController < ApplicationController
+  before_filter :authenticate_learner!, only: [:portfolio, :learning_history]
   
   def index
   end
@@ -23,42 +24,47 @@ class LearnersController < ApplicationController
   end
   
   def learning_history
-    @learner = Learner.find_by_id(params[:id])
-    @list_title = 'Attended Sessions'
+    @learner = current_learner
+    params[:type].present? ? @type = params[:type].capitalize : @type = 'All'
+    
+    @list_title = "Learning History (#{@type})"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events = @learner.events.attended.paginate(:page => params[:page]).order("event_connections.created_at DESC")
+    
+    case params[:type]
+    when 'presented'
+      @events = @learner.presented_events.paginate(:page => params[:page]).order('session_start DESC')
+    when 'attended'
+      @events = @learner.events.attended.paginate(:page => params[:page]).order('session_start DESC')
+    when 'watched'
+      @events = @learner.events.watched.paginate(:page => params[:page]).order('session_start DESC')
+    when 'bookmarked'
+      @events = @learner.events.bookmarked.paginate(:page => params[:page]).order('session_start DESC')
+    when 'commented'
+      @events = @learner.commented_events.paginate(:page => params[:page]).order('session_start DESC')
+    when 'rated'
+      event_ids = @learner.rated_items.event_ratings.map{|e| e.rateable_id}
+      @events = Event.where("id IN (#{event_ids.join(',')})").paginate(:page => params[:page]).order('session_start DESC')
+    when 'answered_questions'
+      @events = @learner.events_answered.paginate(:page => params[:page]).order('session_start DESC')
+    when nil
+      event_id_array = []
+      @presented_events = @learner.presented_events.map{|e| e.id}
+      event_id_array.concat(@presented_events)
+      @attended_events = @learner.events.attended.map{|e| e.id}
+      event_id_array.concat(@attended_events)
+      @watched_events = @learner.events.watched.map{|e| e.id}
+      event_id_array.concat(@watched_events)
+      @bookmarked_events = @learner.events.bookmarked.map{|e| e.id}
+      event_id_array.concat(@bookmarked_events)
+      @commented_events = @learner.commented_events.map{|e| e.id}
+      event_id_array.concat(@commented_events)
+      @rated_events = @learner.rated_items.event_ratings.map{|e| e.rateable_id}
+      event_id_array.concat(@rated_events)
+      @answered_events = @learner.events_answered.map{|e| e.id}
+      event_id_array.concat(@answered_events)
+      @events = Event.where("id IN (#{event_id_array.join(',')})").paginate(:page => params[:page]).order('session_start DESC')
+    else
+      return redirect_to(root_url, :error => 'Invalid learning history specified.')
+    end
   end
-  
-  def attended
-    @learner = Learner.find_by_id(params[:id])
-    @list_title = 'Attended Sessions'
-    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events = @learner.events.attended.paginate(:page => params[:page]).order("event_connections.created_at DESC")
-    render :action => 'index'
-  end
-  
-  def presented
-    @learner = Learner.find_by_id(params[:id])
-    @list_title = 'Presented Sessions'
-    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events = @learner.presented_events.paginate(:page => params[:page]).order("session_start DESC")
-    render :action => 'index'
-  end
-  
-  def watched
-    @learner = Learner.find_by_id(params[:id])
-    @list_title = 'Watched Sessions'
-    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events = @learner.events.watched.paginate(:page => params[:page]).order("event_connections.created_at DESC")
-    render :action => 'index'
-  end
-  
-  def bookmarked
-    @learner = Learner.find_by_id(params[:id])
-    @list_title = 'Bookmarked Sessions'
-    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events = @learner.events.bookmarked.paginate(:page => params[:page]).order("event_connections.created_at DESC")
-    render :action => 'index'
-  end
-  
 end

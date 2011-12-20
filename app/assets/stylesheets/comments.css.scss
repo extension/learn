@@ -53,10 +53,10 @@
 
 
 //individual comment view
-#extracted_comments {clear:both; padding:2em;}
-#extracted_comments .comment p {font-size:1.3em;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
-#extracted_comments .comment p a {font-size:.7em; display:none; background:#444; padding:.1em .35em; color:#fff;}
-#extracted_comments .comment p span.comment_actions {display:block; clear:both; margin-left:70px; height:1em; float:right;}
-#extracted_comments .comment:hover p span.comment_actions a {display:inline;}
-#extracted_comments .comment:hover {background:#eee;}
+.extracted_comments {clear:both; padding:2em;}
+.extracted_comments .comment p {font-size:1.3em;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
+.extracted_comments .comment p a {font-size:.7em; display:none; padding:.1em .35em; color:#fff;}
+.extracted_comments .comment p span.comment_actions {display:block; clear:both; margin-left:70px; height:1em; float:right;}
+.extracted_comments .comment:hover p span.comment_actions a {display:inline;}
+.extracted_comments .comment:hover {background:#eee;}
 

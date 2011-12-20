@@ -2,7 +2,7 @@
 <html>
 <head>
   <title><%= (@page_title) ? "eXtension Learn: " + @page_title : "eXtension Learn" %></title>
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/javascripts/excanvas.min.js"></script><![endif]-->
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
@@ -27,7 +27,7 @@
     <ul>
       <%- if current_learner -%>
         <li><%= link_to_learner(current_learner) %></li>
-        <li><%= link_to "History", learning_history_learner_path(current_learner) %></li>
+        <li><%= link_to "History", learning_history_learners_path %></li>
         <li><%= link_to "Settings", settings_profile_path() %></li>
         <li><%= link_to('Logout', destroy_learner_session_path, :method => :delete) %></li>
       <%- else -%>
