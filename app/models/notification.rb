@@ -35,18 +35,15 @@ class Notification < ActiveRecord::Base
   end
 
   def process_event_reminder_sms
-    puts "sending #{self.offset/60} minute sms notifications"
     self.notifiable.learners.each{|learner| send_sms_notification(learner) unless !learner.send_sms?(self.offset) or learner.has_event_notification_exception?(self.notifiable)}      
   end  
 
   def process_activity_notifications
-    puts "sending activity updates"
     self.notifiable.learners.each{|learner| EventMailer.activity(learner: learner, event: self.notifiable).deliver unless !learner.send_activity? or learner.has_event_notification_exception?(self.notifiable)}      
   end
   
   #still need to implement email
   def process_recording_notifications
-    puts "sending recording information"
     self.notifiable.learners.each{|learner| EventMailer.recording(learner: learner, event: self.notifiable).deliver unless !learner.send_recording? or learner.has_event_notification_exception?(self.notifiable)}      
   end
   
