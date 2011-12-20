@@ -37,13 +37,13 @@ class Event < ActiveRecord::Base
   validates :recording, :allow_blank => true, :uri => true
   
   before_update :schedule_recording_notification
+  before_update :update_event_notifications
   
   before_save :set_session_end
   before_save :set_presenters_from_tokens
   before_save :set_tags_from_tag_list
   
   after_create :create_event_notifications
-  after_update :update_event_notifications
   
   DEFAULT_TIMEZONE = 'America/New_York'
   # page default for will_paginate
@@ -258,7 +258,9 @@ class Event < ActiveRecord::Base
   
   # when an event is updated, the notifications need to be rescheduled if the event session_start changes
   def update_event_notifications
-    self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
+    if self.session_start_changed?
+      self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
+    end
   end
   
   
