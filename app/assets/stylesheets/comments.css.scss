@@ -14,17 +14,10 @@
     -webkit-border-radius:10px;
 }
 
-.commentfield_container {
-    @include rounded10;
-    background: #eee;
-    width:100%;
-}
-
-
 #comments h5 {color:#555;}
 
-.commentfield_container {margin:1em 0 1em; padding:10px; background: #eee; @include rounded10; @include boxshadow; ; position:relative;}
-.commentfield_container form {margin:0; padding-left:80px;}
+.commentfield_container {margin:1em 0 1em; padding:10px; background: #eee; @include rounded10; @include boxshadow; position:relative;}
+.commentfield_container form {margin:0; padding:0 0 0 80px;}
 .commentfield_container img {position:absolute; left:10px;top:10px;}
 .commentfield {float:left; width:100%;}
 .commentfield textarea {

@@ -40,13 +40,11 @@ html, body {
     width: 60%; /* 540 ÷ 900 */
     float:left;
     clear:both;
-//    border:1px solid red;
     }
 #two_col_col_two {
 //    width: 340px; 
     width: 37.7777%; /* 340 ÷ 900 */
     float:right;
-//    border:1px solid black;
     }
 
 /* home
@@ -84,7 +82,7 @@ p {word-wrap:break-word;}
     #three_col_two {width:100%; padding: 0; margin:0 0 1em;}
     #three_col_three {width:100%; padding: 0; margin:0 0 1em;}
     #useractions {float:none;}
-    #search {float:none; width:100%; clear:both; margin-bottom:10px;}
+    #search {float:left; width:100%; clear:both; margin-bottom:.75em;}
     #search #q {width:50%;}
     .masthead {float:none;}
     #two_col_col_one {width:100%; padding: 0; margin:0 0 1em;}
