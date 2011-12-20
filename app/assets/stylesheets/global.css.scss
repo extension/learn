@@ -54,11 +54,14 @@ html, body {
 #three_col_three {width:30%; float:left; padding: 1em;}
 
 
-#useractions {float:right;}
+#useractions {float:right; border:1px solid #fff;}
 #useractions li {list-style:none; padding:.75em 1em; float:left;}
 
 .masthead {float:left;}
-.masthead h1 {background: transparent url(/assets/logo_small.png) left top no-repeat; width:264px; height:100px; text-indent: -9000px;}
+.masthead h1 {margin:0;}
+.masthead h1 span {display:none; text-indent: -9000px;}
+
+.masthead img {width:264px; height:100px;}
 
 #search {float:right; clear:right;}
 #search input {float:left;}
@@ -66,8 +69,30 @@ html, body {
 .cursor {cursor:pointer;}
 #searchform {margin:0;padding:0;}
 
+#single_col {width:80%; margin: 0 auto 4em; clear:both;}
+#signup_content {margin: 2em; padding:2em;}
+
+.col_one_of_three {width:40%; float:left; padding: 1em; margin-right:1em;}
+.col_two_of_three {width:50%; float:left; padding: 1em;}
+
+.event_time_details {float:right;} 
 
 p {word-wrap:break-word;}
+
+#learner_info {float:right; }
+#learner_info_text {float:left; padding-right:1em;}
+#learner_info h1 {float:right; margin:0 0 0 0;} 
+#learner_info p {clear:right; text-align:right;}
+#learner_info .avatar {}
+#avatar_wrapper {float:right; position:relative;}
+#avatar_wrapper .avatar {margin:0;}
+#avatar_wrapper .edit {width:auto; position:absolute; padding:.1em .6em; background:#fff; right:1px; top:1px; margin:0;}
+
+
+.bio {width:50em;}
+#extension_people_data {background:#f4f4f4; padding:2em; @include rounded10; @include boxshadow}
+#extension_people_data p {font-size:1.3em;}
+#extension_people_data #people_edit {float:right; width:40%;font-size:1.1em; background:#fff; padding:10px;}
 
 @media screen and (max-width: 1024px) {
     #three_col_one {width:45%; float:left; padding: 1em; margin-right:1em;}
@@ -88,7 +113,17 @@ p {word-wrap:break-word;}
     #two_col_col_one {width:100%; padding: 0; margin:0 0 1em;}
     #two_col_col_two {width:100%; padding: 0; margin:0 0 1em;}
     #event h1 {font-size:1.5em; line-height:1.3em;}
-//    .description p {outline:2px solid black}
+    #single_col {width:100%;}
+    #signup_content {margin: 0; padding:.5em 0;}
+    .col_one_of_three {width:auto;float:none;margin:0 0 1em;}
+    .col_two_of_three {width:100%; padding: 0; margin:0 0 1em;}
+    .masthead img {width:auto; height:75px;}
+    
+    #learner_info {float:none;}
+    h1 {font-size:1.5em;}
+    .bio {width:100%;}
+    #extension_people_data #people_edit {float:none; width:100%;}
+    
 }
 
 @media screen and (max-width: 600px) {
@@ -106,9 +141,9 @@ p {word-wrap:break-word;}
 }
 
 
-#single_col {width:80%; margin: 0 auto 4em; clear:both;}
 
-#signup_content {margin: 2em; padding:2em;}
+
+
 .signup_option {margin: 0 0 1em; clear:left; float:left;}
 .signup_option img {float:left;}
 .signup_option p {line-height:50px; font-size:1.5em; height:50px; float:left; padding:0 1em;}

@@ -14,17 +14,6 @@
     -webkit-border-radius:10px;
 }
 
-//
-//#col_one_of_three {width:30%; float:left; padding: 1em; margin-right:1em;}
-//#col_two_of_three {width:28%; float:left; padding: 1em;}
-//#col_three_of_three {width:30%; float:left; padding: 1em;}
-
-
-.col_one_of_three {width:40%; float:left; padding: 1em; margin-right:1em;}
-.col_two_of_three {width:50%; float:left; padding: 1em;}
-
-
-
 #pd_events {@include rounded10; background:#e5e5e5;}
 #pd_events h1,
 #bookmarks h2 {font-size:1.7em; margin-bottom:0;}
@@ -35,7 +24,6 @@
 
 .view_all {margin-top:2em;}
 .coming_soon  {background:yellow; padding:.1em .5em;}
-//.bookmarked_event {outline:1px solid red;}
 .bookmarked_event span {color:#777; font-size:.8em;}
 
 .calendarblock { width:64px; display:block; text-align:center; height:64px;padding-top:0;float:right; @include boxshadow; float:left; @include rounded10}
@@ -53,14 +41,7 @@
 
 #bookmarks .bookmarked_event h4 {line-height:1.1em;margin:0 0 .75em; font-size:1.1em; font-weight:normal;}
 
-#learner_info {float:right; }
-#learner_info_text {float:left; padding-right:1em;}
-#learner_info h1 {float:right; margin:0 0 0 0;} 
-#learner_info p {clear:right; text-align:right;}
-#learner_info .avatar {}
-#avatar_wrapper {float:right; position:relative;}
-#avatar_wrapper .avatar {margin:0;}
-#avatar_wrapper .edit {width:auto; position:absolute; padding:.1em .6em; background:#fff; right:1px; top:1px; margin:0;}
+
 
 #learning_history li {float:left; list-style:none; padding:1em; font-size:1.1em;}
 
