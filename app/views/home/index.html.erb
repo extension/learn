@@ -57,20 +57,28 @@
   <p>These professional development sessions are brought to you by eXtension and are open to anyone.</p>
   
   <p>If you have a suggestions for a topic, you can tweet to <%= link_to "@extensionLearns", "http://twitter.com/extensionLearns" %> on Twitter.</p>
-  <%- if current_learner -%>
-    <h3>What other information do we want to promote/surface here?</h3>
     
+  <%- if current_learner -%>
+    <div id="create_event">
     <%= link_to "Create a new event", new_event_path(), :class => "btn" %>
+    </div>
   <%- else -%>
     
-    <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn primary" )%></p>
-  
-    <h3>Why Sign in?</h3>
-    <ul>
-      <li>Bookmark events you are interested in</li>
-      <li>Get text/email notifications for events right before they start</li>
-      <li>Comment on and rate events</li>
-    </ul>
+    <div id="signin">
+      <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn primary" )%></p>
+      
+      <h3>Why Sign in?</h3>
+      <ul>
+        <li>Mark events you attended, watched or are interested in</li>
+        <li>Get text/email notifications for events right before they start</li>
+        <li>Comment on and rate events</li>
+      </ul>
+    </div>
+    
+    
   <%- end -%>
+  
+  <p class="feed"><%= link_to "Subscribe to all events", feeds_events_url() %><p>
+  <p class="join"><%= link_to "How to participate in Learn events", "http://create.extension.org/node/698#How_to_Participate_in_eXtension_Professional_Development" %><p>
 
 </div>

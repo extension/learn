@@ -13,8 +13,8 @@
 
 
 html, body {
-    background:#666;
     background-image: -webkit-radial-gradient(circle, white, black);
+    background: #666 url(/assets/hex_pattern.png) repeat;
 }
 
 #page_wrapper {
@@ -171,7 +171,8 @@ select {color:#000; font-size: 1.2em;}
 
 
 
-
+.feed {background: transparent url(/assets/feed.png) left 50% no-repeat; padding-left:25px; clear:left;}
+.join {background: transparent url(/assets/comment.png) left 50% no-repeat; padding-left:25px; clear:left;}
 
 
 p.no_recording_available {background: transparent url(/assets/play_button_grey.png) left 50% no-repeat; padding-left:45px; font-size:1.4em; height:42px;}
@@ -299,3 +300,4 @@ input.xxl {width: 80%;}
 
 //a {word-wrap:break-word;}
 .help-block {font-size:1.2em; color:#888; padding-top:.2em;}
+#signin, #create_event {padding:2em 0 1em;}

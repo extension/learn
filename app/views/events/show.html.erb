@@ -98,11 +98,8 @@
         <%- end -%></p>   
       
         <h3 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h3>
-                        
+        <p class="feed"><%= link_to "Subscribe to this event", feeds_event_url(@event.id) %><p>
       <%-end -%>
-      
-      
-      <br class="clearing" />
     </aside>
     
     <%- if current_learner -%>
