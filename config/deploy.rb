@@ -2,7 +2,6 @@ $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory
 require 'yaml'
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require "airbrake/capistrano"
-require "delayed/recipes"  
 
 #------------------------------
 # <i>Should</i> only have to edit these three vars for standard eXtension deployments
@@ -25,9 +24,10 @@ on :load, "deploy:setup_environment"
 
 # Disable our app before running the deploy
 before "deploy", "deploy:web:disable"
-before "deploy", "delayed_job:stop"
+before "deploy:web:disable", "delayed_job:stop"
 before "db:rebuild", "deploy:web:disable"
 before "db:rebuild", "delayed_job:stop"
+before "delayed_job:start", "delayed_job:reload"
 
 # After code is updated, do some house cleaning
 after "deploy:update_code", "deploy:bundle_install"
@@ -38,11 +38,10 @@ after "deploy:update_code", "deploy:assets"
 after "deploy:update_code", "deploy:migrate"
 
 # don't forget to turn it back on
-after "deploy", "delayed_job:start"
 after "deploy", "deploy:web:enable"
+after "deploy:web:enable", "delayed_job:start"
 after "deploy", 'deploy:notification:email'
 after "db:rebuild", "deploy:restart"
-after "db:rebuild", "delayed_job:start"
 after "db:rebuild", "deploy:web:enable"
 
  namespace :deploy do
@@ -157,6 +156,23 @@ after "db:rebuild", "deploy:web:enable"
        puts "ERROR: cap db:rebuild is only supported for the demo server "
        exit
      end 
+   end
+ end
+ 
+ namespace :delayed_job do
+   desc "stops delayed_job"
+   task :stop, :roles => :app do
+     run "sudo /usr/local/rvm/bin/rvm-shell -c 'god stop delayed_jobs'"
+   end
+   
+   desc "reloads delayed_job"
+   task :reload, :roles => :app do
+     run "sudo /usr/local/rvm/bin/rvm-shell -c 'god load #{current_path}/config/delayed_job.god'"
+   end
+   
+   desc "starts delayed_job"
+   task :start, :roles => :app do
+     run "sudo /usr/local/rvm/bin/rvm-shell -c 'god start delayed_jobs'"
    end
  end
  
