@@ -15,9 +15,12 @@ class CreateMailerCaches < ActiveRecord::Migration
       t.integer    "cacheable_id"
       t.string     "cacheable_type", limit: 30
       t.integer    "open_count", :default => 0
-      t.text "markup", :limit => (64.kilobytes + 1)
+      t.text "markup"
       t.timestamps
     end
+    
+    # make absolutely sure that markup is mediumtext
+    execute "ALTER TABLE `mailer_caches` CHANGE COLUMN `markup` `markup` MEDIUMTEXT"
     
     add_index "mailer_caches", ["hashvalue"], :uniq => true, :name => 'hashvalue_ndx'
     add_index "mailer_caches", ["learner_id","open_count"], :name => "open_learner_ndx"
