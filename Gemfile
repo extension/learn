@@ -83,7 +83,7 @@ group :test, :development do
 end
 
 #god
-gem "god"
+gem "god", :require => false
 
 # delayed_job
 gem "delayed_job"
