@@ -3,14 +3,14 @@
 
 <nav id="learning_history">
 <ul>
-  <li><%= link_to_unless_current "All", learning_history_learners_path %></li>
-  <li><%= link_to_unless_current "Presented", learning_history_learners_path(:type => 'presented') %></li>
-  <li><%= link_to_unless_current "Attended", learning_history_learners_path(:type => 'attended') %></li>
-  <li><%= link_to_unless_current "Watched", learning_history_learners_path(:type => 'watched') %></li>
-  <li><%= link_to_unless_current "Bookmarked", learning_history_learners_path(:type => 'bookmarked') %></li>
-  <li><%= link_to_unless_current "Commented", learning_history_learners_path(:type => 'commented') %></li>
-  <li><%= link_to_unless_current "Rated", learning_history_learners_path(:type => 'rated') %></li>
-  <li><%= link_to_unless_current "Answered Questions", learning_history_learners_path(:type => 'answered_questions') %></li>
+  <li><%= link_to_unless_current "All", learning_history_path %></li>
+  <li><%= link_to_unless_current "Presented", presented_history_path %></li>
+  <li><%= link_to_unless_current "Attended", attended_history_path %></li>
+  <li><%= link_to_unless_current "Watched", watched_history_path %></li>
+  <li><%= link_to_unless_current "Bookmarked", bookmarked_history_path %></li>
+  <li><%= link_to_unless_current "Commented", commented_history_path %></li>
+  <li><%= link_to_unless_current "Rated", rated_history_path %></li>
+  <li><%= link_to_unless_current "Answered Questions", answered_question_history_path %></li>
 </ul>
 </nav>
 

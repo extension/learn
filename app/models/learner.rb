@@ -18,13 +18,13 @@ class Learner < ActiveRecord::Base
   has_many :stock_questions
   has_many :created_events, :class_name => "Event", :foreign_key => 'creator_id'
   has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
-  has_many :ratings, :as => :rateable
   has_many :authmaps
   has_many :comments
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
   has_many :commented_events, through: :comments, source: :event, uniq: true
-  has_many :rated_items, class_name: 'Rating', foreign_key: 'learner_id'
+  has_many :ratings
+  has_many :rated_events, through: :ratings, source: :rateable, source_type: 'Event'
   has_many :event_activities
   has_many :presenter_connections
   has_many :presented_events, through: :presenter_connections, source: :event

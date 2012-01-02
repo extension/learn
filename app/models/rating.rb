@@ -9,7 +9,6 @@ class Rating < ActiveRecord::Base
   after_create :log_object_activity
 
   scope :positive, :conditions => {:score => 1}
-  scope :event_ratings, :conditions => {:rateable_type => 'Event'}
   
   def log_object_activity
     EventActivity.log_object_activity(self)
