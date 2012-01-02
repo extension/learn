@@ -43,7 +43,11 @@ class LearnersController < ApplicationController
       @events = @learner.commented_events.paginate(:page => params[:page]).order('session_start DESC')
     when 'rated'
       event_ids = @learner.rated_items.event_ratings.map{|e| e.rateable_id}
-      @events = Event.where("id IN (#{event_ids.join(',')})").paginate(:page => params[:page]).order('session_start DESC')
+      if event_ids.empty?
+        @events = []
+      else      
+        @events = Event.where("id IN (#{event_ids.join(',')})").paginate(:page => params[:page]).order('session_start DESC')
+      end
     when 'answered_questions'
       @events = @learner.events_answered.paginate(:page => params[:page]).order('session_start DESC')
     when nil
@@ -62,7 +66,11 @@ class LearnersController < ApplicationController
       event_id_array.concat(@rated_events)
       @answered_events = @learner.events_answered.map{|e| e.id}
       event_id_array.concat(@answered_events)
-      @events = Event.where("id IN (#{event_id_array.join(',')})").paginate(:page => params[:page]).order('session_start DESC')
+      if event_id_array.empty?
+        @events = []
+      else
+        @events = Event.where("id IN (#{event_id_array.join(',')})").paginate(:page => params[:page]).order('session_start DESC')
+      end
     else
       return redirect_to(root_url, :error => 'Invalid learning history specified.')
     end
