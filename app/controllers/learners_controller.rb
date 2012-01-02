@@ -25,7 +25,7 @@ class LearnersController < ApplicationController
   
   def learning_history
     @learner = current_learner
-    params[:type].present? ? @type = params[:type].capitalize : @type = 'All'
+    params[:type].present? ? @type = params[:type].capitalize.gsub('_', ' ') : @type = 'All'
     
     @list_title = "Learning History (#{@type})"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
