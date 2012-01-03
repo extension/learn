@@ -44,16 +44,23 @@ class WebmailController < ApplicationController
   end
   
   def example_recording
-    mail = EventMailer.recording(learner: Learner.learnbot, event: event.last, cache_email: false)
+    mail = EventMailer.recording(learner: Learner.learnbot, event: Event.last, cache_email: false)
     inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
     render(:text => inlined_content, :layout => false)
   end
   
   def example_activity
-    mail = EventMailer.activity(learner: Learner.learnbot, event: event.last, cache_email: false)
+    mail = EventMailer.activity(learner: Learner.learnbot, event: Event.last, cache_email: false)
     inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
     render(:text => inlined_content, :layout => false)
   end
+  
+  def example_mailtest
+    mail = EventMailer.mailtest(learner: Learner.learnbot, cache_email: false)
+    inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
+    render(:text => inlined_content, :layout => false)
+  end
+  
   
   def logo
     logo_filename = Rails.root.join('public', 'email', 'logo_small.png')
