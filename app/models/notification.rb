@@ -14,6 +14,7 @@ class Notification < ActiveRecord::Base
   RECOMMENDATION = 30
   
   def process
+    return true if !Settings.send_notifications
     case self.notificationtype
     when EVENT_REMINDER_EMAIL
       process_event_reminder_emails
