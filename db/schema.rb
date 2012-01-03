@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(:version => 20111207160625) do
     t.boolean  "has_profile",                        :default => false, :null => false
     t.integer  "darmok_id"
     t.boolean  "retired",                            :default => false, :null => false
+    t.boolean  "is_admin",                           :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

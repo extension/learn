@@ -18,6 +18,12 @@
     </div>
   <% end %>
   
+  <%- if current_learner and current_learner.is_admin? -%>
+    <div id="adminnotice">
+      <p>You are signed in with an admin account.</p>
+    </div>
+  <%- end -%>
+  
 <%= flash_notifications -%>
 
 <div id="page_wrapper">

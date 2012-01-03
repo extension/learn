@@ -15,6 +15,7 @@ def update_learners_from_darmok_accounts
   UPDATE #{@mydatabase}.learners, #{@darmokdatabase}.accounts
   SET #{@mydatabase}.learners.name=concat_ws(' ',#{@darmokdatabase}.accounts.first_name, #{@darmokdatabase}.accounts.last_name),
       #{@mydatabase}.learners.retired=#{@darmokdatabase}.accounts.retired,
+      #{@mydatabase}.learners.is_admin=#{@darmokdatabase}.accounts.is_admin,
       #{@mydatabase}.learners.email=#{@darmokdatabase}.accounts.email,
       #{@mydatabase}.learners.time_zone = #{@darmokdatabase}.accounts.time_zone
   WHERE #{@mydatabase}.learners.darmok_id = #{@darmokdatabase}.accounts.id AND #{@darmokdatabase}.accounts.vouched=1
@@ -26,9 +27,9 @@ end
 def transfer_accounts
   # import all non-retired/"valid" accounts
   account_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
-  INSERT IGNORE INTO #{@mydatabase}.#{Learner.table_name} (name, email, has_profile, time_zone, darmok_id, created_at, updated_at) 
+  INSERT IGNORE INTO #{@mydatabase}.#{Learner.table_name} (name, email, has_profile, time_zone, darmok_id, is_admin, created_at, updated_at) 
     SELECT CONCAT(#{@darmokdatabase}.accounts.first_name,' ', #{@darmokdatabase}.accounts.last_name), #{@darmokdatabase}.accounts.email, 1, 
-           #{@darmokdatabase}.accounts.time_zone, #{@darmokdatabase}.accounts.id,  #{@darmokdatabase}.accounts.created_at, NOW()
+           #{@darmokdatabase}.accounts.time_zone, #{@darmokdatabase}.accounts.id, #{@darmokdatabase}.accounts.is_admin, #{@darmokdatabase}.accounts.created_at, NOW()
     FROM  #{@darmokdatabase}.accounts
     WHERE #{@darmokdatabase}.accounts.retired = 0 and #{@darmokdatabase}.accounts.vouched = 1
   END_SQL
