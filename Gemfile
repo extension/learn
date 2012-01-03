@@ -68,7 +68,7 @@ gem "loofah"
 gem "htmlentities"
 
 # search on solr
-gem "sunspot_rails", "~> 1.3.0.rc6" 
+gem "sunspot_rails", "~> 1.3.0" 
 
 # used to post-process mail to convert styles to inline
 gem "csspool", "2.0.1ex"
@@ -79,7 +79,7 @@ gem "rinku", :require => 'rails_rinku'
 
 # require sunspot_solr for test and dev
 group :test, :development do
-  gem 'sunspot_solr', "~> 1.3.0.rc6" 
+  gem 'sunspot_solr', "~> 1.3.0" 
 end
 
 #god
