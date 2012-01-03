@@ -311,6 +311,10 @@ def create_stock_questions
   end  
 end
 
+def create_notifications
+  Event.where("session_start >= :upcoming_time" , {:upcoming_time => 4.hours.from_now}).each{|event| event.create_event_notifications }
+end
+
 
 # let's do this
 puts "Transferring events..."
@@ -360,5 +364,11 @@ benchmark = Benchmark.measure do
   create_stock_questions
 end
 puts " Stock questions created : #{benchmark.real.round(2)}s"
+
+puts "Creating notifications for upcoming events..."
+benchmark = Benchmark.measure do
+  create_notifications
+end
+puts " Notifications created : #{benchmark.real.round(2)}s"
 
 
