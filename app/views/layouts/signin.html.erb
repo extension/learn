@@ -12,6 +12,12 @@
 </head>
 <body id="<%= params[:controller].gsub('/','-') %>">
 
+  <%- if Settings.app_location == 'demo' %>
+    <div id="app_location" class="demo">
+      <p>You are viewing <strong>Learn Demo</strong>. The data on this demo site is regularly deleted for testing and development purposes. <%= link_to("Visit the real Learn site", "http://learn.extension.org") -%>.</p>
+    </div>
+  <% end %>
+  
 <%= flash_notifications -%>
 
 <div id="page_wrapper">
