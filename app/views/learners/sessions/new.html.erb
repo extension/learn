@@ -3,28 +3,6 @@
   <div id="signup_content">
 
     <div class="signup_option">
-      <%= image_tag("twitter_newbird_boxed_whiteonblue.png", :size => "50x50",) %>
-      <p>    
-        <% link_to "Sign in with Twitter", authmap_omniauth_authorize_path(:twitter, :redirect_to => params[:redirect_to]) %>
-        Sign in with Twitter <small>(coming soon)</small>
-      </p>
-    </div>
-    
-    <div class="signup_option">
-      <%= image_tag("f_logo.jpg", :size => "50x50",) %>
-      <p>    
-        Sign in with Facebook <small>(coming soon)</small>
-      </p>
-    </div>
-    
-    <div class="signup_option">
-      <%= image_tag("Google_logo.png", :size => "50x50",) %>
-      <p>    
-        Sign in with Google <small>(coming soon)</small>
-      </p>
-    </div>
-
-    <div class="signup_option">
       <%= image_tag("extension_logo.jpg", :size => "50x50",) %>
       <p>
         <%= link_to "Sign in with eXtension", authmap_omniauth_authorize_path(:people, :redirect_to => params[:redirect_to]) %>
