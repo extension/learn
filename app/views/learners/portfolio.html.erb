@@ -36,7 +36,7 @@
       <p class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
     <% end %>
     <%- if current_learner && current_learner.id == @learner.id -%>
-    <p class="view_all"><%= link_to_unless_current "View all", learning_history_learners_path(:type => 'presented') %></p>
+    <p class="view_all"><%= link_to_unless_current "View all", presented_history_path %></p>
     <%- end -%>
   <% end %>
   
@@ -48,7 +48,7 @@
       <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
     <% end %>
     <%- if current_learner && current_learner.id == @learner.id -%>
-    <p class="view_all"><%= link_to_unless_current "View all", learning_history_learners_path(:type => 'attended') %></p>
+    <p class="view_all"><%= link_to_unless_current "View all", attended_history_path %></p>
     <%- end -%>
   <% end %>
   
@@ -60,7 +60,7 @@
       <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
     <% end %>
     <%- if current_learner && current_learner.id == @learner.id -%>
-    <p class="view_all"><%= link_to_unless_current "View all", learning_history_learners_path(:type => 'watched') %></p>
+    <p class="view_all"><%= link_to_unless_current "View all", watched_history_path %></p>
     <%- end -%>
   <% end %>
 </div>
@@ -82,7 +82,7 @@
   <% end %>
       
   <%- if current_learner && current_learner.id == @learner.id -%>
-  <p class="view_all"><%= link_to_unless_current "View all", learning_history_learners_path(:type => 'bookmarked') %></p>
+  <p class="view_all"><%= link_to_unless_current "View all", bookmarked_history_path %></p>
   <%- end -%>
   
 </div>
