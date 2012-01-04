@@ -287,9 +287,11 @@ class Event < ActiveRecord::Base
     remove_connectors = options[:remove_connectors].nil? ? true : options[:remove_connectors]
     learner_list = {}
     mlt_list = self.similar_events
-    total_mlt_score = 0
+    max_mlt_score = 0
     mlt_list.each do |mlt_event,mlt_score|
-      total_mlt_score += mlt_score
+      if(mlt_score > max_mlt_score)
+        max_mlt_score = mlt_score
+      end
       learner_scores = mlt_event.event_activities.learner_scores
       learner_scores.each do |learner,score|
         if(remove_connectors)
@@ -306,7 +308,7 @@ class Event < ActiveRecord::Base
     end
     
     learner_list.each do |learner,score|
-      learner_list[learner] = learner_list[learner] / total_mlt_score
+      learner_list[learner] = learner_list[learner] / max_mlt_score
     end
       
     if(min_score)
