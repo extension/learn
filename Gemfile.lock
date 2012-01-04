@@ -36,6 +36,10 @@ GEM
       builder
     ancestry (1.2.4)
       activerecord (>= 2.2.2)
+    anjlab-bootstrap-rails (1.4.0.14)
+      railties (~> 3.0)
+      sass
+      thor (~> 0.14)
     ansi (1.4.1)
     arel (2.2.1)
     bcrypt-ruby (3.0.1)
@@ -246,6 +250,7 @@ PLATFORMS
 DEPENDENCIES
   airbrake
   ancestry
+  anjlab-bootstrap-rails
   capistrano
   carrierwave
   coffee-rails (~> 3.1.1)
