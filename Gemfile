@@ -14,6 +14,9 @@ end
 # rails 3.1 default
 gem 'jquery-rails', '1.0.16'
 
+# bootstrap in sass in rails
+gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails'
+
 # storage
 gem 'mysql2'
 
