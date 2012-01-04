@@ -55,18 +55,20 @@ Learn::Application.routes.draw do
     resources :events, :only => [:index, :show], :defaults => { :format => 'xml' }
   end
 
-  # webmail routes - prefer using the named routes instead of 
-  # catchalls, but that may get tiring after a while, we'll see
-  match "webmail/:mailer_cache_id/logo" => "webmail#logo", :as => 'webmail_logo'
-  match "webmail/recommendation/:hashvalue" => "webmail#recommendation", :as => 'webmail_recommendation'
-  match "webmail/examples/recommendation"    => "webmail#example_recommendation"
-  match "webmail/examples/reminder"    => "webmail#example_reminder"
-  match "webmail/examples/recording"    => "webmail#example_recording"
-  match "webmail/examples/activity"    => "webmail#example_activity"
-  match "webmail/examples/mailtest"    => "webmail#example_mailtest"
-  match "webmail/view/:hashvalue" => "webmail#view", :as => 'webmail_view'
-  
-  
+  # webmail routes 
+  scope "webmail" do
+    match "/:mailer_cache_id/logo" => "webmail#logo", :as => 'webmail_logo'
+    match "/recommendation/:hashvalue" => "webmail#recommendation", :as => 'webmail_recommendation'
+    match "/view/:hashvalue" => "webmail#view", :as => 'webmail_view'
+  end
+
+  # example routing
+  namespace "webmail" do
+    namespace "examples" do
+      match "/:action"
+    end
+  end
+      
   root :to => 'home#index'
 
 end
