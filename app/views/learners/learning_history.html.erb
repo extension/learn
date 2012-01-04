@@ -1,4 +1,4 @@
-<h1><%= @list_title %></h1>
+<h1 class="listheader"><%= @list_title %></h1>
 
 
 <nav id="learning_history">
@@ -14,21 +14,25 @@
 </ul>
 </nav>
 
+<div id="learning_history_wrapper">
 <% if defined?(@events.total_entries) && @events.total_entries > 0 %>
-  <p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong>
-
-  <%= will_paginate @events %>
 
   <table>
     <% @events.each do |event| %>
       <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>"> 
-        <td><%= get_activity_types(event) if @type == 'All' %></td>
+        <% if @type == 'All' %>
+        <td class="activity_type"><%= get_activity_types(event) %></td>
+        <% end %>
         <td><%= link_to event.title, event_path(event) %></td>
       </tr>
     <% end %>
   <table>
-
+  
+  <p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong></p>
   <%= will_paginate @events %>
 <% else %>
-  <p>No events at this time.</p>
+  <div class="noevents">
+  <h3>No <%= @type %> events at this time</h3>
+  </div>
 <% end %>
+</div>
