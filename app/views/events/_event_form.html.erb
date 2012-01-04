@@ -25,7 +25,7 @@
    
    <p>
    <%= event_form.label :time_zone, 'Time Zone' %>
-   <%= event_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, :default => @event.time_zone %>
+   <%= event_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {:default => @event.time_zone}, {:class => "xxlarge"} %>
    </p>
    
  </fieldset>
