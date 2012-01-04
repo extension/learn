@@ -62,12 +62,17 @@ Learn::Application.routes.draw do
     match "/view/:hashvalue" => "webmail#view", :as => 'webmail_view'
   end
 
-  # example routing
+  # webmail example routing
   namespace "webmail" do
     namespace "examples" do
       match "/:action"
     end
   end
+  
+  namespace "data" do
+    resources :recommendations, :only => [:index, :show]
+  end
+  
       
   root :to => 'home#index'
 
