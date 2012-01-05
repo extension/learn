@@ -70,7 +70,12 @@ Learn::Application.routes.draw do
   end
   
   namespace "data" do
-    resources :recommendations, :only => [:index, :show]
+    resources "recommendations", :only => [:index] do
+      collection do
+        get 'projected'
+        get 'event'
+      end
+    end
   end
   
       

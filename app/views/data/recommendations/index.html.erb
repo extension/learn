@@ -1,15 +1,3 @@
-<h2>Current Recommendations</h2>
-<p>(not yet sent, subject to change until sent)</p>
-<%- if @current_recommendation_events.blank? -%>
-<p> No recommended events currently </p>
-<%- else -%>
-<dl>
-<%- @current_recommendation_events.each do |learner,eventlist| -%>
-  <dt><%= link_to_learner(learner)%></dt>
-  <%- eventlist.each do |event| -%>
-    <dd><%= link_to event.title, event_path(event) %></dd>
-  <%- end -%>
-<%- end -%>
-</dl>
-<%- end -%>
+<%= render(partial: 'navtabs') -%>
+<h2>Todo: Statistics</h2>
 

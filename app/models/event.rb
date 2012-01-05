@@ -91,6 +91,11 @@ class Event < ActiveRecord::Base
     end
   }
   
+  scope :projected_epoch, lambda {
+    # this+next
+    where('session_start > ?',Time.zone.now.beginning_of_week).where('session_start <= ?', (Time.zone.now + 7.days).end_of_week)
+  }
+  
   scope :upcoming, lambda { |limit=3| where('session_start >= ?',Time.zone.now).order("session_start ASC").limit(limit) }
   scope :recent,   lambda { |limit=3| where('session_start < ?',Time.zone.now).order("session_start DESC").limit(limit) }
   
@@ -283,7 +288,7 @@ class Event < ActiveRecord::Base
   def potential_learners(options = {})
     learners = self.learners.all
     presenters = self.presenters.all
-    min_score = options[:min_score] || 3
+    min_score = options[:min_score] || Settings.minimum_recommendation_score
     remove_connectors = options[:remove_connectors].nil? ? true : options[:remove_connectors]
     learner_list = {}
     mlt_list = self.similar_events
