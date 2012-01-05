@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@import "variables";
+@import "_variables";
 
 #pd_events {@include rounded10; background:#e5e5e5;}
 #pd_events h1,
