@@ -2,17 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@mixin boxshadow {
-//    border:1px solid #ddd;
-    -webkit-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
-    -moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
-    box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
-}
-
-@mixin rounded10 {
-    -moz-border-radius:10px;
-    -webkit-border-radius:10px;
-}
+@import "_variables";
 
 #pd_events {@include rounded10; background:#e5e5e5;}
 #pd_events h1,
@@ -26,7 +16,7 @@
 .coming_soon  {background:yellow; padding:.1em .5em;}
 .bookmarked_event span {color:#777; font-size:.8em;}
 
-.calendarblock { width:64px; display:block; text-align:center; height:64px;padding-top:0;float:right; @include boxshadow; float:left; @include rounded10}
+.calendarblock {width:64px; display:block; text-align:center; height:64px;padding-top:0;float:right; @include boxshadow; float:left; @include rounded10;background:#fff; margin-left:1em;}
 .calendarblock .month {display:block; height:20px; line-height:25px;font-size:1.1em; text-transform:uppercase; font-weight:bold; background: orange;
     -moz-border-radius:10px 10px 0 0 / 10px 10px 0 0;
     -webkit-border-radius:10px 10px 0 0 / 10px 10px 0 0;
@@ -43,6 +33,12 @@
 
 
 
-#learning_history li {float:left; list-style:none; padding:1em; font-size:1.1em;}
-
+#learning_history li {float:left; list-style:none; padding:1em; font-size:1.3em; color:#000; font-weight:bold;}
+#learning_history li a {font-size:.8em; font-weight:normal;}
+#learning_history_wrapper {clear:both;}
+#learning_history_wrapper table td {font-size:1.3em;}
+#learning_history_wrapper .activity_type {font-size:1em; text-align:right;}
 #learners h3.header {clear:both; font-size:1.5em;}
+.listheader {font-size:1.7em; margin:0 0 0 !important;}
+.noevents {padding:2em; background:#eee; @include rounded10;}
+.noevents h3  {color:#888; font-weight:normal; font-size:1.8em;}

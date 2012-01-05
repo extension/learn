@@ -23,45 +23,7 @@ class WebmailController < ApplicationController
       return render(template: "webmail/missing_view")
     end
   end
-  
-  def example_recommendation
-    recommendation = ExampleRecommendation.new(upcoming_limit: params[:upcoming], recent_limit: params[:recent])
-        
-    # get the email - assumes html only for now
-    # we'll need to change this up for multipart
-    mail = EventMailer.recommendation(recommendation: recommendation, cache_email: false)
     
-    # send it through the inline style processing
-    inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
-
-    render(:text => inlined_content, :layout => false)
-  end
-  
-  def example_reminder
-    mail = EventMailer.reminder(learner: Learner.learnbot, event: Event.last, cache_email: false)
-    inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
-    render(:text => inlined_content, :layout => false)
-  end
-  
-  def example_recording
-    mail = EventMailer.recording(learner: Learner.learnbot, event: Event.last, cache_email: false)
-    inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
-    render(:text => inlined_content, :layout => false)
-  end
-  
-  def example_activity
-    mail = EventMailer.activity(learner: Learner.learnbot, event: Event.last, cache_email: false)
-    inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
-    render(:text => inlined_content, :layout => false)
-  end
-  
-  def example_mailtest
-    mail = EventMailer.mailtest(learner: Learner.learnbot, cache_email: false)
-    inlined_content = InlineStyle.process(mail.body.to_s,ignore_linked_stylesheets: true)
-    render(:text => inlined_content, :layout => false)
-  end
-  
-  
   def logo
     logo_filename = Rails.root.join('public', 'email', 'logo_small.png')
     if(mailer_cache = MailerCache.find_by_id(params[:mailer_cache_id]))

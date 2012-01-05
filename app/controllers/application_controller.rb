@@ -36,5 +36,11 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def require_admin
+    if(!(current_learner && current_learner.is_admin?))
+      return redirect_to(root_url)
+    end
+  end
+  
   
 end

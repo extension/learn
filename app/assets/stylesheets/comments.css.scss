@@ -2,17 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@mixin boxshadow {
-//    border:1px solid #ddd;
-    -webkit-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
-    -moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
-    box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
-}
-
-@mixin rounded10 {
-    -moz-border-radius:10px;
-    -webkit-border-radius:10px;
-}
+@import "_variables";
 
 #comments h5 {color:#555;}
 

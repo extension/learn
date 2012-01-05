@@ -1,16 +1,6 @@
+@import "_variables";
+
 .clearing{clear:both;}
-@mixin boxshadow {
-    border:1px solid #ddd;
-    -webkit-box-shadow: 2px 2px 3px #b8b8b8;
-    -moz-box-shadow: 2px 2px 3px #b8b8b8;
-    box-shadow: 2px 2px 3px #b8b8b8;
-}
-
-@mixin rounded10 {
-    -moz-border-radius:10px;
-    -webkit-border-radius:10px;
-}
-
 
 html, body {
     background-image: -webkit-radial-gradient(circle, white, black);
