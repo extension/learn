@@ -13,7 +13,7 @@
 		<%- @event.potential_learners(@event_options).each do |learner,score| -%>
 		<tr>
 			<td><%= learner.name %></td>
-			<td><%= score %></td>
+			<td><%= number_with_precision(score,precision: 1) %></td>
 			<td><%= event_recommended?(@event,learner,score) %></td>
 		</tr>
 		<%- end -%>
@@ -22,6 +22,6 @@
 
 <script >
   $(function() {
-    $("table#eventlearners").tablesorter({ sortList: [[2,1]] });
+    $("table#eventlearners").tablesorter({ sortList: [[2,1], [1,1]] });
   });
 </script>
