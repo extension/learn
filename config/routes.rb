@@ -28,7 +28,7 @@ Learn::Application.routes.draw do
   match "answered_question_history" => "learners#answered_question_history", :via => :get
     
   match "settings/profile" => "settings#profile", :via => [:get, :put]
-  match "settings/notifications" => "settings#notifications", :via => :get
+  match "settings/notifications" => "settings#notifications", :via => [:get, :post]
   
   resources :events do
     member do
