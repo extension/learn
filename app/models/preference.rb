@@ -81,6 +81,11 @@ class Preference < ActiveRecord::Base
   def self.create_or_update(prefable,name,value)
     if(preference = where(prefable_id: prefable.id).where(prefable_type: prefable.class.name).where(name: name).first)
       preference.update_attribute(:value, value)
+      # handle notification settings if notification.reminder.sms is false and a time offset has been previously saved
+      if preference.name == 'notification.reminder.sms' && preference.value == false
+        pref_to_remove = where(prefable_id: prefable.id).where(prefable_type: prefable.class.name).where(name: 'notification.reminder.sms.notice').first
+        pref_to_remove.destroy if pref_to_remove.present?
+      end
     else
       preference = self.create(prefable: prefable, name: name, value: value)
     end

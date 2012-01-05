@@ -4,14 +4,14 @@
     <section id="event">
       <h1><%= @event.title -%></h1>
     
-      <p class="description"><%= format_text_for_display(@event.description) -%></p>
+      <div class="description"><%= format_text_for_display(@event.description) -%></div>
 
       <%- if @event.presenters.count > 0 -%>
         <h3>Presenters</h3>
         <p id="presenters"><%= display_presenters(@event.presenters) %></p>
       <%- end -%>
       
-      <div id="tags">
+      <div class="tags">
         <h4 class="hide">Tags</h4>
         <p>
           <%-if @event.tags.length != 0 -%>  
