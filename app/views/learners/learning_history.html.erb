@@ -17,7 +17,7 @@
 <div id="learning_history_wrapper">
 <% if defined?(@events.total_entries) && @events.total_entries > 0 %>
 
-  <table>
+  <table class="zebra-striped">
     <% @events.each do |event| %>
       <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>"> 
         <% if @type == 'All' %>

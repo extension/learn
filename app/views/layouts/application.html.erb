@@ -24,7 +24,6 @@
       <p>You are signed in with an admin account.</p>
     </div>
   <%- end -%>
-  
 
 <%= flash_notifications -%>
 
@@ -32,6 +31,7 @@
   
   <div id="page">
   <header class="masthead">
+    <p id="whatsnew"><%= link_to "Welcome to the new version of Learn. Take a tour!" %></a></p>
     <%= link_to root_path() do %>
       <h1><%= image_tag("logo_small.png") %> <span>Learn</span></h1>
     <%- end -%>
