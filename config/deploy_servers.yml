@@ -5,3 +5,8 @@ demo:
     deploy_dir: "/services/apache/vhosts/demo.learn.extension.org/railsroot"
     host: "demo.learn.extension.org"
     ssh_port: 24 
+prod:
+    deploy_dir: "/services/apache/vhosts/learn.extension.org/railsroot"
+    host: "learn.extension.org"
+    ssh_port: 24
+    branch: master
