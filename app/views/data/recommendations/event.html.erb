@@ -1,12 +1,32 @@
 <%= render(partial: 'navtabs') -%>
-<h2><%= link_to(@event.title,event_path(@event)) %><h2>
-	<h3><%= @event.session_start.strftime("%B %e, %Y %l:%M %p %z") -%></h3>
+<h2><%= link_to(@event.title,event_path(@event)) %></h2>
+<strong><%= @event.session_start.strftime("%B %e, %Y %l:%M %p %z") -%></strong>
+
+<h3>Similar Events</h3>
+<table class="zebra-striped">
+	<thead>
+		<tr>
+			<th>Event</th>
+			<th>MoreLikeThis Score</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%- @event.similar_events.each do |event,score| -%>
+		<tr>
+			<td><%= link_to(event.title, event_data_recommendations_path(event_id: event.id)) %></td>
+			<td><%= number_with_precision(score,precision: 3) %></td>
+		</tr>
+		<%- end -%>
+	</tbody>
+</table>
+
+<h3>Potential Learners</h3>
 <table id="eventlearners" class="zebra-striped">
 	<thead>
 		<tr>
 			<th>Learner</th>
 			<th>Score</th>
-			<th>Recommended?</th>
+			<th>Would be Recommended?</th>
 		</tr>
 	</thead>
 	<tbody>

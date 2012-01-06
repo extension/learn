@@ -25,4 +25,12 @@ class Data::RecommendationsController < ApplicationController
     @event_options[:remove_connectors] = false
   end
   
+  def show
+    @recommendation = Recommendation.find_by_id(params[:id])
+  end
+  
+  def recent
+    @recommended_event_list = RecommendedEvent.includes([:event,{:recommendation => :learner}]).order('recommended_events.created_at DESC').paginate(page: params[:page])
+  end
+  
 end

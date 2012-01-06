@@ -224,13 +224,52 @@ class Learner < ActiveRecord::Base
     return rating
   end
   
+  # this is relatively inefficient - because all learner scores for the event scope chosen
+  # will end up being calculated, but it's easier to take advantage of what's already there
+  # the output could be cached if needed.
+  def recommended_events(options = {})
+    events = {}
+    modified_options = options.dup
+    modified_options[:limit_to_learners] = [self]
+    show_zeros = modified_options.delete(:show_zeros) || false
+    max_events = modified_options.delete(:max_events) || Settings.recommended_events
+    event_scope = modified_options.delete(:event_scope) || 'recommendation_epoch'
+    
+    if(event_scope == 'all')
+      event_list = Event.potential_learners(modified_options)
+    else
+      event_list = Event.send(event_scope).potential_learners(modified_options)
+    end
+    event_list.each do |event,learner_list|
+      if(show_zeros and learner_list.blank?)
+        events[event] = 0.0
+      else
+        if(!learner_list.blank?)
+          learner_list.each do |learner,score|
+            if(learner == self)
+              events[event] = score
+            end
+          end
+        end
+      end
+    end    
+    events
+  end
+    
+  
   def self.recommended_events(options = {})
     learners = {}
     return_learners = {}
-    local_options = options.dup
-    max_events = local_options.delete(:max_events) || 3
+    modified_options = options.dup
+    max_events = modified_options.delete(:max_events) || Settings.recommended_events
+    event_scope = modified_options.delete(:event_scope) || 'recommendation_epoch'
     
-    event_list = Event.recommendation_epoch.potential_learners(options)    
+    if(event_scope == 'all')
+      event_list = Event.potential_learners(modified_options)
+    else
+      event_list = Event.send(event_scope).potential_learners(modified_options)
+    end
+  
     event_list.each do |event,learner_list|
       learner_list.each do |learner,score|
         if(learners[learner])

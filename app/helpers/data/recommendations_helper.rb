@@ -30,4 +30,13 @@ module Data::RecommendationsHelper
       "<span class='label important'>No</span> (#{reasons.join(', ')})".html_safe()
     end
   end
+  
+  def recommended_event_viewed?(recommended_event)  
+    if(recommended_event.viewed?)
+      '<span class="label success">Yes</span>'.html_safe()
+    else
+      "<span class='label important'>No</span>".html_safe()
+    end
+  end
+  
 end
