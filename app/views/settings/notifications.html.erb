@@ -110,6 +110,10 @@
 
 <%- end -%>
 
+<% else %>
+  <p>You have not provided us a mobile number in your profile yet. You can enable this feature by providing your mobile number <%= link_to 'here', settings_profile_path %>.</p>
+<% end %>
+
 <script class="code" type="text/javascript">
   $('.submittable').live('change', 
   function() {
@@ -138,8 +142,6 @@
   }
 </script>
 
-<% else %>
-  <p>You have not provided us a mobile number in your profile yet. You can enable this feature by providing your mobile number <%= link_to 'here', settings_profile_path %>.</p>
-<% end %>
+
 
 
