@@ -290,6 +290,7 @@ class Event < ActiveRecord::Base
     presenters = self.presenters.all
     min_score = options[:min_score] || Settings.minimum_recommendation_score
     remove_connectors = options[:remove_connectors].nil? ? true : options[:remove_connectors]
+    limit_to_learners = options[:limit_to_learners]
     learner_list = {}
     mlt_list = self.similar_events
     max_mlt_score = 0
@@ -299,6 +300,10 @@ class Event < ActiveRecord::Base
       end
       learner_scores = mlt_event.event_activities.learner_scores
       learner_scores.each do |learner,score|
+        if(limit_to_learners)
+          next if !limit_to_learners.include?(learner)
+        end
+        
         if(remove_connectors)
           next if learners.include?(learner)
           next if presenters.include?(learner)
