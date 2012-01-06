@@ -8,6 +8,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :set_activity_log_ip
   before_filter :set_time_zone_from_learner
+  before_filter :store_location
+  
+  def store_location
+    session[:learner_return_to] = request.url unless (params[:controller] == "authmaps/omniauth_callbacks" || params[:controller] == "learners/sessions")
+  end
 
   def set_time_zone_from_learner
     if(current_learner)
@@ -24,7 +29,7 @@ class ApplicationController < ActionController::Base
   end
   
   def stored_location_for(resource)
-    if current_learner && params[:redirect_to]
+    if current_learner && !params[:redirect_to].blank?
       return params[:redirect_to]
     end
     return nil
