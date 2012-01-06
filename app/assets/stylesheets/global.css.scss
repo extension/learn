@@ -80,9 +80,10 @@ p {word-wrap:break-word;}
 
 
 .bio {width:50em;}
-#extension_people_data {background:#f4f4f4; padding:2em; @include rounded10; @include boxshadow}
-#extension_people_data p {font-size:1.3em;}
-#extension_people_data #people_edit {float:right; width:40%;font-size:1.1em; background:#fff; padding:10px;}
+#extension_people_data {background:#f4f4f4; padding:2em; @include rounded10;}
+#extension_people_data p {font-size:1.3em; color:#000;}
+#extension_people_data #people_edit {width:40%;font-size:1.1em; color:#888;}
+#extension_people_data #people_edit a {color:#888;}
 
 @media screen and (max-width: 1024px) {
     #three_col_one {width:45%; float:left; padding: 1em; margin-right:1em;}

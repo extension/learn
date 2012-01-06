@@ -9,11 +9,13 @@
 
 <br class="clearing" />
 
+<div class="form_group">
+
 <div id="extension_people_data">
-  <p id="people_edit">These items can be edited in people.extension.org. <%= link_to("View your People Profile", "http://www.extension.org/people/profile/me") %>.</p>
   <p><%= @learner.name %></p>
   <p><%= @learner.email %></p>
   <p><%= @learner.time_zone %></p>
+  <p id="people_edit"><%= link_to("The above items can be edited in people.extension.org", "http://www.extension.org/people/profile/me") %></p>
 </div>
 
 
@@ -57,3 +59,4 @@
   <% end %>
 
 
+</div>
