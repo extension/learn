@@ -26,11 +26,20 @@
       <%= f.label :bio, 'Short Bio (140 characters)' %>
       <%= f.text_area :bio, :rows => "2", :maxlength => 140,  :class => "l" %>
     </p>
+  </fieldset>
   
+  <fieldset>
     <p>
       <%= f.label :mobile_number, 'Phone Number (for receiving text notifications)' %>
       <%= f.text_field :mobile_number %>
     </p>
+    
+    <%- if @learner.preferences.setting("notification.reminder.sms").blank? && !@learner.mobile_number.blank? -%>
+      <p>We've got your number, but you don't have any text notifications turned on. <%= link_to "See your text options.", settings_notifications_path %></p>
+    <% end %>
+    <%- if @learner.preferences.setting("notification.reminder.sms") && !@learner.mobile_number.blank? -%>
+      <p><%= link_to "See your current text notification options", settings_notifications_path %></p>
+    <% end %>
   </fieldset>
     
   <fieldset>
