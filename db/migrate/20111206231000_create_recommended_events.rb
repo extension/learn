@@ -9,6 +9,7 @@ class CreateRecommendedEvents < ActiveRecord::Migration
     create_table :recommended_events do |t|
       t.references :recommendation
       t.references :event
+      t.boolean    "viewed", :default => false, :null => false
       t.timestamps
     end
     

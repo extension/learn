@@ -58,6 +58,7 @@ class EventsController < ApplicationController
     end
     
     # log recommendation view, attach to learner on the recommendation, even if they aren't current_learner
+    recommended_event.update_attribute(:viewed, true)
     EventActivity.log_view(recommended_event.recommendation.learner,recommended_event.event,'recommendation')
     return redirect_to(event_url(recommended_event.event), status: 301)
   end
