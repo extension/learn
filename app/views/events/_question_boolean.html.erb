@@ -12,12 +12,12 @@
   
   <ul class="inputs-list a_b <%= "sitv_element" if !current_learner %>">
     <li>
-      <label>
+      <label class="color_code_0">
         <%= radio_button_tag('values',0, is_boolean_answer_checked?(question,0), {class: 'submittable'}) %> <span><%= question.responses[0] %></span>
       </label>
     </li>
     <li>
-      <label>
+      <label class="color_code_1">
         <%= radio_button_tag('values',1, is_boolean_answer_checked?(question,1), {class: 'submittable'}) %> <span><%= question.responses[1] %></span>
       </label>
     </li>

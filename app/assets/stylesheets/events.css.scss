@@ -99,3 +99,19 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .email {background: transparent url(/assets/email_mini.png) left top no-repeat;}
 #sidebar h3 {line-height:1.2em; margin-bottom:1em;}
 #sidebar li {margin-bottom:1em;}
+
+.a_mvb li span {padding:.2em .8em; @include rounded10; display:block;}
+.a_mvb li label {padding:.2em .8em;}
+.a_mvb li .color_code_0 span {background:#8bc7f6;}
+.a_mvb li .color_code_1 span {background:#ddd; color:#666;}
+.a_mvb li .color_code_2 span {background:#003a92; color:#fff;}
+.a_mvb li .color_code_3 span {background:#3e83eb; color:#fff;}
+.a_mvb li .color_code_4 span {background:#579575; color:#fff;}
+.a_mvb li .color_code_5 span {background:#953579; color:#fff;}
+.a_mvb li .color_code_6 span {background:#958c12;}
+
+.a_b li span {padding:.2em .8em; @include rounded10; display:block;}
+.a_b li label {padding:.2em .8em;}
+.a_b li .color_code_0 span {background:#a2c8e6;}
+.a_b li .color_code_1 span {background:#ddd; color:#666;}
+

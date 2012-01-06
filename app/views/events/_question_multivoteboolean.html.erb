@@ -10,9 +10,9 @@
   <%- end -%>
   
   <ul class="inputs-list a_mvb <%= "sitv_element" if !current_learner %>">
-  <% question.responses.each do |response| %>
+  <% question.responses.each_with_index do |response, index| %>
       <li>
-        <label><%= check_box_tag('values[]',response,is_multivote_answer_checked?(question,response),{class: 'submittable'}) %> <span><%= response %></span></label>
+        <label class="color_code_<%= index %>"><%= check_box_tag('values[]',response,is_multivote_answer_checked?(question,response),{class: 'submittable'}) %> <span><%= response %></span></label>
       </li>
   <%- end -%>
   </ul>
@@ -52,7 +52,7 @@
               padding: 0,
             }
           },
-          seriesColors: [ "#8bc7f6", "#ddd", "#003a92", "#3e83eb", "#839557", "#958c12", "#953579", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc"],
+          seriesColors: [ "#8bc7f6", "#ddd", "#003a92", "#3e83eb", "#579575", "#953579", "#958c12", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc"],
           grid: {
             shadow: false,
             borderColor: '#ccc',
