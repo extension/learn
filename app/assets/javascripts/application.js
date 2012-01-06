@@ -11,4 +11,5 @@
 //= require rangeinput
 //= require jqplot
 //= require jquery.tokeninput
+//= require jquery.tablesorter.min
 //= require_tree .

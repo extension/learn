@@ -226,6 +226,7 @@ ActiveRecord::Schema.define(:version => 20111207160625) do
   create_table "recommended_events", :force => true do |t|
     t.integer  "recommendation_id"
     t.integer  "event_id"
+    t.boolean  "viewed",            :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

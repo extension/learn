@@ -5,7 +5,7 @@
     <div class="signup_option">
       <%= image_tag("extension_logo.jpg", :size => "50x50",) %>
       <p>
-        <%= link_to "Sign in with eXtension", authmap_omniauth_authorize_path(:people, :redirect_to => params[:redirect_to]) %>
+        <%= link_to "Sign in with eXtension", authmap_omniauth_authorize_path(:people, :redirect_to => (params[:redirect_to].present?) ? params[:redirect_to] : session[:learner_return_to]) %>
       </p>
     </div>
 

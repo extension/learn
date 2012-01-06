@@ -9,10 +9,20 @@ class Data::RecommendationsController < ApplicationController
   before_filter :require_admin
   
   def index
+  end
+  
+  def projected
     event_options = {}
-    event_options[:min_score] = params[:min_score] ? params[:min_score].to_i : 3
+    event_options[:min_score] = params[:min_score] ? params[:min_score].to_i : Settings.minimum_recommendation_score
     event_options[:remove_connectors] = params[:remove_connectors] ? Preference::TRUE_PARAMETER_VALUES.include?(params[:remove_connectors]) : true
-    @current_recommendation_events = Learner.recommended_events(event_options)    
+    @event_list = Event.projected_epoch.potential_learners(event_options) 
+  end
+    
+  def event
+    @event = Event.find_by_id(params[:event_id])
+    @event_options = {}
+    @event_options[:min_score] = 1
+    @event_options[:remove_connectors] = false
   end
   
 end

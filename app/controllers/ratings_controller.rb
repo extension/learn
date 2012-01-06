@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class RatingsController < ApplicationController
-  before_filter :authenticate_learner!, only: [:create]
+  before_filter :authenticate_learner!, only: [:create, :destroy]
   
   def create
     @rating = Rating.find_or_create_by_params(current_learner, params[:rating])
@@ -22,4 +22,21 @@ class RatingsController < ApplicationController
       format.js
     end
   end
+  
+  def destroy
+    @rating = Rating.find_by_id(params[:id])
+    
+    if @rating.persisted?
+      if !@rating.destroy
+        @errors = @rating.errors.full_messages.to_sentence
+      end
+    else
+      return
+    end
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+  
 end

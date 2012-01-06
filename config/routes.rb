@@ -11,7 +11,7 @@ Learn::Application.routes.draw do
   end
   
   resources :comments, :only => [:create, :update, :destroy, :show]
-  resources :ratings, :only => [:create]  
+  resources :ratings, :only => [:create, :destroy]  
   resources :learners do
     member do
       get 'portfolio'
@@ -28,7 +28,7 @@ Learn::Application.routes.draw do
   match "answered_question_history" => "learners#answered_question_history", :via => :get
     
   match "settings/profile" => "settings#profile", :via => [:get, :put]
-  match "settings/notifications" => "settings#notifications", :via => :get
+  match "settings/notifications" => "settings#notifications", :via => [:get, :post]
   
   resources :events do
     member do
@@ -70,7 +70,12 @@ Learn::Application.routes.draw do
   end
   
   namespace "data" do
-    resources :recommendations, :only => [:index, :show]
+    resources "recommendations", :only => [:index] do
+      collection do
+        get 'projected'
+        get 'event'
+      end
+    end
   end
   
       

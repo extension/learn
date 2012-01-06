@@ -219,6 +219,11 @@ class Learner < ActiveRecord::Base
     self.mobile_number = self.mobile_number.to_s.gsub(/[^0-9]/, '') if self.mobile_number
   end 
   
+  def get_upvoted_object(object_id, object_type)
+    rating = Rating.where(rateable_type: object_type, rateable_id: object_id, learner_id: self.id, score: 1).first
+    return rating
+  end
+  
   def self.recommended_events(options = {})
     learners = {}
     return_learners = {}

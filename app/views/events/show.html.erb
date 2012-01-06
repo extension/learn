@@ -56,7 +56,11 @@
         
         <div class="rating_wrapper">
           <% if current_learner %>
-            <%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %> 
+            <% if upvoted_object = current_learner.get_upvoted_object(@event.id, 'Event') %>
+              <span id='undo_vote_event_<%= @event.id %>'><%= button_to 'Undo vote', rating_path(upvoted_object), :method => :delete, :remote => true, :class => "btn" %></span>
+            <% else %>
+              <span id='upvote_event_<%= @event.id %>'><%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn" %></span>
+            <% end %>
           <% else %>
             <%= render(partial: 'sign_in_to_vote')%>
             <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
