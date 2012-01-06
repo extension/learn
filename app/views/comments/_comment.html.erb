@@ -6,7 +6,11 @@
   
   <div class='rating_wrapper'>
     <% if current_learner %>
-      <%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %>
+      <% if upvoted_object = current_learner.get_upvoted_object(comment.id, 'Comment') %>
+        <span id='undo_vote_comment_<%= comment.id %>'><%= button_to 'Undo vote', rating_path(upvoted_object), :method => :delete, :remote => true, :class => "btn" %></span>
+      <% else %>
+        <span id="upvote_comment_<%= comment.id %>"><%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %></span>
+      <% end %>
     <% else %>
       <%= render(partial: '/events/sign_in_to_vote')%>
       <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>

@@ -18,7 +18,7 @@ class Rating < ActiveRecord::Base
     return_rating = Rating.where(rateable_type: rating_params[:rateable_type], rateable_id: rating_params[:rateable_id], learner_id: learner.id).first
     if return_rating.blank?
       return_rating = Rating.new(rating_params)
-      return_rating.learner = learner
+      return_rating.learner = learner      
     end
     return return_rating
   end
