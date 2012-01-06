@@ -1,0 +1,27 @@
+<%= render(partial: 'navtabs') -%>
+<h2><%= link_to(@event.title,event_path(@event)) %><h2>
+	<h3><%= @event.session_start.strftime("%B %e, %Y %l:%M %p %z") -%></h3>
+<table id="eventlearners" class="zebra-striped">
+	<thead>
+		<tr>
+			<th>Learner</th>
+			<th>Score</th>
+			<th>Recommended?</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%- @event.potential_learners(@event_options).each do |learner,score| -%>
+		<tr>
+			<td><%= learner.name %></td>
+			<td><%= number_with_precision(score,precision: 1) %></td>
+			<td><%= event_recommended?(@event,learner,score) %></td>
+		</tr>
+		<%- end -%>
+	</tbody>
+</table>
+
+<script >
+  $(function() {
+    $("table#eventlearners").tablesorter({ sortList: [[2,1], [1,1]] });
+  });
+</script>
