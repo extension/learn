@@ -35,6 +35,8 @@ class Comment < ActiveRecord::Base
   end
   
   def schedule_activity_notification
-    Notification.create(notifiable: self.event, notificationtype: Notification::ACTIVITY, delivery_time: 1.minute.from_now)
+    if !Notification.pending_activity_notification?(self.event)
+      Notification.create(notifiable: self.event, notificationtype: Notification::ACTIVITY, delivery_time: Notification::ACTIVITY_NOTIFICATION_INTERVAL.from_now)
+    end
   end
 end

@@ -10,6 +10,7 @@ class Notification < ActiveRecord::Base
   EVENT_REMINDER_SMS = 2
   REMINDER_NOTIFICATION_EMAIL = 3 # could be used to queue non event-related notifications
   ACTIVITY = 10
+  ACTIVITY_NOTIFICATION_INTERVAL = 15.minutes
   RECORDING = 20
   RECOMMENDATION = 30
   
@@ -88,6 +89,10 @@ class Notification < ActiveRecord::Base
         return false
       end
     end
+  end
+  
+  def self.pending_activity_notification?(notifiable)
+    Notification.where(notifiable_id: notifiable.id, delivery_time: Time.now..ACTIVITY_NOTIFICATION_INTERVAL.from_now).size > 0
   end
   
 
