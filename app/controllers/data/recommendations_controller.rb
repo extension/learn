@@ -9,6 +9,8 @@ class Data::RecommendationsController < ApplicationController
   before_filter :require_admin
   
   def index
+    @recommended_event_counts = RecommendedEvent.includes([:event,{:recommendation => :learner}]).group("recommendations.day").count
+    @recommended_event_viewed_counts = RecommendedEvent.includes([:event,{:recommendation => :learner}]).where(viewed: true).group("recommendations.day").count
   end
   
   def projected
