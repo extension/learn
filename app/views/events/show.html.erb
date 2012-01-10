@@ -11,6 +11,11 @@
         <p id="presenters"><%= display_presenters(@event.presenters) %></p>
       <%- end -%>
       
+      <p class="location">
+        <h3>Event URL</h3>
+        <%= link_to(@event.location, @event.location) -%>
+      </p>
+      
       <div class="tags">
         <h4 class="hide">Tags</h4>
         <p>
@@ -99,9 +104,12 @@
           <%- if(!current_learner.has_time_zone?) -%>
            <%= link_to("Set your time zone to display this session in your local time", settings_profile_path()) -%> 
           <%- end -%>
-        <%- end -%></p>   
-      
+        <%- end -%></p>
+        
         <h3 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h3>
+        <p class="location">
+          Event URL: <%= link_to(@event.location, @event.location) -%>
+        </p>
         <p class="feed"><%= link_to "Subscribe to this event", feeds_event_url(@event.id) %></p>
       <%-end -%>
     </aside>
