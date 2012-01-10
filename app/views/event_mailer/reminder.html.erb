@@ -93,8 +93,8 @@
             <td>
           It's starting soon at: <br/>
           <%= link_to(event_url(@event.id)) do -%>
-          <strong><%= @event.session_start.in_time_zone(@learner.time_zone).strftime("%l:%M %p %Z") -%></strong>
-          <%= @event.session_start.in_time_zone(@learner.time_zone).strftime("%B %e, %Y") -%>
+          <strong><%= @event.session_start_for_learner(@learner).strftime("%l:%M %p %Z") -%></strong>
+          <%= @event.session_start_for_learner(@learner).strftime("%B %e, %Y") -%>
           <%- end -%> 
           </td>
           </tr>

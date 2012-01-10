@@ -101,7 +101,7 @@
               <td class="bgcolor"><h3><%= link_to(recommended_event.event.title, recommended_event.url) %></h3></td>
             </tr>
             <tr>
-              <td class="bgcolor dates"><%= recommended_event.event.session_start.strftime("%B %e, %Y, %l:%M %p %Z") %></td>
+              <td class="bgcolor dates"><%= recommended_event.event.session_start_for_learner(@learner).strftime("%B %e, %Y, %l:%M %p %Z") %></td>
             </tr>
             <tr>
               <td class="bgcolor">
