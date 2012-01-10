@@ -154,6 +154,16 @@ class Event < ActiveRecord::Base
     end
   end
   
+  # this is mostly for the mailer situation where
+  # we aren't setting Time.zone for the web request
+  def session_start_for_learner(learner)
+    if(learner.has_time_zone?)
+      self.session_start.in_time_zone(learner.time_zone)
+    else
+      self.session_start.in_time_zone(self.time_zone)
+    end
+  end
+  
   # override timezone writer/reader
   # returns Eastern by default, use convert=false
   # when you need a timezone string that mysql can handle
