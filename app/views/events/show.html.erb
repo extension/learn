@@ -11,10 +11,12 @@
         <p id="presenters"><%= display_presenters(@event.presenters) %></p>
       <%- end -%>
       
+      <%-if !@event.concluded? -%>
       <p class="location">
         <h3>Event URL</h3>
         <%= link_to(@event.location, @event.location) -%>
       </p>
+      <%- end -%>
       
       <div class="tags">
         <h4 class="hide">Tags</h4>
