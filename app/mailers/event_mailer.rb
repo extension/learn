@@ -36,7 +36,7 @@ class EventMailer < ActionMailer::Base
   
   def reminder(options = {})
     @event = options[:event]
-    @subject = "Your Learn Event is Starting Soon"
+    @subject = "Your Learn Event is Today"
     @learner = options[:learner]  
     @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
     
