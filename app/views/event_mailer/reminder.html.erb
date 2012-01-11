@@ -91,7 +91,7 @@
               <%= image_tag("#{root_url}email/clock.png", size: "60x60") %>
               </td>
             <td>
-          It's starting soon at: <br/>
+          It's today at: <br/>
           <%= link_to(event_url(@event.id)) do -%>
           <strong><%= @event.session_start_for_learner(@learner).strftime("%l:%M %p %Z") -%></strong>
           <%= @event.session_start_for_learner(@learner).strftime("%B %e, %Y") -%>
