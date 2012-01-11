@@ -27,11 +27,11 @@ end
 def transfer_accounts
   # import all non-retired/"valid" accounts
   account_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
-  INSERT IGNORE INTO #{@mydatabase}.#{Learner.table_name} (name, email, has_profile, time_zone, darmok_id, is_admin, created_at, updated_at) 
+  INSERT  INTO #{@mydatabase}.#{Learner.table_name} (name, email, has_profile, time_zone, darmok_id, is_admin, created_at, updated_at) 
     SELECT CONCAT(#{@darmokdatabase}.accounts.first_name,' ', #{@darmokdatabase}.accounts.last_name), #{@darmokdatabase}.accounts.email, 1, 
            #{@darmokdatabase}.accounts.time_zone, #{@darmokdatabase}.accounts.id, #{@darmokdatabase}.accounts.is_admin, #{@darmokdatabase}.accounts.created_at, NOW()
-    FROM  #{@darmokdatabase}.accounts
-    WHERE #{@darmokdatabase}.accounts.retired = 0 and #{@darmokdatabase}.accounts.vouched = 1
+    FROM  #{@darmokdatabase}.accounts LEFT JOIN #{@mydatabase}.learners ON #{@darmokdatabase}.accounts.id = #{@mydatabase}.learners.darmok_id
+    WHERE #{@mydatabase}.learners.darmok_id IS NULL AND #{@darmokdatabase}.accounts.retired = 0 and #{@darmokdatabase}.accounts.vouched = 1
   END_SQL
   Learner.connection.execute(account_insert_query)
 
