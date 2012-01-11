@@ -38,7 +38,7 @@
   <%- end -%>
   
 <%- end -%>
-
+<br class="clearing" />
 <%- if current_learner.has_connection_with_event?(@event) -%>
   <div id="notification_prefs">
     <%= form_tag(notificationexception_event_path, :id => @event.id, :remote => true) do %>
@@ -62,3 +62,4 @@
     <% end %>
   </div>
 <%- end -%>
+<br class="clearing" />

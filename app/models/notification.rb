@@ -10,7 +10,7 @@ class Notification < ActiveRecord::Base
   EVENT_REMINDER_SMS = 2
   REMINDER_NOTIFICATION_EMAIL = 3 # could be used to queue non event-related notifications
   ACTIVITY = 10
-  ACTIVITY_NOTIFICATION_INTERVAL = 15.minutes
+  ACTIVITY_NOTIFICATION_INTERVAL = Settings.activity_notification_interval
   RECORDING = 20
   RECOMMENDATION = 30
   

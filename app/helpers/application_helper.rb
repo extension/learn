@@ -37,7 +37,7 @@ module ApplicationHelper
       return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size_in_px)
     end
     if portfolio_link == :link_it && current_learner
-      return_string = link_to(return_string, portfolio_learner_path(learner.id))
+      return_string = link_to(return_string, portfolio_learner_path(learner.id), :title => learner.name)
     end
     return return_string.html_safe
   end

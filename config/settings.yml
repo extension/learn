@@ -13,3 +13,4 @@ default_feed_items: 50
 max_feed_items: 200
 minimum_recommendation_score: 3.0
 recommended_events: 3
+activity_notification_interval: 28800.0

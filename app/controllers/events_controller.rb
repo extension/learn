@@ -172,7 +172,6 @@ class EventsController < ApplicationController
           current_learner.remove_connection_with_event(@event,EventConnection::BOOKMARK)
         end
       when EventConnection::ATTEND
-        @update_attendee_list = true
         if(params[:wantsconnection] and params[:wantsconnection] == '1')
           current_learner.connect_with_event(@event,EventConnection::ATTEND)
         else
