@@ -36,6 +36,12 @@
       </div>
     <%- end -%>
     </section>
+<%- else -%>
+  <div id="no_questions_yet">
+    <%= image_tag("graph_placeholder_multi.png", :size => "80x80",) %>
+    <p>The sensemaking questions and graphs appear shortly before the event begins</p>
+    <p class="description">* Sensemaking is the process of giving meaning to experience. Our sensemaking questions are designed to prompt discussion and encourage participation.</p>
+  </div>
 <%- end -%>
    
   <section id="event_meta">
