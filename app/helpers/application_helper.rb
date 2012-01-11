@@ -32,7 +32,7 @@ module ApplicationHelper
     return_string = ''
     
     if learner.avatar.present?
-      return_string = image_tag(learner.avatar_url(image_size), :class => 'avatar', :size => image_size_in_px)
+      return_string = image_tag(learner.avatar_url(image_size), :class => 'avatar')
     else 
       return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size_in_px)
     end
