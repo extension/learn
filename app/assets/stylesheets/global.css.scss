@@ -9,7 +9,7 @@ html, body {
 
 #page_wrapper {
     background:#fff;
-    margin: 10px auto 0;
+    margin: 10px auto 3em;
 //    width:960px;
     width: 90%; /* arbitrary */
     max-width: 1200px;
@@ -39,6 +39,8 @@ html, body {
 
 /* home
 -----------------------------------*/
+#narrow_single_col {width:50%; float:left; padding: 1em; margin-right:1em;}
+
 #three_col_one {width:35%; float:left; padding: 1em; margin-right:1em;}
 #three_col_two {width:22%; float:left; padding: 1em; margin-right:1em;}
 #three_col_three {width:30%; float:left; padding: 1em;}
@@ -94,6 +96,7 @@ p {word-wrap:break-word;}
 
 @media screen and (max-width: 800px) {
     #page_wrapper {width:96%;}
+    #narrow_single_col {width:100%; padding: 0; margin:0 0 1em;}
     #three_col_one {width:100%; padding: 0; margin:0 0 1em;}
     #three_col_two {width:100%; padding: 0; margin:0 0 1em;}
     #three_col_three {width:100%; padding: 0; margin:0 0 1em;}
@@ -302,3 +305,9 @@ input.xxl {width: 80%;}
 
 #whatsnew {background:#444; padding:1.25em 2.5em .75em 2em; text-align:center; @include rounded10; background: #666 url(/assets/hex_pattern.png) repeat; margin-top:-10px; margin-left:-4em;}
 #whatsnew a {font-size:1em; color:#fff8c3; text-decoration:none; text-transform:uppercase;letter-spacing: 1px;}
+
+footer {clear:both; background:#4c4c4c; float:left; width:100%; margin:.5em 0 2em; padding:2em 0; text-align:center; border:0; @include rounded10}
+footer ul {margin:0; padding:0;}
+footer ul li {display:inline; list-style:none; padding:.5em 1em; margin:0; font-size:1.1em;}
+footer ul li a {color:#fff;}
+footer ul li a:hover {color:#fff;}
