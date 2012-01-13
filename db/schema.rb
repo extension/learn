@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111207160625) do
+ActiveRecord::Schema.define(:version => 20120112212724) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -167,6 +167,16 @@ ActiveRecord::Schema.define(:version => 20111207160625) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "portfolio_settings", :force => true do |t|
+    t.text     "currently_learning"
+    t.text     "learning_plan"
+    t.integer  "learner_id",         :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "portfolio_settings", ["learner_id"], :name => "index_portfolio_settings_on_learner_id", :unique => true
 
   create_table "preferences", :force => true do |t|
     t.integer  "prefable_id"

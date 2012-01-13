@@ -1,11 +1,6 @@
 <h1>Profile</h1>
 
-<nav id="settings_nav">
-  <ul>
-    <li><%= link_to_unless_current "Profile", settings_profile_path %></li>
-    <li><%= link_to_unless_current "Notifications", settings_notifications_path %></li>
-  </ul>
-</nav>
+<%= render :partial => 'settings/settings_navigation' %>
 
 <br class="clearing" />
 

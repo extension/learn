@@ -1,0 +1,24 @@
+<%= render :partial => 'settings/settings_navigation' %>
+
+<h3>This lets you share what you are interested in with your colleagues</h3>
+
+
+<%= form_for @learning_profile, :url => settings_learning_profile_path do |f| %>
+  
+  <div class="field">
+  <label>Currently Learning</label><br />
+  <%= f.text_area :currently_learning %>
+  </div>
+  
+  <div class="field">
+  <label>My Learning Plan</label><br />
+  <%= f.text_area :learning_plan %>
+  </div>
+  
+  <%= f.hidden_field :learner_id, :value => @learner.id %>
+  
+  <div class="actions">
+    <%= f.submit 'Save' %>
+  </div>
+<% end %>
+  

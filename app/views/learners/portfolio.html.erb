@@ -87,15 +87,12 @@
   
 </div>
 
-<div id="col_three_of_three" style="display:none;">
+<div id="col_three_of_three">
   <h2>Learning Plans</h2>
   
   <h3>Currently Learning</h3>
-  <ul>
-    <li>Google Analytics</li>
-    <li>Python</li>
-  </ul>
+  <p><%= @learner.portfolio_setting.currently_learning %></p>
   
   <h3>Learning Overview</h3>
-  <p>Lorem ipsum...</p>
+  <p><%= @learner.portfolio_setting.learning_plan %></p>
 </div>

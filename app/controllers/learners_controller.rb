@@ -11,7 +11,7 @@ class LearnersController < ApplicationController
   end
   
   def portfolio
-    @learner = Learner.find_by_id(params[:id])
+    @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :portfolio_setting)
     if @learner.blank?
       flash[:error] = "Invalid Learner Specified"
       return redirect_to root_url
