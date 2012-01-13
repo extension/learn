@@ -121,13 +121,16 @@
         <p class="feed"><%= link_to "Subscribe to this event", feeds_event_url(@event.id) %></p>
       <%-end -%>
     </aside>
-
+    
     <%- if current_learner -%>
+    
       <aside id="eventconnections" class="radius10">
         <%= render :partial => 'connections' %>
       </aside>
+      
+      <%= render :partial => 'learners' %>
     <%- else -%>
-       <aside id="eventconnections" class="radius10">
+       <aside id="eventconnections" class="radius10 placeholder">
          <%= render(partial: 'sign_in_to_vote')%>
           <%- if @event.started? -%>
             <p class="sitv_element cursor">Did you attend or watch this event or want to bookmark it?</p>                                
@@ -135,12 +138,11 @@
             <p class="sitv_element cursor"><%= link_to("Bookmark this event", new_learner_session_path(:redirect_to => request.fullpath)) -%></p>
           <%- end -%>
           </div> <!-- end .sitv_element_wrapper  -->
+          <br class="clearing" />
        </aside>
      <%- end -%>
 
-     <aside id="attendees" class="radius10">  
-       <%= render :partial => 'attendees' %>
-     </aside>
+     
      
     
    <div id="comment-section">

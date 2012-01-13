@@ -10,5 +10,9 @@ class HomeController < ApplicationController
     @upcoming_events = Event.upcoming(limit = 3)
     @recent_events = Event.recent(limit = 15)
   end
+  
+  def contact_us
+    return render :template => 'home/contact_us.html.erb'
+  end
 
 end
