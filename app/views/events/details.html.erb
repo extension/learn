@@ -37,7 +37,7 @@
 <%- end -%>
 
 <h4>Bookmarked (<%= bookmarked_count -%>)</h4>
-<%- if attendee_count > 0 -%>
+<%- if bookmarked_count > 0 -%>
   <ul class="learner_list">
     <%- @event.bookmarked.each do |bookmarker| %>
       <li><%= get_avatar(bookmarker, :thumb, :link_it) -%></li>
