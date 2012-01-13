@@ -11,13 +11,18 @@
 
 <h3>Comments (<%= @event.comments.count -%>)</h3>
 
-<h3>Questions Answered</h3>
+<h3>Questions</h3>
 <%- if @event.started? %>
    <%- @event.questions.each do |question| -%>
-    <dl>
-        <dt><%= question.prompt %></dt>
-        <dd><%= question.answer_data.map{|(response,total)| total}.sum %> people answered</dd>
-    </dl>
+    <div class="event_question">
+        <h5><%= question.prompt %></h5>
+        <p><%= question.answer_data.map{|(response,total)| total}.sum %> people answered</p>
+        <ul>
+        <%- question.answer_data.each do |(response,total)| -%>
+          <li><strong><%= total %></strong> "<%= response %>"</li>
+        <%- end -%>
+        </ul>
+    </div>
     <%- end -%>
 <%- end -%>
 
