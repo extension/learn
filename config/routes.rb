@@ -29,6 +29,7 @@ Learn::Application.routes.draw do
     
   match "settings/profile" => "settings#profile", :via => [:get, :put]
   match "settings/notifications" => "settings#notifications", :via => [:get, :post]
+  match "settings/learning_profile" => "settings#learning_profile", :via => [:get, :post, :put]
   
   match "contact_us" => "home#contact_us", :via => :get
   

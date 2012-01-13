@@ -65,4 +65,24 @@ class SettingsController < ApplicationController
   
   def portfolio
   end
+  
+  def learning_profile
+    @learner = current_learner
+    @learner.portfolio_setting.present? ? @learning_profile = @learner.portfolio_setting : @learning_profile = PortfolioSetting.new
+    if request.post? or request.put?
+      if @learning_profile.persisted?
+        if @learning_profile.update_attributes(params[:portfolio_setting])
+          flash[:notice] = "Learning profile updated."
+          redirect_to portfolio_learner_url(@learner)
+        end
+      else
+        learning_profile = PortfolioSetting.new(params[:portfolio_setting])
+        if learning_profile.save
+          flash[:notice] = "Learning profile saved"
+          redirect_to portfolio_learner_url(@learner)
+        end
+      end
+    end
+  end
+  
 end

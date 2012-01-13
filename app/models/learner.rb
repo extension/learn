@@ -34,6 +34,7 @@ class Learner < ActiveRecord::Base
   has_many :mailer_caches
   has_many :answers
   has_many :events_answered, through: :event_activities, source: :event, conditions: "event_activities.activity = #{EventActivity::ANSWER} AND event_activities.trackable_type = 'Question'", uniq: true
+  has_one  :portfolio_setting
   
   before_validation :convert_mobile_number
   validates_length_of :mobile_number, :is => 10, :allow_blank => true
