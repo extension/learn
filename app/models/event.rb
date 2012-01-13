@@ -256,6 +256,10 @@ class Event < ActiveRecord::Base
     learners.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
   end
   
+  def watched
+    learners.where("event_connections.connectiontype = ?", EventConnection::WATCH)
+  end
+  
   def bookmarked
     learners.where("event_connections.connectiontype = ?", EventConnection::BOOKMARK)
   end

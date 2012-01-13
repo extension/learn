@@ -1,0 +1,52 @@
+<% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") %>
+
+<div id="behindthescenes">
+<h1>Behind the scenes at <small><%= link_to @event.title, event_path(@event.id) %></small></h1>
+
+<%- attendee_count = @event.attendees.count -%>
+<%- watched_count = @event.watched.count -%>
+<%- bookmarked_count = @event.bookmarked.count -%>
+
+<h3>Connections</h3>
+
+
+<h4>Attended (<%= attendee_count -%>)</h4>
+<%- if attendee_count > 0 -%>
+  <ul class="learner_list">
+    <%- @event.attendees.each do |attendee| %>
+      <li><%= get_avatar(attendee, :thumb, :link_it) -%></li>
+    <%- end -%>
+  </ul>
+<%- else -%>
+  <ul class="learner_list">
+    <li><span class="empty_avatar"></span></li>
+  </ul>
+<%- end -%>
+
+<h4>Watched (<%= watched_count -%>)</h4>
+<%- if watched_count > 0 -%>
+  <ul class="learner_list">
+    <%- @event.watched.each do |watcher| %>
+      <li><%= get_avatar(watcher, :thumb, :link_it) -%></li>
+    <%- end -%>
+  </ul>
+<%- else -%>
+  <ul class="learner_list">
+    <li><span class="empty_avatar"></span></li>
+  </ul>
+<%- end -%>
+
+<h4>Bookmarked (<%= bookmarked_count -%>)</h4>
+<%- if attendee_count > 0 -%>
+  <ul class="learner_list">
+    <%- @event.bookmarked.each do |bookmarker| %>
+      <li><%= get_avatar(bookmarker, :thumb, :link_it) -%></li>
+    <%- end -%>
+  </ul>
+<%- else -%>
+  <ul class="learner_list">
+    <li><span class="empty_avatar"></span></li>
+  </ul>
+<%- end -%>
+
+</div>

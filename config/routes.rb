@@ -37,6 +37,7 @@ Learn::Application.routes.draw do
       post 'addanswer'
       post 'makeconnection'
       post 'notificationexception'
+      get 'details'
     end
     
     collection do
