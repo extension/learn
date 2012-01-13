@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(:version => 20120112212724) do
     t.datetime "updated_at"
   end
 
+  add_index "learners", ["darmok_id"], :name => "index_learners_on_darmok_id"
   add_index "learners", ["email"], :name => "index_learners_on_email"
 
   create_table "mailer_caches", :force => true do |t|
