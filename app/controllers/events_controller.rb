@@ -60,6 +60,10 @@ class EventsController < ApplicationController
     end
   end
   
+  def details
+    @event = Event.find_by_id(params[:id])
+  end
+  
   def recommended
     begin
       recommended_event = RecommendedEvent.find(params[:id])   
