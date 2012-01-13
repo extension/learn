@@ -87,28 +87,34 @@
   
 </div>
 
-<div id="col_three_of_three">
+<div class="col_three_of_three">
   <h2>Learning Plans</h2>
   
+  <div class="learning_section">
   <h3>Currently Learning</h3>
   <% if @learner.portfolio_setting.present? && !@learner.portfolio_setting.currently_learning.blank? %>
     <p><%= @learner.portfolio_setting.currently_learning %></p>
   <% else %>
-    <p>Nothing has been listed yet. 
+    <div class="learning_plan_empty">
+      <p>This hasn't been updated yet</p>
       <% if current_learner.id == @learner.id %>
-        <%= link_to 'Update Your Learning Profile', settings_learning_profile_path %>
+        <%= link_to 'Update your learning profile', settings_learning_profile_path %>
       <% end %>
-    </p>
+    </div>
   <% end %>
+  </div>
   
+  <div class="learning_section">
   <h3>Learning Overview</h3>
   <% if @learner.portfolio_setting.present? && !@learner.portfolio_setting.learning_plan.blank? %>
     <p><%= @learner.portfolio_setting.learning_plan %></p>
   <% else %>
-    <p>Nothing has been listed yet. 
+    <div class="learning_plan_empty">
+      <p>This hasn't been updated yet</p>
       <% if current_learner.id == @learner.id %>
-        <%= link_to 'Update Your Learning Profile', settings_learning_profile_path %>
+        <%= link_to 'Update your learning profile', settings_learning_profile_path %>
       <% end %>
-    </p>
+    </div>
   <% end %>
+  </div>
 </div>

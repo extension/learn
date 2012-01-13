@@ -65,8 +65,10 @@ html, body {
 #single_col {width:80%; margin: 0 auto 4em; clear:both;}
 #signup_content {margin: 2em; padding:2em;}
 
-.col_one_of_three {width:40%; float:left; padding: 1em; margin-right:1em;}
-.col_two_of_three {width:50%; float:left; padding: 1em;}
+.col_one_of_three {width:35%; float:left; padding: 1em; margin-right:1em;}
+.col_two_of_three {width:30%; float:left; padding: 1em; margin-right:1em;}
+.col_three_of_three {width:20%; float:left; padding: 1em;}
+
 
 .event_time_details {float:right;} 
 
@@ -92,7 +94,9 @@ p {word-wrap:break-word;}
     #three_col_one {width:45%; float:left; padding: 1em; margin-right:1em;}
     #three_col_two {width:40%; float:left; padding: 1em; margin-right:1em;}
     #three_col_three {width:100%; padding: 1em;}
-//    .description p {outline:2px solid lime}
+    .col_one_of_three {width:45%;float:left;margin-right:1em;}
+    .col_two_of_three {width:40%;}
+    .col_three_of_three {width:100%;}
 }
 
 @media screen and (max-width: 800px) {
@@ -112,6 +116,7 @@ p {word-wrap:break-word;}
     #signup_content {margin: 0; padding:.5em 0;}
     .col_one_of_three {width:auto;float:none;margin:0 0 1em;}
     .col_two_of_three {width:100%; padding: 0; margin:0 0 1em;}
+    .col_three_of_three {width:100%; padding: 0; margin:0 0 1em;}
     .masthead img {width:auto; height:75px;}
     
     #learner_info {float:none;}

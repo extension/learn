@@ -42,3 +42,7 @@
 .listheader {font-size:1.7em; margin:0 0 0 !important;}
 .noevents {padding:2em; background:#eee; @include rounded10;}
 .noevents h3  {color:#888; font-weight:normal; font-size:1.8em;}
+
+.learning_plan_empty {background:#eee; float:left; padding:1em; color:#888; @include rounded10}
+.learning_section {clear:left;}
+.learning_section h3 {font-size:1.2em;}
