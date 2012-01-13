@@ -25,8 +25,6 @@ on :load, "deploy:setup_environment"
 # Disable our app before running the deploy
 before "deploy", "deploy:web:disable"
 before "deploy:web:disable", "delayed_job:stop"
-before "db:rebuild", "deploy:web:disable"
-before "db:rebuild", "delayed_job:stop"
 before "delayed_job:start", "delayed_job:reload"
 
 # After code is updated, do some house cleaning
@@ -41,8 +39,6 @@ after "deploy:update_code", "deploy:migrate"
 after "deploy", "deploy:web:enable"
 after "deploy:web:enable", "delayed_job:start"
 after "deploy", 'deploy:notification:email'
-after "db:rebuild", "deploy:restart"
-after "db:rebuild", "deploy:web:enable"
 
  namespace :deploy do
    
@@ -57,9 +53,6 @@ after "db:rebuild", "deploy:web:enable"
        setup_roles
        set :deploy_to, server_settings['deploy_dir']
        if(ENV['SERVER'] == 'demo')
-         if(ENV['REBUILD'] == 'true' or ENV['REBUILD'] == 'TRUE')
-           after "deploy:update_code", "db:rebuild"
-         end
          if(branch = ENV['BRANCH'])
            set :branch, branch
          else
@@ -145,18 +138,6 @@ after "db:rebuild", "deploy:web:enable"
        end
      end
      
- end
- 
- namespace :db do
-   desc "drop the database, create the database, run migrations, seed"
-   task :rebuild, :roles => :db, :only => {:primary => true} do
-     if ENV['SERVER'] == 'demo' #add check to guard against any chance of rebuilding the prod db 
-       run "cd #{deploy_to}/current && #{rake} db:demo_rebuild RAILS_ENV=production"
-     else
-       puts "ERROR: cap db:rebuild is only supported for the demo server "
-       exit
-     end 
-   end
  end
  
  namespace :delayed_job do
