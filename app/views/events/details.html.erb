@@ -16,7 +16,7 @@
    <%- @event.questions.each do |question| -%>
     <dl>
         <dt><%= question.prompt %></dt>
-        <dd><%= question.responses.count %> answers</dd>
+        <dd><%= question.answer_data.map{|(response,total)| total}.sum %> people answered</dd>
     </dl>
     <%- end -%>
 <%- end -%>
