@@ -91,8 +91,24 @@
   <h2>Learning Plans</h2>
   
   <h3>Currently Learning</h3>
-  <p><%= @learner.portfolio_setting.currently_learning %></p>
+  <% if @learner.portfolio_setting.present? && !@learner.portfolio_setting.currently_learning.blank? %>
+    <p><%= @learner.portfolio_setting.currently_learning %></p>
+  <% else %>
+    <p>Nothing has been listed yet. 
+      <% if current_learner.id == @learner.id %>
+        <%= link_to 'Update Your Learning Profile', settings_learning_profile_path %>
+      <% end %>
+    </p>
+  <% end %>
   
   <h3>Learning Overview</h3>
-  <p><%= @learner.portfolio_setting.learning_plan %></p>
+  <% if @learner.portfolio_setting.present? && !@learner.portfolio_setting.learning_plan.blank? %>
+    <p><%= @learner.portfolio_setting.learning_plan %></p>
+  <% else %>
+    <p>Nothing has been listed yet. 
+      <% if current_learner.id == @learner.id %>
+        <%= link_to 'Update Your Learning Profile', settings_learning_profile_path %>
+      <% end %>
+    </p>
+  <% end %>
 </div>
