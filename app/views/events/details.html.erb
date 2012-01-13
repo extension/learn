@@ -1,15 +1,28 @@
 <% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") %>
 
 <div id="behindthescenes">
-<h1>Behind the scenes at <small><%= link_to @event.title, event_path(@event.id) %></small></h1>
+<h1>Behind the scenes at <small><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></small></h1>
 
 <%- attendee_count = @event.attendees.count -%>
 <%- watched_count = @event.watched.count -%>
 <%- bookmarked_count = @event.bookmarked.count -%>
 
+<h3>Event up-votes (<%= @event.ratings.count -%>)</h3>
+
+<h3>Comments (<%= @event.comments.count -%>)</h3>
+
+<h3>Questions Answered</h3>
+<%- if @event.started? %>
+   <%- @event.questions.each do |question| -%>
+    <dl>
+        <dt><%= question.prompt %></dt>
+        <dd><%= question.responses.count %> answers</dd>
+    </dl>
+    <%- end -%>
+<%- end -%>
+
+
 <h3>Connections</h3>
-
-
 <h4>Attended (<%= attendee_count -%>)</h4>
 <%- if attendee_count > 0 -%>
   <ul class="learner_list">
