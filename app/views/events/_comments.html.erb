@@ -1,19 +1,35 @@
 <section id="comments">
   <h5>Add your thoughts...</h5>
   
-  <div id="commentfield_container">
+  <div class="commentfield_container">
+    <% if current_learner %>
+    
     <%= form_tag(comments_path, :id => 'comment-form', :remote => true) do %>
-      <img class="avatar" />
-      <div id="commentfield">
-      <%= text_area_tag 'comment[content]', nil, {:cols => 20, :rows => 5} %>
+      <%= get_avatar(current_learner, :thumb, :link_it) %>
+      <div class="commentfield">
+      <%= text_area_tag 'comment[content]', nil, {:cols => nil, :rows => 5} %>
       <%= hidden_field_tag 'comment[event_id]', event.id %>
-      <% if current_learner %>
-        <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn primary'} %>
-      <% else %>
-        <p><%= link_to 'Sign in', new_learner_session_path(:redirect_to => request.fullpath) %> to post</p>
-      <% end %>
+      <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn'} %>
       </div>
+      <br class="clearing" />
     <% end %>
+    
+    <% else %>
+        
+        <%= form_tag(comments_path, :id => 'comment-form', :remote => true) do %>
+        <%= image_tag("avatar_placeholder.png", :size => "50x50") %>
+        
+        <%= render(partial: 'sign_in_to_vote')%>
+          <div class="sitv_element commentfield">
+          <%= text_area_tag 'comment[content]', nil, {:cols => nil, :rows => 5} %>
+          <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn'} %>
+          </div>
+          <br class="clearing" />
+          </div> <!-- end .sitv_element_wrapper  -->
+        <% end %>
+        
+    <% end %>
+    
     <br class="clearing" />
   </div>
   

@@ -5,19 +5,76 @@
 # see LICENSE file
 
 class EventsController < ApplicationController
-  before_filter :fake_learner
   before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection]
   
+  def index
+    @list_title = 'All Sessions'
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
+    @events = Event.paginate(:page => params[:page]).order('session_start DESC')
+  end
   
-  def show
-    @event = Event.find(params[:id])
-    # make sure @article has questions
-    if(@event.questions.count == 0)
-      @event.add_stock_questions
+  def upcoming
+    @list_title = 'Upcoming Sessions'
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
+    @events = Event.upcoming.paginate(:page => params[:page]).order('session_start DESC')
+    render :action => 'index'
+  end
+  
+  def recent
+    @list_title = "Recent Sessions"
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
+    @events =  Event.recent.paginate(:page => params[:page]).order('session_start DESC')
+    render :action => 'index'
+  end
+  
+  def tags
+    # proof of concept - needs to be moved to something like Event.tagged_with(taglist)
+    @list_title = "Sessions Tagged With '#{params[:tags]}'"
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
+    if(params[:tags])
+      @events = Event.tagged_with(params[:tags]).paginate(:page => params[:page]).order('session_start DESC')
+    else
+      @events = Event.paginate(:page => params[:page]).order('session_start DESC')
     end
-    @comments = @event.comments
-    # log view
-    EventActivity.log_view(current_learner,@event) if(current_learner)
+    render :action => 'index'
+  end
+    
+  def show
+    @event = Event.find_by_id(params[:id])
+    if(@event)
+      # dup of global before filter logic in order
+      # to force display of event time in the time zone of the session
+      if(current_learner and current_learner.has_time_zone?)
+        Time.zone = current_learner.time_zone
+      else
+        Time.zone = @event.time_zone
+      end
+
+      # make sure @article has questions
+      if(@event.questions.count == 0)
+        @event.add_stock_questions
+      end
+      @comments = @event.comments
+      # log view
+      EventActivity.log_view(current_learner,@event) if(current_learner)
+    end
+  end
+  
+  def details
+    @event = Event.find_by_id(params[:id])
+  end
+  
+  def recommended
+    begin
+      recommended_event = RecommendedEvent.find(params[:id])   
+    rescue
+      return redirect_to(root_url, :error => 'Unable to find recommended event.', status: 301)
+    end
+    
+    # log recommendation view, attach to learner on the recommendation, even if they aren't current_learner
+    recommended_event.update_attribute(:viewed, true)
+    EventActivity.log_view(recommended_event.recommendation.learner,recommended_event.event,'recommendation')
+    return redirect_to(event_url(recommended_event.event), status: 301)
   end
   
   def new
@@ -53,6 +110,23 @@ class EventsController < ApplicationController
     end        
   end
   
+  def search
+    # take quotes out to see if it's a blank field and also strip out +, -, and "  as submitted by themselves are apparently special characters 
+    # for solr and will make it crash
+    if params[:q].gsub(/["'+-]/, '').strip.blank?
+      flash[:error] = "Empty/invalid search terms"
+      return redirect_to root_url
+    end
+    
+    @list_title = "Session Search Results for '#{params[:q]}'"
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
+    events = Event.search do
+                fulltext(params[:q])
+                paginate :page => params[:page], :per_page => Event.per_page
+              end
+    @events = events.results
+    render :action => 'index'
+  end
   
   def learner_token_search
     @learners = Learner.where("name like ?", "%#{params[:q]}%")
@@ -102,7 +176,6 @@ class EventsController < ApplicationController
           current_learner.remove_connection_with_event(@event,EventConnection::BOOKMARK)
         end
       when EventConnection::ATTEND
-        @update_attendee_list = true
         if(params[:wantsconnection] and params[:wantsconnection] == '1')
           current_learner.connect_with_event(@event,EventConnection::ATTEND)
         else
@@ -117,6 +190,16 @@ class EventsController < ApplicationController
       else
         # do nothing
       end
+    end
+  end
+  
+  def notificationexception
+    @event = Event.find(params[:id])
+    exception = NotificationException.where(learner_id: current_learner.id, event_id: @event.id)
+    if !exception.empty?
+      exception[0].destroy  
+    else
+      NotificationException.create(learner: current_learner, event: @event)
     end
   end
     

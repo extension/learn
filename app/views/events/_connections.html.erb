@@ -1,30 +1,65 @@
-<%= form_tag(makeconnection_event_url(@event), {remote: true}) do -%>
+<%= form_tag(makeconnection_event_path(@event), {remote: true}) do -%>
   <%= hidden_field_tag('connectiontype', EventConnection::BOOKMARK) %>
-  <p>
-    <%= check_box_tag('wantsconnection','1',current_learner.has_bookmark_for_event?(@event),{class: 'submittable'}) %> 
-    Bookmark this event 
-    <span><small>We'll add it to your bookmarks and let you know about new activity</small></span>
+  <p class="cursor">
+    <label>
+      <%= check_box_tag('wantsconnection','1',current_learner.has_bookmark_for_event?(@event),{class: 'submittable'}) %> 
+      <span>Bookmark this event</span>
+      <span><small>We'll add it to your Learning Portfolio and let you know about new activity</small></span>
+    </label>
+    
+    
   </p>
 <%- end -%>
+
 <%- if @event.started? -%>
-  <p>
-  <%= form_tag(makeconnection_event_url(@event), {remote: true}) do -%>
+
+  <%= form_tag(makeconnection_event_path(@event), {remote: true}) do -%>
     <%= hidden_field_tag('connectiontype', EventConnection::ATTEND) %>
     <p>
+      <label>
       <%= check_box_tag('wantsconnection','1',current_learner.attended_event?(@event),{class: 'submittable'}) %> 
-      Attended
-      <span><small>It will show up in your learning portfolio</small></span>
+      <span>Attended</span>
+      <span><small>It will show up in your Learning Portfolio</small></span>
+      </label>
+      
     </p>
   <%- end -%>
-  <%= form_tag(makeconnection_event_url(@event), {remote: true}) do -%>
+  
+  <%= form_tag(makeconnection_event_path(@event), {remote: true}) do -%>
     <%= hidden_field_tag('connectiontype', EventConnection::WATCH) %>
     <p>
+      <label>
       <%= check_box_tag('wantsconnection','1',current_learner.watched_event?(@event),{class: 'submittable'}) %> 
-      Watched Recording 
-      <span><small>It will show up in your learning portfolio</small></span>
+      <span>Watched Recording</span>
+      <span><small>It will show up in your Learning Portfolio</small></span>
+      </label>
+      
     </p>
   <%- end -%>
+  
 <%- end -%>
+<br class="clearing" />
 <%- if current_learner.has_connection_with_event?(@event) -%>
-  <p>TODO: verbiage about notifications</p>
+  <div id="notification_prefs">
+    <%= form_tag(notificationexception_event_path, :id => @event.id, :remote => true) do %>
+    <ul>
+      <%- if current_learner.preferences.setting("notification.reminder.sms") and !@event.started? and !current_learner.has_event_notification_exception?(@event) -%>
+        <li class="sms">You are signed up to get a text message when this event is about to start</li>
+      <%- end -%>
+
+      <%- if current_learner.preferences.setting("notification.reminder.email") and !current_learner.has_event_notification_exception?(@event) -%>
+        <li class="email">Email notifications for this event are turned on</li>
+      <%- end -%>
+      
+      <%- if current_learner.has_event_notification_exception?(@event) -%>
+        <li><%= submit_tag "Turn notifications on for this event", {:id => '1', :class => 'btn'} %></li>
+      <%- else -%>
+        <li><%= submit_tag "Turn notifications off for this event", {:id => '0', :class => 'btn'} %></li>
+      <%- end -%> 
+    
+      <li class="settings"><%= link_to 'Change your notification settings', {controller: "settings", action: "notifications"} %></li>
+    </ul>
+    <% end %>
+  </div>
 <%- end -%>
+<br class="clearing" />

@@ -1,0 +1,22 @@
+// Place all the styles related to the settings controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "_variables";
+
+#settings_nav li {float:left; list-style:none; padding:1em; font-size:1.1em;}
+form {margin-top:3em;}
+.form_group {border:3px solid #ccc; @include rounded10; clear:both; padding:1em 2em;}
+.form_subgroup{margin:0 0 2em;}
+
+.form_group.notifications form {margin:0;padding:0;}
+.form_group.notifications fieldset {margin:0;padding:0;}
+.form_group.notifications fieldset p {float:left; margin:0;}
+.form_group.notifications label {float:left; width:auto; display:block;text-align:left; padding: .5em .75em; margin:0;}
+.form_group.notifications label span {margin-left:.25em;}
+
+.form_group.notifications fieldset ul {margin:0 0 0 2em;padding:0; clear:both; float:left;}
+.form_group.notifications fieldset ul li {clear:left; list-style:none;}
+
+
+#sms_durations.disabled li label {color:#bbb;}

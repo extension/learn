@@ -1,4 +1,9 @@
 # encoding: UTF-8
+# === COPYRIGHT:
+# Copyright (c) North Carolina State University
+# Developed with funding for the National eXtension Initiative.
+# === LICENSE:
+# see LICENSE file
 
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
@@ -140,6 +145,13 @@ def transfer_events
   Event.connection.execute(transfer_query)
 end 
 
+def scrub_event_descriptions
+  Event.all.each do |event|
+    # update column avoids validation, callbacks, and timestamp updates
+    event.update_column(:description, event.scrub_and_sanitize(event.description))
+  end
+end
+
 def transfer_event_tags 
   ## tags
   tags_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
@@ -167,9 +179,9 @@ def transfer_accounts
 
   # import all non-retired/"valid" accounts
   account_insert_query = <<-END_SQL.gsub(/\s+/, " ").strip
-  INSERT INTO #{@mydatabase}.#{Learner.table_name} (name, email, has_profile, time_zone, darmok_id, created_at, updated_at) 
+  INSERT INTO #{@mydatabase}.#{Learner.table_name} (name, email, has_profile, time_zone, darmok_id, is_admin, created_at, updated_at) 
     SELECT CONCAT(#{@darmokdatabase}.accounts.first_name,' ', #{@darmokdatabase}.accounts.last_name), #{@darmokdatabase}.accounts.email, 1, 
-           #{@darmokdatabase}.accounts.time_zone, #{@darmokdatabase}.accounts.id,  #{@darmokdatabase}.accounts.created_at, NOW()
+           #{@darmokdatabase}.accounts.time_zone, #{@darmokdatabase}.accounts.id, #{@darmokdatabase}.accounts.is_admin, #{@darmokdatabase}.accounts.created_at, NOW()
     FROM  #{@darmokdatabase}.accounts
     WHERE #{@darmokdatabase}.accounts.retired = 0 and #{@darmokdatabase}.accounts.vouched = 1
   END_SQL
@@ -212,6 +224,17 @@ def transfer_event_connections
     end
     ActiveRecord::Base.record_timestamps = true #turning updates back on
   end
+  
+  # fix event_connection timestamps that came from presenter connections
+  update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
+  UPDATE #{EventConnection.table_name},#{PresenterConnection.table_name}
+   SET #{EventConnection.table_name}.created_at = #{PresenterConnection.table_name}.created_at
+   WHERE #{EventConnection.table_name}.event_id = #{PresenterConnection.table_name}.event_id
+   AND #{EventConnection.table_name}.learner_id = #{PresenterConnection.table_name}.learner_id
+   AND #{EventConnection.table_name}.connectiontype = #{EventConnection::BOOKMARK}
+  END_SQL
+  EventActivity.connection.execute(update_timestamp_query)
+  
   
   # for all the event_activities that were created, set the updated_at
   update_timestamp_query = <<-END_SQL.gsub(/\s+/, " ").strip
@@ -268,9 +291,28 @@ end
 
 
 def create_stock_questions
-  StockQuestion.create(active: true, prompt: 'After attending this session, I feel motivated to learn more about this topic.', responsetype: Question::BOOLEAN, responses: ['no','yes'], learner: @learnbot)
-  StockQuestion.create(active: true, prompt: 'I wish more of my colleagues would weigh in on the practical applications of the topics covered in this session.', responsetype: Question::SCALE, responses: ['never','always'],    range_start: 1, range_end: 5, learner: @learnbot)
-  StockQuestion.create(active: true, prompt: 'I’ll share this information with:', responsetype: Question::MULTIVOTE_BOOLEAN, responses: ['Friends and family.','Colleagues at work.','The people in one or more of my online networks.','No one.'], learner: @learnbot)
+  sensemaking_questions = YAML::load(File.open("#{Rails.root}/db/sensemaking_questions.yml"))
+  
+  # create sliding scale questions
+  sensemaking_questions['slider'].each do |question|
+    StockQuestion.create(active: true, prompt: question, responsetype: Question::SCALE, responses: ['not at all','very much so'], range_start: 1, range_end: 5, learner: @learnbot)
+  end
+  
+  # create yes/no questions
+  sensemaking_questions['yesno'].each do |question|
+    StockQuestion.create(active: true, prompt: question, responsetype: Question::BOOLEAN, responses: ['no','yes'], learner: @learnbot)
+  end
+  
+  # multiple choice
+  sensemaking_questions['multiplechoice'].each do |question_hash|
+    question_hash.each do |prompt,responses|
+      StockQuestion.create(active: true, prompt: prompt, responsetype: Question::MULTIVOTE_BOOLEAN, responses: responses, learner: @learnbot)
+    end
+  end  
+end
+
+def create_notifications
+  Event.where("session_start >= :upcoming_time" , {:upcoming_time => 4.hours.from_now}).each{|event| event.create_event_notifications }
 end
 
 
@@ -280,6 +322,12 @@ benchmark = Benchmark.measure do
   transfer_events
 end
 puts " Events transferred : #{benchmark.real.round(2)}s"
+
+puts "Scrubbing event descriptions..."
+benchmark = Benchmark.measure do
+  scrub_event_descriptions
+end
+puts " Events descriptions scrubbed : #{benchmark.real.round(2)}s"
 
 puts "Transferring event tags..."
 benchmark = Benchmark.measure do
@@ -316,5 +364,11 @@ benchmark = Benchmark.measure do
   create_stock_questions
 end
 puts " Stock questions created : #{benchmark.real.round(2)}s"
+
+puts "Creating notifications for upcoming events..."
+benchmark = Benchmark.measure do
+  create_notifications
+end
+puts " Notifications created : #{benchmark.real.round(2)}s"
 
 

@@ -1,0 +1,2 @@
+module WebmailHelper
+end

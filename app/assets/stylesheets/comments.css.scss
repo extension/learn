@@ -2,22 +2,49 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.nested_comments {
-  margin-left: 30px;
-}
-.nested_comments .nested_comments .nested_comments .nested_comments {
-  margin-left: 0;
-}
-.comment_votes { float:left;}
-.comment_votes:hover #rating_explanation {display:block;}
+@import "_variables";
 
-#comment_list {
-    clear:both;
-    padding:2em;
+#comments h5 {color:#555;}
+
+.commentfield_container {margin:1em 0 1em; padding:10px; background: #eee; @include rounded10; @include boxshadow; position:relative;}
+.commentfield_container form {margin:0; padding:0 0 0 80px;}
+.commentfield_container img {position:absolute; left:10px;top:10px;}
+.commentfield {float:left; width:100%;}
+.commentfield textarea {
+    width:100%;
+    margin:0 auto .5em -1em;
+    padding:.5em;
+    color:#000;
 }
-#comment_list .comment p {font-size:1.3em;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
-#comment_list .comment p a {font-size:.7em; display:none; background:#444; padding:.1em .35em; color:#fff;}
-#comment_list .comment p span.comment_actions {display:block; clear:both; margin-left:70px; height:1em; float:right;}
-#comment_list .comment:hover p span.comment_actions a {display:inline;}
-#comment_list .comment:hover {background:#eee;}
-#comment_list .indent1 {margin-left:1em;}
+.commentfield_container .btn {float:right;}
+
+.comment {padding: 1em;margin-bottom:0;position:relative;}
+.comment:hover {background:#eee;}
+
+.comment .avatar {width:40px;height:40px; border:1px solid #fff;}
+.comment_time, .comment_author {display:block; font-size:.9em; color:#000;}
+.comment_time a {color:#999;}
+.comment_author {font-weight:bold;}
+.comment p {font-size:11.5px;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
+.comment .removed {padding:.5em 1em; background:#ededed; display:block; margin:.5em 0; color:#666; font-size:.85em;}
+
+.nested_comments .comment {margin-left: 30px;}
+.nested_comments .nested_comments .comment {margin-left: 60px;}
+.nested_comments .nested_comments .nested_comments .comment {margin-left: 60px;}
+
+
+//comment edit actions
+.comment p.actions {border:none; margin:0; position:relative;}
+.comment p.actions span.comment_actions {display:block; clear:both; margin-left:70px; float:right; position:absolute; right:0;}
+.comment p.actions span.comment_actions a {display:none; padding:.5em .75em; color:#333; float:left;}
+.comment:hover p.actions span.comment_actions a {display:block;}
+
+
+//individual comment view
+.extracted_comments {clear:both; padding:2em;}
+.extracted_comments .comment p {font-size:1.3em;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
+.extracted_comments .comment p a {font-size:.7em; display:none; padding:.1em .35em; color:#fff;}
+.extracted_comments .comment p span.comment_actions {display:block; clear:both; margin-left:70px; height:1em; float:right;}
+.extracted_comments .comment:hover p span.comment_actions a {display:inline;}
+.extracted_comments .comment:hover {background:#eee;}
+

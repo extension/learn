@@ -1,0 +1,35 @@
+<h1>Learning Portfolio</h1>
+
+<%= render :partial => 'settings/settings_navigation' %>
+
+<br class="clearing" />
+
+<div class="form_group">
+
+<h3>Share what you are interested in with your colleagues</h3>
+
+
+<%= form_for @learning_profile, :url => settings_learning_profile_path, :html => {:class => "form-stacked"} do |f| %>
+  <%= f.hidden_field :learner_id, :value => @learner.id %>
+  
+  <fieldset>
+    <p class="field">
+      <%= f.label :currently_learning, 'Currently Learning (what are you interested in right now?)' %>
+      <%= f.text_area :currently_learning, :rows => "5", :class => "l" %>
+    </p>
+  </fieldset>
+  
+  <fieldset>
+    <p class="field">
+      <%= f.label :learning_plan, "Learning Plan (What's your long term plan of work?)" %>
+      <%= f.text_area :learning_plan, :rows => "5", :class => "l" %>
+    </p>
+  </fieldset>
+    
+  <fieldset>
+    <p><%= f.submit "Save Changes", :class => "btn primary large" %></p>
+  </fieldset>
+  
+<% end %>
+
+</div>

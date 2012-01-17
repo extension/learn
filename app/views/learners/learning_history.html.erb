@@ -1,0 +1,38 @@
+<h1 class="listheader"><%= @list_title %></h1>
+
+
+<nav id="learning_history">
+<ul>
+  <li><%= link_to_unless_current "All", learning_history_path %></li>
+  <li><%= link_to_unless_current "Presented", presented_history_path %></li>
+  <li><%= link_to_unless_current "Attended", attended_history_path %></li>
+  <li><%= link_to_unless_current "Watched", watched_history_path %></li>
+  <li><%= link_to_unless_current "Bookmarked", bookmarked_history_path %></li>
+  <li><%= link_to_unless_current "Commented", commented_history_path %></li>
+  <li><%= link_to_unless_current "Rated", rated_history_path %></li>
+  <li><%= link_to_unless_current "Answered Questions", answered_question_history_path %></li>
+</ul>
+</nav>
+
+<div id="learning_history_wrapper">
+<% if defined?(@events.total_entries) && @events.total_entries > 0 %>
+
+  <table class="zebra-striped">
+    <% @events.each do |event| %>
+      <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>"> 
+        <% if @type == 'All' %>
+        <td class="activity_type"><%= get_activity_types(event) %></td>
+        <% end %>
+        <td><%= link_to event.title, event_path(event) %></td>
+      </tr>
+    <% end %>
+  <table>
+  
+  <p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong></p>
+  <%= will_paginate @events %>
+<% else %>
+  <div class="noevents">
+  <h3>No <%= @type %> events at this time</h3>
+  </div>
+<% end %>
+</div>

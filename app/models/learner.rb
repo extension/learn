@@ -6,18 +6,39 @@
 
 class Learner < ActiveRecord::Base
   devise :rememberable, :trackable, :database_authenticatable
-  
+
   # Setup accessible (or protected) attributes
-  attr_accessible :email, :remember_me, :name 
+  attr_accessible :email, :remember_me, :name, :avatar, :bio, :mobile_number, :remove_avatar
   
-  has_many :ratings
+  # specify image uploader for carrierwave
+  mount_uploader :avatar, AvatarUploader
+  
+  has_many :activity_logs
+  has_many :questions
+  has_many :stock_questions
+  has_many :created_events, :class_name => "Event", :foreign_key => 'creator_id'
+  has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
   has_many :authmaps
   has_many :comments
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
+  has_many :commented_events, through: :comments, source: :event, uniq: true
+  has_many :ratings
+  has_many :rated_events, through: :ratings, source: :rateable, source_type: 'Event'
   has_many :event_activities
+  has_many :presenter_connections
   has_many :presented_events, through: :presenter_connections, source: :event
   has_many :preferences, :as => :prefable
+  has_many :notification_exceptions
+  has_many :recommendations
+  has_many :mailer_caches
+  has_many :answers
+  has_many :events_answered, through: :event_activities, source: :event, conditions: "event_activities.activity = #{EventActivity::ANSWER} AND event_activities.trackable_type = 'Question'", uniq: true
+  has_one  :portfolio_setting
+  
+  before_validation :convert_mobile_number
+  validates_length_of :mobile_number, :is => 10, :allow_blank => true
+  validates_length_of :bio, :maximum => 140
   
   DEFAULT_TIMEZONE = 'America/New_York'
   
@@ -65,42 +86,79 @@ class Learner < ActiveRecord::Base
     name_string.blank? ? 'Learner' : name_string
   end
   
+  # def is_eXtension_account?
+  #     return self.darmok_id.present?
+  #   end
+  
   # this instance method used to merge two learner accounts into one account, particularly used 
   # when merging two accounts created for the same learner resulting from a learner using 
-  # more than one method of authentication (ie. twitter, eXtension, etc.)
+  # more than one method of authentication (eg. twitter, eXtension, etc.)
   def merge_account_with(learner_id)
     learner_to_merge = Learner.find_by_id(learner_id)
     # we're keeping the first learner account created and merging the later one with it 
     # along with destroying the later account when the merging is complete
     if learner_to_merge.created_at > self.created_at 
       learner_to_keep = self
-      learner_to_chuck = learner_to_merge
+      learner_to_remove = learner_to_merge
     else
       learner_to_keep = learner_to_merge
-      learner_to_chuck = self
+      learner_to_remove = self
     end
     
     Learner.reflect_on_all_associations.each do |association_to_learner|
+      # make sure we have the field we need to use for learner for the associated tables
+      if !association_to_learner.options[:foreign_key].blank?
+        key_of_learner = association_to_learner.options[:foreign_key]
+      else
+        key_of_learner = nil
+      end
+      
+      additional_conditions = ''
+      
       case association_to_learner.macro 
-      when :has_many
-        learner_to_chuck.send(association_to_learner.plural_name).each do |associated_object|
-          associated_object.learner = learner_to_keep
-          associated_object.save
+      when :has_many || :has_one
+        # in the case of :has_one, I think it's pretty rare to see the :through and :as options get used,  
+        # but I'm going to cover it along with :has_many anyways
+        
+        # operate on the 'through' table if it's has_many :through
+        if !association_to_learner.options[:through].blank?
+          model_to_use = association_to_learner.options[:through].to_s.singularize.camelize.constantize
+          key_of_learner = "learner_id" if key_of_learner.blank?
+        # the association name in the associated table will be different if we have options[:as] (polymorphic association)
+        # and we'll need to update all records with options[:as]_id in the associated table
+        elsif !association_to_learner.options[:as].blank?
+          # get the class name of the associated table and the learner key (eg. prefable_id)
+          key_of_learner = "#{association_to_learner.options[:as]}_id"
+          model_to_use = association_to_learner.klass
+          # need to get the type on a polymorphic association (eg. prefable_type)
+          additional_conditions = " AND #{association_to_learner.options[:as]}_type = 'Learner'"
+        else
+          # the code below also works for the :class_name option b/c klass is pulling the target model
+          key_of_learner = "learner_id" if key_of_learner.blank?
+          model_to_use = association_to_learner.klass
         end
-      when :has_one
-        associated_object = learner_to_chuck.send(association_to_learner.name)
-        associated_object.learner = learner_to_keep
-        associated_object.save
+        
+        model_to_use.where("#{key_of_learner} = #{learner_to_remove.id}" + "#{additional_conditions}").update_all(key_of_learner.to_sym => learner_to_keep.id)
       when :has_and_belongs_to_many
-        associated_object = learner_to_chuck.send(association_to_learner.plural_name).each do |associated_object|
-          associated_object.learners.delete(learner_to_chuck)
-          associated_object.learners << learner_to_keep
-          associated_object.save
+        join_table = association_to_learner.options[:join_table]
+        if !association_to_learner.options[:foreign_key].blank?
+          key_of_learner = association_to_learner.options[:foreign_key]
+        else
+          key_of_learner = 'learner'
         end
+        # do raw sql here to update a join table without having to instantiate the objects and do AR (delete old and add new) operations 
+        # that triggers callbacks.
+        connection.execute("UPDATE #{join_table} SET #{key_of_learner} = #{learner_to_keep.id} WHERE #{key_of_learner} = #{learner_to_remove.id}")
       end
     end
     
-    learner_to_chuck.destroy
+    # if the learner record from eXtension authentication is the learner record to be removed, 
+    # then transfer the darmok_id to the remaining learner account b/c that's needed for sync with darmok.
+    if !learner_to_remove.darmok_id.blank?
+      Learner.where("id = #{learner_to_keep.id}").update_all(:darmok_id => learner_to_remove.darmok_id)
+    end
+    
+    learner_to_remove.destroy
   end
   
   def self.learnbot
@@ -137,6 +195,11 @@ class Learner < ActiveRecord::Base
     !find_event.blank?
   end
   
+  def has_event_notification_exception?(event)
+    find_notification_exception = self.notification_exceptions.where('event_id = ?',event.id)
+    !find_notification_exception.blank?
+  end
+  
   def has_connection_with_event?(event)
     find_event = self.events.where('event_id = ?',event.id)
     !find_event.blank?
@@ -150,6 +213,101 @@ class Learner < ActiveRecord::Base
     if(connection = EventConnection.where('learner_id =?',self.id).where('event_id = ?',event.id).where('connectiontype = ?',connectiontype).first)
       connection.destroy
     end
+  end
+  
+  #get the mobile number down to just the digits
+  def convert_mobile_number
+    self.mobile_number = self.mobile_number.to_s.gsub(/[^0-9]/, '') if self.mobile_number
   end 
-   
+  
+  def get_upvoted_object(object_id, object_type)
+    rating = Rating.where(rateable_type: object_type, rateable_id: object_id, learner_id: self.id, score: 1).first
+    return rating
+  end
+  
+  # this is relatively inefficient - because all learner scores for the event scope chosen
+  # will end up being calculated, but it's easier to take advantage of what's already there
+  # the output could be cached if needed.
+  def recommended_events(options = {})
+    events = {}
+    modified_options = options.dup
+    modified_options[:limit_to_learners] = [self]
+    show_zeros = modified_options.delete(:show_zeros) || false
+    max_events = modified_options.delete(:max_events) || Settings.recommended_events
+    event_scope = modified_options.delete(:event_scope) || 'recommendation_epoch'
+    
+    if(event_scope == 'all')
+      event_list = Event.potential_learners(modified_options)
+    else
+      event_list = Event.send(event_scope).potential_learners(modified_options)
+    end
+    event_list.each do |event,learner_list|
+      if(show_zeros and learner_list.blank?)
+        events[event] = 0.0
+      else
+        if(!learner_list.blank?)
+          learner_list.each do |learner,score|
+            if(learner == self)
+              events[event] = score
+            end
+          end
+        end
+      end
+    end    
+    events
+  end
+    
+  
+  def self.recommended_events(options = {})
+    learners = {}
+    return_learners = {}
+    modified_options = options.dup
+    max_events = modified_options.delete(:max_events) || Settings.recommended_events
+    event_scope = modified_options.delete(:event_scope) || 'recommendation_epoch'
+    
+    if(event_scope == 'all')
+      event_list = Event.potential_learners(modified_options)
+    else
+      event_list = Event.send(event_scope).potential_learners(modified_options)
+    end
+  
+    event_list.each do |event,learner_list|
+      learner_list.each do |learner,score|
+        if(learners[learner])
+          learners[learner] << {:event => event, :score => score}
+        else
+          learners[learner] = [{:event => event, :score => score}]
+        end
+      end
+    end
+    
+    learners.each do |learner,score_events|
+      return_learners[learner] = score_events.sort{|hash1,hash2| hash1[:score] <=> hash2[:score]}.map{|h| h[:event]}.slice(0,max_events)
+    end
+    return_learners
+  end
+  
+  def send_recommendation?
+    self.preferences.setting('notification.recommendation')
+  end
+  
+  def send_reminder?
+    self.preferences.setting('notification.reminder.email')
+  end
+  
+  def send_sms?(notice)
+    self.preferences.setting('notification.reminder.sms') and (self.preferences.setting('notification.reminder.sms.notice').to_f == notice)
+  end
+  
+  def send_activity?
+    self.preferences.setting('notification.activity')
+  end
+  
+  def send_recording?
+    self.preferences.setting('notification.recording')
+  end
+  
+  def send_recommendation=(send_it)
+    Preference.create_or_update(self,'notification.recommendation',send_it)
+  end
 end

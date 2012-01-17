@@ -1,0 +1,120 @@
+<% @page_title = @learner.name + " Learning Portfolio" %>
+
+<div id="learner_info">
+  <div id="learner_info_text">
+  <h1><%= @learner.name %></h1>  
+  
+  <%- if(!@learner.bio.blank?) -%>
+    <p><%= @learner.bio %></p>
+  <%- else -%>
+    <%- if current_learner && current_learner.id == @learner.id -%>
+      <p><%= link_to "Everyone else is seeing a blank area here. Want to add a short bio about youself?", settings_profile_path() %></p>
+    <%- end -%>
+  <%- end -%>
+  </div>
+  <div id="avatar_wrapper">
+    <%= get_avatar(@learner, :medium) %>
+    <%- if !@learner.avatar.present? %>
+      <%- if current_learner && current_learner.id == @learner.id -%>
+      <p class="edit"><%= link_to "edit", settings_profile_path() %></p>
+      <%- end %>
+    <%- end -%>
+  </div>
+</div>
+
+<br class="clearing" />
+
+<div id="pd_events" class="col_one_of_three">
+
+  <h1>PD Events</h1>
+  
+  <h2>Presented</h2>
+  <% if @presented_events.length == 0 %>
+    <p>No events presented yet<p>
+  <% else %>
+    <% @presented_events.each do |event| %>
+      <p class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
+    <% end %>
+    <%- if current_learner && current_learner.id == @learner.id -%>
+    <p class="view_all"><%= link_to_unless_current "View all", presented_history_path %></p>
+    <%- end -%>
+  <% end %>
+  
+  <h2>Attended</h2>
+  <% if @attended_events.length == 0 %>
+    <p>No events attended yet<p>
+  <% else %>
+    <% @attended_events.each do |event| %>
+      <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
+    <% end %>
+    <%- if current_learner && current_learner.id == @learner.id -%>
+    <p class="view_all"><%= link_to_unless_current "View all", attended_history_path %></p>
+    <%- end -%>
+  <% end %>
+  
+  <h2>Watched</h2>
+  <% if @watched_events.length == 0 %>
+    <p>No events watched yet<p>
+  <% else %>
+    <% @watched_events.each do |event| %>
+      <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
+    <% end %>
+    <%- if current_learner && current_learner.id == @learner.id -%>
+    <p class="view_all"><%= link_to_unless_current "View all", watched_history_path %></p>
+    <%- end -%>
+  <% end %>
+</div>
+
+<div id="bookmarks" class="col_two_of_three">
+  <h2>Bookmarks</h2>
+  <% if @bookmarked_events.length == 0 %>
+    <p>No events bookmarked yet</p>
+  <% end %>
+  
+  <% @bookmarked_events.each do |event| %>
+    <div class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>">
+      <h4><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span>
+        <% if event.session_start >= Time.zone.now && event.session_start < 14.days.from_now -%>
+          <span class="coming_soon">Coming up soon!</span>
+        <% end %></h4>
+      
+    </div>
+  <% end %>
+      
+  <%- if current_learner && current_learner.id == @learner.id -%>
+  <p class="view_all"><%= link_to_unless_current "View all", bookmarked_history_path %></p>
+  <%- end -%>
+  
+</div>
+
+<div class="col_three_of_three">
+  <h2>Learning Plans</h2>
+  
+  <div class="learning_section">
+  <h3>Currently Learning</h3>
+  <% if @learner.portfolio_setting.present? && !@learner.portfolio_setting.currently_learning.blank? %>
+    <p><%= @learner.portfolio_setting.currently_learning %></p>
+  <% else %>
+    <div class="learning_plan_empty">
+      <p>This hasn't been updated yet</p>
+      <% if current_learner.id == @learner.id %>
+        <%= link_to 'Update your learning profile', settings_learning_profile_path %>
+      <% end %>
+    </div>
+  <% end %>
+  </div>
+  
+  <div class="learning_section">
+  <h3>Learning Plan</h3>
+  <% if @learner.portfolio_setting.present? && !@learner.portfolio_setting.learning_plan.blank? %>
+    <p><%= @learner.portfolio_setting.learning_plan %></p>
+  <% else %>
+    <div class="learning_plan_empty">
+      <p>This hasn't been updated yet</p>
+      <% if current_learner.id == @learner.id %>
+        <%= link_to 'Update your learning profile', settings_learning_profile_path %>
+      <% end %>
+    </div>
+  <% end %>
+  </div>
+</div>

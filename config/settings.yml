@@ -4,4 +4,13 @@ twitter_app_secret: 'notset'
 session_token: '123456789012345678901234567890'
 airbrake_api_key: 'notset'
 urlwriter_host: 'learn.dev'
+app_location: 'localdev'
 darmokdatabase: 'prod_darmok'
+tropo_url: "http://api.tropo.com/1.0/sessions"
+tropo_token: "notset"
+send_notifications: false
+default_feed_items: 50
+max_feed_items: 200
+minimum_recommendation_score: 3.0
+recommended_events: 3
+activity_notification_interval: 28800.0

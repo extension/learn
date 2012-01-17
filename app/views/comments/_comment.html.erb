@@ -1,49 +1,67 @@
 <div class="comment">
-  <img class="avatar" />
-  <div class='rating_area'>
+  
+  <%= get_avatar(comment.learner, :thumb, :link_it) %>
+  
+  <span class="comment_author"><%= link_to_learner(comment.learner) %></span>
+  
+  <div class='rating_wrapper'>
     <% if current_learner %>
-      <%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %>
+      <% if upvoted_object = current_learner.get_upvoted_object(comment.id, 'Comment') %>
+        <span id='undo_vote_comment_<%= comment.id %>'><%= button_to 'Undo vote', rating_path(upvoted_object), :method => :delete, :remote => true, :class => "btn" %></span>
+      <% else %>
+        <span id="upvote_comment_<%= comment.id %>"><%= button_to '+', ratings_path(:rating => {:rateable_id => comment.id, :rateable_type => 'Comment', :score => 1}), :method => :post, :remote => true, :class => "btn" %></span>
+      <% end %>
     <% else %>
-      <%= render(partial: 'sign_in_to_vote')%>
+      <%= render(partial: '/events/sign_in_to_vote')%>
       <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
       </div> <!-- end .sitv_element_wrapper  -->
     <% end %>
-    <div id="comment_votes_<%= comment.id %>" class="comment_votes"><%= render :partial => '/partials/ratings', locals: {rateable_object: comment} %></div> 
+    <div id="comment_votes_<%= comment.id %>" class="rating_detail">
+      <%= render :partial => '/partials/ratings', locals: {rateable_object: comment} %>
+    </div>
   </div>
-  <p class="actions">
+  
+  <p class="content">
+    <%= comment.content %>
+  </p>
+  
+  <span class="comment_time"><%= link_to time_ago_in_words(comment.updated_at) + ' ago', comment_path(comment) %></span>
+  
   <% if comment.parent_removed %>
-    <span>* This is a response to a removed comment</span><br />  
+    <p class="removed">The comment preceding this comment has been deleted</p>
   <% end %>
   
-  <%= comment.content %>
+  <p class="actions">
   <span class="comment_actions">
-  <% if current_learner %>
-  <%= link_to_function 'reply', "show_element($('#comment_reply_to_#{comment.id}'));" %> 
-  <% end %>
-  <%= link_to 'view', comment_path(comment) %>
-  <% if current_learner && (current_learner.id == comment.learner_id) %>
-    <%= link_to_function 'edit', "show_element($('#comment_edit_for_#{comment.id}'));" %>
-    <% if parent_comment.present? %>
-      <%= link_to 'delete', comment_path(comment, 
+    <% if current_learner %>
+      <%= link_to_function 'reply', "show_element($('#comment_reply_to_#{comment.id}'));" %> 
+    <% end %>
+    
+    <% if current_learner && (current_learner.id == comment.learner_id) %>
+      <%= link_to_function 'edit', "show_element($('#comment_edit_for_#{comment.id}'));" %>
+      <% if parent_comment.present? %>
+        <%= link_to 'delete', comment_path(comment, 
                                          :parent_comment_id => parent_comment.id), 
                                          :method => :delete, 
                                          :confirm => 'Are you sure you want to delete this comment?', 
                                          :remote => true %>
-    <% else %>
-      <%= link_to 'delete', comment_path(comment), 
+      <% else %>
+        <%= link_to 'delete', comment_path(comment), 
                                          :method => :delete, 
                                          :confirm => 'Are you sure you want to delete this comment?', 
                                          :remote => true %>
+      <% end %>
     <% end %>
-  <% end %>
   </span>
+  
   </p>
   <br class="clearing" />
 </div>
-<div id="comment_reply_to_<%= comment.id %>" style="display:none" class="comment_reply">
+<% if current_learner %>
+<div id="comment_reply_to_<%= comment.id %>" style="display:none" class="commentfield_container">
   <%= form_tag(comments_path, :id => 'comment-form-reply', :remote => true) do %>
-    <img class="avatar" />
-    <div id="commentfield">
+    <%= get_avatar(current_learner, :thumb) %>
+    <div class="commentfield">
     <%= text_area_tag 'comment[content]', nil, {:id => "comment_reply_#{comment.id}", :cols => 20, :rows => 5} %>
     <%= hidden_field_tag 'comment[event_id]', comment.event.id %>
     <%= hidden_field_tag 'comment[parent_id]', comment.id %>
@@ -60,10 +78,10 @@
   <br class="clearing" />
 </div>
 
-<div id="comment_edit_for_<%= comment.id %>" style="display:none" class="comment_reply">
+<div id="comment_edit_for_<%= comment.id %>" style="display:none" class="commentfield_container">
   <%= form_tag(comment_path(:id => comment.id), :id => 'comment-form-edit', :remote => true, :method => :put) do %>
-    <img class="avatar" />
-    <div id="commentfield">
+    <%= get_avatar(comment.learner, :thumb) %>
+    <div class="commentfield">
     <%= text_area_tag 'comment[content]', comment.content, {:id => "comment_edit_#{comment.id}", :cols => 20, :rows => 5} %>
     <!-- parent_comment being present means that we called this template from the parent comment's view page 
          and we're passing the parent_comment id along to the request to edit that comment so we can then 
@@ -78,7 +96,7 @@
   <% end %>
   <br class="clearing" />
 </div>
-
+<%- end %>
 <script type="text/javascript">
 $(document).ready(function(){
   $("#comment-form")
@@ -97,4 +115,3 @@ function hide_element(passed_element) {
 }
 
 </script>
-

@@ -10,8 +10,7 @@ class EventActivity < ActiveRecord::Base
   belongs_to :trackable, polymorphic: true
   has_many :activity_logs, :as => :loggable, dependent: :destroy
   validates :learner, :presence => true
-  before_save :set_score
-
+  
   # types of activities - gaps are between types
   # in case we may need to group/expand
   VIEW                      = 1
@@ -31,7 +30,7 @@ class EventActivity < ActiveRecord::Base
   
   # scoring
   SCORING = {
-    VIEW                      => 1,
+    VIEW                      => 0,
     VIEW_FROM_RECOMMENDATION  => 2,
     VIEW_FROM_SHARE           => 2,
     SHARE                     => 1,
@@ -46,10 +45,6 @@ class EventActivity < ActiveRecord::Base
     CONNECT_ATTEND            => 3,
     CONNECT_WATCH             => 3,
   }
-  
-  def set_score
-    self.score = SCORING[self.activity].nil? ? 0 : SCORING[self.activity]
-  end
   
   # don't recommend making this a callback, instead
   # intentionally call it where appropriate (like EventActivity.create_or_update)
@@ -153,5 +148,19 @@ class EventActivity < ActiveRecord::Base
     end
     record.create_activity_log(additional_information)  
   end
-      
+  
+  def self.learner_scores
+    id_scores= {}
+    learner_scores = {}
+    with_scope do
+      activity_counts = group(:learner_id).group(:activity).count
+      activity_counts.each do |(learner_id,activity), count|
+        id_scores[learner_id] = id_scores[learner_id] ? id_scores[learner_id] + SCORING[activity] : SCORING[activity]
+      end
+    end
+    id_scores.each do |learner_id,score|
+      learner_scores[Learner.find_by_id(learner_id)] = score.to_f
+    end
+    learner_scores
+  end
 end

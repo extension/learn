@@ -1,7 +1,84 @@
+<div id="three_col_one">
+  <h2>Upcoming Sessions <small><%= link_to 'view all', upcoming_events_path %></small></h2>
+  
+  <div id="upcoming_events">
+  <%- @upcoming_events.each do |event| -%>
+    <section class="event">
+      <div class="calendarblock">
+          <span class="month"><%= event.session_start.strftime("%b") -%></span>
+          <span class="date"><%= event.session_start.strftime("%d") -%></span>
+       </div>
+      
+      <h3><%= link_to(event.title, event_path(event.id)) -%></h3>
+    
+      <div class="description"><%= format_text_for_display(event.description) -%></div>
 
-<div id="two_col_col_one">
+      <%- if event.presenters.count > 0 -%>
+        <h3>Presenters</h3>
+        <p class="presenters"><%= display_presenters(event.presenters) %></p>
+      <%- end -%>
+      
+      <div class="tags">
+        <h4 class="hide">Tags</h4>
+        <p>
+          <%-if event.tags.length != 0 -%>  
+            <%= display_tags(event.tags) -%>
+          <%-else -%>
+            There are no tags at this time
+          <%-end -%>
+        </p>
+      </div>
+   </section>
+  <%- end -%>
+  </div>
+</div>
 
-  <h1>Home#index</h1>
-  <p><%= 'Hello world!'%></p>
+
+<div id="three_col_two">
+  <h2>Recent Sessions <small><%= link_to 'view all', recent_events_path %></small></h2>
+  
+  <div id="recent_events">
+  <%- @recent_events.each do |event| -%>
+    <dl>
+      <% if event.has_recording? %>
+        <dt><span class="recording_available"><%= link_to(event.title, event_path(event.id)) -%></span></dt>
+      <% else %>
+        <dt><span class="no_recording_available"><%= link_to(event.title, event_path(event.id)) -%></span></dt>
+      <% end %>
+      <dd><%= time_ago_in_words(event.session_start) %> ago</dd>
+    </dl>
+  <%- end -%>
+  </div>
+</div>
+
+
+<div id="three_col_three" class="marketing_blurb">
+  <h1>Free access to cutting edge Professional Development Events</h1>
+  <p>These professional development sessions are brought to you by eXtension and are open to anyone.</p>
+  
+  <p>If you have a suggestions for a topic, you can tweet to <%= link_to "@extensionLearns", "http://twitter.com/extensionLearns" %> on Twitter.</p>
+    
+  <%- if current_learner -%>
+    <div id="create_event">
+    <%= link_to "Create a new event", new_event_path(), :class => "btn" %>
+    </div>
+  <%- else -%>
+    
+    <div id="signin">
+      <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn primary" )%></p>
+      
+      <h3>Why Sign in?</h3>
+      <ul>
+        <li>Mark events you attended, watched or are interested in</li>
+        <li>Get text/email notifications for events right before they start</li>
+        <li>Comment on and rate events</li>
+      </ul>
+    </div>
+    
+    
+  <%- end -%>
+  
+  <p class="feed"><%= link_to "Subscribe to all events", feeds_events_url() %><p>
+  <p class="join"><%= link_to "How to participate in Learn events", "http://create.extension.org/node/698#How_to_Participate_in_eXtension_Professional_Development" %><p>
 
 </div>

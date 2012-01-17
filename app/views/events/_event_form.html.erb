@@ -1,11 +1,12 @@
 <p>
    <%= event_form.text_field :title, :size => nil, :class => "title" %>
+   <span class="help-block">If you make your title 80 characters or less, it can be easily texted</span>
 </p>
 
 <fieldset id="presenters">
   <p>
     <%= event_form.label :presenter_tokens, "Presenters" %>
-    <%= event_form.text_field :presenter_tokens, "data-pre" => @event.presenters_to_tokenhash.to_json  %>
+    <%= event_form.text_field :presenter_tokens, "data-pre" => @event.presenter_tokens_tokeninput.to_json  %>
   </p>
  </fieldset>
  
@@ -24,7 +25,7 @@
    
    <p>
    <%= event_form.label :time_zone, 'Time Zone' %>
-   <%= event_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, :default => @event.time_zone %>
+   <%= event_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {:default => @event.time_zone}, {:class => "xxlarge"} %>
    </p>
    
  </fieldset>
@@ -60,8 +61,14 @@
    </p>
  </fieldset>
 
- <p><%= submit_tag 'Save Session', :class => "btn primary" %></p>
- 
+<p>
+  <%= submit_tag 'Save Session', :class => "btn primary large" %>
+  <%- if @event.id %>
+    <%= link_to("cancel", event_path(@event.id), :class => "cancel") -%>
+  <%- else -%>
+    <%= link_to("cancel", root_path(), :class => "cancel") -%>
+  <%- end -%>
+</p>
  
  <script class="code" type="text/javascript">
    $('#session_start').datetimepicker({

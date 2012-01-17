@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111128180556) do
+ActiveRecord::Schema.define(:version => 20120112212724) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -75,13 +75,12 @@ ActiveRecord::Schema.define(:version => 20111128180556) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "event_activities", :force => true do |t|
-    t.integer  "learner_id",                                    :null => false
+    t.integer  "learner_id",                                  :null => false
     t.integer  "event_id"
     t.integer  "activity"
     t.integer  "trackable_id"
     t.string   "trackable_type", :limit => 30
-    t.integer  "activity_count",               :default => 1,   :null => false
-    t.float    "score",                        :default => 0.0
+    t.integer  "activity_count",               :default => 1, :null => false
     t.datetime "updated_at"
   end
 
@@ -123,26 +122,62 @@ ActiveRecord::Schema.define(:version => 20111128180556) do
     t.string   "name"
     t.string   "time_zone"
     t.string   "mobile_number"
+    t.string   "bio"
+    t.string   "avatar"
     t.boolean  "has_profile",                        :default => false, :null => false
     t.integer  "darmok_id"
     t.boolean  "retired",                            :default => false, :null => false
+    t.boolean  "is_admin",                           :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "learners", ["darmok_id"], :name => "index_learners_on_darmok_id"
   add_index "learners", ["email"], :name => "index_learners_on_email"
 
-  create_table "notifications", :force => true do |t|
+  create_table "mailer_caches", :force => true do |t|
+    t.string   "hashvalue",      :limit => 40,                      :null => false
+    t.integer  "learner_id"
+    t.integer  "cacheable_id"
+    t.string   "cacheable_type", :limit => 30
+    t.integer  "open_count",                         :default => 0
+    t.text     "markup",         :limit => 16777215
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "mailer_caches", ["hashvalue"], :name => "hashvalue_ndx"
+  add_index "mailer_caches", ["learner_id", "open_count"], :name => "open_learner_ndx"
+
+  create_table "notification_exceptions", :force => true do |t|
     t.integer  "learner_id"
     t.integer  "event_id"
-    t.integer  "delivery_method",                    :null => false
-    t.boolean  "sent",            :default => false, :null => false
-    t.boolean  "silenced",        :default => false, :null => false
-    t.datetime "delivery_time",                      :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "notification_exceptions", ["learner_id", "event_id"], :name => "connection_ndx", :unique => true
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "notifiable_id"
+    t.string   "notifiable_type",  :limit => 30
+    t.boolean  "processed",                      :default => false, :null => false
+    t.integer  "notificationtype",                                  :null => false
+    t.datetime "delivery_time",                                     :null => false
+    t.integer  "offset",                         :default => 0
     t.integer  "delayed_job_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "portfolio_settings", :force => true do |t|
+    t.text     "currently_learning"
+    t.text     "learning_plan"
+    t.integer  "learner_id",         :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "portfolio_settings", ["learner_id"], :name => "index_portfolio_settings_on_learner_id", :unique => true
 
   create_table "preferences", :force => true do |t|
     t.integer  "prefable_id"
@@ -188,7 +223,26 @@ ActiveRecord::Schema.define(:version => 20111128180556) do
     t.datetime "updated_at"
   end
 
-  add_index "ratings", ["learner_id", "rateable_type", "rateable_id"], :name => "index_ratings_on_learner_id_and_rateable_type_and_rateable_id"
+  add_index "ratings", ["learner_id", "rateable_type", "rateable_id"], :name => "index_ratings_on_learner_id_and_rateable_type_and_rateable_id", :unique => true
+
+  create_table "recommendations", :force => true do |t|
+    t.integer  "learner_id"
+    t.date     "day"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recommendations", ["learner_id", "day"], :name => "recommendation_ndx"
+
+  create_table "recommended_events", :force => true do |t|
+    t.integer  "recommendation_id"
+    t.integer  "event_id"
+    t.boolean  "viewed",            :default => false, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recommended_events", ["recommendation_id", "event_id"], :name => "recommended_event_ndx"
 
   create_table "stock_questions", :force => true do |t|
     t.boolean  "active"
@@ -218,16 +272,5 @@ ActiveRecord::Schema.define(:version => 20111128180556) do
   end
 
   add_index "tags", ["name"], :name => "index_tags_on_name", :unique => true
-
-  create_table "versions", :force => true do |t|
-    t.string   "item_type",  :null => false
-    t.integer  "item_id",    :null => false
-    t.string   "event",      :null => false
-    t.string   "whodunnit"
-    t.text     "object"
-    t.datetime "created_at"
-  end
-
-  add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
 
 end

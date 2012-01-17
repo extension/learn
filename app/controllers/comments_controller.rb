@@ -1,3 +1,9 @@
+# === COPYRIGHT:
+# Copyright (c) North Carolina State University
+# Developed with funding for the National eXtension Initiative.
+# === LICENSE:
+# see LICENSE file
+
 class CommentsController < ApplicationController
   before_filter :authenticate_learner!, only: [:create, :update]
   

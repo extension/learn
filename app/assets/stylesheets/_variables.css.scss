@@ -1,0 +1,13 @@
+// Place all the mixin styles here.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@mixin boxshadow {
+    -webkit-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+    -moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.6);
+}
+
+@mixin rounded10 {
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+}

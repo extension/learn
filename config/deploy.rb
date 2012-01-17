@@ -17,12 +17,15 @@ set :repository, "git@github.com:extension/#{application}.git"
 set :use_sudo, false
 set :scm, :git
 set :migrate_target, :latest
+set :rails_env, "production" #added for delayed job  
 
 # Make sure environment is loaded as first step
 on :load, "deploy:setup_environment"
 
 # Disable our app before running the deploy
 before "deploy", "deploy:web:disable"
+before "deploy:web:disable", "delayed_job:stop"
+before "delayed_job:start", "delayed_job:reload"
 
 # After code is updated, do some house cleaning
 after "deploy:update_code", "deploy:bundle_install"
@@ -34,6 +37,7 @@ after "deploy:update_code", "deploy:migrate"
 
 # don't forget to turn it back on
 after "deploy", "deploy:web:enable"
+after "deploy:web:enable", "delayed_job:start"
 after "deploy", 'deploy:notification:email'
 
  namespace :deploy do
@@ -49,9 +53,6 @@ after "deploy", 'deploy:notification:email'
        setup_roles
        set :deploy_to, server_settings['deploy_dir']
        if(ENV['SERVER'] == 'demo')
-         if(ENV['REBUILD'] == 'true')
-           after "deploy:update_code", "db:rebuild"
-         end
          if(branch = ENV['BRANCH'])
            set :branch, branch
          else
@@ -84,7 +85,7 @@ after "deploy", 'deploy:notification:email'
      
      desc "Update maintenance mode page/graphics (valid after an update code invocation)"
      task :update_maint_msg, :roles => :app do
-        run "cp -f #{shared_path}/system/maintenancemessage.html #{release_path}/public/maintenancemessage.html "
+        run "cp -f #{release_path}/public/maintenancemessage.html #{shared_path}/system/maintenancemessage.html"
      end
 
      desc "clean out the assets and recompile"
@@ -102,6 +103,8 @@ after "deploy", 'deploy:notification:email'
        rm -rf #{release_path}/tmp/temp &&
        rm -rf #{release_path}/tmp/associations &&
        rm -rf #{release_path}/tmp/nonces &&
+       rm -rf #{release_path}/public/uploads &&
+       ln -nfs #{shared_path}/uploads #{release_path}/public/uploads &&
        ln -nfs #{shared_path}/nonces #{release_path}/tmp/nonces &&
        ln -nfs #{shared_path}/temp #{release_path}/tmp/temp &&
        ln -nfs #{shared_path}/associations #{release_path}/tmp/associations &&
@@ -137,15 +140,20 @@ after "deploy", 'deploy:notification:email'
      
  end
  
- namespace :db do
-   desc "drop the database, create the database, run migrations, seed"
-   task :rebuild, :roles => :db, :only => {:primary => true} do
-     if ENV['SERVER'] == 'demo' #add check to guard against any chance of rebuilding the prod db 
-       run "cd #{deploy_to}/current && #{rake} db:demo_rebuild RAILS_ENV=production"
-     else
-       puts "ERROR: cap db:rebuild is only supported for the demo server "
-       exit
-     end 
+ namespace :delayed_job do
+   desc "stops delayed_job"
+   task :stop, :roles => :app do
+     run "sudo /usr/local/rvm/bin/rvm-shell -c 'god stop delayed_jobs'"
+   end
+   
+   desc "reloads delayed_job"
+   task :reload, :roles => :app do
+     run "sudo /usr/local/rvm/bin/rvm-shell -c 'god load #{current_path}/config/delayed_job.god'"
+   end
+   
+   desc "starts delayed_job"
+   task :start, :roles => :app do
+     run "sudo /usr/local/rvm/bin/rvm-shell -c 'god start delayed_jobs'"
    end
  end
  

@@ -1,0 +1,48 @@
+// Place all the styles related to the learners controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "_variables";
+
+#pd_events {@include rounded10; background:#e5e5e5;}
+#pd_events h1,
+#bookmarks h2 {font-size:1.7em; margin-bottom:0;}
+#pd_events h2 {font-size:1.3em;}
+#pd_events h4 {margin:0 0 1em;}
+#pd_events p {margin:0 0 1em; line-height:1.4em; font-size:1.1em;}
+#pd_events span.event_date {color:#777; font-size:.8em;}
+
+.view_all {margin-top:2em;}
+.coming_soon  {background:yellow; padding:.1em .5em;}
+.bookmarked_event span {color:#777; font-size:.8em;}
+
+.calendarblock {width:64px; display:block; text-align:center; height:64px;padding-top:0;float:right; @include boxshadow; float:left; @include rounded10;background:#fff; margin-left:1em;}
+.calendarblock .month {display:block; height:20px; line-height:25px;font-size:1.1em; text-transform:uppercase; font-weight:bold; background: orange;
+    -moz-border-radius:10px 10px 0 0 / 10px 10px 0 0;
+    -webkit-border-radius:10px 10px 0 0 / 10px 10px 0 0;
+    }
+.calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:2.5em; }
+
+
+.bookmarked_event.no_recording_available h4 {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:25px; font-size:1.45em; min-height:1.3em;}
+.bookmarked_event.recording_available h4 {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:25px; font-size:1.45em; min-height:1.3em;}
+#pd_events p.no_recording_available {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:25px;min-height:1.3em; height:auto;}
+#pd_events p.recording_available {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:25px; min-height:1.3em; height:auto;}
+
+#bookmarks .bookmarked_event h4 {line-height:1.1em;margin:0 0 .75em; font-size:1.1em; font-weight:normal;}
+
+
+
+#learning_history li {float:left; list-style:none; padding:1em; font-size:1.3em; color:#000; font-weight:bold;}
+#learning_history li a {font-size:.8em; font-weight:normal;}
+#learning_history_wrapper {clear:both;}
+#learning_history_wrapper table td {font-size:1.3em;}
+#learning_history_wrapper .activity_type {font-size:1em; text-align:right;}
+#learners h3.header {clear:both; font-size:1.5em;}
+.listheader {font-size:1.7em; margin:0 0 0 !important;}
+.noevents {padding:2em; background:#eee; @include rounded10;}
+.noevents h3  {color:#888; font-weight:normal; font-size:1.8em;}
+
+.learning_plan_empty {background:#eee; float:left; padding:1em; color:#888; @include rounded10}
+.learning_section {clear:left;}
+.learning_section h3 {font-size:1.2em;}

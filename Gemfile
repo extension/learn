@@ -14,8 +14,17 @@ end
 # rails 3.1 default
 gem 'jquery-rails', '1.0.16'
 
+# bootstrap in sass in rails
+gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails'
+
 # storage
 gem 'mysql2'
+
+# image upload
+gem 'carrierwave'
+
+# image processing
+gem 'rmagick'
 
 # Deploy with Capistrano
 gem 'capistrano'
@@ -24,10 +33,13 @@ gem 'capistrano'
 gem 'nokogiri'
 
 # authentication
-gem 'devise', "1.4.9"
+gem 'devise', "~> 1.5.1"
+gem 'omniauth-facebook'
+gem 'omniauth-openid'
+gem 'omniauth-twitter'
 
 # oauth integration
-gem 'omniauth', '0.3.2'
+gem 'omniauth', "~> 1.0"
 
 # feed retrieval and parsing
 # force curb to 0.7.15 to avoid a constant warning
@@ -59,7 +71,7 @@ gem "loofah"
 gem "htmlentities"
 
 # search on solr
-gem "sunspot_rails", "~> 1.3.0.rc6" 
+gem "sunspot_rails", "~> 1.3.0" 
 
 # used to post-process mail to convert styles to inline
 gem "csspool", "2.0.1ex"
@@ -70,14 +82,20 @@ gem "rinku", :require => 'rails_rinku'
 
 # require sunspot_solr for test and dev
 group :test, :development do
-  gem 'sunspot_solr', "~> 1.3.0.rc6" 
+  gem 'sunspot_solr', "~> 1.3.0" 
 end
+
+#god
+gem "god", :require => false
 
 # delayed_job
 gem "delayed_job"
 
 # tropo - sms messages
 gem "tropo-webapi-ruby"
+
+# command line scripts 
+gem "thor"
 
 # revisioning
 gem "paper_trail", "2.6.0ex"

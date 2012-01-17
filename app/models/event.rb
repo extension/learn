@@ -6,6 +6,7 @@
 
 class Event < ActiveRecord::Base
   extend ActiveSupport::Memoizable
+  include MarkupScrubber
   
   attr_accessor :presenter_tokens
   attr_accessor :tag_list
@@ -34,7 +35,9 @@ class Event < ActiveRecord::Base
   has_many :presenter_connections, dependent: :destroy
   has_many :presenters, through: :presenter_connections, :source => :learner
   has_many :event_activities, dependent: :destroy
-  
+  has_many :notifications, :as => :notifiable, dependent: :destroy
+  has_many :notification_exceptions
+
 
   validates :title, :presence => true
   validates :description, :presence => true
@@ -44,26 +47,50 @@ class Event < ActiveRecord::Base
   
   validates :recording, :allow_blank => true, :uri => true
   
+  before_update :schedule_recording_notification
+  before_update :update_event_notifications
+  
   before_save :set_session_end
+  before_save :set_presenters_from_tokens
+  before_save :set_tags_from_tag_list
+  
+  after_create :create_event_notifications
   
   DEFAULT_TIMEZONE = 'America/New_York'
+  # page default for will_paginate
+  self.per_page = 15
   
   # sunspot/solr search
   searchable do
     time :session_start
     text :title, more_like_this: true
     text :description, more_like_this: true
+    text :tag_list
   end
   
   scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
   
-  scope :through_next_week, conditions: ["session_end >= ? and session_end <= ?", Time.zone.now, (Time.zone.now + 7.days).end_of_week] 
+  scope :this_week, lambda {
+    weekday = Time.now.utc.strftime('%u').to_i
+    # if saturday or sunday - do next week, else this week
+    if(weekday >= 6)
+      where('session_start > ?',(Time.zone.now + 7.days).beginning_of_week).where('session_start <= ?', (Time.zone.now + 7.days).end_of_week)
+    else
+      where('session_start > ?',Time.zone.now.beginning_of_week).where('session_start <= ?', Time.zone.now.end_of_week)
+    end
+  }
   
-  def presenter_tokens=(idlist)
-    self.presenter_ids = idlist.split(',')
-  end
+  scope :last_week, lambda {
+    weekday = Time.now.utc.strftime('%u').to_i
+    # if saturday or sunday - do this week, else last week
+    if(weekday >= 6)
+      where('session_start > ?',Time.zone.now.beginning_of_week).where('session_start <= ?', Time.zone.now.end_of_week)
+    else
+      where('session_start > ?',(Time.zone.now - 7.days).beginning_of_week).where('session_start <= ?', (Time.zone.now - 7.days).end_of_week)
+    end
+  }
   
   def rev_presenters
     self.presenter_ids
@@ -82,18 +109,58 @@ class Event < ActiveRecord::Base
     @rev_tags = tag_id_array
   end
   
-  def presenters_to_tokenhash
-    self.presenters.collect{|presenter| {id: presenter.id, name: presenter.name}}
+  scope :recommendation_epoch, lambda {
+    weekday = Time.now.utc.strftime('%u').to_i
+    # if saturday or sunday - this+next, else last+this
+    if(weekday >= 6)
+      where('session_start > ?',Time.zone.now.beginning_of_week).where('session_start <= ?', (Time.zone.now + 7.days).end_of_week)
+    else
+      where('session_start > ?',(Time.zone.now - 7.days).beginning_of_week).where('session_start <= ?', Time.zone.now.end_of_week)
+    end
+  }
+  
+  scope :projected_epoch, lambda {
+    # this+next
+    where('session_start > ?',Time.zone.now.beginning_of_week).where('session_start <= ?', (Time.zone.now + 7.days).end_of_week)
+  }
+  
+  scope :upcoming, lambda { |limit=3| where('session_start >= ?',Time.zone.now).order("session_start ASC").limit(limit) }
+  scope :recent,   lambda { |limit=3| where('session_start < ?',Time.zone.now).order("session_start DESC").limit(limit) }
+  
+  def presenter_tokens
+    if(@presenter_tokens.blank?)
+      @presenter_tokens = self.presenter_ids.join(',')
+    end
+    @presenter_tokens
+  end
+    
+  def presenter_tokens_tokeninput
+    if(!self.presenter_tokens.blank?)
+      presenter_list = Learner.where("id IN (#{self.presenter_tokens})").all
+      presenter_list.collect{|presenter| {id: presenter.id, name: presenter.name}}
+    else
+      {}
+    end
   end
   
+  def description=(description)
+    write_attribute(:description, self.scrub_and_sanitize(description))
+  end
+    
+  def set_presenters_from_tokens
+    self.presenter_ids = self.presenter_tokens.split(',')
+  end
+    
   def tag_list
-    self.tags.map(&:name).join(Tag::JOINER)
+    if(@tag_list.blank?)
+      @tag_list = self.tags.map(&:name).join(Tag::JOINER)
+    end
+    @tag_list
   end
   
-  def tag_list=(tag_list)
-    @tag_list = tag_list
+  def set_tags_from_tag_list
     tags_to_set = []
-    tag_list.split(Tag::JOINER).each do |tag_name|
+    self.tag_list.split(Tag::SPLITTER).each do |tag_name|
       if(tag = Tag.find_or_create_by_normalizedname(tag_name))
         tags_to_set << tag
       end
@@ -112,6 +179,16 @@ class Event < ActiveRecord::Base
     rescue
       self.session_start = nil
       self.errors.add('session_start_string', 'Time specified is invalid.')
+    end
+  end
+  
+  # this is mostly for the mailer situation where
+  # we aren't setting Time.zone for the web request
+  def session_start_for_learner(learner)
+    if(learner.has_time_zone?)
+      self.session_start.in_time_zone(learner.time_zone)
+    else
+      self.session_start.in_time_zone(self.time_zone)
     end
   end
   
@@ -160,23 +237,7 @@ class Event < ActiveRecord::Base
     end
     return_results
   end
-  
-  
-  def similar_events_through_next_week(count = 4)
-    search_results = self.more_like_this do
-      paginate(:page => 1, :per_page => count)
-      adjust_solr_params do |params|
-        params[:fl] = 'id,score'
-      end
-      with(:session_start).between(Time.zone.now..(Time.zone.now + 7.days).end_of_week)
-    end
-    return_results = {}
-    search_results.each_hit_with_result do |hit,event|
-      return_results[event] = hit.score
-    end
-    return_results
-  end
-  
+    
   def concluded?
     if(!self.session_end.blank?)
       return (Time.now.utc > self.session_end)
@@ -210,16 +271,11 @@ class Event < ActiveRecord::Base
   #
   # @return [Array] array of questions created 
   def add_stock_questions(options = {})
-    learner_id = (options[:learner].nil?) ? Learner.learnbot_id : options[:learner].id 
     max_count = options[:max_count] || StockQuestion::DEFAULT_RANDOM_COUNT
     
     stock_question_list = StockQuestion.random_questions(max_count)
     stock_question_list.each do |sq|
-      attributes = {learner_id: learner_id}
-      ['prompt','responsetype','responses','range_start','range_end'].each do |attribute|
-        attributes[attribute] = sq.send(attribute)
-      end
-      self.questions << Question.create(attributes)
+      self.questions << Question.create_from_stock_question(sq)
     end
     self.questions
   end
@@ -228,6 +284,111 @@ class Event < ActiveRecord::Base
     learners.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
   end
   
+  def watched
+    learners.where("event_connections.connectiontype = ?", EventConnection::WATCH)
+  end
   
+  def bookmarked
+    learners.where("event_connections.connectiontype = ?", EventConnection::BOOKMARK)
+  end
+  
+  # when an event is created, 5 notifications need to be created.
+  # 1 notification via email (180 minutes before)
+  # 4 via sms (60,45,30,15 minutes)
+  def create_event_notifications
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 3.hours, offset: 3.hours)
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 60.minutes, offset: 60.minutes)
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 45.minutes, offset: 45.minutes)
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 30.minutes, offset: 30.minutes)
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 15.minutes, offset: 15.minutes)
+  end
+  
+  # when an event is updated, the notifications need to be rescheduled if the event session_start changes
+  def update_event_notifications
+    if self.session_start_changed?
+      self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
+    end
+  end
+  
+  
+  def content_for_atom_entry
+    content = self.description + "\n\n"
+    content << "Location: " + self.location + "\n\n" if !self.location.blank?
+    content << "Session Start: " + self.session_start.in_time_zone(self.time_zone).xmlschema + "\n"
+    content << "Session Length: " + self.session_length.to_s + " minutes\n"
+    content << "Recording: " + self.recording if !self.recording.blank?
+    content
+  end
+  
+  def self.tagged_with(taglist)
+    # split and collect - Tag.normalizename *should* take care of any nasty chars we don't want sent to the db
+    normalizedlist = taglist.split(Tag::SPLITTER).collect{|tagname| Tag.normalizename(tagname)}
+    Event.includes([:tags]).where("tags.name IN (#{normalizedlist.map{|tagname| "'#{tagname}'"}.join(',')})")
+  end
+  
+  
+  def potential_learners(options = {})
+    learners = self.learners.all
+    presenters = self.presenters.all
+    min_score = options[:min_score] || Settings.minimum_recommendation_score
+    remove_connectors = options[:remove_connectors].nil? ? true : options[:remove_connectors]
+    limit_to_learners = options[:limit_to_learners]
+    learner_list = {}
+    mlt_list = self.similar_events
+    max_mlt_score = 0
+    mlt_list.each do |mlt_event,mlt_score|
+      if(mlt_score > max_mlt_score)
+        max_mlt_score = mlt_score
+      end
+      learner_scores = mlt_event.event_activities.learner_scores
+      learner_scores.each do |learner,score|
+        if(limit_to_learners)
+          next if !limit_to_learners.include?(learner)
+        end
+        
+        if(remove_connectors)
+          next if learners.include?(learner)
+          next if presenters.include?(learner)
+        end
+        
+        if(learner_list[learner])
+          learner_list[learner] += (score * mlt_score)
+        else
+          learner_list[learner] = (score * mlt_score)
+        end
+      end
+    end
     
+    learner_list.each do |learner,score|
+      learner_list[learner] = learner_list[learner] / max_mlt_score
+    end
+      
+    if(min_score)
+      learner_list.delete_if{|learner,score| score < min_score}
+    end
+    
+    learner_list
+  end
+  
+  def self.potential_learners(options = {})
+    with_scope do 
+      event_list = {}
+      self.all.each do |event|
+        learners = {}
+        with_exclusive_scope do 
+          learners =  event.potential_learners(options)
+        end
+        event_list[event] = learners
+      end
+      event_list
+    end
+  end
+  
+  def schedule_recording_notification
+    if self.recording_changed?
+      Notification.create(notifiable: self, notificationtype: Notification::RECORDING, delivery_time: 1.minute.from_now)
+    end
+  end
+  
+
 end

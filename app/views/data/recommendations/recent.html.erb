@@ -1,0 +1,29 @@
+<%= render(partial: 'navtabs') -%>
+<h2>Recent Recommended Events</h2>
+<%- if @recommended_event_list.blank? -%>
+<p> No recommended events currently </p>
+<%- else -%>
+<p>Displaying <strong><%= @recommended_event_list.offset + 1 %>-<%= @recommended_event_list.offset + @recommended_event_list.length %> of <%= @recommended_event_list.total_entries %></strong>
+<%= will_paginate @recommended_event_list %>
+<table>
+	<thead>
+		<tr>
+			<th>Event</th>
+			<th>Created</th>
+			<th>Learner</th>
+			<th>Viewed?</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%- @recommended_event_list.each do |re| -%>
+		<tr>
+			<td><%= link_to(re.event.title, event_data_recommendations_path(event_id: re.event.id)) %></td>
+			<td><%= re.recommendation.day %></td>
+			<td><%= re.recommendation.learner.name %></td>
+			<td><%= recommended_event_viewed?(re) %></td>
+		</tr>
+		<%- end -%>
+	</tbody>
+</table>
+<%= will_paginate @recommended_event_list %>
+<%- end -%>

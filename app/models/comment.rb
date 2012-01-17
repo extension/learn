@@ -11,6 +11,7 @@ class Comment < ActiveRecord::Base
   has_many :raters, :through => :ratings, :source => :learner
   has_many :event_activities, :as => :trackable, dependent: :destroy
   after_create :log_object_activity
+  after_create :schedule_activity_notification
   
   # make sure to keep this callback ahead of has_ancestry, which has its own callbacks for destroy
   before_destroy :set_orphan_flag_on_children
@@ -31,5 +32,11 @@ class Comment < ActiveRecord::Base
   
   def is_reply?
     !self.is_root?
+  end
+  
+  def schedule_activity_notification
+    if !Notification.pending_activity_notification?(self.event)
+      Notification.create(notifiable: self.event, notificationtype: Notification::ACTIVITY, delivery_time: Notification::ACTIVITY_NOTIFICATION_INTERVAL.from_now)
+    end
   end
 end

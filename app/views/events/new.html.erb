@@ -1,17 +1,30 @@
-<div>
-  <%- if @event.errors.any? -%>
-    <ul>
-      <%- @event.errors.full_messages.each do |msg| -%>
-        <li><%= msg %></li>
-      <%- end -%>
-    </ul>
-  <%- end -%>
 
-<div>
+
+<%- if @event.errors.any? -%>
+  <ul>
+    <%- @event.errors.full_messages.each do |msg| -%>
+      <li><%= msg %></li>
+    <%- end -%>
+  </ul>
+<%- end -%>
+
+<div id="editform">
   <h1>Create an event</h1>
-  <%= form_for @event do |form| %>
+  <%= form_for @event,  :html => { :class => "form-stacked"} do |form| %>
     <%= render(partial: 'event_form', locals: {event_form: form}) %>
   <% end %>
 </div>
-</div>
 
+
+<div id="sidebar">
+  <h3>Event FAQs</h3>
+  <h4>Who can create an event?</h4>
+  <p>Anyone offering an online professional development event open to extension professionals. This may include subject matter, information technology or communications people, members of communities of practice, ACE SIG leaders, etc. Currently an eXtensionID is required to create an event.</p>
+  
+  <h4>How are events scheduled?</h4>
+  <ul>
+    <li><%= link_to 'View Upcoming Events', upcoming_events_path %> to see what dates/times are already scheduled if you want to avoid conflicts for your event.</li>
+    <li>Typically 30 or 60 minutes is suggested, but some interactive programs may be 2 hours.</li>
+    <li>Consider all appropriate time zones when choosing the time of day</li>
+  </ul>
+</div>

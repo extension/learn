@@ -24,9 +24,12 @@ class CreateLearners < ActiveRecord::Migration
       t.string "name"
       t.string "time_zone"
       t.string "mobile_number"
+      t.string "bio"
+      t.string "avatar"
       t.boolean "has_profile", :null => false, :default => false
       t.integer "darmok_id"
       t.boolean "retired", :null => false, :default => false
+      t.boolean "is_admin", :null => false, :default => false
       t.timestamps
     end
     

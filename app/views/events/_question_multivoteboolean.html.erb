@@ -2,7 +2,7 @@
 
 <!-- Answer Form -->
 <div class="question_answers">
-<%= form_tag(addanswer_event_url(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
+<%= form_tag(addanswer_event_path(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
   <%= hidden_field_tag('question', question.id) %>
   
   <%- if !current_learner -%>
@@ -10,9 +10,9 @@
   <%- end -%>
   
   <ul class="inputs-list a_mvb <%= "sitv_element" if !current_learner %>">
-  <% question.responses.each do |response| %>
+  <% question.responses.each_with_index do |response, index| %>
       <li>
-        <label><%= check_box_tag('values[]',response,is_multivote_answer_checked?(question,response),{class: 'submittable'}) %> <span><%= response %></span></label>
+        <label class="color_code_<%= index %>"><%= check_box_tag('values[]',response,is_multivote_answer_checked?(question,response),{class: 'submittable'}) %> <span><%= response %></span></label>
       </li>
   <%- end -%>
   </ul>
@@ -38,6 +38,7 @@
   <div id="question_chart_<%= question.id %>" style="height:160px; width:160px;"></div> 
   <script class="code" type="text/javascript">
     $(document).ready(function(){
+      setTimeout(function(){
       var data = <%= jqplot_piegraph_data(question) %>
       var plot1 = jQuery.jqplot ("question_chart_<%= question.id %>", [data], 
         { 
@@ -52,7 +53,7 @@
               padding: 0,
             }
           },
-          seriesColors: [ "#8bc7f6", "#ddd", "#003a92", "#3e83eb", "#839557", "#958c12", "#953579", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc"],
+          seriesColors: [ "#8bc7f6", "#ddd", "#003a92", "#3e83eb", "#579575", "#953579", "#958c12", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc"],
           grid: {
             shadow: false,
             borderColor: '#ccc',
@@ -62,6 +63,8 @@
         }
         
       );
+    }, 100);
+      
     });
   </script>
   <%- else -%>
