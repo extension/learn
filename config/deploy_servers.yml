@@ -1,10 +1,16 @@
 # Define deployment targets.
 # Required keys are deploy_dir and host.
 # Optional keys are tag and ssh_port
+dev:
+    deploy_dir: "/services/apache/vhosts/dev.learn.extension.org/railsroot"
+    host: "dev.learn.extension.org"
+    ssh_port: 24
+    branch: development
 demo:
     deploy_dir: "/services/apache/vhosts/demo.learn.extension.org/railsroot"
     host: "demo.learn.extension.org"
-    ssh_port: 24 
+    ssh_port: 24
+    branch: staging
 prod:
     deploy_dir: "/services/apache/vhosts/learn.extension.org/railsroot"
     host: "learn.extension.org"
