@@ -98,7 +98,7 @@ gem "tropo-webapi-ruby"
 gem "thor"
 
 # revisioning
-gem "paper_trail", "2.6.0ex"
+gem "paper_trail", :git => 'git://github.com/extension/paper_trail.git'
 
 group :development do
   # require the powder gem
