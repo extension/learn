@@ -68,8 +68,8 @@ class Notification < ActiveRecord::Base
   
   def update_delayed_notifications
     if !self.processed
-      delayed_job = Delayed::Job.find(self.delayed_job_id)
-      delayed_job.update_attributes(:run_at => self.delivery_time)
+      delayed_job = Delayed::Job.find_by_id(self.delayed_job_id)
+      delayed_job.update_attributes(:run_at => self.delivery_time) if !delayed_job.nil?
     end
   end
   
