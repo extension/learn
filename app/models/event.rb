@@ -5,20 +5,18 @@
 # see LICENSE file
 
 class Event < ActiveRecord::Base
-  extend ActiveSupport::Memoizable
   include MarkupScrubber
   
   attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
   
-  attr_accessor :rev_tags
   
   # define accessible attributes
   attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string
   
   # revisioning
-  has_paper_trail :virtual => [:rev_presenters, :rev_tags]
+  has_paper_trail :virtual => [:presenter_tokens, :tag_list]
   
   # relationships
   has_many :taggings, :as => :taggable, dependent: :destroy
@@ -92,22 +90,6 @@ class Event < ActiveRecord::Base
     end
   }
   
-  def rev_presenters
-    self.presenter_ids
-  end
-  memoize :rev_presenters
-  
-  def rev_tags
-    self.tag_ids
-  end
-  
-  def rev_presenters=(presenter_id_array)
-    @rev_presenters = presenter_id_array
-  end
-  
-  def rev_tags=(tag_id_array)
-    @rev_tags = tag_id_array
-  end
   
   scope :recommendation_epoch, lambda {
     weekday = Time.now.utc.strftime('%u').to_i
@@ -133,6 +115,18 @@ class Event < ActiveRecord::Base
     end
     @presenter_tokens
   end
+  
+  def presenter_tokens=(provided_presenter_tokens)
+    compare_token_array = []
+    provided_presenter_tokens.split(',').each do |presenter_token|
+      compare_token_array << presenter_token
+    end
+    presenter_token_array = self.presenter_tokens.split(',')
+    @presenter_tokens = provided_presenter_tokens    
+    if(!((compare_token_array | presenter_token_array) - (compare_token_array & presenter_token_array)).empty?)
+      @changed_attributes['presenter_tokens'] = provided_presenter_tokens
+    end     
+  end
     
   def presenter_tokens_tokeninput
     if(!self.presenter_tokens.blank?)
@@ -156,6 +150,19 @@ class Event < ActiveRecord::Base
       @tag_list = self.tags.map(&:name).join(Tag::JOINER)
     end
     @tag_list
+  end
+  
+  def tag_list=(provided_tag_list)
+    # just compare raw strings
+    compare_tag_array = []
+    provided_tag_list.split(Tag::SPLITTER).each do |tag_name|
+      compare_tag_array << Tag.normalizename(tag_name)
+    end
+    tag_list_array = self.tag_list.split(Tag::SPLITTER)
+    @tag_list = provided_tag_list
+    if(!((compare_tag_array | tag_list_array) - (compare_tag_array & tag_list_array)).empty?)
+      @changed_attributes['tag_list'] = provided_tag_list
+    end
   end
   
   def set_tags_from_tag_list
