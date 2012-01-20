@@ -16,7 +16,7 @@ class Event < ActiveRecord::Base
   attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string
   
   # revisioning
-  has_paper_trail :virtual => [:presenter_tokens, :tag_list]
+  has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
   
   # relationships
   has_many :taggings, :as => :taggable, dependent: :destroy
