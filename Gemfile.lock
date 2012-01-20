@@ -1,10 +1,3 @@
-GIT
-  remote: git://github.com/extension/paper_trail.git
-  revision: 39f693fcdbd35b6eeb5db23f9d6869d9ee1feca5
-  specs:
-    paper_trail (2.5.2ex)
-      rails (~> 3)
-
 GEM
   remote: http://systems.extension.org/rubygems/
   remote: http://rubygems.org/
@@ -157,6 +150,8 @@ GEM
     omniauth-twitter (0.0.7)
       omniauth-oauth (~> 1.0)
     orm_adapter (0.0.5)
+    paper_trail (2.5.2ex)
+      rails (~> 3)
     passenger (3.0.11)
       daemon_controller (>= 0.2.5)
       fastthread (>= 1.0.1)
@@ -279,7 +274,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-openid
   omniauth-twitter
-  paper_trail!
+  paper_trail (= 2.5.2ex)
   passenger
   powder
   rails (= 3.1.3)
