@@ -110,6 +110,14 @@ class EventsController < ApplicationController
     end        
   end
   
+  def restore
+    @version = Version.find(params[:version])
+    @restored_event = @version.reify
+    if @restored_event.save
+      redirect_to(@restored_event, :notice => 'Previous event version restored.')
+    end
+  end
+  
   def search
     # take quotes out to see if it's a blank field and also strip out +, -, and "  as submitted by themselves are apparently special characters 
     # for solr and will make it crash

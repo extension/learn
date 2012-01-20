@@ -47,6 +47,7 @@ Learn::Application.routes.draw do
       get 'tags'
       get 'recent'
       get 'search'
+      post 'restore' 
     end
   end
   # individual tag match

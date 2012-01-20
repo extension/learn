@@ -27,7 +27,12 @@
           <td><%= version.created_at %></td>
           <td><%= link_to_learner(Learner.find_by_id(version.whodunnit)) %></td>
           <td><%= version.changeset.keys.join(', ').gsub('presenter_tokens','presenters').gsub('tag_list','tags') %></td>
-          <td>todo: restore previous <%= version.id %></td>
+          <td>
+            <%= form_tag(restore_events_path) do %>
+            <%= hidden_field_tag 'version', version.id %>
+              <%= submit_tag "Restore Previous", {:class => 'btn'} %>              
+            <%- end -%>
+          </td>
         </tr>
       <%- end -%>
       <tr>
