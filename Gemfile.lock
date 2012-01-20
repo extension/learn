@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/extension/paper_trail.git
-  revision: c3ce840e30a64ebdb3f5496ed9bd7f95b7e51cac
+  revision: 39f693fcdbd35b6eeb5db23f9d6869d9ee1feca5
   specs:
     paper_trail (2.5.2ex)
       rails (~> 3)
