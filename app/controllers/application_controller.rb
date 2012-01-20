@@ -52,5 +52,10 @@ class ApplicationController < ActionController::Base
     current_learner
   end
   
+  # used by paper_trail for tracking additional information
+  def info_for_paper_trail
+    { :ipaddress => request.remote_ip }
+  end
+  
   
 end
