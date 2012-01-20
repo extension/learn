@@ -121,10 +121,11 @@ class Event < ActiveRecord::Base
     provided_presenter_tokens.split(',').each do |presenter_token|
       compare_token_array << presenter_token
     end
-    presenter_token_array = self.presenter_tokens.split(',')
+    previous_presenter_tokens = self.presenter_tokens
+    presenter_token_array = previous_presenter_tokens.split(',')
     @presenter_tokens = provided_presenter_tokens    
     if(!((compare_token_array | presenter_token_array) - (compare_token_array & presenter_token_array)).empty?)
-      @changed_attributes['presenter_tokens'] = provided_presenter_tokens
+      @changed_attributes['presenter_tokens'] = previous_presenter_tokens
     end     
   end
     
@@ -158,10 +159,11 @@ class Event < ActiveRecord::Base
     provided_tag_list.split(Tag::SPLITTER).each do |tag_name|
       compare_tag_array << Tag.normalizename(tag_name)
     end
-    tag_list_array = self.tag_list.split(Tag::SPLITTER)
+    previous_tag_list = self.tag_list
+    tag_list_array = previous_tag_list.split(Tag::SPLITTER)
     @tag_list = provided_tag_list
     if(!((compare_tag_array | tag_list_array) - (compare_tag_array & tag_list_array)).empty?)
-      @changed_attributes['tag_list'] = provided_tag_list
+      @changed_attributes['tag_list'] = previous_tag_list
     end
   end
   
