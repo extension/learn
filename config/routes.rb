@@ -39,6 +39,7 @@ Learn::Application.routes.draw do
       post 'makeconnection'
       post 'notificationexception'
       get 'details'
+      get 'history'
     end
     
     collection do
