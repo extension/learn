@@ -3,6 +3,12 @@
   
   <div id="upcoming_events">
   <%- @upcoming_events.each do |event| -%>
+    <% if event.in_progress? %>
+      
+    <% else %>
+      
+    <% end %>
+    
     <section class="event">
       <div class="calendarblock">
           <span class="month"><%= event.session_start.strftime("%b") -%></span>

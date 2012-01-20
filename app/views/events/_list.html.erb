@@ -5,6 +5,12 @@
     
   <div id="event_list">
     <% @events.each do |event| %>
+        <% if event.in_progress? %>
+
+        <% else %>
+
+        <% end %>
+       
         <div class="event">  
           <h3><span class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>">
           <%= link_to event.title, event_path(event) %></span></h3>
