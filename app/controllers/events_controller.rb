@@ -40,24 +40,22 @@ class EventsController < ApplicationController
   end
     
   def show
-    @event = Event.find_by_id(params[:id])
-    if(@event)
-      # dup of global before filter logic in order
-      # to force display of event time in the time zone of the session
-      if(current_learner and current_learner.has_time_zone?)
-        Time.zone = current_learner.time_zone
-      else
-        Time.zone = @event.time_zone
-      end
-
-      # make sure @article has questions
-      if(@event.questions.count == 0)
-        @event.add_stock_questions
-      end
-      @comments = @event.comments
-      # log view
-      EventActivity.log_view(current_learner,@event) if(current_learner)
+    @event = Event.find(params[:id])
+    # dup of global before filter logic in order
+    # to force display of event time in the time zone of the session
+    if(current_learner and current_learner.has_time_zone?)
+      Time.zone = current_learner.time_zone
+    else
+      Time.zone = @event.time_zone
     end
+
+    # make sure @article has questions
+    if(@event.questions.count == 0)
+      @event.add_stock_questions
+    end
+    @comments = @event.comments
+    # log view
+    EventActivity.log_view(current_learner,@event) if(current_learner)
   end
   
   def details
