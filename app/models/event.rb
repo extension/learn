@@ -234,6 +234,15 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def recording=(recording_url)
+    if(recording_url.blank?)
+      if(!self.recording.nil?)
+        write_attribute(:recording,'')
+      end
+    else
+      write_attribute(:recording,recording_url)
+    end
+  end
   
   # return a list of similar articles using sunspot
   def similar_events(count = 4)
@@ -401,7 +410,7 @@ class Event < ActiveRecord::Base
   end
   
   def schedule_recording_notification
-    if self.recording_changed?
+    if self.recording_changed? and !self.recording.blank?
       Notification.create(notifiable: self, notificationtype: Notification::RECORDING, delivery_time: 1.minute.from_now)
     end
   end
