@@ -52,10 +52,8 @@ after "deploy", 'deploy:notification:email'
      if(server_settings)
        setup_roles
        set :deploy_to, server_settings['deploy_dir']
-       if(ENV['SERVER'] == 'demo' or ENV['SERVER'] == 'dev')
-         if(branch = ENV['BRANCH'])
-           set :branch, branch
-         end
+       if((ENV['SERVER'] == 'demo' or ENV['SERVER'] == 'dev') and branch = ENV['BRANCH'])
+         set :branch, branch
        else
          set :branch, server_settings['branch'] 
        end
