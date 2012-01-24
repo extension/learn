@@ -43,7 +43,7 @@ class Recommendation < ActiveRecord::Base
   
   def self.delivery_time(time_zone)
     # get date of next monday, utc
-    monday = (Time.now.utc + 7.days).beginning_of_week
+    monday = Time.now.utc.beginning_of_week
     Time.zone = time_zone
     monday_four_am = Time.zone.parse("#{monday.to_date} 04:00:00")
     now = Time.zone.now
