@@ -3,6 +3,11 @@
 <div id="two_col_col_one">
     <section id="event">
       <h1><%= @event.title -%></h1>
+      
+      <% if @event.in_progress? %>
+        <span class="happening_now"><em>Happening now</em></span>
+        <br class="clearing"/>
+      <% end %>
     
       <div class="description"><%= format_text_for_display(@event.description) -%></div>
 
