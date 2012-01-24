@@ -9,8 +9,22 @@ class Data::RecommendationsController < ApplicationController
   before_filter :require_admin
   
   def index
+    @recommendation_count = Recommendation.group("day").count
+    @mailer_count = Recommendation.includes(:mailer_cache).where('mailer_caches.open_count > 0').group("day").count
     @recommended_event_counts = RecommendedEvent.includes([:event,{:recommendation => :learner}]).group("recommendations.day").count
     @recommended_event_viewed_counts = RecommendedEvent.includes([:event,{:recommendation => :learner}]).where(viewed: true).group("recommendations.day").count
+    
+    @connected_event_counts = {}
+    RecommendedEvent.includes([:event,{:recommendation => :learner}]).each do |re|
+      learner = re.recommendation.learner
+      if(learner.events.include?(re.event))
+        if(@connected_event_counts[re.recommendation.day])
+          @connected_event_counts[re.recommendation.day] += 1
+        else
+          @connected_event_counts[re.recommendation.day] = 1
+        end
+      end
+    end
   end
   
   def projected

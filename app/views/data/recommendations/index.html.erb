@@ -1,27 +1,38 @@
 <%= render(partial: 'navtabs') -%>
 <h2>Statistics</h2>
 <table class="zebra-striped">
-	<thead>
-		<tr>
-			<th>Date</th>
-			<th>Recommendations</th>
-			<th>Viewed</th>
-			<th>% Viewed</th>
-		</tr>
-	</thead>
-	<tbody>
-		<%- @recommended_event_counts.keys.sort.each do |date| -%>
-		<tr>
-			<td><%= date %></td>
-			<td><%= @recommended_event_counts[date] %></td>
-			<%- if @recommended_event_viewed_counts[date] -%>
-  			<td><%= @recommended_event_viewed_counts[date] %></td>
-  			<td><%= number_to_percentage((@recommended_event_viewed_counts[date] / @recommended_event_counts[date].to_f)*100, precision: 1 )%></td>
-			<%- else -%>
-  			<td>0</td>
-  			<td>n/a</td>
-			<%- end -%>
-		</tr>
-		<%- end -%>
-	</tbody>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Recommendations</th>
+      <th>Opened Email</th>
+      <th>Recommended Events</th>
+      <th>Event Clicks</th>
+      <th>Event Connections</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%- @recommendation_count.keys.sort.each do |date| -%>
+    <tr>
+      <td><%= date %></td>
+      <td><%= @recommendation_count[date] %></td>
+      <%- if @mailer_count[date] -%>
+        <td><%= @mailer_count[date] %></td>
+      <%- else -%>
+        <td>0</td>
+      <%- end -%>
+      <td><%= @recommended_event_counts[date] %></td>
+      <%- if @recommended_event_viewed_counts[date] -%>
+        <td><%= @recommended_event_viewed_counts[date] %></td>
+      <%- else -%>
+        <td>0</td>
+      <%- end -%>
+      <%- if @connected_event_counts[date] -%>
+        <td><%= @connected_event_counts[date] %></td>
+      <%- else -%>
+        <td>0</td>
+      <%- end -%>
+    </tr>
+    <%- end -%>
+  </tbody>
 </table>

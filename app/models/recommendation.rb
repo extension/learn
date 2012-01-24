@@ -8,6 +8,7 @@ class Recommendation < ActiveRecord::Base
   belongs_to :learner
   has_many :recommended_events
   has_many :events, :through => :recommended_events
+  has_one :mailer_cache, :as => :cacheable
   
   before_create :set_day
   after_create  :create_notification
