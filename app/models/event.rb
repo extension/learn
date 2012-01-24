@@ -144,6 +144,10 @@ class Event < ActiveRecord::Base
   def description=(description)
     write_attribute(:description, self.scrub_and_sanitize(description))
   end
+  
+  def location=(location)
+    write_attribute(:location, self.scrub_and_sanitize(location))
+  end
     
   def set_presenters_from_tokens
     self.presenter_ids = self.presenter_tokens.split(',')

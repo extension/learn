@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class EventsController < ApplicationController
-  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection]
+  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :details, :history]
   
   def index
     @list_title = 'All Sessions'
