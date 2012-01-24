@@ -23,6 +23,8 @@
 
 .comment .avatar {width:40px;height:40px; border:1px solid #fff;}
 .comment_time, .comment_author {display:block; font-size:.9em; color:#000;}
+
+.comment:hover .comment_time span {background: transparent  url(/assets/icon_link.gif) right 50% no-repeat; padding-right:20px;}
 .comment_time a {color:#999;}
 .comment_author {font-weight:bold;}
 .comment p {font-size:11.5px;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;color:#444;text-align:left; margin-bottom:0; padding:0;}
