@@ -1,7 +1,7 @@
 <%= render(partial: 'navtabs') -%>
-<%- if defined?(@events.total_entries) && @events.total_entries > 0 -%>
 <h2>Event Statistics</h2>
 <%= render(partial: 'date_form') -%>
+<%- if defined?(@events.total_entries) && @events.total_entries > 0 -%>
 <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date) %> </p>
 <p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong></p>
 <%= will_paginate(@events) %>
@@ -31,8 +31,12 @@
       <td><%= event.watched.count %></td>
       <td><%= event.raters.count %></td>
       <td><%= event.commentators.count %></td>
-      <%- end -%>
     </tr>
     <%- end -%>
   </tbody>
 </table>
+<%- else -%>
+<div class="noevents">
+<h3>No events for the specified date range</h3>
+</div>
+<%- end -%>
