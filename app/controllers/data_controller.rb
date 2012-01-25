@@ -20,8 +20,15 @@ class DataController < ApplicationController
     rescue
       @end_date = Time.zone.now.strftime('%Y-%m-%d')
     end
-      
-    @events = Event.date_filtered(@start_date,@end_date).paginate(page: params[:page])
+    
+    if(!params[:download].nil? and params[:download] == 'csv')
+      @events = Event.date_filtered(@start_date,@end_date).order("session_start ASC")
+      response.headers['Content-Type'] = 'text/csv; charset=iso-8859-1; header=present'
+      response.headers['Content-Disposition'] = 'attachment; filename=event_statistics.csv'
+      render(:template => 'data/events_csvlist', :layout => false)
+    else
+      @events = Event.date_filtered(@start_date,@end_date).order("session_start DESC").paginate(page: params[:page])
+    end
   end
   
   def recommendations
