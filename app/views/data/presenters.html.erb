@@ -1,0 +1,25 @@
+<%= render(partial: 'navtabs') -%>
+<h2>Presenter Statistics</h2>
+<%= render(partial: 'date_form') -%>
+<%- if(!@presenter_list.blank?)-%>
+<table class="zebra-striped">
+  <thead>
+    <tr>
+      <th>Presenter</th>
+      <th>Events</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%- @presenter_list.each do |presenter,event_count| -%>
+    <tr>
+      <td><%= link_to_learner presenter %></td>
+      <td><%= event_count %></td>
+    </tr>
+    <%- end -%>
+  </tbody>
+</table>
+<%- else -%>
+<div class="noevents">
+<h3>No presenters for the specified date range</h3>
+</div>
+<%- end -%>

@@ -6,23 +6,13 @@
 
 class DataController < ApplicationController
   before_filter :authenticate_learner!
-  before_filter :require_admin, only: [:recent_recommendations, :projected_recommendations, :recommended_event ]
+  before_filter :require_admin, only: [:presenters, :recent_recommendations, :projected_recommendations, :recommended_event ]
   
   def overview
   end
   
   def events
-    begin
-      @start_date = Date.parse(params[:start_date]).strftime('%Y-%m-%d')
-    rescue
-      @start_date = (Time.zone.now - 1.month).strftime('%Y-%m-%d')
-    end
-    
-    begin
-      @end_date = Date.parse(params[:end_date]).strftime('%Y-%m-%d')
-    rescue
-      @end_date = Time.zone.now.strftime('%Y-%m-%d')
-    end
+    parse_dates
     
     if(!params[:download].nil? and params[:download] == 'csv')
       @events = Event.date_filtered(@start_date,@end_date).order("session_start ASC")
@@ -33,6 +23,12 @@ class DataController < ApplicationController
       @events = Event.date_filtered(@start_date,@end_date).order("session_start DESC").paginate(page: params[:page])
     end
   end
+  
+  def presenters
+    parse_dates
+    @presenter_list = PresenterConnection.event_date_filtered(@start_date,@end_date).group(:learner).count
+  end
+    
   
   def recommendations
     @recommendation_count = Recommendation.group("day").count
@@ -70,4 +66,21 @@ class DataController < ApplicationController
   def recent_recommendations
     @recommended_event_list = RecommendedEvent.includes([:event,{:recommendation => :learner}]).order('recommended_events.created_at DESC').paginate(page: params[:page])
   end
+  
+  protected
+  
+  def parse_dates
+    begin
+      @start_date = Date.parse(params[:start_date]).strftime('%Y-%m-%d')
+    rescue
+      @start_date = (Time.zone.now - 1.month).strftime('%Y-%m-%d')
+    end
+    
+    begin
+      @end_date = Date.parse(params[:end_date]).strftime('%Y-%m-%d')
+    rescue
+      @end_date = Time.zone.now.strftime('%Y-%m-%d')
+    end
+  end
+    
 end
