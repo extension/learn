@@ -77,6 +77,7 @@ Learn::Application.routes.draw do
   
   # data routes
   scope "data" do
+    match "/" => "data#overview", :as => 'data_overview'
     match "/recommendations" => "data#recommendations", :as => 'data_recommendations'
     match "/events" => "data#events", :as => 'data_events'
     match "/recommended_event/:id" => "data#recommended_event", :as => 'data_recommended_event'  

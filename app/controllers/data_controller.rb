@@ -8,6 +8,9 @@ class DataController < ApplicationController
   before_filter :authenticate_learner!
   before_filter :require_admin, only: [:recent_recommendations, :projected_recommendations, :recommended_event ]
   
+  def overview
+  end
+  
   def events
     begin
       @start_date = Date.parse(params[:start_date]).strftime('%Y-%m-%d')
