@@ -4,7 +4,7 @@
 # === LICENSE:
 # see LICENSE file
 
-module Data::RecommendationsHelper
+module DataHelper
 
   def nav_item(path,label)
     list_item_class = current_page?(path) ? 'active' : ''

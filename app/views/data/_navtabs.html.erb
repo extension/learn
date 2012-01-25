@@ -1,0 +1,7 @@
+<ul class="tabs">
+	<%= nav_item(data_overview_path, 'Overview') -%>
+	<%= nav_item(data_events_path, 'Events') -%>
+	<%= nav_item(data_recommendations_path, 'Recommendations') -%>
+	<%= nav_item(data_projected_recommendations_path, 'Projected Recommendations') if current_learner.is_admin? -%>
+  <%= nav_item(data_recent_recommendations_path, 'Recent Recommendations') if current_learner.is_admin? -%>
+</ul>

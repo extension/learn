@@ -4,6 +4,9 @@
   <div id="upcoming_events">
   <%- @upcoming_events.each do |event| -%>
     <section class="event">
+      <% if event.in_progress? %>
+        <span class="happening_now"><em>Happening now</em></span>
+      <% end %>
       <div class="calendarblock">
           <span class="month"><%= event.session_start.strftime("%b") -%></span>
           <span class="date"><%= event.session_start.strftime("%d") -%></span>
@@ -31,6 +34,7 @@
    </section>
   <%- end -%>
   </div>
+  <small><%= link_to 'View all upcoming events', upcoming_events_path %></small>
 </div>
 
 
@@ -49,6 +53,7 @@
     </dl>
   <%- end -%>
   </div>
+  <small><%= link_to 'View all recent events', recent_events_path %></small>
 </div>
 
 

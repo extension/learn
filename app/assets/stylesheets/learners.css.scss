@@ -46,3 +46,5 @@
 .learning_plan_empty {background:#eee; float:left; padding:1em; color:#888; @include rounded10}
 .learning_section {clear:left;}
 .learning_section h3 {font-size:1.2em;}
+.make_private {color:#000 !important; background:#ccc; padding:.2em .5em; font-size:11px !important; letter-spacing:1px; cursor:pointer;}
+.make_private.lighter {background:#eee;}

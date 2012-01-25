@@ -10,6 +10,9 @@ class PresenterConnection < ActiveRecord::Base
   after_create :create_bookmark
   after_create :log_object_activity
 
+
+  scope :event_date_filtered, lambda { |start_date,end_date| includes(:event).where('DATE(events.session_start) >= ? AND DATE(events.session_start) <= ?', start_date, end_date) }
+
   def log_object_activity
     EventActivity.log_object_activity(self)
   end

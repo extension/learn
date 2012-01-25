@@ -1,0 +1,6 @@
+"Event Statistics for <%= @start_date %> - <%= @end_date %>"
+
+Date,Title,URL,Recording,Length,Bookmarked,Attended,Watched,Voters,Commentators,
+<%- for event in @events -%>
+"<%= event.session_start.strftime("%Y/%m/%d") %>","<%= event.title %>","<%= event_url(event) %>","<%= (event.has_recording?) ? event.recording : "n/a" %>",<%= event.session_length %>,<%= event.bookmarked.count %>,<%= event.attendees.count %>,<%= event.watched.count %>,<%= event.raters.count %>,<%= event.commentators.count %>
+<%- end -%>

@@ -1,0 +1,45 @@
+<% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") + ' - History'%>
+
+<div id="behindthescenes">
+<h1>Event History for: <small><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></small></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modified</th>
+      <th>Who</th>
+      <th>Changed Items</th>
+      <th>Operations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%- if @event.versions.blank? -%>
+      <tr>
+        <td><%= @event.updated_at %></td>
+        <td><%= link_to_learner(@event.last_modifier) %></td>
+        <td>n/a</td>
+        <td><em>current version</em></td>
+      </tr>
+    <%- else -%>
+      <%- @event.versions.reverse.each do |version| -%>
+        <tr>
+          <td><%= version.created_at %></td>
+          <td><%= link_to_learner(Learner.find_by_id(version.whodunnit)) %></td>
+          <td><%= version.changeset.keys.join(', ').gsub('presenter_tokens','presenters').gsub('tag_list','tags') %></td>
+          <td>
+            <%= form_tag(restore_events_path) do %>
+            <%= hidden_field_tag 'version', version.id %>
+              <%= submit_tag "Restore Previous", {:class => 'btn'} %>              
+            <%- end -%>
+          </td>
+        </tr>
+      <%- end -%>
+      <tr>
+        <td><%= @event.created_at %></td>
+        <td><%= link_to_learner(@event.creator) %></td>
+        <td>n/a</td>
+        <td><em>initially created</em></td>
+      </tr>
+    <%- end -%>
+  </tbody>
+</table>

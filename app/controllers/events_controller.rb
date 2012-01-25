@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class EventsController < ApplicationController
-  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection]
+  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :details, :history]
   
   def index
     @list_title = 'All Sessions'
@@ -62,6 +62,10 @@ class EventsController < ApplicationController
     @event = Event.find_by_id(params[:id])
   end
   
+  def history
+    @event = Event.find_by_id(params[:id])
+  end
+  
   def recommended
     begin
       recommended_event = RecommendedEvent.find(params[:id])   
@@ -106,6 +110,14 @@ class EventsController < ApplicationController
     else
       render :action => 'edit'
     end        
+  end
+  
+  def restore
+    @version = Version.find(params[:version])
+    @restored_event = @version.reify
+    if @restored_event.save
+      redirect_to(@restored_event, :notice => 'Previous event version restored.')
+    end
   end
   
   def search

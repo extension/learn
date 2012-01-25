@@ -1,0 +1,20 @@
+<%= form_tag(url_for(controller: 'data', action: params[:action], page: params[:page]), {method: 'get', class: 'form-stacked'}) do -%>
+  <fieldset>
+      <p>
+      <%= label_tag :start_date, 'Start Date' %>
+      <%= text_field_tag 'start_date',@start_date,{class: 'date_filter', :size => nil} %>
+      </p>
+      
+      <p>
+      <%= label_tag :end_date, 'End Date' %>
+      <%= text_field_tag 'end_date',@end_date,{class: 'date_filter', :size => nil} %>
+      </p>
+  </fieldset>
+  <%= submit_tag "Filter", {:id => 'filter-submit', :class => 'btn primary'} %>
+<%- end -%>
+
+<script class="code" type="text/javascript">
+  $('.date_filter').datepicker({
+   dateFormat: 'yy-mm-dd'
+  });
+</script>

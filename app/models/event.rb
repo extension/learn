@@ -10,6 +10,15 @@ class Event < ActiveRecord::Base
   attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
+  
+  
+  # define accessible attributes
+  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string
+  
+  # revisioning
+  has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
+  
+  # relationships
   has_many :taggings, :as => :taggable, dependent: :destroy
   has_many :tags, :through => :taggings
   belongs_to :creator, :class_name => "Learner"
@@ -17,6 +26,7 @@ class Event < ActiveRecord::Base
   has_many :questions, order: 'priority,created_at', dependent: :destroy
   has_many :answers, :through => :questions
   has_many :comments, dependent: :destroy
+  has_many :commentators, through: :comments, source: :learner, uniq: true
   has_many :ratings, :as => :rateable, dependent: :destroy
   has_many :raters, :through => :ratings, :source => :learner
   has_many :event_connections, dependent: :destroy
@@ -81,6 +91,7 @@ class Event < ActiveRecord::Base
     end
   }
   
+  
   scope :recommendation_epoch, lambda {
     weekday = Time.now.utc.strftime('%u').to_i
     # if saturday or sunday - this+next, else last+this
@@ -96,14 +107,31 @@ class Event < ActiveRecord::Base
     where('session_start > ?',Time.zone.now.beginning_of_week).where('session_start <= ?', (Time.zone.now + 7.days).end_of_week)
   }
   
-  scope :upcoming, lambda { |limit=3| where('session_start >= ?',Time.zone.now).order("session_start ASC").limit(limit) }
+  scope :upcoming, lambda { |limit=3| where('(session_start >= ?) OR (session_start <= ? AND session_end > ?)',Time.zone.now, Time.zone.now, Time.zone.now).order("session_start ASC").limit(limit) }
   scope :recent,   lambda { |limit=3| where('session_start < ?',Time.zone.now).order("session_start DESC").limit(limit) }
+  # in_progress is not being used right now, but wanted to add it as a convenience if we ever need just in progress events
+  scope :in_progress, lambda { |limit=3| where('session_start <= ? AND session_end > ?', Time.zone.now, Time.zone.now).order("session_start ASC").limit(limit) }
+  
+  scope :date_filtered, lambda { |start_date,end_date| where('DATE(session_start) >= ? AND DATE(session_start) <= ?', start_date, end_date) }
   
   def presenter_tokens
     if(@presenter_tokens.blank?)
       @presenter_tokens = self.presenter_ids.join(',')
     end
     @presenter_tokens
+  end
+  
+  def presenter_tokens=(provided_presenter_tokens)
+    compare_token_array = []
+    provided_presenter_tokens.split(',').each do |presenter_token|
+      compare_token_array << presenter_token
+    end
+    previous_presenter_tokens = self.presenter_tokens
+    presenter_token_array = previous_presenter_tokens.split(',')
+    @presenter_tokens = provided_presenter_tokens    
+    if(!((compare_token_array | presenter_token_array) - (compare_token_array & presenter_token_array)).empty?)
+      @changed_attributes['presenter_tokens'] = previous_presenter_tokens
+    end     
   end
     
   def presenter_tokens_tokeninput
@@ -118,6 +146,10 @@ class Event < ActiveRecord::Base
   def description=(description)
     write_attribute(:description, self.scrub_and_sanitize(description))
   end
+  
+  def location=(location)
+    write_attribute(:location, self.scrub_and_sanitize(location))
+  end
     
   def set_presenters_from_tokens
     self.presenter_ids = self.presenter_tokens.split(',')
@@ -128,6 +160,20 @@ class Event < ActiveRecord::Base
       @tag_list = self.tags.map(&:name).join(Tag::JOINER)
     end
     @tag_list
+  end
+  
+  def tag_list=(provided_tag_list)
+    # just compare raw strings
+    compare_tag_array = []
+    provided_tag_list.split(Tag::SPLITTER).each do |tag_name|
+      compare_tag_array << Tag.normalizename(tag_name)
+    end
+    previous_tag_list = self.tag_list
+    tag_list_array = previous_tag_list.split(Tag::SPLITTER)
+    @tag_list = provided_tag_list
+    if(!((compare_tag_array | tag_list_array) - (compare_tag_array & tag_list_array)).empty?)
+      @changed_attributes['tag_list'] = previous_tag_list
+    end
   end
   
   def set_tags_from_tag_list
@@ -233,6 +279,10 @@ class Event < ActiveRecord::Base
     else
       return false
     end
+  end
+  
+  def in_progress?
+    return (self.session_start <= Time.zone.now) && (self.session_end > Time.zone.now)
   end
   
   def has_recording?
