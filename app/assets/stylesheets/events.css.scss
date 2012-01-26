@@ -21,6 +21,7 @@
 .smalltext a:hover {color:#666; margin-top:.5em;clear:left; float:left; font-size:.9em; line-height:1.3em;}
 
 .learner_list {width:100%;margin:0 0 1em; padding:0;float:left;}
+.learner_list img {height:40px; width:40px;}
 .learner_list li {float:left; list-style:none;}
 
 
@@ -57,7 +58,8 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .question {padding:1em 0 1em; border-bottom:4px solid #e5e5e5; margin: 0 0 1em;}
 .question h3 {line-height:1em; margin-bottom:1em; color:#555;}
 .jqplot-target {float:right;}
-.question_answers {float:left; width: 230px;}
+.question_answers {float:left; width: 230px;  padding:1em; margin:0;}
+.question_answers li {margin:.2em .1em; background:#fff; padding:.2em;}
 
 .none {color:#888;}
 #eventconnections {background:none; @include rounded10; padding:.5em 2em 0; margin-bottom:0;}
@@ -135,11 +137,32 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 #no_questions_yet img {float:left;}
 #no_questions_yet .description {font-size:1.1em !important; line-height:1.2em !important; }
 
+
 #behindthescenes h1 small {display:block;}
-span.empty_avatar {display:block; width:50px;height:50px;background:#eee;}
-.event_question {padding:0 1em;}
-.event_question ul {}
+#behindthescenes section {margin:0 0 1em; clear:both; padding:0 1em 1em; border:2px solid #e5e5e5; background:#eee; @include rounded10}
+#behindthescenes section h3 {
+    font-size:1.4em;
+    color:#333;
+    font-family: 'Droid Sans', Arial, Helvetica, sans-serif;
+}
+#behindthescenes section h4 {
+    font-size:1.3em;
+
+    font-family: 'Droid Sans', Arial, Helvetica, sans-serif;
+}
+
+#behindthescenes section p {font-size:1.1em;}
+
+span.empty_avatar {display:block; width:50px;height:50px;background:#e5e5e5; border:1px solid #c5c5c5;}
+
+#behindthescenes .question_answers {display:block;}
+.event_question {padding:0 0 2em; border-bottom:4px solid #fff; margin-bottom:2em;}
+.event_question.last {padding:0;margin-bottom:0;border:0;}
 .event_question h5 {font-size:1.3em; color:#000;}
 .event_question p {font-size:1.2em; margin-left:.5em;}
-.event_question ul li { font-size:1.2em; color:#000; list-style:none;}
-.event_question ul li strong { width:2em; display:block; float:left; text-align:right; margin-right:2em;}
+#behindthescenes ul.question_answers {width:60%; float:left;}
+#behindthescenes ul.question_answers li { font-size:1.2em; color:#000; list-style:none; float:left; clear:left; width:100%; padding:.75em 1em; margin:0; border-bottom:2px solid #eee;}
+#behindthescenes ul.question_answers span {float:left; width:80%;}
+#behindthescenes ul.question_answers li strong { width:10%; display:block; float:right; text-align:right;}
+
+.zero_activity {color:#888; font-size:1.4em !important;}

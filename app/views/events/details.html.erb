@@ -7,26 +7,66 @@
 <%- watched_count = @event.watched.count -%>
 <%- bookmarked_count = @event.bookmarked.count -%>
 
-<h3>Event up-votes (<%= @event.ratings.count -%>)</h3>
+<section>
+  <h3>Event up-votes</h3>
+  
+  <%- if @event.ratings.count > 0 -%>
+    <p><strong><%= @event.ratings.count -%></strong> <%= @event.ratings.count > 1 ? "people" : "person" %></p>
+    <ul class="learner_list">
+      <%- @event.raters.each do |rater| %>
+        <li><%= get_avatar(rater, :thumb, :link_it) -%></li>
+      <%- end -%>
+    </ul>
+    <br class="clearing" />
+  <%- else -%>
+      <p class="zero_activity">0 votes</p>
+  <%- end -%>
+</section>
 
-<h3>Comments (<%= @event.comments.count -%>)</h3>
+<section>
+  <h3>Comments</h3>
+  <%- if @event.comments.count > 0 -%>
+    <p><strong><%= @event.comments.count -%></strong> <%= @event.ratings.count > 1 ? "comments" : "comment" %> by <strong><%= @event.commenters.uniq.count -%></strong> <%= @event.commenters.uniq.count > 1 ? "people" : "person" %></p>
+    <ul class="learner_list">
+      <%- @event.commenters.uniq.each do |commenter| %>
+        <li><%= get_avatar(commenter, :thumb, :link_it) -%></li>
+      <%- end -%>
+    </ul>
+    <br class="clearing" />
+  <%- else -%>
+    <p class="zero_activity">0 comments</p>
+  <%- end -%>
+</section>
 
+
+<section id="event_questions">
 <h3>Questions</h3>
 <%- if @event.started? %>
    <%- @event.questions.each do |question| -%>
+   
     <div class="event_question">
-        <h5><%= question.prompt %></h5>
-        <p><%= question.answer_data.map{|(response,total)| total}.sum %> people answered</p>
-        <ul>
-        <%- question.answer_data.each do |(response,total)| -%>
-          <li><strong><%= total %></strong> "<%= response %>"</li>
-        <%- end -%>
-        </ul>
+      <h4>"<%= question.prompt %>"</h4>
+      <ul class="question_answers">
+      <%- question.answer_data.each do |(response,total)| -%>
+        <li><span>"<%= response %>"</span> <strong><%= total %></strong></li>
+      <%- end -%>
+      </ul>
+      <br class="clearing" />
+        <p><strong><%= question.answer_data.map{|(response,total)| total}.sum %></strong> people answered</p>
+        <ul class="learner_list">
+           <%- question.answerers.uniq.each do |rater| %>
+             <li><%= get_avatar(rater, :thumb, :link_it) -%></li>
+           <%- end -%>
+         </ul>
+         <br class="clearing" />
     </div>
     <%- end -%>
 <%- end -%>
+<br class="clearing" />
+</section>
 
 
+<section>
 <h3>Connections</h3>
 <h4>Attended (<%= attendee_count -%>)</h4>
 <%- if attendee_count > 0 -%>
@@ -66,5 +106,11 @@
     <li><span class="empty_avatar"></span></li>
   </ul>
 <%- end -%>
+<br class="clearing" />
+</section>
 
 </div>
+
+<script class="code" type="text/javascript">
+  $("#event_questions .event_question:last").addClass("last");
+</script>

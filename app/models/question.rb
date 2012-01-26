@@ -10,6 +10,7 @@ class Question < ActiveRecord::Base
   belongs_to :learner
   has_many :event_activities, :as => :trackable, dependent: :destroy
   has_many :answers, dependent: :destroy
+  has_many :answerers, :through => :answers, :source => :learner
   
   validates :prompt, :presence => true
   validates :responsetype, :presence => true
