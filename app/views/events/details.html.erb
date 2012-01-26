@@ -26,9 +26,9 @@
 <section>
   <h3>Comments</h3>
   <%- if @event.comments.count > 0 -%>
-    <p><strong><%= @event.comments.count -%></strong> <%= @event.ratings.count > 1 ? "comments" : "comment" %> by <strong><%= @event.commenters.uniq.count -%></strong> <%= @event.commenters.uniq.count > 1 ? "people" : "person" %></p>
+    <p><strong><%= @event.comments.count -%></strong> <%= @event.ratings.count > 1 ? "comments" : "comment" %> by <strong><%= @event.commentators.count -%></strong> <%= @event.commentators.count > 1 ? "people" : "person" %></p>
     <ul class="learner_list">
-      <%- @event.commenters.uniq.each do |commenter| %>
+      <%- @event.commentators.each do |commenter| %>
         <li><%= get_avatar(commenter, :thumb, :link_it) -%></li>
       <%- end -%>
     </ul>
