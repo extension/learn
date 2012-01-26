@@ -68,43 +68,40 @@
 
 <section>
 <h3>Connections</h3>
-<h4>Attended (<%= attendee_count -%>)</h4>
+<h4>Attended</h4>
 <%- if attendee_count > 0 -%>
+  <p><strong><%= attendee_count -%></strong> <%= attendee_count > 1 ? "attendees" : "attendee" %></p>
   <ul class="learner_list">
     <%- @event.attendees.each do |attendee| %>
       <li><%= get_avatar(attendee, :thumb, :link_it) -%></li>
     <%- end -%>
   </ul>
 <%- else -%>
-  <ul class="learner_list">
-    <li><span class="empty_avatar"></span></li>
-  </ul>
+  <p class="zero_activity margin">0 attendees</p>
 <%- end -%>
 
-<h4>Watched (<%= watched_count -%>)</h4>
+<h4>Watched</h4>
 <%- if watched_count > 0 -%>
+  <p><strong><%= watched_count -%></strong> watched</p>
   <ul class="learner_list">
     <%- @event.watched.each do |watcher| %>
       <li><%= get_avatar(watcher, :thumb, :link_it) -%></li>
     <%- end -%>
   </ul>
 <%- else -%>
-  <ul class="learner_list">
-    <li><span class="empty_avatar"></span></li>
-  </ul>
+  <p class="zero_activity margin">0 watched</p>
 <%- end -%>
 
-<h4>Bookmarked (<%= bookmarked_count -%>)</h4>
+<h4>Bookmarked</h4>
 <%- if bookmarked_count > 0 -%>
+  <p><strong><%= bookmarked_count -%></strong> bookmarked</p>
   <ul class="learner_list">
     <%- @event.bookmarked.each do |bookmarker| %>
       <li><%= get_avatar(bookmarker, :thumb, :link_it) -%></li>
     <%- end -%>
   </ul>
 <%- else -%>
-  <ul class="learner_list">
-    <li><span class="empty_avatar"></span></li>
-  </ul>
+  <p class="zero_activity margin">0 bookmarked</p>
 <%- end -%>
 <br class="clearing" />
 </section>
