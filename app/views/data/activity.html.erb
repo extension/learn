@@ -5,8 +5,8 @@
     <% @activity.each do |activity| %>
       <tr> 
         <td><%= activity.created_at %></td>
-        <td><%= link_to_learner(Learner.find_by_id(activity.learner_id)) %></td>
-        <td><%= activity_description(activity.loggable.activity) %></td>
+        <td><%= link_to_learner(activity.learner) %></td>
+        <td><%= activity.loggable.description %></td>
         <td><%= link_to(Event.find_by_id(activity.loggable.event_id).title, event_path(activity.loggable.event_id)) %></td>
       </tr>
     <% end %>

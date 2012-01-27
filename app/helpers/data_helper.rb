@@ -6,41 +6,6 @@
 
 module DataHelper
   
-  def activity_description(activity_type)
-    case activity_type
-    when 1
-      description = "viewed"
-    when 2
-      description = "viewed from a reccomendation"
-    when 3
-      description = "viewed from a share"
-    when 11
-      description = "shared"
-    when 21
-      description = "answered a question"
-    when 31
-      description = "rated an event"
-    when 32
-      description = "rated a comment"
-    when 41
-      description = "commented"
-    when 42
-      description = "commented on a comment"
-    when 50
-      description = "connected"
-    when 51
-      description = "connected as presenter"
-    when 52
-      description = "bookmarked"
-    when 53
-      description = "attended"
-    when 54
-      description = "watched"
-    else
-      description = "not sure what activity occurred"
-    end
-  end
-  
   def nav_item(path,label)
     list_item_class = current_page?(path) ? 'active' : ''
     "<li class='#{list_item_class}'>#{link_to(label,path)}</li>".html_safe
