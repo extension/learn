@@ -13,7 +13,7 @@ class Event < ActiveRecord::Base
   
   
   # define accessible attributes
-  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string
+  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone
   
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
@@ -45,6 +45,8 @@ class Event < ActiveRecord::Base
   validates :location, :presence => true
   
   validates :recording, :allow_blank => true, :uri => true
+  
+  before_validation :set_session_start
   
   before_update :schedule_recording_notification
   before_update :update_event_notifications
@@ -187,13 +189,19 @@ class Event < ActiveRecord::Base
   end
   
   def session_start_string
-    time = self.session_start.blank? ? Time.zone.now : self.session_start.in_time_zone(self.time_zone)
-    time.strftime('%Y-%m-%d %I:%M pm')
+    if(@session_start_string.blank?)
+      time = self.session_start.blank? ? Time.zone.now : self.session_start.in_time_zone(self.time_zone)
+      @session_start_string = time.strftime('%Y-%m-%d %I:%M %p')
+    end
+    @session_start_string
   end
   
-  def session_start_string=(datetime_string)
+  def set_session_start  
     begin
-      self.session_start = Time.zone.parse(datetime_string)
+      cur_tz = Time.zone
+      Time.zone = self.time_zone
+      self.session_start = Time.zone.parse(@session_start_string)
+      Time.zone = cur_tz
     rescue
       self.session_start = nil
       self.errors.add('session_start_string', 'Time specified is invalid.')
