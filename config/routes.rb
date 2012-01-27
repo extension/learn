@@ -75,16 +75,16 @@ Learn::Application.routes.draw do
     end
   end
   
-  namespace "data" do
-    resources "recommendations", :only => [:index] do
-      collection do
-        get 'recent'
-        get 'projected'
-        get 'event'
-      end
-    end
+  # data routes
+  scope "data" do
+    match "/" => "data#overview", :as => 'data_overview'
+    match "/recommendations" => "data#recommendations", :as => 'data_recommendations'
+    match "/events" => "data#events", :as => 'data_events'
+    match "/presenters" => "data#presenters", :as => 'data_presenters'  
+    match "/recommended_event/:id" => "data#recommended_event", :as => 'data_recommended_event'  
+    match "/projected_recommendations" => "data#projected_recommendations", :as => 'data_projected_recommendations'  
+    match "/recent_recommendations" => "data#recent_recommendations", :as => 'data_recent_recommendations'  
   end
-  
       
   root :to => 'home#index'
 

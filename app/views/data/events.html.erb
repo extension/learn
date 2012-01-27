@@ -1,0 +1,42 @@
+<%= render(partial: 'navtabs') -%>
+<h2>Event Statistics</h2>
+<%= render(partial: 'date_form') -%>
+<%- if defined?(@events.total_entries) && @events.total_entries > 0 -%>
+<p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date) %> </p>
+<p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong></p>
+<%= will_paginate(@events) %>
+<table class="zebra-striped">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Title</th>
+      <th>Recording</th>
+      <th>Length</th>
+      <th>Bookmarked</th>
+      <th>Attended</th>
+      <th>Watched</th>
+      <th>Voters</th>
+      <th>Commentators</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%- @events.each do |event| -%>
+    <tr>
+      <td><%= event.session_start.strftime("%Y/%m/%d") %></td>
+      <td><%= link_to event.title, event_path(event) %></td>
+      <td><%= (event.has_recording?) ? raw(auto_link(event.recording)) : "n/a" %></td>
+      <td><%= event.session_length %></td> 
+      <td><%= event.bookmarked.count %></td>
+      <td><%= event.attendees.count %></td>
+      <td><%= event.watched.count %></td>
+      <td><%= event.raters.count %></td>
+      <td><%= event.commentators.count %></td>
+    </tr>
+    <%- end -%>
+  </tbody>
+</table>
+<%- else -%>
+<div class="noevents">
+<h3>No events for the specified date range</h3>
+</div>
+<%- end -%>

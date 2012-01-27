@@ -26,6 +26,7 @@ class Event < ActiveRecord::Base
   has_many :questions, order: 'priority,created_at', dependent: :destroy
   has_many :answers, :through => :questions
   has_many :comments, dependent: :destroy
+  has_many :commentators, through: :comments, source: :learner, uniq: true
   has_many :ratings, :as => :rateable, dependent: :destroy
   has_many :raters, :through => :ratings, :source => :learner
   has_many :event_connections, dependent: :destroy
@@ -111,6 +112,7 @@ class Event < ActiveRecord::Base
   # in_progress is not being used right now, but wanted to add it as a convenience if we ever need just in progress events
   scope :in_progress, lambda { |limit=3| where('session_start <= ? AND session_end > ?', Time.zone.now, Time.zone.now).order("session_start ASC").limit(limit) }
   
+  scope :date_filtered, lambda { |start_date,end_date| where('DATE(session_start) >= ? AND DATE(session_start) <= ?', start_date, end_date) }
   
   def presenter_tokens
     if(@presenter_tokens.blank?)

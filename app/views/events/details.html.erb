@@ -3,68 +3,208 @@
 <div id="behindthescenes">
 <h1>Behind the scenes at <small><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></small></h1>
 
+<%= link_to "Grid view", details_event_path(@event.id) %> <%= link_to "Table view", details_event_path(@event.id, :type => "table") %>
+
 <%- attendee_count = @event.attendees.count -%>
 <%- watched_count = @event.watched.count -%>
 <%- bookmarked_count = @event.bookmarked.count -%>
 
-<h3>Event up-votes (<%= @event.ratings.count -%>)</h3>
+<section>
+  <h3>Event up-votes</h3>
+  
+  <%- if @event.ratings.count > 0 -%>
+    <p><strong><%= @event.ratings.count -%></strong> <%= @event.ratings.count > 1 ? "people" : "person" %></p>
 
-<h3>Comments (<%= @event.comments.count -%>)</h3>
+    
+    <%- if params[:type] == "table" %>
+      <table class="people zebra-striped">
+        <%- @event.raters.each do |rater| %>
+        <tr>
+          <td class="avatar_td"><%= get_avatar(rater, :thumb, :link_it) -%></td>
+          <td class="name_td"><%= link_to_learner(rater) %></td>
+        </tr>
+        <%- end -%>
+        </table>
+    <%- else -%>
+      <ul class="learner_list">
+        <%- @event.raters.each do |rater| %>
+          <li><%= get_avatar(rater, :thumb, :link_it) -%></li>
+        <%- end -%>
+      </ul>
+      <br class="clearing" />
+    <%- end -%>
+    
 
+  <%- else -%>
+      <p class="zero_activity">0 votes</p>
+  <%- end -%>
+</section>
+
+
+
+
+<section>
+  <h3>Comments</h3>
+  <%- if @event.comments.count > 0 -%>
+    <p><strong><%= @event.comments.count -%></strong> <%= @event.ratings.count > 1 ? "comments" : "comment" %> by <strong><%= @event.commentators.count -%></strong> <%= @event.commentators.count > 1 ? "people" : "person" %></p>
+    
+    <%- if params[:type] == "table" %>
+      <table class="people zebra-striped">
+        <%- @event.commentators.each do |commenter| %>
+        <tr>
+          <td class="avatar_td"><%= get_avatar(commenter, :thumb, :link_it) -%></td>
+          <td class="name_td"><%= link_to_learner(commenter) %></td>
+        </tr>
+        <%- end -%>
+        </table>
+    <%- else -%>
+      <ul class="learner_list">
+        <%- @event.commentators.each do |commenter| %>
+          <li><%= get_avatar(commenter, :thumb, :link_it) -%></li>
+        <%- end -%>
+      </ul>
+      <br class="clearing" />
+    <%- end -%>
+    
+  <%- else -%>
+    <p class="zero_activity">0 comments</p>
+  <%- end -%>
+</section>
+
+
+
+<section id="event_questions">
 <h3>Questions</h3>
 <%- if @event.started? %>
    <%- @event.questions.each do |question| -%>
+   
     <div class="event_question">
-        <h5><%= question.prompt %></h5>
-        <p><%= question.answer_data.map{|(response,total)| total}.sum %> people answered</p>
-        <ul>
-        <%- question.answer_data.each do |(response,total)| -%>
-          <li><strong><%= total %></strong> "<%= response %>"</li>
+      <h4>"<%= question.prompt %>"</h4>
+      <ul class="question_answers">
+      <%- question.answer_data.each do |(response,total)| -%>
+        <li><span>"<%= response %>"</span> <strong><%= total %></strong></li>
+      <%- end -%>
+      </ul>
+      <br class="clearing" />
+      <p><strong><%= question.answer_data.map{|(response,total)| total}.sum %></strong> people answered</p>
+      
+       <%- if params[:type] == "table" %>
+          <table class="people zebra-striped">
+            <%- question.answerers.each do |answerer| %>
+            <tr>
+              <td class="avatar_td"><%= get_avatar(answerer, :thumb, :link_it) -%></td>
+              <td class="name_td"><%= link_to_learner(answerer) %></td>
+            </tr>
+            <%- end -%>
+            </table>
+        <%- else -%>
+          <ul class="learner_list">
+             <%- question.answerers.uniq.each do |answerer| %>
+               <li><%= get_avatar(answerer, :thumb, :link_it) -%></li>
+             <%- end -%>
+           </ul>
+           <br class="clearing" />
         <%- end -%>
-        </ul>
+        
+
     </div>
     <%- end -%>
 <%- end -%>
+<br class="clearing" />
+</section>
 
 
+<section>
 <h3>Connections</h3>
-<h4>Attended (<%= attendee_count -%>)</h4>
+<h4>Attended</h4>
 <%- if attendee_count > 0 -%>
-  <ul class="learner_list">
-    <%- @event.attendees.each do |attendee| %>
-      <li><%= get_avatar(attendee, :thumb, :link_it) -%></li>
+  <p><strong><%= attendee_count -%></strong> <%= attendee_count > 1 ? "attendees" : "attendee" %></p>
+  
+  
+   <%- if params[:type] == "table" %>
+      <table class="people zebra-striped">
+        <%- @event.attendees.each do |attendee| %>
+        <tr>
+          <td class="avatar_td"><%= get_avatar(attendee, :thumb, :link_it) -%></td>
+          <td class="name_td"><%= link_to_learner(attendee) %></td>
+        </tr>
+        <%- end -%>
+        </table>
+    <%- else -%>
+      <ul class="learner_list">
+        <%- @event.attendees.each do |attendee| %>
+          <li><%= get_avatar(attendee, :thumb, :link_it) -%></li>
+        <%- end -%>
+      </ul>
+
     <%- end -%>
-  </ul>
+  
+  
+  
 <%- else -%>
-  <ul class="learner_list">
-    <li><span class="empty_avatar"></span></li>
-  </ul>
+  <p class="zero_activity margin">0 attendees</p>
 <%- end -%>
 
-<h4>Watched (<%= watched_count -%>)</h4>
+<h4>Watched</h4>
 <%- if watched_count > 0 -%>
-  <ul class="learner_list">
-    <%- @event.watched.each do |watcher| %>
-      <li><%= get_avatar(watcher, :thumb, :link_it) -%></li>
+  <p><strong><%= watched_count -%></strong> watched</p>
+  
+  <%- if params[:type] == "table" %>
+      <table class="people zebra-striped">
+        <%- @event.watched.each do |watcher| %>
+        <tr>
+          <td class="avatar_td"><%= get_avatar(watcher, :thumb, :link_it) -%></td>
+          <td class="name_td"><%= link_to_learner(watcher) %></td>
+        </tr>
+        <%- end -%>
+        </table>
+    <%- else -%>
+      <ul class="learner_list">
+        <%- @event.watched.each do |watcher| %>
+          <li><%= get_avatar(watcher, :thumb, :link_it) -%></li>
+        <%- end -%>
+      </ul>
+
     <%- end -%>
-  </ul>
+  
+  
+  
 <%- else -%>
-  <ul class="learner_list">
-    <li><span class="empty_avatar"></span></li>
-  </ul>
+  <p class="zero_activity margin">0 watched</p>
 <%- end -%>
 
-<h4>Bookmarked (<%= bookmarked_count -%>)</h4>
+<h4>Bookmarked</h4>
 <%- if bookmarked_count > 0 -%>
-  <ul class="learner_list">
-    <%- @event.bookmarked.each do |bookmarker| %>
-      <li><%= get_avatar(bookmarker, :thumb, :link_it) -%></li>
+  <p><strong><%= bookmarked_count -%></strong> bookmarked</p>
+  
+  
+  <%- if params[:type] == "table" %>
+      <table class="people zebra-striped">
+        <%- @event.bookmarked.each do |bookmarker| %>
+        <tr>
+          <td class="avatar_td"><%= get_avatar(bookmarker, :thumb, :link_it) -%></td>
+          <td class="name_td"><%= link_to_learner(bookmarker) %></td>
+        </tr>
+        <%- end -%>
+        </table>
+    <%- else -%>
+      <ul class="learner_list">
+        <%- @event.bookmarked.each do |bookmarker| %>
+          <li><%= get_avatar(bookmarker, :thumb, :link_it) -%></li>
+        <%- end -%>
+      </ul>
+
     <%- end -%>
-  </ul>
+  
+  
 <%- else -%>
-  <ul class="learner_list">
-    <li><span class="empty_avatar"></span></li>
-  </ul>
+  <p class="zero_activity margin">0 bookmarked</p>
 <%- end -%>
+<br class="clearing" />
+</section>
 
 </div>
+
+<script class="code" type="text/javascript">
+  $("#event_questions .event_question:last").addClass("last");
+</script>
