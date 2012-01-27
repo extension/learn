@@ -200,6 +200,7 @@ Devise.setup do |config|
   # configure storage for OpenID
   require 'openid/store/filesystem'
   config.omniauth :open_id, :store => OpenID::Store::Filesystem.new("#{Rails.root}/tmp"), :name => 'people', :identifier => 'https://people.extension.org', :require => 'omniauth-openid'
+  config.omniauth :open_id, :store => OpenID::Store::Filesystem.new("#{Rails.root}/tmp"), :name => 'google', :identifier => 'https://www.google.com/accounts/o8/id', :require => 'omniauth-openid'
   config.omniauth :twitter, Settings.twitter_app_id, Settings.twitter_app_secret
   #config.omniauth :facebook, "APP_ID", "APP_SECRET"
 

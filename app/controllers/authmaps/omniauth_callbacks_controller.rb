@@ -21,6 +21,17 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
     end
   end
   
+  def google
+    @learner = Authmap.find_for_google_openid(env["omniauth.auth"], current_learner)
+    if @learner.persisted?
+      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Google"
+      sign_in_and_redirect @learner, :event => :authentication
+    else
+      session["devise.google_data"] = env["omniauth.auth"]
+      redirect_to new_learner_session_url
+    end
+  end
+  
   def failure
     flash[:notice] = "Access denied. Please try again."
     redirect_to new_learner_session_url

@@ -1,14 +1,28 @@
 <div id="single_col">
   
-  <div id="signup_content">
-
+  <div id="signup_content">  
+  
     <div class="signup_option">
-      <%= image_tag("extension_logo.jpg", :size => "50x50",) %>
+       <%= image_tag("twitter_newbird_boxed_whiteonblue.png", :size => "50x50") %>
+       <p>    
+         <%= link_to "Sign in with Twitter", authmap_omniauth_authorize_path(:twitter, :redirect_to => (params[:redirect_to].present?) ? params[:redirect_to] : session[:learner_return_to]) %>
+       </p>
+    </div>
+    
+    <div class="signup_option">
+       <%= image_tag("Google_logo.png", :size => "50x50") %>
+       <p>    
+         <%= link_to "Sign in with Google", authmap_omniauth_authorize_path(:google, :redirect_to => (params[:redirect_to].present?) ? params[:redirect_to] : session[:learner_return_to]) %>
+       </p>
+    </div>
+  
+    <div class="signup_option">
+      <%= image_tag("extension_logo.jpg", :size => "50x50") %>
       <p>
         <%= link_to "Sign in with eXtension", authmap_omniauth_authorize_path(:people, :redirect_to => (params[:redirect_to].present?) ? params[:redirect_to] : session[:learner_return_to]) %>
       </p>
     </div>
-
+    
   </div>
   <br class="clearing" />
 </div>
