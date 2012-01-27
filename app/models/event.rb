@@ -188,7 +188,7 @@ class Event < ActiveRecord::Base
   
   def session_start_string
     time = self.session_start.blank? ? Time.zone.now : self.session_start.in_time_zone(self.time_zone)
-    time.strftime('%Y-%m-%d %I:%M pm')
+    time.strftime('%Y-%m-%d %I:%M %p')
   end
   
   def session_start_string=(datetime_string)
