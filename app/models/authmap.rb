@@ -48,12 +48,6 @@ class Authmap < ActiveRecord::Base
       learner.name = access_token['info']['name'] if learner.name.blank?
       learner.save if learner.changed?
       return learner
-    # if the authmap does not exist for this service, and the email address returned matches an existing learner,
-    # add an authmap and associate it with the learner found by the email address 
-    elsif learner = Learner.where({:email => access_token['info']['email']}).first
-      learner.authmaps << self.new(:authname => learner_screen_name, :source => learner_provider)
-      learner.save
-      return learner
     end
     
     new_learner = Learner.create({:email => access_token['info']['email'], :name => access_token['info']['name']})
