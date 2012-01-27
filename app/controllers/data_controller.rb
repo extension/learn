@@ -11,6 +11,11 @@ class DataController < ApplicationController
   def overview
   end
   
+  def activity
+    @activity = ActivityLog.order("created_at ASC")
+    @activity = @activity.paginate(:page => params[:page])
+  end
+  
   def events
     parse_dates
     
