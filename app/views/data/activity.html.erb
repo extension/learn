@@ -1,10 +1,12 @@
+<%= render(partial: 'navtabs') -%>
 <div>
 <% if @activity.count > 0 %>
 
-  <table class="zebra-striped">
+  <table class="zebra-striped activity">
     <% @activity.each do |activity| %>
       <tr> 
-        <td><%= activity.created_at %></td>
+        <td><%= time_ago_in_words(activity.created_at) %> ago
+        <small><%= activity.created_at %></small></td>
         <td><%= link_to_learner(activity.learner) %></td>
         <td><%= activity.loggable.description %></td>
         <td><%= link_to(Event.find_by_id(activity.loggable.event_id).title, event_path(activity.loggable.event_id)) %></td>
