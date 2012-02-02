@@ -5,7 +5,7 @@
 # see LICENSE file
 
 module DataHelper
-
+  
   def nav_item(path,label)
     list_item_class = current_page?(path) ? 'active' : ''
     "<li class='#{list_item_class}'>#{link_to(label,path)}</li>".html_safe

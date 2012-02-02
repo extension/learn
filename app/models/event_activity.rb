@@ -46,12 +46,32 @@ class EventActivity < ActiveRecord::Base
     CONNECT_WATCH             => 3,
   }
   
+  ACTIVITY_MAP = {
+    1   => "viewed",
+    2   => "viewed from a reccomendation",
+    3   => "viewed from a share",
+    11  => "shared",
+    21  => "answered a question",
+    31  => "rated an event",
+    32  => "rated a comment",
+    41  => "commented",
+    42  => "commented on a comment",
+    50  => "connected",
+    51  => "connected as presenter",
+    52  => "bookmarked",
+    53  => "attended",
+    54  => "watched",    
+  }
+  
   # don't recommend making this a callback, instead
   # intentionally call it where appropriate (like EventActivity.create_or_update)
   def create_activity_log(additional_information)
     self.activity_logs.create(learner: self.learner, additional: additional_information)
   end
   
+  def description
+    ACTIVITY_MAP[self.activity]
+  end
   
   def self.log_object_activity(object)
     case object.class.name
