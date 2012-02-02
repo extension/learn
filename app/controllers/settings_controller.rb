@@ -85,4 +85,59 @@ class SettingsController < ApplicationController
     end
   end
   
+  def privacy
+    @learner = current_learner
+    if request.post?
+      if params['privacy.events.presented'].present? && params['privacy.events.presented'] == '1'
+        preference = Preference.create_or_update(@learner, 'privacy.events.presented', true)
+      else
+        preference = Preference.create_or_update(@learner, 'privacy.events.presented', false)
+      end
+      
+      if params['privacy.events.attended'].present? && params['privacy.events.attended'] == '1'
+        preference = Preference.create_or_update(@learner, 'privacy.events.attended', true)
+      else
+        preference = Preference.create_or_update(@learner, 'privacy.events.attended', false)
+      end
+      
+      if params['privacy.events.watched'].present? && params['privacy.events.watched'] == '1'
+        preference = Preference.create_or_update(@learner, 'privacy.events.watched', true)
+      else
+        preference = Preference.create_or_update(@learner, 'privacy.events.watched', false)
+      end
+      
+      if params['privacy.events.bookmarked'].present? && params['privacy.events.bookmarked'] == '1'
+        preference = Preference.create_or_update(@learner, 'privacy.events.bookmarked', true)
+      else
+        preference = Preference.create_or_update(@learner, 'privacy.events.bookmarked', false)
+      end
+      
+      if params['privacy.events.commented'].present? && params['privacy.events.commented'] == '1'
+        preference = Preference.create_or_update(@learner, 'privacy.events.commented', true)
+      else
+        preference = Preference.create_or_update(@learner, 'privacy.events.commented', false)
+      end
+      
+      if params['privacy.events.rated'].present? && params['privacy.events.rated'] == '1'
+        preference = Preference.create_or_update(@learner, 'privacy.events.rated', true)
+      else
+        preference = Preference.create_or_update(@learner, 'privacy.events.rated', false)
+      end
+      
+      if params['privacy.events.answered'].present? && params['privacy.events.answered'] == '1'
+        preference = Preference.create_or_update(@learner, 'privacy.events.answered', true)
+      else
+        preference = Preference.create_or_update(@learner, 'privacy.events.answered', false)
+      end
+      
+      if params['public_portfolio'].present? && params['public_portfolio'] == '1'
+        preference = Preference.create_or_update(@learner, 'privacy.portfolio', false)
+      else
+        preference = Preference.create_or_update(@learner, 'privacy.portfolio', true)
+      end
+      
+      flash[:notice] = "Privacy settings updated"
+    end
+  end
+  
 end
