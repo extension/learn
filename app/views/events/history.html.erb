@@ -1,7 +1,7 @@
 <% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") + ' - History'%>
 
 <div id="behindthescenes">
-<h1>Event History for: <small><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></small></h1>
+  <h1>Event History for: <small><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></small></h1>
 
 <table>
   <thead>
@@ -43,3 +43,4 @@
     <%- end -%>
   </tbody>
 </table>
+</div>
