@@ -6,9 +6,14 @@
 
 class DataController < ApplicationController
   before_filter :authenticate_learner!
-  before_filter :require_admin, only: [:presenters, :recent_recommendations, :projected_recommendations, :recommended_event ]
+  before_filter :require_admin, only: [:presenters, :recent_recommendations, :projected_recommendations, :recommended_event, :activity ]
   
   def overview
+  end
+  
+  def activity
+    @activity = ActivityLog.event_activities.order("created_at DESC")
+    @activity = @activity.paginate(:page => params[:page])
   end
   
   def events
