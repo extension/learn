@@ -12,7 +12,7 @@
     <%- if @learner.has_time_zone? -%>
       <p><%= @learner.time_zone %></p>
     <%- else -%>
-      <p>No timezone currently set.</p>
+      <p>No timezone currently set <small><%= link_to("set your timezone now", "http://www.extension.org/people/profile/edit") %></small></p>
     <%- end -%>
   <p id="people_edit"><%= link_to("The above items can be edited in people.extension.org", "http://www.extension.org/people/profile/me") %></p>
 </div>
