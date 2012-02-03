@@ -10,6 +10,13 @@
     </div>
     
     <div class="signup_option">
+       <%= image_tag("f_logo.jpg", :size => "50x50") %>
+       <p>    
+         <%= link_to "Sign in with Facebook", authmap_omniauth_authorize_path(:facebook, :redirect_to => (params[:redirect_to].present?) ? params[:redirect_to] : session[:learner_return_to]) %>  
+       </p>
+    </div>
+    
+    <div class="signup_option">
        <%= image_tag("Google_logo.png", :size => "50x50") %>
        <p>    
          <%= link_to "Sign in with Google", authmap_omniauth_authorize_path(:google, :redirect_to => (params[:redirect_to].present?) ? params[:redirect_to] : session[:learner_return_to]) %>
