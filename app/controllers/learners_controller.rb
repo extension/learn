@@ -25,27 +25,9 @@ class LearnersController < ApplicationController
   
   def learning_history
     prepare_history('All')
-    
-    event_id_array = []
-    @presented_event_ids = @learner.presented_events.map{|e| e.id}
-    event_id_array.concat(@presented_event_ids)
-    @attended_event_ids = @learner.events.attended.map{|e| e.id}
-    event_id_array.concat(@attended_event_ids)
-    @watched_event_ids = @learner.events.watched.map{|e| e.id}
-    event_id_array.concat(@watched_event_ids)
-    @bookmarked_event_ids = @learner.events.bookmarked.map{|e| e.id}
-    event_id_array.concat(@bookmarked_event_ids)
-    @commented_event_ids = @learner.commented_events.map{|e| e.id}
-    event_id_array.concat(@commented_event_ids)
-    @rated_event_ids = @learner.rated_events.map{|e| e.id}
-    event_id_array.concat(@rated_event_ids)
-    @answered_event_ids = @learner.events_answered.map{|e| e.id}
-    event_id_array.concat(@answered_event_ids)
-    if event_id_array.empty?
-      @events = []
-    else
-      @events = Event.where("id IN (#{event_id_array.join(',')})").paginate(:page => params[:page]).order('session_start DESC')
-    end
+
+    @learner_history = ActivityLog.event_activities.where("learner_id = #{@learner.id}").order("created_at DESC")
+    @activities = @learner_history.paginate(:page => params[:page])
   end
   
   def presented_history

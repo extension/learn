@@ -38,6 +38,9 @@
 #learning_history_wrapper {clear:both;}
 #learning_history_wrapper table td {font-size:1.3em;}
 #learning_history_wrapper .activity_type {font-size:1em; text-align:right;}
+#learning_history_wrapper .activity_type small {display:block; width:200px; color:#888;}
+#learning_history_wrapper .activity_date {font-size:1em; text-align:left; width:200px;}
+#learning_history_wrapper .activity_date small {display:block;  color:#999;}
 #learners h3.header {clear:both; font-size:1.5em;}
 .listheader {font-size:1.7em; margin:0 0 0 !important;}
 .noevents {padding:2em; background:#eee; @include rounded10;}

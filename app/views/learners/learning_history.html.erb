@@ -15,24 +15,51 @@
 </nav>
 
 <div id="learning_history_wrapper">
-<% if defined?(@events.total_entries) && @events.total_entries > 0 %>
 
-  <table class="zebra-striped">
-    <% @events.each do |event| %>
-      <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>"> 
-        <% if @type == 'All' %>
-        <td class="activity_type"><%= get_activity_types(event) %></td>
-        <% end %>
-        <td><%= link_to event.title, event_path(event) %></td>
-      </tr>
-    <% end %>
-  <table>
+<% if @type == 'All' %>
+  <% if defined?(@activities.total_entries) && @activities.total_entries > 0 %>
+    
+    <table class="zebra-striped">
+      <% @activities.each do |activity| %>
+        <tr>
+          <td class="activity_date"><%= time_ago_in_words(activity.created_at) %> ago
+          <small><%= activity.created_at.strftime("%l:%M %p, %b %e, %Y") %></small></td>
+          <td class="activity_type"><%= activity.loggable.description %></td>
+          <td><%= link_to(Event.find_by_id(activity.loggable.event_id).title, event_path(activity.loggable.event_id)) %></td>
+        </tr>
+      <% end %>
+    </table>
   
-  <p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong></p>
-  <%= will_paginate @events %>
+    <p>Displaying <strong><%= @activities.offset + 1 %>-<%= @activities.offset + @activities.length %> of <%= @activities.total_entries %></strong></p>
+    <%= will_paginate @activities %>
+  <% else %>
+    <div class="noevents">
+    <h3>No <%= @type %> events at this time</h3>
+    </div>
+  <% end %>
+
 <% else %>
-  <div class="noevents">
-  <h3>No <%= @type %> events at this time</h3>
-  </div>
+    
+    
+    <% if defined?(@events.total_entries) && @events.total_entries > 0 %>
+
+      <table class="zebra-striped">
+        <% @events.each do |event| %>
+          <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>">
+            <td class="activity_date"><%= event.session_start.strftime("%l:%M %p, %b %e, %Y") %></td>
+
+            <td><%= link_to event.title, event_path(event) %></td>
+          </tr>
+        <% end %>
+      </table>
+
+      <p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong></p>
+      <%= will_paginate @events %>
+    <% else %>
+      <div class="noevents">
+      <h3>No <%= @type %> events at this time</h3>
+      </div>
+    <% end %>
+    
 <% end %>
 </div>
