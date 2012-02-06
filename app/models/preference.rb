@@ -20,14 +20,14 @@ class Preference < ActiveRecord::Base
    'notification.activity' => true,
    'notification.recording' => true,
    'notification.recommendation' => true,
-   'privacy.events.presented' => false,
-   'privacy.events.attended' => false,
-   'privacy.events.watched' => false,
-   'privacy.events.bookmarked' => false,
-   'privacy.events.commented' => false,
-   'privacy.events.rated' => true,
-   'privacy.events.answered' => true,
-   'privacy.portfolio' => true
+   'sharing.events.presented' => true,
+   'sharing.events.attended' => true,
+   'sharing.events.watched' => true,
+   'sharing.events.bookmarked' => true,
+   'sharing.events.commented' => true,
+   'sharing.events.rated' => false,
+   'sharing.events.answered' => false,
+   'sharing.portfolio' => false
   }
   
   def set_datatype

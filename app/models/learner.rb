@@ -307,36 +307,36 @@ class Learner < ActiveRecord::Base
     self.preferences.setting('notification.recording')
   end
   
-  def private_presented_events?
-    self.preferences.setting('privacy.events.presented')
+  def public_presented_events?
+    self.preferences.setting('sharing.events.presented')
   end
   
-  def private_attended_events?
-    self.preferences.setting('privacy.events.attended')
+  def public_attended_events?
+    self.preferences.setting('sharing.events.attended')
   end
   
-  def private_watched_events?
-    self.preferences.setting('privacy.events.watched')
+  def public_watched_events?
+    self.preferences.setting('sharing.events.watched')
   end
   
-  def private_bookmarked_events?
-    self.preferences.setting('privacy.events.bookmarked')
+  def public_bookmarked_events?
+    self.preferences.setting('sharing.events.bookmarked')
   end
 
-  def private_commented_events?
-    self.preferences.setting('privacy.events.commented') 
+  def public_commented_events?
+    self.preferences.setting('sharing.events.commented') 
   end
   
-  def private_rated_events?
-    self.preferences.setting('privacy.events.rated') 
+  def public_rated_events?
+    self.preferences.setting('sharing.events.rated') 
   end
   
-  def private_answered_events?
-    self.preferences.setting('privacy.events.answered') 
+  def public_answered_events?
+    self.preferences.setting('sharing.events.answered') 
   end
   
-  def private_portfolio?
-    self.preferences.setting('privacy.portfolio')
+  def public_portfolio?
+    self.preferences.setting('sharing.portfolio')
   end
   
   def send_recommendation=(send_it)
