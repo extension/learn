@@ -19,7 +19,15 @@ class Preference < ActiveRecord::Base
    'notification.reminder.sms.notice' => 15.minutes,  # seconds
    'notification.activity' => true,
    'notification.recording' => true,
-   'notification.recommendation' => true
+   'notification.recommendation' => true,
+   'sharing.events.presented' => true,
+   'sharing.events.attended' => true,
+   'sharing.events.watched' => true,
+   'sharing.events.bookmarked' => true,
+   'sharing.events.commented' => true,
+   'sharing.events.rated' => false,
+   'sharing.events.answered' => false,
+   'sharing.portfolio' => false
   }
   
   def set_datatype

@@ -1,0 +1,52 @@
+<%= form_tag(settings_privacy_path) do -%>
+  <table>
+    <tr>
+      <th>Share</th>
+      <th>Keep Private</th>
+      <th></th>
+    </tr>
+    <tr>
+      <td><%= radio_button_tag 'sharing.events.presented', '1', @learner.public_presented_events? %></td>
+      <td><%= radio_button_tag 'sharing.events.presented', '0', !@learner.public_presented_events? %></td>
+      <td>Presented events</td>
+    </tr>
+    <tr>
+      <td><%= radio_button_tag 'sharing.events.attended', '1', @learner.public_attended_events? %></td>
+      <td><%= radio_button_tag 'sharing.events.attended', '0', !@learner.public_attended_events? %></td>
+      <td>Attended events</td>
+    </tr>
+    <tr>
+      <td><%= radio_button_tag 'sharing.events.watched', '1', @learner.public_watched_events? %></td>
+      <td><%= radio_button_tag 'sharing.events.watched', '0', !@learner.public_watched_events? %></td>
+      <td>Watched events</td>
+    </tr>
+    <tr>
+      <td><%= radio_button_tag 'sharing.events.bookmarked', '1', @learner.public_bookmarked_events? %></td>
+      <td><%= radio_button_tag 'sharing.events.bookmarked', '0', !@learner.public_bookmarked_events? %></td>
+      <td>Bookmarked events</td>
+    </tr>
+    <tr>
+      <td><%= radio_button_tag 'sharing.events.commented', '1', @learner.public_commented_events? %></td>
+      <td><%= radio_button_tag 'sharing.events.commented', '0', !@learner.public_commented_events? %></td>
+      <td>Commented events</td>
+    </tr>
+    
+    <tr>
+      <td><%= radio_button_tag 'sharing.events.rated', '1', @learner.public_rated_events? %></td>
+      <td><%= radio_button_tag 'sharing.events.rated', '0', !@learner.public_rated_events? %></td>
+      <td>Rated events</td>
+    </tr>
+    
+    <tr>
+      <td><%= radio_button_tag 'sharing.events.answered', '1', @learner.public_answered_events? %></td>
+      <td><%= radio_button_tag 'sharing.events.answered', '0', !@learner.public_answered_events? %></td>
+      <td>Answered events</td>
+    </tr>
+  </table>
+  
+  <h3>Go Public</h3>
+  
+  <p><label><%= check_box_tag 'sharing.portfolio', '1', @learner.public_portfolio? %> Make my Learning Portfolio page completely public</label></p>
+  
+  <p><%= submit_tag "Save Changes", :class => "btn primary large" %></p>
+<%- end -%>

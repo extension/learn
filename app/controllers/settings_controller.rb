@@ -85,4 +85,59 @@ class SettingsController < ApplicationController
     end
   end
   
+  def privacy
+    @learner = current_learner
+    if request.post?
+      if params['sharing.events.presented'].present? && params['sharing.events.presented'] == '1'
+        preference = Preference.create_or_update(@learner, 'sharing.events.presented', true)
+      else
+        preference = Preference.create_or_update(@learner, 'sharing.events.presented', false)
+      end
+      
+      if params['sharing.events.attended'].present? && params['sharing.events.attended'] == '1'
+        preference = Preference.create_or_update(@learner, 'sharing.events.attended', true)
+      else
+        preference = Preference.create_or_update(@learner, 'sharing.events.attended', false)
+      end
+      
+      if params['sharing.events.watched'].present? && params['sharing.events.watched'] == '1'
+        preference = Preference.create_or_update(@learner, 'sharing.events.watched', true)
+      else
+        preference = Preference.create_or_update(@learner, 'sharing.events.watched', false)
+      end
+      
+      if params['sharing.events.bookmarked'].present? && params['sharing.events.bookmarked'] == '1'
+        preference = Preference.create_or_update(@learner, 'sharing.events.bookmarked', true)
+      else
+        preference = Preference.create_or_update(@learner, 'sharing.events.bookmarked', false)
+      end
+      
+      if params['sharing.events.commented'].present? && params['sharing.events.commented'] == '1'
+        preference = Preference.create_or_update(@learner, 'sharing.events.commented', true)
+      else
+        preference = Preference.create_or_update(@learner, 'sharing.events.commented', false)
+      end
+      
+      if params['sharing.events.rated'].present? && params['sharing.events.rated'] == '1'
+        preference = Preference.create_or_update(@learner, 'sharing.events.rated', true)
+      else
+        preference = Preference.create_or_update(@learner, 'sharing.events.rated', false)
+      end
+      
+      if params['sharing.events.answered'].present? && params['sharing.events.answered'] == '1'
+        preference = Preference.create_or_update(@learner, 'sharing.events.answered', true)
+      else
+        preference = Preference.create_or_update(@learner, 'sharing.events.answered', false)
+      end
+      
+      if params['sharing.portfolio'].present? && params['sharing.portfolio'] == '1'
+        preference = Preference.create_or_update(@learner, 'sharing.portfolio', true)
+      else
+        preference = Preference.create_or_update(@learner, 'sharing.portfolio', false)
+      end
+      
+      flash[:notice] = "Privacy settings updated"
+    end
+  end
+  
 end

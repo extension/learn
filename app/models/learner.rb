@@ -307,6 +307,38 @@ class Learner < ActiveRecord::Base
     self.preferences.setting('notification.recording')
   end
   
+  def public_presented_events?
+    self.preferences.setting('sharing.events.presented')
+  end
+  
+  def public_attended_events?
+    self.preferences.setting('sharing.events.attended')
+  end
+  
+  def public_watched_events?
+    self.preferences.setting('sharing.events.watched')
+  end
+  
+  def public_bookmarked_events?
+    self.preferences.setting('sharing.events.bookmarked')
+  end
+
+  def public_commented_events?
+    self.preferences.setting('sharing.events.commented') 
+  end
+  
+  def public_rated_events?
+    self.preferences.setting('sharing.events.rated') 
+  end
+  
+  def public_answered_events?
+    self.preferences.setting('sharing.events.answered') 
+  end
+  
+  def public_portfolio?
+    self.preferences.setting('sharing.portfolio')
+  end
+  
   def send_recommendation=(send_it)
     Preference.create_or_update(self,'notification.recommendation',send_it)
   end
