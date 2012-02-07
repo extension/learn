@@ -24,10 +24,9 @@ class LearnersController < ApplicationController
   end
   
   def learning_history
-    prepare_history('All')
-
-    @learner_history = ActivityLog.event_activities.where("learner_id = #{@learner.id}").order("created_at DESC")
-    @activities = @learner_history.paginate(:page => params[:page])
+    prepare_history('Activity')
+    # don't think there's a better AR way of doing this, it's pretty fast as is 
+    @activities = @learner.activity_logs.select("activity_logs.created_at AS created_at, ea.*, e.title AS title, e.id AS event_id").joins("JOIN event_activities AS ea on ea.id = activity_logs.loggable_id JOIN events as e on e.id = ea.event_id").where("activity_logs.loggable_type = 'EventActivity' AND ea.activity IN (#{EventActivity::HISTORY_ITEMS.join(',')})").paginate(:page => params[:page]).order("activity_logs.created_at DESC")
   end
   
   def presented_history

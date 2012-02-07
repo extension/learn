@@ -63,6 +63,9 @@ class EventActivity < ActiveRecord::Base
     54  => "watched",    
   }
   
+  HISTORY_ITEMS = [ANSWER,RATING,RATING_ON_COMMENT,COMMENT,COMMENT_ON_COMMENT,CONNECT,CONNECT_PRESENTER,CONNECT_BOOKMARK,CONNECT_ATTEND,CONNECT_WATCH]
+  
+  
   # don't recommend making this a callback, instead
   # intentionally call it where appropriate (like EventActivity.create_or_update)
   def create_activity_log(additional_information)
@@ -71,6 +74,10 @@ class EventActivity < ActiveRecord::Base
   
   def description
     ACTIVITY_MAP[self.activity]
+  end
+  
+  def self.description_for_id(id_number)
+    ACTIVITY_MAP[id_number]
   end
   
   def self.log_object_activity(object)

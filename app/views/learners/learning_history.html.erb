@@ -3,7 +3,7 @@
 
 <nav id="learning_history">
 <ul>
-  <li><%= link_to_unless_current "All", learning_history_path %></li>
+  <li><%= link_to_unless_current "Activity", learning_history_path %></li>
   <li><%= link_to_unless_current "Presented", presented_history_path %></li>
   <li><%= link_to_unless_current "Attended", attended_history_path %></li>
   <li><%= link_to_unless_current "Watched", watched_history_path %></li>
@@ -16,7 +16,7 @@
 
 <div id="learning_history_wrapper">
 
-<% if @type == 'All' %>
+<% if @type == 'Activity' %>
   <% if defined?(@activities.total_entries) && @activities.total_entries > 0 %>
     
     <table class="zebra-striped">
@@ -24,8 +24,8 @@
         <tr>
           <td class="activity_date"><%= time_ago_in_words(activity.created_at) %> ago
           <small><%= activity.created_at.strftime("%l:%M %p, %b %e, %Y") %></small></td>
-          <td class="activity_type"><%= activity.loggable.description %></td>
-          <td><%= link_to(Event.find_by_id(activity.loggable.event_id).title, event_path(activity.loggable.event_id)) %></td>
+          <td class="activity_type"><%= EventActivity.description_for_id(activity.activity) %></td>
+          <td><%= link_to(activity.title, event_path(activity.event_id)) %></td>
         </tr>
       <% end %>
     </table>
@@ -39,8 +39,7 @@
   <% end %>
 
 <% else %>
-    
-    
+
     <% if defined?(@events.total_entries) && @events.total_entries > 0 %>
 
       <table class="zebra-striped">

@@ -12,7 +12,7 @@ class DataController < ApplicationController
   end
   
   def activity
-    @activity = ActivityLog.event_activities.order("created_at DESC")
+    @activity = ActivityLog.event_activity_records.order("created_at DESC")
     @activity = @activity.paginate(:page => params[:page])
   end
   
