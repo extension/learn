@@ -4,4 +4,4 @@
   $("#<%= @rating.rateable.class.name.downcase %>_votes").html("<%= escape_javascript(render :partial => 'partials/ratings', locals: {rateable_object: @rating.rateable}) %>")
 <% end %>
 
-$("#upvote_<%= @rating.rateable.class.name.downcase %>_<%= @rating.rateable.id %>").html("<span id='undo_vote_<%= @rating.rateable.class.name.downcase %>_<%= @rating.rateable.id %>'><%= escape_javascript(button_to 'Undo Vote', rating_path(@rating), :method => :delete, :remote => true, :class => 'btn') %></span>")
+$("#upvote_<%= @rating.rateable.class.name.downcase %>_<%= @rating.rateable.id %>").html("<span id='undo_vote_<%= @rating.rateable.class.name.downcase %>_<%= @rating.rateable.id %>'><%= escape_javascript(button_to '-', rating_path(@rating), :method => :delete, :remote => true, :class => 'btn') %></span>")
