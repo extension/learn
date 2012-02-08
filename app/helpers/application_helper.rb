@@ -24,29 +24,67 @@ module ApplicationHelper
     end
   end
   
-  def get_avatar(learner, image_size = :medium, portfolio_link = false)
+  def get_avatar(learner, image_size = :medium, portfolio_link = false, event_type = nil)
     case image_size
         when :medium    then image_size_in_px = "100x100"
         when :thumb     then image_size_in_px = "50x50"
     end
     return_string = ''
+    privacy_needed = false
     
-    if learner.avatar.present?
+    # if the current learner is looking at themselves, show the avatar and leave privacy_needed at false
+    if learner.id != current_learner.id 
+      if event_type.class == Array
+        event_type.each do |type_of_event|
+          if learner.send("public_#{type_of_event.downcase}_events?") == false
+            privacy_needed = true
+            break
+          end
+        end
+      else
+        privacy_needed = true if (event_type.present?) && (learner.send("public_#{event_type.downcase}_events?") == false)  
+      end
+    end
+    
+    if learner.avatar.present? && privacy_needed == false
       return_string = image_tag(learner.avatar_url(image_size), :class => 'avatar')
     else 
-      return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size_in_px)
+      if privacy_needed == false
+        return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size_in_px)
+      else
+        return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size_in_px, :title => 'private profile')
+      end
     end
-    if portfolio_link == :link_it && current_learner
+    
+    if portfolio_link == :link_it && current_learner && privacy_needed == false 
       return_string = link_to(return_string, portfolio_learner_path(learner.id), :title => learner.name)
     end
     return return_string.html_safe
   end
   
-  def link_to_learner(learner)
-    if current_learner
-      link_to(learner.name, portfolio_learner_path(learner.id)).html_safe
+  def link_to_learner(learner, event_type = nil)
+    privacy_needed = false
+    
+    # if the current learner is looking at themselves, show the avatar and leave privacy_needed at false
+    if learner.id != current_learner.id 
+      if event_type.class == Array
+        event_type.each do |type_of_event|
+          if learner.send("public_#{type_of_event.downcase}_events?") == false
+            privacy_needed = true
+            break
+          end
+        end
+      else
+        privacy_needed = true if (event_type.present?) && (learner.send("public_#{event_type.downcase}_events?") == false)  
+      end
+    end
+    
+    if current_learner && privacy_needed == false
+      return link_to(learner.name, portfolio_learner_path(learner.id)).html_safe
+    elsif privacy_needed == true
+      return 'private profile'
     else
-      learner.name
+      return learner.name
     end
   end
   

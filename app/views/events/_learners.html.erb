@@ -7,7 +7,7 @@
 
     <ul id="event_learner_list">
       <%- @event.learners.each do |attendee| %>
-        <li><%= get_avatar(attendee, :thumb, :link_it) -%></li>
+        <li><%= get_avatar(attendee, :thumb, :link_it, ['attended', 'bookmarked', 'watched']) -%></li>
       <%- end -%>
     </ul>
     
