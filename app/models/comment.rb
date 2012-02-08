@@ -38,5 +38,8 @@ class Comment < ActiveRecord::Base
     if !Notification.pending_activity_notification?(self.event)
       Notification.create(notifiable: self.event, notificationtype: Notification::ACTIVITY, delivery_time: Notification::ACTIVITY_NOTIFICATION_INTERVAL.from_now)
     end
+    if self.is_reply?
+      Notification.create(notifiable: self, notificationtype: Notification::COMMENT_REPLY, delivery_time: 1.minute.from_now)
+    end
   end
 end

@@ -347,6 +347,7 @@ class Event < ActiveRecord::Base
     if self.session_start_changed?
       self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
     end
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_EDIT, delivery_time: 1.minute.from_now)
   end
   
   
