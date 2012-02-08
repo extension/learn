@@ -15,18 +15,18 @@ Learn::Application.routes.draw do
   resources :learners do
     member do
       get 'portfolio'
+      get 'presented_history'
+      get 'attended_history'
+      get 'watched_history'
+      get 'bookmarked_history'
+      get 'commented_history'
+      get 'rated_history'
+      get 'answered_question_history'
     end
   end
   
   match "learning_history" => "learners#learning_history", :via => :get
-  match "presented_history" => "learners#presented_history", :via => :get
-  match "attended_history" => "learners#attended_history", :via => :get
-  match "watched_history" => "learners#watched_history", :via => :get
-  match "bookmarked_history" => "learners#bookmarked_history", :via => :get
-  match "commented_history" => "learners#commented_history", :via => :get
-  match "rated_history" => "learners#rated_history", :via => :get
-  match "answered_question_history" => "learners#answered_question_history", :via => :get
-    
+  
   match "settings/profile" => "settings#profile", :via => [:get, :put]
   match "settings/notifications" => "settings#notifications", :via => [:get, :post]
   match "settings/learning_profile" => "settings#learning_profile", :via => [:get, :post, :put]
