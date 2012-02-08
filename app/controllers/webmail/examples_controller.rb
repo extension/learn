@@ -31,6 +31,16 @@ class Webmail::ExamplesController < ApplicationController
     return render_mail(mail)
   end
   
+  def event_edit
+    mail = EventMailer.event_edit(learner: Learner.learnbot, event: Event.last, cache_email: false)
+    return render_mail(mail)
+  end
+  
+  def comment_reply
+    mail = EventMailer.comment_reply(learner: Learner.learnbot, comment: Comment.last, cache_email: false)
+    return render_mail(mail)
+  end
+  
   def mailtest
     mail = EventMailer.mailtest(learner: Learner.learnbot, cache_email: false)
     return render_mail(mail)

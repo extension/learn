@@ -110,7 +110,8 @@ class EventMailer < ActionMailer::Base
   end
   
   def comment_reply(options = {})
-    @event = options[:event]
+    @comment = options[:comment]
+    @event = @comment.event
     @subject = "There's a New Reply to One of Your Learn Comments"
     @learner = options[:learner]  
     @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]

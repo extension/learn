@@ -58,7 +58,7 @@ class Notification < ActiveRecord::Base
     comment = self.notifiable
     learner = comment.parent.learner
     event = self.notifiable.event
-    EventMailer.comment_reply(learner: learner, event: event).deliver unless !learner.send_recording? or learner.has_event_notification_exception?(event)
+    EventMailer.comment_reply(learner: learner, comment: comment).deliver unless !learner.send_recording? or learner.has_event_notification_exception?(event)
   end
   
   def process_event_edit
