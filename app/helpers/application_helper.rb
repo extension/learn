@@ -33,6 +33,7 @@ module ApplicationHelper
     privacy_needed = false
     
     # if the current learner is looking at themselves, show the avatar and leave privacy_needed at false
+    if current_learner
     if learner.id != current_learner.id 
       if event_type.class == Array
         event_type.each do |type_of_event|
@@ -44,6 +45,7 @@ module ApplicationHelper
       else
         privacy_needed = true if (event_type.present?) && (learner.send("public_#{event_type.downcase}_events?") == false)  
       end
+    end
     end
     
     if learner.avatar.present? && privacy_needed == false
@@ -66,6 +68,7 @@ module ApplicationHelper
     privacy_needed = false
     
     # if the current learner is looking at themselves, show the avatar and leave privacy_needed at false
+    if current_learner 
     if learner.id != current_learner.id 
       if event_type.class == Array
         event_type.each do |type_of_event|
@@ -77,6 +80,7 @@ module ApplicationHelper
       else
         privacy_needed = true if (event_type.present?) && (learner.send("public_#{event_type.downcase}_events?") == false)  
       end
+    end
     end
     
     if current_learner && privacy_needed == false
