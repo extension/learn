@@ -14,6 +14,8 @@ class Notification < ActiveRecord::Base
   ACTIVITY_NOTIFICATION_INTERVAL = Settings.activity_notification_interval
   RECORDING = 20
   RECOMMENDATION = 30
+  INFORM_IASTATE = 40
+  
   
   def process
     return true if !Settings.send_notifications
@@ -32,6 +34,8 @@ class Notification < ActiveRecord::Base
       process_recording_notifications
     when RECOMMENDATION
       process_recommendation
+    when INFORM_IASTATE
+      process_inform_iastate
     else
       # nothing
     end
@@ -73,6 +77,11 @@ class Notification < ActiveRecord::Base
     if(recommendation.learner.send_recommendation?)
       EventMailer.recommendation(recommendation: recommendation).deliver
     end
+  end
+  
+  def process_inform_iastate
+    event = self.notifiable
+    EventMailer.inform_iastate_new(event: event) unless event.started?
   end
 
   def queue_delayed_notifications
