@@ -52,15 +52,15 @@
       <table class="people zebra-striped">
         <%- @event.commentators.each do |commenter| %>
         <tr>
-          <td class="avatar_td"><%= get_avatar(commenter, :thumb, :link_it, 'commented') -%></td>
-          <td class="name_td"><%= link_to_learner(commenter, 'commented') %></td>
+          <td class="avatar_td"><%= get_avatar(commenter, :thumb, :link_it) -%></td>
+          <td class="name_td"><%= link_to_learner(commenter) %></td>
         </tr>
         <%- end -%>
         </table>
     <%- else -%>
       <ul class="learner_list">
         <%- @event.commentators.each do |commenter| %>
-          <li><%= get_avatar(commenter, :thumb, :link_it, 'commented') -%></li>
+          <li><%= get_avatar(commenter, :thumb, :link_it) -%></li>
         <%- end -%>
       </ul>
       <br class="clearing" />

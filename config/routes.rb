@@ -19,13 +19,13 @@ Learn::Application.routes.draw do
       get 'attended_history'
       get 'watched_history'
       get 'bookmarked_history'
-      get 'commented_history'
       get 'rated_history'
       get 'answered_question_history'
     end
   end
   
   match "learning_history" => "learners#learning_history", :via => :get
+  match "commented_history" => "learners#commented_history", :via => :get
   
   match "settings/profile" => "settings#profile", :via => [:get, :put]
   match "settings/notifications" => "settings#notifications", :via => [:get, :post]

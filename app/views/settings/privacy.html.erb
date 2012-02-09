@@ -25,11 +25,6 @@
       <td><%= radio_button_tag 'sharing.events.bookmarked', '0', !@learner.public_bookmarked_events? %></td>
       <td>Bookmarked events</td>
     </tr>
-    <tr>
-      <td><%= radio_button_tag 'sharing.events.commented', '1', @learner.public_commented_events? %></td>
-      <td><%= radio_button_tag 'sharing.events.commented', '0', !@learner.public_commented_events? %></td>
-      <td>Commented events</td>
-    </tr>
     
     <tr>
       <td><%= radio_button_tag 'sharing.events.rated', '1', @learner.public_rated_events? %></td>

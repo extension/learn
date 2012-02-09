@@ -79,12 +79,13 @@ class LearnersController < ApplicationController
   end
   
   def commented_history
-    @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
-    if @learner.blank?
-      flash[:error] = "Invalid Learner Specified"
-      return redirect_to root_url
-    end
+    #@learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
+    #if @learner.blank?
+    #  flash[:error] = "Invalid Learner Specified"
+    #  return redirect_to root_url
+    #end
     
+    @learner = current_learner
     prepare_history('Commented')
     @events = @learner.commented_events.paginate(:page => params[:page]).order('session_start DESC')
     render :action => 'learning_history'

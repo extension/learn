@@ -8,7 +8,7 @@
   <li><%= link_to_unless_current "Attended", attended_history_learner_path(current_learner) %></li>
   <li><%= link_to_unless_current "Watched", watched_history_learner_path(current_learner) %></li>
   <li><%= link_to_unless_current "Bookmarked", bookmarked_history_learner_path(current_learner) %></li>
-  <li><%= link_to_unless_current "Commented", commented_history_learner_path(current_learner) %></li>
+  <li><%= link_to_unless_current "Commented", commented_history_path %></li>
   <li><%= link_to_unless_current "Rated", rated_history_learner_path(current_learner) %></li>
   <li><%= link_to_unless_current "Answered Questions", answered_question_history_learner_path(current_learner) %></li>
 </ul>
