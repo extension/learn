@@ -86,9 +86,9 @@ class Learner < ActiveRecord::Base
     name_string.blank? ? 'Learner' : name_string
   end
   
-  # def is_eXtension_account?
-  #     return self.darmok_id.present?
-  #   end
+  def is_extension_account?
+    return self.darmok_id.present?
+  end
   
   # this instance method used to merge two learner accounts into one account, particularly used 
   # when merging two accounts created for the same learner resulting from a learner using 

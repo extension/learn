@@ -4,21 +4,45 @@
 
 <br class="clearing" />
 
-<div class="form_group">
+<% if @learner.is_extension_account? %>
+  <div class="form_group">
 
-<div id="extension_people_data">
-  <p><%= @learner.name %></p>
-  <p><%= @learner.email %></p>
-    <%- if @learner.has_time_zone? -%>
-      <p><%= @learner.time_zone %></p>
-    <%- else -%>
-      <p>No timezone currently set <small><%= link_to("set your timezone now", "http://www.extension.org/people/profile/edit") %></small></p>
-    <%- end -%>
-  <p id="people_edit"><%= link_to("The above items can be edited in people.extension.org", "http://www.extension.org/people/profile/me") %></p>
-</div>
-
+  <div id="extension_people_data">
+    <p><%= @learner.name %></p>
+    <p><%= @learner.email %></p>
+      <%- if @learner.has_time_zone? -%>
+        <p><%= @learner.time_zone %></p>
+      <%- else -%>
+        <p>No timezone currently set <small><%= link_to("set your timezone now", "http://www.extension.org/people/profile/edit") %></small></p>
+      <%- end -%>
+    <p id="people_edit"><%= link_to("The above items can be edited in people.extension.org", "http://www.extension.org/people/profile/me") %></p>
+  </div>
+<% end %>
 
 <%= form_for @learner, :url => settings_profile_path, :html => {:multipart => true, :class => "form-stacked"} do |f| %>
+
+  <% if !@learner.is_extension_account? %>
+    <fieldset>
+      <p>
+        <%= f.label :name, 'Name' %>
+        <%= f.text_field :name %>
+      </p>
+    </fieldset>
+    
+    <fieldset>
+      <p>
+        <%= f.label :email, 'Email' %>
+        <%= f.text_field :email %>
+      </p>
+    </fieldset>
+    
+    <fieldset>
+      <p>
+        <%= f.label :time_zone, 'Time Zone' %>
+        <%= time_zone_select(:learner, :time_zone, ActiveSupport::TimeZone.us_zones, :default => Learner::DEFAULT_TIMEZONE) %>
+      </p>
+    </fieldset> 
+  <% end %>
 
   <fieldset>
     <p class="bio">
