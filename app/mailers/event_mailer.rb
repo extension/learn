@@ -168,7 +168,7 @@ class EventMailer < ActionMailer::Base
     @cc_list = @presenter_emails.push(@creator.email).uniq
     @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
     
-    if(!@learner.email.blank?)
+    if(!@creator.email.blank?)
       if(@will_cache_email)
         # create a cached mail object that can be used for "view this in a browser" within
         # the rendered email.
@@ -196,7 +196,7 @@ class EventMailer < ActionMailer::Base
     @cc_list = @presenter_emails.push(@creator.email).push(@last_modified_by.email).uniq  
     @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
     
-    if(!@learner.email.blank?)
+    if(!@last_modified_by.email.blank?)
       if(@will_cache_email)
         # create a cached mail object that can be used for "view this in a browser" within
         # the rendered email.

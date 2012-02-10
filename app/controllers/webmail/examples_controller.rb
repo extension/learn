@@ -41,6 +41,16 @@ class Webmail::ExamplesController < ApplicationController
     return render_mail(mail)
   end
   
+  def inform_iastate_new
+    mail = EventMailer.inform_iastate_new(event: Event.last, cache_email: false)
+    return render_mail(mail)
+  end
+  
+  def inform_iastate_update
+    mail = EventMailer.inform_iastate_update(event: Event.last, cache_email: false)
+    return render_mail(mail)
+  end
+  
   def mailtest
     mail = EventMailer.mailtest(learner: Learner.learnbot, cache_email: false)
     return render_mail(mail)
