@@ -4,7 +4,7 @@
 
 <head>
   <title>
-    An eXtension Learn Event Has Been Created
+    Connect Scheduling Notification
   </title>
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
   <style type="text/css">
@@ -65,7 +65,7 @@
     </th>
   </tr>
   <tr class="tagline">
-    <td>An eXtension Learn Event Has Been Created</td>
+    <td>Connect Scheduling Notification</td>
   </tr>
   <tr class="options">
     <td>
@@ -74,7 +74,6 @@
       <%- else -%>
         <a href="">View in a browser</a> 
       <%- end -%>
-      <%= link_to "Unsubscribe", settings_notifications_url() %>
     </td>
   </tr>
   
@@ -91,7 +90,6 @@
               <%= image_tag("#{root_url}email/clock.png", size: "60x60") %>
               </td>
             <td>
-          It's scheduled for: <br/>
           <%= link_to(event_url(@event.id)) do -%>
           <%= @event.session_start_for_learner(@creator).strftime("%B %e, %Y") -%> at
           <%= @event.session_start_for_learner(@creator).strftime("%l:%M %p %Z") -%> <br />
@@ -107,9 +105,12 @@
           <br/>
           <%= link_to("View this event", event_url(@event.id)) -%>
         </td>
+      </tr>      
+      <tr>
+        <td id="reminder_description"><%= @creator.name %> wants to schedule a Connect Session. </td>
       </tr>
       <tr>
-        <td id="reminder_description"><%= @event.description.html_safe %></td>
+        <td>Please make contact with <%= @creator.email %> or <%= Settings.extension_pd_coordinator %> to confirm the availability of this time.</td>
       </tr>
     </table>
 
@@ -130,7 +131,6 @@
             <%- else -%>
               <a href="">View in a browser</a> 
             <%- end -%>
-              <%= link_to "Unsubscribe", settings_notifications_url() %>
           </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
