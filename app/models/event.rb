@@ -331,15 +331,17 @@ class Event < ActiveRecord::Base
     learners.where("event_connections.connectiontype = ?", EventConnection::BOOKMARK)
   end
   
-  # when an event is created, 5 notifications need to be created.
+  # when an event is created, up to 6 notifications need to be created.
   # 1 notification via email (180 minutes before)
   # 4 via sms (60,45,30,15 minutes)
+  # 1 Potential Email if the event is scheduled for iowa state's connect system
   def create_event_notifications
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 3.hours, offset: 3.hours)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 60.minutes, offset: 60.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 45.minutes, offset: 45.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 30.minutes, offset: 30.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 15.minutes, offset: 15.minutes)
+    Notification.create(notifiable: self, notificationtype: Notification::INFORM_IASTATE, delivery_time: 1.minute.from_now) unless self.location.match(Settings.iastate_connect_url).nil?
   end
   
   # when an event is updated, the notifications need to be rescheduled if the event session_start changes
@@ -348,6 +350,7 @@ class Event < ActiveRecord::Base
       self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
     end
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_EDIT, delivery_time: 1.minute.from_now) unless self.last_modifier == self.creator
+    Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) unless self.location.match(Settings.iastate_connect_url).nil?
   end
   
   

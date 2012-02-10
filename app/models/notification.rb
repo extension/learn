@@ -15,6 +15,7 @@ class Notification < ActiveRecord::Base
   RECORDING = 20
   RECOMMENDATION = 30
   INFORM_IASTATE = 40
+  UPDATE_IASTATE = 41
   
   
   def process
@@ -36,6 +37,8 @@ class Notification < ActiveRecord::Base
       process_recommendation
     when INFORM_IASTATE
       process_inform_iastate
+    when UPDATE_IASTATE
+      process_update_iastate
     else
       # nothing
     end
@@ -84,6 +87,11 @@ class Notification < ActiveRecord::Base
     EventMailer.inform_iastate_new(event: event) unless event.started?
   end
 
+  def process_update_iastate
+    event = self.notifiable
+    EventMailer.inform_iastate_update(event: event) unless event.started?
+  end
+  
   def queue_delayed_notifications
     delayed_job = Delayed::Job.enqueue(NotificationJob.new(self.id), {:priority => 0, :run_at => self.delivery_time})
     self.update_attribute(:delayed_job_id, delayed_job.id)
