@@ -92,6 +92,10 @@ p {word-wrap:break-word;}
 #extension_people_data #people_edit a {color:#888;}
 #extension_people_data small a {font-size:1.1em;}
 
+@media screen and (min-width: 1024px) {
+    table.privacy {width:70%;}
+}
+
 @media screen and (max-width: 1024px) {
     #three_col_one {width:45%; float:left; padding: 1em; margin-right:1em;}
     #three_col_two {width:40%; float:left; padding: 1em; margin-right:1em;}
@@ -125,7 +129,6 @@ p {word-wrap:break-word;}
     h1 {font-size:1.5em;}
     .bio {width:100%;}
     #extension_people_data #people_edit {float:none; width:100%;}
-    
 }
 
 @media screen and (max-width: 600px) {
