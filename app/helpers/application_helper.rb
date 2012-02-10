@@ -68,7 +68,7 @@ module ApplicationHelper
     # conditions for privacy for everyone else   
     else
       if privacy_on
-        return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size_in_px, :title => 'private profile')
+        return_string = image_tag("learn_avatar_private.png", :class => 'avatar', :size => image_size_in_px, :title => 'private profile')
       elsif learner.avatar.present?
         return_string = image_tag(learner.avatar_url(image_size), :class => 'avatar')
       else
@@ -85,6 +85,8 @@ module ApplicationHelper
   
   def link_to_learner(learner, event_type = nil)
     # determine whether privacy needs to be set
+    privacy_on = false
+    
     if event_type.present? && (learner.send("public_#{event_type.downcase}_events?") == false)  
       privacy_on = true
     else
