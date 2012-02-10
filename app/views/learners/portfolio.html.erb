@@ -37,7 +37,7 @@
         <p class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b   %e, %Y") %></span></p>
       <% end %>
       <% if current_learner && (current_learner.id == @learner.id || @learner.public_presented_events?) %>
-      <p class="view_all"><%= link_to "View all", presented_history_learner_path(current_learner) %></p>
+      <p class="view_all"><%= link_to "View all", presented_history_learner_path(@learner) %></p>
       <% end %>
     <% end %>
   <% else %>
@@ -61,7 +61,7 @@
         <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
       <% end %>
       <% if current_learner && (current_learner.id == @learner.id || @learner.public_attended_events?) %>
-      <p class="view_all"><%= link_to_unless_current "View all", attended_history_learner_path(current_learner) %></p>
+      <p class="view_all"><%= link_to_unless_current "View all", attended_history_learner_path(@learner) %></p>
       <% end %>
     <% end %>
   <% else %>
@@ -85,7 +85,7 @@
         <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
       <% end %>
       <% if current_learner && (current_learner.id == @learner.id || @learner.watched_presented_events?) %>
-      <p class="view_all"><%= link_to_unless_current "View all", watched_history_learner_path(current_learner) %></p>
+      <p class="view_all"><%= link_to_unless_current "View all", watched_history_learner_path(@learner) %></p>
       <% end %>
     <% end %>
   <% else %>
@@ -119,7 +119,7 @@
     <% end %>
       
     <% if current_learner && (current_learner.id == @learner.id || @learner.public_bookmarked_events?) %>
-    <p class="view_all"><%= link_to_unless_current "View all", bookmarked_history_learner_path(current_learner) %></p>
+    <p class="view_all"><%= link_to_unless_current "View all", bookmarked_history_learner_path(@learner) %></p>
     <% end %>
   <% else %>
     <div class="not_sharing">
