@@ -40,7 +40,7 @@
     <ul>
       <%- if current_learner -%>
         <li><%= get_avatar(current_learner, :thumb, :link_it) -%> <%= link_to_learner(current_learner) %></li>
-        <li><%= link_to "History", learning_history_path %></li>
+        <li><%= link_to "Activity", learning_history_path %></li>
         <li><%= link_to "Settings", settings_profile_path() %></li>
         <li><%= link_to('Logout', destroy_learner_session_path, :method => :delete) %></li>
       <%- else -%>

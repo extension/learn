@@ -1,9 +1,10 @@
-<h1 class="listheader"><%= @list_title %></h1>
+
 
 <% if current_learner && @learner.id == current_learner.id %>
 <nav id="learning_history">
 <ul>
-  <li><%= link_to_unless_current "Activity", learning_history_path %></li>
+  <li class="activity"><%= link_to_unless_current "All Activity", learning_history_path %></li>
+  <li class="bytype">Events by type:</li>
   <li><%= link_to_unless_current "Presented", presented_history_learner_path(current_learner) %></li>
   <li><%= link_to_unless_current "Attended", attended_history_learner_path(current_learner) %></li>
   <li><%= link_to_unless_current "Watched", watched_history_learner_path(current_learner) %></li>
@@ -14,6 +15,9 @@
 </ul>
 </nav>
 <% end %>
+
+<br class="clearing" />
+<h1 class="listheader"><%= @list_title %></h1>
 
 <div id="learning_history_wrapper">
 

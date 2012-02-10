@@ -33,14 +33,19 @@
 
 
 
-#learning_history li {float:left; list-style:none; padding:1em; font-size:1.3em; color:#000; font-weight:bold;}
-#learning_history li a {font-size:.8em; font-weight:normal;}
+#learning_history li {float:left; list-style:none; padding:.5em .65em; font-size:1.3em; color:#000; font-weight:bold; margin-bottom:1em; }
+#learning_history li a {font-size:.8em; font-weight:normal; }
 #learning_history_wrapper {clear:both;}
 #learning_history_wrapper table td {font-size:1.3em;}
 #learning_history_wrapper .activity_type {font-size:1em; text-align:right;}
 #learning_history_wrapper .activity_type small {display:block; width:200px; color:#888;}
 #learning_history_wrapper .activity_date {font-size:1em; text-align:left; width:200px;}
 #learning_history_wrapper .activity_date small {display:block;  color:#999;}
+#learning_history_wrapper a {color:#555;}
+
+#learning_history .activity {border-right:4px solid #ccc; background:#fff;}
+#learning_history .bytype {font-size:1em; padding:.75em 0 0 1em; color:#666;}
+
 #learners h3.header {clear:both; font-size:1.5em;}
 .listheader {font-size:1.7em; margin:0 0 0 !important;}
 .noevents {padding:2em; background:#eee; @include rounded10;}
@@ -51,3 +56,5 @@
 .learning_section h3 {font-size:1.2em;}
 .make_private {color:#000 !important; background:#ccc; padding:.2em .5em; font-size:11px !important; letter-spacing:1px; cursor:pointer;}
 .make_private.lighter {background:#eee;}
+
+.not_sharing {color:#888;}
