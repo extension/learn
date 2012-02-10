@@ -84,7 +84,7 @@
       <% @watched_events.each do |event| %>
         <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
       <% end %>
-      <% if current_learner && (current_learner.id == @learner.id || @learner.watched_presented_events?) %>
+      <% if current_learner && (current_learner.id == @learner.id || @learner.public_watched_events?) %>
       <p class="view_all"><%= link_to_unless_current "View all", watched_history_learner_path(@learner) %></p>
       <% end %>
     <% end %>
