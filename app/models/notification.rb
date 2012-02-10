@@ -8,11 +8,15 @@ class Notification < ActiveRecord::Base
 
   EVENT_REMINDER_EMAIL = 1
   EVENT_REMINDER_SMS = 2
-  REMINDER_NOTIFICATION_EMAIL = 3 # could be used to queue non event-related notifications
+  EVENT_EDIT = 3
   ACTIVITY = 10
+  COMMENT_REPLY = 11
   ACTIVITY_NOTIFICATION_INTERVAL = Settings.activity_notification_interval
   RECORDING = 20
   RECOMMENDATION = 30
+  INFORM_IASTATE = 40
+  UPDATE_IASTATE = 41
+  
   
   def process
     return true if !Settings.send_notifications
@@ -21,12 +25,20 @@ class Notification < ActiveRecord::Base
       process_event_reminder_emails
     when EVENT_REMINDER_SMS
       process_event_reminder_sms
+    when EVENT_EDIT
+      process_event_edit
     when ACTIVITY
       process_activity_notifications
+    when COMMENT_REPLY
+      process_comment_reply
     when RECORDING
       process_recording_notifications
     when RECOMMENDATION
       process_recommendation
+    when INFORM_IASTATE
+      process_inform_iastate
+    when UPDATE_IASTATE
+      process_update_iastate
     else
       # nothing
     end
@@ -49,6 +61,19 @@ class Notification < ActiveRecord::Base
     self.notifiable.learners.each{|learner| EventMailer.recording(learner: learner, event: self.notifiable).deliver unless !learner.send_recording? or learner.has_event_notification_exception?(self.notifiable)}      
   end
   
+  def process_comment_reply
+    comment = self.notifiable
+    learner = comment.parent.learner
+    event = self.notifiable.event
+    EventMailer.comment_reply(learner: learner, comment: comment).deliver unless !learner.send_recording? or learner.has_event_notification_exception?(event)
+  end
+  
+  def process_event_edit
+    learner = self.notifiable.creator
+    event= self.notifiable
+    EventMailer.event_edit(learner: learner, event: event).deliver unless !learner.send_recording? or learner.has_event_notification_exception?(event)
+  end
+  
   def process_recommendation
     recommendation = self.notifiable
     # doublecheck delivery setting
@@ -56,7 +81,17 @@ class Notification < ActiveRecord::Base
       EventMailer.recommendation(recommendation: recommendation).deliver
     end
   end
+  
+  def process_inform_iastate
+    event = self.notifiable
+    EventMailer.inform_iastate_new(event: event) unless event.started?
+  end
 
+  def process_update_iastate
+    event = self.notifiable
+    EventMailer.inform_iastate_update(event: event) unless event.started?
+  end
+  
   def queue_delayed_notifications
     delayed_job = Delayed::Job.enqueue(NotificationJob.new(self.id), {:priority => 0, :run_at => self.delivery_time})
     self.update_attribute(:delayed_job_id, delayed_job.id)
