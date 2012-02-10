@@ -6,70 +6,78 @@
   
   <div class="form_subgroup">
     <h3>Send me an email when</h3>
+    
+    <% if @learner.email.blank? %>
+      <p>To get email notifications <%= link_to 'please add your email', settings_profile_path %>.</p>
+    <% else %>
+        
+        <%= form_tag(settings_notifications_path, {remote: true}) do -%>
+          <fieldset>
+            <%= hidden_field_tag('notification_type', 'email_reminder_notification') %>
+            <p>
+              <label>
+              <%= check_box_tag('notification.reminder.email', 
+                            '1',
+                            @learner.preferences.setting('notification.reminder.email'),
+                            {class: 'submittable'}) %> 
 
-    <%= form_tag(settings_notifications_path, {remote: true}) do -%>
-      <fieldset>
-        <%= hidden_field_tag('notification_type', 'email_reminder_notification') %>
-        <p>
-          <label>
-          <%= check_box_tag('notification.reminder.email', 
-                        '1',
-                        @learner.preferences.setting('notification.reminder.email'),
-                        {class: 'submittable'}) %> 
+              <span>An event I bookmarked is about to start</span>
+              </label>
+            </p>
+          </fieldset>
+        <%- end -%>
 
-          <span>An event I bookmarked is about to start</span>
-          </label>
-        </p>
-      </fieldset>
-    <%- end -%>
+        <%= form_tag(settings_notifications_path, {remote: true}) do -%>
+          <fieldset>
+            <%= hidden_field_tag('notification_type', 'activity_notification') %>
+            <p>
+              <label>
+                <%= check_box_tag('notification.activity', 
+                          '1',
+                          @learner.preferences.setting('notification.activity'),
+                          {class: 'submittable'}) %> 
 
-    <%= form_tag(settings_notifications_path, {remote: true}) do -%>
-      <fieldset>
-        <%= hidden_field_tag('notification_type', 'activity_notification') %>
-        <p>
-          <label>
-            <%= check_box_tag('notification.activity', 
-                      '1',
-                      @learner.preferences.setting('notification.activity'),
-                      {class: 'submittable'}) %> 
-                      
-            <span>There is activity on an event I bookmarked</span>
-          </label>
-        </p>
-      </fieldset>
-    <%- end -%>
+                <span>There is activity on an event I bookmarked</span>
+              </label>
+            </p>
+          </fieldset>
+        <%- end -%>
 
-    <%= form_tag(settings_notifications_path, {remote: true}) do -%>
-      <fieldset>
-        <%= hidden_field_tag('notification_type', 'recording_notification') %>
-        <p>
-          <label>
-            <%= check_box_tag('notification.recording', 
-                      '1',
-                      @learner.preferences.setting('notification.recording'),
-                      {class: 'submittable'}) %> 
-                      
-            <span>A recording is uploaded to an event I bookmarked</span>
-          </label>
-        </p>
-      </fieldset>
-    <%- end -%>
+        <%= form_tag(settings_notifications_path, {remote: true}) do -%>
+          <fieldset>
+            <%= hidden_field_tag('notification_type', 'recording_notification') %>
+            <p>
+              <label>
+                <%= check_box_tag('notification.recording', 
+                          '1',
+                          @learner.preferences.setting('notification.recording'),
+                          {class: 'submittable'}) %> 
 
-    <%= form_tag(settings_notifications_path, {remote: true}) do -%>
-      <fieldset>
-        <%= hidden_field_tag('notification_type', 'recommendation_notification') %>
-        <p>
-          <label>
-            <%= check_box_tag('notification.recommendation', 
-                      '1',
-                      @learner.preferences.setting('notification.recommendation'),
-                      {class: 'submittable'}) %> 
-                      
-            <span>There are event recommendations for me</span>
-          </label>
-        </p>
-      </fieldset>
-    <%- end -%>
+                <span>A recording is uploaded to an event I bookmarked</span>
+              </label>
+            </p>
+          </fieldset>
+        <%- end -%>
+
+        <%= form_tag(settings_notifications_path, {remote: true}) do -%>
+          <fieldset>
+            <%= hidden_field_tag('notification_type', 'recommendation_notification') %>
+            <p>
+              <label>
+                <%= check_box_tag('notification.recommendation', 
+                          '1',
+                          @learner.preferences.setting('notification.recommendation'),
+                          {class: 'submittable'}) %> 
+
+                <span>There are event recommendations for me</span>
+              </label>
+            </p>
+          </fieldset>
+        <%- end -%>
+        
+    <% end %>
+
+    
   </div>
 
 
