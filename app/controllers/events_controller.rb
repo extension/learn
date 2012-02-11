@@ -10,20 +10,20 @@ class EventsController < ApplicationController
   def index
     @list_title = 'All Sessions'
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events = Event.paginate(:page => params[:page]).order('session_start DESC')
+    @events = Event.active.paginate(:page => params[:page]).order('session_start DESC')
   end
   
   def upcoming
     @list_title = 'Upcoming Sessions'
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events = Event.upcoming.paginate(:page => params[:page]).order('session_start DESC')
+    @events = Event.active.upcoming.paginate(:page => params[:page]).order('session_start DESC')
     render :action => 'index'
   end
   
   def recent
     @list_title = "Recent Sessions"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events =  Event.recent.paginate(:page => params[:page]).order('session_start DESC')
+    @events =  Event.active.recent.paginate(:page => params[:page]).order('session_start DESC')
     render :action => 'index'
   end
   
@@ -32,15 +32,15 @@ class EventsController < ApplicationController
     @list_title = "Sessions Tagged With '#{params[:tags]}'"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
     if(params[:tags])
-      @events = Event.tagged_with(params[:tags]).paginate(:page => params[:page]).order('session_start DESC')
+      @events = Event.active.tagged_with(params[:tags]).paginate(:page => params[:page]).order('session_start DESC')
     else
-      @events = Event.paginate(:page => params[:page]).order('session_start DESC')
+      @events = Event.active.paginate(:page => params[:page]).order('session_start DESC')
     end
     render :action => 'index'
   end
     
   def show
-    @event = Event.find(params[:id])
+    @event = Event.find_by_id(params[:id])
     # dup of global before filter logic in order
     # to force display of event time in the time zone of the session
     if(current_learner and current_learner.has_time_zone?)
@@ -120,6 +120,29 @@ class EventsController < ApplicationController
     end
   end
   
+  def deleted
+    @events = Event.where(deleted: true).paginate(:page => params[:page]).order("session_start DESC")
+  end
+  
+  # the record does not get destroyed,
+  # the deleted flag gets set and the 
+  # event is excluded from queries
+  def set_deleted_flag
+    @event = Event.find(params[:id])
+    @event.update_attribute(:deleted, true)
+    EventActivity.log_delete(current_learner,@event)
+    flash[:notice] = "Event successfully deleted."
+    redirect_to event_url(@event.id)
+  end
+  
+  def undelete
+    @event = Event.find(params[:id])
+    @event.update_attribute(:deleted, false)
+    EventActivity.log_undelete(current_learner,@event)
+    flash[:notice] = "Event successfully restored."
+    redirect_to event_url(@event.id)
+  end
+  
   def search
     # take quotes out to see if it's a blank field and also strip out +, -, and "  as submitted by themselves are apparently special characters 
     # for solr and will make it crash
@@ -131,6 +154,7 @@ class EventsController < ApplicationController
     @list_title = "Session Search Results for '#{params[:q]}'"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
     events = Event.search do
+                with(:deleted, false)
                 fulltext(params[:q])
                 paginate :page => params[:page], :per_page => Event.per_page
               end

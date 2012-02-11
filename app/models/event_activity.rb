@@ -27,6 +27,8 @@ class EventActivity < ActiveRecord::Base
   CONNECT_BOOKMARK          = 52
   CONNECT_ATTEND            = 53
   CONNECT_WATCH             = 54
+  DELETE                    = 80
+  UNDELETE                  = 81
   
   # scoring
   SCORING = {
@@ -60,7 +62,9 @@ class EventActivity < ActiveRecord::Base
     51  => "connected as presenter",
     52  => "bookmarked",
     53  => "attended",
-    54  => "watched",    
+    54  => "watched",
+    80 => "deleted",
+    81 => "un deleted"    
   }
   
   HISTORY_ITEMS = [ANSWER,RATING,RATING_ON_COMMENT,COMMENT,COMMENT_ON_COMMENT,CONNECT,CONNECT_PRESENTER,CONNECT_BOOKMARK,CONNECT_ATTEND,CONNECT_WATCH]
@@ -114,6 +118,14 @@ class EventActivity < ActiveRecord::Base
 
   def self.log_answer(answer)
     self.create_or_update({learner: answer.learner, event: answer.event, activity: ANSWER, trackable: answer.question}, {answer: answer.id})
+  end
+  
+  def self.log_delete(learner, event)
+    self.create_or_update(learner: learner, event: event, activity: DELETE, trackable: event)
+  end
+  
+  def self.log_undelete(learner, event)
+    self.create_or_update(learner: learner, event: event, activity: UNDELETE, trackable: event)
   end
   
   def self.log_rating(rating)

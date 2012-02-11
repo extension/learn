@@ -39,6 +39,8 @@ Learn::Application.routes.draw do
       post 'addanswer'
       post 'makeconnection'
       post 'notificationexception'
+      post 'set_deleted_flag'
+      post 'undelete'
       get 'details'
       get 'history'
     end
@@ -49,6 +51,7 @@ Learn::Application.routes.draw do
       get 'tags'
       get 'recent'
       get 'search'
+      get 'deleted'
       post 'restore' 
     end
   end

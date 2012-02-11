@@ -1,5 +1,9 @@
 <% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") %>
 
+<% if @event.deleted %>
+  <div id="event_status"><h1>This event has been removed. Check with an eXtension admin to undo this.</h1></div>
+<% end %>
+
 <div id="two_col_col_one">
     <section id="event">
       <h1><%= @event.title -%></h1>
@@ -77,6 +81,14 @@
       <p><span class="edit"><%= link_to("edit this event", new_learner_session_path(:redirect_to => request.fullpath + "/edit") )%></span></p>
     <%- end %>
     
+    <% if current_learner && current_learner.is_admin? %>
+      <% if @event.deleted %>
+        <p>This event has been deleted.</p>
+        <%= button_to 'Restore this event', undelete_event_path(@event.id), :method => :post, :confirm => "Are you sure you want to undo the delete for this event?", :class => "btn" %>
+      <% else %>
+        <%= button_to 'Delete this event', set_deleted_flag_event_path(@event.id), :method => :post, :confirm => "Are you sure you want to delete this event?", :class => "btn" %>
+      <% end %>
+    <% end %>
   </section>
 
 </div>

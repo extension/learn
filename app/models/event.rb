@@ -67,11 +67,13 @@ class Event < ActiveRecord::Base
     text :title, more_like_this: true
     text :description, more_like_this: true
     text :tag_list
+    boolean :deleted
   end
   
   scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
+  scope :active, conditions: {deleted: false}
   
   scope :this_week, lambda {
     weekday = Time.now.utc.strftime('%u').to_i

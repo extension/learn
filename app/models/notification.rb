@@ -20,6 +20,11 @@ class Notification < ActiveRecord::Base
   
   def process
     return true if !Settings.send_notifications
+    
+    if (self.notifiable_type == 'Event') && (Event.find_by_id(self.notifiable_id).deleted == true)
+      return true
+    end
+    
     case self.notificationtype
     when EVENT_REMINDER_EMAIL
       process_event_reminder_emails

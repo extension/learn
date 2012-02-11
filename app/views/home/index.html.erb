@@ -85,5 +85,8 @@
   
   <p class="feed"><%= link_to "Subscribe to all events", feeds_events_url() %><p>
   <p class="join"><%= link_to "How to participate in Learn events", "http://create.extension.org/node/698#How_to_Participate_in_eXtension_Professional_Development" %><p>
+  <% if current_learner && current_learner.is_admin? %>
+  <p><%= link_to "See Deleted Events", deleted_events_path %></p>
+  <% end %>
 
 </div>

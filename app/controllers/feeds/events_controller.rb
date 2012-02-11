@@ -8,7 +8,7 @@ class Feeds::EventsController < ApplicationController
   
   def index
     # TODO: tag lookups and limits and any other params - maybe
-    @eventlist = Event.order('updated_at DESC').limit(Settings.default_feed_items)
+    @eventlist = Event.active.order('updated_at DESC').limit(Settings.default_feed_items)
     respond_to do |format|
       format.xml { render :layout => false, :content_type => "application/atom+xml" }
     end

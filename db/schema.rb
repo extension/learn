@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120112212724) do
+ActiveRecord::Schema.define(:version => 20120210164200) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -96,18 +96,19 @@ ActiveRecord::Schema.define(:version => 20120112212724) do
   add_index "event_connections", ["learner_id", "event_id", "connectiontype"], :name => "connection_ndx", :unique => true
 
   create_table "events", :force => true do |t|
-    t.text     "title",            :null => false
-    t.text     "description",      :null => false
-    t.datetime "session_start",    :null => false
-    t.datetime "session_end",      :null => false
-    t.integer  "session_length",   :null => false
+    t.text     "title",                               :null => false
+    t.text     "description",                         :null => false
+    t.datetime "session_start",                       :null => false
+    t.datetime "session_end",                         :null => false
+    t.integer  "session_length",                      :null => false
     t.text     "location"
     t.text     "recording"
-    t.integer  "creator_id",       :null => false
-    t.integer  "last_modifier_id", :null => false
+    t.integer  "creator_id",                          :null => false
+    t.integer  "last_modifier_id",                    :null => false
     t.string   "time_zone"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "deleted",          :default => false, :null => false
   end
 
   create_table "learners", :force => true do |t|
