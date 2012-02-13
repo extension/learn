@@ -17,7 +17,7 @@
 	<tbody>
 		<%- @recommended_event_list.each do |re| -%>
 		<tr>
-			<td><%= link_to(re.event.title, event_data_recommendations_path(event_id: re.event.id)) %></td>
+			<td><%= link_to(re.event.title, data_recommended_event_path(event_id: re.event.id)) %></td>
 			<td><%= re.recommendation.day %></td>
 			<td><%= re.recommendation.learner.name %></td>
 			<td><%= recommended_event_viewed?(re) %></td>

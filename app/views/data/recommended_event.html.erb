@@ -13,7 +13,7 @@
 	<tbody>
 		<%- @event.similar_events.each do |event,score| -%>
 		<tr>
-			<td><%= link_to(event.title, event_data_recommendations_path(event_id: event.id)) %></td>
+			<td><%= link_to(event.title, data_recommended_event_path(event_id: event.id)) %></td>
 			<td><%= number_with_precision(score,precision: 3) %></td>
 		</tr>
 		<%- end -%>

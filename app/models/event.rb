@@ -263,6 +263,7 @@ class Event < ActiveRecord::Base
   # return a list of similar articles using sunspot
   def similar_events(count = 4)
     search_results = self.more_like_this do
+      with(:deleted, false)
       paginate(:page => 1, :per_page => count)
       adjust_solr_params do |params|
         params[:fl] = 'id,score'
@@ -420,7 +421,7 @@ class Event < ActiveRecord::Base
   def self.potential_learners(options = {})
     with_scope do 
       event_list = {}
-      self.all.each do |event|
+      self.active.all.each do |event|
         learners = {}
         with_exclusive_scope do 
           learners =  event.potential_learners(options)

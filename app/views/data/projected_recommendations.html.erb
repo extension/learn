@@ -15,7 +15,7 @@
 	<tbody>
 		<%- @event_list.each do |event,learner_list| -%>
 		<tr>
-			<td><%= link_to(event.title, event_data_recommendations_path(event_id: event.id)) %></td>
+			<td><%= link_to(event.title, data_recommended_event_path(event_id: event.id)) %></td>
 			<td><%= event.session_start.strftime("%B %e") %></td>
 			<%- if learner_list.blank? -%>
 				<td>None at this time.</td>
