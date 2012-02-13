@@ -352,7 +352,9 @@ class Event < ActiveRecord::Base
       self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
     end
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_EDIT, delivery_time: 1.minute.from_now) unless self.last_modifier == self.creator
-    Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) unless self.location.match(Settings.iastate_connect_url).nil?
+    if !self.location.match(Settings.iastate_connect_url).nil? and (self.session_start_changed? or self.session_length_changed? or self.location_changed?)
+      Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now)
+    end
   end
   
   
