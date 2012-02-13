@@ -173,3 +173,9 @@ table.people td {text-align:left; line-height:35px;}
 .name_td {padding-left:0;}
 .avatar_td {width:35px;}
 .upvote {background:#666; color:#fff;}
+
+#event_status {background:yellow; padding:1em; margin:2em 2em 3em; @include boxshadow; @include rounded10; border:2px solid #666;}
+#event_status h1 {font-size:1.8em; line-height:1.5em; margin:0; text-align:center; text-transform:uppercase;}
+#event_status h2 {font-size:1.4em; line-height:1.5em; margin:0; text-align:center;}
+//#deleted_wrapper {background:#444;}
+#deleted_wrapper * {color:#999 !important;}
