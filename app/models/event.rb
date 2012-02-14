@@ -13,7 +13,7 @@ class Event < ActiveRecord::Base
   
   
   # define accessible attributes
-  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone
+  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :last_modifier, :is_expired
   
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
@@ -68,12 +68,14 @@ class Event < ActiveRecord::Base
     text :description, more_like_this: true
     text :tag_list
     boolean :deleted
+    boolean :is_expired
   end
   
   scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
   scope :active, conditions: {deleted: false}
+  scope :not_expired, conditions: {is_expired: false}
   
   scope :this_week, lambda {
     weekday = Time.now.utc.strftime('%u').to_i
@@ -264,6 +266,7 @@ class Event < ActiveRecord::Base
   def similar_events(count = 4)
     search_results = self.more_like_this do
       with(:deleted, false)
+      with(:is_expired, false)
       paginate(:page => 1, :per_page => count)
       adjust_solr_params do |params|
         params[:fl] = 'id,score'
@@ -421,7 +424,7 @@ class Event < ActiveRecord::Base
   def self.potential_learners(options = {})
     with_scope do 
       event_list = {}
-      self.active.all.each do |event|
+      self.active.not_expired.all.each do |event|
         learners = {}
         with_exclusive_scope do 
           learners =  event.potential_learners(options)

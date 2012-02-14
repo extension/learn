@@ -60,6 +60,15 @@
      <%= event_form.text_field :tag_list, :class => "xxl" %>
    </p>
  </fieldset>
+ 
+ <% if !@event.new_record? %>
+   <fieldset>
+     <p>
+       <%= event_form.label :is_expired, 'Expire this Event (Will Not Be Recommended To Others)' %>
+       <%= event_form.check_box :is_expired %>
+     </p>
+  </fieldset>
+<% end %>
 
 <p>
   <%= submit_tag 'Save Session', :class => "btn primary large" %>

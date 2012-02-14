@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120213230522) do
+ActiveRecord::Schema.define(:version => 20120214204920) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(:version => 20120213230522) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "deleted",          :default => false, :null => false
+    t.boolean  "is_expired",       :default => false, :null => false
   end
 
   create_table "learner_activities", :force => true do |t|
