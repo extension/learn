@@ -1,5 +1,10 @@
 <% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") %>
 
+<div id="outofdate" style="display:none;">
+  <h1>This event is not recommended for technical reasons or is out of date</h1>
+  <h2>Please check the event description below for more details</h2>
+</div>
+
 <% if @event.deleted %>
   <div id="event_status">
     <h1>This event is marked for deletion</h1>
