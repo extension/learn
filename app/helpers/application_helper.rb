@@ -55,7 +55,7 @@ module ApplicationHelper
         if privacy_on
           if portfolio_link == :link_it
             ### TODO: Do something here with linking ###
-            return link_to(return_string, portfolio_learner_path(learner.id), :title => learner.name).html_safe
+            return link_to(return_string, portfolio_learner_path(learner.id), {:title => learner.name + " (Your connection is not displayed to other people)", :class => 'private_for_others'}).html_safe
           end
         end
       # no avatar for learner

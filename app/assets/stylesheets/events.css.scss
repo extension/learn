@@ -15,14 +15,16 @@
 #event_learners h3 {font-size:.9em; color:#888; text-transform:uppercase; }
 #event_learner_list {width:100%;margin:0; padding:0;float:left;}
 #event_learner_list li {float:left; list-style:none;}
-#event_learner_list li img {width:36px; height:36px;}
+#event_learner_list li a {float:left; margin-right:.6em;}
+#event_learner_list li img {width:36px; height:36px; margin:0;}
 .smalltext {color:#aaa; margin-top:.5em;clear:left; float:left; font-size:.9em; line-height:1.3em;}
 .smalltext a {color:#aaa; margin-top:.5em;clear:left; float:left; font-size:.9em; line-height:1.3em;}
 .smalltext a:hover {color:#666; margin-top:.5em;clear:left; float:left; font-size:.9em; line-height:1.3em;}
 
 .learner_list {width:100%;margin:0 0 1em; padding:0;float:left;}
-.learner_list img {height:40px; width:40px;}
+.learner_list img {height:40px; width:40px; margin:0;}
 .learner_list li {float:left; list-style:none;}
+.learner_list li a {float:left; margin-right:.6em;}
 
 
 #session_date {float:left; display:block;padding:0 0 0 10px; width:180px; font-size:.8em;}
