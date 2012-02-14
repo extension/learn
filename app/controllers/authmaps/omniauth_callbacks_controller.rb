@@ -2,7 +2,12 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   def twitter
     @learner = Authmap.find_for_twitter_oauth(env["omniauth.auth"], current_learner)
     if @learner.persisted?
-      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Twitter"
+      if @learner.retired == false
+        flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Twitter"
+      else
+        flash[:notice] = "Your account has been retired. You can <a href='#{contact_us_url}'>contact us</a> if you would like to reactivate it."
+      end
+      
       sign_in_and_redirect @learner, :event => :authentication
     else
       session["devise.twitter_data"] = env["omniauth.auth"]
@@ -13,7 +18,11 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   def facebook
     @learner = Authmap.find_for_facebook_oauth(env["omniauth.auth"], current_learner)
     if @learner.persisted?
-      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Facebook"
+      if @learner.retired == false
+        flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Facebook"
+      else
+        flash[:notice] = "Your account has been retired. You can <a href='#{contact_us_url}'>contact us</a> if you would like to reactivate it."
+      end
       sign_in_and_redirect @learner, :event => :authentication
     else
       session["devise.facebook_data"] = env["omniauth.auth"]
@@ -24,7 +33,11 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   def people
     @learner = Authmap.find_for_people_openid(env["omniauth.auth"], current_learner)
     if @learner.persisted?
-      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "eXtension"
+      if @learner.retired == false
+        flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "eXtension"
+      else
+        flash[:notice] = "Your account has been retired. You can <a href='#{contact_us_url}'>contact us</a> if you would like to reactivate it."
+      end
       sign_in_and_redirect @learner, :event => :authentication
     else
       session["devise.people_data"] = env["omniauth.auth"]
@@ -35,7 +48,11 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   def google
     @learner = Authmap.find_for_google_openid(env["omniauth.auth"], current_learner)
     if @learner.persisted?
-      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Google"
+      if @learner.retired == false
+        flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Google"
+      else
+        flash[:notice] = "Your account has been retired. You can <a href='#{contact_us_url}'>contact us</a> if you would like to reactivate it."
+      end
       sign_in_and_redirect @learner, :event => :authentication
     else
       session["devise.google_data"] = env["omniauth.auth"]

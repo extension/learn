@@ -79,7 +79,10 @@ class CommentsController < ApplicationController
   end
   
   def show
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find_by_id(params[:id])
+    if @comment.created_by_blocked_learner?
+      return record_not_found
+    end
   end
   
 end

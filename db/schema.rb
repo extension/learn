@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120210164200) do
+ActiveRecord::Schema.define(:version => 20120213230522) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -111,6 +111,16 @@ ActiveRecord::Schema.define(:version => 20120210164200) do
     t.boolean  "deleted",          :default => false, :null => false
   end
 
+  create_table "learner_activities", :force => true do |t|
+    t.integer  "learner_id",   :null => false
+    t.integer  "recipient_id", :null => false
+    t.integer  "activity",     :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "learner_activities", ["learner_id", "recipient_id", "activity"], :name => "learner_activity_ndx"
+
   create_table "learners", :force => true do |t|
     t.string   "email"
     t.string   "encrypted_password",  :limit => 128
@@ -131,6 +141,7 @@ ActiveRecord::Schema.define(:version => 20120210164200) do
     t.boolean  "is_admin",                           :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_blocked",                         :default => false, :null => false
   end
 
   add_index "learners", ["darmok_id"], :name => "index_learners_on_darmok_id"

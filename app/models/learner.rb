@@ -14,6 +14,8 @@ class Learner < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
   
   has_many :activity_logs
+  has_many :learner_activities
+  has_many :learner_activities_as_recipient, :class_name => "LearnerActivity", :foreign_key => 'recipient_id'
   has_many :questions
   has_many :stock_questions
   has_many :created_events, :class_name => "Event", :foreign_key => 'creator_id'

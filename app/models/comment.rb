@@ -30,6 +30,11 @@ class Comment < ActiveRecord::Base
     self.children.update_all(parent_removed: true)
   end
   
+  def created_by_blocked_learner?
+    return true if self.learner.is_blocked
+    return false
+  end
+  
   def is_reply?
     !self.is_root?
   end

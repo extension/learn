@@ -12,7 +12,8 @@ class ActivityLog < ActiveRecord::Base
   validates :learner, :presence => true
   validates :loggable, :presence => true
   
-  scope :event_activity_records, conditions: {'loggable_type' => 'EventActivity'} 
+  scope :event_activity_records, conditions: {'loggable_type' => 'EventActivity'}
+  scope :learner_activity_records, conditions: {'loggable_type' => 'LearnerActivity'} 
   
   # set up class variable that can be set in application.rb
   @request_ipaddr = '127.0.0.1'
