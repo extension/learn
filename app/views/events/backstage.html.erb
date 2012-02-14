@@ -1,9 +1,9 @@
-<% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") + ' - Details' %>
+<% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") + ' - Backstage' %>
 
 <div id="behindthescenes">
 <h1>Behind the scenes at <small><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></small></h1>
 
-<%= link_to "Grid view", details_event_path(@event.id) %> <%= link_to "Table view", details_event_path(@event.id, :type => "table") %>
+<%= link_to "Grid view", backstage_event_path(@event.id) %> <%= link_to "Table view", backstage_event_path(@event.id, :type => "table") %>
 
 <%- attendee_count = @event.attendees.count -%>
 <%- watched_count = @event.watched.count -%>

@@ -43,7 +43,7 @@ Learn::Application.routes.draw do
       post 'notificationexception'
       post 'set_deleted_flag'
       post 'undelete'
-      get 'details'
+      get 'backstage'
       get 'history'
     end
     

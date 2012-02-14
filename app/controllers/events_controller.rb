@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class EventsController < ApplicationController
-  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :details, :history]
+  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history]
   
   def index
     @list_title = 'All Sessions'
@@ -58,7 +58,7 @@ class EventsController < ApplicationController
     EventActivity.log_view(current_learner,@event) if(current_learner)
   end
   
-  def details
+  def backstage
     @event = Event.find_by_id(params[:id])
   end
   
