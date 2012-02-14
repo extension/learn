@@ -57,5 +57,8 @@ class ApplicationController < ActionController::Base
     { :ipaddress => request.remote_ip }
   end
   
+  def record_not_found
+    render :text => "404 Not Found", :status => 404
+  end
   
 end

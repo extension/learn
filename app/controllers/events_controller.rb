@@ -128,7 +128,7 @@ class EventsController < ApplicationController
   # the deleted flag gets set and the 
   # event is excluded from queries
   def set_deleted_flag
-    @event = Event.find(params[:id])
+    @event = Event.find_by_id(params[:id])
     @event.update_attribute(:deleted, true)
     EventActivity.log_delete(current_learner,@event)
     flash[:notice] = "Event successfully deleted."
@@ -136,7 +136,7 @@ class EventsController < ApplicationController
   end
   
   def undelete
-    @event = Event.find(params[:id])
+    @event = Event.find_by_id(params[:id])
     @event.update_attribute(:deleted, false)
     EventActivity.log_undelete(current_learner,@event)
     flash[:notice] = "Event successfully restored."

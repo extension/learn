@@ -11,6 +11,28 @@ class LearnersController < ApplicationController
   def index
   end
   
+  def block
+    @learner = Learner.find_by_id(params[:id])
+    @learner.retired = true
+    @learner.is_blocked = true
+    @learner.save
+    
+    LearnerActivity.log_block(current_learner, @learner)
+    flash[:notice] = "Learner successfully blocked."
+    redirect_to portfolio_learner_url(@learner.id)
+  end
+  
+  def unblock
+    @learner = Learner.find_by_id(params[:id])
+    @learner.retired = false
+    @learner.is_blocked = false
+    @learner.save
+    
+    LearnerActivity.log_unblock(current_learner, @learner)
+    flash[:notice] = "Learner successfully unblocked."
+    redirect_to portfolio_learner_url(@learner.id)
+  end
+  
   def portfolio
     @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => [:portfolio_setting, :preferences])
     if @learner.blank?
