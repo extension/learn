@@ -5,7 +5,7 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
       if @learner.retired == false
         flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Twitter"
       else
-        flash[:notice] = "Your account has been retired. You can <a href='#{contact_us_url}'>contact us</a> if you would like to reactivate it."
+        redirect_to retired_url
       end
       
       sign_in_and_redirect @learner, :event => :authentication
@@ -21,7 +21,7 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
       if @learner.retired == false
         flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Facebook"
       else
-        flash[:notice] = "Your account has been retired. You can <a href='#{contact_us_url}'>contact us</a> if you would like to reactivate it."
+        redirect_to retired_url
       end
       sign_in_and_redirect @learner, :event => :authentication
     else
@@ -36,7 +36,8 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
       if @learner.retired == false
         flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "eXtension"
       else
-        flash[:notice] = "Your account has been retired. You can <a href='#{contact_us_url}'>contact us</a> if you would like to reactivate it."
+        redirect_to retired_url
+        return
       end
       sign_in_and_redirect @learner, :event => :authentication
     else
@@ -51,7 +52,7 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
       if @learner.retired == false
         flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Google"
       else
-        flash[:notice] = "Your account has been retired. You can <a href='#{contact_us_url}'>contact us</a> if you would like to reactivate it."
+        redirect_to retired_url
       end
       sign_in_and_redirect @learner, :event => :authentication
     else

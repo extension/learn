@@ -35,6 +35,7 @@ Learn::Application.routes.draw do
   match "settings/privacy" => "settings#privacy", :via => [:get, :post]
   
   match "contact_us" => "home#contact_us", :via => :get
+  match "retired" => "home#retired", :via => :get
   
   resources :events do
     member do
