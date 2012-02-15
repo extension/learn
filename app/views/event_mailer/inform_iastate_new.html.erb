@@ -93,7 +93,8 @@
           <%= link_to(event_url(@event.id)) do -%>
           <%= @event.session_start_for_learner(@creator).strftime("%B %e, %Y") -%> at
           <%= @event.session_start_for_learner(@creator).strftime("%l:%M %p %Z") -%> <br />
-          Duration: <%= @event.session_length %> Minutes
+          Duration: <%= @event.session_length %> Minutes <br />
+          <%= @event.location %>
           <%- end -%> 
           </td>
           </tr>
