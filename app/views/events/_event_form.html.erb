@@ -63,10 +63,14 @@
  
  <% if !@event.new_record? %>
    <fieldset>
-     <p>
-       <%= event_form.label :is_expired, 'Expire this Event (Will Not Be Recommended To Others)' %>
+     <p class="clearing">
+       <label>
        <%= event_form.check_box :is_expired %>
+       Expire this Event
+       <span class="help-block">When an event is "expired" a prominent "expired" banner is displayed on the page. The event is also removed from our recommendation engine. Please update the "description" field explaining why the event is expired, and include a link to a better session if available.</span>
+       </label>
      </p>
+     
   </fieldset>
 <% end %>
 
