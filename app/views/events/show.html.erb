@@ -1,10 +1,12 @@
 <% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") %>
+<% @noindex = false %>
 
 <% if @event.is_expired %>
-<div id="outofdate">
-  <h1>This event is not recommended for technical reasons or is out of date</h1>
-  <h2>Please check the event description below for more details</h2>
-</div>
+  <% @noindex = true %>
+  <div id="outofdate">
+    <h1>This event is expired. It is not recommended for technical reasons or is out of date.</h1>
+    <h2>Please check the event description below for more details</h2>
+  </div>
 <% end %>
 
 <% if @event.deleted %>
