@@ -58,3 +58,8 @@
 .make_private.lighter {background:#eee;}
 
 .not_sharing {color:#888;}
+#account_block {background:#eee; clear:both; margin-top:2em; padding:.5em;}
+#account_block form {margin:0; padding:0;}
+#account_block_banner {background:#ffcbcb; padding:1em; @include rounded10; margin-bottom:2em; border:2px solid #ff0000;}
+#account_block_banner h3 {}
+#account_block_banner form {padding:0; margin:0;}

@@ -1,5 +1,12 @@
 <% @page_title = @learner.name + " Learning Portfolio" %>
 
+<% if @learner.is_blocked %>
+<div id="account_block_banner">
+  <h3>This account has been reported and blocked</h3>
+  <%= button_to 'Unblock this account', unblock_learner_path(@learner.id), :method => :post, :confirm => "Unblock this account?", :class => "btn" %>
+</div>
+<% end %>
+
 <div id="learner_info">
   <div id="learner_info_text">
   <h1><%= @learner.name %></h1>  
@@ -163,15 +170,12 @@
     </div>
   <% end %>
   </div>
-  
-  <div>
-    <% if current_learner && (current_learner.id != @learner.id) %>
-      <% if @learner.is_blocked %>
-        <p>This learner has been blocked.</p>
-        <%= button_to 'Unblock this learner', unblock_learner_path(@learner.id), :method => :post, :confirm => "Are you sure you want to unblock this learner?", :class => "btn" %>
-      <% else %>
-        <%= button_to 'Block this learner', block_learner_path(@learner.id), :method => :post, :confirm => "Are you sure you want to block this learner?", :class => "btn" %>
-      <% end %>
-    <% end %>
-  </div>
 </div>
+
+<br class="clearing" />
+
+  <% if current_learner && (current_learner.id != @learner.id) && !@learner.is_blocked %>
+      <div id="account_block">
+        <%= button_to 'Block and report this person\'s account', block_learner_path(@learner.id), :method => :post, :confirm => "Block and report this person's account?", :class => "btn" %>
+      </div>
+  <% end %>
