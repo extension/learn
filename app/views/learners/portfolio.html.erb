@@ -3,7 +3,9 @@
 <% if @learner.is_blocked %>
 <div id="account_block_banner">
   <h3>This account has been reported and blocked</h3>
+  <% if current_learner && (current_learner.id != @learner.id) %>
   <%= button_to 'Unblock this account', unblock_learner_path(@learner.id), :method => :post, :confirm => "Unblock this account?", :class => "btn" %>
+  <% end %>
 </div>
 <% end %>
 
