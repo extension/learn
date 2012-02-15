@@ -184,3 +184,5 @@ table.people td {text-align:left; line-height:35px;}
 #outofdate {background:#ffe48c; padding:1em; margin:2em 2em 3em; @include boxshadow; @include rounded10; border:2px solid #666;}
 #outofdate h1 {font-size:1.8em; line-height:1.5em; margin:0; background: transparent url(/assets/icon_warning.png) left top no-repeat; padding-left:36px;}
 #outofdate h2 {font-size:1.3em; line-height:1.5em; margin:0; padding-left:36px;}
+p.details {margin:0;}
+.expired {background:#444; color:#eee; padding:.1em .5em; font-style:normal; font-size:.65em; text-transform:uppercase; letter-spacing:1px; @include rounded5}
