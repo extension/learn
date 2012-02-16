@@ -9,6 +9,7 @@ class Notification < ActiveRecord::Base
   EVENT_REMINDER_EMAIL = 1
   EVENT_REMINDER_SMS = 2
   EVENT_EDIT = 3
+  EVENT_CANCELED = 4
   ACTIVITY = 10
   COMMENT_REPLY = 11
   ACTIVITY_NOTIFICATION_INTERVAL = Settings.activity_notification_interval
@@ -21,7 +22,7 @@ class Notification < ActiveRecord::Base
   def process
     return true if !Settings.send_notifications
     
-    if (self.notifiable_type == 'Event') && (Event.find_by_id(self.notifiable_id).deleted == true)
+    if (self.notifiable_type == 'Event') && (Event.find_by_id(self.notifiable_id).deleted == true) && (self.notificationtype != EVENT_CANCELED)
       return true
     end
     
@@ -32,6 +33,8 @@ class Notification < ActiveRecord::Base
       process_event_reminder_sms
     when EVENT_EDIT
       process_event_edit
+    when EVENT_CANCELED
+      process_event_cancelled
     when ACTIVITY
       process_activity_notifications
     when COMMENT_REPLY
@@ -77,6 +80,11 @@ class Notification < ActiveRecord::Base
     learner = self.notifiable.creator
     event= self.notifiable
     EventMailer.event_edit(learner: learner, event: event).deliver unless !learner.send_reminder? or learner.has_event_notification_exception?(event)
+  end
+  
+  def process_event_canceled
+    event = self.notifiable
+    EventMailer.event_canceled(event: event).deliver
   end
   
   def process_recommendation

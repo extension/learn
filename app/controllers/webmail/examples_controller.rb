@@ -36,6 +36,11 @@ class Webmail::ExamplesController < ApplicationController
     return render_mail(mail)
   end
   
+  def event_canceled
+    mail = EventMailer.event_canceled(event: Event.last, cache_email: false)
+    return render_mail(mail)
+  end
+  
   def comment_reply
     mail = EventMailer.comment_reply(learner: Learner.learnbot, comment: Comment.last, cache_email: false)
     return render_mail(mail)

@@ -347,7 +347,7 @@ class Event < ActiveRecord::Base
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 45.minutes, offset: 45.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 30.minutes, offset: 30.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 15.minutes, offset: 15.minutes)
-    Notification.create(notifiable: self, notificationtype: Notification::INFORM_IASTATE, delivery_time: 1.minute.from_now) unless self.location.match(Settings.iastate_connect_url).nil?
+    Notification.create(notifiable: self, notificationtype: Notification::INFORM_IASTATE, delivery_time: 1.minute.from_now) unless !self.is_connect_session?
   end
   
   # when an event is updated, the notifications need to be rescheduled if the event session_start changes
@@ -356,7 +356,7 @@ class Event < ActiveRecord::Base
       self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
     end
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_EDIT, delivery_time: 1.minute.from_now) unless self.last_modifier == self.creator
-    if !self.location.match(Settings.iastate_connect_url).nil? and (self.session_start_changed? or self.session_length_changed? or self.location_changed?)
+    if self.is_connect_session? and (self.session_start_changed? or self.session_length_changed? or self.location_changed?)
       Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now)
     end
   end
@@ -439,6 +439,10 @@ class Event < ActiveRecord::Base
     if self.recording_changed? and !self.recording.blank?
       Notification.create(notifiable: self, notificationtype: Notification::RECORDING, delivery_time: 1.minute.from_now)
     end
+  end
+  
+  def is_connect_session?
+    self.location.match(Settings.iastate_connect_url).nil? ? false : true
   end
   
 

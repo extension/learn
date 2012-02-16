@@ -19,4 +19,5 @@ activity_notification_interval: 28800.0
 iastate_support_email: 'extensionwcc@iastate.edu'
 iastate_connect_url: 'http://connect.extension.iastate.edu/learn'
 extension_pd_coordinator: 'beth.raney@extension.org'
+engineering_list: 'engineering@extension.org'
 
