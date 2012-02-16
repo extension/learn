@@ -69,12 +69,10 @@
         <label>
         <%= event_form.check_box :is_canceled %>
         Cancel this Event
-        <span class="help-block"></span>
+        <span class="help-block">The event page is still viewable. A "Canceled" banner is displayed on the page, and an email is sent to people who bookmarked the event. Please update the "description" field explaining why the event was canceled. The event will eventually be removed from the site.</span>
         </label>
       </p>
    </fieldset>
-
-   <span class="help-block">The event page is still viewable. A "deleted/canceled" banner is displayed on the page. and an email is sent to people who bookmarked the event. Please update the "description" field explaining why the event was canceled. The event will eventually be removed from the site.</span>
  <% end %>
   
  <% if (!@event.new_record? && @event.concluded?) || current_learner.is_admin %>
@@ -83,13 +81,11 @@
        <label>
        <%= event_form.check_box :is_expired %>
        Expire this Event
+       <span class="help-block">Use this option when an event is out-of-date or the technical recording is poor. A prominent "expired" banner is displayed on the page, and the event is removed from our recommendation engine. Please update the "description" field explaining why, and include a link to a better session if available.</span>
        </label>
      </p>
      
   </fieldset>
-  
-  <span class="help-block">Use this option when an event is out-of-date or the technical recording is poor. A prominent "expired" banner is displayed on the page, and the event is removed from our recommendation engine. Please update the "description" field explaining why, and include a link to a better session if available.</span>
-  
 <% end %>
 
 
