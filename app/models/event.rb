@@ -359,6 +359,9 @@ class Event < ActiveRecord::Base
     if self.is_connect_session? and (self.session_start_changed? or self.session_length_changed? or self.location_changed?)
       Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now)
     end
+    if self.is_canceled_changed?
+      Notification.create(notifiable: self, notificationtype: Notification::EVENT_CANCELED, delivery_time: 1.minute.from_now)
+    end
   end
   
   
