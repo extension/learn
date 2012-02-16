@@ -43,7 +43,11 @@
       <p>No events presented yet<p>
     <% else %>
       <% @presented_events.each do |event| %>
-        <p class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b   %e, %Y") %></span></p>
+        <p class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>">
+          <% if event.is_expired %>
+            <em class="expired">expired</em>
+          <% end %>
+        <%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b   %e, %Y") %></span></p>
       <% end %>
       <% if current_learner && (current_learner.id == @learner.id || @learner.public_presented_events?) %>
       <p class="view_all"><%= link_to "View all", presented_history_learner_path(@learner) %></p>
@@ -67,7 +71,11 @@
       <p>No events attended yet<p>
     <% else %>
       <% @attended_events.each do |event| %>
-        <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
+        <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>">
+          <% if event.is_expired %>
+            <em class="expired">expired</em>
+          <% end %>
+        <%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
       <% end %>
       <% if current_learner && (current_learner.id == @learner.id || @learner.public_attended_events?) %>
       <p class="view_all"><%= link_to_unless_current "View all", attended_history_learner_path(@learner) %></p>
@@ -91,7 +99,11 @@
       <p>No events watched yet<p>
     <% else %>
       <% @watched_events.each do |event| %>
-        <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>"><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
+        <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>">
+          <% if event.is_expired %>
+            <em class="expired">expired</em>
+          <% end %>
+        <%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
       <% end %>
       <% if current_learner && (current_learner.id == @learner.id || @learner.public_watched_events?) %>
       <p class="view_all"><%= link_to_unless_current "View all", watched_history_learner_path(@learner) %></p>
@@ -119,7 +131,11 @@
   
     <% @bookmarked_events.each do |event| %>
       <div class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>">
-        <h4><%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span>
+        <h4>
+        <% if event.is_expired %>
+          <em class="expired">expired</em>
+        <% end %>
+        <%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span>
           <% if event.session_start >= Time.zone.now && event.session_start < 14.days.from_now -%>
             <span class="coming_soon">Coming up soon!</span>
           <% end %></h4>

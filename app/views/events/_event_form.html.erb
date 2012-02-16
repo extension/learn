@@ -61,7 +61,21 @@
    </p>
  </fieldset>
  
- <% if !@event.new_record? %>
+ <!-- While an event is going on, you can neither cancel it nor expire it -->
+ <!-- Admins can cancel and expire events anytime -->
+ <% if (!@event.new_record? && !@event.started?) || current_learner.is_admin %>
+   <fieldset>
+      <p class="clearing">
+        <label>
+        <%= event_form.check_box :is_canceled %>
+        Cancel this Event
+        <span class="help-block">The event page is still viewable. A "Canceled" banner is displayed on the page, and an email is sent to people who bookmarked the event. Please update the "description" field explaining why the event was canceled. The event will eventually be removed from the site.</span>
+        </label>
+      </p>
+   </fieldset>
+ <% end %>
+  
+ <% if (!@event.new_record? && @event.concluded?) || current_learner.is_admin %>
    <fieldset>
      <p class="clearing">
        <label>
@@ -72,10 +86,8 @@
      </p>
      
   </fieldset>
-  
-  <span class="help-block">The event page is still viewable. A "deleted/canceled" banner is displayed on the page. and an email is sent to people who bookmarked the event. Please update the "description" field explaining why the event was canceled or deleted. The event will eventually be removed from the site.</span>
-  
 <% end %>
+
 
 <p>
   <%= submit_tag 'Save Session', :class => "btn primary large" %>

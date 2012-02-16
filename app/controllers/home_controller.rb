@@ -7,8 +7,8 @@
 class HomeController < ApplicationController
   
   def index
-    @upcoming_events = Event.upcoming(limit = 3)
-    @recent_events = Event.recent(limit = 15)
+    @upcoming_events = Event.active.upcoming(limit = 3)
+    @recent_events = Event.active.recent(limit = 15)
   end
   
   def contact_us

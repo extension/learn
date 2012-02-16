@@ -120,27 +120,8 @@ class EventsController < ApplicationController
     end
   end
   
-  def deleted
-    @events = Event.where(deleted: true).paginate(:page => params[:page]).order("session_start DESC")
-  end
-  
-  # the record does not get destroyed,
-  # the deleted flag gets set and the 
-  # event is excluded from queries
-  def set_deleted_flag
-    @event = Event.find_by_id(params[:id])
-    @event.update_attribute(:deleted, true)
-    EventActivity.log_delete(current_learner,@event)
-    flash[:notice] = "Event successfully deleted."
-    redirect_to event_url(@event.id)
-  end
-  
-  def undelete
-    @event = Event.find_by_id(params[:id])
-    @event.update_attribute(:deleted, false)
-    EventActivity.log_undelete(current_learner,@event)
-    flash[:notice] = "Event successfully restored."
-    redirect_to event_url(@event.id)
+  def canceled
+    @events = Event.where(is_canceled: true).paginate(:page => params[:page]).order("session_start DESC")
   end
   
   def search
@@ -154,7 +135,7 @@ class EventsController < ApplicationController
     @list_title = "Session Search Results for '#{params[:q]}'"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
     events = Event.search do
-                with(:deleted, false)
+                with(:is_canceled, false)
                 fulltext(params[:q])
                 paginate :page => params[:page], :per_page => Event.per_page
               end

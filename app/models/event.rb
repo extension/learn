@@ -13,7 +13,7 @@ class Event < ActiveRecord::Base
   
   
   # define accessible attributes
-  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :last_modifier, :is_expired
+  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :last_modifier, :is_expired, :is_canceled
   
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
@@ -67,14 +67,14 @@ class Event < ActiveRecord::Base
     text :title, more_like_this: true
     text :description, more_like_this: true
     text :tag_list
-    boolean :deleted
+    boolean :is_canceled
     boolean :is_expired
   end
   
   scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
-  scope :active, conditions: {deleted: false}
+  scope :active, conditions: {is_canceled: false}
   scope :not_expired, conditions: {is_expired: false}
   
   scope :this_week, lambda {
@@ -265,7 +265,7 @@ class Event < ActiveRecord::Base
   # return a list of similar articles using sunspot
   def similar_events(count = 4)
     search_results = self.more_like_this do
-      with(:deleted, false)
+      with(:is_canceled, false)
       with(:is_expired, false)
       paginate(:page => 1, :per_page => count)
       adjust_solr_params do |params|

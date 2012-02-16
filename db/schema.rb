@@ -108,8 +108,8 @@ ActiveRecord::Schema.define(:version => 20120214204920) do
     t.string   "time_zone"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "deleted",          :default => false, :null => false
     t.boolean  "is_expired",       :default => false, :null => false
+    t.boolean  "is_canceled",      :default => false, :null => false
   end
 
   create_table "learner_activities", :force => true do |t|
