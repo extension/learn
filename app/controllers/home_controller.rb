@@ -14,5 +14,9 @@ class HomeController < ApplicationController
   def contact_us
     return render :template => 'home/contact_us.html.erb'
   end
+  
+  def retired
+    return render :template => 'home/retired.html.erb'
+  end
 
 end
