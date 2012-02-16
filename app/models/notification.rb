@@ -21,7 +21,7 @@ class Notification < ActiveRecord::Base
   def process
     return true if !Settings.send_notifications
     
-    if (self.notifiable_type == 'Event') && (Event.find_by_id(self.notifiable_id).deleted == true)
+    if (self.notifiable_type == 'Event') && (Event.find_by_id(self.notifiable_id).is_canceled == true)
       return true
     end
     
