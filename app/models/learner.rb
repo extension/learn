@@ -44,6 +44,8 @@ class Learner < ActiveRecord::Base
   
   DEFAULT_TIMEZONE = 'America/New_York'
   
+  scope :valid, conditions: {is_blocked: false}
+  
   # override timezone writer/reader
   # returns Eastern by default, use convert=false
   # when you need a timezone string that mysql can handle

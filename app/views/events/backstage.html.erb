@@ -40,17 +40,17 @@
   <%- end -%>
 </section>
 
-
-
-
 <section>
   <h3>Comments</h3>
-  <%- if @event.comments.count > 0 -%>
-    <p><strong><%= @event.comments.count -%></strong> <%= @event.ratings.count > 1 ? "comments" : "comment" %> by <strong><%= @event.commentators.count -%></strong> <%= @event.commentators.count > 1 ? "people" : "person" %></p>
+  <% filtered_comment_count = get_filtered_comment_count(@event) %>
+  <% filtered_commentators = get_filtered_commentators(@event) %>
+  
+  <%- if filtered_comment_count > 0 -%>
+    <p><strong><%= filtered_comment_count -%></strong> <%= filtered_comment_count > 1 ? "comments" : "comment" %> by <strong><%= filtered_commentators.count -%></strong> <%= filtered_commentators.count > 1 ? "people" : "person" %></p>
     
     <%- if params[:type] == "table" %>
       <table class="people zebra-striped">
-        <%- @event.commentators.each do |commenter| %>
+        <%- filtered_commentators.each do |commenter| %>
         <tr>
           <td class="avatar_td"><%= get_avatar(commenter, :thumb, :link_it) -%></td>
           <td class="name_td"><%= link_to_learner(commenter) %></td>
@@ -59,7 +59,7 @@
         </table>
     <%- else -%>
       <ul class="learner_list">
-        <%- @event.commentators.each do |commenter| %>
+        <%- filtered_commentators.each do |commenter| %>
           <li><%= get_avatar(commenter, :thumb, :link_it) -%></li>
         <%- end -%>
       </ul>
@@ -70,8 +70,6 @@
     <p class="zero_activity">0 comments</p>
   <%- end -%>
 </section>
-
-
 
 <section id="event_questions">
 <h3>Questions</h3>
