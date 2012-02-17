@@ -305,6 +305,10 @@ class Learner < ActiveRecord::Base
     self.preferences.setting('notification.activity')
   end
   
+  def send_rescheduled_or_canceled?
+    self.preferences.setting('notification.rescheduled_or_canceled')
+  end
+  
   def send_recording?
     self.preferences.setting('notification.recording')
   end

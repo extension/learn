@@ -10,19 +10,22 @@ class Notification < ActiveRecord::Base
   EVENT_REMINDER_SMS = 2
   EVENT_EDIT = 3
   EVENT_CANCELED = 4
+  EVENT_RESCHEDULED = 5
   ACTIVITY = 10
   COMMENT_REPLY = 11
   ACTIVITY_NOTIFICATION_INTERVAL = Settings.activity_notification_interval
+  RESCHEDULED_NOTIFICATION_INTERVAL = Settings.rescheduled_notification_interval
   RECORDING = 20
   RECOMMENDATION = 30
   INFORM_IASTATE = 40
   UPDATE_IASTATE = 41
+  CANCELED_IASTATE = 42
   
   
   def process
     return true if !Settings.send_notifications
     
-    if (self.notifiable_type == 'Event') && (Event.find_by_id(self.notifiable_id).is_canceled == true) && (self.notificationtype != EVENT_CANCELED)
+    if (self.notifiable_type == 'Event') && (Event.find_by_id(self.notifiable_id).is_canceled == true) && (self.notificationtype != EVENT_CANCELED or self.notificationtype != CANCELED_IASTATE)
       return true
     end
     
@@ -35,6 +38,8 @@ class Notification < ActiveRecord::Base
       process_event_edit
     when EVENT_CANCELED
       process_event_canceled
+    when EVENT_RESCHEDULED
+      process_event_rescheduled
     when ACTIVITY
       process_activity_notifications
     when COMMENT_REPLY
@@ -47,6 +52,8 @@ class Notification < ActiveRecord::Base
       process_inform_iastate
     when UPDATE_IASTATE
       process_update_iastate
+    when CANCELED_IASTATE
+      process_canceled_iastate
     else
       # nothing
     end
@@ -73,7 +80,7 @@ class Notification < ActiveRecord::Base
     comment = self.notifiable
     learner = comment.parent.learner
     event = self.notifiable.event
-    EventMailer.comment_reply(learner: learner, comment: comment).deliver unless !learner.send_reminder? or learner.has_event_notification_exception?(event)
+    EventMailer.comment_reply(learner: learner, comment: comment).deliver unless !learner.send_activity? or learner.has_event_notification_exception?(event)
   end
   
   def process_event_edit
@@ -84,7 +91,18 @@ class Notification < ActiveRecord::Base
   
   def process_event_canceled
     event = self.notifiable
-    EventMailer.event_canceled(event: event).deliver
+    if !event.started?
+      event.learners.each{|learner| EventMailer.event_canceled(learner: learner, event: event).deliver unless !learner.send_rescheduled_or_canceled? or learner.has_event_notification_exception?(event)}
+      EventMailer.event_canceled(learner: Learner.learnbot, event: event).deliver
+      EventMailer.inform_iastate_canceled(event: event).deliver
+    end
+  end
+  
+  def process_event_rescheduled
+    event = self.notifiable
+    if !event.started?
+      event.learners.each{|learner| EventMailer.event_rescheduled(learner: learner, event: event).deliver unless !learner.send_rescheduled_or_canceled? or learner.has_event_notification_exception?(event)}
+    end    
   end
   
   def process_recommendation
@@ -105,6 +123,11 @@ class Notification < ActiveRecord::Base
     EventMailer.inform_iastate_update(event: event) unless event.started?
   end
   
+  def process_canceled_iastate
+    event = self.notifiable
+    EventMailer.inform_iastate_canceled(event: event) unless event.started?
+  end
+  
   def queue_delayed_notifications
     delayed_job = Delayed::Job.enqueue(NotificationJob.new(self.id), {:priority => 0, :run_at => self.delivery_time})
     self.update_attribute(:delayed_job_id, delayed_job.id)
@@ -115,10 +138,8 @@ class Notification < ActiveRecord::Base
   end
   
   def update_delayed_notifications
-    if !self.processed
       delayed_job = Delayed::Job.find_by_id(self.delayed_job_id)
       delayed_job.update_attributes(:run_at => self.delivery_time) if !delayed_job.nil?
-    end
   end
   
   def sms_message(learner)
@@ -140,7 +161,11 @@ class Notification < ActiveRecord::Base
   end
   
   def self.pending_activity_notification?(notifiable)
-    Notification.where(notifiable_id: notifiable.id, delivery_time: Time.now..ACTIVITY_NOTIFICATION_INTERVAL.from_now).size > 0
+    Notification.where(notifiable_id: notifiable.id, notificationtype: ACTIVITY, delivery_time: Time.now..ACTIVITY_NOTIFICATION_INTERVAL.from_now).size > 0
+  end
+  
+  def self.pending_rescheduled_notification?(notifiable)
+    Notification.where(notifiable_id: notifiable.id, notificationtype: EVENT_RESCHEDULED, delivery_time: Time.now..RESCHEDULED_NOTIFICATION_INTERVAL.from_now).size > 0
   end
   
 

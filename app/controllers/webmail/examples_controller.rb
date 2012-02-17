@@ -37,7 +37,12 @@ class Webmail::ExamplesController < ApplicationController
   end
   
   def event_canceled
-    mail = EventMailer.event_canceled(event: Event.last, cache_email: false)
+    mail = EventMailer.event_canceled(learner: Learner.learnbot, event: Event.last, cache_email: false)
+    return render_mail(mail)
+  end
+
+  def event_rescheduled
+    mail = EventMailer.event_rescheduled(learner: Learner.learnbot, event: Event.last, cache_email: false)
     return render_mail(mail)
   end
   
@@ -53,6 +58,11 @@ class Webmail::ExamplesController < ApplicationController
   
   def inform_iastate_update
     mail = EventMailer.inform_iastate_update(event: Event.last, cache_email: false)
+    return render_mail(mail)
+  end
+  
+  def inform_iastate_canceled
+    mail = EventMailer.inform_iastate_canceled(event: Event.last, cache_email: false)
     return render_mail(mail)
   end
   

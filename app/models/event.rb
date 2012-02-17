@@ -352,15 +352,22 @@ class Event < ActiveRecord::Base
   
   # when an event is updated, the notifications need to be rescheduled if the event session_start changes
   def update_event_notifications
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_EDIT, delivery_time: 1.minute.from_now) unless self.last_modifier == self.creator
     if self.session_start_changed?
       self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
     end
-    Notification.create(notifiable: self, notificationtype: Notification::EVENT_EDIT, delivery_time: 1.minute.from_now) unless self.last_modifier == self.creator
-    if self.is_connect_session? and (self.session_start_changed? or self.session_length_changed? or self.location_changed?)
-      Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now)
+    if self.session_start_changed? or self.session_length_changed? or self.location_changed?
+      Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
+      Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)
     end
     if self.is_canceled_changed?
-      Notification.create(notifiable: self, notificationtype: Notification::EVENT_CANCELED, delivery_time: 1.minute.from_now)
+      if self.is_canceled?
+        Notification.create(notifiable: self, notificationtype: Notification::CANCELED_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
+        Notification.create(notifiable: self, notificationtype: Notification::EVENT_CANCELED, delivery_time: 1.minute.from_now)
+      else
+        Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
+        Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)
+      end
     end
   end
   

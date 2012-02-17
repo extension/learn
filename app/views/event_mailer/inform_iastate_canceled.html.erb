@@ -74,7 +74,6 @@
       <%- else -%>
         <a href="">View in a browser</a> 
       <%- end -%>
-      <%= link_to "Unsubscribe", settings_notifications_url() %>
     </td>
   </tr>
   
@@ -111,6 +110,9 @@
       <tr>
         <td id="reminder_description"><%= @last_modified_by.name %> (<%= @last_modified_by.email %>) canceled this event. </td>
       </tr>
+      <tr>
+        <td>Please make contact with <%= @last_modified_by.email %> or <%= Settings.extension_pd_coordinator %> to confirm.</td>
+      </tr>
     </table>
 
   </td></tr>
@@ -130,7 +132,6 @@
             <%- else -%>
               <a href="">View in a browser</a> 
             <%- end -%>
-            <%= link_to "Unsubscribe", settings_notifications_url() %>
           </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
