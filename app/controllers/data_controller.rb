@@ -16,6 +16,11 @@ class DataController < ApplicationController
     @activity = @activity.paginate(:page => params[:page])
   end
   
+  def blocked_activity
+    learner_activity = LearnerActivity.blocking.order("created_at DESC")
+    @activities = learner_activity.paginate(:page => params[:page])
+  end
+  
   def events
     parse_dates
     

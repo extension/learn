@@ -90,6 +90,7 @@ Learn::Application.routes.draw do
     match "/recommended_event/:event_id" => "data#recommended_event", :as => 'data_recommended_event'  
     match "/projected_recommendations" => "data#projected_recommendations", :as => 'data_projected_recommendations'  
     match "/recent_recommendations" => "data#recent_recommendations", :as => 'data_recent_recommendations'  
+    match "/blocked_activity" => "data#blocked_activity", :as => 'data_blocked_activity'
   end
       
   root :to => 'home#index'

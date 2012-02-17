@@ -1,0 +1,30 @@
+<%= render(partial: 'navtabs') -%>
+<div>
+<% if @activities.count > 0 %>
+
+  <table class="zebra-striped activity">
+    <% @activities.each do |activity| %>
+      <tr>
+        <th>When</th>
+        <th>Initiated By</th>
+        <th>Activity</th>
+        <th>Recipient</th>
+      </tr>
+      <tr> 
+        <td><%= time_ago_in_words(activity.created_at) %> ago
+        <small><%= activity.created_at %></small></td>
+        <td><%= link_to_learner(activity.learner) %></td>
+        <td><%= activity.description %></td>
+        <td><%= link_to_learner(activity.recipient) %></td>
+      </tr>
+    <% end %>
+  </table>
+  
+  <p>Displaying <strong><%= @activities.offset + 1 %>-<%= @activities.offset + @activities.length %> of <%= @activities.total_entries %></strong></p>
+  <%= will_paginate @activities %>
+<% else %>
+  <div class="noevents">
+  <h3>No activity at this time</h3>
+  </div>
+<% end %>
+</div>

@@ -12,6 +12,8 @@ class LearnerActivity < ActiveRecord::Base
     2   => "unblocked"
   }
   
+  scope :blocking, conditions: "activity IN (#{BLOCKED}, #{UNBLOCKED})"
+  
   
   def create_activity_log(additional_information)
     self.activity_logs.create(learner: self.learner, additional: additional_information)
@@ -28,6 +30,10 @@ class LearnerActivity < ActiveRecord::Base
   def self.create_with_activity_log(attributes, additional_information = nil)
     record = self.create(attributes)
     record.create_activity_log(additional_information)  
+  end
+  
+  def description
+    ACTIVITY_MAP[self.activity]
   end
 
 end
