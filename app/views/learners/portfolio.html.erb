@@ -127,7 +127,7 @@
   <% if @learner.public_bookmarked_events? %>
     <% if @bookmarked_events.length == 0 %>
       <p>No events bookmarked yet</p>
-    <% end %>
+    <% else %>
   
     <% @bookmarked_events.each do |event| %>
       <div class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>">
@@ -145,6 +145,8 @@
       
     <% if current_learner && (current_learner.id == @learner.id || @learner.public_bookmarked_events?) %>
     <p class="view_all"><%= link_to_unless_current "View all", bookmarked_history_learner_path(@learner) %></p>
+    <% end %>
+    
     <% end %>
   <% else %>
     <div class="not_sharing">
