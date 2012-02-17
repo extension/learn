@@ -34,7 +34,7 @@ class Notification < ActiveRecord::Base
     when EVENT_EDIT
       process_event_edit
     when EVENT_CANCELED
-      process_event_cancelled
+      process_event_canceled
     when ACTIVITY
       process_activity_notifications
     when COMMENT_REPLY
