@@ -354,7 +354,7 @@ class Event < ActiveRecord::Base
   def update_event_notifications
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_EDIT, delivery_time: 1.minute.from_now) unless self.last_modifier == self.creator
     if self.session_start_changed?
-      self.notifications.each{|notification| notification.update_delivery_time(self.session_start)}
+      self.notifications.each{|notification| notification.update_delivery_time(self.session_start) if (notification.notificationtype == Notification::EVENT_REMINDER_EMAIL or notification.notificationtype == EVENT_REMINDER_SMS) }
     end
     if self.session_start_changed? or self.session_length_changed? or self.location_changed?
       Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
