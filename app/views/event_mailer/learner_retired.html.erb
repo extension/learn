@@ -4,7 +4,7 @@
 
 <head>
   <title>
-    Connect Session Canceled
+    Learner Retired
   </title>
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
   <style type="text/css">
@@ -65,7 +65,7 @@
     </th>
   </tr>
   <tr class="tagline">
-    <td>Connect Session Canceled</td>
+    <td>Learner Retired</td>
   </tr>
   <tr class="options">
     <td>
@@ -74,14 +74,13 @@
       <%- else -%>
         <a href="">View in a browser</a> 
       <%- end -%>
-      <%= link_to "Unsubscribe", settings_notifications_url() %>
     </td>
   </tr>
   
   <tr><td>
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
       <tr>
-        <td id="reminder_title"><%= link_to(@event.title, event_url(@event.id)) -%> has been canceled</td>
+        <td id="reminder_title"><%= link_to(@learner.name, learner_url(@learner.id)) -%> has been retired</td>
       </tr>
       <tr>
         <td id="event_start_time">
@@ -91,11 +90,7 @@
               <%= image_tag("#{root_url}email/clock.png", size: "60x60") %>
               </td>
             <td>
-          <%= link_to(event_url(@event.id)) do -%>
-          <%= @event.session_start_for_learner(@creator).strftime("%B %e, %Y") -%> at
-          <%= @event.session_start_for_learner(@creator).strftime("%l:%M %p %Z") -%> <br />
-          Duration: <%= @event.session_length %> Minutes <br />
-          <%= @event.location %>
+          <%= link_to(learner_url(@learner.id)) do -%>
           <%- end -%> 
           </td>
           </tr>
@@ -105,12 +100,13 @@
       <tr>
         <td id="button">
           <br/>
-          <%= link_to("View this event", event_url(@event.id)) -%>
+          <%= link_to("View this learner", learner_url(@learner.id)) -%>
         </td>
       </tr>
       <tr>
-        <td id="reminder_description"><%= @last_modified_by.name %> canceled this event. </td>
+        <td id="reminder_description"><%= @learner.name %> (<%= @learner.email %>) has been retired. </td>
       </tr>
+
     </table>
 
   </td></tr>
@@ -130,7 +126,6 @@
             <%- else -%>
               <a href="">View in a browser</a> 
             <%- end -%>
-            <%= link_to "Unsubscribe", settings_notifications_url() %>
           </td>
         </tr>
         <tr><td>&nbsp;</td></tr>

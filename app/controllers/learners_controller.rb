@@ -15,6 +15,7 @@ class LearnersController < ApplicationController
     @learner = Learner.find_by_id(params[:id])
     @learner.retired = true
     @learner.is_blocked = true
+    Notification.create(notifiable: @learner, notificationtype: Notification::LEARNER_RETIRED, delivery_time: 1.minute.from_now) unless @learner.nil?
     @learner.save
     
     LearnerActivity.log_block(current_learner, @learner)

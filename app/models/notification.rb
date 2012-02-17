@@ -20,6 +20,7 @@ class Notification < ActiveRecord::Base
   INFORM_IASTATE = 40
   UPDATE_IASTATE = 41
   CANCELED_IASTATE = 42
+  LEARNER_RETIRED = 50
   
   
   def process
@@ -54,6 +55,8 @@ class Notification < ActiveRecord::Base
       process_update_iastate
     when CANCELED_IASTATE
       process_canceled_iastate
+    when LEARNER_RETIRED
+      process_learner_retired
     else
       # nothing
     end
@@ -126,6 +129,11 @@ class Notification < ActiveRecord::Base
   def process_canceled_iastate
     event = self.notifiable
     EventMailer.inform_iastate_canceled(event: event) unless event.started?
+  end
+  
+  def process_learner_retired
+    learner = self.notifiable
+    EventMailer.learner_retired(learner: learner)
   end
   
   def queue_delayed_notifications
