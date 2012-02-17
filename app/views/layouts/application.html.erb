@@ -16,9 +16,9 @@
 </head>
 <body id="<%= params[:controller].gsub('/','-') %>">
 
-  <%- if Settings.app_location == 'demo' %>
+  <%- if (Settings.app_location == 'demo') || (Settings.app_location == 'dev') %>
     <div id="app_location" class="demo">
-      <p>You are viewing <strong>Learn Demo</strong>. The data on this demo site is regularly deleted for testing and development purposes. <%= link_to("Visit the real Learn site", "http://learn.extension.org") -%>.</p>
+      <p>You are viewing <strong>Learn <%= Settings.app_location %></strong>. The data on this demo site is regularly deleted for testing and development purposes. <strong><%= link_to("Visit the real Learn site", "http://learn.extension.org") -%></strong>.</p>
     </div>
   <% end %>
   
