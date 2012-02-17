@@ -26,9 +26,9 @@ class Event < ActiveRecord::Base
   has_many :questions, order: 'priority,created_at', dependent: :destroy
   has_many :answers, :through => :questions
   has_many :comments, dependent: :destroy
-  has_many :commentators, through: :comments, source: :learner, uniq: true
-  has_many :ratings, :as => :rateable, dependent: :destroy
-  has_many :raters, :through => :ratings, :source => :learner
+  has_many :commentators, through: :comments, source: :learner, :conditions => "learners.is_blocked = false", uniq: true
+  has_many :ratings, :as => :rateable, :include => :learner, :conditions => "learners.is_blocked = false", dependent: :destroy
+  has_many :raters, :through => :ratings, :source => :learner, :conditions => "learners.is_blocked = false"
   has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
   has_many :presenter_connections, dependent: :destroy
@@ -74,6 +74,7 @@ class Event < ActiveRecord::Base
   scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
+  
   scope :active, conditions: {is_canceled: false}
   scope :not_expired, conditions: {is_expired: false}
   
@@ -326,15 +327,15 @@ class Event < ActiveRecord::Base
   end
     
   def attendees
-    learners.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
+    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::ATTEND)
   end
   
   def watched
-    learners.where("event_connections.connectiontype = ?", EventConnection::WATCH)
+    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::WATCH)
   end
   
   def bookmarked
-    learners.where("event_connections.connectiontype = ?", EventConnection::BOOKMARK)
+    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::BOOKMARK)
   end
   
   # when an event is created, up to 6 notifications need to be created.

@@ -28,6 +28,38 @@ module EventsHelper
     end
   end
   
+  # we don't display comments from those who are blocked, and we also don't show the children of those comments, 
+  # we're getting the count of just the comments that are shown.
+  def get_filtered_comment_count(event)
+    invisible_comments = event.comments.joins(:learner).where("learners.is_blocked = true")
+
+    invisible_descendant_count = 0
+    invisible_comments.each do |comment|
+      invisible_descendant_count += comment.descendants.count
+    end
+    return event.comments.count - (invisible_comments.count + invisible_descendant_count)
+  end
+  
+  # we don't display comments from those who are blocked, and we also don't show the children of those comments, 
+  # we're getting the commentators (learners) of just those comments that are shown.
+  def get_filtered_commentators(event)
+    invisible_comments = event.comments.joins(:learner).where("learners.is_blocked = true")
+    invisible_commenter_ids = invisible_comments.map{|c| c.learner_id}
+    visible_commenter_ids = event.commentators.map{|l| l.id}
+    
+    invisible_comments.each do |comment|
+      invisible_commenter_ids.concat(comment.descendants.map{|descendant| descendant.learner_id})
+    end
+    
+    invisible_commenter_ids = invisible_commenter_ids - visible_commenter_ids
+    
+    if invisible_commenter_ids.length > 0
+       event.commentators.where("learners.id NOT IN (#{invisible_commenter_ids.join(',')})")
+    else
+      return event.commentators
+    end
+  end
+  
   def scale_value(question)
     if(!current_learner)
       nil
