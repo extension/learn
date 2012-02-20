@@ -36,11 +36,8 @@ class LearnersController < ApplicationController
   
   def portfolio
     @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => [:portfolio_setting, :preferences])
-    if @learner.blank?
-      flash[:error] = "Invalid Learner Specified"
-      return redirect_to root_url
-    end
-  
+    return record_not_found if !@learner
+    
     @attended_events = @learner.events.active.attended.order("event_connections.created_at DESC").limit(5)
     @watched_events = @learner.events.active.watched.order("event_connections.created_at DESC").limit(5)
     @presented_events = @learner.presented_events.active.order("session_start DESC").limit(5)
@@ -57,10 +54,8 @@ class LearnersController < ApplicationController
   
   def presented_history
     @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
-    if @learner.blank?
-      flash[:error] = "Invalid Learner Specified"
-      return redirect_to root_url
-    end
+    return record_not_found if !@learner
+    
     prepare_history('Presented')
     @events = @learner.presented_events.active.paginate(:page => params[:page]).order('session_start DESC')
     render :action => 'learning_history'
@@ -68,10 +63,7 @@ class LearnersController < ApplicationController
   
   def attended_history
     @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
-    if @learner.blank?
-      flash[:error] = "Invalid Learner Specified"
-      return redirect_to root_url
-    end
+    return record_not_found if !@learner
     
     prepare_history('Attended')
     @events = @learner.events.active.attended.paginate(:page => params[:page]).order('session_start DESC')
@@ -80,10 +72,7 @@ class LearnersController < ApplicationController
   
   def watched_history
     @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
-    if @learner.blank?
-      flash[:error] = "Invalid Learner Specified"
-      return redirect_to root_url
-    end
+    return record_not_found if !@learner
     
     prepare_history('Watched')
     @events = @learner.events.active.watched.paginate(:page => params[:page]).order('session_start DESC')
@@ -92,10 +81,7 @@ class LearnersController < ApplicationController
   
   def bookmarked_history
     @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
-    if @learner.blank?
-      flash[:error] = "Invalid Learner Specified"
-      return redirect_to root_url
-    end
+    return record_not_found if !@learner
     
     prepare_history('Bookmarked')
     @events = @learner.events.active.bookmarked.paginate(:page => params[:page]).order('session_start DESC')
@@ -103,12 +89,6 @@ class LearnersController < ApplicationController
   end
   
   def commented_history
-    #@learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
-    #if @learner.blank?
-    #  flash[:error] = "Invalid Learner Specified"
-    #  return redirect_to root_url
-    #end
-    
     @learner = current_learner
     prepare_history('Commented')
     @events = @learner.commented_events.active.paginate(:page => params[:page]).order('session_start DESC')
@@ -117,10 +97,7 @@ class LearnersController < ApplicationController
   
   def rated_history
     @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
-    if @learner.blank?
-      flash[:error] = "Invalid Learner Specified"
-      return redirect_to root_url
-    end
+    return record_not_found if !@learner
     
     prepare_history('Rated')
     @events = @learner.rated_events.active.paginate(:page => params[:page]).order('session_start DESC')
@@ -129,10 +106,7 @@ class LearnersController < ApplicationController
   
   def answered_question_history    
     @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
-    if @learner.blank?
-      flash[:error] = "Invalid Learner Specified"
-      return redirect_to root_url
-    end
+    return record_not_found if !@learner
     
     prepare_history('Answered Questions')
     @events = @learner.events_answered.active.paginate(:page => params[:page]).order('session_start DESC')

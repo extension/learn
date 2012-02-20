@@ -41,6 +41,7 @@ class EventsController < ApplicationController
     
   def show
     @event = Event.find_by_id(params[:id])
+    return record_not_found if !@event
     # dup of global before filter logic in order
     # to force display of event time in the time zone of the session
     if(current_learner and current_learner.has_time_zone?)
@@ -60,10 +61,12 @@ class EventsController < ApplicationController
   
   def backstage
     @event = Event.find_by_id(params[:id])
+    return record_not_found if !@event
   end
   
   def history
     @event = Event.find_by_id(params[:id])
+    return record_not_found if !@event
   end
   
   def recommended
@@ -100,6 +103,7 @@ class EventsController < ApplicationController
   
   def edit
     @event = Event.find(params[:id])
+    return record_not_found if !@event
   end
   
   def update
