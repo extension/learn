@@ -65,7 +65,7 @@
  
  <!-- While an event is going on, you can neither cancel it nor expire it -->
  <!-- Admins can cancel and expire events anytime -->
- <% if (!@event.new_record? && !@event.started?) || current_learner.is_admin %>
+ <% if (!@event.new_record? && !@event.started?) || (current_learner.is_admin && !@event.new_record?) %>
    <fieldset>
       <p class="clearing">
         <label>
@@ -77,7 +77,7 @@
    </fieldset>
  <% end %>
   
- <% if (!@event.new_record? && @event.concluded?) || current_learner.is_admin %>
+ <% if (!@event.new_record? && @event.concluded?) || (current_learner.is_admin && !@event.new_record?) %>
    <fieldset>
      <p class="clearing">
        <label>

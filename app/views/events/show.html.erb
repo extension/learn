@@ -88,10 +88,8 @@
   <section id="event_meta">
     <p>Created by <%= link_to_learner(@event.creator) %></p>
     
-    <%- if current_learner -%>
+    <%- if current_learner && current_learner.is_extension_account? -%>
       <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
-    <%- else %>
-      <p><span class="edit"><%= link_to("edit this event", new_learner_session_path(:redirect_to => request.fullpath + "/edit") )%></span></p>
     <%- end %>
   </section>
 

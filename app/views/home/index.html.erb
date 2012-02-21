@@ -64,9 +64,11 @@
   <p>If you have a suggestions for a topic, you can tweet to <%= link_to "@extensionLearns", "http://twitter.com/extensionLearns" %> on Twitter.</p>
     
   <%- if current_learner -%>
-    <div id="create_event">
-    <%= link_to "Create a new event", new_event_path(), :class => "btn" %>
-    </div>
+    <% if current_learner.is_extension_account? %>
+      <div id="create_event">
+      <%= link_to "Create a new event", new_event_path(), :class => "btn" %>
+      </div>
+    <% end %>
   <%- else -%>
     
     <div id="signin">
