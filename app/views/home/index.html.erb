@@ -68,6 +68,10 @@
       <div id="create_event">
       <%= link_to "Create a new event", new_event_path(), :class => "btn" %>
       </div>
+    <% else %>
+      <div id="create_event">
+      <%= link_to "Create a new event", exid_path(), :class => "btn" %>
+      </div>
     <% end %>
   <%- else -%>
     
@@ -77,7 +81,7 @@
       <h3>Why Sign in?</h3>
       <ul>
         <li>Mark events you attended, watched or are interested in</li>
-        <li>Get text/email notifications for events right before they start</li>
+        <li>Get text/email notifications for events</li>
         <li>Comment on and rate events</li>
       </ul>
     </div>

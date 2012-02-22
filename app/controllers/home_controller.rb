@@ -18,5 +18,9 @@ class HomeController < ApplicationController
   def retired
     return render :template => 'home/retired.html.erb'
   end
+  
+  def exid
+    return render :template => 'home/exid.html.erb'
+  end
 
 end
