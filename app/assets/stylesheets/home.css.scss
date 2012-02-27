@@ -9,7 +9,8 @@
 
 
 #upcoming_events section.event {@include rounded10; @include boxshadow; margin-bottom:1em; padding:1em; background:#f5f5f5;}
-#upcoming_events section.event h3 {line-height:1em; clear:left;}
+#upcoming_events section.event h3.event_title {line-height:1.2em; clear:left; padding-bottom:.65em; font-size:1.8em;}
+#upcoming_events section.event h3.event_title a {color:#0c2f59;}
 
 #recent_events {}
 
@@ -26,3 +27,14 @@
 .exid {background:#eee; padding:2em; @include rounded10}
 .exid h1 {font-size:1.7em; line-height:1.3em; color:#333; font-weight:normal;}
 .exid h2 {font-size:1.2em; line-height:1.2em; font-weight:normal; color:#666; margin-bottom:1em;}
+
+.cross_promotion {margin-top:2em; padding:1em; @include rounded10;}
+.cross_promotion h3 {margin-bottom:.5em; color:#fff; border-bottom:1px dotted #fff;}
+
+.cross_promotion div {margin-bottom:.25em; padding:.75em;}
+.cross_promotion h5 {margin:0; color:#fff; padding:0; line-height:1.5em;}
+.cross_promotion p {margin:0; color:#fff; padding:0;}
+.cross_promotion a:hover {text-decoration:underline}
+.cross_promotion a:hover div {}
+.cross_promotion a:hover h5 {text-decoration:underline !important; color:#fff;}
+.cross_promotion a:hover p {text-decoration:none; color:#fff;}

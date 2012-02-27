@@ -12,7 +12,7 @@
           <span class="date"><%= event.session_start.strftime("%d") -%></span>
        </div>
       
-      <h3><%= link_to(event.title, event_path(event.id)) -%></h3>
+      <h3 class="event_title"><%= link_to(event.title, event_path(event.id)) -%></h3>
     
       <div class="description"><%= format_text_for_display(event.description) -%></div>
 
@@ -85,8 +85,6 @@
         <li>Comment on and rate events</li>
       </ul>
     </div>
-    
-    
   <%- end -%>
   
   <p class="feed"><%= link_to "Subscribe to all events", feeds_events_url() %><p>
@@ -94,5 +92,24 @@
   <% if current_learner %>
   <p><%= link_to "See Canceled Events", canceled_events_path %></p>
   <% end %>
-
+  
+  <div class="cross_promotion">
+    <h3>More from eXtension</h3>
+    
+    <%= link_to("http://www.extension.org/") do %>
+      <div>
+        <h5>eXtension Public Site</h5>
+        <p>Objective, research-based and credible information you can use every day to improve your life.</p> 
+       </div>
+    <% end %>
+    
+    <%= link_to("http://campus.extension.org/") do %>
+      <div>
+        <h5>Online Campus</h5>
+        <p>Educational courses brought to you by experts from the nation's largest and oldest network of universities.</p> 
+       </div>
+    <% end %>
+    
+  </div>
+  
 </div>
