@@ -13,6 +13,8 @@
   <% if @noindex %>
   <meta name="robots" content="noindex">
   <% end %>
+
+  <meta property="og:image" content="<%= image_tag("extension_logo.jpg") %>" />
 </head>
 <body id="<%= params[:controller].gsub('/','-') %>">
 
