@@ -6,10 +6,7 @@
 
 class LearnersController < ApplicationController
   before_filter :authenticate_portfolio_if_not_public, only: [:portfolio]
-  before_filter :authenticate_learner!, except: [:index, :portfolio]
-  
-  def index
-  end
+  before_filter :authenticate_learner!, except: [:portfolio]
   
   def block
     @learner = Learner.find_by_id(params[:id])
