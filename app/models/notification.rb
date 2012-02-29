@@ -63,39 +63,39 @@ class Notification < ActiveRecord::Base
   end
   
   def process_event_reminder_emails
-    self.notifiable.learners.each{|learner| EventMailer.reminder(learner: learner, event: self.notifiable).deliver unless !learner.send_reminder? or learner.has_event_notification_exception?(self.notifiable)}      
+    self.notifiable.learners.each{|learner| EventMailer.reminder(learner: learner, event: self.notifiable).deliver unless (learner.email.nil? or !learner.send_reminder? or learner.has_event_notification_exception?(self.notifiable))}      
   end
 
   def process_event_reminder_sms
-    self.notifiable.learners.each{|learner| send_sms_notification(learner) unless !learner.send_sms?(self.offset) or learner.has_event_notification_exception?(self.notifiable)}      
+    self.notifiable.learners.each{|learner| send_sms_notification(learner) unless (learner.email.nil? or !learner.send_sms?(self.offset) or learner.has_event_notification_exception?(self.notifiable))}      
   end  
 
   def process_activity_notifications
-    self.notifiable.learners.each{|learner| EventMailer.activity(learner: learner, event: self.notifiable).deliver unless !learner.send_activity? or learner.has_event_notification_exception?(self.notifiable)}      
+    self.notifiable.learners.each{|learner| EventMailer.activity(learner: learner, event: self.notifiable).deliver unless (learner.email.nil? or !learner.send_activity? or learner.has_event_notification_exception?(self.notifiable))}      
   end
   
   #still need to implement email
   def process_recording_notifications
-    self.notifiable.learners.each{|learner| EventMailer.recording(learner: learner, event: self.notifiable).deliver unless !learner.send_recording? or learner.has_event_notification_exception?(self.notifiable)}      
+    self.notifiable.learners.each{|learner| EventMailer.recording(learner: learner, event: self.notifiable).deliver unless (learner.email.nil? or !learner.send_recording? or learner.has_event_notification_exception?(self.notifiable))}      
   end
   
   def process_comment_reply
     comment = self.notifiable
     learner = comment.parent.learner
     event = self.notifiable.event
-    EventMailer.comment_reply(learner: learner, comment: comment).deliver unless !learner.send_activity? or learner.has_event_notification_exception?(event)
+    EventMailer.comment_reply(learner: learner, comment: comment).deliver unless (learner.email.nil? or !learner.send_activity? or learner.has_event_notification_exception?(event))
   end
   
   def process_event_edit
     learner = self.notifiable.creator
     event= self.notifiable
-    EventMailer.event_edit(learner: learner, event: event).deliver unless !learner.send_reminder? or learner.has_event_notification_exception?(event)
+    EventMailer.event_edit(learner: learner, event: event).deliver unless (learner.email.nil? or !learner.send_reminder? or learner.has_event_notification_exception?(event))
   end
   
   def process_event_canceled
     event = self.notifiable
     if !event.started?
-      event.learners.each{|learner| EventMailer.event_canceled(learner: learner, event: event).deliver unless !learner.send_rescheduled_or_canceled? or learner.has_event_notification_exception?(event)}
+      event.learners.each{|learner| EventMailer.event_canceled(learner: learner, event: event).deliver unless (learner.email.nil? or !learner.send_rescheduled_or_canceled? or learner.has_event_notification_exception?(event))}
       EventMailer.event_canceled(learner: Learner.learnbot, event: event).deliver
       EventMailer.inform_iastate_canceled(event: event).deliver
     end
@@ -104,7 +104,7 @@ class Notification < ActiveRecord::Base
   def process_event_rescheduled
     event = self.notifiable
     if !event.started?
-      event.learners.each{|learner| EventMailer.event_rescheduled(learner: learner, event: event).deliver unless !learner.send_rescheduled_or_canceled? or learner.has_event_notification_exception?(event)}
+      event.learners.each{|learner| EventMailer.event_rescheduled(learner: learner, event: event).deliver unless (learner.email.nil? or !learner.send_rescheduled_or_canceled? or learner.has_event_notification_exception?(event))}
     end    
   end
   
