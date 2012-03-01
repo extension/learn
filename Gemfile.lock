@@ -94,6 +94,7 @@ GEM
       rdoc (~> 3.8)
       sax-machine (~> 0.1.0)
     god (0.12.1)
+    guess_html_encoding (0.0.2)
     hashie (1.2.0)
     highline (1.6.11)
     hike (1.2.1)
@@ -103,8 +104,8 @@ GEM
       csspool
       nokogiri
     journey (1.0.3)
-    jquery-rails (2.0.1)
-      railties (>= 3.2.0, < 5.0)
+    jquery-rails (1.0.16)
+      railties (~> 3.0)
       thor (~> 0.14)
     json (1.6.5)
     json_pure (1.6.5)
@@ -199,6 +200,7 @@ GEM
       builder (>= 2.1.2)
     ruby-openid (2.1.8)
     ruby-readability (0.2.4)
+      guess_html_encoding (>= 0.0.2)
       nokogiri (>= 1.4.2)
     sass (3.1.15)
     sass-rails (3.2.4)
@@ -263,7 +265,7 @@ DEPENDENCIES
   god
   htmlentities
   inline-style (= 0.5.2ex)
-  jquery-rails (~> 2.0.1)
+  jquery-rails (= 1.0.16)
   loofah
   mocha
   mysql2
