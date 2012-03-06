@@ -58,7 +58,7 @@ class EventActivity < ActiveRecord::Base
     42  => "commented on a comment",
     50  => "connected",
     51  => "connected as presenter",
-    52  => "bookmarked",
+    52  => "followed",
     53  => "attended",
     54  => "watched"
   }

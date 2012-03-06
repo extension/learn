@@ -123,10 +123,10 @@
 </div>
 
 <div id="bookmarks" class="col_two_of_three">
-  <h2>Bookmarks</h2>
+  <h2>Following</h2>
   <% if @learner.public_bookmarked_events? %>
     <% if @bookmarked_events.length == 0 %>
-      <p>No events bookmarked yet</p>
+      <p>No events followed yet</p>
     <% else %>
   
     <% @bookmarked_events.each do |event| %>
@@ -151,7 +151,7 @@
   <% else %>
     <div class="not_sharing">
     <p>
-      Bookmarked events are not being shared. 
+      Followed events are not being shared. 
       <% if current_learner && current_learner.id == @learner.id %>
         <%= link_to 'change', settings_privacy_path %>
       <% end %>

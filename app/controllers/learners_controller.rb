@@ -81,6 +81,7 @@ class LearnersController < ApplicationController
     return record_not_found if !@learner
     
     prepare_history('Bookmarked')
+    @list_title = "Followed by #{@learner.name}"
     @events = @learner.events.active.bookmarked.paginate(:page => params[:page]).order('session_start DESC')
     render :action => 'learning_history'
   end
