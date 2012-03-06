@@ -171,9 +171,9 @@
   <p class="zero_activity margin">0 watched</p>
 <%- end -%>
 
-<h4>Bookmarked</h4>
+<h4>Followed</h4>
 <%- if bookmarked_count > 0 -%>
-  <p><strong><%= bookmarked_count -%></strong> bookmarked</p>
+  <p><strong><%= bookmarked_count -%></strong> followed</p>
   
   
   <%- if params[:type] == "table" %>
@@ -196,7 +196,7 @@
   
   
 <%- else -%>
-  <p class="zero_activity margin">0 bookmarked</p>
+  <p class="zero_activity margin">0 followed</p>
 <%- end -%>
 <br class="clearing" />
 </section>
