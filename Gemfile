@@ -91,6 +91,7 @@ gem "god", :require => false
 # delayed_job
 gem "delayed_job"
 gem 'delayed_job_active_record'
+gem "daemons"
 
 # tropo - sms messages
 gem "tropo-webapi-ruby"

@@ -61,7 +61,7 @@ GEM
     csspool (2.0.1ex)
     curb (0.7.15)
     daemon_controller (0.2.6)
-    daemons (1.1.4)
+    daemons (1.1.8)
     delayed_job (3.0.1)
       activesupport (~> 3.0)
       daemons
@@ -258,6 +258,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.2)
   csspool (= 2.0.1ex)
   curb (= 0.7.15)
+  daemons
   delayed_job
   delayed_job_active_record
   devise (~> 1.5.1)
