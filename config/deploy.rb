@@ -85,7 +85,13 @@ after "deploy", 'deploy:notification:email'
 
      desc "clean out the assets and recompile"
      task :assets, :role => :app do
-       run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
+       from = source.next_revision(current_revision)
+       if capture("cd #{latest_release} && #{source.local.log(from)} vendor/assets/ app/assets/ | wc -l").to_i > 0
+         run "cd #{latest_release} && #{rake} RAILS_ENV=production assets:clean"
+         run "cd #{latest_release} && #{rake} RAILS_ENV=production assets:precompile"
+       else
+         logger.info "Skipping asset pre-compilation because there were no asset changes"
+       end
      end
      
      desc "Link up various configs (valid after an update code invocation)"
@@ -94,7 +100,6 @@ after "deploy", 'deploy:notification:email'
        rm -rf #{release_path}/config/database.yml #{release_path}/index &&
        rm -rf #{release_path}/public/robots.txt &&
        rm -rf #{release_path}/config/settings.local.yml &&
-       rm -rf #{shared_path}/cache/* &&
        rm -rf #{release_path}/tmp/temp &&
        rm -rf #{release_path}/tmp/associations &&
        rm -rf #{release_path}/tmp/nonces &&

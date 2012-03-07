@@ -118,22 +118,22 @@ class Notification < ActiveRecord::Base
   
   def process_inform_iastate
     event = self.notifiable
-    EventMailer.inform_iastate_new(event: event) unless event.started?
+    EventMailer.inform_iastate_new(event: event).deliver unless event.started?
   end
 
   def process_update_iastate
     event = self.notifiable
-    EventMailer.inform_iastate_update(event: event) unless event.started?
+    EventMailer.inform_iastate_update(event: event).deliver unless event.started?
   end
   
   def process_canceled_iastate
     event = self.notifiable
-    EventMailer.inform_iastate_canceled(event: event) unless event.started?
+    EventMailer.inform_iastate_canceled(event: event).deliver unless event.started?
   end
   
   def process_learner_retired
     learner = self.notifiable
-    EventMailer.learner_retired(learner: learner)
+    EventMailer.learner_retired(learner: learner).deliver
   end
   
   def queue_delayed_notifications
