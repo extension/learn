@@ -86,7 +86,7 @@ after "deploy", 'deploy:notification:email'
      desc "clean out the assets and recompile"
      task :assets, :role => :app do
        from = source.next_revision(current_revision)
-       if capture("cd #{latest_release} && #{source.local.log(from)} vendor/assets/ app/assets/ | wc -l").to_i > 0
+       if capture("cd #{latest_release} && #{source.local.log(from)} public/assets/ vendor/assets/ app/assets/ | wc -l").to_i > 0
          run "cd #{latest_release} && #{rake} RAILS_ENV=production assets:clean"
          run "cd #{latest_release} && #{rake} RAILS_ENV=production assets:precompile"
        else
@@ -107,6 +107,7 @@ after "deploy", 'deploy:notification:email'
        ln -nfs #{shared_path}/uploads #{release_path}/public/uploads &&
        ln -nfs #{shared_path}/nonces #{release_path}/tmp/nonces &&
        ln -nfs #{shared_path}/temp #{release_path}/tmp/temp &&
+       ln -nfs #{shared_path}/assets #{release_path}/public/assets &&
        ln -nfs #{shared_path}/associations #{release_path}/tmp/associations &&
        ln -nfs #{shared_path}/cache #{release_path}/tmp/cache &&
        ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
