@@ -131,8 +131,8 @@ class EventsController < ApplicationController
   
   def search
     # take quotes out to see if it's a blank field and also strip out +, -, and "  as submitted by themselves are apparently special characters 
-    # for solr and will make it crash
-    if params[:q].gsub(/["'+-]/, '').strip.blank?
+    # for solr and will make it crash, and if you ain't got no q param, no search goodies for you!
+    if !params[:q] || params[:q].gsub(/["'+-]/, '').strip.blank?
       flash[:error] = "Empty/invalid search terms"
       return redirect_to root_url
     end
