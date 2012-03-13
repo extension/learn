@@ -8,6 +8,7 @@ class EventConnection < ActiveRecord::Base
   belongs_to :event
   belongs_to :learner
   has_many :event_activities, :as => :trackable, dependent: :destroy
+  validates :learner_id, :uniqueness => {:scope => [:event_id, :connectiontype]}
       
   BOOKMARK = 3
   ATTEND = 4
