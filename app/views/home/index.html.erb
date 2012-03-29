@@ -39,6 +39,21 @@
 
 
 <div id="three_col_two">
+  <h2>More Upcoming <small><%= link_to 'view all', recent_events_path %></small></h2>
+  
+  <div id="more_upcoming_events">
+  <%- @more_upcoming_events.each do |event| -%>
+    <dl>
+      <dt><%= link_to(event.title, event_path(event.id)) -%></span></dt>
+      <dd><%= event.session_start.strftime('%l:%M %p, %B %e, %Y %Z') %></dd>
+    </dl>
+  <%- end -%>
+  <small><%= link_to 'View all upcoming events', upcoming_events_path %></small>
+  </div>
+  
+  
+  
+  
   <h2>Recent Sessions <small><%= link_to 'view all', recent_events_path %></small></h2>
   
   <div id="recent_events">
