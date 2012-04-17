@@ -130,7 +130,14 @@
 
         <h2>
            <span id="session_date"><%= @event.session_start.strftime("%B %e, %Y") -%></span>
-           <span class="calendarblock">
+           <span id="event_date" class="calendarblock addtocal">
+              <span class="summary" style="display:none"><%= @event.title %></span>
+              <span class="dtstart" style="display:none"><%= convert_to_rfc3339(@event.session_start) %></span>
+              <span class="dtend" style="display:none"><%= convert_to_rfc3339(@event.session_end) %></span>
+              <span class="description" style="display:none"><%= @event.description %></span> 
+              <span class="ics_url" style="display:none"><%= event_url(@event, :format => :ics) %></span> 
+              <span class="vcs_url" style="display:none"><%= event_url(@event, :format => :vcs) %></span> 
+              
               <span class="month"><%= @event.session_start.strftime("%b") -%></span>
               <span class="date"><%= @event.session_start.strftime("%d") -%></span>
            </span>
@@ -189,6 +196,7 @@
   </div> <!-- deleted_wrapper end -->
 <% end %>
 
+<script type='text/javascript' src='javascripts/jquery.addtocal.js'></script>
 
 <script class="code" type="text/javascript">
   $('.submittable').live('change', 
@@ -219,6 +227,42 @@
         $(this)
           .fadeOut('fast');
     });
+    
+    
+    
+    
+    $('.addtocal').AddToCal({
+        getEventDetails: function( element ) {
+          
+          var 
+            dtstart_element = element.find('.dtstart'),
+            dtend_element = element.find('.dtend'),
+            title_element = element.find('.summary'),
+            details_element = element.find('.description');
+            url_ics_element = element.find('.ics_url');
+            url_vcs_element = element.find('.vcs_url');
+
+          // return the required event structure
+          return { 
+            webcalurl: null,
+            icalurl: url_ics_element.html(),
+            vcalurl: url_vcs_element.html(), 
+            start: dtstart_element.html(), 
+            end: dtend_element.html(), 
+            title: title_element.html(), 
+            details: details_element.html(), 
+            location: null, 
+            url: null
+            };
+        },
+      });
+    
+    
+    
+    
+    
+    
+    
       
   });
 

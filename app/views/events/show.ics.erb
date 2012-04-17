@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+PRODID:-//learn.extension.org//EN
+VERSION:2.0
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:<%= convert_to_rfc3339(@event.session_start) %>
+DTEND:<%= convert_to_rfc3339(@event.session_end) %>
+SUMMARY:PD Event: <%= @event.title %>
+DTSTAMP:<%= convert_to_rfc3339(Time.zone.now) %>
+DESCRIPTION:<%= event_url(@event) %>
+UID:<%= @event.id %>
+END:VEVENT
+END:VCALENDAR

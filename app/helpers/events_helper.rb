@@ -101,4 +101,8 @@ module EventsHelper
     tags.collect{|tag| link_to_tag(tag)}.join(' ').html_safe
   end
   
+  def convert_to_rfc3339(time_to_convert)
+    return time_to_convert.utc.strftime("%Y%m%dT%H%M%SZ")  
+  end
+  
 end

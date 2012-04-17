@@ -185,3 +185,21 @@ table.people td {text-align:left; line-height:35px;}
 #outofdate h2 {font-size:1.3em; line-height:1.5em; margin:0; padding-left:36px;}
 p.details {margin:0;}
 .expired {background:#444; color:#eee; padding:.1em .5em; font-style:normal; font-size:.65em; text-transform:uppercase; letter-spacing:1px; @include rounded5}
+
+// CSS for:
+// jQuery.addtocal v0.1.1
+// http://github.com/tardate/jquery.addtocalendar
+//
+// Copyright (c) 2010 Paul GALLAGHER http://tardate.com
+// Dual licensed under the MIT or GPL Version 2 licenses:
+//   http://www.opensource.org/licenses/mit-license.php
+//   http://www.gnu.org/licenses/gpl.html
+ 
+.ui-addtocal {
+  cursor:pointer;cursor:hand;
+}
+
+ul.ui-addtocal {
+  cursor:default;
+  position:absolute;
+}
