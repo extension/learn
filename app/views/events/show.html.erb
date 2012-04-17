@@ -130,14 +130,7 @@
 
         <h2>
            <span id="session_date"><%= @event.session_start.strftime("%B %e, %Y") -%></span>
-           <span id="event_date" class="calendarblock addtocal">
-              <span class="summary" style="display:none"><%= @event.title %></span>
-              <span class="dtstart" style="display:none"><%= convert_to_rfc3339(@event.session_start) %></span>
-              <span class="dtend" style="display:none"><%= convert_to_rfc3339(@event.session_end) %></span>
-              <span class="description" style="display:none"><%= @event.description %></span> 
-              <span class="ics_url" style="display:none"><%= event_url(@event, :format => :ics) %></span> 
-              <span class="vcs_url" style="display:none"><%= event_url(@event, :format => :vcs) %></span> 
-              
+           <span class="calendarblock">
               <span class="month"><%= @event.session_start.strftime("%b") -%></span>
               <span class="date"><%= @event.session_start.strftime("%d") -%></span>
            </span>
@@ -153,6 +146,17 @@
         <%- end -%></p>
         
         <h3 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h3>
+        <p class="addtocalendar">
+          <span id="event_date" class="addtocal">
+            Add to calendar
+            <span class="summary" style="display:none"><%= @event.title %></span>
+            <span class="dtstart" style="display:none"><%= convert_to_rfc3339(@event.session_start) %></span>
+            <span class="dtend" style="display:none"><%= convert_to_rfc3339(@event.session_end) %></span>
+            <span class="description" style="display:none"><%= @event.description %></span> 
+            <span class="ics_url" style="display:none"><%= event_url(@event, :format => :ics) %></span> 
+            <span class="vcs_url" style="display:none"><%= event_url(@event, :format => :vcs) %></span>
+          </span>
+        </p>
         <p class="location">
           Event Location: <%= format_text_for_display(@event.location) -%>
         </p>
