@@ -120,8 +120,13 @@ class EventsController < ApplicationController
   def restore
     @version = Version.find(params[:version])
     @restored_event = @version.reify
+    # make sure @session_start_string Event instance variable is being set
+    formatted_session_start = @restored_event.session_start_string
     if @restored_event.save
       redirect_to(@restored_event, :notice => 'Previous event version restored.')
+    else
+      flash[:error] = "Error restoring event."
+      return redirect_to(@restored_event)
     end
   end
   

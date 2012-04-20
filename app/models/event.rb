@@ -192,7 +192,7 @@ class Event < ActiveRecord::Base
     end
     self.tags = tags_to_set
   end
-  
+
   def session_start_string
     if(@session_start_string.blank?)
       time = self.session_start.blank? ? Time.zone.now : self.session_start.in_time_zone(self.time_zone)
@@ -201,7 +201,7 @@ class Event < ActiveRecord::Base
     @session_start_string
   end
   
-  def set_session_start  
+  def set_session_start
     begin
       cur_tz = Time.zone
       Time.zone = self.time_zone
