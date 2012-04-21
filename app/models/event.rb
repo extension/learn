@@ -456,5 +456,12 @@ class Event < ActiveRecord::Base
     self.location.match(Settings.iastate_connect_url).nil? ? false : true
   end
   
+  # returns a textified description from the html description
+  #
+  # @return [String] stripped description
+  def text_description
+    Upmark.convert(self.description)
+  end
+  
 
 end
