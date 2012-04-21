@@ -32,9 +32,6 @@ gem 'capistrano'
 # xml parsing
 gem 'nokogiri'
 
-# html to markdown
-gem 'upmark'
-
 # authentication
 gem 'devise', "~> 1.5.1"
 gem 'omniauth-facebook'

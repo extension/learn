@@ -152,7 +152,7 @@
             <span class="summary" style="display:none"><%= @event.title %></span>
             <span class="dtstart" style="display:none"><%= convert_to_rfc3339(@event.session_start) %></span>
             <span class="dtend" style="display:none"><%= convert_to_rfc3339(@event.session_end) %></span>
-            <span class="description" style="display:none"><%= @event.text_description %></span> 
+            <span class="description" style="display:none"><%= @event.description %></span> 
             <span class="ics_url" style="display:none"><%= event_url(@event, :format => :ics) %></span> 
             <span class="vcs_url" style="display:none"><%= event_url(@event, :format => :vcs) %></span>
           </span>
