@@ -1,14 +1,27 @@
-.powenv
+# local environment files
 .bundle
+.powconfig
+.rvmrc
+.rbenv-version
+# databases
 db/*.sqlite3
+# logs
 log/*.log
+log/*.lck
+# cache and tmps
 tmp/
 .sass-cache/
+# configuration
 config/database.yml
 config/settings.local.yml
 config/sunspot.yml
-log/*.lck
-.rvmrc
+# solr
 solr/data
 solr/pids
+# uploads
 public/uploads
+# vendor dirs for bundled gems
+vendor/bin
+vendor/cache
+vendor/gems
+vendor/specifications
