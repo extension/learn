@@ -66,7 +66,7 @@
             "http://30boxes.com/add.php?webcal=" + encodeURIComponent( eventDetails.webcalurl ) : null );
           } },
         */
-        {value: 5, label:"Export for iCal",
+        {value: 5, label:"Export for iCalendar",
           enabled : function(addtocal) { return addtocal.options.icalEnabled; },
           formatlink : function(eventDetails) {
             return (eventDetails.icalurl ? eventDetails.icalurl : null);
