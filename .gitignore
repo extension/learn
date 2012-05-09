@@ -1,9 +1,7 @@
 # local environment files
 .bundle
-.powconfig
 .rvmrc
-.rbenv-version
-# databases
+.tm_properties
 db/*.sqlite3
 # logs
 log/*.log
@@ -20,8 +18,8 @@ solr/data
 solr/pids
 # uploads
 public/uploads
-# vendor dirs for bundled gems
-vendor/bin
-vendor/cache
-vendor/gems
-vendor/specifications
+# added by capatross generate_config
+/config/capatross.local.yml
+
+# added by capatross generate_config
+/capatross_logs
