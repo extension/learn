@@ -1,3 +1,6 @@
+
+# added by capatross generate_config
+require 'capatross'
 $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 require 'yaml'
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.

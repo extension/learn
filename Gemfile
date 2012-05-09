@@ -28,6 +28,7 @@ gem 'rmagick'
 
 # Deploy with Capistrano
 gem 'capistrano'
+gem 'capatross'
 
 # xml parsing
 gem 'nokogiri'
