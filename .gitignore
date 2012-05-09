@@ -2,6 +2,7 @@
 .bundle
 .rvmrc
 .tm_properties
+.powenv
 db/*.sqlite3
 # logs
 log/*.log
