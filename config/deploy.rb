@@ -1,7 +1,5 @@
-
 # added by capatross generate_config
 require 'capatross'
-$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 require 'yaml'
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require "airbrake/capistrano"
@@ -14,6 +12,7 @@ set :user, 'pacecar'
 set :localuser, ENV['USER']
 set :rvm_ruby_string, '1.9.3'
 set :port, 24
+set :rvm_type, :system
 #------------------------------
 
 set :repository, "git@github.com:extension/#{application}.git"
