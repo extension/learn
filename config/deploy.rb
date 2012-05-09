@@ -40,7 +40,6 @@ after "deploy:update_code", "deploy:migrate"
 # don't forget to turn it back on
 after "deploy", "deploy:web:enable"
 after "deploy:web:enable", "delayed_job:start"
-after "deploy", 'deploy:notification:email'
 
  namespace :deploy do
    
@@ -124,14 +123,6 @@ after "deploy", 'deploy:notification:email'
        desc "Remove Apache from maintenancemode by removing the system/maintenancemode file"
        task :enable, :roles => :app do
          run "rm -f #{shared_path}/system/maintenancemode"
-       end
-     end
-     
-     # generate an email to notify various users that a new version has been deployed
-     namespace :notification do
-       desc "Generate an email for the deploy"
-       task :email, :roles => [:app] do 
-         run "ruby #{release_path}/config/deploynotification.rb -r #{release_path} -a #{application} -h #{server_settings['host']} -u #{localuser} -p #{previous_revision} -l #{latest_revision} -b #{branch}"
        end
      end
      
