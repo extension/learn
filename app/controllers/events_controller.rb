@@ -6,7 +6,6 @@
 
 class EventsController < ApplicationController
   before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history]
-  before_filter :authorize_eXlearner, only: [:edit, :update, :new, :create]
   
   def index
     @list_title = 'All Sessions'
@@ -225,16 +224,6 @@ class EventsController < ApplicationController
       exception[0].destroy  
     else
       NotificationException.create(learner: current_learner, event: @event)
-    end
-  end
-  
-  private
-  
-  # only allow eXtension ID holders to access these actions
-  def authorize_eXlearner
-    if !current_learner.is_extension_account?
-      flash[:error] = "This action is limited to eXtension ID holders only."
-      return redirect_to root_url
     end
   end
     
