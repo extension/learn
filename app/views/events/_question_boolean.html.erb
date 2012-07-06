@@ -10,7 +10,7 @@
     <%= render(partial: 'sign_in_to_vote')%>
   <%- end -%>
   
-  <ul class="inputs-list a_b <%= "sitv_element" if !current_learner %>">
+  <ul class="unstyled inputs-list a_b <%= "sitv_element" if !current_learner %>">
     <li>
       <label class="color_code_0">
         <%= radio_button_tag('values',0, is_boolean_answer_checked?(question,0), {class: 'submittable'}) %> <span><%= question.responses[0] %></span>

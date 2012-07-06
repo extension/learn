@@ -9,7 +9,7 @@
     <%= render(partial: 'sign_in_to_vote')%>
   <%- end -%>
   
-  <ul class="inputs-list a_mvb <%= "sitv_element" if !current_learner %>">
+  <ul class="unstyledinputs-list a_mvb <%= "sitv_element" if !current_learner %>">
   <% question.responses.each_with_index do |response, index| %>
       <li>
         <label class="color_code_<%= index %>"><%= check_box_tag('values[]',response,is_multivote_answer_checked?(question,response),{class: 'submittable'}) %> <span><%= response %></span></label>
