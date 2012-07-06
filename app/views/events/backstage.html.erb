@@ -17,7 +17,7 @@
 
     
     <%- if params[:type] == "table" %>
-      <table class="people zebra-striped">
+      <table class="table people table-striped">
         <%- @event.raters.each do |rater| %>
         <tr>
           <td class="avatar_td"><%= get_avatar(rater, :thumb, :link_it, 'rated') -%></td>
@@ -49,7 +49,7 @@
     <p><strong><%= filtered_comment_count -%></strong> <%= filtered_comment_count > 1 ? "comments" : "comment" %> by <strong><%= filtered_commentators.count -%></strong> <%= filtered_commentators.count > 1 ? "people" : "person" %></p>
     
     <%- if params[:type] == "table" %>
-      <table class="people zebra-striped">
+      <table class="table people table-striped">
         <%- filtered_commentators.each do |commenter| %>
         <tr>
           <td class="avatar_td"><%= get_avatar(commenter, :thumb, :link_it) -%></td>
@@ -87,7 +87,7 @@
       <p><strong><%= question.answer_data.map{|(response,total)| total}.sum %></strong> people answered</p>
       
        <%- if params[:type] == "table" %>
-          <table class="people zebra-striped">
+          <table class="table people table-striped">
             <%- question.answerers.each do |answerer| %>
             <tr>
               <td class="avatar_td"><%= get_avatar(answerer, :thumb, :link_it, 'answered') -%></td>
@@ -120,7 +120,7 @@
   
   
    <%- if params[:type] == "table" %>
-      <table class="people zebra-striped">
+      <table class="table people table-striped">
         <%- @event.attendees.each do |attendee| %>
         <tr>
           <td class="avatar_td"><%= get_avatar(attendee, :thumb, :link_it, 'attended') -%></td>
@@ -148,7 +148,7 @@
   <p><strong><%= watched_count -%></strong> watched</p>
   
   <%- if params[:type] == "table" %>
-      <table class="people zebra-striped">
+      <table class="table people table-striped">
         <%- @event.watched.each do |watcher| %>
         <tr>
           <td class="avatar_td"><%= get_avatar(watcher, :thumb, :link_it, 'watched') -%></td>
@@ -177,7 +177,7 @@
   
   
   <%- if params[:type] == "table" %>
-      <table class="people zebra-striped">
+      <table class="table people table-striped">
         <%- @event.bookmarked.each do |bookmarker| %>
         <tr>
           <td class="avatar_td"><%= get_avatar(bookmarker, :thumb, :link_it, 'bookmarked') -%></td>

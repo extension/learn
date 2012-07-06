@@ -2,7 +2,7 @@
 <div>
 <% if @activity.count > 0 %>
 
-  <table class="zebra-striped activity">
+  <table class="table table-striped activity">
     <% @activity.each do |activity| %>
       <tr> 
         <td><%= time_ago_in_words(activity.created_at) %> ago

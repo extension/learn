@@ -5,7 +5,7 @@
 <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date) %> </p>
 <p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong></p>
 <%= will_paginate(@events) %>
-<table class="zebra-striped">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Date/Time</th>

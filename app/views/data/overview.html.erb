@@ -1,6 +1,6 @@
 <%= render(partial: 'navtabs') -%>
 <h2>General Statistics</h2>
-<table class="zebra-striped">
+<table class="table table-striped">
   <tbody>
     <tr><td>Events</td><td><%= Event.count%></td></tr>
     <tr><td>Presenters</td><td><%= PresenterConnection.count('DISTINCT(learner_id)') %></td></tr>

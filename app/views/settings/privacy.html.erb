@@ -11,7 +11,7 @@
 <h3>Choose which activity is displayed on your <%= link_to("Learning Portfolio", portfolio_learner_path(current_learner)) %></h3>
 
 <%= form_tag(settings_privacy_path) do -%>
-  <table class="zebra-striped activity privacy">
+  <table class="table table-striped activity privacy">
     <tr>
       <th></th>
       <th class="small">Share</th>
@@ -74,7 +74,7 @@
   </div>
   
   <fieldset>
-    <p><%= submit_tag "Save Changes", :class => "btn primary large" %></p>
+    <p><%= submit_tag "Save Changes", :class => "btn btn-primary btn-large" %></p>
   </fieldset>
   
 <%- end -%>

@@ -24,7 +24,7 @@
 <% if @type == 'Activity' %>
   <% if defined?(@activities.total_entries) && @activities.total_entries > 0 %>
     
-    <table class="zebra-striped">
+    <table class="table table-striped">
       <% @activities.each do |activity| %>
         <tr>
           <td class="activity_date"><%= time_ago_in_words(activity.created_at) %> ago
@@ -47,7 +47,7 @@
     <% if (current_learner.id == @learner.id) || (@learner.send("public_#{@type.downcase}_events?") == true) %>
       <% if defined?(@events.total_entries) && @events.total_entries > 0 %>
 
-        <table class="zebra-striped">
+        <table class="table table-striped">
           <% @events.each do |event| %>
             <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>">
               <td class="activity_date"><%= event.session_start.strftime("%l:%M %p, %b %e, %Y") %></td> 
