@@ -217,6 +217,8 @@ GEM
     ruby-openid (2.1.8)
     ruby-readability (0.2.4)
       nokogiri (>= 1.4.2)
+    rvm-capistrano (1.2.2)
+      capistrano (>= 2.0.0)
     sass (3.1.10)
     sass-rails (3.2.4)
       railties (~> 3.2.0)
@@ -300,6 +302,7 @@ DEPENDENCIES
   rinku
   rmagick
   ruby-readability (~> 0.2.4)
+  rvm-capistrano
   sass-rails (~> 3.2.4)
   shoulda (>= 3.0.0.beta)
   sunspot_rails (~> 1.3.0)
