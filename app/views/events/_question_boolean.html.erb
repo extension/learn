@@ -10,18 +10,16 @@
     <%= render(partial: 'sign_in_to_vote')%>
   <%- end -%>
   
-  <ul class="unstyled inputs-list a_b <%= "sitv_element" if !current_learner %>">
-    <li>
-      <label class="color_code_0">
-        <%= radio_button_tag('values',0, is_boolean_answer_checked?(question,0), {class: 'submittable'}) %> <span><%= question.responses[0] %></span>
+  <div class="control-group a_b">
+    <div class="controls <%= "sitv_element" if !current_learner %>">
+      <%- [0,1].each do |choice| -%>
+      <label class="radio color_code_<%= choice %>">
+        <%= radio_button_tag('values',choice, is_boolean_answer_checked?(question,choice), {class: 'submittable'}) %> <span><%= question.responses[choice] %></span>
       </label>
-    </li>
-    <li>
-      <label class="color_code_1">
-        <%= radio_button_tag('values',1, is_boolean_answer_checked?(question,1), {class: 'submittable'}) %> <span><%= question.responses[1] %></span>
-      </label>
-    </li>
-  </ul>
+      <%- end -%>
+    </div>
+  </div>
+  
   
   <%- if !current_learner -%>
     </div> <!-- end .sitv_element_wrapper  -->

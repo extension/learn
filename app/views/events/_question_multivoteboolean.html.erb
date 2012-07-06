@@ -9,13 +9,13 @@
     <%= render(partial: 'sign_in_to_vote')%>
   <%- end -%>
   
-  <ul class="unstyledinputs-list a_mvb <%= "sitv_element" if !current_learner %>">
-  <% question.responses.each_with_index do |response, index| %>
-      <li>
+  <div class="control-group a_mvb">
+    <div class="controls <%= "sitv_element" if !current_learner %>">
+      <%- question.responses.each_with_index do |response, index| -%>
         <label class="color_code_<%= index %>"><%= check_box_tag('values[]',response,is_multivote_answer_checked?(question,response),{class: 'submittable'}) %> <span><%= response %></span></label>
-      </li>
-  <%- end -%>
-  </ul>
+      <%- end -%>
+    </div>
+  </div>
   
   <%- if !current_learner -%>
     </div> <!-- end .sitv_element_wrapper  -->
