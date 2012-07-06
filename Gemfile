@@ -13,7 +13,7 @@ group :assets do
   gem 'coffee-rails', "~> 3.2.2"
   gem 'uglifier', '>= 1.0.3'
   # bootstrap in sass in rails
-  gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails'
+  gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
 end
 
 # storage
