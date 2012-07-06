@@ -2,7 +2,6 @@
  * This is a manifest file.
  *= require_self
  *= require_tree ./ui-lightness
- *= require_tree ../images/ui-lightness/images
  *= require jquery-ui-timepicker-addon
  *= require_tree ./jquery-tokeninput
 */
