@@ -72,7 +72,7 @@
       <%= hidden_field_tag 'parent_comment_id', parent_comment.id %>
     <% end %>
     <%= link_to_function 'Cancel', "hide_element($('#comment_reply_to_#{comment.id}'));" %>
-    <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn primary'} %>
+    <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn btn-primary'} %>
     </div>
   <% end %>
   <br class="clearing" />
@@ -91,7 +91,7 @@
       <%= hidden_field_tag 'parent_comment_id', parent_comment.id %>
     <% end %>
     <%= link_to_function 'Cancel', "hide_element($('#comment_edit_for_#{comment.id}'));" %>
-    <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn primary'} %>
+    <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn btn-primary'} %>
     </div>
   <% end %>
   <br class="clearing" />
