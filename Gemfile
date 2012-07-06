@@ -3,19 +3,18 @@ source 'http://systems.extension.org/rubygems/'
 
 gem 'rails', "3.2.6"
 
+# rails 3.1 default
+gem 'jquery-rails'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails', "~> 3.2.4"
   gem 'coffee-rails', "~> 3.2.2"
   gem 'uglifier', '>= 1.0.3'
+  # bootstrap in sass in rails
+  gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails'
 end
-
-# rails 3.1 default
-gem 'jquery-rails', "1.0.16"
-
-# bootstrap in sass in rails
-gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails'
 
 # storage
 gem 'mysql2'
