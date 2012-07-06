@@ -11,7 +11,7 @@
   <%= hidden_field_tag('question', question.id) %>
   <span id="range_start"><%= question.responses[0] %> (<%= question.range_start %> )</span>
   <span id="range_end"><%= question.responses[1] %> (<%= question.range_end %> )</span>
-  <%= number_field_tag('values', scale_value(question), {min: question.range_start, max: question.range_end, id: "range_#{question.id}", class: 'range submittable', type: 'range'}) %>  
+  <%= number_field_tag('values', scale_value(question), {min: question.range_start, max: question.range_end, id: "range_#{question.id}", class: 'range', type: 'range'}) %>  
 <%- end -%>
 </div>
 
@@ -28,7 +28,10 @@
   <%- end -%>
   // jquery tools rangeinput
   $("#range_<%= question.id %>").rangeinput();
-</script>
+  $("#range_<%= question.id %>").change(function(event, value) {
+    $(this).parents('form:first').submit();
+  });
+  </script>
 
 <!-- Answers -->
 <%- if !question.answers.blank? -%>
