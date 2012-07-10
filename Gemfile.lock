@@ -280,6 +280,7 @@ DEPENDENCIES
   capistrano
   carrierwave
   coffee-rails (~> 3.2.2)
+  csspool
   curb (= 0.7.15)
   daemons
   delayed_job
