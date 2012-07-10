@@ -109,7 +109,7 @@ group :development do
   gem 'powder'
   # rails3 compatible generators
   gem "rails3-generators"
-
+  gem 'pry'
 end
  
 group :test do
