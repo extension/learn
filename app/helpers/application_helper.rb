@@ -7,7 +7,7 @@
 module ApplicationHelper
   
   def format_text_for_display(content)
-    return word_wrap(simple_format(auto_link(content, :all, :target => "_blank"))).html_safe 
+    return word_wrap(simple_format(auto_link(content.html_safe, :all, :target => "_blank"))).html_safe 
   end
   
   def formatted_votes(rated_object, logged_in_learner)
