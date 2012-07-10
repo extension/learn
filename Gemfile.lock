@@ -62,7 +62,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.3.3)
-    csspool (2.0.1ex)
+    csspool (3.0.1)
     curb (0.7.15)
     daemon_controller (1.0.0)
     daemons (1.1.8)
@@ -280,7 +280,6 @@ DEPENDENCIES
   capistrano
   carrierwave
   coffee-rails (~> 3.2.2)
-  csspool (= 2.0.1ex)
   curb (= 0.7.15)
   daemons
   delayed_job
