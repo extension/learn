@@ -39,7 +39,7 @@
     <fieldset>
       <p>
         <%= f.label :time_zone, 'Time Zone' %>
-        <%= time_zone_select(:learner, :time_zone, ActiveSupport::TimeZone.us_zones, {:default => Learner::DEFAULT_TIMEZONE}, {:class => "xxlarge"}) %>
+        <%= time_zone_select(:learner, :time_zone, ActiveSupport::TimeZone.us_zones, {:default => Learner::DEFAULT_TIMEZONE}, {:class => "span5"}) %>
       </p>
     </fieldset> 
   <% end %>
