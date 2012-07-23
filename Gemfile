@@ -19,6 +19,10 @@ end
 # storage
 gem 'mysql2'
 
+# xml parsing
+gem 'nokogiri'
+
+
 # image upload
 gem 'carrierwave'
 
@@ -29,9 +33,6 @@ gem 'rmagick'
 gem 'capistrano'
 gem 'rvm-capistrano'
 gem 'capatross'
-
-# xml parsing
-gem 'nokogiri'
 
 # authentication
 gem 'devise', "~> 1.5.1"
