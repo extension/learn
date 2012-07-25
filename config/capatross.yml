@@ -24,3 +24,5 @@ appkey: '4908ce1548dc8403af14b5d8c6a5ff70a8af392b'
 ##   local development
 ## default:
 # albatross_uri: 'http://deploys.extension.org' 
+getdata:
+  dbfile: 'dump_prod_learn.sql'
