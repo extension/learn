@@ -14,8 +14,7 @@
     <% end %>
   </table>
 
-  <p>Displaying <strong><%= @activity.offset_value + 1 %>-<%= @activity.offset_value + @activity.length %> of <%= @activity.total_count %></strong>
-  
+  <%= pagination_counts(@activity) %>  
   <%= paginate @activity %>
 <% else %>
   <div class="noevents">
