@@ -13,9 +13,10 @@
       </tr>
     <% end %>
   </table>
+
+  <p>Displaying <strong><%= @activity.offset_value + 1 %>-<%= @activity.offset_value + @activity.length %> of <%= @activity.total_count %></strong>
   
-  <p>Displaying <strong><%= @activity.offset + 1 %>-<%= @activity.offset + @activity.length %> of <%= @activity.total_entries %></strong></p>
-  <%= will_paginate @activity %>
+  <%= paginate @activity %>
 <% else %>
   <div class="noevents">
   <h3>No activity at this time</h3>

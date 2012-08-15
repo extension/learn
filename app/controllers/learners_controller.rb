@@ -46,7 +46,7 @@ class LearnersController < ApplicationController
     prepare_history('Activity')
     @list_title = "Your Activity Log"
     # don't think there's a better AR way of doing this, it's pretty fast as is 
-    @activities = @learner.activity_logs.select("activity_logs.created_at AS created_at, ea.*, e.title AS title, e.id AS event_id").joins("JOIN event_activities AS ea on ea.id = activity_logs.loggable_id JOIN events as e on e.id = ea.event_id").where("e.is_canceled = 0 AND activity_logs.loggable_type = 'EventActivity' AND ea.activity IN (#{EventActivity::HISTORY_ITEMS.join(',')})").paginate(:page => params[:page]).order("activity_logs.created_at DESC")
+    @activities = @learner.activity_logs.select("activity_logs.created_at AS created_at, ea.*, e.title AS title, e.id AS event_id").joins("JOIN event_activities AS ea on ea.id = activity_logs.loggable_id JOIN events as e on e.id = ea.event_id").where("e.is_canceled = 0 AND activity_logs.loggable_type = 'EventActivity' AND ea.activity IN (#{EventActivity::HISTORY_ITEMS.join(',')})").order("activity_logs.created_at DESC").page(params[:page])
   end
   
   def presented_history
@@ -54,7 +54,7 @@ class LearnersController < ApplicationController
     return record_not_found if !@learner
     
     prepare_history('Presented')
-    @events = @learner.presented_events.active.paginate(:page => params[:page]).order('session_start DESC')
+    @events = @learner.presented_events.active.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
   
@@ -63,7 +63,7 @@ class LearnersController < ApplicationController
     return record_not_found if !@learner
     
     prepare_history('Attended')
-    @events = @learner.events.active.attended.paginate(:page => params[:page]).order('session_start DESC')
+    @events = @learner.events.active.attended.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
   
@@ -72,7 +72,7 @@ class LearnersController < ApplicationController
     return record_not_found if !@learner
     
     prepare_history('Watched')
-    @events = @learner.events.active.watched.paginate(:page => params[:page]).order('session_start DESC')
+    @events = @learner.events.active.watched.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
   
@@ -82,14 +82,14 @@ class LearnersController < ApplicationController
     
     prepare_history('Bookmarked')
     @list_title = "Followed by #{@learner.name}"
-    @events = @learner.events.active.bookmarked.paginate(:page => params[:page]).order('session_start DESC')
+    @events = @learner.events.active.bookmarked.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
   
   def commented_history
     @learner = current_learner
     prepare_history('Commented')
-    @events = @learner.commented_events.active.paginate(:page => params[:page]).order('session_start DESC')
+    @events = @learner.commented_events.active.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
   
@@ -98,7 +98,7 @@ class LearnersController < ApplicationController
     return record_not_found if !@learner
     
     prepare_history('Rated')
-    @events = @learner.rated_events.active.paginate(:page => params[:page]).order('session_start DESC')
+    @events = @learner.rated_events.active.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
   
@@ -107,7 +107,7 @@ class LearnersController < ApplicationController
     return record_not_found if !@learner
     
     prepare_history('Answered Questions')
-    @events = @learner.events_answered.active.paginate(:page => params[:page]).order('session_start DESC')
+    @events = @learner.events_answered.active.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
 

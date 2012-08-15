@@ -13,12 +13,12 @@ class DataController < ApplicationController
   
   def activity
     @activity = ActivityLog.event_activity_records.order("created_at DESC")
-    @activity = @activity.paginate(:page => params[:page])
+    @activity = @activity.page(params[:page])
   end
   
   def blocked_activity
     learner_activity = LearnerActivity.blocking.order("created_at DESC")
-    @activities = learner_activity.paginate(:page => params[:page])
+    @activities = learner_activity.page(params[:page])
   end
   
   def events
@@ -30,7 +30,7 @@ class DataController < ApplicationController
       response.headers['Content-Disposition'] = 'attachment; filename=event_statistics.csv'
       render(:template => 'data/events_csvlist', :layout => false)
     else
-      @events = Event.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start DESC").paginate(page: params[:page])
+      @events = Event.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start DESC").page(params[:page])
     end
   end
   
@@ -74,7 +74,7 @@ class DataController < ApplicationController
   end
 
   def recent_recommendations
-    @recommended_event_list = RecommendedEvent.includes([:event,{:recommendation => :learner}]).order('recommended_events.created_at DESC').paginate(page: params[:page])
+    @recommended_event_list = RecommendedEvent.includes([:event,{:recommendation => :learner}]).order('recommended_events.created_at DESC').page(params[:page])
   end
   
   protected

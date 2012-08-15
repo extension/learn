@@ -19,9 +19,9 @@
       </tr>
     <% end %>
   </table>
-  
-  <p>Displaying <strong><%= @activities.offset + 1 %>-<%= @activities.offset + @activities.length %> of <%= @activities.total_entries %></strong></p>
-  <%= will_paginate @activities %>
+
+  <%= pagination_counts(@activities) %>  
+  <%= paginate @activities %>
 <% else %>
   <div class="noevents">
   <h3>No activity at this time</h3>

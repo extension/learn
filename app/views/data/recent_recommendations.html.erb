@@ -3,8 +3,8 @@
 <%- if @recommended_event_list.blank? -%>
 <p> No recommended events currently </p>
 <%- else -%>
-<p>Displaying <strong><%= @recommended_event_list.offset + 1 %>-<%= @recommended_event_list.offset + @recommended_event_list.length %> of <%= @recommended_event_list.total_entries %></strong>
-<%= will_paginate @recommended_event_list %>
+ <%= pagination_counts(@recommended_event_list) %>  
+<%= paginate @recommended_event_list %>
 <table>
 	<thead>
 		<tr>
@@ -25,5 +25,5 @@
 		<%- end -%>
 	</tbody>
 </table>
-<%= will_paginate @recommended_event_list %>
+<%= paginate @recommended_event_list %>
 <%- end -%>

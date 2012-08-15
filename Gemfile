@@ -49,7 +49,7 @@ gem "curb", "0.7.15"
 gem "feedzirra", "0.1.2"
 
 # pagination
-gem 'will_paginate'
+gem 'kaminari'
 
 # server settings
 gem "rails_config"

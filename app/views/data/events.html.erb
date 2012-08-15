@@ -1,10 +1,10 @@
 <%= render(partial: 'navtabs') -%>
 <h2>Event Statistics</h2>
 <%= render(partial: 'date_form') -%>
-<%- if defined?(@events.total_entries) && @events.total_entries > 0 -%>
+<%- if defined?(@events.total_count) && @events.total_count > 0 -%>
 <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date) %> </p>
-<p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong></p>
-<%= will_paginate(@events) %>
+<%= pagination_counts(@events) %>  
+<%= paginate(@events) %>
 <table class="table table-striped">
   <thead>
     <tr>

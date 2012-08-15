@@ -22,7 +22,7 @@
 <div id="learning_history_wrapper">
 
 <% if @type == 'Activity' %>
-  <% if defined?(@activities.total_entries) && @activities.total_entries > 0 %>
+  <% if defined?(@activities.total_count) && @activities.total_count > 0 %>
     
     <table class="table table-striped">
       <% @activities.each do |activity| %>
@@ -34,9 +34,8 @@
         </tr>
       <% end %>
     </table>
-  
-    <p>Displaying <strong><%= @activities.offset + 1 %>-<%= @activities.offset + @activities.length %> of <%= @activities.total_entries %></strong></p>
-    <%= will_paginate @activities %>
+    <%= pagination_counts(@activities) %>  
+    <%= paginate @activities %>
   <% else %>
     <div class="noevents">
     <h3>No <%= @type %> events at this time</h3>
@@ -45,7 +44,7 @@
 
 <% else %>
     <% if (current_learner.id == @learner.id) || (@learner.send("public_#{@type.downcase}_events?") == true) %>
-      <% if defined?(@events.total_entries) && @events.total_entries > 0 %>
+      <% if defined?(@events.total_count) && @events.total_count > 0 %>
 
         <table class="table table-striped">
           <% @events.each do |event| %>
@@ -57,8 +56,8 @@
           <% end %>
         </table>
 
-        <p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong></p>
-        <%= will_paginate @events %>
+        <%= pagination_counts(@events) %>  
+        <%= paginate @events %>
       <% else %>
         <div class="noevents">
         <h3>No <%= @type %> events at this time</h3>

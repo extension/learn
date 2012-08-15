@@ -1,7 +1,7 @@
-<% if @events.total_entries > 0 %>
-  <p>Displaying <strong><%= @events.offset + 1 %>-<%= @events.offset + @events.length %> of <%= @events.total_entries %></strong>
-  
-  <%= will_paginate @events %>
+<% if @events.total_count > 0 %>
+
+  <%= pagination_counts(@events) %>  
+  <%= paginate @events %>
     
   <div id="event_list">
     <% @events.each do |event| %>
@@ -21,7 +21,7 @@
     <% end %>
   </div>
   
-  <%= will_paginate @events %>
+  <%= paginate @events %>
     
 <% else %>
 
