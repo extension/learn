@@ -10,13 +10,17 @@ class Event < ActiveRecord::Base
   attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
-  
-  
+
   # define accessible attributes
   attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :last_modifier, :is_expired, :is_canceled
-  
+
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
+
+  # types
+  GENERAL = 'general'
+  CONFERENCE = 'conference'
+  CONFERENCE_BROADCAST = 'broadcast'
   
   # relationships
   has_many :taggings, :as => :taggable, dependent: :destroy
