@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120307213207) do
+ActiveRecord::Schema.define(:version => 20120815134609) do
+
+  create_table "activity_labels", :force => true do |t|
+    t.integer "activity_code", :default => 0
+    t.string  "label"
+  end
+
+  add_index "activity_labels", ["activity_code"], :name => "activity_code"
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -59,6 +66,27 @@ ActiveRecord::Schema.define(:version => 20120307213207) do
   add_index "comments", ["ancestry"], :name => "index_comments_on_ancestry"
   add_index "comments", ["learner_id", "event_id"], :name => "index_comments_on_learner_id_and_event_id"
 
+  create_table "conference_connections", :force => true do |t|
+    t.integer  "learner_id",       :null => false
+    t.integer  "conference_id",    :null => false
+    t.integer  "connectiontype",   :null => false
+    t.string   "role_description"
+    t.datetime "created_at"
+  end
+
+  add_index "conference_connections", ["learner_id", "conference_id", "connectiontype"], :name => "connection_ndx", :unique => true
+
+  create_table "conferences", :force => true do |t|
+    t.string   "name",        :null => false
+    t.string   "tagline"
+    t.string   "website"
+    t.text     "description"
+    t.date     "start_date",  :null => false
+    t.date     "end_date",    :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
     t.integer  "attempts",   :default => 0
@@ -97,21 +125,27 @@ ActiveRecord::Schema.define(:version => 20120307213207) do
   add_index "event_connections", ["learner_id", "event_id", "connectiontype"], :name => "connection_ndx", :unique => true
 
   create_table "events", :force => true do |t|
-    t.text     "title",                               :null => false
-    t.text     "description",                         :null => false
-    t.datetime "session_start",                       :null => false
-    t.datetime "session_end",                         :null => false
-    t.integer  "session_length",                      :null => false
+    t.text     "title",                                                 :null => false
+    t.text     "description",                                           :null => false
+    t.datetime "session_start",                                         :null => false
+    t.datetime "session_end",                                           :null => false
+    t.integer  "session_length",                                        :null => false
     t.text     "location"
     t.text     "recording"
-    t.integer  "creator_id",                          :null => false
-    t.integer  "last_modifier_id",                    :null => false
+    t.integer  "creator_id",                                            :null => false
+    t.integer  "last_modifier_id",                                      :null => false
     t.string   "time_zone"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_canceled",      :default => false, :null => false
-    t.boolean  "is_expired",       :default => false, :null => false
+    t.boolean  "is_canceled",                    :default => false,     :null => false
+    t.boolean  "is_expired",                     :default => false,     :null => false
+    t.string   "event_type",       :limit => 25, :default => "general"
+    t.integer  "conference_id"
+    t.string   "room"
   end
+
+  add_index "events", ["conference_id"], :name => "conference_ndx"
+  add_index "events", ["event_type"], :name => "event_type_ndx"
 
   create_table "learner_activities", :force => true do |t|
     t.integer  "learner_id",   :null => false
