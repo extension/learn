@@ -20,7 +20,7 @@ class Event < ActiveRecord::Base
   # types
   GENERAL = 'general'
   CONFERENCE = 'conference'
-  CONFERENCE_BROADCAST = 'broadcast'
+  BROADCAST = 'broadcast'
   
   # relationships
   has_many :taggings, :as => :taggable, dependent: :destroy
