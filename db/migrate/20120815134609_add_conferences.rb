@@ -2,6 +2,7 @@ class AddConferences < ActiveRecord::Migration
   def change
     create_table "conferences" do |t|
       t.string "name", :null => false
+      t.string "hashtag", :null => false
       t.string "tagline"
       t.string "website"
       t.text   "description"
@@ -9,6 +10,8 @@ class AddConferences < ActiveRecord::Migration
       t.date   "end_date", :null => false
       t.timestamps
     end
+
+    add_index "conferences", ["hashtag"], :name => "hashtag_ndx", :unique => true
 
     # column additions for events
     add_column("events","event_type",:string, :default => Event::GENERAL, :limit => 25)

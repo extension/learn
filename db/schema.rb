@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(:version => 20120815134609) do
 
   create_table "conferences", :force => true do |t|
     t.string   "name",        :null => false
+    t.string   "hashtag",     :null => false
     t.string   "tagline"
     t.string   "website"
     t.text     "description"
@@ -86,6 +87,8 @@ ActiveRecord::Schema.define(:version => 20120815134609) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  add_index "conferences", ["hashtag"], :name => "hashtag_ndx", :unique => true
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
