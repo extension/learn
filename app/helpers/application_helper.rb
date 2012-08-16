@@ -5,6 +5,22 @@
 # see LICENSE file
 
 module ApplicationHelper
+
+  def bootstrap_alert_class(type)
+    baseclass = "alert"
+    case type
+    when :alert
+      "#{baseclass} alert-warning"
+    when :error
+      "#{baseclass} alert-error"
+    when :notice
+      "#{baseclass} alert-info"
+    when :success
+      "#{baseclass} alert-success"
+    else
+      "#{baseclass} #{type.to_s}"
+    end
+  end
   
   def format_text_for_display(content)
     return word_wrap(simple_format(auto_link(content.html_safe, :all, :target => "_blank"))).html_safe 

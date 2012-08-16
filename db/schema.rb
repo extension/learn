@@ -13,13 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20120815134609) do
 
-  create_table "activity_labels", :force => true do |t|
-    t.integer "activity_code", :default => 0
-    t.string  "label"
-  end
-
-  add_index "activity_labels", ["activity_code"], :name => "activity_code"
-
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
     t.integer  "loggable_id"

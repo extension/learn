@@ -92,6 +92,8 @@ Learn::Application.routes.draw do
     match "/recent_recommendations" => "data#recent_recommendations", :as => 'data_recent_recommendations'  
     match "/blocked_activity" => "data#blocked_activity", :as => 'data_blocked_activity'
   end
+
+  resources :conferences, :only => [:index, :show]
       
   root :to => 'home#index'
 

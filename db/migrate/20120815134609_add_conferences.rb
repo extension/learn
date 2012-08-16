@@ -34,5 +34,16 @@ class AddConferences < ActiveRecord::Migration
 
     add_index "conference_connections", ["learner_id", "conference_id", "connectiontype"], :name => "connection_ndx", :unique => true
 
+    # Create nexc2012 to have something to work against
+
+    Conference.reset_column_information
+    Conference.create(:name => 'eXtension 2012 National Conference', 
+                      :hashtag => 'nexc2012', 
+                      :tagline => 'SPUR ON the Evolution of Extension',
+                      :website => 'http://nexc2012.extension.org',
+                      :description => 'To be added.',
+                      :start_date => '2012-10-01',
+                      :end_date => '2012-10-04')
+
   end
 end

@@ -1,0 +1,13 @@
+<% @page_title = "#{@conference.name}" %>
+<header class="jumbotron subhead" id="overview">
+  <h1><%= @page_title %></h1>
+</header>
+
+<div class="row">
+  <div class="span12">
+    <p><%= @conference.description %></p>
+    <p><%= @conference.website %></p>    
+    <p><%= @conference.start_date %> - <%= @conference.end_date %></p>
+  </div>
+</div>
+
