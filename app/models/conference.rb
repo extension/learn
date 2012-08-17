@@ -35,4 +35,12 @@ class Conference < ActiveRecord::Base
     conference
   end
 
+  def in_progress?
+    return (self.start_date <= Date.today) && (self.end_date >= Date.today)
+  end
+
+  def concluded?
+    return !(self.end_date < Date.today)
+  end
+  
 end
