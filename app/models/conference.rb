@@ -19,7 +19,8 @@ class Conference < ActiveRecord::Base
   belongs_to :last_modifier, :class_name => "Learner"
 
   def self.find_by_id_or_hashtag(id)
-    if(id =~ %r{[[:alpaha]]?})
+    # does the id contain a least one alpha? let's search by hashtag
+    if(id =~ %r{[[:alpha:]]?})
       conference = self.find_by_hashtag(id)
     end
 
