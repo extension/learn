@@ -8,6 +8,8 @@ class AddConferences < ActiveRecord::Migration
       t.text   "description"
       t.date   "start_date", :null => false
       t.date   "end_date", :null => false
+      t.integer  "creator_id",                          :null => false
+      t.integer  "last_modifier_id",                    :null => false
       t.timestamps
     end
 
@@ -43,7 +45,9 @@ class AddConferences < ActiveRecord::Migration
                       :website => 'http://nexc2012.extension.org',
                       :description => 'To be added.',
                       :start_date => '2012-10-01',
-                      :end_date => '2012-10-04')
+                      :end_date => '2012-10-04',
+                      :creator => Learner.learnbot,
+                      :last_modifier => Learner.learnbot)
 
   end
 end
