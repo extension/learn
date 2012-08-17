@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class Conference < ActiveRecord::Base
-  attr_accessible :name, :hashtag, :tagline, :description, :website, :start_date, :end_date
+  attr_accessible :name, :hashtag, :tagline, :description, :website, :start_date, :end_date, :creator, :last_modifier, :creator_id, :last_modifier_id
 
   validates :name, :presence => true
   validates :hashtag, :uniqueness => true
@@ -15,6 +15,8 @@ class Conference < ActiveRecord::Base
 
   has_many :conference_connections
   has_many :events
+  belongs_to :creator, :class_name => "Learner"
+  belongs_to :last_modifier, :class_name => "Learner"
 
   def self.find_by_id_or_hashtag(id)
     if(id =~ %r{[[:alpaha]]?})
