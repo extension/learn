@@ -82,6 +82,9 @@ gem "inline-style", "0.5.2ex"
 # auto_link replacement
 gem "rinku", :require => 'rails_rinku'
 
+# http retrieval
+gem 'rest-client'
+
 # require sunspot_solr for test and dev
 group :test, :development do
   gem 'sunspot_solr', "~> 1.3.0" 

@@ -310,6 +310,7 @@ DEPENDENCIES
   rails (= 3.2.8)
   rails3-generators
   rails_config
+  rest-client
   rinku
   rmagick
   ruby-readability (~> 0.2.4)
