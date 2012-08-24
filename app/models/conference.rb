@@ -92,8 +92,10 @@ class Conference < ActiveRecord::Base
       event_attributes[:event_type] = Event::CONFERENCE
       event_attributes[:conference_id] = self.id
       event_attributes[:location] = 'Conference Session'
+      event_attributes[:time_zone] = self.time_zone
       event_attributes[:creator] = Learner.learnbot
       event_attributes[:last_modifier] = Learner.learnbot
+
 
       event_attributes[:title] = row[0]
       event_attributes[:description] = (row[1].blank? ? 'TBD' : row[1])
