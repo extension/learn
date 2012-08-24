@@ -6,6 +6,7 @@ class AddConferences < ActiveRecord::Migration
       t.string "tagline"
       t.string "website"
       t.text   "description"
+      t.string   "time_zone"
       t.date   "start_date", :null => false
       t.date   "end_date", :null => false
       t.integer  "creator_id",                          :null => false
@@ -47,7 +48,8 @@ class AddConferences < ActiveRecord::Migration
                       :start_date => '2012-10-01',
                       :end_date => '2012-10-04',
                       :creator => Learner.learnbot,
-                      :last_modifier => Learner.learnbot)
+                      :last_modifier => Learner.learnbot,
+                      :time_zone => 'Central Time (US & Canada)')
 
   end
 end

@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20120815134609) do
     t.string   "tagline"
     t.string   "website"
     t.text     "description"
+    t.string   "time_zone"
     t.date     "start_date",       :null => false
     t.date     "end_date",         :null => false
     t.integer  "creator_id",       :null => false
