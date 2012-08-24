@@ -3,6 +3,7 @@
 # Developed with funding for the National eXtension Initiative.
 # === LICENSE:
 # see LICENSE file
+require 'csv'
 
 class Conference < ActiveRecord::Base
   attr_accessible :name, :hashtag, :tagline, :description, :website, :start_date, :end_date, :creator, :last_modifier, :creator_id, :last_modifier_id, :time_zone
@@ -73,5 +74,59 @@ class Conference < ActiveRecord::Base
       write_attribute(:time_zone, nil)
     end
   end
+
+  def import_sessions_from_csv_data(csv_data_string)
+    create_data = {}
+    create_data[:created_count] = 0
+    create_data[:error_count] = 0
+    create_data[:error_titles] = {}
+
+    CSV.parse(csv_data_string) do |row|
+      # expecting:
+      # Title,Description,Presenters,Date,Time,Length,Room
+
+      # ignore the title row 
+      next if (row[0] =~ %r{^Title})
+
+      event_attributes = {}
+      event_attributes[:event_type] = Event::CONFERENCE
+      event_attributes[:conference_id] = self.id
+      event_attributes[:location] = 'Conference Session'
+      event_attributes[:creator] = Learner.learnbot
+      event_attributes[:last_modifier] = Learner.learnbot
+
+      event_attributes[:title] = row[0]
+      event_attributes[:description] = (row[1].blank? ? 'TBD' : row[1])
+
+      # presenters
+      learner_list = []
+      row[2].split(',').each do |presenter|
+        name = presenter.strip
+        if(learner = Learner.find_by_name(name))
+          learner_list << learner
+        end
+      end
+      event_attributes[:presenter_ids] = learner_list.map(&:id)
+
+      begin
+        event_date = Date.strptime(row[3], '%m/%d/%Y')
+      rescue
+        event_date = self.start_date
+      end
+
+      event_attributes[:session_start_string] = "#{event_date.strftime('%Y-%m-%d')} #{row[4]}"
+      event_attributes[:session_length] = row[5]
+      event_attributes[:room] = row[6]
+      if(event = Event.create(event_attributes) and event.valid?)
+        create_data[:created_count] += 1
+      else
+        create_data[:error_count] += 1
+        create_data[:error_titles][event_attributes[:title]] = event.errors.full_messages.join(' | ')
+      end
+    end
+    create_data
+  end
+
+
   
 end

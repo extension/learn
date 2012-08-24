@@ -12,7 +12,9 @@ class Event < ActiveRecord::Base
   attr_accessor :session_start_string
 
   # define accessible attributes
-  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :last_modifier, :is_expired, :is_canceled
+  attr_accessible :creator, :last_modifier
+  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled
+  attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids
 
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
