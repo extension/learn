@@ -23,7 +23,10 @@ class Importer < Thor
       if(!response.code == 200)
         return nil
       end
-      csvdata = response.to_str
+      csvdata = response.to_str    
+      # force utf8 - for some reason it's coming across as ASCII-8BIT
+      csvdata.force_encoding('UTF-8')
+      csvdata
     end
 
     def get_nexc_data()
