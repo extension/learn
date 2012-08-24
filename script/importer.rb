@@ -41,7 +41,6 @@ class Importer < Thor
     if(csv_data = get_nexc_data)
       if(conference = Conference.find_by_hashtag('nexc2012'))
         results = conference.import_sessions_from_csv_data(csv_data)
-{:created_count=>55, :error_count=>0, :error_titles=>{}}
         puts "Imported #{results[:created_count]} events"
         if(results[:error_count] > 0)
           puts "Unable to import #{results[:error_count]} events, showing titles and errors"
