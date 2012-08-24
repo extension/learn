@@ -81,9 +81,11 @@ class Conference < ActiveRecord::Base
     create_data[:error_count] = 0
     create_data[:error_titles] = {}
 
+
+
     CSV.parse(csv_data_string) do |row|
       # expecting:
-      # Title,Description,Presenters,Date,Time,Length,Room
+      # Title,Description,Presenters,Date,Time,Length,Room,Broadcast? (Yes/No),Location
 
       # ignore the title row 
       next if (row[0] =~ %r{^Title})
@@ -91,7 +93,6 @@ class Conference < ActiveRecord::Base
       event_attributes = {}
       event_attributes[:event_type] = Event::CONFERENCE
       event_attributes[:conference_id] = self.id
-      event_attributes[:location] = 'Conference Session'
       event_attributes[:time_zone] = self.time_zone
       event_attributes[:creator] = Learner.learnbot
       event_attributes[:last_modifier] = Learner.learnbot
@@ -119,6 +120,16 @@ class Conference < ActiveRecord::Base
       event_attributes[:session_start_string] = "#{event_date.strftime('%Y-%m-%d')} #{row[4]}"
       event_attributes[:session_length] = row[5]
       event_attributes[:room] = row[6]
+      if(row[7].downcase == 'yes')
+        event_attributes[:event_type] = Event::BROADCAST
+      end
+
+      if(!row[8].blank?)
+        event_attributes[:location] = "#{row[8]}"
+      else
+        event_attributes[:location] = 'Conference Session'
+      end
+
       if(event = Event.create(event_attributes) and event.valid?)
         create_data[:created_count] += 1
       else
