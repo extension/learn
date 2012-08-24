@@ -146,7 +146,7 @@ class EventsController < ApplicationController
     events = Event.search do
                 with(:is_canceled, false)
                 fulltext(params[:q])
-                paginate :page => params[:page], :per_page => Event.per_page
+                paginate :page => params[:page], :per_page => Event.default_per_page
               end
     @events = events.results
     render :action => 'index'
