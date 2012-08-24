@@ -23,6 +23,7 @@ class AddConferences < ActiveRecord::Migration
 
     add_index("events",["conference_id"], :name => 'conference_ndx')
     add_index("events",["event_type"], :name => 'event_type_ndx')
+    add_index("events",["room"], :name => 'room_ndx')
 
     # set all existing events to be general
     execute "UPDATE events SET event_type = '#{Event::GENERAL}'"

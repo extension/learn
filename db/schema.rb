@@ -145,6 +145,7 @@ ActiveRecord::Schema.define(:version => 20120815134609) do
 
   add_index "events", ["conference_id"], :name => "conference_ndx"
   add_index "events", ["event_type"], :name => "event_type_ndx"
+  add_index "events", ["room"], :name => "room_ndx"
 
   create_table "learner_activities", :force => true do |t|
     t.integer  "learner_id",   :null => false
