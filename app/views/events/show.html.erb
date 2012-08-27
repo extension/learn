@@ -29,7 +29,7 @@
             <span id='upvote_event_<%= @event.id %>'><%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn btn-primary" %></span>
           <% end %>
         <% else %>
-          <%= render(partial: 'shared/sign_in_to_vote')%>
+          <%= render(partial: '/shared/sign_in_to_vote')%>
           <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
           </div> <!-- end .sitv_element_wrapper  -->
         <% end %>
@@ -160,7 +160,7 @@
       <%= render :partial => 'learners' %>
     <%- else -%>
        <aside id="eventconnections" class="radius10 placeholder">
-         <%= render(partial: 'sign_in_to_vote')%>
+         <%= render(partial: '/shared/sign_in_to_vote')%>
           <%- if @event.started? -%>
             <p class="sitv_element cursor">Did you attend or watch this event or want to follow it?</p>                                
           <%- else -%>
@@ -175,7 +175,7 @@
      
     
    <div id="comment-section">
-    <%= render :partial => 'shared/comments', :locals => {comments: @comments, event: @event} %>
+    <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
    </div>
 
 <br class='clearing' />

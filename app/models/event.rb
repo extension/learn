@@ -130,6 +130,8 @@ class Event < ActiveRecord::Base
   
   scope :date_filtered, lambda { |start_date,end_date| where('DATE(session_start) >= ? AND DATE(session_start) <= ?', start_date, end_date) }
   
+  scope :nonconference, where('event_type != ?',CONFERENCE)
+  
   def is_broadcast
     (self.event_type == Event::BROADCAST)
   end
