@@ -3,7 +3,7 @@
 <div id="behindthescenes">
   <h1>Event History for: <small><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></small></h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Modified</th>
