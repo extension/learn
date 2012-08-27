@@ -10,11 +10,12 @@ class Event < ActiveRecord::Base
   attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
+  attr_accessor :is_broadcast
 
   # define accessible attributes
   attr_accessible :creator, :last_modifier
   attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled
-  attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids
+  attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :broadcast
 
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
@@ -43,6 +44,8 @@ class Event < ActiveRecord::Base
   has_many :notifications, :as => :notifiable, dependent: :destroy
   has_many :notification_exceptions
 
+  # conference sessions
+  belongs_to :conference
 
   validates :title, :presence => true
   validates :description, :presence => true
@@ -127,6 +130,19 @@ class Event < ActiveRecord::Base
   
   scope :date_filtered, lambda { |start_date,end_date| where('DATE(session_start) >= ? AND DATE(session_start) <= ?', start_date, end_date) }
   
+  def is_broadcast
+    (self.event_type == Event::BROADCAST)
+  end
+
+  # should only be exposed in a conference context
+  def is_broadcast=(broadcast_boolean)
+    if(broadcast_boolean)
+      self.event_type = Event::BROADCAST
+    else 
+      self.event_type = Event::CONFERENCE
+    end
+  end
+
   def presenter_tokens
     if(@presenter_tokens.blank?)
       @presenter_tokens = self.presenter_ids.join(',')
@@ -460,6 +476,10 @@ class Event < ActiveRecord::Base
   
   def is_connect_session?
     self.location.match(Settings.iastate_connect_url).nil? ? false : true
+  end
+
+  def is_conference_session?
+    self.event_type == CONFERENCE
   end
   
 

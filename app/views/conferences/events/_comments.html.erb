@@ -1,0 +1,56 @@
+<section id="comments">
+  <h5>Add your thoughts...</h5>
+  
+  <div class="commentfield_container">
+    <% if current_learner %>
+    
+    <%= form_tag(comments_path, :id => 'comment-form', :remote => true) do %>
+      <%= get_avatar(current_learner, :thumb, :link_it) %>
+      <div class="commentfield">
+      <%= text_area_tag 'comment[content]', nil, {:cols => nil, :rows => 5} %>
+      <%= hidden_field_tag 'comment[event_id]', event.id %>
+      <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn'} %>
+      </div>
+      <br class="clearing" />
+    <% end %>
+    
+    <% else %>
+        
+        <%= form_tag(comments_path, :id => 'comment-form', :remote => true) do %>
+        <%= image_tag("avatar_placeholder.png", :size => "50x50") %>
+        
+        <%= render(partial: 'sign_in_to_vote')%>
+          <div class="sitv_element commentfield">
+          <%= text_area_tag 'comment[content]', nil, {:cols => nil, :rows => 5} %>
+          <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn'} %>
+          </div>
+          <br class="clearing" />
+          </div> <!-- end .sitv_element_wrapper  -->
+        <% end %>
+        
+    <% end %>
+    
+    <br class="clearing" />
+  </div>
+  
+  <div id="comment-list">
+    <%= render :partial => 'comments/comment_list', :locals => {:comment_list => comments, :parent_comment => nil} %>
+  </div>
+  
+</section>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#comment-form")
+    .bind("ajax:loading",  $("#comment-submit").val('Submitting...'))
+    .bind("ajax:complete", $("#comment-submit").val('Post'))
+    .bind("ajax:success", function(event, data, status, xhr) {
+      $("#response").html(data);
+    });
+});
+
+function show_element(passed_element) {
+  passed_element.show();
+}
+
+</script>

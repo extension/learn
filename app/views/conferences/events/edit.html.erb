@@ -1,0 +1,17 @@
+<%- if @event.errors.any? -%>
+  <div id="error_messages">
+    <h3>Please fix the following items and submit again</h3>
+  <ul>
+  <%- @event.errors.full_messages.each do |msg| -%>
+    <li><%= msg %></li>
+  <%- end -%>
+  </ul>
+  </div>
+<%- end -%>
+
+<div id="editform">
+  <h1>Edit this event</h1>
+  <%= form_for @event do |form| %>
+    <%= render(partial: 'event_form', locals: {event_form: form}) %>
+  <% end %>
+</div>

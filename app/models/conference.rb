@@ -6,7 +6,7 @@
 require 'csv'
 
 class Conference < ActiveRecord::Base
-  attr_accessible :name, :hashtag, :tagline, :description, :website, :start_date, :end_date, :creator, :last_modifier, :creator_id, :last_modifier_id, :time_zone
+  attr_accessible :name, :hashtag, :tagline, :description, :website, :start_date, :end_date, :creator, :last_modifier, :creator_id, :last_modifier_id, :time_zone, :is_virtual
 
   validates :name, :presence => true
   validates :hashtag, :uniqueness => true
@@ -42,6 +42,10 @@ class Conference < ActiveRecord::Base
 
   def concluded?
     return !(self.end_date < Date.today)
+  end
+
+  def rooms
+    self.events.pluck(:room).uniq.sort
   end
 
 

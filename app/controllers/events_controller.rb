@@ -40,8 +40,8 @@ class EventsController < ApplicationController
   end
     
   def show
-    @event = Event.find_by_id(params[:id])
-    return record_not_found if !@event
+    @event = Event.find(params[:id])
+    return if check_for_event_redirect
     # dup of global before filter logic in order
     # to force display of event time in the time zone of the session
     if(current_learner and current_learner.has_time_zone?)
@@ -50,8 +50,8 @@ class EventsController < ApplicationController
       Time.zone = @event.time_zone
     end
 
-    # make sure @article has questions
-    if(@event.questions.count == 0)
+    # make sure the event has sense making questions
+    if(@event.questions.count == 0 and !@event.is_conference_session?)
       @event.add_stock_questions
     end
     @comments = @event.comments
@@ -224,6 +224,18 @@ class EventsController < ApplicationController
       exception[0].destroy  
     else
       NotificationException.create(learner: current_learner, event: @event)
+    end
+  end
+
+  protected
+
+  # must have @event
+  def check_for_event_redirect
+    if(@event.event_type == Event::CONFERENCE)
+      redirect_to(conference_event_url(:conference_id => @event.conference.id, :id => @event.id))
+      return true
+    else
+      return false
     end
   end
     
