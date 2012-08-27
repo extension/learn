@@ -60,13 +60,11 @@ class EventsController < ApplicationController
   end
   
   def backstage
-    @event = Event.find_by_id(params[:id])
-    return record_not_found if !@event
+    @event = Event.find(params[:id])
   end
   
   def history
-    @event = Event.find_by_id(params[:id])
-    return record_not_found if !@event
+    @event = Event.find(params[:id])
   end
   
   def recommended
