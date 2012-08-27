@@ -57,7 +57,7 @@
         <li><%= submit_tag "Turn notifications off for this event", {:id => '0', :class => 'btn'} %></li>
       <%- end -%> 
     
-      <li class="settings"><%= link_to 'Change your notification settings', {controller: "settings", action: "notifications"} %></li>
+      <li class="settings"><%= link_to 'Change your notification settings', settings_notifications_path %></li>
     </ul>
     <% end %>
   </div>
