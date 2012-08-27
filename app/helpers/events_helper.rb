@@ -102,7 +102,7 @@ module EventsHelper
   end
   
   def convert_to_rfc3339(time_to_convert)
-    return time_to_convert.utc.strftime("%Y%m%dT%H%M%SZ")  
+    time_to_convert.utc.xmlschema
   end
   
 end
