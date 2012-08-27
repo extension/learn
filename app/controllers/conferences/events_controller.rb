@@ -6,8 +6,13 @@
 
 class Conferences::EventsController < ApplicationController
   before_filter :set_conference
-  #before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history]
+  before_filter :authenticate_learner!, only: [:edit, :update, :new, :create]
 
+  def index
+    @list_title = 'All Sessions'
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
+    @events = @conference.events.active.order('session_start ASC').page(params[:page])
+  end
 
   def show
     @event = Event.find(params[:id])

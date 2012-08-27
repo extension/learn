@@ -10,11 +10,11 @@
             <% if event.is_expired %>
               <em class="expired">expired</em>
             <% end %>
-          <%= link_to event.title, event_path(event) %> <% if event.in_progress? %><em class="happening_now_list">Happening now</em><% end %>
+          <%= link_to event.title, conference_event_path(event, :conference_id => @conference.id ) %> <% if event.in_progress? %><em class="happening_now_list">Happening now</em><% end %>
           </span>
           </h3>
           <p class="details">
-            <strong><%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%>, <%= event.session_start.strftime("%B %e, %Y") -%></strong>. Presented by <%= display_presenters(event.presenters) %>.</p>
+            <strong><%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%>, <%= event.session_start.strftime("%B %e, %Y") -%></strong>. Presented by <%= display_presenters(event.presenters) %> in <%= display_room(event.room) %> </p>
           <p class="description"><%= format_text_for_display(event.description.truncate(280,separator: ' ')) %></p>
           
         </div>
