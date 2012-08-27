@@ -15,7 +15,7 @@ module CommentsHelper
       if comment.created_by_blocked_learner?
         next
       end
-      render(comment, {:parent_comment => parent_comment}) + content_tag(:div, nested_comments(sub_comments, parent_comment), :class => "nested_comments")
+      render('/comments/comment', {:comment => comment, :parent_comment => parent_comment}) + content_tag(:div, nested_comments(sub_comments, parent_comment), :class => "nested_comments")
     end.join.html_safe  
   end
 end
