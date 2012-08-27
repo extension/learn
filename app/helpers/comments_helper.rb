@@ -1,3 +1,9 @@
+# === COPYRIGHT:
+# Copyright (c) North Carolina State University
+# Developed with funding for the National eXtension Initiative.
+# === LICENSE:
+# see LICENSE file
+
 module CommentsHelper
   # comments comes in as a set of nested hashes via ancestry's arrange method 
   # to denote parent and children comments
