@@ -9,6 +9,7 @@ class AddConferences < ActiveRecord::Migration
       t.string   "time_zone"
       t.date   "start_date", :null => false
       t.date   "end_date", :null => false
+      t.boolean "is_virtual", :default => false
       t.integer  "creator_id",                          :null => false
       t.integer  "last_modifier_id",                    :null => false
       t.timestamps
@@ -50,7 +51,8 @@ class AddConferences < ActiveRecord::Migration
                       :end_date => '2012-10-04',
                       :creator => Learner.learnbot,
                       :last_modifier => Learner.learnbot,
-                      :time_zone => 'Central Time (US & Canada)')
+                      :time_zone => 'Central Time (US & Canada)',
+                      :is_virtual => false)
 
   end
 end

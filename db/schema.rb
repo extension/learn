@@ -70,18 +70,19 @@ ActiveRecord::Schema.define(:version => 20120815134609) do
   add_index "conference_connections", ["learner_id", "conference_id", "connectiontype"], :name => "connection_ndx", :unique => true
 
   create_table "conferences", :force => true do |t|
-    t.string   "name",             :null => false
-    t.string   "hashtag",          :null => false
+    t.string   "name",                                :null => false
+    t.string   "hashtag",                             :null => false
     t.string   "tagline"
     t.string   "website"
     t.text     "description"
     t.string   "time_zone"
-    t.date     "start_date",       :null => false
-    t.date     "end_date",         :null => false
-    t.integer  "creator_id",       :null => false
-    t.integer  "last_modifier_id", :null => false
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.date     "start_date",                          :null => false
+    t.date     "end_date",                            :null => false
+    t.boolean  "is_virtual",       :default => false
+    t.integer  "creator_id",                          :null => false
+    t.integer  "last_modifier_id",                    :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
   end
 
   add_index "conferences", ["hashtag"], :name => "hashtag_ndx", :unique => true
