@@ -101,7 +101,7 @@ class EventsController < ApplicationController
   
   def edit
     @event = Event.find(params[:id])
-    return record_not_found if !@event
+    return if check_for_edit_event_redirect
   end
   
   def update
@@ -231,6 +231,16 @@ class EventsController < ApplicationController
   def check_for_event_redirect
     if(@event.event_type == Event::CONFERENCE)
       redirect_to(conference_event_url(:conference_id => @event.conference.id, :id => @event.id))
+      return true
+    else
+      return false
+    end
+  end
+
+  # must have @event
+  def check_for_edit_event_redirect
+    if(@event.event_type == Event::CONFERENCE or @event.event_type == Event::BROADCAST )
+      redirect_to(edit_conference_event_url(:conference_id => @event.conference.id, :id => @event.id))
       return true
     else
       return false
