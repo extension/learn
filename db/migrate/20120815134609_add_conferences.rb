@@ -18,7 +18,7 @@ class AddConferences < ActiveRecord::Migration
     add_index "conferences", ["hashtag"], :name => "hashtag_ndx", :unique => true
 
     # column additions for events
-    add_column("events","event_type",:string, :default => Event::GENERAL, :limit => 25)
+    add_column("events","event_type",:string, :default => Event::ONLINE, :limit => 25)
     add_column("events","conference_id",:integer)
     add_column("events","room",:string)
 
@@ -27,7 +27,7 @@ class AddConferences < ActiveRecord::Migration
     add_index("events",["room"], :name => 'room_ndx')
 
     # set all existing events to be general
-    execute "UPDATE events SET event_type = '#{Event::GENERAL}'"
+    execute "UPDATE events SET event_type = '#{Event::ONLINE}'"
     
     create_table "conference_connections", :force => true do |t|
       t.integer  "learner_id", :null => false

@@ -125,21 +125,21 @@ ActiveRecord::Schema.define(:version => 20120815134609) do
   add_index "event_connections", ["learner_id", "event_id", "connectiontype"], :name => "connection_ndx", :unique => true
 
   create_table "events", :force => true do |t|
-    t.text     "title",                                                 :null => false
-    t.text     "description",                                           :null => false
-    t.datetime "session_start",                                         :null => false
-    t.datetime "session_end",                                           :null => false
-    t.integer  "session_length",                                        :null => false
+    t.text     "title",                                                :null => false
+    t.text     "description",                                          :null => false
+    t.datetime "session_start",                                        :null => false
+    t.datetime "session_end",                                          :null => false
+    t.integer  "session_length",                                       :null => false
     t.text     "location"
     t.text     "recording"
-    t.integer  "creator_id",                                            :null => false
-    t.integer  "last_modifier_id",                                      :null => false
+    t.integer  "creator_id",                                           :null => false
+    t.integer  "last_modifier_id",                                     :null => false
     t.string   "time_zone"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_canceled",                    :default => false,     :null => false
-    t.boolean  "is_expired",                     :default => false,     :null => false
-    t.string   "event_type",       :limit => 25, :default => "general"
+    t.boolean  "is_canceled",                    :default => false,    :null => false
+    t.boolean  "is_expired",                     :default => false,    :null => false
+    t.string   "event_type",       :limit => 25, :default => "online"
     t.integer  "conference_id"
     t.string   "room"
   end

@@ -21,7 +21,7 @@ class Event < ActiveRecord::Base
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
 
   # types
-  GENERAL = 'general'
+  ONLINE = 'online'
   CONFERENCE = 'conference'
   BROADCAST = 'broadcast'
   
@@ -488,7 +488,7 @@ class Event < ActiveRecord::Base
   end
 
   def is_conference_session?
-    self.event_type == CONFERENCE
+    self.event_type != ONLINE
   end
   
 
