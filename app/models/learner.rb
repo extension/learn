@@ -241,9 +241,9 @@ class Learner < ActiveRecord::Base
     event_scope = modified_options.delete(:event_scope) || 'recommendation_epoch'
     
     if(event_scope == 'all')
-      event_list = Event.active.not_expired.potential_learners(modified_options)
+      event_list = Event.nonconference.active.not_expired.potential_learners(modified_options)
     else
-      event_list = Event.active.not_expired.send(event_scope).potential_learners(modified_options)
+      event_list = Event.nonconference.active.not_expired.send(event_scope).potential_learners(modified_options)
     end
     event_list.each do |event,learner_list|
       if(show_zeros and learner_list.blank?)
@@ -270,9 +270,9 @@ class Learner < ActiveRecord::Base
     event_scope = modified_options.delete(:event_scope) || 'recommendation_epoch'
     
     if(event_scope == 'all')
-      event_list = Event.active.not_expired.potential_learners(modified_options)
+      event_list = Event.nonconference.active.not_expired.potential_learners(modified_options)
     else
-      event_list = Event.active.not_expired.send(event_scope).potential_learners(modified_options)
+      event_list = Event.nonconference.active.not_expired.send(event_scope).potential_learners(modified_options)
     end
   
     event_list.each do |event,learner_list|
