@@ -15,7 +15,7 @@ class Event < ActiveRecord::Base
   # define accessible attributes
   attr_accessible :creator, :last_modifier
   attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled
-  attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :broadcast
+  attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast
 
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
@@ -56,6 +56,7 @@ class Event < ActiveRecord::Base
   validates :recording, :allow_blank => true, :uri => true
   
   before_validation :set_session_start
+  before_validation :set_location_if_conference
   
   before_update :schedule_recording_notification
   before_update :update_event_notifications
@@ -132,13 +133,19 @@ class Event < ActiveRecord::Base
   
   scope :nonconference, where('event_type != ?',CONFERENCE)
   
+  def set_location_if_conference
+    if(self.event_type == Event::CONFERENCE)
+      self.location = 'Conference Session'
+    end
+  end
+
   def is_broadcast
     (self.event_type == Event::BROADCAST)
   end
 
   # should only be exposed in a conference context
   def is_broadcast=(broadcast_boolean)
-    if(broadcast_boolean)
+    if(broadcast_boolean.to_i == 1)
       self.event_type = Event::BROADCAST
     else 
       self.event_type = Event::CONFERENCE

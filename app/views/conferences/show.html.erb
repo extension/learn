@@ -67,8 +67,12 @@
        </aside>
      <%- end -%>
 
-     
-     
+
+  <%- if current_learner -%>
+      <div id="create_event">
+      <%= link_to "Add a conference sesson", new_conference_event_path(:conference_id => @conference.id), :class => "btn" %>
+      </div>
+  <%- end -%>     
     
 
 

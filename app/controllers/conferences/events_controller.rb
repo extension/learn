@@ -36,9 +36,11 @@ class Conferences::EventsController < ApplicationController
   def new
     @event = Event.new
     # seed defaults
-    if(current_learner)
-      @event.time_zone = Time.zone
-    end
+    @event.session_start = @conference.default_time
+    @event.session_length = @conference.default_length
+    @event.event_type = Event::CONFERENCE
+    @event.time_zone = @conference.time_zone
+    @event.conference = @conference
   end
   
   def create
@@ -46,9 +48,9 @@ class Conferences::EventsController < ApplicationController
     @event.conference = @conference
     @event.last_modifier = @event.creator = current_learner
     if @event.save
-      redirect_to(@event, :notice => 'Event was successfully created.')
+      redirect_to(conference_event_url(@event, :conference_id => @conference.id), :notice => 'Event was successfully created.')
     else
-      render :action => 'edit'
+      render :action => 'new'
     end
   end
   
@@ -61,14 +63,10 @@ class Conferences::EventsController < ApplicationController
     @event = Event.find(params[:id])
     update_params = params[:event].merge({last_modifier: current_learner})
     if @event.update_attributes(update_params)
-      redirect_to(@event, :notice => 'Event was successfully updated.')
+      redirect_to(conference_event_url(@event, :conference_id => @conference.id), :notice => 'Event was successfully updated.')
     else
       render :action => 'edit'
     end        
-  end
-
-  def rooms
-
   end
 
   protected

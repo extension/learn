@@ -11,7 +11,7 @@
 
 <div id="editform">
   <h1>Edit this event</h1>
-  <%= form_for @event do |form| %>
+  <%= form_for @event, :url => url_for(:controller => '/conferences/events', :action => 'update', :conference_id => @conference.id), :html => { :class => "form-stacked"} do |form| %>
     <%= render(partial: 'event_form', locals: {event_form: form}) %>
   <% end %>
 </div>

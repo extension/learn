@@ -48,7 +48,25 @@ class Conference < ActiveRecord::Base
     self.events.pluck(:room).uniq.sort
   end
 
+  def default_time
+    if(self.events.count > 0)
+      self.events.order(:session_start).limit(1).pluck(:session_start).first
+    else
+      current_tz = Time.zone
+      Time.zone = self.time_zone
+      returntime = Time.zone.parse("#{self.start_date} 08:00:00")
+      Time.zone = current_tz
+      returntime
+    end
+  end
 
+  def default_length
+    if(self.events.count > 0)
+      self.events.order(:session_start).limit(1).pluck(:session_length).first
+    else
+      45
+    end
+  end
     # override timezone writer/reader
   # returns Eastern by default, use convert=false
   # when you need a timezone string that mysql can handle

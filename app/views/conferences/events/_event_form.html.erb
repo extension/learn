@@ -30,6 +30,7 @@
    <%= event_form.label :session_start, 'Date and Time' %>
    <%= event_form.text_field :session_start_string, {id: 'session_start', :size => nil} %>
    </p>
+   <!-- Time Zone: <%= @event.time_zone %> -->
  </fieldset>
    
  <fieldset id="session_length">
@@ -129,10 +130,7 @@
     var rooms = <%= @conference.rooms.to_json.html_safe %>;
     $('#event_room').autocomplete({
       source: rooms,
-      minLength: 2,
-      select: function(event, ui) { 
-        window.location = '/groups/' + ui.item.id
-      } 
+      minLength: 2
     });
   });
  </script>
