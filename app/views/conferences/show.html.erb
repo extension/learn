@@ -23,7 +23,7 @@
    </section>
 
    <section id="presenters">
-    <strong>Presenters go here</strong>
+    <%= render(:partial => 'presenters', locals: {:conference => @conference}) %>
    </section>
    
    <section id="attendees">

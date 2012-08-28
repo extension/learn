@@ -1,0 +1,16 @@
+
+<aside id="conference_connections" class="radius10">
+<%- if conference.presenters.count > 0 -%>
+  
+    <h3>Presenters</h3>
+
+    <ul id="conference_connector_list">
+      <%- conference.presenters.each do |presenter| %>
+        <li><%= get_avatar(presenter, :thumb, :link_it, ['attended', 'bookmarked', 'watched']) -%></li>
+      <%- end -%>
+    </ul>
+    
+<%- end -%>
+
+  <br class="clearing" />
+</aside>

@@ -16,6 +16,7 @@ class Conference < ActiveRecord::Base
 
   has_many :conference_connections
   has_many :events
+  has_many :presenters, :through => :events
   belongs_to :creator, :class_name => "Learner"
   belongs_to :last_modifier, :class_name => "Learner"
 
