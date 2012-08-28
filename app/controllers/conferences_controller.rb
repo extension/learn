@@ -22,4 +22,10 @@ class ConferencesController < ApplicationController
 
   end
 
+  def index
+    @list_title = 'All Sessions'
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
+    @events = @conference.events.active.order('session_start ASC').page(params[:page])
+  end
+
 end

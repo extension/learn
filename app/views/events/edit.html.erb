@@ -11,7 +11,11 @@
 
 <div id="editform">
   <h1>Edit this event</h1>
-  <%= form_for @event do |form| %>
-    <%= render(partial: 'event_form', locals: {event_form: form}) %>
-  <% end %>
+  <%= form_for @event do |form| -%>
+    <%- if @event.conference -%>
+      <%= render(partial: 'conference_event_form', locals: {event_form: form}) %>
+    <%- else -%>
+      <%= render(partial: 'online_event_form', locals: {event_form: form}) %>
+    <%- end -%>
+  <%- end -%>
 </div>

@@ -5,12 +5,17 @@
 # see LICENSE file
 
 class EventsController < ApplicationController
+  before_filter :check_for_conference
   before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history]
   
   def index
     @list_title = 'All Sessions'
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events = Event.nonconference.active.order('session_start DESC').page(params[:page])
+    if(@conference)
+      @events = @conference.events.active.order('session_start ASC').page(params[:page])
+    else
+      @events = Event.nonconference.active.order('session_start DESC').page(params[:page])
+    end
   end
   
   def upcoming
@@ -42,18 +47,25 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
     return if check_for_event_redirect
-    # dup of global before filter logic in order
-    # to force display of event time in the time zone of the session
-    if(current_learner and current_learner.has_time_zone?)
+
+    # there's a global time_zone setter - but we need to
+    # do it again to make sure to force the time zone 
+    # display to the session and not the system default
+    if(@conference and !@conference.is_virtual?)
+      Time.zone = @conference.time_zone
+    elsif(current_learner and current_learner.has_time_zone?)
       Time.zone = current_learner.time_zone
     else
       Time.zone = @event.time_zone
     end
 
-    # make sure the event has sense making questions
-    if(@event.questions.count == 0 and !@event.is_conference_session?)
-      @event.add_stock_questions
+    if(!@event.is_conference_session?)
+      # make sure the event has sense making questions
+      if(@event.questions.count == 0 and !@event.is_conference_session?)
+        @event.add_stock_questions
+      end
     end
+
     @comments = @event.comments
     # log view
     EventActivity.log_view(current_learner,@event) if(current_learner)
@@ -82,26 +94,36 @@ class EventsController < ApplicationController
   
   def new
     @event = Event.new
-    # seed defaults
-    @event.session_start = Time.parse("14:00")
-    if(current_learner)
-      @event.time_zone = Time.zone
+    if(@conference)
+      @event.session_start = @conference.default_time
+      @event.session_length = @conference.default_length
+      @event.event_type = Event::CONFERENCE
+      @event.time_zone = @conference.time_zone
+      @event.conference = @conference
+    else
+      # seed defaults
+      @event.session_start = Time.parse("14:00")
+      if(current_learner)
+        @event.time_zone = Time.zone
+      end
     end
   end
   
   def create
     @event = Event.new(params[:event])
+    if(@event.conference_id)
+      @conference = Conference.find_by_id(@event.conference_id)
+    end 
     @event.last_modifier = @event.creator = current_learner
     if @event.save
       redirect_to(@event, :notice => 'Event was successfully created.')
     else
-      render :action => 'edit'
+      render :action => 'new'
     end
   end
   
   def edit
     @event = Event.find(params[:id])
-    return if check_for_edit_event_redirect
   end
   
   def update
@@ -227,24 +249,46 @@ class EventsController < ApplicationController
 
   protected
 
-  # must have @event
-  def check_for_event_redirect
-    if(@event.event_type == Event::CONFERENCE)
-      redirect_to(conference_event_url(:conference_id => @event.conference.id, :id => @event.id))
-      return true
-    else
-      return false
+  def check_for_conference
+    if(params[:conference_id])
+      @conference = Conference.find_by_id(params[:conference_id])
+      if(@conference)
+        # if not a virtual conference - force the timezone to be
+        # that of the conference
+        if(!@conference.is_virtual?)
+          Time.zone = @conference.time_zone
+        end
+      end
     end
   end
 
   # must have @event
-  def check_for_edit_event_redirect
-    if(@event.event_type == Event::CONFERENCE or @event.event_type == Event::BROADCAST )
-      redirect_to(edit_conference_event_url(:conference_id => @event.conference.id, :id => @event.id))
-      return true
-    else
+  def check_for_event_redirect
+    if(@event.event_type == Event::CONFERENCE)
+      if(!@conference)
+        redirect_to(conference_event_url(:conference_id => @event.conference.id, :id => @event.id))
+        return true
+      elsif(@event.conference != @conference)
+        redirect_to(conference_event_url(:conference_id => @event.conference.id, :id => @event.id))
+        return true
+      else
+        return false
+      end
+    elsif(@event.event_type == Event::BROADCAST)
+      # set the canonical to the event path
+      @canonical_link = event_url(@event)
       return false
+    else
+      if(@conference)
+        redirect_to(event_url(@event))
+        return true
+      else
+        return false
+      end
     end
   end
+
+
+
     
 end

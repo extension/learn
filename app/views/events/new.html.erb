@@ -1,18 +1,23 @@
-
-
 <%- if @event.errors.any? -%>
+  <div id="error_messages">
+    <h3>Please fix the following items and submit again</h3>
   <ul>
-    <%- @event.errors.full_messages.each do |msg| -%>
-      <li><%= msg %></li>
-    <%- end -%>
+  <%- @event.errors.full_messages.each do |msg| -%>
+    <li><%= msg %></li>
+  <%- end -%>
   </ul>
+  </div>
 <%- end -%>
 
 <div id="editform">
   <h1>Create an event</h1>
-  <%= form_for @event,  :html => { :class => "form-stacked"} do |form| %>
-    <%= render(partial: 'event_form', locals: {event_form: form}) %>
-  <% end %>
+  <%= form_for @event,  :html => { :class => "form-stacked"} do |form| -%>
+    <%- if @event.conference -%>
+      <%= render(partial: 'conference_event_form', locals: {event_form: form}) %>
+    <%- else -%>
+      <%= render(partial: 'online_event_form', locals: {event_form: form}) %>
+    <%- end -%>
+  <%- end -%>
 </div>
 
 

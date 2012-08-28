@@ -94,7 +94,7 @@ Learn::Application.routes.draw do
   end
 
   resources :conferences, :only => [:index, :show] do
-    resources :events, :controller => 'conferences/events'
+    resources :events
   end
       
   root :to => 'home#index'

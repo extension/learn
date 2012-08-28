@@ -1,3 +1,6 @@
+<%= hidden_field_tag 'event[conference_id]', @event.conference_id %>
+<%= hidden_field_tag 'event[time_zone]', @event.time_zone %>
+
 <p>
    <%= event_form.text_field :title, :size => nil, :class => "title" %>
    <span class="help-block">If you make your title 80 characters or less, it can be easily texted</span>
@@ -30,7 +33,6 @@
    <%= event_form.label :session_start, 'Date and Time' %>
    <%= event_form.text_field :session_start_string, {id: 'session_start', :size => nil} %>
    </p>
-   <!-- Time Zone: <%= @event.time_zone %> -->
  </fieldset>
    
  <fieldset id="session_length">
@@ -42,6 +44,7 @@
  
  <fieldset>
 
+  <%- if !@event.conference.is_virtual? -%>
    <p>
      <label>
      <%= event_form.check_box :is_broadcast %>
@@ -49,9 +52,11 @@
      <span class="help-block">Use this option when a conference session will be broadcast live online and available as a general Learn session.</span>
      </label>
    </p>
+  <%- else -%>
+    <%= hidden_field_tag 'event[is_broadcast]', '1' %>
+  <%- end -%>
      
  <p>
-
     <%= event_form.label :location, 'Event Location (e.g., http://connect.extension.iastate.edu/learn)' %>
     <%= event_form.text_field :location, :class => "xxl" %>
     <span class="help-block">An event location is only displayed for conference sessions that are available online.</span>
@@ -127,7 +132,7 @@
    });
 
   $(function () {
-    var rooms = <%= @conference.rooms.to_json.html_safe %>;
+    var rooms = <%= @event.conference.rooms.to_json.html_safe %>;
     $('#event_room').autocomplete({
       source: rooms,
       minLength: 2
