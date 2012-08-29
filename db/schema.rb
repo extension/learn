@@ -11,13 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120815134609) do
+ActiveRecord::Schema.define(:version => 20120829190816) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
     t.integer  "loggable_id"
     t.string   "loggable_type", :limit => 30
-    t.integer  "ipaddr"
     t.text     "additional"
     t.datetime "created_at"
   end
