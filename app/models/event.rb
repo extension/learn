@@ -161,14 +161,20 @@ class Event < ActiveRecord::Base
   
   def presenter_tokens=(provided_presenter_tokens)
     compare_token_array = []
-    provided_presenter_tokens.split(',').each do |presenter_token|
-      compare_token_array << presenter_token
-    end
-    previous_presenter_tokens = self.presenter_tokens
-    presenter_token_array = previous_presenter_tokens.split(',')
-    @presenter_tokens = provided_presenter_tokens    
-    if(!((compare_token_array | presenter_token_array) - (compare_token_array & presenter_token_array)).empty?)
+    if(provided_presenter_tokens.blank?)
+      previous_presenter_tokens = self.presenter_tokens
+      @presenter_tokens = []
       @changed_attributes['presenter_tokens'] = previous_presenter_tokens
+    else
+      provided_presenter_tokens.split(',').each do |presenter_token|
+        compare_token_array << presenter_token
+      end
+      previous_presenter_tokens = self.presenter_tokens
+      presenter_token_array = previous_presenter_tokens.split(',')
+      @presenter_tokens = provided_presenter_tokens    
+      if(!((compare_token_array | presenter_token_array) - (compare_token_array & presenter_token_array)).empty?)
+        @changed_attributes['presenter_tokens'] = previous_presenter_tokens
+      end
     end     
   end
     
@@ -190,7 +196,7 @@ class Event < ActiveRecord::Base
   end
     
   def set_presenters_from_tokens
-    self.presenter_ids = self.presenter_tokens.split(',')
+    self.presenter_ids = @presenter_tokens.split(',')
   end
     
   def tag_list
