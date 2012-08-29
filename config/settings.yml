@@ -21,4 +21,4 @@ iastate_support_email: 'extensionwcc@iastate.edu'
 iastate_connect_url: 'connect.extension.iastate.edu'
 extension_pd_coordinator: 'beth.raney@extension.org'
 engineering_list: 'engineering@extension.org'
-
+default_display_timezone: 'Eastern Time (US & Canada)'

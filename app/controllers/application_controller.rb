@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
     if(current_learner)
       Time.zone = current_learner.time_zone
     else
-      Time.zone = Learn::Application.config.time_zone
+      Time.zone = Settings.default_display_timezone
     end
     true
   end
