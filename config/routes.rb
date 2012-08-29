@@ -93,7 +93,7 @@ Learn::Application.routes.draw do
     match "/blocked_activity" => "data#blocked_activity", :as => 'data_blocked_activity'
   end
 
-  resources :conferences, :only => [:index, :show] do
+  resources :conferences, :only => [:index, :show, :edit, :update] do
     resources :events
   end
       

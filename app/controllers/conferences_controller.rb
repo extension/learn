@@ -5,6 +5,7 @@
 # see LICENSE file
 
 class ConferencesController < ApplicationController
+  before_filter :authenticate_learner!, only: [:edit, :update]
 
   def index
   end
@@ -27,5 +28,20 @@ class ConferencesController < ApplicationController
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
     @events = @conference.events.active.order('session_start ASC').page(params[:page])
   end
+
+  def edit
+    @conference = Conference.find_by_id_or_hashtag(params[:id])
+  end
+  
+  def update
+    @conference = Conference.find_by_id_or_hashtag(params[:id])
+    update_params = params[:conference].merge({last_modifier: current_learner})
+    if @conference.update_attributes(update_params)
+      redirect_to(@conference, :notice => 'Conference was successfully updated.')
+    else
+      render :action => 'edit'
+    end        
+  end
+
 
 end

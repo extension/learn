@@ -164,5 +164,6 @@ class Conference < ActiveRecord::Base
   end
 
 
+
   
 end
