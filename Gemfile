@@ -14,7 +14,6 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   # bootstrap in sass in rails
   gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
-  gem 'bootstrap-datepicker-rails'
 end
 
 # storage
