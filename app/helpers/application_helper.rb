@@ -145,7 +145,13 @@ module ApplicationHelper
   end
 
   def pagination_counts(collection)
-    "<p>Displaying <strong>#{collection.offset_value + 1}-#{collection.offset_value + collection.length} of #{collection.total_count}</strong></p>".html_safe
+    if(collection.respond_to?('offset_value'))
+      "<p>Displaying <strong>#{collection.offset_value + 1}-#{collection.offset_value + collection.length} of #{collection.total_count}</strong></p>".html_safe
+    else
+      # hopefully this is an array from search - and while respond_to? doesn't work - probably because
+      # offset is a method_missing kind of thing - hopefully it responds to offset - if not, it'll just blow up and we'll deal with it then
+      "<p>Displaying <strong>#{collection.offset + 1}-#{collection.offset + collection.length} of #{collection.total_count}</strong></p>".html_safe
+    end
   end
 
   
