@@ -43,5 +43,11 @@ class ConferencesController < ApplicationController
     end        
   end
 
+  def allevents
+    @conference = Conference.find_by_id_or_hashtag(params[:id])
+    @events = @conference.events.order('session_start ASC')
+  end
+
+
 
 end

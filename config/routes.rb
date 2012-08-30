@@ -95,6 +95,9 @@ Learn::Application.routes.draw do
 
   resources :conferences, :only => [:index, :show, :edit, :update] do
     resources :events
+    member do
+      get 'allevents'
+    end
   end
       
   root :to => 'home#index'
