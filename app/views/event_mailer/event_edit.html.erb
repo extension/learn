@@ -47,7 +47,7 @@
 	#button a {color:#0069D6; padding:.5em 0; text-decoration:none; font: bold 22px Arial, Verdana, sans-serif; display:block;}
 	#reminder_description {padding-top:1.5em;}
 	</style>
-	<%= stylesheet_link_tag("#{root_url}email/mobile.css") %>
+	<%= stylesheet_link_tag("#{ssl_root_url}email/mobile.css") %>
 </head>
 <body>
 
@@ -61,7 +61,7 @@
   <%- end -%>
   <tr>
     <th align="left" class="bgcolor">
-      <%- logo_url = @mailer_cache.blank? ? "#{root_url}assets/logo_small.png" : "#{webmail_logo_url(mailer_cache_id: @mailer_cache.id, format: 'png')}" -%>
+      <%- logo_url = @mailer_cache.blank? ? "#{ssl_root_url}assets/logo_small.png" : "#{ssl_webmail_logo}" -%>
       <h1 id="learn_logo"><%= image_tag(logo_url, alt: "Learn") %></h1>      
     </th>
   </tr>
@@ -89,7 +89,7 @@
           <td id="button">
                 <table cellpadding="0" cellspacing="0" border="0" align="left">
               <tr>
-                <td><%= image_tag("#{root_url}assets/magnifying_glass.png", size: "60x60") %></td>
+                <td><%= image_tag("#{ssl_root_url}assets/magnifying_glass.png", size: "60x60") %></td>
                 <td><%= link_to("Take a peek and see what changed", event_url(@event.id)) -%></td>
               </tr>
             </table>

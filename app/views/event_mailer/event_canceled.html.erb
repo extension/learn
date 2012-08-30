@@ -46,7 +46,7 @@
 	#reminder_description {padding-top:1.5em;}
 	.clock {padding-right:1em;}
 	</style>
-	<%= stylesheet_link_tag("#{root_url}email/mobile.css") %>
+	<%= stylesheet_link_tag("#{ssl_root_url}email/mobile.css") %>
 </head>
 <body>
 
@@ -60,7 +60,7 @@
   <%- end -%>
   <tr>
     <th align="left" class="bgcolor">
-      <%- logo_url = @mailer_cache.blank? ? "#{root_url}assets/logo_small.png" : "#{webmail_logo_url(mailer_cache_id: @mailer_cache.id, format: 'png')}" -%>
+      <%- logo_url = @mailer_cache.blank? ? "#{ssl_root_url}assets/logo_small.png" : "#{ssl_webmail_logo}" -%>
       <h1 id="learn_logo"><%= image_tag(logo_url, alt: "Learn") %></h1>      
     </th>
   </tr>
@@ -88,7 +88,7 @@
           <table cellpadding="0" cellspacing="0" border="0" align="left" >
             <tr>
               <td class="clock">
-              <%= image_tag("#{root_url}assets/clock.png", size: "60x60") %>
+              <%= image_tag("#{ssl_root_url}assets/clock.png", size: "60x60") %>
               </td>
             <td>
           <%= link_to(event_url(@event.id)) do -%>
