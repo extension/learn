@@ -60,7 +60,7 @@
   <%- end -%>
   <tr>
     <th align="left" class="bgcolor">
-      <%- logo_url = @mailer_cache.blank? ? "#{root_url}email/logo_small.png" : "#{webmail_logo_url(mailer_cache_id: @mailer_cache.id, format: 'png')}" -%>
+      <%- logo_url = @mailer_cache.blank? ? "#{root_url}assets/logo_small.png" : "#{webmail_logo_url(mailer_cache_id: @mailer_cache.id, format: 'png')}" -%>
       <h1 id="learn_logo"><%= image_tag(logo_url, alt: "Learn") %></h1>      
     </th>
   </tr>
