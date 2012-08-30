@@ -8,7 +8,7 @@
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>  
+  <link href='<%= (request.ssl? ? 'https' : 'http' )%>://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>  
   
   <%- if @canonical_link -%>
     <link rel="canonical" href="<%= @canonical_link %>"/>
