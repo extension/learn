@@ -6,8 +6,8 @@
   .mobilehide {display:none;}
   tr.tagline td  {background:#000; color:#fff; padding:10px; font: normal 15px Arial, Verdana, sans-serif; width:auto !important;}
   tr.options td a {font: normal 12px  Arial, Verdana, sans-serif;}
-  tr.date { background: url(http://www.extension.org/share/engineering/html_email/divider.png) middle middle repeat-x;}
-  tr.date td { background: #fff url(http://www.extension.org/share/engineering/html_email/divider.png) repeat-x 50% 50%;}
+  tr.date { background: url(//learn.extension.org/assets/divider.png) middle middle repeat-x;}
+  tr.date td { background: #fff url(//learn.extension.org/assets/divider.png) repeat-x 50% 50%;}
   tr.date td span {background:#fff; padding: 0 10px;}  	
   .spacer {width:100% !important;}
   .article {width:100% !important;}
