@@ -7,19 +7,27 @@
     <% @events.each do |event| %>
         <div class="event">
           <h3>
-            <%- if event.is_conference_session? -%>
-              <span class="label label-info">Conference Session</span>
-            <%- else -%>
+            <%- if event.is_online_session? -%>
              <span class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>">
             <%- end -%>
             <% if event.is_expired %>
               <em class="expired">expired</em>
             <% end %>
-          <%= link_to event.title, event_path(event) %> <% if event.in_progress? %><em class="happening_now_list">Happening now</em><% end %>
-          </span>
+          <%= link_to event.title, event_path(event) %> 
+          <%- if event.in_progress? -%>
+            <em class="happening_now_list">Happening now</em>
+          <%- end -%>
+          <%- if event.is_online_session? # have to close the span from above, TODO - probably a better way to span the recording icon -%>
+            </span>
+          <%- end -%>
+
           </h3>
           <p class="details">
-            <strong><%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%>, <%= event.session_start.strftime("%B %e, %Y") -%></strong>. Presented by <%= display_presenters(event.presenters) %>.</p>
+            <%- if event.is_conference_session? -%>
+              <span class="label label-info">Conference Session</span>
+            <%- end -%>
+            <strong><%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%>, <%= event.session_start.strftime("%B %e, %Y") -%></strong>. Presented by <%= display_presenters(event.presenters) %>.
+          </p>
           <p class="description"><%= format_text_for_display(event.description.truncate(280,separator: ' ')) %></p>
           
         </div>

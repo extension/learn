@@ -495,6 +495,10 @@ class Event < ActiveRecord::Base
     self.location.match(Settings.iastate_connect_url).nil? ? false : true
   end
 
+  def is_online_session?
+    [ONLINE,BROADCAST].include?(self.event_type)
+  end
+
   def is_conference_session?
     self.event_type != ONLINE
   end
