@@ -6,7 +6,12 @@
   <div id="event_list">
     <% @events.each do |event| %>
         <div class="event">
-          <h3><span class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>">
+          <h3>
+            <%- if event.is_conference_session? -%>
+              <span class="label label-info">Conference Session</span>
+            <%- else -%>
+             <span class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>">
+            <%- end -%>
             <% if event.is_expired %>
               <em class="expired">expired</em>
             <% end %>
