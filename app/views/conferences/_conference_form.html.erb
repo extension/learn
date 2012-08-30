@@ -46,18 +46,7 @@
    <%= conference_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {:default => @conference.time_zone}, {:class => "span5"} %>
    </p>
    
- </fieldset>
-   
- 
- <fieldset>
-   <p>
-     <label>
-     <%= conference_form.check_box :is_virtual %>
-     This conference is "virtual" - all conference sessions will be broadcast online.
-     </label>
-   </p>
-  </fieldset>
- 
+ </fieldset> 
 
 <p>
   <%= submit_tag 'Save Conference', :class => "btn btn-primary btn-large" %>
