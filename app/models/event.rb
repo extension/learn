@@ -196,7 +196,9 @@ class Event < ActiveRecord::Base
   end
     
   def set_presenters_from_tokens
-    self.presenter_ids = @presenter_tokens.split(',')
+    if(!@presenter_tokens.blank?)
+      self.presenter_ids = @presenter_tokens.split(',')
+    end
   end
     
   def tag_list
