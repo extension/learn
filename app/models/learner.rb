@@ -8,7 +8,7 @@ class Learner < ActiveRecord::Base
   devise :rememberable, :trackable, :database_authenticatable
 
   # Setup accessible (or protected) attributes
-  attr_accessible :email, :remember_me, :name, :avatar, :bio, :mobile_number, :remove_avatar
+  attr_accessible :email, :remember_me, :name, :avatar, :bio, :mobile_number, :remove_avatar, :avatar_cache
   
   # specify image uploader for carrierwave
   mount_uploader :avatar, AvatarUploader
