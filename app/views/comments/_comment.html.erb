@@ -1,6 +1,6 @@
 <div class="comment">
   
-  <%= get_avatar(comment.learner, :thumb, :link_it) %>
+  <%= link_to_learner_avatar(comment.learner, {image_size: :thumb}) %>
   
   <span class="comment_author"><%= link_to_learner(comment.learner) %></span>
   
@@ -60,7 +60,7 @@
 <% if current_learner %>
 <div id="comment_reply_to_<%= comment.id %>" style="display:none" class="commentfield_container">
   <%= form_tag(comments_path, :id => 'comment-form-reply', :remote => true) do %>
-    <%= get_avatar(current_learner, :thumb, false) %>
+    <%= avatar_for_learner(current_learner, {image_size: :thumb})  %>
     <div class="commentfield">
     <%= text_area_tag 'comment[content]', nil, {:id => "comment_reply_#{comment.id}", :cols => 20, :rows => 5} %>
     <%= hidden_field_tag 'comment[event_id]', comment.event.id %>
@@ -80,7 +80,7 @@
 
 <div id="comment_edit_for_<%= comment.id %>" style="display:none" class="commentfield_container">
   <%= form_tag(comment_path(:id => comment.id), :id => 'comment-form-edit', :remote => true, :method => :put) do %>
-    <%= get_avatar(comment.learner, :thumb, false) %>
+    <%= avatar_for_learner(comment.learner, {image_size: :thumb})  %>
     <div class="commentfield">
     <%= text_area_tag 'comment[content]', comment.content, {:id => "comment_edit_#{comment.id}", :cols => 20, :rows => 5} %>
     <!-- parent_comment being present means that we called this template from the parent comment's view page 

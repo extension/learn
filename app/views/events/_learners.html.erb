@@ -7,7 +7,7 @@
 
     <ul id="event_learner_list">
       <%- @event.learners.valid.each do |attendee| %>
-        <li><%= get_avatar(attendee, :thumb, :link_it, ['attended', 'bookmarked', 'watched']) -%></li>
+        <li><%= link_to_learner_avatar(attendee, {image_size: :thumb, event_types: ['attended', 'bookmarked', 'watched']})  -%></li>
       <%- end -%>
     </ul>
     

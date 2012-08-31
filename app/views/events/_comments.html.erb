@@ -5,7 +5,7 @@
     <% if current_learner %>
     
     <%= form_tag(comments_path, :id => 'comment-form', :remote => true) do %>
-      <%= get_avatar(current_learner, :thumb, :link_it) %>
+      <%= link_to_learner_avatar(current_learner, {image_size: :thumb}) %>
       <div class="commentfield">
       <%= text_area_tag 'comment[content]', nil, {:cols => nil, :rows => 5} %>
       <%= hidden_field_tag 'comment[event_id]', event.id %>

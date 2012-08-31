@@ -22,7 +22,7 @@
   <%- end -%>
   </div>
   <div id="avatar_wrapper">
-    <%= get_avatar(@learner, :medium) %>
+    <%= avatar_for_learner(@learner, {image_size: :medium}) %>
     <%- if !@learner.avatar.present? %>
       <%- if current_learner && current_learner.id == @learner.id -%>
       <p class="edit"><%= link_to "edit", settings_profile_path %></p>

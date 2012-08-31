@@ -20,15 +20,15 @@
       <table class="table people table-striped">
         <%- @event.raters.each do |rater| %>
         <tr>
-          <td class="avatar_td"><%= get_avatar(rater, :thumb, :link_it, 'rated') -%></td>
-          <td class="name_td"><%= link_to_learner(rater, 'rated') %></td>
+          <td class="avatar_td"><%= link_to_learner_avatar(rater, {image_size: :thumb, event_types: ['rated']}) -%></td>
+          <td class="name_td"><%= link_to_learner(rater, {event_types: ['rated']}) %></td>
         </tr>
         <%- end -%>
         </table>
     <%- else -%>
       <ul class="learner_list">
         <%- @event.raters.each do |rater| %>
-          <li><%= get_avatar(rater, :thumb, :link_it, 'rated') -%></li>
+          <li><%= link_to_learner_avatar(rater, {image_size: :thumb, event_types: ['rated']}) -%></li>
         <%- end -%>
       </ul>
       <br class="clearing" />
@@ -52,7 +52,7 @@
       <table class="table people table-striped">
         <%- filtered_commentators.each do |commenter| %>
         <tr>
-          <td class="avatar_td"><%= get_avatar(commenter, :thumb, :link_it) -%></td>
+          <td class="avatar_td"><%= link_to_learner_avatar(commenter, {image_size: :thumb}) -%></td>
           <td class="name_td"><%= link_to_learner(commenter) %></td>
         </tr>
         <%- end -%>
@@ -60,7 +60,7 @@
     <%- else -%>
       <ul class="learner_list">
         <%- filtered_commentators.each do |commenter| %>
-          <li><%= get_avatar(commenter, :thumb, :link_it) -%></li>
+          <li><%= link_to_learner_avatar(commenter, {image_size: :thumb}) -%></li>
         <%- end -%>
       </ul>
       <br class="clearing" />
@@ -90,15 +90,15 @@
           <table class="table people table-striped">
             <%- question.answerers.each do |answerer| %>
             <tr>
-              <td class="avatar_td"><%= get_avatar(answerer, :thumb, :link_it, 'answered') -%></td>
-              <td class="name_td"><%= link_to_learner(answerer, 'answered') %></td>
+              <td class="avatar_td"><%= link_to_learner_avatar(answerer, {image_size: :thumb, event_types: ['answered']}) -%></td>
+              <td class="name_td"><%= link_to_learner(answerer, {event_types: ['answered']}) %></td>
             </tr>
             <%- end -%>
             </table>
         <%- else -%>
           <ul class="learner_list">
              <%- question.answerers.uniq.each do |answerer| %>
-               <li><%= get_avatar(answerer, :thumb, :link_it, 'answered') -%></li>
+               <li><%= link_to_learner_avatar(answerer, {image_size: :thumb, event_types: ['answered']}) -%></li>
              <%- end -%>
            </ul>
            <br class="clearing" />
@@ -123,15 +123,15 @@
       <table class="table people table-striped">
         <%- @event.attendees.each do |attendee| %>
         <tr>
-          <td class="avatar_td"><%= get_avatar(attendee, :thumb, :link_it, 'attended') -%></td>
-          <td class="name_td"><%= link_to_learner(attendee, 'attended') %></td>
+          <td class="avatar_td"><%= link_to_learner_avatar(attendee, {image_size: :thumb, event_types: ['attended']})  -%></td>
+          <td class="name_td"><%= link_to_learner(attendee, {event_types: ['attended']}) %></td>
         </tr>
         <%- end -%>
         </table>
     <%- else -%>
       <ul class="learner_list">
         <%- @event.attendees.each do |attendee| %>
-          <li><%= get_avatar(attendee, :thumb, :link_it, 'attended') -%></li>
+          <li><%= link_to_learner_avatar(attendee, {image_size: :thumb, event_types: ['attended']})  -%></li>
         <%- end -%>
       </ul>
 
@@ -151,15 +151,15 @@
       <table class="table people table-striped">
         <%- @event.watched.each do |watcher| %>
         <tr>
-          <td class="avatar_td"><%= get_avatar(watcher, :thumb, :link_it, 'watched') -%></td>
-          <td class="name_td"><%= link_to_learner(watcher, 'watched') %></td>
+          <td class="avatar_td"><%= link_to_learner_avatar(watcher, {image_size: :thumb, event_types: ['watched']}) -%></td>
+          <td class="name_td"><%= link_to_learner(watcher, {event_types: ['watched']}) %></td>
         </tr>
         <%- end -%>
         </table>
     <%- else -%>
       <ul class="learner_list">
         <%- @event.watched.each do |watcher| %>
-          <li><%= get_avatar(watcher, :thumb, :link_it, 'watched') -%></li>
+          <li><%= link_to_learner_avatar(watcher, {image_size: :thumb, event_types: ['watched']}) -%></li>
         <%- end -%>
       </ul>
 
@@ -180,15 +180,15 @@
       <table class="table people table-striped">
         <%- @event.bookmarked.each do |bookmarker| %>
         <tr>
-          <td class="avatar_td"><%= get_avatar(bookmarker, :thumb, :link_it, 'bookmarked') -%></td>
-          <td class="name_td"><%= link_to_learner(bookmarker, 'bookmarked') %></td>
+          <td class="avatar_td"><%= link_to_learner_avatar(bookmarker, {image_size: :thumb, event_types: ['bookmarked']}) -%></td>
+          <td class="name_td"><%= link_to_learner(bookmarker, {event_types: ['bookmarked']}) %></td>
         </tr>
         <%- end -%>
         </table>
     <%- else -%>
       <ul class="learner_list">
         <%- @event.bookmarked.each do |bookmarker| %>
-          <li><%= get_avatar(bookmarker, :thumb, :link_it, 'bookmarked') -%></li>
+          <li><%= link_to_learner_avatar(bookmarker, {image_size: :thumb, event_types: ['bookmarked']}) -%></li>
         <%- end -%>
       </ul>
 

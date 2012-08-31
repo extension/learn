@@ -66,7 +66,7 @@
   </fieldset>
     
   <fieldset>
-    <p><%= get_avatar(@learner, :medium) %></p>
+    <p><%= avatar_for_learner(@learner, {image_size: :medium}) %></p>
     
     <p class="clearing">
       <%= f.file_field :avatar %>

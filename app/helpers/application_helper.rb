@@ -39,97 +39,84 @@ module ApplicationHelper
       return return_string.html_safe
     end
   end
-  
-  def get_avatar(learner, image_size = :medium, portfolio_link = false, event_type = nil)
+
+  def avatar_for_learner(learner, options = {})
+    image_size = options[:image_size] || :thumb
     case image_size
-        when :medium    then image_size_in_px = "100x100"
-        when :thumb     then image_size_in_px = "50x50"
+      when :medium    then image_size_in_px = "100x100"
+      when :thumb     then image_size_in_px = "50x50"
     end
-    
-    ### determining whether privacy needs to be set ###
-    
-    privacy_on = false
-    # if multiple event types are passed in such as a general connection to an event
-    if event_type.class == Array
-      event_type.each do |type_of_event|
-        if learner.send("public_#{type_of_event.downcase}_events?") == false
-          privacy_on = true
-          break
-        end
-      end
-    elsif event_type.present? && (learner.send("public_#{event_type.downcase}_events?") == false)  
-      privacy_on = true
+
+    if(options[:event_types])
+      is_private = learner.is_private_for_event_types?(options[:event_types])
     else
-      privacy_on = false
+      is_private = options[:is_private].nil? ? false : options[:is_private]
     end
-    
-    # if we're looking at ourselves
-    # avatar will always be returned and it will always be linked
-    if current_learner && (learner.id == current_learner.id)
-      if learner.avatar.present? 
-        return_string = image_tag(learner.avatar_url(image_size), :class => 'avatar')
-        if privacy_on
-          if portfolio_link == :link_it
-            ### TODO: Do something here with linking ###
-            return link_to(return_string, portfolio_learner_path(learner.id), {:title => learner.name + " (Your connection is not displayed to other people)", :class => 'private_for_others'}).html_safe
-          end
-        end
-      # no avatar for learner
-      else
-        return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size_in_px)
-        if privacy_on
-          return link_to(return_string, portfolio_learner_path(learner.id), :title => learner.name).html_safe
-        end
-      end
-    # conditions for privacy for everyone else   
+
+    if(is_private)
+      image_tag("learn_avatar_private.png", :class => 'avatar', :size => image_size_in_px, :title => 'private profile').html_safe
+    elsif(!learner.avatar.present?)
+      image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size_in_px, :title => learner.name).html_safe
     else
-      if privacy_on
-        return_string = image_tag("learn_avatar_private.png", :class => 'avatar', :size => image_size_in_px, :title => 'private profile')
-      elsif learner.avatar.present?
-        return_string = image_tag(learner.avatar_url(image_size), :class => 'avatar')
-      else
-        return_string = image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size_in_px, :title => learner.name)
-      end
-    end
-    
-    # determine what to do with linking based on privacy settings
-    if portfolio_link == :link_it && current_learner && privacy_on == false 
-      return_string = link_to(return_string, portfolio_learner_path(learner.id), :title => learner.name)
-    end
-    return return_string.html_safe
-  end
-  
-  def link_to_learner(learner, event_type = nil)
-    # determine whether privacy needs to be set
-    privacy_on = false
-    
-    if event_type.present? && (learner.send("public_#{event_type.downcase}_events?") == false)  
-      privacy_on = true
-    else
-      privacy_on = false
-    end
-    
-    # if we're looking at ourselves
-    if current_learner && (learner.id == current_learner.id)
-      if privacy_on
-        return link_to("#{learner.name} (seen as private profile)", portfolio_learner_path(learner.id)).html_safe
-      else
-        return link_to(learner.name, portfolio_learner_path(learner.id)).html_safe
-      end
-    end
-    
-    # conditions for privacy for everyone else 
-    if privacy_on
-      return 'private profile'
-    else
-      if current_learner
-        return link_to(learner.name, portfolio_learner_path(learner.id)).html_safe
-      else
-        return learner.name
-      end
+      image_tag(learner.avatar_url(image_size), :class => 'avatar', :title => learner.name).html_safe
     end
   end
-  
+
+  def link_to_learner(learner, options = {})
+    if(options[:event_types])
+      is_private = learner.is_private_for_event_types?(options[:event_types])
+    else
+      is_private = options[:is_private].nil? ? false : options[:is_private]
+    end
+
+    learner_link = options[:learner_link]
+    case learner_link
+    when 'portfolio'
+      link_path = portfolio_learner_path(learner.id)
+    else
+      link_path = portfolio_learner_path(learner.id)
+    end
+
+    if(!current_learner)
+      return (is_private ? 'private profile' : learner.name)
+    elsif(!is_private)
+      return link_to(learner.name, link_path).html_safe
+    elsif(current_learner == learner)
+      return link_to("#{learner.name} (seen as private profile)", link_path).html_safe
+    else
+      # current_learner, current_learner != learner, and is_private
+      return 'private_profile'
+    end
+
+  end
+
+  def link_to_learner_avatar(learner, options = {})
+    learner_link = options[:learner_link]
+    case learner_link
+    when 'portfolio'
+      link_path = portfolio_learner_path(learner.id)
+    else
+      link_path = portfolio_learner_path(learner.id)
+    end
+
+    if(options[:event_types])
+      is_private = learner.is_private_for_event_types?(options[:event_types])
+    else
+      is_private = options[:is_private].nil? ? false : options[:is_private]
+    end
+
+    if(!current_learner)
+      return avatar_for_learner(learner,options)
+    elsif(!is_private)
+      return link_to(avatar_for_learner(learner,options), link_path, :title => learner.name).html_safe
+    elsif(current_learner == learner)
+      return link_to(avatar_for_learner(learner,options), link_path, {:title => learner.name + " (Your connection is not displayed to other people)", :class => 'private_for_others'}).html_safe
+    else
+      # current_learner, current_learner != learner, and is_private
+      return avatar_for_learner(learner,options)
+    end
+  end
+ 
   def link_to_tag(tag)
     link_to(tag.name, event_tag_path(:tags => tag.name)).html_safe
   end
@@ -154,5 +141,4 @@ module ApplicationHelper
     end
   end
 
-  
 end

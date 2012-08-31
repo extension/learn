@@ -6,7 +6,7 @@
 
     <ul id="conference_connector_list">
       <%- conference.presenters.each do |presenter| %>
-        <li><%= get_avatar(presenter, :thumb, :link_it, ['attended', 'bookmarked', 'watched']) -%></li>
+        <li><%= link_to_learner_avatar(presenter, {image_size: :thumb}) -%></li>
       <%- end -%>
     </ul>
     

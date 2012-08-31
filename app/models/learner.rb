@@ -352,4 +352,15 @@ class Learner < ActiveRecord::Base
   def send_recommendation=(send_it)
     Preference.create_or_update(self,'notification.recommendation',send_it)
   end
+
+  def is_private_for_event_types?(event_types)
+    event_types.each do |event_type|
+      if(!self.preferences.setting("sharing.events.#{event_type}"))
+        return true
+      end
+    end
+    return false
+  end
+
+
 end
