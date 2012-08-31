@@ -89,7 +89,6 @@
     </p>
 
     <p>
-    Avatar Preview:<br/>
     <output id="preview_learner_avatar"></output>
     </p>
 
@@ -124,10 +123,7 @@
           reader.onload = (function(theFile) {
             return function(e) {
               // Render thumbnail.
-              var span = document.createElement('span');
-              span.innerHTML = ['<img class="preview_avatar" src="', e.target.result,
-                                '" title="', escape(theFile.name), '"/>'].join('');
-              document.getElementById('preview_learner_avatar').insertBefore(span, null);
+              $('#preview_learner_avatar').html(['Avatar Preview:<br/><img class="preview_avatar" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join(''))                 
             };
           })(f);
 
@@ -135,7 +131,6 @@
           reader.readAsDataURL(f);
         }
       }
-
-    document.getElementById('learner_avatar').addEventListener('change', handleFileSelect, false);
+    $('#learner_avatar').on('change',handleFileSelect);
   }
 </script>
