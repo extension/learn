@@ -1,0 +1,2 @@
+$("#eventconnections").html("<%= escape_javascript(render partial: 'connections') %>")
+$("#attendees").html("<%= escape_javascript(render(partial: 'attendees', locals: {conference: @conference})) %>")

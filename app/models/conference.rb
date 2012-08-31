@@ -20,6 +20,10 @@ class Conference < ActiveRecord::Base
   belongs_to :creator, :class_name => "Learner"
   belongs_to :last_modifier, :class_name => "Learner"
 
+  has_many :attendees, through: :conference_connections, source: :learner, conditions: ["conference_connections.connectiontype = ?", ConferenceConnection::ATTEND]
+  scope :attended, include: :conference_connections, conditions: ["conference_connections.connectiontype = ?", ConferenceConnection::ATTEND]
+
+
   def self.find_by_id_or_hashtag(id)
     # does the id contain a least one alpha? let's search by hashtag
     if(id =~ %r{[[:alpha:]]?})
@@ -162,6 +166,7 @@ class Conference < ActiveRecord::Base
     end
     create_data
   end
+
 
 
 

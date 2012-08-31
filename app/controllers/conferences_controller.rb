@@ -48,6 +48,21 @@ class ConferencesController < ApplicationController
     @events = @conference.events.order('session_start ASC')
   end
 
+  def makeconnection
+    @conference = Conference.find_by_id_or_hashtag(params[:id])
+    if(connectiontype = params[:connectiontype])
+      case connectiontype.to_i
+      when ConferenceConnection::ATTEND
+        if(params[:wantsconnection] and params[:wantsconnection] == '1')
+          current_learner.connect_with_conference(@conference,ConferenceConnection::ATTEND)
+        else
+          current_learner.remove_connection_with_conference(@conference,ConferenceConnection::ATTEND)
+        end
+      else
+        # do nothing
+      end
+    end
+  end
 
 
 end

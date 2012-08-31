@@ -16,8 +16,7 @@
       
       <%- if !@conference.website.blank? -%>
       <p class="location">
-        <h3>Conference Website</h3>
-        <%= format_text_for_display(@conference.website) -%>
+        <h3><%= format_text_for_display(@conference.website) -%></h3>
       </p>
       <%- end -%>
    </section>
@@ -27,15 +26,16 @@
    </section>
    
    <section id="attendees">
-    <strong>Attendees go here</strong>
+    <%= render(:partial => 'attendees', locals: {:conference => @conference}) %>
    </section>
 
-      <section id="comments">
-    <strong>Comments?</strong>
-   </section>
 
   <section id="event_meta">
     <p>Created by <%= link_to_learner(@conference.creator) %></p>
+    <%- if current_learner -%>
+      <p><span class="edit"><%= link_to('edit conference details', edit_conference_path(@conference), :class => "editlink") -%></span></p>
+      <p><span class="edit"><%= link_to("Add a conference sesson", new_conference_event_path(:conference_id => @conference.id), :class => "editlink") -%></span></p>
+    <%- end %>
   </section>
 
 
@@ -45,37 +45,13 @@
 
 
 <div id="two_col_col_two">
-  <aside id="event_time" class="radius10">
-        <h2>
-           <span id="session_date"><%= @conference.start_date.strftime("%B %e, %Y") -%> - <%= @conference.end_date.strftime("%B %e, %Y") -%></span>
-        </h2>
-        <strong>Show the organizers</strong>
-    </aside>
+  <h3><%= @conference.start_date.strftime("%B %e, %Y") -%> - <%= @conference.end_date.strftime("%B %e, %Y") -%></h3>
     
-    <%- if current_learner -%>
-    
-      <aside id="eventconnections" class="radius10">
-        <strong>Make some connections</strong>
-      </aside>
-      
-    <%- else -%>
-       <aside id="eventconnections" class="radius10 placeholder">
-         <%= render(partial: 'shared/sign_in_to_vote')%>
-          <p class="sitv_element cursor"><%= link_to("Connect with this conference", new_learner_session_path(:redirect_to => request.fullpath)) -%></p>
-          </div> <!-- end .sitv_element_wrapper  -->
-          <br class="clearing" />
-       </aside>
-     <%- end -%>
-
-
   <%- if current_learner -%>
-      <div id="create_event">
-      <%= link_to "Add a conference sesson", new_conference_event_path(:conference_id => @conference.id), :class => "btn" %>
-      </div>
-  <%- end -%>     
-    
-
-
+    <aside id="eventconnections" class="radius10">
+      <%= render :partial => 'connections' %>
+    </aside>
+  <%- end -%>
 <br class='clearing' />
 </div>
 

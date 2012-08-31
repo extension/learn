@@ -101,6 +101,7 @@ Learn::Application.routes.draw do
     resources :events
     member do
       get 'allevents'
+      post 'makeconnection'
     end
   end
       

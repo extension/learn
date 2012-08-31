@@ -37,7 +37,10 @@ class Learner < ActiveRecord::Base
   has_many :answers
   has_many :events_answered, through: :event_activities, source: :event, conditions: "event_activities.activity = #{EventActivity::ANSWER} AND event_activities.trackable_type = 'Question'", uniq: true
   has_one  :portfolio_setting
-  
+  has_many :conference_connections
+  has_many :conferences, through: :conference_connections, uniq: true
+
+
   before_validation :convert_mobile_number
   validates_length_of :mobile_number, :is => 10, :allow_blank => true
   validates_length_of :bio, :maximum => 140
@@ -213,8 +216,17 @@ class Learner < ActiveRecord::Base
     self.event_connections.create(event: event, connectiontype: connectiontype)
   end
   
-  def remove_connection_with_event(event,connectiontype)
-    if(connection = EventConnection.where('learner_id =?',self.id).where('event_id = ?',event.id).where('connectiontype = ?',connectiontype).first)
+  def attending_conference?(conference)
+    find_conference = self.conferences.attended.where('conference_id = ?',conference.id)
+    !find_conference.blank?
+  end
+
+  def connect_with_conference(conference,connectiontype)
+    self.conference_connections.create(conference: conference, connectiontype: connectiontype)
+  end
+
+  def remove_connection_with_conference(conference,connectiontype)
+    if(connection = ConferenceConnection.where('learner_id =?',self.id).where('conference_id = ?',conference.id).where('connectiontype = ?',connectiontype).first)
       connection.destroy
     end
   end
