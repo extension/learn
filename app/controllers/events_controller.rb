@@ -172,13 +172,7 @@ class EventsController < ApplicationController
     render :action => 'index'
   end
   
-  def learner_token_search
-    @learners = Learner.where("name like ?", "%#{params[:q]}%")
-    token_hash = @learners.collect{|learner| {id: learner.id, name: learner.name}}
-    render(json: token_hash)
-  end
-
-  
+ 
   def addanswer
     @event = Event.find(params[:id])
     

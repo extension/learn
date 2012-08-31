@@ -111,6 +111,12 @@ class LearnersController < ApplicationController
     render :action => 'learning_history'
   end
 
+  def token_search
+    @learners = Learner.where("name like ?", "%#{params[:q]}%")
+    token_hash = @learners.collect{|learner| {id: learner.id, name: learner.name}}
+    render(json: token_hash)
+  end
+
   private
   
   def prepare_history(history_type)
@@ -128,5 +134,8 @@ class LearnersController < ApplicationController
     
     authenticate_learner!
   end
+
+
+
     
 end

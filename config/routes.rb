@@ -24,6 +24,10 @@ Learn::Application.routes.draw do
       post 'block'
       post 'unblock'
     end
+
+    collection do
+      get 'token_search'
+    end
   end
   
   match "learning_history" => "learners#learning_history", :via => :get
