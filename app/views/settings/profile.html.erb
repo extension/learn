@@ -65,22 +65,35 @@
     <% end %>
   </fieldset>
     
-  <fieldset>
-    <p><%= avatar_for_learner(@learner, {image_size: :medium}) %></p>
-    
+
+  <legend>Current Avatar</legend>
+
+    <p>
+      <%= avatar_for_learner(@learner, {image_size: :medium}) %>
+    </p>
+
+    <% if @learner.avatar.present? %>
+      <p class="clearing">
+        <label>
+          <%= f.check_box :remove_avatar %>
+          Remove avatar
+        </label> 
+      </p>
+    <% end %>
+
+  <legend>Upload New Avatar</legend>
+
     <p class="clearing">
       <%= f.file_field :avatar %>
       <%= f.hidden_field :avatar_cache %>
     </p>
-    <% if @learner.avatar.present? %>
-    <p class="clearing">
-      <label>
-        <%= f.check_box :remove_avatar %>
-        Remove avatar
-      </label> 
+
+    <p>
+    Avatar Preview:<br/>
+    <output id="preview_learner_avatar"></output>
     </p>
-    <% end %>
-  </fieldset>
+
+
   
     
     
@@ -92,3 +105,37 @@
 
 
 </div>
+
+<script class="code" type="text/javascript">
+  if (window.File && window.FileReader && window.FileList && window.Blob) {
+      function handleFileSelect(evt) {
+        var files = evt.target.files; // FileList object
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+
+          // Only process image files.
+          if (!f.type.match('image.*')) {
+            continue;
+          }
+
+          var reader = new FileReader();
+
+          // Closure to capture the file information.
+          reader.onload = (function(theFile) {
+            return function(e) {
+              // Render thumbnail.
+              var span = document.createElement('span');
+              span.innerHTML = ['<img class="preview_avatar" src="', e.target.result,
+                                '" title="', escape(theFile.name), '"/>'].join('');
+              document.getElementById('preview_learner_avatar').insertBefore(span, null);
+            };
+          })(f);
+
+          // Read in the image file as a data URL.
+          reader.readAsDataURL(f);
+        }
+      }
+
+    document.getElementById('learner_avatar').addEventListener('change', handleFileSelect, false);
+  }
+</script>
