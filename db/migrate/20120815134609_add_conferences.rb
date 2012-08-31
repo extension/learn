@@ -39,7 +39,35 @@ class AddConferences < ActiveRecord::Migration
 
     add_index "conference_connections", ["learner_id", "conference_id", "connectiontype"], :name => "connection_ndx", :unique => true
 
+    # # evaluation questions and answers
+    # create_table "evaluation_questions", :force => true do |t|
+    #   t.references  :conference
+    #   t.text     "prompt"
+    #   t.string   "responsetype"
+    #   t.text     "responses"
+    #   t.integer  "range_start"
+    #   t.integer  "range_end"
+    #   t.integer  "creator_id"
+    #   t.timestamps 
+    # end
+
+    # add_index('evaluation_questions', ['conference_id'], :name => 'conference_ndx')
+
+    # create_table "evaluation_answers", :force => true do |t|
+    #   t.integer  "evaluation_question_id", :null => false
+    #   t.integer  "learner_id",  :null => false
+    #   t.integer  "event_id",  :null => false
+    #   t.text     "response"
+    #   t.integer  "value"
+    #   t.timestamps
+    # end
+
+    # add_index "evaluation_answers", ["evaluation_question_id", "learner_id", "event_id"], :name => "question_answer_learner_ndx", :unique => true
+
+
     # Create nexc2012 to have something to work against
+    # change learnbots name to something friendlier because 'Learn System User' looks stupid
+    Learner.learnbot.update_attribute(:name, 'Learn')
 
     Conference.reset_column_information
     Conference.create(:name => 'eXtension 2012 National Conference', 
@@ -53,6 +81,10 @@ class AddConferences < ActiveRecord::Migration
                       :last_modifier => Learner.learnbot,
                       :time_zone => 'Central Time (US & Canada)',
                       :is_virtual => false)
+
+  
+
+
 
   end
 end
