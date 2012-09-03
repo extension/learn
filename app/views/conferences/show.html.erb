@@ -2,6 +2,8 @@
 <div id="two_col_col_one">
     <section id="event">
       <h1><%= @conference.name -%></h1>
+      <h3><%= @conference.start_date.strftime("%B %e, %Y") -%> - <%= @conference.end_date.strftime("%B %e, %Y") -%></h3>
+
       <%- if !@conference.tagline.blank? -%>
       <p><em><%= @conference.tagline %></em></p>
       <%- end -%>
@@ -45,7 +47,6 @@
 
 
 <div id="two_col_col_two">
-  <h3><%= @conference.start_date.strftime("%B %e, %Y") -%> - <%= @conference.end_date.strftime("%B %e, %Y") -%></h3>
     
   <%- if current_learner -%>
     <aside id="eventconnections" class="radius10">
