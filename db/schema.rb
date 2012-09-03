@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120829190816) do
+ActiveRecord::Schema.define(:version => 20120903153951) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -101,6 +101,34 @@ ActiveRecord::Schema.define(:version => 20120829190816) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "evaluation_answers", :force => true do |t|
+    t.integer  "evaluation_question_id", :null => false
+    t.integer  "learner_id",             :null => false
+    t.integer  "event_id",               :null => false
+    t.text     "response"
+    t.integer  "value"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+  end
+
+  add_index "evaluation_answers", ["evaluation_question_id", "learner_id", "event_id"], :name => "question_answer_learner_ndx", :unique => true
+
+  create_table "evaluation_questions", :force => true do |t|
+    t.integer  "conference_id"
+    t.text     "prompt"
+    t.text     "secondary_prompt"
+    t.integer  "order"
+    t.string   "responsetype"
+    t.text     "responses"
+    t.integer  "range_start"
+    t.integer  "range_end"
+    t.integer  "creator_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "evaluation_questions", ["conference_id"], :name => "conference_ndx"
 
   create_table "event_activities", :force => true do |t|
     t.integer  "learner_id",                                  :null => false
