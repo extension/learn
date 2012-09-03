@@ -245,7 +245,8 @@ class EventsController < ApplicationController
 
   def check_for_conference
     if(params[:conference_id])
-      @conference = Conference.find_by_id(params[:conference_id])
+      @conference = Conference.find_by_id_or_hashtag(params[:conference_id],false)
+
       if(@conference)
         # if not a virtual conference - force the timezone to be
         # that of the conference

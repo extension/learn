@@ -1,5 +1,9 @@
 <div id="two_col_col_one">
     <section id="event">
+      <p><span class="label label-info">Conference Session</span> This event is part of the <%= link_to(@event.conference.name,conference_path(:id => @event.conference.hashtag)) %></p>
+      <%- if @event.event_type == Event::BROADCAST -%>
+        <p><span class="label label-success">Broadcast Session</span> This event is <%= link_to('available online',event_path(@event)) %></p>
+      <%- end -%>
       <h1><%= @event.title -%></h1>
       <h3><%= display_room(@event.room) %></h3>
       

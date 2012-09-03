@@ -24,7 +24,7 @@ class Conference < ActiveRecord::Base
   scope :attended, include: :conference_connections, conditions: ["conference_connections.connectiontype = ?", ConferenceConnection::ATTEND]
 
 
-  def self.find_by_id_or_hashtag(id)
+  def self.find_by_id_or_hashtag(id,raise_not_found = true)
     # does the id contain a least one alpha? let's search by hashtag
     if(id =~ %r{[[:alpha:]]?})
       conference = self.find_by_hashtag(id)
@@ -35,7 +35,11 @@ class Conference < ActiveRecord::Base
     end
 
     if(!conference)
-      raise ActiveRecord::RecordNotFound
+      if(raise_not_found)
+        raise ActiveRecord::RecordNotFound
+      else
+        return nil
+      end
     end
 
     conference

@@ -1,5 +1,9 @@
 <div id="two_col_col_one">
     <section id="event">
+      <%- if @event.event_type == Event::BROADCAST -%>
+        <p><span class="label label-info">Conference Session</span> This event is <%= link_to('available in-person',conference_event_path(@event, :conference_id => @event.conference.hashtag)) %> 
+          at the <%= link_to(@event.conference.name,conference_path(:id => @event.conference.hashtag)) %></p>
+      <%- end -%>
       <h1><%= @event.title -%></h1>
       
       <div class="rating_wrapper">
