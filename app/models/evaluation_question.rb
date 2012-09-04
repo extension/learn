@@ -9,6 +9,7 @@ class EvaluationQuestion < ActiveRecord::Base
   belongs_to :conference
   belongs_to :creator, :class_name => "Learner"
   attr_accessible :conference, :conference_id, :creator, :creator_id, :prompt, :secondary_prompt, :responses, :responsetype, :range_start, :range_end, :questionorder
+  has_many :evaluation_answers
 
   # validates :active, :presence => true
   # validates :prompt, :presence => true
@@ -26,5 +27,9 @@ class EvaluationQuestion < ActiveRecord::Base
   OPEN_ANSWER = 'open_answer'
   COMPOUND_MULTIPLE_OPEN = 'compound_multiple_open'
   
+
+  def answer_for_learner_and_event(learner,event)
+    self.evaluation_answers.where(learner_id: learner.id).where(event_id: event.id).first
+  end
     
 end

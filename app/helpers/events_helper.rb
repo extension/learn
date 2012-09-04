@@ -32,7 +32,7 @@ module EventsHelper
     if(!current_learner)
       false
     else
-      answer = EvaluationAnswer.where(learner_id: current_learner.id).where(event_id: event.id).where(evaluation_question_id: evalquestion.id).first
+      answer = evalquestion.answer_for_learner_and_event(current_learner,event)
       if(!answer)
         false
       elsif(answer.response == response)
@@ -43,6 +43,13 @@ module EventsHelper
     end
   end
   
+  def evalquestion_secondary_response_for_event(evalquestion,event)
+    if(answer = evalquestion.answer_for_learner_and_event(current_learner,event))
+      answer.secondary_response
+    else
+      ''
+    end
+  end
   
   # we don't display comments from those who are blocked, and we also don't show the children of those comments, 
   # we're getting the count of just the comments that are shown.

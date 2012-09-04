@@ -220,10 +220,7 @@ class EventsController < ApplicationController
       return record_not_found
     end
     
-    # if(@question.event != @event)
-    #   return bad_request('Invalid question specified')
-    # end
-    
+   
     # # simple type checking for values
     # if(@question.responsetype != Question::MULTIVOTE_BOOLEAN and !params[:values])
     #   return bad_request('Empty values specified')
