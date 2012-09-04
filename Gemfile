@@ -114,6 +114,7 @@ group :development do
   # rails3 compatible generators
   gem "rails3-generators"
   gem 'pry'
+  gem 'quiet_assets'
 end
  
 group :test do
