@@ -11,7 +11,7 @@
       </div>
       <div id="secondary_prompt" style="display: none">
        <p><strong><%= evalquestion.secondary_prompt %></strong></p>
-       <%= text_area_tag('secondary_response',evalquestion_secondary_response_for_event(evalquestion,event), {:rows => 5}) %>
+       <%= text_area_tag('secondary_response',evalquestion_secondary_response_for_event(evalquestion,event), {class: 'submittable', rows: 5}) %>
       </div>
   <%- end -%>
 </div>
