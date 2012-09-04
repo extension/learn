@@ -7,6 +7,7 @@
     <%= render(partial: 'evalquestion', locals: {evalquestion: evalquestion, event: @event}) %>
   <%- end -%>
 
+  <p><%= link_to("I'm Done", conference_event_path(@event, conference_id: @event.conference.hashtag), class: 'btn btn-primary') %></p>
 </div>
 
 <script class="code" type="text/javascript">
