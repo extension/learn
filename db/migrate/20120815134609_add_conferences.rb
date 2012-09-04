@@ -44,7 +44,7 @@ class AddConferences < ActiveRecord::Migration
       t.references  :conference
       t.text     "prompt"
       t.text     "secondary_prompt"
-      t.integer  "order"
+      t.integer  "questionorder"
       t.string   "responsetype"
       t.text     "responses"
       t.integer  "range_start"

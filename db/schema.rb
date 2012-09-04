@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(:version => 20120903153951) do
     t.integer  "conference_id"
     t.text     "prompt"
     t.text     "secondary_prompt"
-    t.integer  "order"
+    t.integer  "questionorder"
     t.string   "responsetype"
     t.text     "responses"
     t.integer  "range_start"

@@ -23,28 +23,28 @@ class AddConferenceData < ActiveRecord::Migration
     EvaluationQuestion.create(conference: nexc2012, 
                               prompt: "How would you rate the usefulness of this presentation to your daily work?",
                               responsetype: EvaluationQuestion::MULTIPLE_CHOICE,
-                              order: 1,
+                              questionorder: 1,
                               responses: ['Very useful','Somewhat useful','Of very little use','Not at all useful'],
                               creator: Learner.learnbot)
 
     EvaluationQuestion.create(conference: nexc2012, 
                               prompt: "Will you apply information learned in this presentation to your daily work?",
                               responsetype: EvaluationQuestion::MULTIPLE_CHOICE,
-                              order: 2,
+                              questionorder: 2,
                               responses: ['Apply immediately','Apply in the future','Not sure','Will not apply'],
                               creator: Learner.learnbot)
 
     EvaluationQuestion.create(conference: nexc2012, 
                               prompt: "What is your overall rating of this presentation?",
                               responsetype: EvaluationQuestion::MULTIPLE_CHOICE,
-                              order: 3,
+                              questionorder: 3,
                               responses: ['Excellent','Good','Acceptable','Fair','Poor'],
                               creator: Learner.learnbot)
 
     EvaluationQuestion.create(conference: nexc2012, 
                               prompt: "Would you recommend this presentation to your peers?",
                               responsetype: EvaluationQuestion::MULTIPLE_CHOICE,
-                              order: 4,
+                              questionorder: 4,
                               responses: ['Definitely I would recommend','Probably I would recommend','Uncertain if I would recommend','Probably I would not recommend','Definitely I would not recommend'],
                               creator: Learner.learnbot)
 
@@ -52,7 +52,7 @@ class AddConferenceData < ActiveRecord::Migration
                               prompt: "Would you like more information about this topic?",
                               secondary_prompt: 'Please comment on what additional information would be helpful:',
                               responsetype: EvaluationQuestion::COMPOUND_MULTIPLE_OPEN,
-                              order: 5,
+                              questionorder: 5,
                               responses: {responsestrings: ['Yes','Maybe','No'], triggers: ['Yes','Maybe']},
                               creator: Learner.learnbot)
 
