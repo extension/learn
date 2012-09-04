@@ -1,0 +1,13 @@
+<div class="well">
+  <%= form_tag(addevalanswer_event_path(event), {remote: true, id: "answer_form_for_evalquestion_#{evalquestion.id}"}) do -%>
+    <%= hidden_field_tag('evalquestion', evalquestion.id) -%>
+      <legend><%= evalquestion.prompt %></legend>
+      <div class="control-group">
+        <div class="controls">
+          <%- evalquestion.responses.each_with_index do |response, index| -%>
+            <label class="radio"><%= radio_button_tag('value',response,is_multichoice_evalanswer_checked?(event,evalquestion,response),{class: 'submittable'}) %> <%= response %></label>
+          <%- end -%>
+        </div>
+    </div>
+  <%- end -%>
+</div>

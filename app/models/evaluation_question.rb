@@ -8,7 +8,7 @@ class EvaluationQuestion < ActiveRecord::Base
   serialize :responses
   belongs_to :conference
   belongs_to :creator, :class_name => "Learner"
-  attr_accessible :conference, :conference_id, :creator, :creator_id, :prompt, :secondary_prompt, :responses, :responsetype, :range_start, :range_end, :order
+  attr_accessible :conference, :conference_id, :creator, :creator_id, :prompt, :secondary_prompt, :responses, :responsetype, :range_start, :range_end, :questionorder
 
   # validates :active, :presence => true
   # validates :prompt, :presence => true

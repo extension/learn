@@ -19,6 +19,7 @@ class Conference < ActiveRecord::Base
   has_many :presenters, :through => :events
   belongs_to :creator, :class_name => "Learner"
   belongs_to :last_modifier, :class_name => "Learner"
+  has_many :evaluation_questions
 
   has_many :attendees, through: :conference_connections, source: :learner, conditions: ["conference_connections.connectiontype = ?", ConferenceConnection::ATTEND]
   scope :attended, include: :conference_connections, conditions: ["conference_connections.connectiontype = ?", ConferenceConnection::ATTEND]

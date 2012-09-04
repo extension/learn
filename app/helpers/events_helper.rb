@@ -27,6 +27,22 @@ module EventsHelper
       value == 1
     end
   end
+
+  def is_multichoice_evalanswer_checked?(event,evalquestion,response)
+    if(!current_learner)
+      false
+    else
+      answer = EvaluationAnswer.where(learner_id: current_learner.id).where(event_id: event.id).where(evaluation_question_id: evalquestion.id).first
+      if(!answer)
+        false
+      elsif(answer.response == response)
+        true
+      else
+        false
+      end
+    end
+  end
+  
   
   # we don't display comments from those who are blocked, and we also don't show the children of those comments, 
   # we're getting the count of just the comments that are shown.

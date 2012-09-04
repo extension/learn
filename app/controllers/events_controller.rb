@@ -78,6 +78,13 @@ class EventsController < ApplicationController
   def history
     @event = Event.find(params[:id])
   end
+
+  def evaluation
+    @event = Event.find(params[:id])
+    if(!@event.is_conference_session?)
+      return redirect_to(event_path(@event))
+    end
+  end
   
   def recommended
     begin
@@ -197,6 +204,37 @@ class EventsController < ApplicationController
         
     # create or update answers
     @question.create_or_update_answers(learner: current_learner, update_value: params[:values])
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+
+
+  def addevalanswer
+    @event = Event.find(params[:id])
+
+    # validate question 
+    @evalquestion = EvaluationQuestion.find_by_id(params[:evalquestion])
+    if(@evalquestion.nil?)
+      return record_not_found
+    end
+    
+    # if(@question.event != @event)
+    #   return bad_request('Invalid question specified')
+    # end
+    
+    # # simple type checking for values
+    # if(@question.responsetype != Question::MULTIVOTE_BOOLEAN and !params[:values])
+    #   return bad_request('Empty values specified')
+    # end
+    
+    # if((@question.responsetype == Question::MULTIVOTE_BOOLEAN) and params[:values] and !params[:values].is_a?(Array))
+    #   return bad_request('Must provide array values for this question type')
+    # end
+        
+    # # create or update answers
+    # @question.create_or_update_answers(learner: current_learner, update_value: params[:values])
     
     respond_to do |format|
       format.js

@@ -44,10 +44,12 @@ Learn::Application.routes.draw do
   resources :events do
     member do
       post 'addanswer'
+      post 'addevalanswer'
       post 'makeconnection'
       post 'notificationexception'
       get 'backstage'
       get 'history'
+      get 'evaluation'
     end
     
     collection do

@@ -1,0 +1,18 @@
+<% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") + ' - Evaluation'%>
+
+<div>
+  <h1>Event Evaluation for: <small><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", conference_event_path(@event, conference_id: @event.conference.hashtag) %></small></h1>
+
+  <%- @event.conference.evaluation_questions.order('questionorder').each do |evalquestion| -%>
+    <%= render(partial: 'evalquestion', locals: {evalquestion: evalquestion, event: @event}) %>
+  <%- end -%>
+
+</div>
+
+<script class="code" type="text/javascript">
+  $('.submittable').live('change', 
+    function() {
+      $(this).parents('form:first').submit();
+    }
+  );  
+</script>
