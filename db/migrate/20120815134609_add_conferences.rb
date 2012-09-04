@@ -60,6 +60,7 @@ class AddConferences < ActiveRecord::Migration
       t.integer  "learner_id",  :null => false
       t.integer  "event_id",  :null => false
       t.text     "response"
+      t.text     "secondary_response"
       t.integer  "value"
       t.timestamps
     end

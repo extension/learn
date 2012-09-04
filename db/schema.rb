@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(:version => 20120903153951) do
     t.integer  "learner_id",             :null => false
     t.integer  "event_id",               :null => false
     t.text     "response"
+    t.text     "secondary_response"
     t.integer  "value"
     t.datetime "created_at",             :null => false
     t.datetime "updated_at",             :null => false
