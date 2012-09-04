@@ -5,11 +5,11 @@
       <div class="control-group">
         <div class="controls">
           <%- evalquestion.responses[:responsestrings].each_with_index do |response, index| -%>
-            <label class="radio"><%= radio_button_tag('value',response,is_multichoice_evalanswer_checked?(event,evalquestion,response),{class: 'submittable showsecondary'}) %> <%= response %></label>
+            <label class="radio"><%= radio_button_tag('response',response,is_multichoice_evalanswer_checked?(event,evalquestion,response),{class: 'submittable showsecondary'}) %> <%= response %></label>
           <%- end -%>
         </div>
       </div>
-      <div id="secondary_prompt" style="display: none">
+      <div id="secondary_prompt" <%= raw("style='display: none'") if !learner_has_trigger_response?(event,evalquestion) %>>
        <p><strong><%= evalquestion.secondary_prompt %></strong></p>
        <%= text_area_tag('secondary_response',evalquestion_secondary_response_for_event(evalquestion,event), {class: 'submittable', rows: 5}) %>
       </div>

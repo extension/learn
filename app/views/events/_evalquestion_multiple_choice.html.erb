@@ -5,7 +5,7 @@
       <div class="control-group">
         <div class="controls">
           <%- evalquestion.responses.each_with_index do |response, index| -%>
-            <label class="radio"><%= radio_button_tag('value',response,is_multichoice_evalanswer_checked?(event,evalquestion,response),{class: 'submittable'}) %> <%= response %></label>
+            <label class="radio"><%= radio_button_tag('response',response,is_multichoice_evalanswer_checked?(event,evalquestion,response),{class: 'submittable'}) %> <%= response %></label>
           <%- end -%>
         </div>
     </div>

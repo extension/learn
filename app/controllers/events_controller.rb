@@ -220,18 +220,7 @@ class EventsController < ApplicationController
       return record_not_found
     end
     
-   
-    # # simple type checking for values
-    # if(@question.responsetype != Question::MULTIVOTE_BOOLEAN and !params[:values])
-    #   return bad_request('Empty values specified')
-    # end
-    
-    # if((@question.responsetype == Question::MULTIVOTE_BOOLEAN) and params[:values] and !params[:values].is_a?(Array))
-    #   return bad_request('Must provide array values for this question type')
-    # end
-        
-    # # create or update answers
-    # @question.create_or_update_answers(learner: current_learner, update_value: params[:values])
+    @evalquestion.create_or_update_answers(learner: current_learner, event: @event, params: params)
     
     respond_to do |format|
       format.js

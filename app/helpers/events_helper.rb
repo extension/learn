@@ -42,6 +42,19 @@ module EventsHelper
       end
     end
   end
+
+  def learner_has_trigger_response?(event,evalquestion)
+    if(!current_learner)
+      false
+    else
+      answer = evalquestion.answer_for_learner_and_event(current_learner,event)
+      if(!answer)
+        false
+      else
+        evalquestion.is_trigger_response?(answer.response)
+      end
+    end
+  end  
   
   def evalquestion_secondary_response_for_event(evalquestion,event)
     if(answer = evalquestion.answer_for_learner_and_event(current_learner,event))
