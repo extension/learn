@@ -9,7 +9,7 @@ class AddConferenceData < ActiveRecord::Migration
                       :hashtag => 'nexc2012', 
                       :tagline => 'SPUR ON the Evolution of Extension',
                       :website => 'http://nexc2012.extension.org',
-                      :description => 'To be added.',
+                      :description => 'Join colleagues from across the country in Oklahoma City as we explore new ways of working smarter not harder, the implications of technology in program delivery and work, educating in new and different ways, and enhancing the value our work brings at the state and local levels.',
                       :start_date => '2012-10-01',
                       :end_date => '2012-10-04',
                       :creator => Learner.learnbot,
