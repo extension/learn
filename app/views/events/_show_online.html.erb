@@ -4,7 +4,7 @@
         <p><span class="label label-info">Conference Session</span> This event is <%= link_to('available in-person',conference_event_path(@event, :conference_id => @event.conference.hashtag)) %> 
           at the <%= link_to(@event.conference.name,conference_path(:id => @event.conference.hashtag)) %></p>
       <%- end -%>
-      <h1><%= @event.title -%></h1>
+      <h2><%= @event.title -%></h2>
       
       <div class="rating_wrapper">
         <% if current_learner %>
@@ -86,7 +86,7 @@
   <aside id="event_time" class="radius10">
       
       <%-if @event.concluded? -%>
-        <h3>Watch</h3>
+        <h4>Watch</h4>
         
         <div id="recording_details">
          <%-if @event.has_recording? -%>
@@ -101,7 +101,7 @@
         </div>
       <%-else -%>
 
-        <h2>
+        <h3>
            <span id="session_date"><%= @event.session_start.strftime("%B %e, %Y") -%></span>
            <span class="calendarblock">
               <span class="month"><%= @event.session_start.strftime("%b") -%></span>
@@ -110,7 +110,7 @@
            <span id="session_date_time">
               <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
            </span>
-        </h2>
+        </h3>
         
         <p class="timezone"><%- if current_learner -%>
           <%- if(!current_learner.has_time_zone?) -%>
@@ -118,7 +118,7 @@
           <%- end -%>
         <%- end -%></p>
         
-        <h3 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h3>
+        <h4 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h3>
         <p class="addtocalendar">
           <span id="event_date" class="addtocal">
             Add to calendar
