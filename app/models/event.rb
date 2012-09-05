@@ -509,5 +509,13 @@ class Event < ActiveRecord::Base
     self.event_type != ONLINE
   end
   
+  def evaluation_questions
+    if(self.is_conference_session?)
+      self.conference.evaluation_questions.order('questionorder')
+    else
+      []
+    end
+  end
+
 
 end

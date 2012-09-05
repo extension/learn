@@ -50,6 +50,7 @@ Learn::Application.routes.draw do
       get 'backstage'
       get 'history'
       get 'evaluation'
+      get 'evaluationresults'
     end
     
     collection do
