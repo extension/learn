@@ -35,8 +35,8 @@
   <section id="event_meta">
     <p>Created by <%= link_to_learner(@conference.creator) %></p>
     <%- if current_learner -%>
-      <p><span class="edit"><%= link_to('edit conference details', edit_conference_path(@conference), :class => "editlink") -%></span></p>
-      <p><span class="edit"><%= link_to("Add a conference sesson", new_conference_event_path(:conference_id => @conference.id), :class => "editlink") -%></span></p>
+      <p><span class="edit"><%= link_to('edit conference details', edit_conference_path(@conference), :class => "editlink") -%></span>
+         | <span class="edit"><%= link_to("add a conference sesson", new_conference_event_path(:conference_id => @conference.id), :class => "editlink") -%></span></p>
     <%- end %>
   </section>
 
@@ -53,7 +53,12 @@
       <%= render :partial => 'connections' %>
     </aside>
   <%- end -%>
-<br class='clearing' />
+  <br class='clearing' />
+
+  <aside id="twitter_sidebar" class="radius10">
+    <%= render :partial => 'twitter_sidebar' %>
+  </aside>
+
 </div>
 
 

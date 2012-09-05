@@ -6,3 +6,5 @@
 #conference_connector_list li {float:left; list-style:none;}
 #conference_connector_list li a {float:left; margin-right:.6em;}
 #conference_connector_list li img {width:36px; height:36px; margin:0;}
+
+#twitter_sidebar {background:none; @include rounded10; padding:.5em 2em 0; margin:auto;}
