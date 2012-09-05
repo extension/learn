@@ -86,6 +86,13 @@ class EventsController < ApplicationController
     end
   end
   
+  def evaluationresults
+    @event = Event.find(params[:id])
+    if(!@event.is_conference_session?)
+      return redirect_to(event_path(@event))
+    end
+  end
+
   def recommended
     begin
       recommended_event = RecommendedEvent.find(params[:id])   

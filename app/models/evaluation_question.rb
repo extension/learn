@@ -25,14 +25,18 @@ class EvaluationQuestion < ActiveRecord::Base
     self.evaluation_answers.where(learner_id: learner.id).where(event_id: event.id).first
   end
 
+  def answer_counts_for_event(event)
+    self.evaluation_answers.where(event_id: event.id).group(:response).count
+  end
+
+
+  def answer_total_for_event(event)
+    self.evaluation_answers.where(event_id: event.id).count
+  end
+
   def response_value(response)
-    if(self.responsetype == COMPOUND_MULTIPLE_OPEN)
-      list = self.responses[:responsestrings]
-    else
-      list = self.responses
-    end
-    if(list.include?(response))
-      list.index(response) + 1
+    if(self.responselist.include?(response))
+      self.responselist.index(response) + 1
     else
       0
     end
@@ -46,6 +50,21 @@ class EvaluationQuestion < ActiveRecord::Base
     end
   end
 
+  def responselist
+    if(self.responsetype == COMPOUND_MULTIPLE_OPEN)
+      self.responses[:responsestrings]
+    else
+      self.responses
+    end
+  end
+
+  def open_responses_for_event(event)
+    if(self.responsetype != COMPOUND_MULTIPLE_OPEN)
+      []
+    else
+      self.evaluation_answers.where(event_id: event.id).where("secondary_response IS NOT NULL").pluck(:secondary_response)
+    end
+  end
 
   def create_or_update_answers(options = {})
     learner = options[:learner]
