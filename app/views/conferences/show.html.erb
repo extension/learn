@@ -35,8 +35,12 @@
   <section id="event_meta">
     <p>Created by <%= link_to_learner(@conference.creator) %></p>
     <%- if current_learner -%>
-      <p><span class="edit"><%= link_to('edit conference details', edit_conference_path(@conference), :class => "editlink") -%></span>
-         | <span class="edit"><%= link_to("add a conference sesson", new_conference_event_path(:conference_id => @conference.id), :class => "editlink") -%></span></p>
+      <p>
+        <%- if current_learner.is_admin? %>
+          <span class="edit"><%= link_to('edit conference details', edit_conference_path(@conference), :class => "editlink") -%></span> |
+        <%- end -%>
+        <span class="edit"><%= link_to("add a conference sesson", new_conference_event_path(:conference_id => @conference.id), :class => "editlink") -%></span>
+      </p>
     <%- end %>
   </section>
 
