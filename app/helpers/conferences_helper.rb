@@ -14,4 +14,23 @@ module ConferencesHelper
     end
   end
 
+
+  def nav_li(time,index)
+    (nav_is_active?(time,index) ? "<li class='active'>".html_safe : "<li>".html_safe)
+  end
+
+  def tab_pane_divclass(time,index)
+    (nav_is_active?(time,index) ? "tab-pane active" : "tab-pane")
+  end
+
+  def nav_is_active?(time,index)
+    if @datetime
+      @datetime == time 
+    else
+      (index == 0)
+    end
+  end
+
+
+
 end

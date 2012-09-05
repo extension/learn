@@ -63,6 +63,18 @@ class ConferencesController < ApplicationController
       rescue
         @date = @dates.first
       end
+    elsif(params[:datetime])
+      begin
+        datetime = Time.zone.parse(URI.unescape(params[:datetime]))
+        if(@dates.include?(datetime.to_date))
+          @date = datetime.to_date
+          @datetime = datetime
+        else
+          @date = @dates.first
+        end
+      rescue
+        @date = @dates.first
+      end
     else
       if(@dates.include?(Date.today))
         @date = Date.today

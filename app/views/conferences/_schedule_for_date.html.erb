@@ -2,11 +2,7 @@
 
   <ul class="nav nav-tabs" id="timetabs_for_<%= date.to_s %>">
     <%- groupedevents.keys.each_with_index do |time,index| -%>
-      <%- if(index == 0) -%>
-        <li class="active"><a href="#timeindex_<%= index %>"><%= time.strftime("%l:%M %p") %></a></li>
-      <%- else -%>
-        <li><a href="#timeindex_<%= index %>"><%= time.strftime("%l:%M %p") %></a></li>
-      <%- end -%>
+      <%= nav_li(time,index) %><a href="#timeindex_<%= index %>"><%= time.strftime("%l:%M %p") %></a></li>
     <%- end -%>
   </ul>
    
@@ -14,13 +10,7 @@
 
   <div class="tab-content">
     <%- groupedevents.keys.each_with_index do |time,index| -%>
-      <%- if(index == 0)
-            divclass = "tab-pane active"
-          else
-            divclass = "tab-pane"
-          end -%>
-
-        <div class="<%= divclass %>" id="timeindex_<%= index %>">
+        <div class="<%= tab_pane_divclass(time,index) %>" id="timeindex_<%= index %>">
           <div class="accordion" id="timeindex_<%= index %>_events">
           <% groupedevents[time].each do |event| %>
             <div class="accordion-group">

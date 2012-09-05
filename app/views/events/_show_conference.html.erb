@@ -94,10 +94,12 @@
         <span class="dtstart" style="display:none"><%= convert_to_rfc3339(@event.session_start) %></span>
         <span class="dtend" style="display:none"><%= convert_to_rfc3339(@event.session_end) %></span>
         <span class="description" style="display:none"><%= event_url(@event) %></span> 
-        <span class="ics_url" style="display:none"><%= conference_event_url(@event, :conference_id => @event.conference.id, :format => :ics) %></span> 
-        <span class="vcs_url" style="display:none"><%= conference_event_url(@event, :conference_id => @event.conference.id, :format => :vcs) %></span>
+        <span class="ics_url" style="display:none"><%= conference_event_url(@event, :conference_id => @event.conference.hashtag, :format => :ics) %></span> 
+        <span class="vcs_url" style="display:none"><%= conference_event_url(@event, :conference_id => @event.conference.hashtag, :format => :vcs) %></span>
       </span>
     </p>
+
+    <p><%= link_to('Other Sessions at this same time', schedule_conference_path(id: @event.conference.hashtag, datetime: @event.session_start.xmlschema)) %></p>
   </aside>
     
     <%- if current_learner -%>
