@@ -379,10 +379,16 @@ class Event < ActiveRecord::Base
   
   # when an event is created, up to 6 notifications need to be created.
   # 1 notification via email (180 minutes before)
+  # conference sessions will go out 1 hour before
   # 4 via sms (60,45,30,15 minutes)
+  # we'll leave conference sessions alone for now
   # 1 Potential Email if the event is scheduled for iowa state's connect system
   def create_event_notifications
-    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 3.hours, offset: 3.hours)
+    if(self.is_conference_session?)
+      Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 1.hours, offset: 1.hours)      
+    else
+      Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 3.hours, offset: 3.hours)
+    end
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 60.minutes, offset: 60.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 45.minutes, offset: 45.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 30.minutes, offset: 30.minutes)
