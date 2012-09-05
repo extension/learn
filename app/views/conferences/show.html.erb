@@ -47,13 +47,16 @@
 
 
 <div id="two_col_col_two">
-    
+  
+    <aside id="schedule" class="radius10">
+    <strong>TODO: Some Link to a schedule</strong>
+  </aside>
+
   <%- if current_learner -%>
     <aside id="eventconnections" class="radius10">
       <%= render :partial => 'connections' %>
     </aside>
   <%- end -%>
-  <br class='clearing' />
 
   <aside id="twitter_sidebar" class="radius10">
     <%= render :partial => 'twitter_sidebar' %>

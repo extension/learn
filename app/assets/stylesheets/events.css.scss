@@ -63,6 +63,9 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 .question_answers {float:left; width: 230px;  padding:1em; margin:0;}
 .question_answers li {margin:.2em .1em; background:#fff; padding:.2em;}
 
+
+#tweet_this {background:none; @include rounded10; padding: 10px; margin:auto; float:right;}
+
 .none {color:#888;}
 #eventconnections {background:none; @include rounded10; padding:.5em 2em 0; margin-bottom:0;}
 #eventconnections p {font-size:1.2em; margin:0 0 .65em; color:#223c95; font-weight:bold;}

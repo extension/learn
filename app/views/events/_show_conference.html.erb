@@ -4,7 +4,9 @@
       <%- if @event.event_type == Event::BROADCAST -%>
         <p><span class="label label-success">Broadcast Session</span> This event is <%= link_to('available online',event_path(@event)) %></p>
       <%- end -%>
+
       <h2><%= @event.title -%></h2>
+
       <h3><%= display_room(@event.room) -%></h3>
       <div class="rating_wrapper">
         <% if current_learner %>
@@ -42,15 +44,17 @@
         <p>
           <%-if @event.tags.length != 0 -%>  
             <%= display_tags(@event.tags) -%>
-          <%-else -%>
-            There are no tags at this time
           <%-end -%>
         </p>
       </div>
    </section>
    
    <div id="comment-section">
-    <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
+      <aside id="tweet_this">
+        <%= render :partial => 'tweet_this'%>
+      </aside>
+      <h3>Session comments</h3>
+      <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
    </div>
    
   <section id="event_meta">
@@ -66,6 +70,8 @@
 
 
 <div id="two_col_col_two">
+
+
   <aside id="event_time" class="radius10">
     <h3>
        <span id="session_date"><%= @event.session_start.strftime("%B %e, %Y") -%></span>
