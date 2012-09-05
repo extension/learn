@@ -1,0 +1,64 @@
+<div class="tabbable tabs-left">
+
+  <ul class="nav nav-tabs" id="timetabs_for_<%= date.to_s %>">
+    <%- groupedevents.keys.each_with_index do |time,index| -%>
+      <%- if(index == 0) -%>
+        <li class="active"><a href="#timeindex_<%= index %>"><%= time.strftime("%l:%M %p") %></a></li>
+      <%- else -%>
+        <li><a href="#timeindex_<%= index %>"><%= time.strftime("%l:%M %p") %></a></li>
+      <%- end -%>
+    <%- end -%>
+  </ul>
+   
+
+
+  <div class="tab-content">
+    <%- groupedevents.keys.each_with_index do |time,index| -%>
+      <%- if(index == 0)
+            divclass = "tab-pane active"
+          else
+            divclass = "tab-pane"
+          end -%>
+
+        <div class="<%= divclass %>" id="timeindex_<%= index %>">
+          <div class="accordion" id="timeindex_<%= index %>_events">
+          <% groupedevents[time].each do |event| %>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <h4>
+                  <span class="label label-info"><%= display_room(event.room) %></span>
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#timeindex_<%= index %>_events" href="#collapse_<%= event.id %>">
+                  <%- if current_learner and current_learner.is_following_event?(event) -%>
+                    <span class="label label-important"><i class="icon-bookmark icon-white"></i></span>
+                  <%- end -%>
+                  <%= event.title %>
+                  </a>
+                </h4>
+                
+              </div>
+
+              <div id="collapse_<%= event.id %>" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <p class="details"><%= link_to("Session ##{event.id}", conference_event_path(event, :conference_id => @conference.hashtag)) %> 
+                  <p class="details">
+                    Presented by <%= display_presenters(event.presenters) %>
+                  </p>
+                  <p class="description">
+                    <%= format_text_for_display(event.description) %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          <%- end -%>
+        </div>
+        </div>
+    <%- end -%>
+  </div>
+</div>
+
+<script>
+  $('#timetabs_for_<%= date.to_s %> a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  })
+</script>

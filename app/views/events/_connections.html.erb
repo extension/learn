@@ -2,7 +2,7 @@
   <%= hidden_field_tag('connectiontype', EventConnection::BOOKMARK) %>
   <p class="cursor">
     <label>
-      <%= check_box_tag('wantsconnection','1',current_learner.has_bookmark_for_event?(@event),{class: 'submittable'}) %> 
+      <%= check_box_tag('wantsconnection','1',current_learner.is_following_event?(@event),{class: 'submittable'}) %> 
       <span>Follow this event</span>
       <span><small>We'll add it to your Learning Portfolio and let you know about new activity</small></span>
     </label>

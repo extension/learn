@@ -187,7 +187,7 @@ class Learner < ActiveRecord::Base
     super && !retired?
   end
   
-  def has_bookmark_for_event?(event)
+  def is_following_event?(event)
     find_event = self.events.bookmarked.where('event_id = ?',event.id)
     !find_event.blank?
   end

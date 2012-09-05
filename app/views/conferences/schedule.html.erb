@@ -1,0 +1,30 @@
+<%- @page_title = "Schedule for #{@conference.name}" -%>
+
+<header class="jumbotron subhead" id="overview">
+  <h1><%= @page_title %></h1>
+</header>
+
+<%- if current_learner -%>
+  <p><span class="label label-important"><i class="icon-bookmark icon-white"></i></span> indicates an event that you are following</p>
+<%- end -%>
+
+<ul class="nav nav-tabs" id="datetabs">
+  <%- @dates.each do |date| -%>
+    <%- if(date == @date) -%>
+    <li class="active">
+    <%- else -%>
+    <li>
+    <%- end -%>
+    <%= link_to(date.strftime('%A, %B %e'), schedule_conference_path(id: @conference.hashtag, date: date.to_s)) %>
+    </li>
+  <%- end -%>
+</ul>
+
+<%= render(partial: 'schedule_for_date', locals: {groupedevents: @groupedevents, date: @date} ) %>
+
+<script>
+  $(".collapse").collapse({
+    toggle:false
+  });
+</script>
+

@@ -133,6 +133,9 @@ class Event < ActiveRecord::Base
   
   scope :nonconference, where('event_type != ?',CONFERENCE)
   
+  scope :by_date, lambda {|date| where('DATE(session_start) = ?',date)}
+
+
   def set_location_if_conference
     if(self.event_type == Event::CONFERENCE)
       self.location = 'Conference Session'
@@ -516,6 +519,7 @@ class Event < ActiveRecord::Base
       []
     end
   end
+
 
 
 end

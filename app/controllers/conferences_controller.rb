@@ -11,10 +11,9 @@ class ConferencesController < ApplicationController
   end
 
   def show
-
     # will raise ActiveRecord::RecordNotFound if not found
     @conference = Conference.find_by_id_or_hashtag(params[:id])
-
+    force_conference_tz
     # redirect check
     if(params[:id].to_i > 0 )
       # got here via an id - redirect to the hashtag url
@@ -45,7 +44,33 @@ class ConferencesController < ApplicationController
 
   def allevents
     @conference = Conference.find_by_id_or_hashtag(params[:id])
+    force_conference_tz
     @events = @conference.events.order('session_start ASC')
+  end
+
+  def schedule
+    @conference = Conference.find_by_id_or_hashtag(params[:id])
+    force_conference_tz
+    @dates = @conference.event_date_counts.keys.sort
+    if(params[:date])
+      begin 
+        checkdate = Date.parse(params[:date])
+        if(@dates.include?(checkdate))
+          @date = checkdate
+        else
+          @date = @dates.first
+        end
+      rescue
+        @date = @dates.first
+      end
+    else
+      if(@dates.include?(Date.today))
+        @date = Date.today
+      else
+        @date = @dates.first
+      end
+    end
+    @groupedevents = @conference.grouped_events_for_date(@date)
   end
 
   def makeconnection
@@ -60,6 +85,19 @@ class ConferencesController < ApplicationController
         end
       else
         # do nothing
+      end
+    end
+  end
+
+  protected
+
+  def force_conference_tz
+
+    if(@conference)
+      # if not a virtual conference - force the timezone to be
+      # that of the conference
+      if(!@conference.is_virtual?)
+        Time.zone = @conference.time_zone
       end
     end
   end

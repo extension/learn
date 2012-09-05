@@ -52,8 +52,19 @@
 
 <div id="two_col_col_two">
   
-    <aside id="schedule" class="radius10">
-    <strong>TODO: Some Link to a schedule</strong>
+  <aside id="eventconnections" class="radius10">
+    <h4>Schedule by day</h4>
+    <table class='table'>
+      <tbody>
+    <%- event_date_counts = @conference.event_date_counts -%>
+    <%- event_date_counts.keys.sort.each do |date| -%>
+    <tr>
+    <td><i class="icon-calendar"></i><strong><%= link_to("#{date.strftime('%A, %B %e')}", schedule_conference_path(id: @conference.hashtag, date: date.to_s)) %></strong></td>
+    <td><%= "#{event_date_counts[date]} Events" %></td>
+    </tr> 
+    <%- end -%>
+    </tbody>
+    </table>
   </aside>
 
   <%- if current_learner -%>

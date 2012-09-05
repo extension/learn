@@ -46,6 +46,21 @@ class Conference < ActiveRecord::Base
     conference
   end
 
+  def grouped_events_for_date(date)
+    grouped = {}
+    list = self.events.by_date(date).order(:session_start)
+    list.each do |e|
+      grouped[e.session_start] ||= []
+      grouped[e.session_start] << e
+    end
+    grouped
+  end
+
+  def event_date_counts
+    self.events.group('DATE(session_start)').count
+  end
+
+
   def in_progress?
     return (self.start_date <= Date.today) && (self.end_date >= Date.today)
   end

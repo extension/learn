@@ -12,4 +12,6 @@
 //= require jqplot
 //= require jquery.tokeninput
 //= require jquery.tablesorter.min
+//= require twitter/bootstrap/tab
+//= require twitter/bootstrap/collapse
 //= require_tree .
