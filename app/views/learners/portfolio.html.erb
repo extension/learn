@@ -159,7 +159,7 @@
     </div>
   <% end %>
 
-  <%- if @presented_conferences.count > 0 or @attended_conferences > 0 -%>
+  <%- if !@presented_conferences.blank? or !@attended_conferences.blank? -%>
   <h2>Conferences</h3>
     <%- @presented_conferences.each do |conf| -%>
       <%- if conf.concluded? %>
