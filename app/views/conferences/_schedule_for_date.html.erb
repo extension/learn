@@ -29,9 +29,9 @@
 
               <div id="collapse_<%= event.id %>" class="accordion-body collapse">
                 <div class="accordion-inner">
-                  <p class="details"><%= link_to("Session ##{event.id}", conference_event_path(event, :conference_id => @conference.hashtag)) %> 
+                  <p class="details">Session #<%=event.id %>,  Presented by <%= display_presenters(event.presenters) %></p>
                   <p class="details">
-                    Presented by <%= display_presenters(event.presenters) %>
+                    <%= link_to("more information... (follow, comment, evaluate, and more)", conference_event_path(event, :conference_id => @conference.hashtag)) %> 
                   </p>
                   <p class="description">
                     <%= format_text_for_display(event.description) %>
