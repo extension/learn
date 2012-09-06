@@ -113,7 +113,7 @@
   <%- if @event.id %>
     <%= link_to("cancel", event_path(@event.id), :class => "cancel") -%>
   <%- else -%>
-    <%= link_to("cancel", root_path(), :class => "cancel") -%>
+    <%= link_to("cancel", conference_path(@event.conference), :class => "cancel") -%>
   <%- end -%>
 </p>
  
