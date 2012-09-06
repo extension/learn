@@ -292,10 +292,10 @@ class EventsController < ApplicationController
   def check_for_event_redirect
     if(@event.event_type == Event::CONFERENCE)
       if(!@conference)
-        redirect_to(conference_event_url(:conference_id => @event.conference.id, :id => @event.id))
+        redirect_to(conference_event_url(:conference_id => @event.conference.hashtag, :id => @event.id))
         return true
       elsif(@event.conference != @conference)
-        redirect_to(conference_event_url(:conference_id => @event.conference.id, :id => @event.id))
+        redirect_to(conference_event_url(:conference_id => @event.conference.hashtag, :id => @event.id))
         return true
       else
         return false
