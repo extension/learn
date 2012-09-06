@@ -48,6 +48,13 @@ class ConferencesController < ApplicationController
     @events = @conference.events.order('session_start ASC')
   end
 
+  def learner
+    @conference = Conference.find_by_id_or_hashtag(params[:id])
+    force_conference_tz
+    @learner = Learner.find(params[:learner])
+    @events = @learner.events.where(conference_id: @conference.id).order('session_start ASC')
+  end
+
   def schedule
     @conference = Conference.find_by_id_or_hashtag(params[:id])
     force_conference_tz

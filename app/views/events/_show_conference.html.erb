@@ -99,7 +99,17 @@
       </span>
     </p>
 
-    <p><%= link_to('Other Sessions at this same time', schedule_conference_path(id: @event.conference.hashtag, datetime: @event.session_start.xmlschema)) %></p>
+    <%-if @event.concluded? -%>
+      <%- if current_learner -%>
+        <%- if current_learner.is_presenter_for_event?(event) -%>
+          <p><%= link_to('Evaluation results for this session', evaluationresults_event_path(@event)) %></p>
+        <%- else -%>
+          <p><%= link_to('Evaluate this session', evaluation_event_path(@event)) %></p>
+        <%- end -%>
+      <%- end -%>
+    <%- else -%>
+     <p><%= link_to('Other Sessions at this same time', schedule_conference_path(id: @event.conference.hashtag, datetime: @event.session_start.xmlschema)) %></p>
+    <%- end -%>
   </aside>
     
     <%- if current_learner -%>

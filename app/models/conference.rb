@@ -66,7 +66,7 @@ class Conference < ActiveRecord::Base
   end
 
   def concluded?
-    return !(self.end_date < Date.today)
+    return !(self.end_date >= Date.today)
   end
 
   def rooms

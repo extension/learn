@@ -1,8 +1,10 @@
-<%- @page_title = "Schedule for #{@conference.name}" -%>
+<%- @page_title = "#{@conference.name} - Schedule" -%>
 
 <header class="jumbotron subhead" id="overview">
   <h1><%= @page_title %></h1>
+  <p class="lead"><%= link_to('Conference Overview',conference_path(@conference)) %></p>
 </header>
+
 
 <%- if current_learner -%>
   <p><span class="label label-important"><i class="icon-bookmark icon-white"></i></span> indicates an event that you are following</p>

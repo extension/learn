@@ -38,7 +38,9 @@ class LearnersController < ApplicationController
     @attended_events = @learner.events.active.attended.order("event_connections.created_at DESC").limit(5)
     @watched_events = @learner.events.active.watched.order("event_connections.created_at DESC").limit(5)
     @presented_events = @learner.presented_events.active.order("session_start DESC").limit(5)
-    @bookmarked_events = @learner.events.active.bookmarked.order("event_connections.created_at DESC").limit(15)
+    @bookmarked_events = @learner.events.active.bookmarked.order("event_connections.created_at DESC").limit(10)
+    @presented_conferences = @learner.presented_conferences
+    @attended_conferences = @learner.conferences.attended
   end
   
   def learning_history

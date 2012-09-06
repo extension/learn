@@ -39,7 +39,7 @@ class Learner < ActiveRecord::Base
   has_one  :portfolio_setting
   has_many :conference_connections
   has_many :conferences, through: :conference_connections, uniq: true
-
+  has_many :presented_conferences, through: :presented_events, source: :conference
 
   before_validation :convert_mobile_number
   validates_length_of :mobile_number, :is => 10, :allow_blank => true
@@ -185,6 +185,10 @@ class Learner < ActiveRecord::Base
   # devise override
   def active_for_authentication?
     super && !retired?
+  end
+
+  def is_presenter_for_event?(event)
+    !self.presented_events.where('event_id = ?',event.id).blank?
   end
   
   def is_following_event?(event)

@@ -106,8 +106,10 @@ Learn::Application.routes.draw do
       get 'allevents'
       get 'schedule'
       post 'makeconnection'
+      get 'learner'
     end
   end
+  
       
   root :to => 'home#index'
 
