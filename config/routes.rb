@@ -102,6 +102,13 @@ Learn::Application.routes.draw do
 
   resources :conferences, :only => [:index, :show, :edit, :update] do
     resources :events
+    resources :data, :controller => 'conferences/data', :only => [:index] do
+      collection do
+        get 'events'
+        get 'evaluation'
+        get 'evaluationbysession'
+      end
+    end
     member do
       get 'allevents'
       get 'schedule'

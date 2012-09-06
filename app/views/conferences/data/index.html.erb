@@ -1,0 +1,9 @@
+<%= render(partial: 'navtabs') -%>
+<h2>General Statistics for <%= link_to @conference.name, conference_path(id: @conference.hashtag) %></h2>
+<table class="table table-striped">
+  <tbody>
+    <tr><td>Events</td><td><%= @conference.events.count%></td></tr>
+    <tr><td>Presenters</td><td><%= @conference.presenters.count %></td></tr>
+    <tr><td>Attendees</td><td><%= @conference.conference_connections.count('DISTINCT(learner_id)') %></td></tr>
+  </tbody>
+</table>

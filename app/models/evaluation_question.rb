@@ -30,8 +30,17 @@ class EvaluationQuestion < ActiveRecord::Base
   end
 
 
+
   def answer_total_for_event(event)
     self.evaluation_answers.where(event_id: event.id).count
+  end
+
+  def answer_counts
+    self.evaluation_answers.group(:response).count
+  end
+  
+  def answer_total
+    self.evaluation_answers.count
   end
 
   def response_value(response)
@@ -63,6 +72,14 @@ class EvaluationQuestion < ActiveRecord::Base
       []
     else
       self.evaluation_answers.where(event_id: event.id).where("secondary_response IS NOT NULL").pluck(:secondary_response)
+    end
+  end
+
+  def open_responses
+    if(self.responsetype != COMPOUND_MULTIPLE_OPEN)
+      []
+    else
+      self.evaluation_answers.where("secondary_response IS NOT NULL").pluck(:secondary_response)
     end
   end
 

@@ -1,0 +1,6 @@
+"Event Statistics for <%= @conference.name %>"
+
+Date/Time,Presenters,Title,Tags,URL,Recording,Length,Bookmarked,Attended,Watched,Voters,Commentators,
+<%- for event in @events -%>
+"<%= event.session_start.strftime("%Y-%m-%d %H:%M:%S") %>", "<%= event.presenters.collect{|learner| learner.name}.join(' ') %>","<%= event.title %>","<%= event.tags.collect{|tag| tag.name}.join(' ') %>","<%= event_url(event) %>","<%= (event.has_recording?) ? event.recording : "n/a" %>",<%= event.session_length %>,<%= event.bookmarked.count %>,<%= event.attendees.count %>,<%= event.watched.count %>,<%= event.raters.count %>,<%= event.commentators.count %>
+<%- end -%>

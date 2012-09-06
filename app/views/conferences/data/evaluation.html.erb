@@ -1,0 +1,36 @@
+<% @page_title = "#{@conference.name} - Overall Evaluation" %>
+<%= render(partial: 'navtabs') -%>
+<div id="behindthescenes">
+<h2>Evaluation results for <%= link_to @conference.name, conference_path(id: @conference.hashtag) %></h2>
+
+<section id="event_questions">
+   <%- @conference.evaluation_questions.each do |evalquestion| -%>
+    <%- totalanswers = evalquestion.answer_total -%>
+    <div class="event_question">
+      <h4>"<%= evalquestion.prompt %>"</h4>
+      <p><strong>Total Answers: <%= totalanswers %></strong></p>
+      <%- if totalanswers > 0 -%>
+        <%- answer_counts = evalquestion.answer_counts -%>
+        <ul class="question_answers">
+        <%- evalquestion.responselist.each do |response| -%>
+          <li><span>"<%= response %>"</span> <strong><%= answer_counts[response].nil? ? 0 : answer_counts[response] %></strong></li>
+        <%- end -%>
+        </ul>
+        <br class="clearing" />
+        <%- if evalquestion.responsetype == EvaluationQuestion::COMPOUND_MULTIPLE_OPEN -%>
+          <%- open_responses = evalquestion.open_responses -%>
+          <%- if open_responses.size > 0 -%>
+            <h5>"<%= evalquestion.secondary_prompt %>"</h5>
+            <%- open_responses.each do |open_response| -%>
+              <hr/>
+              <p><%= format_text_for_display(open_response) %></p>
+            <%- end -%>
+          <%- end -%>
+        <%- end -%>
+      <%- end -%>
+    </div>
+  <%- end -%>
+  <br class="clearing" />
+</section>
+
+</div>
