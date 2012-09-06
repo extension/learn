@@ -65,6 +65,7 @@ aside {background:#ededed; padding:10px; margin:0 0 1em;}
 
 
 #tweet_this {background:none; @include rounded10; padding: 10px; margin:auto; float:right;}
+#conference_schedule {background:none; @include rounded10; padding:.5em 2em 0; margin-bottom:0;}
 
 .none {color:#888;}
 #eventconnections {background:none; @include rounded10; padding:.5em 2em 0; margin-bottom:0;}
