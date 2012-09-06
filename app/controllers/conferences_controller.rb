@@ -64,6 +64,9 @@ class ConferencesController < ApplicationController
         checkdate = Date.parse(params[:date])
         if(@dates.include?(checkdate))
           @date = checkdate
+          # loop through the event times and set an appropriate start time
+          timelist = @conference.event_time_counts.keys.sort
+          @datetime = timelist.select{|t| t >= Time.zone.now}.first
         else
           @date = @dates.first
         end
@@ -85,6 +88,9 @@ class ConferencesController < ApplicationController
     else
       if(@dates.include?(Date.today))
         @date = Date.today
+        # loop through the event times and set an appropriate start time
+        timelist = @conference.event_time_counts.keys.sort
+        @datetime = timelist.select{|t| t >= Time.zone.now}.first
       else
         @date = @dates.first
       end

@@ -60,6 +60,11 @@ class Conference < ActiveRecord::Base
     self.events.group('DATE(session_start)').count
   end
 
+  def event_time_counts
+    self.events.group('session_start').count
+  end
+
+
 
   def in_progress?
     return (self.start_date <= Date.today) && (self.end_date >= Date.today)
