@@ -161,7 +161,7 @@ class Conference < ActiveRecord::Base
           learner_list << learner
         end
       end
-      event_attributes[:presenter_ids] = learner_list.map(&:id)
+      event_attributes[:presenter_tokens] = learner_list.map(&:id).join(',')
 
       begin
         event_date = Date.strptime(row[3], '%m/%d/%Y')

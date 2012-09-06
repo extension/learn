@@ -201,6 +201,8 @@ class Event < ActiveRecord::Base
   def set_presenters_from_tokens
     if(!@presenter_tokens.blank?)
       self.presenter_ids = @presenter_tokens.split(',')
+    else
+      self.presenter_ids = nil
     end
   end
     
