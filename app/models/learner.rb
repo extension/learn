@@ -187,6 +187,10 @@ class Learner < ActiveRecord::Base
     super && !retired?
   end
 
+  def connected_to_event?(event)
+    !self.events.where('event_id = ?',event.id).blank?
+  end
+
   def is_presenter_for_event?(event)
     !self.presented_events.where('event_id = ?',event.id).blank?
   end

@@ -101,9 +101,9 @@
 
     <%-if @event.concluded? -%>
       <%- if current_learner -%>
-        <%- if current_learner.is_presenter_for_event?(event) -%>
+        <%- if current_learner.is_presenter_for_event?(@event) -%>
           <p><%= link_to('Evaluation results for this session', evaluationresults_event_path(@event)) %></p>
-        <%- else -%>
+        <%- elsif current_learner.connected_to_event?(@event) -%>
           <p><%= link_to('Evaluate this session', evaluation_event_path(@event)) %></p>
         <%- end -%>
       <%- end -%>
