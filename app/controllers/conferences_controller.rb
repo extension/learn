@@ -6,7 +6,8 @@
 
 class ConferencesController < ApplicationController
   before_filter :authenticate_learner!, only: [:edit, :update]
-
+  before_filter :require_admin, only: [:edit, :update]
+  
   def index
     if(conference = Conference.first)
       return redirect_to(conference_url(id: conference.hashtag))
