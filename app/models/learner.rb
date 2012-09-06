@@ -238,6 +238,12 @@ class Learner < ActiveRecord::Base
       connection.destroy
     end
   end
+
+  def remove_connection_with_event(event,connectiontype)
+    if(connection = EventConnection.where('learner_id =?',self.id).where('event_id = ?',event.id).where('connectiontype = ?',connectiontype).first)
+      connection.destroy
+    end
+  end
   
   #get the mobile number down to just the digits
   def convert_mobile_number
