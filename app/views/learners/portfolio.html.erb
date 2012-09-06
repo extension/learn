@@ -136,7 +136,7 @@
           <em class="expired">expired</em>
         <% end %>
         <%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span>
-          <% if event.session_start >= Time.zone.now && event.session_start < 14.days.from_now -%>
+          <% if event.is_online_session? and event.session_start >= Time.zone.now && event.session_start < 14.days.from_now -%>
             <span class="coming_soon">Coming up soon!</span>
           <% end %></h4>
       
