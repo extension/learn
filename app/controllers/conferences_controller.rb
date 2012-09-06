@@ -8,6 +8,11 @@ class ConferencesController < ApplicationController
   before_filter :authenticate_learner!, only: [:edit, :update]
 
   def index
+    if(conference = Conference.first)
+      return redirect_to(conference_url(id: conference.hashtag))
+    else
+      return redirect_to(root_url)
+    end
   end
 
   def show
@@ -20,12 +25,6 @@ class ConferencesController < ApplicationController
       return redirect_to(conference_url(:id => @conference.hashtag), :status => :moved_permanently)
     end
 
-  end
-
-  def index
-    @list_title = 'All Sessions'
-    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events = @conference.events.active.order('session_start ASC').page(params[:page])
   end
 
   def edit
