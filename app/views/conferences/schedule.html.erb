@@ -17,7 +17,7 @@
     <%- else -%>
     <li>
     <%- end -%>
-    <%= link_to(date.strftime('%A, %B %e'), schedule_conference_path(id: @conference.hashtag, date: date.to_s)) %>
+    <%= link_to(date.strftime('%a, %b %e'), schedule_conference_path(id: @conference.hashtag, date: date.to_s)) %>
     </li>
   <%- end -%>
 </ul>
