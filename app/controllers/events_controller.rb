@@ -6,7 +6,7 @@
 
 class EventsController < ApplicationController
   before_filter :check_for_conference
-  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history]
+  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history, :evaluation, :evaluationresults]
   
   def index
     @list_title = 'All Sessions'
