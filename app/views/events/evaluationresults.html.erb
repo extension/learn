@@ -6,32 +6,30 @@
 <p>See up-votes, comments, and connections for this event at its <%= link_to('backstage page', backstage_event_path(@event)) %></p>
 
 <section id="event_questions">
-  <%- if @event.started? %>
-     <%- @event.evaluation_questions.each do |evalquestion| -%>
-      <%- totalanswers = evalquestion.answer_total_for_event(@event) -%>
-      <div class="event_question">
-        <h4>"<%= evalquestion.prompt %>"</h4>
-        <p><strong>Total Answers: <%= totalanswers %></strong></p>
-        <%- if totalanswers > 0 -%>
-          <%- answer_counts = evalquestion.answer_counts_for_event(@event) -%>
-          <ul class="question_answers">
-          <%- evalquestion.responselist.each do |response| -%>
-            <li><span>"<%= response %>"</span> <strong><%= answer_counts[response].nil? ? 0 : answer_counts[response] %></strong></li>
-          <%- end -%>
-          </ul>
-          <br class="clearing" />
-          <%- if evalquestion.responsetype == EvaluationQuestion::COMPOUND_MULTIPLE_OPEN -%>
-            <%- open_responses = evalquestion.open_responses_for_event(@event) -%>
-            <%- if open_responses.size > 0 -%>
-              <h5>"<%= evalquestion.secondary_prompt %>"</h5>
-              <%- open_responses.each do |open_response| -%>
-                <p><%= format_text_for_display(open_response) %></p>
-              <%- end -%>
+   <%- @event.evaluation_questions.each do |evalquestion| -%>
+    <%- totalanswers = evalquestion.answer_total_for_event(@event) -%>
+    <div class="event_question">
+      <h4>"<%= evalquestion.prompt %>"</h4>
+      <p><strong>Total Answers: <%= totalanswers %></strong></p>
+      <%- if totalanswers > 0 -%>
+        <%- answer_counts = evalquestion.answer_counts_for_event(@event) -%>
+        <ul class="question_answers">
+        <%- evalquestion.responselist.each do |response| -%>
+          <li><span>"<%= response %>"</span> <strong><%= answer_counts[response].nil? ? 0 : answer_counts[response] %></strong></li>
+        <%- end -%>
+        </ul>
+        <br class="clearing" />
+        <%- if evalquestion.responsetype == EvaluationQuestion::COMPOUND_MULTIPLE_OPEN -%>
+          <%- open_responses = evalquestion.open_responses_for_event(@event) -%>
+          <%- if open_responses.size > 0 -%>
+            <h5>"<%= evalquestion.secondary_prompt %>"</h5>
+            <%- open_responses.each do |open_response| -%>
+              <p><%= format_text_for_display(open_response) %></p>
             <%- end -%>
           <%- end -%>
         <%- end -%>
-      </div>
-    <%- end -%>
+      <%- end -%>
+    </div>
   <%- end -%>
   <br class="clearing" />
 </section>
