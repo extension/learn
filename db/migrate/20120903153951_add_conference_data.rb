@@ -18,6 +18,22 @@ class AddConferenceData < ActiveRecord::Migration
                       :is_virtual => false)
 
 
+    # conference events
+    if(csv_data = Conference.get_csv_data('https://docs.google.com/spreadsheet/pub?key=0AiKHgDf9UwV6dEd4WW5fb2tpc0paV3h5bmJ2TkV2Mmc&single=true&gid=0&output=csv'))
+       results = nexc2012.import_sessions_from_csv_data(csv_data)
+       say "Imported #{results[:created_count]} events"
+       if(results[:error_count] > 0)
+        puts "Unable to import #{results[:error_count]} events, showing titles and errors"
+        results[:error_titles].keys.each do |title|
+          say "  Title: #{title}"
+          say "  Errors: #{results[:error_titles][title]}"
+        end
+      end
+    else
+      say "Unable to download nexc2012 data"
+    end
+  
+
     # evaluation questions
     EvaluationQuestion.reset_column_information
     EvaluationQuestion.create(conference: nexc2012, 
