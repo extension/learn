@@ -8,3 +8,6 @@
 #conference_connector_list li img {width:36px; height:36px; margin:0;}
 
 #twitter_sidebar {background:none; @include rounded10; padding:.5em 2em 0; margin:auto;}
+
+#session_id {float:right;}
+#session_id span {font-size: 24px; line-height: 40px;}

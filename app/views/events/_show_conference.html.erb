@@ -7,6 +7,9 @@
 
       <h2><%= @event.title -%></h2>
 
+      <div id="session_id">
+      <p><span class="badge badge-info">Session #<%= @event.id %></span></p>
+      </div>
       <h3><%= display_room(@event.room) -%></h3>
       <div class="rating_wrapper">
         <% if current_learner %>
@@ -43,7 +46,7 @@
         <h4 class="hide">Tags</h4>
         <p>
           <%-if @event.tags.length != 0 -%>  
-            <%= display_tags(@event.tags) -%>
+            <%= display_conference_tags(@event.tags) -%>
           <%-end -%>
         </p>
       </div>
