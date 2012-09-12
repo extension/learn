@@ -12,9 +12,11 @@ class EventsController < ApplicationController
     @list_title = 'All Sessions'
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
     if(@conference)
+      @conference_display = true
       @events = @conference.events.active.order('session_start ASC').page(params[:page])
+      @all_events_path = events_path
     else
-      @events = Event.nonconference.active.order('session_start DESC').page(params[:page])
+      @events = Event.active.order('session_start DESC').page(params[:page])
     end
   end
   
@@ -36,10 +38,22 @@ class EventsController < ApplicationController
     # proof of concept - needs to be moved to something like Event.tagged_with(taglist)
     @list_title = "Sessions Tagged With '#{params[:tags]}'"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    if(params[:tags])
-      @events = Event.nonconference.active.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
+
+    if(@conference)
+      @conference_display = true
+      if(params[:tags])
+        @events = @conference.events.tagged_with(params[:tags]).order('session_start ASC').page(params[:page])
+        @all_events_path = events_tag_path(:tags => params[:tags])
+      else
+        @events = @conference.events.order('session_start ASC').page(params[:page])
+        @all_events_path = events_path
+      end
     else
-      @events = Event.nonconference.active.order('session_start DESC').page(params[:page])
+      if(params[:tags])
+        @events = Event.active.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
+      else
+        @events = Event.active.order('session_start DESC').page(params[:page])
+      end
     end
     render :action => 'index'
   end

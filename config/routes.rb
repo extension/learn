@@ -64,7 +64,7 @@ Learn::Application.routes.draw do
     end
   end
   # individual tag match
-  match "/events/tag/:tags" => "events#tags", :as => 'event_tag'  
+  match "/events/tag/:tags" => "events#tags", :as => 'events_tag'  
   
   # recommended event tracking
   match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'  
@@ -101,7 +101,11 @@ Learn::Application.routes.draw do
   end
 
   resources :conferences, :only => [:index, :show, :edit, :update] do
-    resources :events
+    resources :events do
+      collection do
+        get 'tags'
+      end
+    end
     resources :data, :controller => 'conferences/data', :only => [:index] do
       collection do
         get 'events'

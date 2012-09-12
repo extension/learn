@@ -24,7 +24,7 @@
       <td><%= event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") %></td>
       <td><%= display_presenters(event.presenters) %></td>
       <td><%= link_to event.title, conference_event_path(event,:conference_id => @conference.hashtag) %></td>
-      <td><%= display_tags(event.tags) %></td>
+      <td><%= display_conference_tags(event.tags) %></td>
       <td><%= (event.has_recording?) ? link_to("link", event.recording) : "n/a" %></td>
       <td><%= event.session_length %></td> 
       <td><%= event.bookmarked.count %></td>

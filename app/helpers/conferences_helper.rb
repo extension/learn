@@ -31,6 +31,15 @@ module ConferencesHelper
     end
   end
 
+  
+  def display_conference_tags(tags)
+    tags.collect{|tag| link_to_conference_tag(tag)}.join(' ').html_safe
+  end
+  
+  def link_to_conference_tag(tag)
+    link_to(tag.name, tags_conference_events_path(:conference_id => @conference.hashtag, :tags => tag.name)).html_safe
+  end
+  
 
 
 end

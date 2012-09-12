@@ -118,9 +118,9 @@ module ApplicationHelper
   end
  
   def link_to_tag(tag)
-    link_to(tag.name, event_tag_path(:tags => tag.name)).html_safe
+    link_to(tag.name, events_tag_path(:tags => tag.name)).html_safe
   end
-  
+
   def flash_notifications
     message = flash[:error] || flash[:notice] || flash[:warning]
     return_string = ''
