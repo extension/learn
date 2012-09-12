@@ -55,7 +55,7 @@ gem 'kaminari'
 gem "rails_config"
 
 # exception notification
-gem "airbrake"
+gem 'airbrake', '3.1.2'
 
 #phusion passenger
 gem 'passenger'
