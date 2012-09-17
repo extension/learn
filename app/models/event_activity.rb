@@ -65,6 +65,7 @@ class EventActivity < ActiveRecord::Base
   
   HISTORY_ITEMS = [ANSWER,RATING,RATING_ON_COMMENT,COMMENT,COMMENT_ON_COMMENT,CONNECT,CONNECT_PRESENTER,CONNECT_BOOKMARK,CONNECT_ATTEND,CONNECT_WATCH]
   
+  scope :views, where(activity: 1)
   
   # don't recommend making this a callback, instead
   # intentionally call it where appropriate (like EventActivity.create_or_update)

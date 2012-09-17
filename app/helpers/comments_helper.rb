@@ -18,4 +18,16 @@ module CommentsHelper
       render('/comments/comment', {:comment => comment, :parent_comment => parent_comment}) + content_tag(:div, nested_comments(sub_comments, parent_comment), :class => "nested_comments")
     end.join.html_safe  
   end
+
+  def comment_class(comment)
+    if(current_learner and @last_viewed_at)
+      if(@last_viewed_at - 5.minutes < comment.updated_at and comment.learner_id != current_learner.id)
+        'comment new'
+      else
+        'comment'
+      end
+    else
+      'comment'
+    end
+  end
 end
