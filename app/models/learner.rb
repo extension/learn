@@ -388,5 +388,14 @@ class Learner < ActiveRecord::Base
     return false
   end
 
+  def last_view_for_event(event)
+    activity = self.event_activities.views.where(event_id: event.id).first
+    if(!activity.blank?)
+      activity.activity_logs.order('created_at DESC').pluck(:created_at).first
+    else
+      nil
+    end
+  end
+
 
 end

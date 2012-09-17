@@ -81,6 +81,10 @@ class EventsController < ApplicationController
     end
 
     @comments = @event.comments
+    if(current_learner)
+      @last_viewed_at = current_learner.last_view_for_event(@event)
+    end
+
     # log view
     EventActivity.log_view(current_learner,@event) if(current_learner)
   end
