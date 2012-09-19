@@ -21,18 +21,18 @@
        * extend or modify this array as required in widget setup.
        */
       calendars : [
-        {value: 1,
-          label:"Add to Google Calendar",
-          enabled : function(addtocal) { return true; },
-          formatlink : function(eventDetails) {
-            return "http://www.google.com/calendar/event?action=TEMPLATE&trp=false" +
-            "&text=" + eventDetails.title +
-            "&dates=" + eventDetails.start +
-            "/" + eventDetails.end +
-            "&location=" + eventDetails.location +
-            "&details=" + eventDetails.details +
-            "&sprop=" + eventDetails.url;
-          } },
+        // {value: 1,
+        //   label:"Add to Google Calendar",
+        //   enabled : function(addtocal) { return true; },
+        //   formatlink : function(eventDetails) {
+        //     return "http://www.google.com/calendar/event?action=TEMPLATE&trp=false" +
+        //     "&text=" + eventDetails.title +
+        //     "&dates=" + eventDetails.start +
+        //     "/" + eventDetails.end +
+        //     "&location=" + eventDetails.location +
+        //     "&details=" + eventDetails.details +
+        //     "&sprop=" + eventDetails.url;
+        //   } },
         // Modified by Aaron Hundley 4/16/12
         /*
         {value: 2, label:"Add to Live Calendar",
