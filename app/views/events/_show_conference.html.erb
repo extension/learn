@@ -90,7 +90,7 @@
 
     
     <h4 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h4>
-    <p class="addtocalendar">
+<!--     <p class="addtocalendar">
       <span id="event_date" class="addtocal">
         Add to calendar
         <span class="summary" style="display:none"><%= "Learn Event: #{@event.title}" %></span>
@@ -100,7 +100,7 @@
         <span class="ics_url" style="display:none"><%= conference_event_url(@event, :conference_id => @event.conference.hashtag, :format => :ics) %></span> 
         <span class="vcs_url" style="display:none"><%= conference_event_url(@event, :conference_id => @event.conference.hashtag, :format => :vcs) %></span>
       </span>
-    </p>
+    </p> -->
     
     <p><%= link_to('Other Sessions at this same time', schedule_conference_path(id: @event.conference.hashtag, datetime: @event.session_start.xmlschema)) %></p>
   
