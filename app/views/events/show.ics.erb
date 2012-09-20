@@ -3,10 +3,10 @@ PRODID:-//learn.extension.org//EN
 VERSION:2.0
 METHOD:PUBLISH
 BEGIN:VEVENT
-DTSTART:<%= convert_to_rfc3339(@event.session_start) %>
-DTEND:<%= convert_to_rfc3339(@event.session_end) %>
+DTSTART:<%= add_to_cal_timestamp(@event.session_start) %>
+DTEND:<%= add_to_cal_timestamp(@event.session_end) %>
 SUMMARY:<%= "Learn Event: #{@event.title}" %>
-DTSTAMP:<%= convert_to_rfc3339(Time.zone.now) %>
+DTSTAMP:<%= add_to_cal_timestamp(Time.zone.now) %>
 DESCRIPTION:<%= event_url(@event) %>
 UID:<%= @event.id %>
 END:VEVENT

@@ -1,11 +1,11 @@
 <div id="two_col_col_one">
     <section id="event">
       <%- if @event.event_type == Event::BROADCAST -%>
-        <p><span class="label label-info">Conference Session</span> This event is <%= link_to('available in-person',conference_event_path(@event, :conference_id => @event.conference.hashtag)) %> 
+        <p><span class="label label-info">Conference Session</span> This event is <%= link_to('available in-person',conference_event_path(@event, :conference_id => @event.conference.hashtag)) %>
           at the <%= link_to(@event.conference.name,conference_path(:id => @event.conference.hashtag)) %></p>
       <%- end -%>
       <h2><%= @event.title -%></h2>
-      
+
       <div class="rating_wrapper">
         <% if current_learner %>
           <% if upvoted_object = current_learner.get_upvoted_object(@event.id, 'Event') %>
@@ -22,30 +22,30 @@
           <%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %>
         </div>
       </div>
-      
+
       <% if @event.in_progress? %>
         <span class="happening_now"><em>Happening now</em></span>
         <br class="clearing"/>
       <% end %>
-    
+
       <div class="description"><%= format_text_for_display(@event.description) -%></div>
 
       <%- if @event.presenters.count > 0 -%>
         <h3>Presenters</h3>
         <p id="presenters"><%= display_presenters(@event.presenters) %></p>
       <%- end -%>
-      
+
       <%-if !@event.concluded? -%>
       <p class="location">
         <h3>Event Location</h3>
         <%= format_text_for_display(@event.location) -%>
       </p>
       <%- end -%>
-      
+
       <div class="tags">
         <h4 class="hide">Tags</h4>
         <p>
-          <%-if @event.tags.length != 0 -%>  
+          <%-if @event.tags.length != 0 -%>
             <%= display_tags(@event.tags) -%>
           <%-else -%>
             There are no tags at this time
@@ -53,7 +53,7 @@
         </p>
       </div>
    </section>
-   
+
 <%- if @event.started? %>
    <section id="questions">
    <%- @event.questions.each do |question| -%>
@@ -69,10 +69,10 @@
     <p class="description">* Sensemaking is the process of giving meaning to experience. Our sensemaking questions are designed to prompt discussion and encourage participation.</p>
   </div>
 <%- end -%>
-   
+
   <section id="event_meta">
     <p>Created by <%= link_to_learner(@event.creator) %></p>
-    
+
     <%- if current_learner -%>
         <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
     <%- end %>
@@ -84,10 +84,10 @@
 
 <div id="two_col_col_two">
   <aside id="event_time" class="radius10">
-      
+
       <%-if @event.concluded? -%>
         <h4>Watch</h4>
-        
+
         <div id="recording_details">
          <%-if @event.has_recording? -%>
            <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong></p>
@@ -111,22 +111,22 @@
               <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
            </span>
         </h3>
-        
+
         <p class="timezone"><%- if current_learner -%>
           <%- if(!current_learner.has_time_zone?) -%>
-           <%= link_to("Set your time zone to display this session in your local time", settings_profile_path()) -%> 
+           <%= link_to("Set your time zone to display this session in your local time", settings_profile_path()) -%>
           <%- end -%>
         <%- end -%></p>
-        
+
         <h4 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h3>
 <!--         <p class="addtocalendar">
           <span id="event_date" class="addtocal">
             Add to calendar
             <span class="summary" style="display:none"><%= "Learn Event: #{@event.title}" %></span>
-            <span class="dtstart" style="display:none"><%= convert_to_rfc3339(@event.session_start) %></span>
-            <span class="dtend" style="display:none"><%= convert_to_rfc3339(@event.session_end) %></span>
-            <span class="description" style="display:none"><%= event_url(@event) %></span> 
-            <span class="ics_url" style="display:none"><%= event_url(@event, :format => :ics) %></span> 
+            <span class="dtstart" style="display:none"><%= add_to_cal_timestamp(@event.session_start) %></span>
+            <span class="dtend" style="display:none"><%= add_to_cal_timestamp(@event.session_end) %></span>
+            <span class="description" style="display:none"><%= event_url(@event) %></span>
+            <span class="ics_url" style="display:none"><%= event_url(@event, :format => :ics) %></span>
             <span class="vcs_url" style="display:none"><%= event_url(@event, :format => :vcs) %></span>
           </span>
         </p> -->
@@ -135,19 +135,19 @@
         </p>
       <%-end -%>
     </aside>
-    
+
     <%- if current_learner -%>
-    
+
       <aside id="eventconnections" class="radius10">
         <%= render :partial => 'connections' %>
       </aside>
-      
+
       <%= render :partial => 'learners' %>
     <%- else -%>
        <aside id="eventconnections" class="radius10 placeholder">
          <%= render(partial: 'sign_in_to_vote')%>
           <%- if @event.started? -%>
-            <p class="sitv_element cursor">Did you attend or watch this event or want to follow it?</p>                                
+            <p class="sitv_element cursor">Did you attend or watch this event or want to follow it?</p>
           <%- else -%>
             <p class="sitv_element cursor"><%= link_to("Follow this event", new_learner_session_path(:redirect_to => request.fullpath)) -%></p>
           <%- end -%>
@@ -156,9 +156,9 @@
        </aside>
      <%- end -%>
 
-     
-     
-    
+
+
+
    <div id="comment-section">
     <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
    </div>

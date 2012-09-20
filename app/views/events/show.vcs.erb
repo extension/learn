@@ -6,8 +6,8 @@ SUMMARY:<%= "Learn Event: #{@event.title}" %>
 PRIORITY:0
 CATEGORIES:SHOW
 CLASS:PUBLIC
-DTSTART:<%= convert_to_rfc3339(@event.session_start) %>
-DTEND:<%= convert_to_rfc3339(@event.session_end) %>
+DTSTART:<%= add_to_cal_timestamp(@event.session_start) %>
+DTEND:<%= add_to_cal_timestamp(@event.session_end) %>
 URL:<%= event_url(@event) %>
 DESCRIPTION;ENCODING=QUOTED-PRINTABLE:eXtension Professional Development Event
 LOCATION;ENCODING=QUOTED-PRINTABLE:<%= event_url(@event) %>
