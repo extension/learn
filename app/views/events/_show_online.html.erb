@@ -119,7 +119,7 @@
         <%- end -%></p>
 
         <h4 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h3>
-<!--         <p class="addtocalendar">
+        <p class="addtocalendar">
           <span id="event_date" class="addtocal">
             Add to calendar
             <span class="summary" style="display:none"><%= "Learn Event: #{@event.title}" %></span>
@@ -129,7 +129,7 @@
             <span class="ics_url" style="display:none"><%= event_url(@event, :format => :ics) %></span>
             <span class="vcs_url" style="display:none"><%= event_url(@event, :format => :vcs) %></span>
           </span>
-        </p> -->
+        </p>
         <p class="location">
           Event Location: <%= format_text_for_display(@event.location) -%>
         </p>
