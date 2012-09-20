@@ -10,29 +10,29 @@
 
  // Modified by Aaron Hundley 4/16/12
 (function($) {
-  
+
   $.widget("tardate.AddToCal",
   {
     options: {
-      
+
       /*
        * calendars is a collection of all the supported calendars and the method for formating
        * the calendar link in each case. If you want to use a calendar system not supported here, you can
        * extend or modify this array as required in widget setup.
        */
       calendars : [
-        // {value: 1,
-        //   label:"Add to Google Calendar",
-        //   enabled : function(addtocal) { return true; },
-        //   formatlink : function(eventDetails) {
-        //     return "http://www.google.com/calendar/event?action=TEMPLATE&trp=false" +
-        //     "&text=" + eventDetails.title +
-        //     "&dates=" + eventDetails.start +
-        //     "/" + eventDetails.end +
-        //     "&location=" + eventDetails.location +
-        //     "&details=" + eventDetails.details +
-        //     "&sprop=" + eventDetails.url;
-        //   } },
+        {value: 1,
+          label:"Add to Google Calendar",
+          enabled : function(addtocal) { return true; },
+          formatlink : function(eventDetails) {
+            return "http://www.google.com/calendar/event?action=TEMPLATE&trp=false" +
+            "&text=" + eventDetails.title +
+            "&dates=" + eventDetails.start +
+            "/" + eventDetails.end +
+            "&location=" + eventDetails.location +
+            "&details=" + eventDetails.details +
+            "&sprop=" + eventDetails.url;
+          } },
         // Modified by Aaron Hundley 4/16/12
         /*
         {value: 2, label:"Add to Live Calendar",
@@ -44,7 +44,7 @@
             "&summary=" + eventDetails.title +
             "&location=" + eventDetails.location;
           } },
-        
+
         {value: 3, label:"Add to Yahoo! Calendar",
           enabled : function(addtocal) { return true; },
           formatlink : function(eventDetails) {
@@ -58,7 +58,7 @@
             "&DESC=" + eventDetails.details +
             "&URL=" + eventDetails.url;
           } },
-      
+
         {value: 4, label:"Add to 30boxes",
           enabled : function(addtocal) { return addtocal.options.icalEnabled; },
           formatlink : function(eventDetails) {
@@ -77,12 +77,12 @@
             return ( eventDetails.vcalurl ? eventDetails.vcalurl : null );
           } }
       ],
-      
+
       /* icalEnabled: set if iCal links are to be supported (requires you to provide an iCal format resource) */
       icalEnabled: true,
       /* vcalEnabled: set if vCalendar links are to be supported (requires you to provide an vCalendar format resource) */
       vcalEnabled: true,
-        
+
       /* getEventDetails is the most critical function to provide.
        * It is called when a user selects a calendar to add an event to.
        * The element parameter is the jQuery object for the event invoked.
@@ -100,8 +100,8 @@
           title: null, details: null,
           location: null, url: null};
       },
-        
-        
+
+
       /*
        * sanitizeEventDetails cleans up and normalises the event details provided by getEventDetails
        */
@@ -116,7 +116,7 @@
         eventDetails.url = ( eventDetails.url ? encodeURIComponent( eventDetails.url ) : '' );
         return eventDetails;
       },
-      
+
       /* records the currently selected calendar service */
       selectedCalendarTarget: null,
       /* positioning of the addtocal widget */
@@ -126,7 +126,7 @@
         at: "left bottom",
         collision: "none"
       },
-      
+
       /* main method called on selection of calendar service */
       select: function(event, ui) {
         var eventDetails = ui.sanitizeEventDetails( ui.getEventDetails($(this)) );
@@ -137,9 +137,9 @@
         if(link) window.open(link);
       }
     },
-      
+
     source:[],
-      
+
     _create: function() {
       var self = this,
       	doc = this.element[ 0 ].ownerDocument;
@@ -159,7 +159,7 @@
       		selected: function( event, ui ) {
       			var item = ui.item.data( "item.addtocal" ),
       				previous = self.previous;
-      
+
       			// only trigger when focus was lost (click on menu)
       			if ( self.element[0] !== doc.activeElement ) {
       				self.element.focus();
@@ -167,7 +167,7 @@
       			}
             self.options.selectedCalendarTarget = item.value;
       			self._trigger( "select", event, self.options );
-      
+
       			self.close( event );
       			self.selectedItem = item;
       		}
@@ -176,30 +176,30 @@
       	.css({ top: 0, left: 0 })
       	.hide()
       	.data( "menu" );
-      
+
       if ( $.fn.bgiframe ) {
       	 this.menu.element.bgiframe();
       }
-      
+
       //Close the popup if click elsewhere in the window
       $(document).bind("click", function(event, ui) { self.close( event ); });
-       
+
     },
-  
+
     destroy: function() {
       this.element
       	.removeClass( "ui-addtocal" );
       this.menu.element.remove();
       $.Widget.prototype.destroy.call( this );
     },
-  
+
     _setOption: function( key, value ) {
       $.Widget.prototype._setOption.apply( this, arguments );
       if ( key === "appendTo" ) {
       	this.menu.element.appendTo( $( value || "body", this.element[0].ownerDocument )[0] )
       }
     },
-  
+
     _initSource: function() {
       var self = this;
       self.source=[];
@@ -207,7 +207,7 @@
         if(value.enabled(self)) self.source.push( {value: value.value, label: value.label } );
       });
     },
- 
+
     toggleMenu: function( event ) {
       var content = this.source;
       if ( content.length && ! ( this.menu.element.is(":visible") ) ) {
@@ -219,7 +219,7 @@
       	this.close();
       }
     },
-          
+
     close: function( event ) {
       clearTimeout( this.closing );
       if ( this.menu.element.is(":visible") ) {
@@ -228,7 +228,7 @@
       	this.menu.deactivate();
       }
     },
-        
+
     _normalize: function( items ) {
       // assume all items have the right format when the first item is complete
       if ( items.length && items[0].label && items[0].value ) {
@@ -247,7 +247,7 @@
       	}, item );
       });
     },
-    
+
     _suggest: function( items ) {
       var ul = this.menu.element
       		.empty()
@@ -261,30 +261,30 @@
       this.menu.element.show().position( $.extend({
       	of: this.element
       }, this.options.position ));
-      
+
       menuWidth = ul.width( "" ).outerWidth();
       textWidth = this.element.outerWidth();
       ul.outerWidth( Math.max( menuWidth, textWidth ) );
     },
-    
+
     _renderMenu: function( ul, items ) {
       var self = this;
       $.each( items, function( index, item ) {
       	self._renderItem( ul, item );
       });
     },
-    
+
     _renderItem: function( ul, item) {
       return $( "<li></li>" )
       	.data( "item.addtocal", item )
       	.append( $( "<a></a>" ).text( item.label ) )
       	.appendTo( ul );
     },
-    
+
     widget: function() {
       return this.menu.element;
     }
-    
+
   });
 
 }(jQuery));
