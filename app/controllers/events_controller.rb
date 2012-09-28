@@ -192,7 +192,16 @@ class EventsController < ApplicationController
       flash[:error] = "Empty/invalid search terms"
       return redirect_to root_url
     end
-    
+
+    # special "id of event check"
+    if(params[:q].to_i > 0)
+      id_number = params[:q].to_i
+      if(event = Event.find_by_id(id_number))
+        return redirect_to(event_path(event))
+      end
+    end
+
+       
     @list_title = "Session Search Results for '#{params[:q]}'"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
     events = Event.search do
