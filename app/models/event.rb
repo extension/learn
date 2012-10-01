@@ -6,7 +6,7 @@
 
 class Event < ActiveRecord::Base
   include MarkupScrubber
-  
+
   attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
@@ -24,7 +24,7 @@ class Event < ActiveRecord::Base
   ONLINE = 'online'
   CONFERENCE = 'conference'
   BROADCAST = 'broadcast'
-  
+
   # relationships
   has_many :taggings, :as => :taggable, dependent: :destroy
   has_many :tags, :through => :taggings
@@ -52,25 +52,25 @@ class Event < ActiveRecord::Base
   validates :session_start, :presence => true
   validates :session_length, :presence => true
   validates :location, :presence => true
-  
+
   validates :recording, :allow_blank => true, :uri => true
-  
+
   before_validation :set_session_start
   before_validation :set_location_if_conference
-  
+
   before_update :schedule_recording_notification
   before_update :update_event_notifications
-  
+
   before_save :set_session_end
   before_save :set_presenters_from_tokens
   before_save :set_tags_from_tag_list
-  
+
   after_create :create_event_notifications
-  
+
   DEFAULT_TIMEZONE = 'America/New_York'
   # page default for paginate
   paginates_per 15
-  
+
   # sunspot/solr search
   searchable do
     time :session_start
@@ -80,14 +80,14 @@ class Event < ActiveRecord::Base
     boolean :is_canceled
     boolean :is_expired
   end
-  
+
   scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
-  
+
   scope :active, conditions: {is_canceled: false}
   scope :not_expired, conditions: {is_expired: false}
-  
+
   scope :this_week, lambda {
     weekday = Time.now.utc.strftime('%u').to_i
     # if saturday or sunday - do next week, else this week
@@ -97,7 +97,7 @@ class Event < ActiveRecord::Base
       where('session_start > ?',Time.zone.now.beginning_of_week).where('session_start <= ?', Time.zone.now.end_of_week)
     end
   }
-  
+
   scope :last_week, lambda {
     weekday = Time.now.utc.strftime('%u').to_i
     # if saturday or sunday - do this week, else last week
@@ -107,8 +107,8 @@ class Event < ActiveRecord::Base
       where('session_start > ?',(Time.zone.now - 7.days).beginning_of_week).where('session_start <= ?', (Time.zone.now - 7.days).end_of_week)
     end
   }
-  
-  
+
+
   scope :recommendation_epoch, lambda {
     weekday = Time.now.utc.strftime('%u').to_i
     # if saturday or sunday - this+next, else last+this
@@ -118,21 +118,22 @@ class Event < ActiveRecord::Base
       where('session_start > ?',(Time.zone.now - 7.days).beginning_of_week).where('session_start <= ?', Time.zone.now.end_of_week)
     end
   }
-  
+
   scope :projected_epoch, lambda {
     # this+next
     where('session_start > ?',Time.zone.now.beginning_of_week).where('session_start <= ?', (Time.zone.now + 7.days).end_of_week)
   }
-  
+
   scope :upcoming, lambda { |limit=3, offset=0| where('(session_start >= ?) OR (session_start <= ? AND session_end > ?)',Time.zone.now, Time.zone.now, Time.zone.now).order("session_start ASC").limit(limit).offset(offset) }
   scope :recent,   lambda { |limit=3| where('session_start < ?',Time.zone.now).order("session_start DESC").limit(limit) }
   # in_progress is not being used right now, but wanted to add it as a convenience if we ever need just in progress events
   scope :in_progress, lambda { |limit=3| where('session_start <= ? AND session_end > ?', Time.zone.now, Time.zone.now).order("session_start ASC").limit(limit) }
-  
+
   scope :date_filtered, lambda { |start_date,end_date| where('DATE(session_start) >= ? AND DATE(session_start) <= ?', start_date, end_date) }
-  
+
   scope :nonconference, where('event_type != ?',CONFERENCE)
-  
+  scope :broadcast, where('event_type = ?',BROADCAST)
+
   scope :by_date, lambda {|date| where('DATE(session_start) = ?',date)}
 
 
@@ -150,7 +151,7 @@ class Event < ActiveRecord::Base
   def is_broadcast=(broadcast_boolean)
     if(broadcast_boolean.to_i == 1)
       self.event_type = Event::BROADCAST
-    else 
+    else
       self.event_type = Event::CONFERENCE
     end
   end
@@ -161,7 +162,7 @@ class Event < ActiveRecord::Base
     end
     @presenter_tokens
   end
-  
+
   def presenter_tokens=(provided_presenter_tokens)
     compare_token_array = []
     if(provided_presenter_tokens.blank?)
@@ -174,13 +175,13 @@ class Event < ActiveRecord::Base
       end
       previous_presenter_tokens = self.presenter_tokens
       presenter_token_array = previous_presenter_tokens.split(',')
-      @presenter_tokens = provided_presenter_tokens    
+      @presenter_tokens = provided_presenter_tokens
       if(!((compare_token_array | presenter_token_array) - (compare_token_array & presenter_token_array)).empty?)
         @changed_attributes['presenter_tokens'] = previous_presenter_tokens
       end
-    end     
+    end
   end
-    
+
   def presenter_tokens_tokeninput
     if(!self.presenter_tokens.blank?)
       presenter_list = Learner.where("id IN (#{self.presenter_tokens})").all
@@ -189,15 +190,15 @@ class Event < ActiveRecord::Base
       {}
     end
   end
-  
+
   def description=(description)
     write_attribute(:description, self.scrub_and_sanitize(description))
   end
-  
+
   def location=(location)
     write_attribute(:location, self.scrub_and_sanitize(location))
   end
-    
+
   def set_presenters_from_tokens
     if(!@presenter_tokens.blank?)
       self.presenter_ids = @presenter_tokens.split(',')
@@ -205,14 +206,14 @@ class Event < ActiveRecord::Base
       self.presenter_ids = nil
     end
   end
-    
+
   def tag_list
     if(@tag_list.blank?)
       @tag_list = self.tags.map(&:name).join(Tag::JOINER)
     end
     @tag_list
   end
-  
+
   def tag_list=(provided_tag_list)
     # just compare raw strings
     compare_tag_array = []
@@ -226,7 +227,7 @@ class Event < ActiveRecord::Base
       @changed_attributes['tag_list'] = previous_tag_list
     end
   end
-  
+
   def set_tags_from_tag_list
     tags_to_set = []
     self.tag_list.split(Tag::SPLITTER).each do |tag_name|
@@ -244,7 +245,7 @@ class Event < ActiveRecord::Base
     end
     @session_start_string
   end
-  
+
   def set_session_start
     begin
       cur_tz = Time.zone
@@ -256,7 +257,7 @@ class Event < ActiveRecord::Base
       self.errors.add('session_start_string', 'Time specified is invalid.')
     end
   end
-  
+
   # this is mostly for the mailer situation where
   # we aren't setting Time.zone for the web request
   def session_start_for_learner(learner)
@@ -266,7 +267,7 @@ class Event < ActiveRecord::Base
       self.session_start.in_time_zone(self.time_zone)
     end
   end
-  
+
   # override timezone writer/reader
   # returns Eastern by default, use convert=false
   # when you need a timezone string that mysql can handle
@@ -296,7 +297,7 @@ class Event < ActiveRecord::Base
       write_attribute(:time_zone, nil)
     end
   end
-  
+
   def recording=(recording_url)
     if(recording_url.blank?)
       if(!self.recording.nil?)
@@ -306,7 +307,7 @@ class Event < ActiveRecord::Base
       write_attribute(:recording,recording_url)
     end
   end
-  
+
   # return a list of similar articles using sunspot
   def similar_events(count = 4)
     search_results = self.more_like_this do
@@ -323,7 +324,7 @@ class Event < ActiveRecord::Base
     end
     return_results
   end
-    
+
   def concluded?
     if(!self.session_end.blank?)
       return (Time.now.utc > self.session_end)
@@ -331,7 +332,7 @@ class Event < ActiveRecord::Base
       return false
     end
   end
-  
+
   def started?(offset = 15.minutes)
     if(!self.session_start.blank?)
       return (Time.now.utc > self.session_start - offset)
@@ -339,49 +340,49 @@ class Event < ActiveRecord::Base
       return false
     end
   end
-  
+
   def in_progress?
     return (self.session_start <= Time.zone.now) && (self.session_end > Time.zone.now)
   end
-  
+
   def has_recording?
     !recording.blank?
   end
-  
+
   # calculate end of session time by adding session_length times 60 (session_length is in minutes) to session_start
   def set_session_end
     self.session_end = self.session_start + (self.session_length * 60)
   end
-  
+
   # gets a random list of stock questions and creates associated questions from them
   #
   # @param [Hash] options options for the stock question creation
   # @option options [Integer] :creator - the Learner ID to attach as the creator
   # @option options [Integer] :max_count - the max count of random questions to retrieve and copy
   #
-  # @return [Array] array of questions created 
+  # @return [Array] array of questions created
   def add_stock_questions(options = {})
     max_count = options[:max_count] || StockQuestion::DEFAULT_RANDOM_COUNT
-    
+
     stock_question_list = StockQuestion.random_questions(max_count)
     stock_question_list.each do |sq|
       self.questions << Question.create_from_stock_question(sq)
     end
     self.questions
   end
-    
+
   def attendees
     learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::ATTEND)
   end
-  
+
   def watched
     learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::WATCH)
   end
-  
+
   def bookmarked
     learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::BOOKMARK)
   end
-  
+
   # when an event is created, up to 6 notifications need to be created.
   # 1 notification via email (180 minutes before)
   # conference sessions will go out 1 hour before
@@ -390,7 +391,7 @@ class Event < ActiveRecord::Base
   # 1 Potential Email if the event is scheduled for iowa state's connect system
   def create_event_notifications
     if(self.is_conference_session?)
-      Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 1.hours, offset: 1.hours)      
+      Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 1.hours, offset: 1.hours)
     else
       Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 3.hours, offset: 3.hours)
     end
@@ -400,7 +401,7 @@ class Event < ActiveRecord::Base
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 15.minutes, offset: 15.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::INFORM_IASTATE, delivery_time: 1.minute.from_now) unless !self.is_connect_session?
   end
-  
+
   # when an event is updated, the notifications need to be rescheduled if the event session_start changes
   def update_event_notifications
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_EDIT, delivery_time: 1.minute.from_now) unless self.last_modifier == self.creator
@@ -421,8 +422,8 @@ class Event < ActiveRecord::Base
       end
     end
   end
-  
-  
+
+
   def content_for_atom_entry
     content = self.description + "\n\n"
     content << "Location: " + self.location + "\n\n" if !self.location.blank?
@@ -431,14 +432,14 @@ class Event < ActiveRecord::Base
     content << "Recording: " + self.recording if !self.recording.blank?
     content
   end
-  
+
   def self.tagged_with(taglist)
     # split and collect - Tag.normalizename *should* take care of any nasty chars we don't want sent to the db
     normalizedlist = taglist.split(Tag::SPLITTER).collect{|tagname| Tag.normalizename(tagname)}
     Event.includes([:tags]).where("tags.name IN (#{normalizedlist.map{|tagname| "'#{tagname}'"}.join(',')})")
   end
-  
-  
+
+
   def potential_learners(options = {})
     learners = self.learners.all
     presenters = self.presenters.all
@@ -457,12 +458,12 @@ class Event < ActiveRecord::Base
         if(limit_to_learners)
           next if !limit_to_learners.include?(learner)
         end
-        
+
         if(remove_connectors)
           next if learners.include?(learner)
           next if presenters.include?(learner)
         end
-        
+
         if(learner_list[learner])
           learner_list[learner] += (score * mlt_score)
         else
@@ -470,24 +471,24 @@ class Event < ActiveRecord::Base
         end
       end
     end
-    
+
     learner_list.each do |learner,score|
       learner_list[learner] = learner_list[learner] / max_mlt_score
     end
-      
+
     if(min_score)
       learner_list.delete_if{|learner,score| score < min_score}
     end
-    
+
     learner_list
   end
-  
+
   def self.potential_learners(options = {})
-    with_scope do 
+    with_scope do
       event_list = {}
       self.active.not_expired.all.each do |event|
         learners = {}
-        with_exclusive_scope do 
+        with_exclusive_scope do
           learners =  event.potential_learners(options)
         end
         event_list[event] = learners
@@ -495,13 +496,13 @@ class Event < ActiveRecord::Base
       event_list
     end
   end
-  
+
   def schedule_recording_notification
     if self.recording_changed? and !self.recording.blank?
       Notification.create(notifiable: self, notificationtype: Notification::RECORDING, delivery_time: 1.minute.from_now)
     end
   end
-  
+
   def is_connect_session?
     self.location.match(Settings.iastate_connect_url).nil? ? false : true
   end
@@ -513,7 +514,7 @@ class Event < ActiveRecord::Base
   def is_conference_session?
     self.event_type != ONLINE
   end
-  
+
   def evaluation_questions
     if(self.is_conference_session?)
       self.conference.evaluation_questions.order('questionorder')
