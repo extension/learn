@@ -6,12 +6,12 @@
 
 Learn::Application.routes.draw do
   devise_for :learners, :path => '/', :controllers => { :sessions => "learners/sessions", :registrations => "learners/registrations" }
-  devise_for :authmaps, :controllers => { :omniauth_callbacks => "authmaps/omniauth_callbacks" } do 
+  devise_for :authmaps, :controllers => { :omniauth_callbacks => "authmaps/omniauth_callbacks" } do
     get '/authmaps/auth/:provider' => 'authmaps/omniauth_callbacks#passthru'
   end
-  
+
   resources :comments, :only => [:create, :update, :destroy, :show]
-  resources :ratings, :only => [:create, :destroy]  
+  resources :ratings, :only => [:create, :destroy]
   resources :learners do
     member do
       get 'portfolio'
@@ -29,18 +29,18 @@ Learn::Application.routes.draw do
       get 'token_search'
     end
   end
-  
+
   match "learning_history" => "learners#learning_history", :via => :get
   match "commented_history" => "learners#commented_history", :via => :get
-  
+
   match "settings/profile" => "settings#profile", :via => [:get, :put]
   match "settings/notifications" => "settings#notifications", :via => [:get, :post]
   match "settings/learning_profile" => "settings#learning_profile", :via => [:get, :post, :put]
   match "settings/privacy" => "settings#privacy", :via => [:get, :post]
-  
+
   match "contact_us" => "home#contact_us", :via => :get
   match "retired" => "home#retired", :via => :get
-  
+
   resources :events do
     member do
       post 'addanswer'
@@ -52,7 +52,7 @@ Learn::Application.routes.draw do
       get 'evaluation'
       get 'evaluationresults'
     end
-    
+
     collection do
       get 'learner_token_search'
       get 'upcoming'
@@ -60,20 +60,21 @@ Learn::Application.routes.draw do
       get 'recent'
       get 'search'
       get 'canceled'
-      post 'restore' 
+      get 'broadcast'
+      post 'restore'
     end
   end
   # individual tag match
-  match "/events/tag/:tags" => "events#tags", :as => 'events_tag'  
-  
+  match "/events/tag/:tags" => "events#tags", :as => 'events_tag'
+
   # recommended event tracking
-  match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'  
-  
+  match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'
+
   namespace :feeds do
     resources :events, :only => [:index, :show], :defaults => { :format => 'xml' }
   end
 
-  # webmail routes 
+  # webmail routes
   scope "webmail" do
     match "/:mailer_cache_id/logo" => "webmail#logo", :as => 'webmail_logo'
     match "/recommendation/:hashvalue" => "webmail#recommendation", :as => 'webmail_recommendation'
@@ -86,17 +87,17 @@ Learn::Application.routes.draw do
       match "/:action"
     end
   end
-  
+
   # data routes
   scope "data" do
     match "/" => "data#overview", :as => 'data_overview'
     match "/recommendations" => "data#recommendations", :as => 'data_recommendations'
     match "/activity" => "data#activity", :as => 'data_activity'
     match "/events" => "data#events", :as => 'data_events'
-    match "/presenters" => "data#presenters", :as => 'data_presenters'  
-    match "/recommended_event/:event_id" => "data#recommended_event", :as => 'data_recommended_event'  
-    match "/projected_recommendations" => "data#projected_recommendations", :as => 'data_projected_recommendations'  
-    match "/recent_recommendations" => "data#recent_recommendations", :as => 'data_recent_recommendations'  
+    match "/presenters" => "data#presenters", :as => 'data_presenters'
+    match "/recommended_event/:event_id" => "data#recommended_event", :as => 'data_recommended_event'
+    match "/projected_recommendations" => "data#projected_recommendations", :as => 'data_projected_recommendations'
+    match "/recent_recommendations" => "data#recent_recommendations", :as => 'data_recent_recommendations'
     match "/blocked_activity" => "data#blocked_activity", :as => 'data_blocked_activity'
   end
 
@@ -104,6 +105,7 @@ Learn::Application.routes.draw do
     resources :events do
       collection do
         get 'tags'
+        get 'broadcast'
       end
     end
     resources :data, :controller => 'conferences/data', :only => [:index] do
@@ -120,8 +122,8 @@ Learn::Application.routes.draw do
       get 'learner'
     end
   end
-  
-      
+
+
   root :to => 'home#index'
 
 end

@@ -58,6 +58,20 @@ class EventsController < ApplicationController
     render :action => 'index'
   end
 
+  def broadcast
+    @list_title = "Broadcast Sessions"
+    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
+
+    if(@conference)
+      @conference_display = true
+      @events = @conference.events.broadcast.order('session_start ASC').page(params[:page])
+      @all_events_path = broadcast_events_path
+    else
+      @events = Event.active.broadcast.order('session_start DESC').page(params[:page])
+    end
+    render :action => 'index'
+  end
+
   def show
     @event = Event.find(params[:id])
     return if check_for_event_redirect

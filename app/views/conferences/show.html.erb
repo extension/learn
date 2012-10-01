@@ -7,15 +7,19 @@
       <%- if !@conference.tagline.blank? -%>
       <p><em><%= @conference.tagline %></em></p>
       <%- end -%>
-      
+
       <%- if @conference.in_progress? -%>
         <span class="happening_now"><em>Happening Today!</em></span>
         <br class="clearing"/>
       <%- end -%>
-    
+
       <div class="description"><%= format_text_for_display(@conference.description) -%></div>
 
-      
+<!-- hack! broadcast sessions link -->
+      <%- if !@conference.is_virtual and @conference.events.broadcast.count > 0 -%>
+      <p>Several sessions at this conference are <%= link_to('available online',broadcast_conference_events_path(:conference_id => @conference.hashtag)) %>.</p>
+      <%- end -%>
+
       <%- if !@conference.website.blank? -%>
       <p class="location">
         <h3><%= format_text_for_display(@conference.website) -%></h3>
@@ -26,7 +30,7 @@
    <section id="presenters">
     <%= render(:partial => 'presenters', locals: {:conference => @conference}) %>
    </section>
-   
+
    <section id="attendees">
     <%= render(:partial => 'attendees', locals: {:conference => @conference}) %>
    </section>
@@ -51,7 +55,7 @@
 
 
 <div id="two_col_col_two">
-  
+
   <aside id="conference_schedule" class="radius10">
     <h4>Schedule by day</h4>
     <table class='table'>
@@ -61,7 +65,7 @@
     <tr>
     <td><i class="icon-calendar"></i><strong><%= link_to("#{date.strftime('%A, %B %e')}", schedule_conference_path(id: @conference.hashtag, date: date.to_s)) %></strong></td>
     <td><%= "#{event_date_counts[date]} Events" %></td>
-    </tr> 
+    </tr>
     <%- end -%>
     </tbody>
     </table>
@@ -82,15 +86,15 @@
 
 
 <script class="code" type="text/javascript">
-  $('.submittable').live('change', 
+  $('.submittable').live('change',
   function() {
     $(this).parents('form:first').submit();
-  });  
+  });
 
   $(document).ready(function() {
     // sitv = sign in to vote
     $('.nojs_display').hide();
-    
+
     $('.sitv_element_wrapper').each(function(index) {
         var $sitv_element = $(this).find('.sitv_element')
         var $h = $sitv_element.outerHeight();
@@ -98,18 +102,18 @@
         $(this)
           .find('.sitv_targetarea').height($h).width($w);
     });
-    
+
     $('.sitv_targetarea').bind('click', function () {
         $(this)
           .siblings('.sitv_content')
           .fadeIn('fast');
     });
-    
+
     $('.sitv_content')
       .mouseleave(function() {
         $(this)
           .fadeOut('fast');
-    });      
+    });
   });
 
 </script>
