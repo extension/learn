@@ -24,8 +24,10 @@
           <%- if open_responses.size > 0 -%>
             <h5>"<%= evalquestion.secondary_prompt %>"</h5>
             <%- open_responses.each do |open_response| -%>
-              <hr/>
-              <p><%= format_text_for_display(open_response) %></p>
+              <%- if !open_response.blank? -%>
+                <hr/>
+                <p><%= format_text_for_display(open_response) %></p>
+              <%- end -%>
             <%- end -%>
           <%- end -%>
         <%- end -%>
