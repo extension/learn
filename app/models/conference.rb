@@ -75,7 +75,7 @@ class Conference < ActiveRecord::Base
   end
 
   def rooms
-    self.events.pluck(:room).uniq.sort
+    self.events.pluck(:room).uniq.compact.sort
   end
 
   def default_time

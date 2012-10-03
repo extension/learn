@@ -5,7 +5,7 @@
       <%= nav_li(time,index) %><a href="#timeindex_<%= index %>"><%= time.strftime("%l:%M %p") %></a></li>
     <%- end -%>
   </ul>
-   
+
 
 
   <div class="tab-content">
@@ -17,6 +17,9 @@
               <div class="accordion-heading">
                 <h4>
                   <span class="label label-info"><%= display_room(event.room) %></span>
+                  <%- if event.is_canceled? -%>
+                  <span class="label label-warning">Session Canceled</span>
+                  <%- end -%>
                   <a class="accordion-toggle" data-toggle="collapse" data-parent="#timeindex_<%= index %>_events" href="#collapse_<%= event.id %>">
                   <%- if current_learner and current_learner.is_following_event?(event) -%>
                     <span class="label label-important"><i class="icon-bookmark icon-white"></i></span>
@@ -24,14 +27,14 @@
                   <%= event.title %>
                   </a>
                 </h4>
-                
+
               </div>
 
               <div id="collapse_<%= event.id %>" class="accordion-body collapse">
                 <div class="accordion-inner">
                   <p class="details">Session #<%=event.id %>,  Presented by <%= display_presenters(event.presenters) %></p>
                   <p class="details">
-                    <%= link_to("more information... (follow, comment, evaluate, and more)", conference_event_path(event, :conference_id => @conference.hashtag)) %> 
+                    <%= link_to("more information... (follow, comment, evaluate, and more)", conference_event_path(event, :conference_id => @conference.hashtag)) %>
                   </p>
                   <p class="description">
                     <%= format_text_for_display(event.description) %>
