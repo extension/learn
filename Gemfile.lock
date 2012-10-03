@@ -280,7 +280,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  airbrake (= 3.1.2)
+  airbrake
   ancestry
   anjlab-bootstrap-rails (>= 2.0)
   capatross
