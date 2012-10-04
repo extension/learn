@@ -3,7 +3,7 @@
   
 
     <ul id="conference_connector_list">
-      <%- conference.presenters.each do |presenter| %>
+      <%- conference.presenters.uniq.shuffle.each do |presenter| %>
         <li><%= link_to_learner_avatar(presenter, {image_size: :thumb}) -%></li>
       <%- end -%>
     </ul>
