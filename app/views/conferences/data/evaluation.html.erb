@@ -18,13 +18,14 @@
         </ul>
         <br class="clearing" />
         <%- if evalquestion.responsetype == EvaluationQuestion::COMPOUND_MULTIPLE_OPEN -%>
-          <%- open_responses = evalquestion.open_responses -%>
-          <%- if open_responses.size > 0 -%>
+          <%- eval_answers = evalquestion.open_response_answers -%>
+          <%- if eval_answers.size > 0 -%>
             <h5>"<%= evalquestion.secondary_prompt %>"</h5>
-            <%- open_responses.each do |open_response| -%>
-              <%- if !open_response.blank? -%>
+            <%- eval_answers.each do |ea| -%>
+              <%- if !ea.secondary_response.blank? -%>
                 <hr/>
-                <p><%= format_text_for_display(open_response) %></p>
+                <p><%= link_to ea.event.title, evaluationresults_event_path(ea.event) %></p>
+                <p><%= format_text_for_display(ea.secondary_response) %></p>
               <%- end -%>
             <%- end -%>
           <%- end -%>
