@@ -15,11 +15,6 @@
 
       <div class="description"><%= format_text_for_display(@conference.description) -%></div>
 
-<!-- hack! broadcast sessions link -->
-      <%- if !@conference.is_virtual and @conference.events.broadcast.count > 0 -%>
-      <p>Several sessions at this conference are <%= link_to('available online',broadcast_conference_events_path(:conference_id => @conference.hashtag)) %>.</p>
-      <%- end -%>
-
       <%- if !@conference.website.blank? -%>
       <p class="location">
         <h3><%= format_text_for_display(@conference.website) -%></h3>
