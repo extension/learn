@@ -15,11 +15,11 @@ class EvaluationQuestion < ActiveRecord::Base
   # validates :responsetype, :presence => true
   # validates :responses, :presence => true
   # validates :learner, :presence => true
-  
+
   # types, strings in case we ever want to inherit from this model
   MULTIPLE_CHOICE = 'multiple_choice'
   COMPOUND_MULTIPLE_OPEN = 'compound_multiple_open'
-  
+
 
   def answer_for_learner_and_event(learner,event)
     self.evaluation_answers.where(learner_id: learner.id).where(event_id: event.id).first
@@ -38,7 +38,7 @@ class EvaluationQuestion < ActiveRecord::Base
   def answer_counts
     self.evaluation_answers.group(:response).count
   end
-  
+
   def answer_total
     self.evaluation_answers.count
   end
@@ -75,11 +75,11 @@ class EvaluationQuestion < ActiveRecord::Base
     end
   end
 
-  def open_responses
+  def open_response_answers
     if(self.responsetype != COMPOUND_MULTIPLE_OPEN)
       []
     else
-      self.evaluation_answers.where("secondary_response IS NOT NULL").pluck(:secondary_response)
+      self.evaluation_answers.where("secondary_response IS NOT NULL")
     end
   end
 
@@ -87,7 +87,7 @@ class EvaluationQuestion < ActiveRecord::Base
     learner = options[:learner]
     event = options[:event]
     params = options[:params]
-    
+
     case self.responsetype
     when MULTIPLE_CHOICE
       if(answer = self.answer_for_learner_and_event(learner,event))
@@ -112,5 +112,5 @@ class EvaluationQuestion < ActiveRecord::Base
       # nothing
     end
   end
-    
+
 end
