@@ -35,7 +35,7 @@ after "deploy:update_code", "deploy:bundle_install"
 after "deploy:update_code", "deploy:update_maint_msg"
 after "deploy:update_code", "deploy:link_configs"
 after "deploy:update_code", "deploy:cleanup"
-after "deploy:update_code", "deploy:assets"
+# after "deploy:update_code", "deploy:assets"
 after "deploy:update_code", "deploy:migrate"
 
 # don't forget to turn it back on
