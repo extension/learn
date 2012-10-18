@@ -23,7 +23,7 @@ set :repository, "git@github.com:extension/#{application}.git"
 set :use_sudo, false
 set :scm, :git
 set :migrate_target, :latest
-set :rails_env, "production" #added for delayed job  
+set :rails_env, "production" #added for delayed job
 
 # Disable our app before running the deploy
 before "deploy", "deploy:web:disable"
@@ -43,28 +43,28 @@ after "deploy", "deploy:web:enable"
 after "deploy:web:enable", "delayed_job:start"
 
  namespace :deploy do
-   
+
    # Override default restart task
      desc "Restart #{application} mod_rails"
      task :restart, :roles => :app do
        run "touch #{current_path}/tmp/restart.txt"
      end
-   
+
    desc "runs bundle update"
      task :bundle_install do
        run "cd #{release_path} && bundle install"
      end
-     
+
      desc "Update maintenance mode page/graphics (valid after an update code invocation)"
      task :update_maint_msg, :roles => :app do
         run "cp -f #{release_path}/public/maintenancemessage.html #{shared_path}/system/maintenancemessage.html"
      end
 
-     desc "clean out the assets and recompile"
-     task :assets, :role => :app do
-       run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
-     end
-     
+     # desc "clean out the assets and recompile"
+     # task :assets, :role => :app do
+     #   run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
+     # end
+
      desc "Link up various configs (valid after an update code invocation)"
      task :link_configs, :roles => :app do
        run <<-CMD
@@ -87,7 +87,7 @@ after "deploy:web:enable", "delayed_job:start"
        ln -nfs #{shared_path}/config/settings.local.yml #{release_path}/config/settings.local.yml
        CMD
      end
-     
+
        # Override default web enable/disable tasks
      namespace :web do
 
@@ -101,26 +101,26 @@ after "deploy:web:enable", "delayed_job:start"
          run "rm -f #{shared_path}/system/maintenancemode"
        end
      end
-     
+
  end
- 
+
  namespace :delayed_job do
    desc "stops delayed_job"
    task :stop, :roles => :app do
      run "sudo /usr/local/rvm/bin/rvm-shell -c 'god stop delayed_jobs'"
    end
-   
+
    desc "reloads delayed_job"
    task :reload, :roles => :app do
      run "sudo /usr/local/rvm/bin/rvm-shell -c 'god load #{current_path}/config/delayed_job.god'"
    end
-   
+
    desc "starts delayed_job"
    task :start, :roles => :app do
      run "sudo /usr/local/rvm/bin/rvm-shell -c 'god start delayed_jobs'"
    end
  end
- 
+
  #--------------------------------------------------------------------------
  # useful administrative routines
  #--------------------------------------------------------------------------
@@ -143,9 +143,8 @@ after "deploy:web:enable", "delayed_job:start"
    task :tail_logs, :roles => :app do
      run "tail -f #{shared_path}/log/production.log" do |channel, stream, data|
        puts  # for an extra line break before the host name
-       puts "#{channel[:host]}: #{data}" 
-       break if stream == :err    
+       puts "#{channel[:host]}: #{data}"
+       break if stream == :err
      end
    end
  end
- 
