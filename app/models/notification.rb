@@ -111,7 +111,7 @@ class Notification < ActiveRecord::Base
   def process_recommendation
     recommendation = self.notifiable
     # doublecheck delivery setting
-    if(recommendation.learner.send_recommendation?)
+    if(recommendation.learner.send_recommendation? and recommendation.learner.email.present?)
       EventMailer.recommendation(recommendation: recommendation).deliver
     end
   end
