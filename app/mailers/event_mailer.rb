@@ -230,7 +230,7 @@ class EventMailer < ActionMailer::Base
         @mailer_cache = MailerCache.create(learner: @event.creator, cacheable: @event)
       end
       
-      return_email = mail(from: @creator_email, to: Settings.iastate_support_email, cc: @cc_list, subject: @subject)
+      return_email = mail(from: @creator.email, to: Settings.iastate_support_email, cc: @cc_list, subject: @subject)
       
       if(@mailer_cache)
         # now that we have the rendered email - update the cached mail object
