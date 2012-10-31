@@ -13,13 +13,5 @@ class Feeds::EventsController < ApplicationController
       format.xml { render :layout => false, :content_type => "application/atom+xml" }
     end
   end
-  
-  def show
-    if(!(@event = Event.find_by_id(params[:id])))
-      @errormessage = "Unable to find the specified event."
-      return render :template => 'feeds/events/error', :layout => false, :content_type => "application/atom+xml"
-    end
-    return render :layout => false, :content_type => "application/atom+xml"
-  end
 
 end
