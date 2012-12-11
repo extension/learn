@@ -1,4 +1,4 @@
-set :deploy_to, "/services/apache/vhosts/dev.learn.extension.org/railsroot/"
+set :deploy_to, "/services/learn/"
 if(branch = ENV['BRANCH'])
   set :branch, branch
 else

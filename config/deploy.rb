@@ -5,7 +5,6 @@ require 'capistrano/ext/multistage'
 # # added by capatross generate_config
 require 'capatross'
 require 'yaml'
-require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require "airbrake/capistrano"
 
 #------------------------------
@@ -14,9 +13,7 @@ require "airbrake/capistrano"
 set :application, "learn"
 set :user, 'pacecar'
 set :localuser, ENV['USER']
-set :rvm_ruby_string, '1.9.3'
 set :port, 24
-set :rvm_type, :system
 #------------------------------
 
 set :repository, "git@github.com:extension/#{application}.git"
@@ -35,7 +32,7 @@ after "deploy:update_code", "deploy:bundle_install"
 after "deploy:update_code", "deploy:update_maint_msg"
 after "deploy:update_code", "deploy:link_configs"
 after "deploy:update_code", "deploy:cleanup"
-# after "deploy:update_code", "deploy:assets"
+#after "deploy:update_code", "deploy:assets"
 after "deploy:update_code", "deploy:migrate"
 
 # don't forget to turn it back on
@@ -107,17 +104,17 @@ after "deploy:web:enable", "delayed_job:start"
  namespace :delayed_job do
    desc "stops delayed_job"
    task :stop, :roles => :app do
-     run "sudo /usr/local/rvm/bin/rvm-shell -c 'god stop delayed_jobs'"
+     run "sudo god stop delayed_jobs"
    end
 
    desc "reloads delayed_job"
    task :reload, :roles => :app do
-     run "sudo /usr/local/rvm/bin/rvm-shell -c 'god load #{current_path}/config/delayed_job.god'"
+     run "sudo god load #{current_path}/config/delayed_job.god"
    end
 
    desc "starts delayed_job"
    task :start, :roles => :app do
-     run "sudo /usr/local/rvm/bin/rvm-shell -c 'god start delayed_jobs'"
+     run "sudo god start delayed_jobs"
    end
  end
 
