@@ -81,6 +81,7 @@ after "deploy:web:enable", "delayed_job:start"
        ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
        ln -nfs #{shared_path}/config/sunspot.yml #{release_path}/config/sunspot.yml &&
        ln -nfs #{shared_path}/config/robots.txt #{release_path}/public/robots.txt &&
+       ln -nfs #{shared_path}/config/scout_rails.yml #{release_path}/config/scout_rails.yml &&
        ln -nfs #{shared_path}/config/settings.local.yml #{release_path}/config/settings.local.yml
        CMD
      end

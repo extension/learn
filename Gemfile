@@ -110,6 +110,9 @@ gem "thor"
 #gem "paper_trail", :git => 'git://github.com/extension/paper_trail.git'
 gem "paper_trail", "2.5.2ex"
 
+# scout monitoring
+gem 'scout_rails'
+
 group :development do
   # require the powder gem
   gem 'powder'
