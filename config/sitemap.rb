@@ -37,8 +37,4 @@ SitemapGenerator::Sitemap.create do
     add(conference_path(conference), :lastmod => conference.updated_at)
   end
   
-  Learner.find_each do |learner|
-    add(learner_path(learner), :lastmod => learner.updated_at)
-  end
-  
 end
