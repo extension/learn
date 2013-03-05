@@ -71,7 +71,11 @@ Learn::Application.routes.draw do
   match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'
 
   namespace :feeds do
-    resources :events, :only => [:index], :defaults => { :format => 'xml' }
+    resources :events, :only => [:index], :defaults => { :format => 'xml' } do
+      collection do
+        get 'upcoming', :defaults => { :format => 'xml' }
+      end
+    end
   end
 
   # webmail routes
