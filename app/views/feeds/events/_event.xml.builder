@@ -8,6 +8,7 @@ xml.entry do
   event.tags.each do |tag|
     xml.category("scheme" => root_url, "term" => tag.name)
   end
+  xml.category("scheme" => root_url, "term" => "event_start_date", "label" => event.session_start)
   xml.content("type" => "html") do
     xml.text!(format_text_for_display(event.content_for_atom_entry))
   end
