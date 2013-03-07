@@ -9,14 +9,16 @@ xml.entry do
     xml.category("scheme" => root_url, "term" => tag.name)
   end
   
-  xml.content("type" => "html") do
-    xml.span("class" => "vevent") {  
-      xml.span("class" => "summary") {
-        xml.text!(format_text_for_display(event.content_for_atom_entry))
-      }
-      xml.text!(" on ")
-      xml.span("class" => "dtstart") {
-        xml.text!(event.session_start.to_time.iso8601)
+  xml.content("type" => "xhtml") do
+    xml.div("xmlns" => "http://www.w3.org/1999/xhtml", "class" => "vevent") {
+      xml.span("class" => "vevent") {  
+        xml.span("class" => "summary") {
+          xml.text!(format_text_for_display(event.content_for_atom_entry))
+        }
+        xml.text!(" on ")
+        xml.span("class" => "dtstart") {
+          xml.text!(event.session_start.to_time.iso8601)
+        }
       }
     }
   end
