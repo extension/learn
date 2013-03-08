@@ -12,7 +12,7 @@ xml.entry do
   xml.content("type" => "xhtml") do
     xml.div("xmlns" => "http://www.w3.org/1999/xhtml", "class" => "vevent") {
       xml.span("class" => "vevent") {  
-        xml.span("class" => "summary") {
+        xml.span("class" => "summary", "type" => "html") {
           xml.text!(format_text_for_display(event.content_for_atom_entry))
         }
         xml.text!(" on ")
