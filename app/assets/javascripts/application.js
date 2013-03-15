@@ -9,7 +9,10 @@
 //= require jquery-ui
 //= require jquery-ui-timepicker-addon
 //= require rangeinput
-//= require jqplot
+//= require jquery.jqplot
+//= require jqplot-plugins/jqplot.pieRenderer
+//= require jqplot-plugins/jqplot.barRenderer
+//= require jqplot-plugins/jqplot.categoryAxisRenderer
 //= require jquery.tokeninput
 //= require jquery.tablesorter.min
 //= require twitter/bootstrap/tab

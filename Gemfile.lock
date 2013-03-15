@@ -173,6 +173,7 @@ GEM
       multi_json (~> 1.3)
       omniauth-oauth (~> 1.0)
     orm_adapter (0.0.7)
+    outfielding-jqplot-rails (1.0.7)
     paper_trail (2.5.2ex)
       rails (~> 3)
     passenger (3.0.18)
@@ -315,6 +316,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-openid
   omniauth-twitter
+  outfielding-jqplot-rails
   paper_trail (= 2.5.2ex)
   passenger
   powder
