@@ -25,3 +25,5 @@ public/uploads
 
 # added by capatross generate_config
 /capatross_logs
+
+*.sql
