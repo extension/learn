@@ -54,11 +54,11 @@ module ApplicationHelper
     end
 
     if(is_private)
-      image_tag("learn_avatar_private.png", :class => 'avatar', :size => image_size_in_px, :title => 'private profile').html_safe
+      image_tag("learn_avatar_private.png", :class => 'avatar size' + image_size_in_px, :size => image_size_in_px, :title => 'private profile').html_safe
     elsif(!learner.avatar.present?)
-      image_tag("avatar_placeholder.png", :class => 'avatar', :size => image_size_in_px, :title => learner.name).html_safe
+      image_tag("avatar_placeholder.png", :class => 'avatar size' + image_size_in_px, :size => image_size_in_px, :title => learner.name).html_safe
     else
-      image_tag(learner.avatar_url(image_size), :class => 'avatar', :title => learner.name).html_safe
+      image_tag(learner.avatar_url(image_size), :class => 'avatar size' + image_size_in_px, :title => learner.name).html_safe
     end
   end
 
