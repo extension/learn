@@ -60,6 +60,15 @@ class LearnersController < ApplicationController
     render :action => 'learning_history'
   end
   
+  def created_history
+    @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
+    return record_not_found if !@learner
+    
+    prepare_history('Created')
+    @events = @learner.created_events.active.order('session_start DESC').page(params[:page])
+    render :action => 'learning_history'
+  end
+  
   def attended_history
     @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
     return record_not_found if !@learner

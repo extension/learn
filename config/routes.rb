@@ -17,6 +17,7 @@ Learn::Application.routes.draw do
       get 'portfolio'
       get 'presented_history'
       get 'attended_history'
+      get 'created_history'
       get 'watched_history'
       get 'bookmarked_history'
       get 'rated_history'
