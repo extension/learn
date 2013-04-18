@@ -6,6 +6,7 @@
   <li class="activity"><%= link_to_unless_current "Activity Log", learning_history_path %></li>
   <li class="bytype">Events by type:</li>
   <li><%= link_to_unless_current "Presented", presented_history_learner_path(current_learner) %></li>
+  <li><%= link_to_unless_current "Created", created_history_learner_path(current_learner) %></li>
   <li><%= link_to_unless_current "Attended", attended_history_learner_path(current_learner) %></li>
   <li><%= link_to_unless_current "Watched", watched_history_learner_path(current_learner) %></li>
   <li><%= link_to_unless_current "Followed", bookmarked_history_learner_path(current_learner) %></li>
