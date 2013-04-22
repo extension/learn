@@ -30,7 +30,7 @@ before "deploy", "deploy:checks:git_push"
 if(TRUE_VALUES.include?(ENV['MIGRATE']))
   before "deploy", "deploy:web:disable"
   after "deploy:update_code", "deploy:update_maint_msg"
-  after "deploy:update_code", "deploy:link_and_copy_configs"
+  after "deploy:update_code", "deploy:link_configs"
   after "deploy:update_code", "deploy:cleanup"
   after "deploy:update_code", "deploy:migrate"
   after "deploy", "deploy:web:enable"
