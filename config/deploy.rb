@@ -1,11 +1,10 @@
 set :stages, %w(prod dev)
 set :default_stage, "dev"
 require 'capistrano/ext/multistage'
-
-# # added by capatross generate_config
 require 'capatross'
 require 'yaml'
 require "airbrake/capistrano"
+require "bundler/capistrano"
 
 #------------------------------
 # <i>Should</i> only have to edit these three vars for standard eXtension deployments
@@ -16,28 +15,36 @@ set :localuser, ENV['USER']
 set :port, 24
 #------------------------------
 
+TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'yes','YES','y','Y']
+FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE','no','NO','n','N']
+
 set :repository, "git@github.com:extension/#{application}.git"
 set :use_sudo, false
 set :scm, :git
 set :migrate_target, :latest
 set :rails_env, "production" #added for delayed job
+set :bundle_flags, ''
+set :bundle_dir, ''
 
-# Disable our app before running the deploy
-before "deploy", "deploy:web:disable"
-before "deploy:web:disable", "delayed_job:stop"
+before "deploy", "deploy:checks:git_push"
+if(TRUE_VALUES.include?(ENV['MIGRATE']))
+  before "deploy", "deploy:web:disable"
+  after "deploy:update_code", "deploy:update_maint_msg"
+  after "deploy:update_code", "deploy:link_and_copy_configs"
+  after "deploy:update_code", "deploy:cleanup"
+  after "deploy:update_code", "deploy:migrate"
+  after "deploy", "deploy:web:enable"
+else
+  before "deploy", "deploy:checks:git_migrations"
+  after "deploy:update_code", "deploy:update_maint_msg"
+  after "deploy:update_code", "deploy:link_configs"
+  after "deploy:update_code", "deploy:cleanup"
+end
+
+before "deploy", "delayed_job:stop"
 before "delayed_job:start", "delayed_job:reload"
+after "deploy:update_code", "delayed_job:start"
 
-# After code is updated, do some house cleaning
-after "deploy:update_code", "deploy:bundle_install"
-after "deploy:update_code", "deploy:update_maint_msg"
-after "deploy:update_code", "deploy:link_configs"
-after "deploy:update_code", "deploy:cleanup"
-#after "deploy:update_code", "deploy:assets"
-after "deploy:update_code", "deploy:migrate"
-
-# don't forget to turn it back on
-after "deploy", "deploy:web:enable"
-after "deploy:web:enable", "delayed_job:start"
 
  namespace :deploy do
 
@@ -45,11 +52,6 @@ after "deploy:web:enable", "delayed_job:start"
      desc "Restart #{application} mod_rails"
      task :restart, :roles => :app do
        run "touch #{current_path}/tmp/restart.txt"
-     end
-
-   desc "runs bundle update"
-     task :bundle_install do
-       run "cd #{release_path} && bundle install"
      end
 
      desc "Update maintenance mode page/graphics (valid after an update code invocation)"
@@ -99,6 +101,36 @@ after "deploy:web:enable", "delayed_job:start"
          run "rm -f #{shared_path}/system/maintenancemode"
        end
      end
+     
+     namespace :checks do
+        desc "check to see if the local branch is ahead of the upstream tracking branch"
+        task :git_push, :roles => :app do
+          branch_status = `git status --branch --porcelain`.split("\n")[0]
+
+          if(branch_status =~ %r{^## (\w+)\.\.\.([\w|/]+) \[(\w+) (\d+)\]})
+            if($3 == 'ahead')
+              logger.important "Your local #{$1} branch is ahead of #{$2} by #{$4} commits. You probably want to push these before deploying."
+              $stdout.puts "Do you want to continue deployment? (Y/N)"
+              unless (TRUE_VALUES.include?($stdin.gets.strip))
+                logger.important "Stopping deployment by request!"
+                exit(0)
+              end
+            end
+          end         
+        end
+
+        desc "check to see if there are migrations in origin/branch "
+        task :git_migrations, :roles => :app do
+          diff_stat = `git --no-pager diff --shortstat #{current_revision} #{branch} db/migrate`.strip
+
+          if(!diff_stat.empty?)
+            diff_files = `git --no-pager diff --summary #{current_revision} #{branch} db/migrate`
+            logger.info "Your local #{branch} branch has migration changes and you did not specify MIGRATE=true for this deployment"
+            logger.info "#{diff_files}"
+          end         
+        end    
+      end
+  
 
  end
 
@@ -117,7 +149,7 @@ after "deploy:web:enable", "delayed_job:start"
    task :start, :roles => :app do
      run "sudo god start delayed_jobs"
    end
- end
+ end 
 
  #--------------------------------------------------------------------------
  # useful administrative routines
