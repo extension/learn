@@ -1,0 +1,18 @@
+<div id="event_widget" style="width:<%= @width %>px">
+		
+<h3> 
+	<span><%= @title %></span><br />
+</h3>
+
+<%= link_to 'See More', @path_to_upcoming_events %>
+
+<% if @event_list.length == 0 %>
+  <h3>There are currently no content items at this time.</h3>
+<% else %>
+  <ul>
+  <%= get_event_links_and_times(@event_list) %>
+  </ul>
+<% end %>
+
+</div>
+

@@ -70,6 +70,10 @@ Learn::Application.routes.draw do
 
   # recommended event tracking
   match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'
+  
+  # widgets for upcoming events
+  match "widgets/front_porch" => "widgets#front_porch", :via => [:get]
+  match "widgets/upcoming" => "widgets#upcoming", :via => [:get]
 
   namespace :feeds do
     resources :events, :only => [:index], :defaults => { :format => 'xml' } do

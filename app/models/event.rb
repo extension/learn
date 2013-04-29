@@ -15,7 +15,7 @@ class Event < ActiveRecord::Base
   # define accessible attributes
   attr_accessible :creator, :last_modifier
   attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled
-  attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast
+  attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at
 
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
@@ -60,6 +60,7 @@ class Event < ActiveRecord::Base
 
   before_update :schedule_recording_notification
   before_update :update_event_notifications
+  before_update :set_featured_at
 
   before_save :set_session_end
   before_save :set_presenters_from_tokens
@@ -87,6 +88,7 @@ class Event < ActiveRecord::Base
 
   scope :active, conditions: {is_canceled: false}
   scope :not_expired, conditions: {is_expired: false}
+  scope :featured, conditions: {featured: true}
 
   scope :this_week, lambda {
     weekday = Time.now.utc.strftime('%u').to_i
@@ -422,7 +424,16 @@ class Event < ActiveRecord::Base
       end
     end
   end
-
+  
+  def set_featured_at
+    if self.featured_changed?
+      if self.featured == true
+        self.featured_at = Time.now
+      else
+        self.featured_at = nil
+      end
+    end
+  end
 
   def content_for_atom_entry
     content = self.description + "\n\n"

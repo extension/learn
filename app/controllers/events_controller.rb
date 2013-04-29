@@ -194,7 +194,7 @@ class EventsController < ApplicationController
       return redirect_to(@restored_event)
     end
   end
-
+  
   def canceled
     @events = Event.where(is_canceled: true).order("session_start DESC").page(params[:page])
   end

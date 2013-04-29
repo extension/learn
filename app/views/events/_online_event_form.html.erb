@@ -90,6 +90,9 @@
   </fieldset>
 <% end %>
 
+<% if current_learner.is_extension_account? && (@event.new_record? || (!@event.concluded? && !@event.is_canceled?)) %>
+  <%= event_form.check_box :featured %>
+<% end %>
 
 <p>
   <%= submit_tag 'Save Session', :class => "btn btn-primary btn-large" %>
