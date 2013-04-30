@@ -91,7 +91,11 @@
 <% end %>
 
 <% if current_learner.is_extension_account? && (@event.new_record? || (!@event.concluded? && !@event.is_canceled?)) %>
-  <%= event_form.check_box :featured %>
+  <fieldset>
+  <label>
+  <%= event_form.check_box :featured %> Feature Option
+  </label>
+  </fieldset>
 <% end %>
 
 <p>

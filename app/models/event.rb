@@ -90,6 +90,11 @@ class Event < ActiveRecord::Base
   scope :not_expired, conditions: {is_expired: false}
   scope :featured, conditions: {featured: true}
 
+  # expecting array of tag strings
+  scope :tagged_with_all, lambda{|tag_list|
+    joins(:tags).where("tags.name IN (#{tag_list.map{|t| "'#{Tag.normalizename(t)}'"}.join(',')})").group("events.id").having("COUNT(events.id) = #{tag_list.size}")
+  }
+  
   scope :this_week, lambda {
     weekday = Time.now.utc.strftime('%u').to_i
     # if saturday or sunday - do next week, else this week
