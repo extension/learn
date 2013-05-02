@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130424182750) do
+ActiveRecord::Schema.define(:version => 20130502155043) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -364,5 +364,16 @@ ActiveRecord::Schema.define(:version => 20130424182750) do
   end
 
   add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
+
+  create_table "widget_logs", :force => true do |t|
+    t.string   "referrer_host"
+    t.string   "referrer_url"
+    t.string   "base_widget_url"
+    t.string   "widget_url"
+    t.string   "widget_fingerprint"
+    t.integer  "count",              :default => 0, :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
 
 end

@@ -34,6 +34,22 @@ class WidgetsController < ApplicationController
       @width = params[:width].to_i
     end
     
+    # logging of widget use
+    # referrer_url and widget fingerprint make a unique pairing
+    referrer_url = request.referer
+    referrer_host = URI(referrer_url).host
+    base_widget_url = "#{request.protocol}#{request.host_with_port}#{request.path}"
+    widget_url = "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+    widget_fingerprint = get_widget_fingerprint(params, base_widget_url)
+    
+    existing_widget_log = WidgetLog.where(widget_fingerprint: widget_fingerprint, referrer_url: referrer_url)
+    if existing_widget_log.present?
+      existing_widget_log.first.update_attribute(:count, existing_widget_log.count + 1)
+    else
+      WidgetLog.create(referrer_host: referrer_host, referrer_url: referrer_url, base_widget_url: base_widget_url, widget_url: widget_url, widget_fingerprint: widget_fingerprint, count: 1)
+    end
+    ##### End of Widget Logging
+    
     @path_to_upcoming_events = upcoming_events_url
       
     if params[:tags].present?  
@@ -52,6 +68,21 @@ class WidgetsController < ApplicationController
     end
     
     render "widgets"
+  end
+  
+  private
+  
+  # fingerprint will be generated based on the widget's base url plus it's ordered parameters
+  def get_widget_fingerprint(params_hash, base_widget_url)
+    params_array = ['base_widget_url', base_widget_url]
+  
+    WidgetLog::KNOWN_PARAMS.each do |key|
+      if(!params_hash[key].blank?)
+        params_array << [key,params_hash[key].split(',').map{|i| i.strip.to_i}.sort]
+      end
+    end
+    
+    return Digest::SHA1.hexdigest(params_array.to_yaml)
   end
   
 end
