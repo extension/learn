@@ -41,6 +41,9 @@ Learn::Application.routes.draw do
 
   match "contact_us" => "home#contact_us", :via => :get
   match "retired" => "home#retired", :via => :get
+  
+  # individual tag match
+  match "/events/tag/:tags" => "events#tags", :as => 'events_tag'
 
   resources :events do
     member do
@@ -65,9 +68,7 @@ Learn::Application.routes.draw do
       post 'restore'
     end
   end
-  # individual tag match
-  match "/events/tag/:tags" => "events#tags", :as => 'events_tag'
-
+  
   # recommended event tracking
   match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'
   
