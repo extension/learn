@@ -8,6 +8,9 @@
   <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/javascripts/html5.js"></script><![endif]-->
   <meta property="og:url" content="<%= request.protocol + request.host_with_port + request.fullpath %>" />
   <meta property="og:type" content="<%= (@page_type == "event") ? "event" : "website" %>" />
+  <% if @page_type == "event" %>
+    <meta property="event:start-time" content="<%= @event_start_time %>"> 
+  <% end %>
   <meta property="og:title" content="<%= (@page_title) ? @page_title + " - eXtension Learn" : "eXtension Learn" %>" />
   <meta property="og:description" content="<%= @page_meta_description ? @page_meta_description : "eXtension Learn: Free access to cutting edge learning events" %>" />
   <meta property="og:image" content="<%= image_path("#{root_url}images/extension_logo.jpg") %>" />
