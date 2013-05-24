@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title><%= (@page_title) ? "eXtension Learn: " + @page_title : "eXtension Learn" %></title>
+  <title><%= (@page_title) ? @page_title + " - eXtension Learn" : "eXtension Learn" %></title>
+  <meta name="description" content="<%= @page_meta_description %>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/javascripts/excanvas.min.js"></script><![endif]-->
   <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/javascripts/html5.js"></script><![endif]-->
+  <meta property="og:url" content="<%= request.protocol + request.host_with_port + request.fullpath %>" />
+  <meta property="og:type" content="<%= (@page_type == "event") ? "event" : "website" %>" />
+  <meta property="og:title" content="<%= (@page_title) ? @page_title + " - eXtension Learn" : "eXtension Learn" %>" />
+  <meta property="og:description" content="<%= @page_meta_description ? @page_meta_description : "eXtension Learn: Free access to cutting edge learning events" %>" />
+  <meta property="og:image" content="<%= image_path("#{root_url}images/extension_logo.jpg") %>" />
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -17,8 +23,6 @@
   <% if @noindex %>
   <meta name="robots" content="noindex">
   <% end %>
-
-  <meta property="og:image" content="<%= image_path("#{root_url}images/extension_logo_120.jpg") %>" />
 </head>
 <body id="<%= params[:controller].gsub('/','-') %>">
   

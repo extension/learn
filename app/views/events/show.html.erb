@@ -1,5 +1,8 @@
 <%- @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") -%>
+<%- @page_meta_description = raw("#{Event.html_to_text(@event.description.gsub(/[[:space:]]/, ' ')).truncate(140, separator: ' ')}") -%>
+<%- @page_type = "event" -%>
 <%- @noindex = false -%>
+
 
 <%- if @event.is_expired -%>
   <%- @noindex = true -%>
