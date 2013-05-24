@@ -9,7 +9,7 @@
   <meta property="og:url" content="<%= request.protocol + request.host_with_port + request.fullpath %>" />
   <meta property="og:type" content="<%= (@page_type == "event") ? "event" : "website" %>" />
   <% if @page_type == "event" %>
-    <meta property="event:start-time" content="<%= @event_start_time %>"> 
+    <meta property="event:start_time" content="<%= @event_start_time %>"> 
   <% end %>
   <meta property="og:title" content="<%= (@page_title) ? @page_title + " - eXtension Learn" : "eXtension Learn" %>" />
   <meta property="og:description" content="<%= @page_meta_description ? @page_meta_description : "eXtension Learn: Free access to cutting edge learning events" %>" />
