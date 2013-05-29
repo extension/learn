@@ -92,7 +92,7 @@
 
 <!-- Hiding the featured feature right now until the launch of frontporch adding the conditional @event.id == 0 -->
 <!-- When frontporch launches, just comment out the '@event.id == 0' conditional to have the ability to feature the events on frontporch. -->
-<% if current_learner.is_extension_account? && (@event.new_record? || (!@event.concluded? && !@event.is_canceled?)) %>
+<% if @event.id == 0 && current_learner.is_extension_account? && (@event.new_record? || (!@event.concluded? && !@event.is_canceled?)) %>
   <fieldset>
 	  <p>
       <label>
