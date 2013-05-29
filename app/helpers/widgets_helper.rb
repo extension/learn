@@ -8,11 +8,11 @@ module WidgetsHelper
       event_time = e.session_start.strftime("%B %d") 
       
       if event_time.present? && !event_times_list.include?(event_time) 
-        return_string += "<p>#{event_time}</p>"
+        return_string += "<p class=\"learn_ew_event_time\">#{event_time}</p>"
         event_times_list << event_time
       end
       
-      return_string += "<ul>#{link_to e.title, event_url(e.id)}</ul>"
+      return_string += "<p class=\"learn_ew_event_title\">#{link_to e.title, event_url(e.id)}</p>"
     end 
     return return_string.html_safe
   end

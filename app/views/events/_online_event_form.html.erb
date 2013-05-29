@@ -92,11 +92,14 @@
 
 <!-- Hiding the featured feature right now until the launch of frontporch adding the conditional @event.id == 0 -->
 <!-- When frontporch launches, just comment out the '@event.id == 0' conditional to have the ability to feature the events on frontporch. -->
-<% if @event.id == 0 && current_learner.is_extension_account? && (@event.new_record? || (!@event.concluded? && !@event.is_canceled?)) %>
+<% if current_learner.is_extension_account? && (@event.new_record? || (!@event.concluded? && !@event.is_canceled?)) %>
   <fieldset>
-  <label>
-  <%= event_form.check_box :featured %> Feature Option
-  </label>
+	  <p>
+      <label>
+        <%= event_form.check_box :featured %> Feature this event
+		    <span class="help-block">(Featured events are displayed on the home page of extension.org.)</span>
+      </label>
+    </p>
   </fieldset>
 <% end %>
 
