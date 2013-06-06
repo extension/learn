@@ -3,7 +3,7 @@
   <h3 class="learn_ew_subhead"><%= @title %></h3>
   
   <% if @event_list.length == 0 %>
-    <h3 class="learn_ew_no_matches">There are currently no content items at this time.</h3>
+    <h3 class="learn_ew_no_matches">There are no events at this time.</h3>
   <% else %>
     <%= get_event_links_and_times(@event_list) %>
   <% end %>

@@ -90,19 +90,6 @@
   </fieldset>
 <% end %>
 
-<% if (Settings.app_location == 'localdev') || (Settings.app_location == 'dev') %>
-<% if current_learner.is_extension_account? && (@event.new_record? || (!@event.concluded? && !@event.is_canceled?)) %>
-  <fieldset>
-	  <p>
-      <label>
-        <%= event_form.check_box :featured %> Feature this event
-		    <span class="help-block">(Featured events are displayed on the home page of extension.org.)</span>
-      </label>
-    </p>
-  </fieldset>
-<% end %>
-<% end %>
-
 <p>
   <%= submit_tag 'Save Session', :class => "btn btn-primary btn-large" %>
   <%- if @event.id %>

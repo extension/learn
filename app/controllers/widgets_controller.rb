@@ -3,6 +3,8 @@ class WidgetsController < ApplicationController
   def front_porch
     @title = "eXtension Upcoming Learn Events"
     @path_to_upcoming_events = upcoming_events_url
+    @tag = Tag.find_by_name("front page")
+    return record_not_found if (!@tag)
     
     if params[:limit].blank? || params[:limit].to_i <= 0
       event_limit = 5
@@ -16,7 +18,8 @@ class WidgetsController < ApplicationController
       @width = params[:width].to_i
     end
     
-    @event_list = Event.featured.nonconference.active.upcoming(limit = event_limit)
+    @event_list = Event.tagged_with(@tag.name).nonconference.active.upcoming(limit = event_limit)
+    
   
     render "widgets"
   end
@@ -57,14 +60,14 @@ class WidgetsController < ApplicationController
       @title = "eXtension Upcoming Learn Events in #{@tag_list.join(',')}"
       if params[:operator].present?
         if params[:operator].downcase == 'and'
-          @event_list = Event.featured.nonconference.active.upcoming(limit = event_limit).tagged_with_all(@tag_list)
+          @event_list = Event.nonconference.active.upcoming(limit = event_limit).tagged_with_all(@tag_list)
         end
       elsif params[:operator].blank? || params[:operator].downcase != 'and'
-        @event_list = Event.featured.nonconference.active.upcoming(limit = event_limit).tagged_with(params[:tags])
+        @event_list = Event.nonconference.active.upcoming(limit = event_limit).tagged_with(params[:tags])
       end
     else
       @title = "eXtension Upcoming Learn Events"
-      @event_list = Event.featured.nonconference.active.upcoming(limit = event_limit)
+      @event_list = Event.nonconference.active.upcoming(limit = event_limit)
     end
     
     render "widgets"
