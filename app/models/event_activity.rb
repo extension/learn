@@ -48,7 +48,7 @@ class EventActivity < ActiveRecord::Base
   
   ACTIVITY_MAP = {
     1   => "viewed",
-    2   => "viewed from a reccomendation",
+    2   => "viewed from a recommendation",
     3   => "viewed from a share",
     11  => "shared",
     21  => "answered a question",
