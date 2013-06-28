@@ -23,8 +23,11 @@ class WidgetsController < ApplicationController
     end
     
     @event_list = Event.tagged_with(@tag.name).nonconference.active.upcoming(limit = event_limit)
+    if @event_list.empty?
+      @title = "eXtension Recent Learn Events"
+      @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(@tag.name)
+    end
     
-  
     render "widgets"
   end
   
