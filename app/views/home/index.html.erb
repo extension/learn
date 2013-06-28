@@ -1,6 +1,9 @@
 <%- if @nexc2012 and @nexc2012.in_progress? -%>
 <div id="conference_banner"><span class="label label-info">Happening Now!</span> <span><strong><%= link_to('eXtension 2012 National Conference',conference_path(@nexc2012)) %></strong></span></div>
 <%- end -%>
+
+<script type="text/javascript" src="http://learn.dev/widgets/front_porch.js?width=250"></script> 
+
 <div id="three_col_one">
   <h2>Upcoming Sessions <small><%= link_to 'view all', upcoming_events_path %></small></h2>
   
