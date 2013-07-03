@@ -1,13 +1,13 @@
 <div id="learn_ew">
-		
-  <h3 class="learn_ew_subhead"><%= @title %></h3>
+	<h3 class="learn_widget_generic_title"><%= @generic_title %></h3>
+  <h3 class="learn_widget_specific_title"><%= @specific_title %></h3>
   
   <% if @event_list.length == 0 %>
-    <h3 class="learn_ew_no_matches">There are no events at this time.</h3>
+    <h3 class="learn_widget_no_matches">There are no events at this time.</h3>
   <% else %>
     <%= get_event_links_and_times(@event_list) %>
   <% end %>
   
-  <p class="learn_ew_see_more"><%= link_to 'See More', @path_to_upcoming_events %></p>
+  <p class="learn_widget_see_more"><%= link_to 'See More', @path_to_upcoming_events %></p>
   
 </div>
