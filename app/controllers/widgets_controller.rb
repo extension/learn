@@ -1,7 +1,8 @@
 class WidgetsController < ApplicationController
   
   def front_porch
-    @title = "eXtension Upcoming Learn Events"
+    @generic_title = "Upcoming Webinars"
+    @specific_title = "eXtension Upcoming Learn Events"
     @path_to_upcoming_events = upcoming_events_url
     @tag = Tag.find_by_name("front page")
     
@@ -24,7 +25,8 @@ class WidgetsController < ApplicationController
     
     @event_list = Event.tagged_with(@tag.name).nonconference.active.upcoming(limit = event_limit)
     if @event_list.empty?
-      @title = "eXtension Recent Learn Events"
+      @generic_title = "Recent Webinars"
+      @specific_title = "eXtension Recent Learn Events"
       @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(@tag.name)
     end
     
@@ -72,7 +74,8 @@ class WidgetsController < ApplicationController
       
     if params[:tags].present?  
       @tag_list = params[:tags].split(',')
-      @title = "eXtension Upcoming Learn Events in #{@tag_list.join(',')}"
+      @generic_title = "Upcoming Webinars"
+      @specific_title = "eXtension Upcoming Learn Events in #{@tag_list.join(',')}"
       if params[:operator].present?
         if params[:operator].downcase == 'and'
           @event_list = Event.nonconference.active.upcoming(limit = event_limit).tagged_with_all(@tag_list)
@@ -81,11 +84,13 @@ class WidgetsController < ApplicationController
         @event_list = Event.nonconference.active.upcoming(limit = event_limit).tagged_with(params[:tags])
       end
       if @event_list.empty?
-        @title = "eXtension Recent Learn Events in #{@tag_list.join(',')}"
+        @generic_title = "Recent Webinars"
+        @specific_title = "eXtension Recent Learn Events in #{@tag_list.join(',')}"
         @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(params[:tags])
       end
     else
-      @title = "eXtension Upcoming Learn Events"
+      @generic_title = "Upcoming Webinars"
+      @specific_title = "eXtension Upcoming Learn Events"
       @event_list = Event.nonconference.active.upcoming(limit = event_limit)
     end
     
