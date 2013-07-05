@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-source 'http://systems.extension.org/rubygems/'
+source 'https://systems.extension.org/rubygems/'
 
 gem 'rails', "3.2.13"
 
