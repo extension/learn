@@ -52,10 +52,10 @@ html, body {
 #useractions li img {height:22px; width:22px;}
 
 .masthead {float:left;}
-.masthead h1 {margin:0; width:264px; height:100px;}
+.masthead h1 {margin:0; width:264px; height:100px; padding-top:10px;padding-bottom:10px;}
 .masthead h1 span {display:none; text-indent: -9000px;}
 
-.masthead img {width:300px; height:100px; margin-top:10px;}
+.masthead img {width:300px; height:100px;}
 
 #search {float:right; clear:right;}
 #search input {float:left;}
@@ -114,7 +114,7 @@ p {word-wrap:break-word;}
     #useractions {float:none;}
     #search {float:left; width:100%; clear:both; margin-bottom:.75em;}
     #search #q {width:50%;}
-    .masthead {float:none;}
+    .masthead {float:none; padding:0; height:90px;}
     #two_col_col_one {width:100%; padding: 0; margin:0 0 1em;}
     #two_col_col_two {width:100%; padding: 0; margin:0 0 1em;}
     #event h1 {font-size:1.5em; line-height:1.3em;}
