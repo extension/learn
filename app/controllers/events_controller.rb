@@ -50,7 +50,19 @@ class EventsController < ApplicationController
       end
     else
       if(params[:tags])
-        @events = Event.active.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
+        if params[:type].present? 
+          if params[:type] == 'recent'
+            @list_title = "Recent #{@list_title}" 
+            @events = Event.active.recent.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
+          elsif params[:type] == 'upcoming'
+            @list_title = "Upcoming #{@list_title}" 
+            @events = Event.active.upcoming.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
+          else
+            @events = Event.active.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
+          end
+        else
+          @events = Event.active.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
+        end
       else
         @events = Event.active.order('session_start DESC').page(params[:page])
       end
