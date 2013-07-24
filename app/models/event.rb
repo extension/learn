@@ -242,7 +242,7 @@ class Event < ActiveRecord::Base
         tags_to_set << tag
       end
     end
-    self.tags = tags_to_set
+    self.tags = tags_to_set.uniq
   end
 
   def session_start_string
