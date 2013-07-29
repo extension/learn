@@ -1,4 +1,4 @@
-<div id="learn_ew">
+<div id="learn_widget" class="<%= @event_type %>">
 	<h3 class="learn_widget_generic_title"><%= @generic_title %></h3>
   <h3 class="learn_widget_specific_title"><%= @specific_title %></h3>
   
@@ -9,5 +9,4 @@
     <%= get_event_links_and_times(@event_list) %>
     <p class="learn_widget_see_more"><%= link_to 'See More', @path_to_upcoming_events %></p>
   <% end %>
-  
 </div>
