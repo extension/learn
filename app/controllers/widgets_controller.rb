@@ -36,6 +36,7 @@ class WidgetsController < ApplicationController
   end
   
   def upcoming
+    @event_list = Array.new
     if params[:limit].blank? || params[:limit].to_i <= 0
       event_limit = 5
     else
@@ -109,7 +110,7 @@ class WidgetsController < ApplicationController
       @generic_title = "Upcoming Webinars"
       @event_type = "upcoming"
       @specific_title = "eXtension Upcoming Learn Events"
-      @event_list = Event.nonconference.active.upcoming(limit = event_limit)
+      @event_list = Event.tagged_with(@tag.name).nonconference.active.upcoming(limit = event_limit)
       if @event_list.empty?
         @generic_title = "Recent Webinars"
         @event_type = "recent"
