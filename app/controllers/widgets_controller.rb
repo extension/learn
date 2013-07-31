@@ -101,20 +101,21 @@ class WidgetsController < ApplicationController
           @path_to_upcoming_events = events_tag_url(:tags => @tag_list.first, :type => 'recent')
         end
       end
-    else
-      @generic_title = "Upcoming Webinars"
-      @event_type = "upcoming"
-      @specific_title = "eXtension Upcoming Learn Events"
-      @event_list = Event.nonconference.active.upcoming(limit = event_limit)
     end
     
     if @event_list.empty?
       @tag = Tag.find_by_name("front page")
-      @generic_title = "Recent Webinars"
-      @event_type = "recent"
-      @specific_title = "eXtension Recent Learn Events"
-      @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(@tag.name)
       @path_to_upcoming_events = upcoming_events_url
+      @generic_title = "Upcoming Webinars"
+      @event_type = "upcoming"
+      @specific_title = "eXtension Upcoming Learn Events"
+      @event_list = Event.nonconference.active.upcoming(limit = event_limit)
+      if @event_list.empty?
+        @generic_title = "Recent Webinars"
+        @event_type = "recent"
+        @specific_title = "eXtension Recent Learn Events"
+        @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(@tag.name)
+      end
     end
     
     render "widgets"
