@@ -108,6 +108,15 @@ class WidgetsController < ApplicationController
       @event_list = Event.nonconference.active.upcoming(limit = event_limit)
     end
     
+    if @event_list.empty?
+      @tag = Tag.find_by_name("front page")
+      @generic_title = "Recent Webinars"
+      @event_type = "recent"
+      @specific_title = "eXtension Recent Learn Events"
+      @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(@tag.name)
+      @path_to_upcoming_events = upcoming_events_url
+    end
+    
     render "widgets"
   end
   
