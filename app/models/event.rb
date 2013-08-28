@@ -144,6 +144,10 @@ class Event < ActiveRecord::Base
   scope :by_date, lambda {|date| where('DATE(session_start) = ?',date)}
 
 
+  def connections_list
+    self.learners.valid.order('event_connections.created_at')
+  end
+  
   def set_location_if_conference
     if(self.event_type == Event::CONFERENCE)
       self.location = 'Conference Session'
