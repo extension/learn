@@ -54,21 +54,9 @@
       </div>
    </section>
 
-<%- if @event.started? %>
-   <section id="questions">
-   <%- @event.questions.each do |question| -%>
-      <div id="question_<%= question.id %>" class="question">
-        <%= render(partial: 'question', locals: {question: question})%>
-      </div>
-    <%- end -%>
-    </section>
-<%- else -%>
-  <div id="no_questions_yet">
-    <%= image_tag("graph_placeholder_multi.png", :size => "80x80",) %>
-    <p>The sensemaking questions and graphs appear shortly before the event begins</p>
-    <p class="description">* Sensemaking is the process of giving meaning to experience. Our sensemaking questions are designed to prompt discussion and encourage participation.</p>
-  </div>
-<%- end -%>
+   <div id="comment-section">
+    <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
+   </div>
 
   <section id="event_meta">
     <p>Created by <%= link_to_learner(@event.creator) %></p>
@@ -155,12 +143,6 @@
        </aside>
      <%- end -%>
 
-
-
-
-   <div id="comment-section">
-    <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
-   </div>
 
 <br class='clearing' />
 </div>
