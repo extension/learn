@@ -83,7 +83,6 @@ after "deploy:update_code", "delayed_job:start"
        ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
        ln -nfs #{shared_path}/config/sunspot.yml #{release_path}/config/sunspot.yml &&
        ln -nfs #{shared_path}/config/robots.txt #{release_path}/public/robots.txt &&
-       ln -nfs #{shared_path}/config/newrelic.yml #{release_path}/config/newrelic.yml &&
        ln -nfs #{shared_path}/config/settings.local.yml #{release_path}/config/settings.local.yml &&
        ln -nfs #{shared_path}/sitemaps #{release_path}/public/sitemaps   
        CMD

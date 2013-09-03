@@ -112,9 +112,6 @@ gem "thor"
 #gem "paper_trail", :git => 'git://github.com/extension/paper_trail.git'
 gem "paper_trail", "2.5.2ex"
 
-# monitoring
-gem 'newrelic_rpm'
-
 group :development do
   # require the powder gem
   gem 'powder'
