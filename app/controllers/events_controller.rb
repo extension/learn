@@ -212,6 +212,9 @@ class EventsController < ApplicationController
   end
 
   def search
+    # trash the utf8 param because google hates us.
+    params.delete(:utf8)
+    
     # take quotes out to see if it's a blank field and also strip out +, -, and "  as submitted by themselves are apparently special characters
     # for solr and will make it crash, and if you ain't got no q param, no search goodies for you!
     if !params[:q] || params[:q].gsub(/["'+-]/, '').strip.blank?

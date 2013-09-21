@@ -2,6 +2,7 @@ class WidgetsController < ApplicationController
   
   def front_porch
     @generic_title = "Upcoming Webinars"
+    @event_type = "upcoming"
     @specific_title = "eXtension Upcoming Learn Events"
     @path_to_upcoming_events = upcoming_events_url
     @tag = Tag.find_by_name("front page")
@@ -26,6 +27,7 @@ class WidgetsController < ApplicationController
     @event_list = Event.tagged_with(@tag.name).nonconference.active.upcoming(limit = event_limit)
     if @event_list.empty?
       @generic_title = "Recent Webinars"
+      @event_type = "recent"
       @specific_title = "eXtension Recent Learn Events"
       @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(@tag.name)
     end
@@ -34,6 +36,7 @@ class WidgetsController < ApplicationController
   end
   
   def upcoming
+    @event_list = Array.new
     if params[:limit].blank? || params[:limit].to_i <= 0
       event_limit = 5
     else
@@ -74,6 +77,7 @@ class WidgetsController < ApplicationController
       
     if params[:tags].present?  
       @tag_list = params[:tags].split(',')
+      @event_type = "upcoming"
       @generic_title = "Upcoming Webinars"
       @specific_title = "eXtension Upcoming Learn Events in #{@tag_list.join(',')}"
       
@@ -90,6 +94,7 @@ class WidgetsController < ApplicationController
       end
       
       if @event_list.empty?
+        @event_type = "recent"
         @generic_title = "Recent Webinars"
         @specific_title = "eXtension Recent Learn Events in #{@tag_list.join(',')}"
         @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(params[:tags])
@@ -97,10 +102,22 @@ class WidgetsController < ApplicationController
           @path_to_upcoming_events = events_tag_url(:tags => @tag_list.first, :type => 'recent')
         end
       end
-    else
+    end
+    
+    if @event_list.empty?
+      @tag = Tag.find_by_name("front page")
+      @path_to_upcoming_events = upcoming_events_url
       @generic_title = "Upcoming Webinars"
+      @event_type = "upcoming"
       @specific_title = "eXtension Upcoming Learn Events"
-      @event_list = Event.nonconference.active.upcoming(limit = event_limit)
+      @event_list = Event.tagged_with(@tag.name).nonconference.active.upcoming(limit = event_limit)
+      if @event_list.empty?
+        @generic_title = "Recent Webinars"
+        @path_to_upcoming_events = recent_events_url
+        @event_type = "recent"
+        @specific_title = "eXtension Recent Learn Events"
+        @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(@tag.name)
+      end
     end
     
     render "widgets"

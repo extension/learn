@@ -5,10 +5,11 @@ module WidgetsHelper
     return_string = ''
     
     event_list.each do |e|
-      event_time = e.session_start.strftime("%B %d") 
+      event_time = e.session_start.strftime("%B %e")
+      event_year = e.session_start.strftime("%Y") 
       
       if event_time.present? && !event_times_list.include?(event_time) 
-        return_string += "<p class=\"learn_widget_event_time\">#{event_time}</p>"
+        return_string += "<p class=\"learn_widget_event_time\">#{event_time}<span class=\"event_year\">, #{event_year}</span></p>"
         event_times_list << event_time
       end
       

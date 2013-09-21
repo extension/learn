@@ -113,7 +113,7 @@ module ApplicationHelper
       return link_to(avatar_for_learner(learner,options), link_path, {:title => learner.name + " (Your connection is not displayed to other people)", :class => 'private_for_others'}).html_safe
     else
       # current_learner, current_learner != learner, and is_private
-      return avatar_for_learner(learner,options)
+      return "<a>#{avatar_for_learner(learner,options)}</a>".html_safe
     end
   end
  
