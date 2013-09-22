@@ -23,8 +23,8 @@ set :use_sudo, false
 set :scm, :git
 set :migrate_target, :latest
 set :rails_env, "production" #added for delayed job
-set :bundle_flags, ''
-set :bundle_dir, ''
+set :bundle_flags, '--deployment --binstubs'
+set :use_sudo, false
 
 before "deploy", "deploy:checks:git_push"
 if(TRUE_VALUES.include?(ENV['MIGRATE']))
@@ -137,17 +137,17 @@ after "deploy:update_code", "delayed_job:start"
  namespace :delayed_job do
    desc "stops delayed_job"
    task :stop, :roles => :app do
-     run "sudo god stop delayed_jobs"
+     run "sudo /usr/local/bin/god stop delayed_jobs"
    end
 
    desc "reloads delayed_job"
    task :reload, :roles => :app do
-     run "sudo god load #{current_path}/config/delayed_job.god"
+     run "sudo /usr/local/bin/god load #{current_path}/config/delayed_job.god"
    end
 
    desc "starts delayed_job"
    task :start, :roles => :app do
-     run "sudo god start delayed_jobs"
+     run "sudo /usr/local/bin/god start delayed_jobs"
    end
  end 
 
