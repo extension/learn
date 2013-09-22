@@ -1,5 +1,6 @@
 RAILS_ROOT = File.dirname(File.dirname(__FILE__))
 DELAYED_JOB = "#{RAILS_ROOT}/script/delayed_job"
+BUNDLE_EXEC = "/usr/local/bin/bundle exec"
 
 God::Contacts::Email.defaults do |d|
   d.from_email = 'monitor@extension.org'
@@ -21,9 +22,9 @@ end
     w.group    = 'delayed_jobs'
     w.dir = "#{RAILS_ROOT}"
     w.interval = 60.seconds
-    w.start = "#{DELAYED_JOB} start"
-    w.stop =  "#{DELAYED_JOB} stop"
-    w.restart = "#{DELAYED_JOB} restart"
+    w.start = "#{BUNDLE_EXEC} '#{DELAYED_JOB} start'"
+    w.stop =  "#{BUNDLE_EXEC} '#{DELAYED_JOB} stop'"
+    w.restart = "#{BUNDLE_EXEC} '#{DELAYED_JOB} restart'"
     w.log = "#{RAILS_ROOT}/log/delayed_job.log"
     w.start_grace = 45.seconds
     w.pid_file = "#{RAILS_ROOT}/tmp/pids/delayed_job.pid"
