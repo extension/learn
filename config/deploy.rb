@@ -42,7 +42,6 @@ else
 end
 
 before "deploy", "delayed_job:stop"
-before "delayed_job:start", "delayed_job:reload"
 after "deploy:update_code", "delayed_job:start"
 
 
@@ -137,17 +136,26 @@ after "deploy:update_code", "delayed_job:start"
  namespace :delayed_job do
    desc "stops delayed_job"
    task :stop, :roles => :app do
-     run "sudo /usr/local/bin/god stop delayed_jobs"
-   end
-
-   desc "reloads delayed_job"
-   task :reload, :roles => :app do
-     run "sudo /usr/local/bin/god load #{current_path}/config/delayed_job.god"
+     # check status
+     started = false
+     invoke_command '/sbin/status delayed_job' do |channel,stream,data|
+       started = (data =~ %r{start})
+     end
+     if(started)
+       invoke_command 'stop delayed_job', via: 'sudo'
+     end
    end
 
    desc "starts delayed_job"
    task :start, :roles => :app do
-     run "sudo /usr/local/bin/god start delayed_jobs"
+     # check status
+     started = false
+     invoke_command '/sbin/status delayed_job' do |channel,stream,data|
+       started = (data =~ %r{start})
+     end
+     if(!started)
+       invoke_command '/sbin/start delayed_job', via: 'sudo'
+     end
    end
  end 
 
