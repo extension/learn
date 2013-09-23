@@ -94,9 +94,6 @@ group :test, :development do
   gem 'sunspot_solr', "~> 1.3.0" 
 end
 
-#god
-gem "god", :require => false
-
 # delayed_job
 gem "delayed_job"
 gem 'delayed_job_active_record'

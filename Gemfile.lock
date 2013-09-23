@@ -102,7 +102,6 @@ GEM
       sax-machine (~> 0.1.0)
     girl_friday (0.10.0)
       connection_pool (~> 0.9.0)
-    god (0.13.1)
     grit (2.5.0)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
@@ -302,7 +301,6 @@ DEPENDENCIES
   devise (~> 1.5.1)
   factory_girl_rails
   feedzirra (= 0.1.2)
-  god
   htmlentities
   inline-style (= 0.5.2ex)
   jquery-rails
