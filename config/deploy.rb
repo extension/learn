@@ -41,8 +41,8 @@ else
   after "deploy:update_code", "deploy:cleanup"
 end
 
-before "deploy", "delayed_job:stop"
-after "deploy:update_code", "delayed_job:start"
+before "deploy:web:disable", "delayed_job:stop"
+before "deploy:web:enable", "delayed_job:start"
 
 
  namespace :deploy do
