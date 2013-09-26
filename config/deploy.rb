@@ -35,12 +35,15 @@ if(TRUE_VALUES.include?(ENV['MIGRATE']))
   after "deploy:update_code", "deploy:migrate"
   after "deploy", "deploy:web:enable"
 else
+  before "deploy", "delayed_job:stop"
   before "deploy", "deploy:checks:git_migrations"
   after "deploy:update_code", "deploy:update_maint_msg"
   after "deploy:update_code", "deploy:link_configs"
   after "deploy:update_code", "deploy:cleanup"
+  after "deploy", "delayed_job:start"
 end
 
+# called when there's a migration or when the app is manually put into maintenance mode
 before "deploy:web:disable", "delayed_job:stop"
 before "deploy:web:enable", "delayed_job:start"
 
