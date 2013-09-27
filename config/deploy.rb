@@ -141,7 +141,7 @@ before "deploy:web:enable", "delayed_job:start"
    task :stop, :roles => :app do
      # check status
      started = false
-     invoke_command '/sbin/status delayed_job' do |channel,stream,data|
+     invoke_command '/sbin/status delayed_job', via: 'sudo' do |channel,stream,data|
        started = (data =~ %r{start})
      end
      if(started)
@@ -153,7 +153,7 @@ before "deploy:web:enable", "delayed_job:start"
    task :start, :roles => :app do
      # check status
      started = false
-     invoke_command '/sbin/status delayed_job' do |channel,stream,data|
+     invoke_command '/sbin/status delayed_job', via: 'sudo' do |channel,stream,data|
        started = (data =~ %r{start})
      end
      if(!started)
