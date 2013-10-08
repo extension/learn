@@ -53,5 +53,9 @@ module Learn
     config.generators do |g|
       g.test_framework  :shoulda, :fixture_replacement => :factory_girl
     end
+
+    #get rid of pesky app errors
+    config.action_dispatch.ip_spoofing_check = false
+
   end
 end
