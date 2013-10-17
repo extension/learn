@@ -89,6 +89,9 @@ gem "rinku", :require => 'rails_rinku'
 # http retrieval
 gem 'rest-client'
 
+# wysihtml5 + bootstrap + asset pipeline
+gem 'bootstrap-wysihtml5-rails'
+
 # require sunspot_solr for test and dev
 group :test, :development do
   gem 'sunspot_solr', "~> 1.3.0" 
