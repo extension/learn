@@ -7,7 +7,7 @@
     <%= form_tag(comments_path, :id => 'comment-form', :remote => true) do %>
       <%= link_to_learner_avatar(current_learner, {image_size: :thumb}) %>
       <div class="commentfield">
-      <%= text_area_tag 'comment[content]', nil, {:cols => nil, :rows => 5} %>
+      <%= text_area_tag 'comment[content]', nil, {:cols => nil, :rows => 5, :class => "wysihtml5"} %>
       <%= hidden_field_tag 'comment[event_id]', event.id %>
       <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn'} %>
       </div>
@@ -47,10 +47,13 @@ $(document).ready(function(){
     .bind("ajax:success", function(event, data, status, xhr) {
       $("#response").html(data);
     });
+    
+    $('.wysihtml5').each(function(i, elem) {
+      $(elem).wysihtml5({image: false});
+    });
 });
 
 function show_element(passed_element) {
   passed_element.show();
 }
-
 </script>
