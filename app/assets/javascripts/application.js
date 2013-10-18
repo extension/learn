@@ -17,6 +17,7 @@
 //= require jquery.tablesorter.min
 //= require twitter/bootstrap/tab
 //= require twitter/bootstrap/collapse
+//= require twitter/bootstrap/dropdown
 //= require twitter/bootstrap/modal
 //= require bootstrap-wysihtml5
 //= require_tree .
