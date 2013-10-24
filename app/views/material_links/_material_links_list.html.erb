@@ -1,3 +1,7 @@
 <% @event_material_links.each do |material_link| %>
-	<p><%= format_text_for_display(material_link.reference_link) %> <%= format_text_for_display(material_link.description) %></p>
+	<div id="link-<%= material_link.id %>">
+	  <%= format_text_for_display(material_link.reference_link) %> <%= format_text_for_display(material_link.description) %>
+	</div>
 <% end %>
+
+

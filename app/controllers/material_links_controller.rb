@@ -17,6 +17,7 @@ class MaterialLinksController < ApplicationController
     if !@material_link.save
       @errors = @material_link.errors.full_messages.to_sentence
     else
+      @new_material_link_id = @material_link.id
       @event_material_links = @material_link.event.material_links.order("created_at DESC")
       @material_link = MaterialLink.new
       respond_to do |format|
