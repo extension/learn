@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130628161524) do
+ActiveRecord::Schema.define(:version => 20131022143639) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(:version => 20130628161524) do
     t.string   "room"
     t.boolean  "featured",                       :default => false,    :null => false
     t.datetime "featured_at"
+    t.string   "evaluation_link"
   end
 
   add_index "events", ["conference_id"], :name => "conference_ndx"
@@ -227,6 +228,14 @@ ActiveRecord::Schema.define(:version => 20130628161524) do
 
   add_index "mailer_caches", ["hashvalue"], :name => "hashvalue_ndx"
   add_index "mailer_caches", ["learner_id", "open_count"], :name => "open_learner_ndx"
+
+  create_table "material_links", :force => true do |t|
+    t.string   "reference_link", :null => false
+    t.string   "description"
+    t.integer  "event_id",       :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
   create_table "notification_exceptions", :force => true do |t|
     t.integer  "learner_id"

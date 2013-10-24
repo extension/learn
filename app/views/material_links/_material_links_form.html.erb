@@ -1,0 +1,12 @@
+<%= form_for @material_link, html: {id: 'material-form'}, remote: true do |f| %>
+  <%= f.label "Link" %>
+  <%= f.text_field :reference_link %>
+  <%= f.label "Description" %>
+  <%= f.text_field :description %>
+  <%= f.hidden_field :event_id, value: @event.id %>
+  <%= f.submit "Post", disable_with: 'Saving...', html: {id: 'material-submit', class: 'btn btn-primary'} %>
+<% end %>
+
+<% if defined?(@errors) && @errors.present? %>
+  <p><%= @errors %></p>
+<% end %>

@@ -42,6 +42,19 @@
       </p>
       <%- end -%>
 
+      <p>
+	  <h3>Event Evaluation</h3>
+      <%- if @event.concluded? -%>
+        <% if @event.evaluation_link.present? %>
+          <%= format_text_for_display(@event.evaluation_link) -%>
+        <% else %>
+          <p>There is no evaluation link at this time.</p>
+        <% end %>
+      <% else %>
+          <p>An evaluation link will appear here after the conclusion of this event if one exists.</p>
+      <%- end -%>
+      </p>
+
       <div class="tags">
         <h4 class="hide">Tags</h4>
         <p>
@@ -51,6 +64,20 @@
             There are no tags at this time
           <%-end -%>
         </p>
+      </div>
+
+      <div>
+        <h4>Event Materials</h4>
+
+        <% if current_learner && current_learner.is_extension_account? %>
+        <div id="material-links-form">
+	      <%= render partial: 'material_links/material_links_form' %>
+	    </div>
+	    <% end %>
+	
+	    <div id="material-links-list">
+  		  <%= render partial: 'material_links/material_links_list' %>
+	    </div>
       </div>
    </section>
 
@@ -146,4 +173,5 @@
 
 <br class='clearing' />
 </div>
+
 

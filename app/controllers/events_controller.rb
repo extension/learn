@@ -86,6 +86,8 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+    @material_link = MaterialLink.new
+    @event_material_links = @event.material_links.order("created_at DESC")
     return if check_for_event_redirect
 
     # there's a global time_zone setter - but we need to

@@ -62,6 +62,13 @@
      <%= event_form.text_field :tag_list, :class => "xxl" %>
    </p>
  </fieldset>
+
+ <fieldset>
+   <p>
+     <%= event_form.label :evaluation_link, 'URL of participant evaluation (if applicable)' %>
+     <%= event_form.text_field :evaluation_link, :class => "xxl" %>
+   </p>
+ </fieldset>
  
  <!-- While an event is going on, you can neither cancel it nor expire it -->
  <!-- Admins can cancel and expire events anytime -->
