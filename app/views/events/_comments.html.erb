@@ -40,20 +40,87 @@
 </section>
 
 <script type="text/javascript">
-$(document).ready(function(){
-  $("#comment-form")
-    .bind("ajax:loading",  $("#comment-submit").val('Submitting...'))
-    .bind("ajax:complete", $("#comment-submit").val('Post'))
-    .bind("ajax:success", function(event, data, status, xhr) {
-      $("#response").html(data);
+
+  $(document).ready(function(){
+    $("#comment-form")
+      .bind("ajax:loading",  $("#comment-submit").val('Submitting...'))
+      .bind("ajax:complete", $("#comment-submit").val('Post'))
+      .bind("ajax:success", function(event, data, status, xhr) {
     });
-    
+  
     $('.wysihtml5').each(function(i, elem) {
       $(elem).wysihtml5({image: false});
-    });
-});
+    });  
+  });
+  
+  function show_element(passed_element) {
+    passed_element.show();
+  }
+  
+  function remove_element(passed_element) {
+    passed_element.remove();
+  }
+  
+  $("#comments").on("click", ".comment-reply", function(){
+    var commentID = $(this).attr("id").replace('comment-reply-to-comment-', '')
+    if ($('#comment_reply_'+commentID).length == 0){
+      commentReplyTemplate(commentID);
+    } else {
+      remove_element($('#comment_reply_'+commentID));
+    }
+  });
+  
+  $("#comments").on("click", ".comment-edit", function(){
+    var commentID = $(this).attr("id").replace('comment-edit-', '')
+    $("#comment-"+commentID).hide();
+    editCommentTemplate(commentID);
+  });
+  
+  $("#comments").on("click", ".comment-cancel", function(){
+    $(this).closest('.comment_wrapper').remove();
+  });
+  
+  $("#comments").on("click", ".comment-cancel-edit", function(){
+    $(this).closest('.comment_wrapper').remove();
+    var commentID = $(this).attr("id").replace('comment-cancel-edit-', '')
+    $("#comment-"+commentID).show();
+  });
+  
+  
+  // get the partial which acts as a template
+  var commentReplyTemplate = function(commentID) {
+     $.ajax({
+         url: "/comments/comment_reply_template",
+         type: "POST",
+         cache: false,
+         data: {requested_comment: commentID},
+         success: function(html){
+           var loc = $('<div class="comment_wrapper" id="comment_reply_'+commentID+'">'+html+'</div>')
+           loc.prependTo($("#comment_template_holder_"+commentID)).slideDown('slow', function() {
+             $('#comment_reply_to_'+commentID+' .wysihtml5').each(function(i, elem) {
+                $(elem).wysihtml5({image: false});
+              });
+           });
+         }
+     });
+   }
 
-function show_element(passed_element) {
-  passed_element.show();
-}
+  
+  var editCommentTemplate = function(commentID) {
+    $.ajax({
+      url: "/comments/comment_edit_template",
+      type: "POST",
+      cache: false,
+      data: {requested_comment: commentID},
+      success: function(html){
+        var loc = $('<div class="comment_wrapper" id="comment_edit_'+commentID+'">'+html+'</div>')
+        loc.prependTo($("#comment_template_holder_"+commentID)).fadeIn('fast', function() {
+          $("#comment_template_holder_"+commentID+" .wysihtml5").wysihtml5({image: false});
+        });
+      }
+    });
+  }
+  
+  
+   
 </script>
