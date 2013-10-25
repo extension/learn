@@ -11,6 +11,8 @@ Learn::Application.routes.draw do
   end
 
   resources :comments, :only => [:create, :update, :destroy, :show]
+  match "comments/comment_edit_template" => "comments#comment_edit_template", :via => [:get, :post]
+  match "comments/comment_reply_template" => "comments#comment_reply_template", :via => [:get, :post]
   resources :ratings, :only => [:create, :destroy]
   resources :learners do
     member do

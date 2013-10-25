@@ -12,6 +12,7 @@ class CommentsController < ApplicationController
     @comment.learner = current_learner
     if !@comment.save
       @errors = @comment.errors.full_messages.to_sentence
+      @comments = @event.comments
     else
       @event = @comment.event
       # if parent_comment_id exists, we're only going to pull the parent comment and it's subtree, 
@@ -83,6 +84,17 @@ class CommentsController < ApplicationController
     if !@comment || @comment.created_by_blocked_learner?  
       return record_not_found
     end
+  end
+  
+  
+  def comment_edit_template
+    comment = Comment.find_by_id(params[:requested_comment])
+    render :partial => 'comments/comment_edit_template', :locals => {:comment => comment}
+  end
+  
+  def comment_reply_template
+    comment = Comment.find_by_id(params[:requested_comment])
+    render :partial => 'comments/comment_reply_template', :locals => {:comment => comment}
   end
   
 end
