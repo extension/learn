@@ -69,7 +69,7 @@
       <div>
         <h4>Event Materials</h4>
 
-        <% if current_learner && current_learner.is_extension_account? %>
+        <% if current_learner %>
         <div id="material-links-form">
 	      <%= render partial: 'material_links/material_links_form' %>
 	    </div>

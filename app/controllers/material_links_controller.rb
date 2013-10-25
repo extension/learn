@@ -9,7 +9,6 @@ class MaterialLinksController < ApplicationController
   before_filter :authenticate_learner!
   
   def create
-    return render :nothing => true if !current_learner.is_extension_account?
     @material_link = MaterialLink.new(params[:material_link])
     @errors = nil
     @event = Event.find(params[:material_link][:event_id])
@@ -27,7 +26,21 @@ class MaterialLinksController < ApplicationController
   end
   
   def destroy
+    @material_link = MaterialLink.find_by_id(params[:id])
     
+    if @material_link.persisted?
+      if !@material_link.destroy
+        @errors = @material_link.errors.full_messages.to_sentence
+      end
+    else
+      return render :nothing => true
+    end
+    
+    @event_material_links = @material_link.event.material_links.order("created_at DESC")
+    
+    respond_to do |format|
+      format.js
+    end
   end
   
 end
