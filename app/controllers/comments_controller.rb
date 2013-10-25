@@ -35,7 +35,7 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     if @comment.learner_id == current_learner.id
       if !@comment.update_attributes(params[:comment])
-        @errors = @comment.errors.full_messages_to_sentence
+        @errors = @comment.errors.full_messages.to_sentence
       else
         @event = @comment.event
         # if parent_comment_id exists, we're only going to pull the parent comment and it's subtree, 
