@@ -43,4 +43,36 @@ class MaterialLinksController < ApplicationController
     end
   end
   
+  def edit
+    @material_link = MaterialLink.find_by_id(params[:id])
+    @event = @material_link.event
+    @event_edit = true
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+  
+  def cancel_edit
+    event = Event.find(params[:event_id])
+    @event_material_links = event.material_links.order("created_at DESC")
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+  
+  def update
+    @material_link = MaterialLink.find(params[:id])
+    if !@material_link.update_attributes(params[:material_link])
+      @errors = @material_link.errors.full_messages.to_sentence
+    else
+      @event_material_links = @material_link.event.material_links.order("created_at DESC")
+    end
+    
+    respond_to do |format|
+      format.js 
+    end
+  end
+  
 end

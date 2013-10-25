@@ -1,6 +1,7 @@
 <% @event_material_links.each do |material_link| %>
 	<div id="link-<%= material_link.id %>">
-	  <%= link_to '[X] Delete', material_link_path(material_link), confirm: 'Are you sure?', method: :delete, remote: true %>
+	  <%= link_to '[X] Delete', material_link_path(material_link), confirm: 'Are you sure you want to delete this?', method: :delete, remote: true %> | 
+	  <%= link_to 'Edit', edit_material_link_path(material_link), remote: true %>
 	  <%= format_text_for_display(material_link.reference_link) %> <%= format_text_for_display(material_link.description) %>
 	</div>
 <% end %>

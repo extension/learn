@@ -69,7 +69,11 @@ Learn::Application.routes.draw do
     end
   end
   
-  resources :material_links, :only => [:create, :destroy]
+  resources :material_links, :only => [:create, :destroy, :edit, :update] do
+    collection do
+      get 'cancel_edit'
+    end
+  end
   
   # recommended event tracking
   match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'

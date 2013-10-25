@@ -5,6 +5,9 @@
   <%= f.text_field :description %>
   <%= f.hidden_field :event_id, value: @event.id %>
   <%= f.submit "Post", disable_with: 'Saving...', html: {id: 'material-submit', class: 'btn btn-primary'} %>
+  <% if defined?(@event_edit) && @event_edit == true %>
+    <%= link_to 'Cancel', cancel_edit_material_links_path(event_id: @event.id), remote: true %>
+  <% end %>
 <% end %>
 
 <% if defined?(@errors) && @errors.present? %>
