@@ -1,0 +1,6 @@
+<% if !defined?(@errors) || @errors.blank? %>
+  $("#material-links-list").html("<%= escape_javascript(render partial: 'material_links_list') %>");
+<% else %>
+  $("#link-<%= @material_link.id %>").before("<p><%= @errors %></p>");
+<% end %>
+
