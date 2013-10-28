@@ -3,4 +3,5 @@ class MaterialLink < ActiveRecord::Base
   
   belongs_to :event
   validates :description, :reference_link, :event_id, :presence => true
+  validates :reference_link, :uri => true
 end

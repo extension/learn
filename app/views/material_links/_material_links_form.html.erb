@@ -20,14 +20,22 @@
   
   <%= f.hidden_field :event_id, value: @event.id %>
   
-  <% if defined?(@event_edit) && @event_edit == true %>
+  <% if @material_link.persisted? %>
     <%= f.submit "Update Material Link", disable_with: 'Saving...', id: 'material-submit', class: 'btn btn-primary' %>
     <%= link_to 'Cancel', cancel_edit_material_links_path(material_link_id: @material_link.id), class: 'btn', remote: true %>
     <%= link_to 'delete', material_link_path(@material_link.id), class: "btn btn-danger pull-right", confirm: 'Are you sure you want to delete this?', method: :delete, remote: true %>
   <% else %>
     <%= f.submit "Add Material Link", disable_with: 'Saving...', id: 'material-submit', class: 'btn btn-primary' %>
+    <%= link_to_function 'Cancel', '', {class: 'btn', id: 'cancel-material-add-form'} %>
   <% end %>
 
 <% end %>
 
 </div>
+
+<script class="code" type="text/javascript">
+  $('#cancel-material-add-form').click(function(){
+	$('#material-links-form').slideToggle('slow');
+	$('#material-form-expansion').text('Add materials');
+  });
+</script>

@@ -11,7 +11,7 @@ class MaterialLinksController < ApplicationController
   def create
     @material_link = MaterialLink.new(params[:material_link])
     @errors = nil
-    @event = Event.find(params[:material_link][:event_id])
+    @event = @material_link.event
     
     if !@material_link.save
       @errors = @material_link.errors.full_messages.to_sentence
@@ -45,7 +45,6 @@ class MaterialLinksController < ApplicationController
   def edit
     @material_link = MaterialLink.find_by_id(params[:id])
     @event = @material_link.event
-    @event_edit = true
     
     respond_to do |format|
       format.js

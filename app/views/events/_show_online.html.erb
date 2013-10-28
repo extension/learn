@@ -73,10 +73,11 @@
 	      </div>
 
         <% if current_learner %>
-          <div id="material-links-form">
+          <%= link_to_function 'Add materials', '', :id => 'material-form-expansion' %>
+          <div id="material-links-form" style="display: none;">
             <%= render partial: 'material_links/material_links_form' %>
-	        </div>
-	      <% end %>
+	      </div>
+	    <% end %>
       </div>
    </section>
 
@@ -172,3 +173,15 @@
 
 <br class='clearing' />
 </div>
+
+<script class="code" type="text/javascript">
+  $('#material-form-expansion').click(function(){
+    $('#material-links-form').slideToggle('slow');
+    if($('#material-form-expansion').text() == 'Cancel') {
+	  $('#material-form-expansion').text('Add materials');
+    }
+    else {
+	  $('#material-form-expansion').text('Cancel'); 
+    }
+  });
+</script>
