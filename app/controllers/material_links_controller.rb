@@ -63,6 +63,7 @@ class MaterialLinksController < ApplicationController
   def update
     @material_link = MaterialLink.find(params[:id])
     if !@material_link.update_attributes(params[:material_link])
+      @event = @material_link.event
       @errors = @material_link.errors.full_messages.to_sentence
     end
     

@@ -1,25 +1,33 @@
+<div class="well">
+
+  <% if defined?(@errors) && @errors.present? %>
+    <div class="alert alert-error">
+      <p><%= @errors %></p>
+    </div>
+  <% end %>
+
 <%= form_for @material_link, html: {id: 'material-form', class: "no-top-margin"}, remote: true do |f| %>
   <p>
-    <%= f.label :description, "Description of Material" %>
+    <%= f.label :description, "Description of material" %>
     <%= f.text_field :description, class: "input-xxlarge" %>
   </p>
   
   <p class="input-with-description">
-    <%= f.label :reference_link, "Link to Material" %>
+    <%= f.label :reference_link, "Link to material" %>
     <%= f.text_field :reference_link, class: "input-xxlarge" %>
     <span class="help-block">A URL linking to event material, such as slides, handouts, videos, etc.</span>
   </p>
   
   <%= f.hidden_field :event_id, value: @event.id %>
-
-    <%= f.submit "Post", disable_with: 'Saving...', id: 'material-submit', class: 'btn btn-primary' %>
   
-    <% if defined?(@event_edit) && @event_edit == true %>
-      <%= link_to 'Cancel', cancel_edit_material_links_path(material_link_id: @material_link.id), remote: true %>
-    <% end %>
+  <% if defined?(@event_edit) && @event_edit == true %>
+    <%= f.submit "Update Material Link", disable_with: 'Saving...', id: 'material-submit', class: 'btn btn-primary' %>
+    <%= link_to 'Cancel', cancel_edit_material_links_path(material_link_id: @material_link.id), class: 'btn', remote: true %>
+    <%= link_to 'delete', material_link_path(@material_link.id), class: "btn btn-danger pull-right", confirm: 'Are you sure you want to delete this?', method: :delete, remote: true %>
+  <% else %>
+    <%= f.submit "Add Material Link", disable_with: 'Saving...', id: 'material-submit', class: 'btn btn-primary' %>
+  <% end %>
 
 <% end %>
 
-<% if defined?(@errors) && @errors.present? %>
-  <p><%= @errors %></p>
-<% end %>
+</div>

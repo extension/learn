@@ -71,13 +71,12 @@
         <div id="material-links-list">
           <%= render partial: 'material_links/material_links_list' %>
 	      </div>
-        <div class="well">
-          <% if current_learner %>
-            <div id="material-links-form">
-	            <%= render partial: 'material_links/material_links_form' %>
-	          </div>
-	        <% end %>
-	      </div>
+
+        <% if current_learner %>
+          <div id="material-links-form">
+            <%= render partial: 'material_links/material_links_form' %>
+	        </div>
+	      <% end %>
       </div>
    </section>
 
