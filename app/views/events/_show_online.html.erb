@@ -73,7 +73,7 @@
 	      </div>
 
         <% if current_learner %>
-          <%= link_to_function 'Add materials', '', :id => 'material-form-expansion' %>
+          <p><%= link_to_function 'Add materials', '', :id => 'material-form-expansion', :class => 'btn' %></p>
           <div id="material-links-form" style="display: none;">
             <%= render partial: 'material_links/material_links_form' %>
 	      </div>
