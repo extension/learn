@@ -17,7 +17,9 @@
        </div>
       
       <h3 class="event_title"><%= link_to(event.title, event_path(event.id)) -%></h3>
-    
+      
+      <h4><%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%></h4>
+      
       <div class="description"><%= format_text_for_display(event.description) -%></div>
 
       <%- if event.presenters.count > 0 -%>
