@@ -11,12 +11,11 @@
   </p>
   
   <%= f.hidden_field :event_id, value: @event.id %>
-  
 
     <%= f.submit "Post", disable_with: 'Saving...', id: 'material-submit', class: 'btn btn-primary' %>
   
     <% if defined?(@event_edit) && @event_edit == true %>
-      <%= link_to 'Cancel', cancel_edit_material_links_path(event_id: @event.id), remote: true %>
+      <%= link_to 'Cancel', cancel_edit_material_links_path(material_link_id: @material_link.id), remote: true %>
     <% end %>
 
 <% end %>
