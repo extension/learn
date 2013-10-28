@@ -66,18 +66,18 @@
         </p>
       </div>
 
-      <div>
-        <h4>Event Materials</h4>
-
-        <% if current_learner %>
-        <div id="material-links-form">
-	      <%= render partial: 'material_links/material_links_form' %>
-	    </div>
-	    <% end %>
-	
-	    <div id="material-links-list">
-  		  <%= render partial: 'material_links/material_links_list' %>
-	    </div>
+      <div class="event_materials">
+        <h3>Event Materials</h3>
+        <div id="material-links-list">
+          <%= render partial: 'material_links/material_links_list' %>
+	      </div>
+        <div class="well">
+          <% if current_learner %>
+            <div id="material-links-form">
+	            <%= render partial: 'material_links/material_links_form' %>
+	          </div>
+	        <% end %>
+	      </div>
       </div>
    </section>
 

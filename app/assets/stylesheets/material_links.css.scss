@@ -1,3 +1,8 @@
 // Place all the styles related to the material_links controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.input-with-description input {margin-bottom:0;}
+.input-with-description .help-block {font-size:13px;}
+
+.no-top-margin {margin-top:0;}
