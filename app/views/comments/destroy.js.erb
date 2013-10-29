@@ -1,0 +1,5 @@
+<% if !defined?(@errors) || @errors.blank? %>
+  $("#comment-<%= @comment_id %>").remove();
+<% else %>
+  $("#comment-<%= @comment.id %>").before("<p><%= @errors %></p>");
+<% end %>

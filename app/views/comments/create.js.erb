@@ -1,0 +1,4 @@
+$("#new-comments-form").html("<%= escape_javascript(render partial: 'new_comments_form') %>");
+<% if !defined?(@errors) || @errors.blank? %>
+  $("#comments-list").html("<%= escape_javascript(render partial: 'comments_list') %>");
+<% end %>

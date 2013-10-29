@@ -1,126 +1,14 @@
 <section id="comments">
-  <h5>Add your thoughts...</h5>
   
-  <div class="commentfield_container">
-    <% if current_learner %>
-    
-    <%= form_tag(comments_path, :id => 'comment-form', :remote => true) do %>
-      <%= link_to_learner_avatar(current_learner, {image_size: :thumb}) %>
-      <div class="commentfield">
-      <%= text_area_tag 'comment[content]', nil, {:cols => nil, :rows => 5, :class => "wysihtml5"} %>
-      <%= hidden_field_tag 'comment[event_id]', event.id %>
-      <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn'} %>
-      </div>
-      <br class="clearing" />
-    <% end %>
-    
-    <% else %>
-        
-        <%= form_tag(comments_path, :id => 'comment-form', :remote => true) do %>
-        <%= image_tag("avatar_placeholder.png", :size => "50x50", :class => "size50x50") %>
-        
-        <%= render(partial: 'sign_in_to_vote')%>
-          <div class="sitv_element commentfield">
-          <%= text_area_tag 'comment[content]', nil, {:cols => nil, :rows => 5} %>
-          <%= submit_tag "Post", {:id => 'comment-submit', :class => 'btn'} %>
-          </div>
-          <br class="clearing" />
-          </div> <!-- end .sitv_element_wrapper  -->
-        <% end %>
-        
-    <% end %>
-    
-    <br class="clearing" />
-  </div>
+  <% if current_learner %>
+    <h5>Add your thoughts...</h5>
+    <div id="new-comments-form">
+      <%= render partial: 'comments/new_comments_form' %>
+    </div>
+  <% end %>
   
-  <div id="comment-list">
-    <%= render :partial => 'comments/comment_list', :locals => {:comment_list => comments, :parent_comment => nil} %>
+  <div id="comments-list">
+    <%= render :partial => 'comments/comments_list', :locals => {:comment_list => @event_comments, :parent_comment => nil} %>
   </div>
   
 </section>
-
-<script type="text/javascript">
-
-  $(document).ready(function(){
-    $("#comment-form")
-      .bind("ajax:loading",  $("#comment-submit").val('Submitting...'))
-      .bind("ajax:complete", $("#comment-submit").val('Post'))
-      .bind("ajax:success", function(event, data, status, xhr) {
-    });
-  
-    $('.wysihtml5').each(function(i, elem) {
-      $(elem).wysihtml5({image: false});
-    });  
-  });
-  
-  function show_element(passed_element) {
-    passed_element.show();
-  }
-  
-  function remove_element(passed_element) {
-    passed_element.remove();
-  }
-  
-  $("#comments").on("click", ".comment-reply", function(){
-    var commentID = $(this).attr("id").replace('comment-reply-to-comment-', '')
-    if ($('#comment_reply_'+commentID).length == 0){
-      commentReplyTemplate(commentID);
-    } else {
-      remove_element($('#comment_reply_'+commentID));
-    }
-  });
-  
-  $("#comments").on("click", ".comment-edit", function(){
-    var commentID = $(this).attr("id").replace('comment-edit-', '')
-    $("#comment-"+commentID).hide();
-    editCommentTemplate(commentID);
-  });
-  
-  $("#comments").on("click", ".comment-cancel", function(){
-    $(this).closest('.comment_wrapper').remove();
-  });
-  
-  $("#comments").on("click", ".comment-cancel-edit", function(){
-    $(this).closest('.comment_wrapper').remove();
-    var commentID = $(this).attr("id").replace('comment-cancel-edit-', '')
-    $("#comment-"+commentID).show();
-  });
-  
-  
-  // get the partial which acts as a template
-  var commentReplyTemplate = function(commentID) {
-     $.ajax({
-         url: "/comments/comment_reply_template",
-         type: "POST",
-         cache: false,
-         data: {requested_comment: commentID},
-         success: function(html){
-           var loc = $('<div class="comment_wrapper" id="comment_reply_'+commentID+'">'+html+'</div>')
-           loc.prependTo($("#comment_template_holder_"+commentID)).slideDown('slow', function() {
-             $('#comment_reply_to_'+commentID+' .wysihtml5').each(function(i, elem) {
-                $(elem).wysihtml5({image: false});
-              });
-           });
-         }
-     });
-   }
-
-  
-  var editCommentTemplate = function(commentID) {
-    $.ajax({
-      url: "/comments/comment_edit_template",
-      type: "POST",
-      cache: false,
-      data: {requested_comment: commentID},
-      success: function(html){
-        var loc = $('<div class="comment_wrapper" id="comment_edit_'+commentID+'">'+html+'</div>')
-        loc.prependTo($("#comment_template_holder_"+commentID)).fadeIn('fast', function() {
-          $("#comment_template_holder_"+commentID+" .wysihtml5").wysihtml5({image: false});
-        });
-      }
-    });
-  }
-  
-  
-   
-</script>

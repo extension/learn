@@ -9,25 +9,29 @@ class CommentsController < ApplicationController
   
   def create 
     @comment = Comment.new(params[:comment])
+    @errors = nil
     @comment.learner = current_learner
+    @event = @comment.event
+    
     if !@comment.save
       @errors = @comment.errors.full_messages.to_sentence
-      @comments = @event.comments
+      # @comments = @event.comments
     else
       @event = @comment.event
+      @comment = Comment.new
       # if parent_comment_id exists, we're only going to pull the parent comment and it's subtree, 
       # because this is getting called from the parent comment's view page
       if params[:parent_comment_id].blank?
-        @comments = @event.comments
+        @event_comments = @event.comments
         @parent_comment = nil
       else
-        @comments = Comment.find(params[:parent_comment_id]).subtree
+        @event_comments = Comment.find(params[:parent_comment_id]).subtree
         @parent_comment = @comment
       end
     end
     
     respond_to do |format|
-      format.js {render :template => 'comments/comment_changed'}
+      format.js
     end
   end
   
@@ -53,29 +57,33 @@ class CommentsController < ApplicationController
       @errors = "You cannot edit this comment as you are not the author."
     end
     respond_to do |format|
-      format.js {render :template => 'comments/comment_changed'}
+      format.js
     end
   end
   
   def destroy
-    comment = Comment.find(params[:id])
-    @event = comment.event
-    @comments = @event.comments
-    if comment.learner_id == current_learner.id
-      comment.destroy
-      # if parent_comment_id exists, we're going to redirect back to the event's show page, 
-      # since we're on the comment's view page and the comment will be going away. 
-      # the comment's children and descendants will be moving up a level in the comment hierarchy.
-      if params[:parent_comment_id].blank?
-        @parent_comment = false
+    @comment = Comment.find(params[:id])
+    
+    if @comment.learner_id == current_learner.id
+      if @comment.persisted?
+        @comment_id = @comment.id
+        if !@comment.destroy
+          @errors = @comment.errors.full_messages.to_sentence
+        end
       else
-        @parent_comment = true
+        return render :nothing => true
       end
-    else
-      @errors = "You cannot delete this comment as you are not the author."
+    
+      respond_to do |format|
+        format.js
+      end
     end
+  end
+  
+  def reply
+    @comment = Comment.find_by_id(params[:id])
     respond_to do |format|
-      format.js {render :template => 'comments/comment_deleted'}
+      format.js
     end
   end
   
@@ -86,15 +94,21 @@ class CommentsController < ApplicationController
     end
   end
   
-  
-  def comment_edit_template
-    comment = Comment.find_by_id(params[:requested_comment])
-    render :partial => 'comments/comment_edit_template', :locals => {:comment => comment}
+  def edit
+    @comment = Comment.find_by_id(params[:id])
+    @event = @comment.event
+    
+    respond_to do |format|
+      format.js
+    end
   end
   
-  def comment_reply_template
-    comment = Comment.find_by_id(params[:requested_comment])
-    render :partial => 'comments/comment_reply_template', :locals => {:comment => comment}
+  def cancel_edit
+    @comment = Comment.find(params[:comment_id])
+  
+    respond_to do |format|
+      format.js
+    end
   end
   
 end

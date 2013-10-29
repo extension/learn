@@ -88,6 +88,8 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @material_link = MaterialLink.new
     @event_material_links = @event.material_links.order("created_at DESC")
+    @comment = Comment.new
+    @event_comments = @event.comments
     return if check_for_event_redirect
 
     # there's a global time_zone setter - but we need to
@@ -107,8 +109,7 @@ class EventsController < ApplicationController
         @event.add_stock_questions
       end
     end
-
-    @comments = @event.comments
+    
     if(current_learner)
       @last_viewed_at = current_learner.last_view_for_event(@event)
     end
