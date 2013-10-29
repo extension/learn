@@ -1,3 +1,7 @@
+<% if @event_material_links.blank? %>
+  <p>There are no event materials at this time.</p>
+<% end %>
+
 <% @event_material_links.each do |material_link| %>
   <%= render :partial => 'material_links/material_link', :locals => {:material_link => material_link} %>
 <% end %>
