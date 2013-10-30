@@ -18,7 +18,7 @@
       <%= hidden_field_tag 'parent_comment_id', @comment.ancestry %>
     <% end %>
     
-    <%= f.hidden_field :event_id, value: @event.id %>
+    <%= f.hidden_field :event_id, value: @comment.event.id %>
     
     <%= f.submit "Update comment", disable_with: 'Saving...', id: 'comment-submit', class: 'btn btn-primary' %>
     <%= link_to 'Cancel', cancel_edit_comments_path(comment_id: @comment.id), class: 'btn', remote: true %>
