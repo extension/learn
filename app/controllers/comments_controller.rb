@@ -15,7 +15,6 @@ class CommentsController < ApplicationController
     
     if !@comment.save
       @errors = @comment.errors.full_messages.to_sentence
-      # @comments = @event.comments
     else
       @event = @comment.event
       @comment = Comment.new

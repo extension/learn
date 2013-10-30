@@ -1,7 +1,0 @@
-<% if comment_list.present? && comment_list.length > 0 %>
-  <% if parent_comment.present? %>
-    <%= nested_comments(comment_list.arrange(:order => 'created_at DESC'), parent_comment) %>
-  <% else %>
-    <%= nested_comments(comment_list.arrange(:order => 'created_at DESC')) %>
-  <% end %>
-<% end %>
