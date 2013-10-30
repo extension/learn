@@ -38,7 +38,8 @@
   <span class="comment_actions">
     <% if current_learner %>
       <%= link_to 'reply', reply_comments_path(comment_id: comment.id), class: 'btn btn-link', id: "reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
-      <span id="cancel-reply-to-comment-<%= comment.id %>" class="btn btn-link" style="display: none;">cancel</span>
+      
+      <%= link_to 'cancel reply', cancel_reply_comments_path(comment_id: comment.id), style: "display: none;", class: 'cancel-reply-to-comment btn btn-link', id: "cancel-reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
     <% end %>
   </span>
 

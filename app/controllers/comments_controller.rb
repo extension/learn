@@ -114,4 +114,12 @@ class CommentsController < ApplicationController
     end
   end
   
+  def cancel_reply
+    @comment = Comment.find(params[:comment_id])
+  
+    respond_to do |format|
+      format.js
+    end
+  end
+  
 end

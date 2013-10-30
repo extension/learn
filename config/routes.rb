@@ -13,6 +13,7 @@ Learn::Application.routes.draw do
   resources :comments, :only => [:create, :update, :destroy, :show, :edit] do
     collection do
       get 'cancel_edit'
+      get 'cancel_reply'
       get 'reply'
       post 'reply'
     end
