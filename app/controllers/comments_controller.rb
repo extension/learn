@@ -81,7 +81,10 @@ class CommentsController < ApplicationController
   end
   
   def reply
-    @comment = Comment.find_by_id(params[:id])
+    @parent_comment = Comment.find_by_id(params[:comment_id])
+    @event = @parent_comment.event
+    @comment = Comment.new
+    
     respond_to do |format|
       format.js
     end
