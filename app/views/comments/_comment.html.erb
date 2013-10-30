@@ -1,6 +1,5 @@
-<br class="clearing" />
-
 <div id="comment-<%= comment.id %>" class="<%= comment_class(comment) %> cc-comment">
+  <br class="clearing" />
   <%= link_to_learner_avatar(comment.learner, {image_size: :thumb}) %>
   <span class="comment_author"><%= link_to_learner(comment.learner) %></span>
   
@@ -24,8 +23,7 @@
   <p class="content">
     <%= format_text_for_display(comment.content) %>
   </p>
-  <span class="comment_time"><span><%= link_to time_ago_in_words(comment.updated_at) + ' ago', comment_path(comment) %> </span>
-  
+  <span class="comment_time"><span><%= link_to "#{time_ago_in_words(comment.updated_at)} ago", event_path(comment.event, :anchor => "comment-#{comment.id}") %> </span>
 
   <%- if current_learner && (current_learner.id == comment.learner_id) -%>
     <small><%= link_to 'edit', edit_comment_path(comment), class: "muted", remote: true %> </small>
