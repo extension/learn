@@ -23,22 +23,28 @@
   <p class="content">
     <%= format_text_for_display(comment.content) %>
   </p>
-  <span class="comment_time"><span><%= link_to "#{time_ago_in_words(comment.updated_at)} ago", event_path(comment.event, :anchor => "comment-#{comment.id}") %> </span>
+  
+  <p>
+    <%= link_to "#{time_ago_in_words(comment.updated_at)} ago", event_path(comment.event, :anchor => "comment-#{comment.id}"), {:class => "comment-timestamp"} %>
+    
+    <%- if current_learner && (current_learner.id == comment.learner_id) -%>
+      <small><%= link_to 'edit', edit_comment_path(comment), class: "muted", remote: true %> </small>
+    <%- end %>
+    <span class="comment_actions">
+      <% if current_learner %>
+        <%= link_to 'reply', reply_comments_path(comment_id: comment.id), class: 'btn btn-link', id: "reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
 
-  <%- if current_learner && (current_learner.id == comment.learner_id) -%>
-    <small><%= link_to 'edit', edit_comment_path(comment), class: "muted", remote: true %> </small>
-  <%- end %>
+        <%= link_to 'cancel reply', cancel_reply_comments_path(comment_id: comment.id), style: "display: none;", class: 'cancel-reply-to-comment btn btn-link', id: "cancel-reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
+      <% end %>
+    </span>
+  </p>
+
+  
   
   <% if comment.parent_removed %>
     <p class="removed">The comment preceding this comment has been deleted</p>
   <% end %>
   
-  <span class="comment_actions">
-    <% if current_learner %>
-      <%= link_to 'reply', reply_comments_path(comment_id: comment.id), class: 'btn btn-link', id: "reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
-      
-      <%= link_to 'cancel reply', cancel_reply_comments_path(comment_id: comment.id), style: "display: none;", class: 'cancel-reply-to-comment btn btn-link', id: "cancel-reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
-    <% end %>
-  </span>
+  
 
 </div>

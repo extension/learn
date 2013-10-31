@@ -55,5 +55,6 @@
 /*.comment_wrapper {outline:red 1px solid}*/
 
 
-.cc-comment {border:1px solid lime; clear:both;}
-.cc-comment-form {border:1px solid red; clear:both;}
+.cc-comment {/*border:1px solid lime; */clear:both;}
+.cc-comment-form {/*border:1px solid red; */clear:both;}
+.cc-comment.cc-highlight {background-color: #ffa; -webkit-transition: all 1s linear;}

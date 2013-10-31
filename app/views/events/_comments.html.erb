@@ -16,5 +16,12 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $('#new-comments-form .wysihtml5').wysihtml5({image: false});
+    var highlightedComment = window.location.hash;
+    $(highlightedComment).addClass("cc-highlight");
+    
+    $(".comment-timestamp").click(function() {
+      $(".cc-comment").removeClass("cc-highlight");
+      $(this).closest(".cc-comment").addClass("cc-highlight");
+    });
   })
 </script>
