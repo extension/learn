@@ -1,3 +1,4 @@
 $("#comment-<%= @parent_comment.id %>").append("<%= escape_javascript(render partial: 'comments/new_comments_form') %>");
+$('#comment-<%= @parent_comment.id %> .wysihtml5').wysihtml5({image: false});
 $("#reply-to-comment-<%= @parent_comment.id %>").hide();
 $("#cancel-reply-to-comment-<%= @parent_comment.id %>").show();

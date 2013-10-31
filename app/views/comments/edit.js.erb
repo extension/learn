@@ -1,1 +1,2 @@
 $("#comment-<%= @comment.id %>").html("<%= escape_javascript(render partial: 'edit_comments_form') %>");
+$('#comment-<%= @comment.id %> .wysihtml5').wysihtml5({image: false});
