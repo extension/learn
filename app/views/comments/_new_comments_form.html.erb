@@ -25,6 +25,10 @@
     <% end %>
     
     <%= f.submit "Post comment", disable_with: 'Saving...', id: 'comment-submit', class: 'btn btn-primary' %>
+    
+    <% if @parent_comment.present? %>
+      <%= link_to 'Cancel', cancel_reply_comments_path(comment_id: @parent_comment.id), class: 'cancel-reply-to-comment btn', remote: true, :data => { :comment => @parent_comment.id } %>
+    <% end %>
 
   <% end %>
 
