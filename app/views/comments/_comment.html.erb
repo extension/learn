@@ -1,7 +1,12 @@
-<div id="comment-<%= comment.id %>" class="<%= comment_class(comment) %> cc-comment">
-  <br class="clearing" />
-  <%= link_to_learner_avatar(comment.learner, {image_size: :thumb}) %>
-  <span class="comment_author"><%= link_to_learner(comment.learner) %></span>
+<div id="comment-<%= comment.id %>" class="cc-comment <%= comment_class(comment) %>">
+  <div id="view-comment-<%= comment.id %>" class="cc-comment-anchor"></div>
+  
+  <div class="content">
+    <%= format_text_for_display(comment.content) %>
+  </div>
+  
+
+  <p class="comment-author"><%= link_to_learner_avatar(comment.learner, {image_size: :thumb}) %> <%= link_to_learner(comment.learner) %></p>
   
   <div class='rating_wrapper'>
     <% if current_learner %>
@@ -20,31 +25,22 @@
     </div>
   </div>
   
-  <p class="content">
-    <%= format_text_for_display(comment.content) %>
-  </p>
   
-  <p>
-    <%= link_to "#{time_ago_in_words(comment.updated_at)} ago", event_path(comment.event, :anchor => "comment-#{comment.id}"), {:class => "comment-timestamp"} %>
+  <p class="comment-actions">
+    <%= link_to "#{time_ago_in_words(comment.updated_at)} ago", event_path(comment.event, :anchor => "view-comment-#{comment.id}"), {:class => "comment-timestamp", :title => "Link to this comment"} %>
     
     <%- if current_learner && (current_learner.id == comment.learner_id) -%>
-      <small><%= link_to 'edit', edit_comment_path(comment), class: "muted", remote: true %> </small>
+      <%= link_to 'edit', edit_comment_path(comment), class: "muted", remote: true %>
     <%- end %>
-    <span class="comment_actions">
-      <% if current_learner %>
-        <%= link_to 'reply', reply_comments_path(comment_id: comment.id), class: 'btn btn-link', id: "reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
-
-        <%= link_to 'cancel reply', cancel_reply_comments_path(comment_id: comment.id), style: "display: none;", class: 'cancel-reply-to-comment btn btn-link', id: "cancel-reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
-      <% end %>
-    </span>
+    
+    <% if current_learner %>
+      <%= link_to 'reply', reply_comments_path(comment_id: comment.id), class: 'btn btn-link', id: "reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
+      <%= link_to 'cancel reply', cancel_reply_comments_path(comment_id: comment.id), style: "display: none;", class: 'cancel-reply-to-comment btn btn-link', id: "cancel-reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
+    <% end %>
   </p>
-
-  
   
   <% if comment.parent_removed %>
     <p class="removed">The comment preceding this comment has been deleted</p>
   <% end %>
-  
-  
 
 </div>

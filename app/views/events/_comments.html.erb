@@ -1,9 +1,17 @@
 <section id="comments">
   
+  <h4 class="subhead_style bordered">
+    <%= @event.comments.size %> <%= @event.comments.size == 1 ? "Comment" : "Comments"%>
+  </h4>
+  
   <% if current_learner %>
-    <h5>Add your thoughts...</h5>
     <div id="new-comments-form">
       <%= render partial: 'comments/new_comments_form' %>
+    </div>
+  <% else %>
+    <div class="sign_in_prompt" >
+      <p>Please sign in to post a comment</p>
+      <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn" )%></p>
     </div>
   <% end %>
   
@@ -17,7 +25,7 @@
   $(document).ready(function(){
     $('#new-comments-form .wysihtml5').wysihtml5({image: false});
     var highlightedComment = window.location.hash;
-    $(highlightedComment).addClass("cc-highlight");
+    $(highlightedComment).closest(".cc-comment").addClass("cc-highlight");
     
     $(".comment-timestamp").click(function() {
       $(".cc-comment").removeClass("cc-highlight");
