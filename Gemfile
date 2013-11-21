@@ -55,6 +55,9 @@ gem "feedzirra", "0.1.2"
 # pagination
 gem 'kaminari'
 
+# nested forms
+gem "cocoon"
+
 # server settings
 gem "rails_config"
 

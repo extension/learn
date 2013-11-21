@@ -71,13 +71,6 @@
         <div id="material-links-list">
           <%= render partial: 'material_links/material_links_list' %>
 	      </div>
-
-        <% if current_learner %>
-          <p><%= link_to_function 'Add materials', '', :id => 'material-form-expansion', :class => 'btn' %></p>
-          <div id="material-links-form" style="display: none;">
-            <%= render partial: 'material_links/material_links_form' %>
-	      </div>
-	    <% end %>
       </div>
    </section>
 

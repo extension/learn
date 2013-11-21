@@ -1,8 +1,5 @@
 <div id="link-<%= material_link.id %>">
   <h4>
     <i class="icon-file"></i> <%= link_to material_link.description, material_link.reference_link %> 
-    <%- if current_learner -%>
-    <small><%= link_to 'edit', edit_material_link_path(material_link), class: "muted", remote: true %> </small>
-    <%- end %>
   </h4>
 </div>

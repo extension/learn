@@ -155,6 +155,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    
     if(@conference)
       @event.session_start = @conference.default_time
       @event.session_length = @conference.default_length
@@ -172,10 +173,12 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(params[:event])
+    
     if(@event.conference_id)
       @conference = Conference.find_by_id(@event.conference_id)
     end
     @event.last_modifier = @event.creator = current_learner
+    
     if @event.save
       redirect_to(@event, :notice => 'Event was successfully created.')
     else
