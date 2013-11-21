@@ -5,6 +5,7 @@
           at the <%= link_to(@event.conference.name,conference_path(:id => @event.conference.hashtag)) %></p>
       <%- end -%>
       <h2><%= @event.title -%></h2>
+      
 
       <div class="rating_wrapper">
         <% if current_learner %>

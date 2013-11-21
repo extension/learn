@@ -17,9 +17,16 @@ class Event < ActiveRecord::Base
   attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled
   attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at, :evaluation_link
 
+  attr_accessible :images_attributes
+  has_many :images, :dependent => :destroy
+  accepts_nested_attributes_for :images, :allow_destroy => true
+
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
 
+  # specify image uploader for carrierwave
+  mount_uploader :image, ImageUploader
+  
   # types
   ONLINE = 'online'
   CONFERENCE = 'conference'

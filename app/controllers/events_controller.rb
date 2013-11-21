@@ -185,6 +185,7 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
+    @event.images.build
   end
 
   def update
