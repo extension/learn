@@ -23,9 +23,6 @@ class Event < ActiveRecord::Base
 
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
-
-  # specify image uploader for carrierwave
-  mount_uploader :image, ImageUploader
   
   # types
   ONLINE = 'online'

@@ -155,6 +155,8 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    3.times{@event.images.build}
+
     if(@conference)
       @event.session_start = @conference.default_time
       @event.session_length = @conference.default_length
@@ -185,7 +187,7 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
-    @event.images.build
+    3.times{@event.images.build}
   end
 
   def update
