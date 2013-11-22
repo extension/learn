@@ -86,7 +86,6 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
-    @material_link = MaterialLink.new
     @event_material_links = @event.material_links.order("created_at DESC")
     @comment = Comment.new
     @event_comments = @event.comments

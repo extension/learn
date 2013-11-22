@@ -55,14 +55,7 @@
         <h3>Event Materials</h3>
         <div id="material-links-list">
           <%= render partial: 'material_links/material_links_list' %>
-	      </div>
-
-        <% if current_learner %>
-          <p><%= link_to_function 'Add materials', '', :id => 'material-form-expansion', :class => 'btn' %></p>
-          <div id="material-links-form" style="display: none;">
-            <%= render partial: 'material_links/material_links_form' %>
-	      </div>
-	    <% end %>
+	    </div>
       </div>
    </section>
 
@@ -152,15 +145,3 @@
 
 <br class='clearing' />
 </div>
-
-<script class="code" type="text/javascript">
-  $('#material-form-expansion').click(function(){
-    $('#material-links-form').slideToggle('slow');
-    if($('#material-form-expansion').text() == 'Cancel') {
-	  $('#material-form-expansion').text('Add materials');
-    }
-    else {
-	  $('#material-form-expansion').text('Cancel'); 
-    }
-  });
-</script>
