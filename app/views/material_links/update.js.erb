@@ -1,5 +1,0 @@
-<% if !defined?(@errors) || @errors.blank? %>
-  $("#link-<%= @material_link.id %>").replaceWith("<%= escape_javascript(render partial: 'material_links/material_link', locals: { material_link: @material_link }) %>");
-<% else %>
-  $("#link-<%= @material_link.id %>").html("<%= escape_javascript(render partial: 'material_links_form') %>");
-<% end %>
