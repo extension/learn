@@ -209,4 +209,7 @@ ul.ui-addtocal {
   cursor:default;
   position:absolute;
 }
-.thumbnails {outline:1px solid red;}
+.thumbnail {/*outline:1px solid red;*/ padding:20px;}
+.question_image_wrapper {padding:2px; border:1px solid #ddd; display:block; float:left; margin-right:10px; background:#fff;}
+/*.question_image_wrapper {width:100px;height:100px;}*/
+.question_image_wrapper img {width:175px;height:175px;}

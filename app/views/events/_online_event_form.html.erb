@@ -1,25 +1,3 @@
-<ul class="thumbnails">
-  <%= event_form.fields_for :images, @event.images do |images_field| %>
-      <% if images_field.object.new_record? %>
-      <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span4">
-        <%= images_field.label :file, "Image:" %>
-        <%= images_field.file_field :file %>
-      </li>
-      <% else %>
-      <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span2">
-        <div class="thumbnail">
-          <%= image_tag(images_field.object.file.url(:largethumb)) %>
-          <div class="caption">
-            <%= images_field.check_box :_destroy %>
-            <%= images_field.label(:_destroy, "Delete image", :class => "checkbox inline") %>
-          </div>
-        </div>
-      </li>
-      <% end %>
-      <% end %>
-    </ul>
-
-
 <p>
    <%= event_form.text_field :title, :size => nil, :class => "title" %>
    <span class="help-block">If you make your title 80 characters or less, it can be easily texted</span>
@@ -39,6 +17,29 @@
     </p>
  </fieldset>
  
+ <fieldset id="description">
+ <ul class="thumbnails">
+   <%= event_form.fields_for :images, @event.images do |images_field| %>
+       <% if images_field.object.new_record? %>
+       <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span4">
+         <%= images_field.label :file, "Image:" %>
+         <%= images_field.file_field :file %>
+       </li>
+       <% else %>
+       <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span2">
+         <div class="thumbnail">
+           <%= image_tag(images_field.object.file.url(:largethumb)) %>
+           <div class="caption">
+             <%= images_field.check_box :_destroy %>
+             <%= images_field.label(:_destroy, "Delete image", :class => "checkbox inline") %>
+           </div>
+         </div>
+       </li>
+       <% end %>
+       <% end %>
+     </ul>
+ </fieldset>
+   
  <fieldset id="datetime">
    <p>
    <%= event_form.label :session_start, 'Date and Time' %>
