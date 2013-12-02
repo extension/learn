@@ -69,7 +69,32 @@ class EventsController < ApplicationController
     end
     render :action => 'index'
   end
-
+  
+  def diff_with_previous
+    @event = Event.find(params[:id])
+    @version = Version.find_by_id(params[:version_id])
+      
+    return record_not_found if !@version.present? || !@event.present?
+    
+    @previous_version = @version.previous
+    
+    @version_submitter = Learner.find_by_id(@version.whodunnit)
+    
+    if @version == @event.versions.first
+      @previous_submitter = @event.creator
+    else
+      @previous_submitter = Learner.find_by_id(@previous_version.whodunnit)
+    end
+    
+    if @version.changeset[:title].present?
+      @title_diff = Diffy::Diff.new(@version.changeset[:title][0], @version.changeset[:title][1]).to_s(:html).html_safe
+    end
+    
+    if @version.changeset[:description].present?
+      @description_diff = Diffy::Diff.new(@version.changeset[:description][0], @version.changeset[:description][1]).to_s(:html).html_safe
+    end
+  end
+  
   def broadcast
     @list_title = "Broadcast Sessions"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)

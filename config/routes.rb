@@ -63,6 +63,8 @@ Learn::Application.routes.draw do
       get 'history'
       get 'evaluation'
       get 'evaluationresults'
+      get 'diff_with_previous'
+      post 'restore'
     end
 
     collection do
@@ -73,7 +75,6 @@ Learn::Application.routes.draw do
       get 'search'
       get 'canceled'
       get 'broadcast'
-      post 'restore'
     end
   end
   
