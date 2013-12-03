@@ -43,6 +43,42 @@
   </div>
 <% end %>
 
+<% if defined?(@session_start_diff) && @session_start_diff.present? %>
+  <div class="diff_box">
+    <h3>Start Time Changes</h3>
+    <p><%= @session_start_diff %></p>
+  </div>
+<% end %>
+
+<% if defined?(@session_length_diff) && @session_length_diff.present? %>
+  <div class="diff_box">
+    <h3>Length Changes</h3>
+    <p><%= @session_length_diff %></p>
+  </div>
+<% end %>
+
+<% if defined?(@time_zone_diff) && @time_zone_diff.present? %>
+  <div class="diff_box">
+    <h3>Time Zone Changes</h3>
+    <p><%= @time_zone_diff %></p>
+  </div>
+<% end %>
+
+<% if defined?(@location_diff) && @location_diff.present? %>
+  <div class="diff_box">
+    <h3>Location Changes</h3>
+    <p><%= @location_diff %></p>
+  </div>
+<% end %>
+
+<% if defined?(@evaluation_link_diff) && @evaluation_link_diff.present? %>
+  <div class="diff_box">
+    <h3>Evaluation Link Changes</h3>
+    <p><%= @evaluation_link_diff %></p>
+  </div>
+<% end %>
+
+
 <%= form_tag(restore_event_path(version: @version.id)) do %>
   <p><% if @version == @event.versions.first %>
       <%= submit_tag "Restore Original Question", {:class => 'btn'} %>

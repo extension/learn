@@ -93,6 +93,26 @@ class EventsController < ApplicationController
     if @version.changeset[:description].present?
       @description_diff = Diffy::Diff.new(@version.changeset[:description][0], @version.changeset[:description][1]).to_s(:html).html_safe
     end
+    
+    if @version.changeset[:session_start].present?
+      @session_start_diff = Diffy::Diff.new(@version.changeset[:session_start][0], @version.changeset[:session_start][1]).to_s(:html).html_safe
+    end
+    
+    if @version.changeset[:session_length].present?
+      @session_length_diff = Diffy::Diff.new(@version.changeset[:session_length][0], @version.changeset[:session_length][1]).to_s(:html).html_safe
+    end
+    
+    if @version.changeset[:location].present?
+      @location_diff = Diffy::Diff.new(@version.changeset[:location][0], @version.changeset[:location][1]).to_s(:html).html_safe
+    end
+    
+    if @version.changeset[:evaluation_link].present?
+      @evaluation_link_diff = Diffy::Diff.new(@version.changeset[:evaluation_link][0], @version.changeset[:evaluation_link][1]).to_s(:html).html_safe
+    end
+    
+    if @version.changeset[:time_zone].present?
+      @time_zone_diff = Diffy::Diff.new(@version.changeset[:time_zone][0], @version.changeset[:time_zone][1]).to_s(:html).html_safe
+    end
   end
   
   def broadcast
