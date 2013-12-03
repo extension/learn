@@ -226,7 +226,7 @@ class EventsController < ApplicationController
     end
 
     # special "id of event check"
-    if(params[:q].to_i > 0)
+    if param_is_integer(params[:q])
       id_number = params[:q].to_i
       if(event = Event.find_by_id(id_number))
         if(event.is_conference_session?)
@@ -236,7 +236,6 @@ class EventsController < ApplicationController
         end
       end
     end
-
 
     @list_title = "Session Search Results for '#{params[:q]}'"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)

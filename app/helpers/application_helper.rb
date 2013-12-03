@@ -130,7 +130,7 @@ module ApplicationHelper
       return return_string.html_safe
     end
   end
-
+  
   def pagination_counts(collection)
     if(collection.respond_to?('offset_value'))
       "<p>Displaying <strong>#{collection.offset_value + 1}-#{collection.offset_value + collection.length} of #{collection.total_count}</strong></p>".html_safe

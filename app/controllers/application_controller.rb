@@ -45,6 +45,11 @@ class ApplicationController < ActionController::Base
     current_learner
   end
   
+  # check if passed in parameter string is a string representing an integer or not
+  def param_is_integer(param)
+    true if Integer(param) rescue false
+  end
+  
   # used by paper_trail for tracking additional information
   def info_for_paper_trail
     { :ipaddress => request.remote_ip }
