@@ -69,7 +69,52 @@ class EventsController < ApplicationController
     end
     render :action => 'index'
   end
-
+  
+  def diff_with_previous
+    @event = Event.find(params[:id])
+    @version = Version.find_by_id(params[:version_id])
+      
+    return record_not_found if !@version.present? || !@event.present?
+    
+    @previous_version = @version.previous
+    
+    @version_submitter = Learner.find_by_id(@version.whodunnit)
+    
+    if @version == @event.versions.first
+      @previous_submitter = @event.creator
+    else
+      @previous_submitter = Learner.find_by_id(@previous_version.whodunnit)
+    end
+    
+    if @version.changeset[:title].present?
+      @title_diff = Diffy::Diff.new(@version.changeset[:title][0], @version.changeset[:title][1]).to_s(:html).html_safe
+    end
+    
+    if @version.changeset[:description].present?
+      @description_diff = Diffy::Diff.new(@version.changeset[:description][0], @version.changeset[:description][1]).to_s(:html).html_safe
+    end
+    
+    if @version.changeset[:session_start].present?
+      @session_start_diff = Diffy::Diff.new(@version.changeset[:session_start][0], @version.changeset[:session_start][1]).to_s(:html).html_safe
+    end
+    
+    if @version.changeset[:session_length].present?
+      @session_length_diff = Diffy::Diff.new(@version.changeset[:session_length][0], @version.changeset[:session_length][1]).to_s(:html).html_safe
+    end
+    
+    if @version.changeset[:location].present?
+      @location_diff = Diffy::Diff.new(@version.changeset[:location][0], @version.changeset[:location][1]).to_s(:html).html_safe
+    end
+    
+    if @version.changeset[:evaluation_link].present?
+      @evaluation_link_diff = Diffy::Diff.new(@version.changeset[:evaluation_link][0], @version.changeset[:evaluation_link][1]).to_s(:html).html_safe
+    end
+    
+    if @version.changeset[:time_zone].present?
+      @time_zone_diff = Diffy::Diff.new(@version.changeset[:time_zone][0], @version.changeset[:time_zone][1]).to_s(:html).html_safe
+    end
+  end
+  
   def broadcast
     @list_title = "Broadcast Sessions"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)

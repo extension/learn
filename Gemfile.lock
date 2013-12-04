@@ -82,6 +82,7 @@ GEM
       orm_adapter (~> 0.0.3)
       warden (~> 1.1)
     diff-lcs (1.2.4)
+    diffy (3.0.1)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -304,6 +305,7 @@ DEPENDENCIES
   delayed_job
   delayed_job_active_record
   devise (~> 1.5.1)
+  diffy
   factory_girl_rails
   feedzirra (= 0.1.2)
   htmlentities

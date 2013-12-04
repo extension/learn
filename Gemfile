@@ -70,6 +70,9 @@ gem 'passenger'
 # comment and threaded discussion support
 gem 'ancestry'
 
+# diffs 
+gem 'diffy'
+
 # readability port
 gem "ruby-readability", "~> 0.2.4" ,:require => 'readability'
 
