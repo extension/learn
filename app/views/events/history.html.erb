@@ -1,7 +1,8 @@
 <% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") + ' - History'%>
 
 <div id="behindthescenes">
-  <h1>Event History for: <small><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></small></h1>
+  <h2>Event History<h2>
+  <h3><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></h3>
 
 <table class="table">
   <thead>

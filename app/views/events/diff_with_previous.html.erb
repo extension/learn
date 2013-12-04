@@ -1,30 +1,25 @@
 <% @page_title = "Revision History for Event ##{@event.id}"%>
 
-<p id="aaeid"><%= link_to "Event ##{@event.id}", event_path(@event) %></p>
+<h2><%= link_to 'Revision History', history_event_path(@event.id) %> / Revision Comparison</h2>
+<h3><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></h3>
 
-<h1><%= link_to 'Revision History', history_event_path(@event.id) %> > Revision Comparison</h1>
-
-
-<div class="revision_description">
-
-    <p><% if @version == @event.versions.first %>
+<div class="revision_description_wrapper">
+  <p class="revision_description">
+    <% if @version == @event.versions.first %>
       <strong>Revision 0 (Original Question)</strong>
     <% else %>
       <strong>Revision <%= @previous_version.index + 1 %></strong>
     <% end %>
-      by
-    <p><%= link_to_learner_avatar(@previous_submitter, {image_size: :thumb}) %> <%= link_to_learner(@previous_submitter) %></p>
-    at 
+      by <span class="avatar_wrapper"><%= link_to_learner_avatar(@previous_submitter, {image_size: :thumb}) %> <%= link_to_learner(@previous_submitter) %></span> at 
     <% if @version == @event.versions.first %>
       <%= @event.created_at %>
     <% else %>
       <%= @previous_version.created_at %>
     <% end %>
-    <p>
+  <p>
   
-    <p><strong>Revision <%= @version.index + 1 %></strong> by 
-	<p><%= link_to_learner_avatar(@version_submitter, {image_size: :thumb}) %> <%= link_to_learner(@version_submitter) %></p>
-    at <%= @version.created_at %>
+  <p class="revision_description">
+    <strong>Revision <%= @version.index + 1 %></strong> by <span class="avatar_wrapper"><%= link_to_learner_avatar(@version_submitter, {image_size: :thumb}) %> <%= link_to_learner(@version_submitter) %></span> at <%= @version.created_at %>
   </p>
 
 </div>
