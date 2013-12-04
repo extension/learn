@@ -34,7 +34,15 @@
       <% end %>
 
       <div class="description"><%= format_text_for_display(@event.description) -%></div>
-
+      
+      <div class="tags">
+        <h4 class="hide">Tags</h4>
+        <p>
+          <%-if @event.tags.length != 0 -%>
+            <%= display_conference_tags(@event.tags) -%>
+          <%-end -%>
+        </p>
+      </div>
       
       <% if @event.images.size > 0 %>
 
@@ -72,30 +80,12 @@
         <h3>Presenters</h3>
         <p id="presenters"><%= display_presenters(@event.presenters) %></p>
       <%- end -%>
-
-
-
-      <div class="tags">
-        <h4 class="hide">Tags</h4>
-        <p>
-          <%-if @event.tags.length != 0 -%>
-            <%= display_conference_tags(@event.tags) -%>
-          <%-end -%>
-        </p>
-      </div>
       
       <div class="event_materials">
         <h3>Event Materials</h3>
         <div id="material-links-list">
           <%= render partial: 'material_links/material_links_list' %>
-	      </div>
-
-        <% if current_learner %>
-          <p><%= link_to_function 'Add materials', '', :id => 'material-form-expansion', :class => 'btn' %></p>
-          <div id="material-links-form" style="display: none;">
-            <%= render partial: 'material_links/material_links_form' %>
-	      </div>
-	    <% end %>
+	    </div>
       </div>
    </section>
 
@@ -185,15 +175,3 @@
 
 <br class='clearing' />
 </div>
-
-<script class="code" type="text/javascript">
-  $('#material-form-expansion').click(function(){
-    $('#material-links-form').slideToggle('slow');
-    if($('#material-form-expansion').text() == 'Cancel') {
-	  $('#material-form-expansion').text('Add materials');
-    }
-    else {
-	  $('#material-form-expansion').text('Cancel'); 
-    }
-  });
-</script>

@@ -102,6 +102,24 @@
      <%= event_form.text_field :tag_list, :class => "xxl" %>
    </p>
  </fieldset>
+
+ <fieldset>
+   <p>
+     <%= event_form.label :evaluation_link, 'URL of participant evaluation (if applicable)' %>
+     <%= event_form.text_field :evaluation_link, :class => "xxl" %>
+   </p>
+ </fieldset>
+
+
+<fieldset>
+  <div class="material-links-wrapper">
+    <p><%= link_to_add_association 'Add support materials', event_form, :material_links, { form_name: 'event_form', 'data-association-insertion-method' => 'after', :class => "btn" } %><p>
+
+    <%= event_form.fields_for :material_links do |material_link| %>
+      <%= render 'material_link_fields', event_form: material_link %>  
+    <% end %>
+  </div>
+</fieldset>
  
  <!-- While an event is going on, you can neither cancel it nor expire it -->
  <!-- Admins can cancel and expire events anytime -->

@@ -86,7 +86,6 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
-    @material_link = MaterialLink.new
     @event_material_links = @event.material_links.order("created_at DESC")
     @comment = Comment.new
     @event_comments = @event.comments
@@ -155,6 +154,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+
     3.times{@event.images.build}
 
     if(@conference)
@@ -174,10 +174,12 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(params[:event])
+    
     if(@event.conference_id)
       @conference = Conference.find_by_id(@event.conference_id)
     end
     @event.last_modifier = @event.creator = current_learner
+    
     if @event.save
       redirect_to(@event, :notice => 'Event was successfully created.')
     else
