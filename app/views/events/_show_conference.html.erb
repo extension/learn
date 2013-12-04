@@ -34,7 +34,15 @@
       <% end %>
 
       <div class="description"><%= format_text_for_display(@event.description) -%></div>
-
+      
+      <div class="tags">
+        <h4 class="hide">Tags</h4>
+        <p>
+          <%-if @event.tags.length != 0 -%>
+            <%= display_conference_tags(@event.tags) -%>
+          <%-end -%>
+        </p>
+      </div>
       
       <% if @event.images.size > 0 %>
 
@@ -72,17 +80,6 @@
         <h3>Presenters</h3>
         <p id="presenters"><%= display_presenters(@event.presenters) %></p>
       <%- end -%>
-
-
-
-      <div class="tags">
-        <h4 class="hide">Tags</h4>
-        <p>
-          <%-if @event.tags.length != 0 -%>
-            <%= display_conference_tags(@event.tags) -%>
-          <%-end -%>
-        </p>
-      </div>
       
       <div class="event_materials">
         <h3>Event Materials</h3>
