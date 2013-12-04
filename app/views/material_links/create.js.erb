@@ -1,5 +1,0 @@
-$("#material-links-form").html("<%= escape_javascript(render partial: 'material_links_form') %>");
-<% if !defined?(@errors) || @errors.blank? %>
-$("#material-links-list").html("<%= escape_javascript(render partial: 'material_links_list') %>");
-$("#link-<%= @new_material_link_id %>").effect("highlight", {}, 1000);
-<% end %>

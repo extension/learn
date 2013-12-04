@@ -1,0 +1,20 @@
+<div class='nested-fields'>
+  <fieldset>
+    <p>
+      <%= event_form.label :description, "Description of material" %>
+      <%= event_form.text_field :description, class: "input-xxlarge" %>
+    </p>
+  </fieldset>
+
+  <fieldset>
+    <p class="input-with-description">
+      <%= event_form.label :reference_link, "Link to material" %>
+      <%= event_form.text_field :reference_link, class: "input-xxlarge" %>
+      <span class="help-block">A URL linking to event material, such as slides, handouts, videos, etc.</span>
+    </p>
+  </fieldset>
+  
+  <p>
+    <%= link_to_remove_association "Remove this material link", event_form, confirm: 'Are you sure that you want to remove this?', :class => "btn btn-small" %>
+  </p>
+</div>

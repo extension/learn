@@ -1,6 +1,0 @@
-<% if !defined?(@errors) || @errors.blank? %>
-  $("#link-<%= @material_link_id %>").remove();
-<% else %>
-  $("#link-<%= @material_link.id %>").before("<p><%= @errors %></p>");
-<% end %>
-

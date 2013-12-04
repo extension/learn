@@ -5,6 +5,7 @@
           at the <%= link_to(@event.conference.name,conference_path(:id => @event.conference.hashtag)) %></p>
       <%- end -%>
       <h2><%= @event.title -%></h2>
+      
 
       <div class="rating_wrapper">
         <% if current_learner %>
@@ -29,12 +30,55 @@
       <% end %>
 
       <div class="description"><%= format_text_for_display(@event.description) -%></div>
+      
+      <div class="tags">
+        <h4 class="hide">Tags</h4>
+        <p>
+          <%-if @event.tags.length != 0 -%>
+            <%= display_tags(@event.tags) -%>
+          <%-else -%>
+            There are no tags at this time
+          <%-end -%>
+        </p>
+      </div>
+      
+      <% if @event.images.size > 0 %>
+
+        <div class="images_wrapper clearfix"> 
+        <% @event.images.each do |image| %>
+          <% if image.persisted? %>
+            <% if File.exists?(Rails.root.join("public#{image.file_url(:largethumb,false)}")) %>
+            <div class="question_image_wrapper">
+              <a data-toggle="modal" href="#myModal<%= image.id %>"><%= image_tag(image.file_url(:largethumb)) %></a>
+            </div>
+
+            <div id="myModal<%= image.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-header">
+                <p>
+                  <strong><a href="#" type="button" data-dismiss="modal" aria-hidden="true">Close</a></strong> -
+                  <%= link_to "View full size in a new window", image.file_url(), :target => "_blank" %>
+                <p>
+              </div>
+              <div class="modal-body">
+                <%= image_tag image.file_url() %>
+              </div>
+            </div>
+            <% else %>
+             <%= image_tag("missing_image.png", :size => "80x80", :class => 'missing_image size80x80') %>
+            <% end %>
+          <% end %>
+        <% end %>  
+        <br class="clearing" />
+      </div>
+
+    <% end %>
+      
 
       <%- if @event.presenters.count > 0 -%>
         <h3>Presenters</h3>
         <p id="presenters"><%= display_presenters(@event.presenters) %></p>
-      <%- end -%>
-
+      <%- end -%>  
+      
       <%-if !@event.concluded? -%>
       <p class="location">
         <h3>Event Location</h3>
@@ -55,30 +99,13 @@
       <%- end -%>
       </p>
 
-      <div class="tags">
-        <h4 class="hide">Tags</h4>
-        <p>
-          <%-if @event.tags.length != 0 -%>
-            <%= display_tags(@event.tags) -%>
-          <%-else -%>
-            There are no tags at this time
-          <%-end -%>
-        </p>
-      </div>
-
       <div class="event_materials">
         <h3>Event Materials</h3>
         <div id="material-links-list">
           <%= render partial: 'material_links/material_links_list' %>
 	      </div>
-
-        <% if current_learner %>
-          <p><%= link_to_function 'Add materials', '', :id => 'material-form-expansion', :class => 'btn' %></p>
-          <div id="material-links-form" style="display: none;">
-            <%= render partial: 'material_links/material_links_form' %>
-	      </div>
-	    <% end %>
       </div>
+
    </section>
 
    <div id="comment-section">
@@ -173,15 +200,3 @@
 
 <br class='clearing' />
 </div>
-
-<script class="code" type="text/javascript">
-  $('#material-form-expansion').click(function(){
-    $('#material-links-form').slideToggle('slow');
-    if($('#material-form-expansion').text() == 'Cancel') {
-	  $('#material-form-expansion').text('Add materials');
-    }
-    else {
-	  $('#material-form-expansion').text('Cancel'); 
-    }
-  });
-</script>

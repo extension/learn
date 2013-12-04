@@ -20,4 +20,5 @@
 //= require twitter/bootstrap/dropdown
 //= require twitter/bootstrap/modal
 //= require bootstrap-wysihtml5
+//= require cocoon
 //= require_tree .

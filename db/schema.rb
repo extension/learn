@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131022143639) do
+ActiveRecord::Schema.define(:version => 20131121191011) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -178,6 +178,13 @@ ActiveRecord::Schema.define(:version => 20131022143639) do
   add_index "events", ["conference_id"], :name => "conference_ndx"
   add_index "events", ["event_type"], :name => "event_type_ndx"
   add_index "events", ["room"], :name => "room_ndx"
+
+  create_table "images", :force => true do |t|
+    t.integer  "event_id"
+    t.string   "file"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "learner_activities", :force => true do |t|
     t.integer  "learner_id",   :null => false

@@ -16,10 +16,14 @@ class Event < ActiveRecord::Base
   attr_accessible :creator, :last_modifier
   attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled
   attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at, :evaluation_link
+  attr_accessible :material_links_attributes
+  attr_accessible :images_attributes
+  has_many :images, :dependent => :destroy
+  accepts_nested_attributes_for :images, :allow_destroy => true
 
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
-
+  
   # types
   ONLINE = 'online'
   CONFERENCE = 'conference'
@@ -44,7 +48,8 @@ class Event < ActiveRecord::Base
   has_many :notifications, :as => :notifiable, dependent: :destroy
   has_many :notification_exceptions
   has_many :material_links
-
+  accepts_nested_attributes_for :material_links, :reject_if => :all_blank, :allow_destroy => true
+  
   # conference sessions
   belongs_to :conference
 
