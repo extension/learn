@@ -103,6 +103,14 @@
    </p>
  </fieldset>
 
+ <fieldset>
+   <p>
+     <%= event_form.label :evaluation_link, 'URL of participant evaluation (if applicable)' %>
+     <%= event_form.text_field :evaluation_link, :class => "xxl" %>
+   </p>
+ </fieldset>
+
+
 <fieldset>
   <div class="material-links-wrapper">
     <p><%= link_to_add_association 'Add support materials', event_form, :material_links, { form_name: 'event_form', 'data-association-insertion-method' => 'after', :class => "btn" } %><p>
