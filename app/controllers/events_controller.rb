@@ -155,6 +155,8 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    3.times{@event.images.build}
+
     if(@conference)
       @event.session_start = @conference.default_time
       @event.session_length = @conference.default_length
@@ -185,6 +187,15 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
+
+    # max of 3 total images allowed (including existing)
+    new_image_count = 3 - @event.images.count
+    if new_image_count > 0
+      new_image_count.times do    
+        @event.images.build
+      end
+    end
+    
   end
 
   def update
