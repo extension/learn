@@ -23,11 +23,7 @@
   <div id="deleted_wrapper">
 <%- end -%>
 
-  <%- if @conference -%>
-    <%= render(:partial => 'show_conference') %>
-  <%- else -%>
-    <%= render(:partial => 'show_online') %>
-  <%- end -%>
+<%= render(:partial => 'main_event') %>
 
 <%- if @event.is_canceled -%>
   <br class='clearing' />
