@@ -8,6 +8,7 @@ module MarkupScrubber
   def self.included(base)
     base.extend(self)
   end
+  
   def scrub_and_sanitize(string)
     # make valid html if we don't have it - not sure if this
     # may ever throw an exception, if it does, I probably
@@ -25,6 +26,17 @@ module MarkupScrubber
     # return the sanitized_html
     sanitized_html
   end
+  
+  def cleanup_html(html_string)
+    # scrub with Loofah prune in order to strip unknown and "unsafe" tags
+    # http://rubydoc.info/github/flavorjones/loofah/master/Loofah/Scrubbers/Prune
+
+    # this should be the list of allowed tags:
+    # https://github.com/flavorjones/loofah/blob/master/lib/loofah/html5/whitelist.rb
+    Loofah.scrub_fragment(html_string, :prune).to_s
+  end
+  
+  
   def html_to_text(html_string)
     Loofah.fragment(html_string).text
   end

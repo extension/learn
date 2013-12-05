@@ -29,7 +29,7 @@
         <br class="clearing"/>
       <% end %>
 
-      <div class="description"><%= format_text_for_display(@event.description) -%></div>
+      <div class="description"><%= @event.description.html_safe -%></div>
       
       <div class="tags">
         <h4 class="hide">Tags</h4>
@@ -82,7 +82,7 @@
       <%-if !@event.concluded? -%>
       <p class="location">
         <h3>Event Location</h3>
-        <%= format_text_for_display(@event.location) -%>
+        <%= @event.location.html_safe -%>
       </p>
       <%- end -%>
 
@@ -90,7 +90,7 @@
 	  <h3>Event Evaluation</h3>
       <%- if @event.concluded? -%>
         <% if @event.evaluation_link.present? %>
-          <%= format_text_for_display(@event.evaluation_link) -%>
+          <%= @event.evaluation_link.html_safe -%>
         <% else %>
           <p>There is no evaluation link at this time.</p>
         <% end %>
@@ -172,7 +172,7 @@
           </span>
         </p>
         <p class="location">
-          Event Location: <%= format_text_for_display(@event.location) -%>
+          Event Location: <%= @event.location.html_safe -%>
         </p>
       <%-end -%>
     </aside>

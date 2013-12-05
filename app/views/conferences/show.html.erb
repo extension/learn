@@ -13,11 +13,11 @@
         <br class="clearing"/>
       <%- end -%>
 
-      <div class="description"><%= format_text_for_display(@conference.description) -%></div>
+      <div class="description"><%= @conference.description.html_safe -%></div>
 
       <%- if !@conference.website.blank? -%>
       <p class="location">
-        <h3><%= format_text_for_display(@conference.website) -%></h3>
+        <h3><%= @conference.website.html_safe -%></h3>
       </p>
       <%- end -%>
    </section>

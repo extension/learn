@@ -2,7 +2,7 @@
   <div id="view-comment-<%= comment.id %>" class="cc-comment-anchor"></div>
   
   <div class="content">
-    <%= format_text_for_display(comment.content) %>
+    <%= comment.content.html_safe %>
   </div>
   
 

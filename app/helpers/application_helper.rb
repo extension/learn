@@ -22,10 +22,6 @@ module ApplicationHelper
     end
   end
   
-  def format_text_for_display(content)
-    return word_wrap(simple_format(auto_link(content.html_safe, :all, :target => "_blank"))).html_safe 
-  end
-  
   def formatted_votes(rated_object, logged_in_learner)
     positive_ratings_count = rated_object.ratings.positive.count
     return_string = ''
