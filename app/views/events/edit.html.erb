@@ -25,7 +25,14 @@
   $(document).ready(function(){
 
     $('.wysihtml5').each(function(i, elem) {
-      $(elem).wysihtml5({image: false});
+      $(elem).wysihtml5({
+        image: false,
+         parserRules: {
+           tags: {
+             p: {}
+            }
+         }
+        });
     });
 
   })
