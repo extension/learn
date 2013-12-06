@@ -23,14 +23,10 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#new-comments-form .wysihtml5').wysihtml5({
+    $('#new-comments-form .wysihtml5').wysihtml5('deepExtend', {
       image: false,
-       parserRules: {
-         tags: {
-           p: {}
-          }
-       }
-      });
+      parserRules: { tags: { p: {} } }
+    });
     var highlightedComment = window.location.hash;
     $(highlightedComment).closest(".cc-comment").addClass("cc-highlight");
     
