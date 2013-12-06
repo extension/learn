@@ -284,7 +284,7 @@ class EventsController < ApplicationController
     end
 
     # special "id of event check"
-    if param_is_integer(params[:q])
+    if params[:q].cast_to_i > 0
       id_number = params[:q].to_i
       if(event = Event.find_by_id(id_number))
         if(event.is_conference_session?)
