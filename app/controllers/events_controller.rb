@@ -284,8 +284,7 @@ class EventsController < ApplicationController
     end
 
     # special "id of event check"
-    if params[:q].cast_to_i > 0
-      id_number = params[:q].to_i
+    if (id_number = params[:q].cast_to_i) > 0
       if(event = Event.find_by_id(id_number))
         if(event.is_conference_session?)
           return redirect_to(conference_event_path(event,:conference_id => event.conference.hashtag))
