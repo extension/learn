@@ -81,15 +81,17 @@
  
  <fieldset>
    <p>
-     <%= event_form.label :tags, 'Tags (comma separated -- e.g., tools, information technology, widgets)' %>
+     <%= event_form.label :tags, 'Tags ' %>
      <%= event_form.text_field :tag_list, :class => "xxl" %>
+     <span class="help-block">Comma separated — e.g., tools, information technology, widgets</span>
    </p>
  </fieldset>
 
  <fieldset>
    <p>
-     <%= event_form.label :evaluation_link, 'URL of participant evaluation (if applicable)' %>
+     <%= event_form.label :evaluation_link, 'Participant evaluation URL (optional)' %>
      <%= event_form.text_field :evaluation_link, :class => "xxl" %>
+     <span class="help-block">Displays once the event has concluded</span>
    </p>
  </fieldset>
 

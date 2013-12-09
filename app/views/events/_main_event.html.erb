@@ -5,18 +5,11 @@
       <div class="conference-info">
         <p><span class="label label-info">Conference Session</span> This event is part of the <%= link_to(@event.conference.name,conference_path(:id => @event.conference.hashtag)) %></p>
         <p id="session_id"><span class="badge badge-info">Session #<%= @event.id %></span></p>
-
         <h3><%= display_room(@event.room) -%></h3>
+        <%- if current_learner -%>
+          <p><span class="edit"><%= link_to('edit this event', edit_conference_event_path(@event, :conference_id => @event.conference.id), :class => "editlink") -%></span></p>
+        <%- end %>
       </div>
-      
-      <%- if current_learner -%>
-        <p><span class="edit"><%= link_to('edit this event', edit_conference_event_path(@event, :conference_id => @event.conference.id), :class => "editlink") -%></span></p>
-      <%- end %>
-      
-    <% else %>
-      <%- if current_learner -%>
-        <p><span class="edit"><%= link_to('edit this event', edit_event_path(@event), :class => "editlink") -%></span></p>
-      <%- end %>
     <% end %>
   
     <h2><%= @event.title -%></h2>
@@ -45,15 +38,17 @@
       
       <div class="description"><%= @event.description.html_safe -%></div>
       
-      <div class="tags">
-        <h4 class="hide">Tags</h4>
-        <p>
-          <%-if @event.tags.length != 0 -%>
-            <%= display_tags(@event.tags) -%>
-          <%-else -%>
-            There are no tags at this time
-          <%-end -%>
-        </p>
+      <div class="event-section">
+        <div class="tags">
+          <h4 class="hide">Tags</h4>
+          <p>
+            <%-if @event.tags.length != 0 -%>
+              <%= display_tags(@event.tags) -%>
+            <%-else -%>
+              There are no tags at this time
+            <%-end -%>
+          </p>
+        </div>
       </div>
       
       <% if @event.images.size > 0 %>
@@ -88,39 +83,48 @@
     <% end %>
       
 
-      <%- if @event.presenters.count > 0 -%>
+    <%- if @event.presenters.count > 0 -%>
+      <div class="event-section">
         <h3>Presenters</h3>
-        <p id="presenters"><%= display_presenters(@event.presenters) %></p>
-      <%- end -%>  
+        <p id="presenters"><i class="icon-user"></i> <%= display_presenters(@event.presenters) %></p>
+      </div>
+    <%- end -%>  
       
-      <%-if !@event.concluded? -%>
-      <p class="location">
-        <h3>Event Location</h3>
-        <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%>
-      </p>
-      <%- end -%>
-
-      <p>
-	  <h3>Event Evaluation</h3>
-      <%- if @event.concluded? -%>
-        <% if @event.evaluation_link.present? %>
+    <%-if !@event.concluded? -%>
+      <div class="event-section">
+        <h3>Location</h3>
+        <p><i class="icon-globe"></i> <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
+      </div>
+    <%- end -%>
+    
+    <% if @event.evaluation_link.present? %>
+      <div class="event-section">
+  	    <h3>Evaluation</h3>
+        <%- if @event.concluded? -%>
           <%= auto_link(@event.evaluation_link.html_safe, :all, :target => "_blank") -%>
         <% else %>
-          <p>There is no evaluation link at this time.</p>
+          <p>An evaluation link will appear here after the conclusion of this event.</p>
         <% end %>
-      <% else %>
-          <p>An evaluation link will appear here after the conclusion of this event if one exists.</p>
-      <%- end -%>
-      </p>
-
+      </div>
+    <% end %>
+    
+    <% if !@event_material_links.blank? %>
       <div class="event_materials">
         <h3>Event Materials</h3>
         <div id="material-links-list">
           <%= render partial: 'material_links/material_links_list' %>
 	      </div>
       </div>
-      
+    <% end %>
+    
+    <div class="event-section">
       <p>Created by <%= link_to_learner(@event.creator) %></p>
+    </div>
+    
+    <%- if current_learner && !@event.is_conference_session? -%>
+      <p><%= link_to('edit this event', edit_event_path(@event), :class => "btn") -%></p>
+    <%- end %>
+    
    </section>
 
    <div id="comment-section">
@@ -131,6 +135,7 @@
 
 
 <div id="two_col_col_two">
+  
   <aside id="event_time" class="radius10">
 
       <%-if @event.concluded? -%>

@@ -1,4 +1,11 @@
 <h1><%= @list_title %></h1>
+
+<% if params[:type].present? %>
+  <h3>View <%= link_to("All #{params[:tags]}", events_tag_path(:tags => params[:tags])).html_safe %> sessions</h3>
+<% else %>
+  <h3>View <%= link_to("Upcoming", events_tag_path(:tags => params[:tags], :type => "upcoming")).html_safe %> or <%= link_to("Recent", events_tag_path(:tags => params[:tags], :type => "recent")).html_safe %> sessions</h3>
+<% end %>
+
 <%- if @conference_display -%>
   <p>Showing conference sessions for <%= @conference.name %> only - <%= link_to('show all sessions',@all_events_path) %></p>
 <%- end -%>
