@@ -42,8 +42,8 @@
         <span class="happening_now"><em>Happening now</em></span>
         <br class="clearing"/>
       <% end %>
-
-      <div class="description"><%= format_text_for_display(@event.description) -%></div>
+      
+      <div class="description"><%= @event.description.html_safe -%></div>
       
       <div class="tags">
         <h4 class="hide">Tags</h4>
@@ -175,14 +175,8 @@
             <span class="dtstart" style="display:none"><%= add_to_cal_timestamp(@event.session_start) %></span>
             <span class="dtend" style="display:none"><%= add_to_cal_timestamp(@event.session_end) %></span>
             <span class="description" style="display:none"><%= event_url(@event) %></span>
-            
-            <%- if @event.is_conference_session? -%>
-              <span class="ics_url" style="display:none"><%= conference_event_url(@event, :conference_id => @event.conference.hashtag, :format => :ics) %></span>
-              <span class="vcs_url" style="display:none"><%= conference_event_url(@event, :conference_id => @event.conference.hashtag, :format => :vcs) %></span>
-            <% else %>
-              <span class="ics_url" style="display:none"><%= event_url(@event, :format => :ics) %></span>
-              <span class="vcs_url" style="display:none"><%= event_url(@event, :format => :vcs) %></span>
-            <% end %>
+            <span class="ics_url" style="display:none"><%= event_url(@event, :format => :ics) %></span>
+            <span class="vcs_url" style="display:none"><%= event_url(@event, :format => :vcs) %></span>
             
           </span>
         </p>
