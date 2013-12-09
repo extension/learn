@@ -96,7 +96,7 @@
       <%-if !@event.concluded? -%>
       <p class="location">
         <h3>Event Location</h3>
-        <%= format_text_for_display(@event.location) -%>
+        <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%>
       </p>
       <%- end -%>
 
@@ -104,7 +104,7 @@
 	  <h3>Event Evaluation</h3>
       <%- if @event.concluded? -%>
         <% if @event.evaluation_link.present? %>
-          <%= format_text_for_display(@event.evaluation_link) -%>
+          <%= auto_link(@event.evaluation_link.html_safe, :all, :target => "_blank") -%>
         <% else %>
           <p>There is no evaluation link at this time.</p>
         <% end %>
@@ -182,7 +182,7 @@
         </p>
         
         <p class="location">
-          Event Location: <%= format_text_for_display(@event.location) -%>
+          Event Location: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%>
         </p>
       <%-end -%>
       
