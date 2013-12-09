@@ -8,6 +8,7 @@ module MarkupScrubber
   def self.included(base)
     base.extend(self)
   end
+  
   def scrub_and_sanitize(string)
     # make valid html if we don't have it - not sure if this
     # may ever throw an exception, if it does, I probably
@@ -25,6 +26,7 @@ module MarkupScrubber
     # return the sanitized_html
     sanitized_html
   end
+  
   def html_to_text(html_string)
     Loofah.fragment(html_string).text
   end

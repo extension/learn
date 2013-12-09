@@ -13,7 +13,7 @@ xml.entry do
     xml.text!("<div xmlns='http://www.w3.org/1999/xhtml' class='vevent'>") 
       xml.text!("<span class='vevent'>")   
         xml.text!("<span class='summary'>") 
-          xml.text!(format_text_for_display(event.content_for_atom_entry))
+          xml.text!(event.content_for_atom_entry.html_safe)
         xml.text!("</span>")
         xml.text!(" at ")
         xml.text!("<span class='dtstart'>")

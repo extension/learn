@@ -20,7 +20,7 @@
       
       <h4><%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%></h4>
       
-      <div class="description"><%= format_text_for_display(event.description) -%></div>
+      <div class="description"><%= event.description.html_safe -%></div>
       
       <% if event.images.size > 0 %>
 

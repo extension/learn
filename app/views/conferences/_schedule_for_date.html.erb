@@ -37,7 +37,7 @@
                     <%= link_to("more information... (follow, comment, evaluate, and more)", conference_event_path(event, :conference_id => @conference.hashtag)) %>
                   </p>
                   <p class="description">
-                    <%= format_text_for_display(event.description) %>
+                    <%= event.description.html_safe %>
                   </p>
                 </div>
               </div>

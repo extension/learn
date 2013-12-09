@@ -22,10 +22,6 @@ module ApplicationHelper
     end
   end
   
-  def format_text_for_display(content)
-    return word_wrap(simple_format(auto_link(content.html_safe, :all, :target => "_blank"))).html_safe 
-  end
-  
   def formatted_votes(rated_object, logged_in_learner)
     positive_ratings_count = rated_object.ratings.positive.count
     return_string = ''
@@ -130,7 +126,7 @@ module ApplicationHelper
       return return_string.html_safe
     end
   end
-
+  
   def pagination_counts(collection)
     if(collection.respond_to?('offset_value'))
       "<p>Displaying <strong>#{collection.offset_value + 1}-#{collection.offset_value + collection.length} of #{collection.total_count}</strong></p>".html_safe

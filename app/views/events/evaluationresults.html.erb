@@ -26,7 +26,7 @@
             <%- open_responses.each do |open_response| -%>
               <%- if !open_response.blank? -%>
                 <hr/>
-                <p><%= format_text_for_display(open_response) %></p>
+                <p><%= open_response.html_safe %></p>
               <%- end -%>
             <%- end -%>
           <%- end -%>

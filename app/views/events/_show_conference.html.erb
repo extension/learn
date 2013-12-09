@@ -33,7 +33,7 @@
         <br class="clearing"/>
       <% end %>
 
-      <div class="description"><%= format_text_for_display(@event.description) -%></div>
+      <div class="description"><%= @event.description.html_safe -%></div>
       
       <div class="tags">
         <h4 class="hide">Tags</h4>
