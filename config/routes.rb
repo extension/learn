@@ -38,7 +38,9 @@ Learn::Application.routes.draw do
       get 'token_search'
     end
   end
-
+  
+  match "ajax/:action", to: "ajax", :via => [:get, :post]
+  
   match "learning_history" => "learners#learning_history", :via => :get
   match "commented_history" => "learners#commented_history", :via => :get
 
@@ -59,6 +61,8 @@ Learn::Application.routes.draw do
       post 'addevalanswer'
       post 'makeconnection'
       post 'notificationexception'
+      post 'add_tag'
+      post 'remove_tag'
       get 'backstage'
       get 'history'
       get 'evaluation'

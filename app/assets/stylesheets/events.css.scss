@@ -240,3 +240,22 @@ fieldset {margin-bottom:2em;}
 .help-block {font-size:15px !important;}
 #editform fieldset input {margin-bottom:0 !important;}
 .description {margin-bottom:1em;}
+
+.tag {background:#BDC9B0; @include rounded3; color:#888; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.tag a {padding:.1em .35em; background:#BDC9B0; @include rounded3; color:#888;}
+.tag a:hover {background:#444; @include rounded3; color:#fff; text-decoration:none;}
+.tag-topic,
+.tag-topic a {background:#C2E5EC; color:#1F5983;}
+.tag-topic a:hover {background:#2C1946; color:#fff;}
+
+
+
+span.removetag {
+padding: .1em .5em;
+background: #eee;
+color: #aaa;
+cursor: pointer;}
+
+ul.ui-autocomplete strong {
+background: #FFFF6D;
+}

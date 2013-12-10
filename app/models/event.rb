@@ -6,6 +6,7 @@
 
 class Event < ActiveRecord::Base
   include MarkupScrubber
+  include TagUtilities
 
   attr_accessor :presenter_tokens
   attr_accessor :tag_list

@@ -390,7 +390,18 @@ class EventsController < ApplicationController
       NotificationException.create(learner: current_learner, event: @event)
     end
   end
-
+  
+  def add_tag
+    @event = Event.find(params[:id])
+    @tag = @event.set_tag(params[:tag])
+  end
+  
+  def remove_tag
+    @event = Event.find(params[:id])
+    tag = Tag.find(params[:tag_id])
+    @event.tags.delete(tag)
+  end
+  
   protected
 
   def check_for_conference
@@ -432,8 +443,4 @@ class EventsController < ApplicationController
       end
     end
   end
-
-
-
-
 end
