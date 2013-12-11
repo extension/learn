@@ -79,7 +79,7 @@
  
  </fieldset>
  
- 
+ <%= event_form.hidden_field :tag_list %>
  <div id="tag_interface">
 
    <div id="tag_picker_wrapper">
@@ -93,7 +93,7 @@
    <div id="tag_list">
    <% if @event.tags.size > 0 %>
      <% @event.tags.each do |tag| %>
-       <p id="tag_<%= tag.id %>">
+       <p id="tag_<%= tag.name %>">
          <span class="tag tag-topic"><span><%= tag.name %></span></span> 
 
          <span class="btn removetag">x</span>
@@ -224,15 +224,11 @@
      // remove tags
       $("#tag_list").on("click", ".removetag", function(){
         var tag = $(this).closest("p");
-        $.ajax({
-          type: "POST",
-            url: "<%= remove_tag_event_path(:id => @event.id) %>",
-            cache: false,
-            data: {tag_id: tag.attr("id").replace('tag_', '')}
-        })
-        .done(function() {
-          tag.fadeOut(500);
-        })
+        var tag_name = tag.attr("id").replace('tag_', '');
+        var current_list = $('#event_tag_list').val();
+        new_list = current_list.replace(tag_name, "");
+        $('#event_tag_list').val(new_list);
+        tag.fadeOut(500);
       });
 
  </script>

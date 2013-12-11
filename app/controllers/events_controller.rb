@@ -393,13 +393,15 @@ class EventsController < ApplicationController
   
   def add_tag
     @event = Event.find(params[:id])
-    @tag = @event.set_tag(params[:tag])
+    @tag = params[:tag]
+    # @tag = @event.set_tag(params[:tag])
   end
   
   def remove_tag
     @event = Event.find(params[:id])
-    tag = Tag.find(params[:tag_id])
-    @event.tags.delete(tag)
+    @tag = params[:tag]
+    # tag = Tag.find(params[:tag_id])
+    # @event.tags.delete(tag)
   end
   
   protected
