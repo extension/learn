@@ -241,21 +241,19 @@ fieldset {margin-bottom:2em;}
 #editform fieldset input {margin-bottom:0 !important;}
 .description {margin-bottom:1em;}
 
-.tag {background:#BDC9B0; @include rounded3; color:#888; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}
-.tag a {padding:.1em .35em; background:#BDC9B0; @include rounded3; color:#888;}
-.tag a:hover {background:#444; @include rounded3; color:#fff; text-decoration:none;}
-.tag-topic,
-.tag-topic a {background:#C2E5EC; color:#1F5983;}
-.tag-topic a:hover {background:#2C1946; color:#fff;}
-
+.tag a {padding:.1em .5em; background:#fff; @include rounded10; color:#888;}
+.tag a:hover {background:#ccc; @include rounded10; color:#333; text-decoration:none;}
 
 
 span.removetag {
 padding: .1em .5em;
 background: #eee;
 color: #aaa;
-cursor: pointer;}
+cursor: pointer;
+/*border:0;*/
+}
 
 ul.ui-autocomplete strong {
 background: #FFFF6D;
 }
+#tag_picker_wrapper {margin-bottom:10px;}
