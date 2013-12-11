@@ -37,31 +37,20 @@
       <% end %>
       
       <div class="description"><%= @event.description.html_safe -%></div>
-
-      <div id="tag_interface">
-        <%- if current_learner -%>
-        <div id="tag_picker_wrapper">
-          <div class="ui-widget">
-            <label for="tag_picker">Add Tags</label>
-        	  <input id="tag_picker" placeholder="Type a word and select it..." />
-          </div>
-        </div>
-        <% end %>
       
-        <div id="tag_list">
-        <% if @event.tags.size > 0 %>
-          <% @event.tags.each do |tag| %>
-            <p id="tag_<%= tag.id %>">
-              <span class="tag tag-topic"><%= link_to tag.name, events_tag_path(tag.name) %></span> 
-              <%- if current_learner -%>
-              <span class="btn removetag">x</span>
-              <% end %>
-            </p>
-          <% end %>
-        <% end %>
+      
+      <div class="event-section">
+        <div class="tags">
+          <h4 class="hide">Tags</h4>
+          <p>
+            <%-if @event.tags.length != 0 -%>
+              <%= display_tags(@event.tags) -%>
+            <%-else -%>
+              There are no tags at this time
+            <%-end -%>
+          </p>
         </div>
       </div>
-      
       
       
       <% if @event.images.size > 0 %>
@@ -251,70 +240,4 @@
 
 
 
-<script class="code" type="text/javascript">
 
-		function add_tag(tag) {
-		  $.ajax({
-        type: "POST",
-        url: "<%= add_tag_event_path(:id => @event.id) %>",
-        cache: false,
-        data: {tag: tag}
-      })
-      .done(function() {
-				$("#tag_picker").autocomplete("close");
-				$("#tag_picker").val('');
-				return false;
-      })  
-      .fail(function() {
-        alert("error");
-        $("#tag_picker").autocomplete("close");
-  			$("#tag_picker").val('');
-  			return false;
-      })
-		}
-
-    // create an instance of autocomplete plus a hack for using the 'enter' key instead of direct selection
-    $(document).ready(function(){
-      
-      var tag_picker = $("#tag_picker");
-      if (tag_picker.length > 0) {
-        $("#tag_picker").autocomplete({
-          source: "/ajax/tags",
-    			minLength: 2,
-    			select: function(e, ui) {
-    			  add_tag(ui.item.name);
-    			}
-    		}).keypress(function(e) {
-          if (e.keyCode === 13) {
-            if ($.trim(this.value) != "") {
-              add_tag(this.value);
-            } else {
-              $("#tag_picker").val('');
-      				return false;
-            }
-          }
-        }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-          return $( "<li></li>" )
-          .data( "ui-autocomplete-item", item )
-          .append( "<a>"+ item.label + " <strong>(" + item.tag_count + ")</strong></a>" )
-          .appendTo( ul );
-        };
-      };
-		  
-    });
-
-    // remove tags
-     $("#tag_list").on("click", ".removetag", function(){
-       var tag = $(this).closest("p");
-       $.ajax({
-         type: "POST",
-           url: "<%= remove_tag_event_path(:id => @event.id) %>",
-           cache: false,
-           data: {tag_id: tag.attr("id").replace('tag_', '')}
-       })
-       .done(function() {
-         tag.fadeOut(500);
-       })
-     });
-
-</script>
