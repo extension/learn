@@ -94,7 +94,7 @@
    <% if @event.tags.size > 0 %>
      <% @event.tags.each do |tag| %>
        <p id="tag_<%= tag.id %>">
-         <span class="tag tag-topic"><%= link_to tag.name, events_tag_path(tag.name) %></span> 
+         <span class="tag tag-topic"><span><%= tag.name %></span></span> 
 
          <span class="btn removetag">x</span>
 

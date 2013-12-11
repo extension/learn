@@ -244,6 +244,8 @@ fieldset {margin-bottom:2em;}
 .tag a {padding:.1em .5em; background:#fff; @include rounded10; color:#888;}
 .tag a:hover {background:#ccc; @include rounded10; color:#333; text-decoration:none;}
 
+.tag span {padding:.1em .5em; background:#fff; @include rounded10; color:#888;}
+
 
 span.removetag {
 padding: .1em .5em;
