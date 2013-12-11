@@ -186,8 +186,10 @@ class Event < ActiveRecord::Base
     compare_token_array = []
     if(provided_presenter_tokens.blank?)
       previous_presenter_tokens = self.presenter_tokens
-      @presenter_tokens = []
-      @changed_attributes['presenter_tokens'] = previous_presenter_tokens
+      @presenter_tokens = ""
+      if(!previous_presenter_tokens.blank?)
+        @changed_attributes['presenter_tokens'] = previous_presenter_tokens
+      end
     else
       provided_presenter_tokens.split(',').each do |presenter_token|
         compare_token_array << presenter_token
