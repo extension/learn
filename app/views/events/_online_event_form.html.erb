@@ -93,12 +93,7 @@
    <div id="tag_list">
    <% if @event.tags.size > 0 %>
      <% @event.tags.each do |tag| %>
-       <p id="tag_<%= tag.name %>">
-         <span class="tag tag-topic"><span><%= tag.name %></span></span> 
-
-         <span class="btn removetag">x</span>
-
-       </p>
+       <p id="tag_<%= tag.name %>"><span class="tag tag-topic"><span><%= tag.name %></span></span><span class="btn removetag">x</span></p>
      <% end %>
    <% end %>
    </div>
@@ -171,30 +166,9 @@
        theme: 'facebook' 
      });
    });
-
-
-
- 		function add_tag(tag) {
- 		  $.ajax({
-         type: "POST",
-         url: "<%= add_tag_event_path(:id => @event.id) %>",
-         cache: false,
-         data: {tag: tag}
-       })
-       .done(function() {
- 				$("#tag_picker").autocomplete("close");
- 				$("#tag_picker").val('');
- 				return false;
-       })  
-       .fail(function() {
-         alert("error");
-         $("#tag_picker").autocomplete("close");
-   			$("#tag_picker").val('');
-   			return false;
-       })
- 		}
-
-     // create an instance of autocomplete plus a hack for using the 'enter' key instead of direct selection
+   
+   
+   // create an instance of autocomplete plus a hack for using the 'enter' key instead of direct selection
      $(document).ready(function(){
 
          $("#tag_picker").autocomplete({
@@ -220,6 +194,13 @@
          };
 
      });
+         
+     function add_tag(tag) {
+       $("<p id='tag_"+tag+"'><span class='tag tag-topic'><span>"+tag+"</span></span> <span class='removetag'>x</span></p>" ).prependTo( "#tag_list" );
+       $('#event_tag_list').val($('#event_tag_list').val() + ', ' + tag);
+       $("#tag_picker").autocomplete("close");
+       $("#tag_picker").val('');
+  		};
 
      // remove tags
       $("#tag_list").on("click", ".removetag", function(){

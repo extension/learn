@@ -61,8 +61,6 @@ Learn::Application.routes.draw do
       post 'addevalanswer'
       post 'makeconnection'
       post 'notificationexception'
-      post 'add_tag'
-      post 'remove_tag'
       get 'backstage'
       get 'history'
       get 'evaluation'

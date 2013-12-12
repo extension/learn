@@ -1,4 +1,0 @@
-$( "<p id='tag_<%= @tag %>'><span class='tag tag-topic'><span><%= @tag %></span></span> <span class='removetag'>x</span></p>" ).prependTo( "#tag_list" );
-$('#event_tag_list').val($('#event_tag_list').val() + ', <%= @tag %>');
-$("#needs_tags").remove();
-$( "#tag_list" ).scrollTop( 0 );
