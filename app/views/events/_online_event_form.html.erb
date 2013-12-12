@@ -79,13 +79,25 @@
  
  </fieldset>
  
- <fieldset>
-   <p>
-     <%= event_form.label :tags, 'Tags ' %>
-     <%= event_form.text_field :tag_list, :class => "xxl" %>
-     <span class="help-block">Comma separated — e.g., tools, information technology, widgets</span>
-   </p>
- </fieldset>
+ <%= event_form.hidden_field :tag_list %>
+ <div id="tag_interface">
+
+   <div id="tag_picker_wrapper">
+     <div class="ui-widget">
+       <label for="tag_picker">Add Tags</label>
+   	  <input id="tag_picker" placeholder="Type a word and select it..." />
+     </div>
+   </div>
+
+ 
+   <div id="tag_list">
+   <% if @event.tags.size > 0 %>
+     <% @event.tags.each do |tag| %>
+       <p id="tag_<%= tag.name %>"><span class="tag tag-topic"><span><%= tag.name %></span></span><span class="btn removetag">x</span></p>
+     <% end %>
+   <% end %>
+   </div>
+ </div>
 
  <fieldset>
    <p>
@@ -154,4 +166,53 @@
        theme: 'facebook' 
      });
    });
+   
+   
+   // create an instance of autocomplete plus a hack for using the 'enter' key instead of direct selection
+     $(document).ready(function(){
+
+         $("#tag_picker").autocomplete({
+           source: "/ajax/tags",
+     			minLength: 2,
+     			select: function(e, ui) {
+     			  add_tag(ui.item.name);
+     			  $("#tag_picker").val('');
+     			  return false;
+     			}
+     		}).keypress(function(e) {
+           if (e.keyCode === 13) {
+             if ($.trim(this.value) != "") {
+               add_tag(this.value);
+               $("#tag_picker").val('');
+               return false;
+             } else {
+               $("#tag_picker").val('');
+       				return false;
+             }
+           }
+         }).data( "autocomplete" )._renderItem = function( ul, item ) {
+           return $( "<li></li>" )
+           .data( "item.autocomplete", item )
+           .append( "<a>"+ item.label + " <strong>(" + item.tag_count + ")</strong></a>" )
+           .appendTo( ul );
+         };
+
+     });
+         
+     function add_tag(tag) {
+       $("<p id='tag_"+tag+"'><span class='tag tag-topic'><span>"+tag+"</span></span> <span class='removetag'>x</span></p>" ).prependTo( "#tag_list" );
+       $('#event_tag_list').val($('#event_tag_list').val() + ', ' + tag);
+       $("#tag_picker").autocomplete("close");
+  		};
+
+     // remove tags
+      $("#tag_list").on("click", ".removetag", function(){
+        var tag = $(this).closest("p");
+        var tag_name = tag.attr("id").replace('tag_', '');
+        var current_list = $('#event_tag_list').val();
+        new_list = current_list.replace(tag_name, "");
+        $('#event_tag_list').val(new_list);
+        tag.fadeOut(500);
+      });
+
  </script>

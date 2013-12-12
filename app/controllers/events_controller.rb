@@ -390,7 +390,7 @@ class EventsController < ApplicationController
       NotificationException.create(learner: current_learner, event: @event)
     end
   end
-
+  
   protected
 
   def check_for_conference
@@ -432,8 +432,4 @@ class EventsController < ApplicationController
       end
     end
   end
-
-
-
-
 end

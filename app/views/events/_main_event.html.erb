@@ -38,6 +38,7 @@
       
       <div class="description"><%= @event.description.html_safe -%></div>
       
+      
       <div class="event-section">
         <div class="tags">
           <h4 class="hide">Tags</h4>
@@ -45,11 +46,12 @@
             <%-if @event.tags.length != 0 -%>
               <%= display_tags(@event.tags) -%>
             <%-else -%>
-              There are no tags at this time
+              <p class="muted">This event does not have any tags</p>
             <%-end -%>
           </p>
         </div>
       </div>
+      
       
       <% if @event.images.size > 0 %>
 
@@ -230,3 +232,12 @@
 
 <br class='clearing' />
 </div>
+
+
+
+
+
+
+
+
+

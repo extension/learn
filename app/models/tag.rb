@@ -10,6 +10,9 @@ class Tag < ActiveRecord::Base
   
   validates :name, :presence => true, :uniqueness => true
   
+  scope :used_at_least_once, joins(:taggings).group("tags.id").having("COUNT(taggings.id) > 0").select("tags.*, COUNT(taggings.id) AS tag_count")
+  scope :not_used, includes(:taggings).group("tags.id").having("COUNT(taggings.id) = 0")
+  
   SPLITTER = Regexp.new(%r{\s*,\s*})
   JOINER = ", "
   
