@@ -176,6 +176,8 @@
      			minLength: 2,
      			select: function(e, ui) {
      			  add_tag(ui.item.name);
+     			  $("#tag_picker").val('');
+     			  return false;
      			}
      		}).keypress(function(e) {
            if (e.keyCode === 13) {
@@ -199,7 +201,6 @@
        $("<p id='tag_"+tag+"'><span class='tag tag-topic'><span>"+tag+"</span></span> <span class='removetag'>x</span></p>" ).prependTo( "#tag_list" );
        $('#event_tag_list').val($('#event_tag_list').val() + ', ' + tag);
        $("#tag_picker").autocomplete("close");
-       $("#tag_picker").val('');
   		};
 
      // remove tags

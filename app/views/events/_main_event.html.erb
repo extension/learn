@@ -46,7 +46,7 @@
             <%-if @event.tags.length != 0 -%>
               <%= display_tags(@event.tags) -%>
             <%-else -%>
-              There are no tags at this time
+              <p class="muted">This event does not have any tags</p>
             <%-end -%>
           </p>
         </div>
