@@ -12,6 +12,11 @@
       </div>
     <% end %>
   
+    <% if @event.cover_image.present? %>
+      <%= image_tag(@event.cover_image_url(:cover)) %>
+    <% end %>
+  
+  
     <h2><%= @event.title -%></h2>
     
     <div class="rating_wrapper">

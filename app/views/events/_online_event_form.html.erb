@@ -16,6 +16,31 @@
        <%= event_form.text_area :description, {:rows => "7", :class => "wysihtml5"} %>
     </p>
  </fieldset>
+
+
+   <% if @event.cover_image.present? %>
+     <p class="clearing">
+       <label>
+         <%= event_form.check_box :remove_avatar %>
+         Remove avatar
+       </label> 
+     </p>
+   <% end %>
+
+ <legend>Upload Cover Image</legend>
+
+   <p class="clearing">
+     <%= event_form.file_field :cover_image %>
+     <%= event_form.hidden_field :cover_image_cache %>
+   </p>
+
+   <p>
+   <output id="preview_learner_avatar"></output>
+   </p>
+ 
+ 
+ 
+ 
  
  <fieldset id="description">
  <ul class="thumbnails">
