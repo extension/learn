@@ -259,3 +259,11 @@ ul.ui-autocomplete strong {
 background: #FFFF6D;
 }
 #tag_picker_wrapper {margin-bottom:10px;}
+.event-cover-image img {width:100%;}
+.event-ratings-wrapper {
+/*  outline:1px solid lime; */
+  position:relative;
+/*  padding:1em;*/
+  }
+
+.event-ratings-wrapper .rating_wrapper {float:right; position:static; background:none;}
