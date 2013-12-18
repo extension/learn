@@ -13,20 +13,17 @@
   <% end %>
   <meta property="og:title" content="<%= (@page_title) ? @page_title + " - eXtension Learn" : "eXtension Learn" %>" />
   <meta property="og:description" content="<%= @page_meta_description ? @page_meta_description : "eXtension Learn: Free access to cutting edge learning events" %>" />
+  
   <meta property="og:image" content="<%= image_path("#{root_url}images/extension_logo.jpg") %>" />
-  <% if @event %>
-  <% if @event.cover_image.present? %>
-  <% if File.exists?(request.protocol + request.host_with_port + @event.cover_image_url(:large_social)) %>
-  <meta property="og:image" content="<%= request.protocol + request.host_with_port + @event.cover_image_url(:large_social) %>"/>
-  <% end %>
-  <% end %>
-  <% if @event.images.size > 0 %>
-  <% @event.images.each do |image| %>
-  <% if File.exists?(request.protocol + request.host_with_port + image.file_url(:large_social)) %>
-  <meta property="og:image" content="<%= request.protocol + request.host_with_port + image.file_url(:large_social) %>"/>
-  <% end %>
-  <% end %>
-  <% end %>
+  <% if @show_og_event_images %>
+    <% if @event.cover_image.present? %>
+    <meta property="og:image" content="<%= request.protocol + request.host_with_port + @event.cover_image_url(:large_social) %>"/>
+    <% end %>
+    <% if @event.images.size > 0 %>
+    <% @event.images.each do |image| %>
+    <meta property="og:image" content="<%= request.protocol + request.host_with_port + image.file_url(:large_social) %>"/>
+    <% end %>
+    <% end %>
   <% end %>
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="<%= (@page_title) ? @page_title + " - eXtension Learn" : "eXtension Learn" %>">

@@ -180,6 +180,11 @@ ActiveRecord::Schema.define(:version => 20131217171434) do
   add_index "events", ["event_type"], :name => "event_type_ndx"
   add_index "events", ["room"], :name => "room_ndx"
 
+  create_table "events_cleanup", :id => false, :force => true do |t|
+    t.integer "id"
+    t.text    "description"
+  end
+
   create_table "images", :force => true do |t|
     t.integer  "event_id"
     t.string   "file"
