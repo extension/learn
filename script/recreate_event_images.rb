@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
  
 # Load Rails
-ENV['RAILS_ENV'] = ARGV[0] || 'production'
-DIR = File.dirname(__FILE__) 
-require DIR + '/../config/environment'
+if !ENV["RAILS_ENV"] || ENV["RAILS_ENV"] == ""
+  ENV["RAILS_ENV"] = 'production'
+end
+require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 
 Event.all.each do |event|
   if event.images.size > 0
