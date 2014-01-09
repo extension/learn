@@ -214,6 +214,33 @@ class EventMailer < ActionMailer::Base
     # the email if we got it
     return_email
   end
+  
+  def event_location_changed(options = {})
+    @event = options[:event]
+    @learner = options[:learner]
+    @subject = "An eXtension Learn Event's Location has Changed"
+    @creator = @event.creator
+    @last_modified_by = @event.last_modifier
+    @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
+    
+    if(!@learner.email.blank?)
+      if(@will_cache_email)
+        # create a cached mail object that can be used for "view this in a browser" within
+        # the rendered email.
+        @mailer_cache = MailerCache.create(learner: @learner, cacheable: @event)
+      end
+      
+      return_email = mail(from: @last_modified_by.email, to: @learner.email, subject: @subject)
+      
+      if(@mailer_cache)
+        # now that we have the rendered email - update the cached mail object
+        @mailer_cache.update_attribute(:markup, return_email.body.to_s)
+      end
+    end
+    
+    # the email if we got it
+    return_email
+  end
     
   def inform_iastate_new(options = {})
     @event = options[:event]
