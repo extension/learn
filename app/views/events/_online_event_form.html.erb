@@ -53,7 +53,7 @@
        <% else %>
        <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span2">
          <div class="thumbnail">
-           <%= image_tag(images_field.object.file.url(:largethumb)) %>
+           <%= image_tag(images_field.object.file.url(:thumb)) %>
            <div class="caption">
              <%= images_field.check_box :_destroy %>
              <%= images_field.label(:_destroy, "Delete image", :class => "checkbox inline") %>
