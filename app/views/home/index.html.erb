@@ -15,44 +15,18 @@
           <span class="month"><%= event.session_start.strftime("%b") -%></span>
           <span class="date"><%= event.session_start.strftime("%d") -%></span>
        </div>
-      
+
       <h3 class="event_title"><%= link_to(event.title, event_path(event.id)) -%></h3>
       
       <h4><%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%></h4>
       
       <div class="description"><%= event.description.html_safe -%></div>
       
-      <% if event.images.size > 0 %>
-
-        <div class="images_wrapper clearfix"> 
-        <% event.images.each do |image| %>
-          <% if image.persisted? %>
-            <% if File.exists?(Rails.root.join("public#{image.file_url(:thumb,false)}")) %>
-            <div class="question_image_wrapper question_image_wrapper-home">
-              <a data-toggle="modal" href="#myModal<%= image.id %>"><%= image_tag(image.file_url(:thumb)) %></a>
-            </div>
-
-            <div id="myModal<%= image.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-header">
-                <p>
-                  <strong><a href="#" type="button" data-dismiss="modal" aria-hidden="true">Close</a></strong> -
-                  <%= link_to "View full size in a new window", image.file_url(), :target => "_blank" %>
-                <p>
-              </div>
-              <div class="modal-body">
-                <%= image_tag image.file_url() %>
-              </div>
-            </div>
-            <% else %>
-             <%= image_tag("missing_image.png", :size => "80x80", :class => 'missing_image size80x80') %>
-            <% end %>
-          <% end %>
-        <% end %>  
-        <br class="clearing" />
-      </div>
-
-    <% end %>
-      
+      <% if event.cover_image.present? %>
+         <div class="event-cover-image">
+           <%= image_tag(event.cover_image_url(:cover)) %>
+         </div>
+       <% end %>
       
       <%- if event.presenters.count > 0 -%>
         <h3>Presenters</h3>

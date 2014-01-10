@@ -41,38 +41,6 @@
         </div>
       </div>
       
-      
-      <% if @event.images.size > 0 %>
-
-        <div class="images_wrapper clearfix"> 
-        <% @event.images.each do |image| %>
-          <% if image.persisted? %>
-            <% if File.exists?(Rails.root.join("public#{image.file_url(:thumb,false)}")) %>
-            <div class="question_image_wrapper">
-              <a data-toggle="modal" href="#myModal<%= image.id %>"><%= image_tag(image.file_url(:thumb)) %></a>
-            </div>
-
-            <div id="myModal<%= image.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-header">
-                <p>
-                  <strong><a href="#" type="button" data-dismiss="modal" aria-hidden="true">Close</a></strong> -
-                  <%= link_to "View full size in a new window", image.file_url(), :target => "_blank" %>
-                <p>
-              </div>
-              <div class="modal-body">
-                <%= image_tag image.file_url() %>
-              </div>
-            </div>
-            <% else %>
-             <%= image_tag("missing_image.png", :size => "80x80", :class => 'missing_image size80x80') %>
-            <% end %>
-          <% end %>
-        <% end %>  
-        <br class="clearing" />
-      </div>
-
-    <% end %>
-      
 
     <%- if @event.presenters.count > 0 -%>
       <div class="event-section">

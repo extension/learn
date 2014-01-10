@@ -38,31 +38,7 @@
   </p>
   <% end %>
   </div>
-</fieldset> 
- 
- 
-<fieldset>
-  <h3 class="fieldset-title">Additional Images (included at the your event)</h3>
-  <ul class="event-images">
-   <%= event_form.fields_for :images, @event.images do |images_field| %>
-       <% if images_field.object.new_record? %>
-       <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span4 image-picker">
-         <%= images_field.file_field :file %>
-       </li>
-       <% else %>
-       <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span2">
-         <div class="event-image-thumbnail">
-           <%= image_tag(images_field.object.file.url(:thumb)) %>
-           <div class="caption">
-             <%= images_field.check_box :_destroy %>
-             <%= images_field.label(:_destroy, "Delete image", :class => "checkbox inline") %>
-           </div>
-         </div>
-       </li>
-       <% end %>
-       <% end %>
-     </ul>
- </fieldset>
+</fieldset>
    
  <fieldset id="datetime">
    <p>
