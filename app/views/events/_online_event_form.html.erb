@@ -1,58 +1,57 @@
-<p>
-   <%= event_form.text_field :title, :size => nil, :class => "title" %>
-   <span class="help-block">If you make your title 80 characters or less, it can be easily texted</span>
-</p>
+<fieldset id="event-title">
+  <p>
+    <%= event_form.text_field :title, :size => nil, :class => "title" %>
+    <span class="help-block">Titles which are 80 characters or less are more easily shared via social media and texting</span>
+  </p>
+</fieldset>
 
 <fieldset id="presenters">
   <p>
     <%= event_form.label :presenter_tokens, "Presenters" %>
     <%= event_form.text_field :presenter_tokens, "data-pre" => @event.presenter_tokens_tokeninput.to_json  %>
   </p>
- </fieldset>
+</fieldset>
  
- <fieldset id="description">
-    <p>
-       <%= event_form.label :description, 'Description' %>
-       <%= event_form.text_area :description, {:rows => "7", :class => "wysihtml5"} %>
+<fieldset id="description">
+  <p>
+    <%= event_form.label :description, 'Description' %>
+    <%= event_form.text_area :description, {:rows => "7", :class => "wysihtml5"} %>
+  </p>
+</fieldset>
+
+<fieldset class="cover-image">
+  <h3 class="fieldset-title">Cover Image (displayed at the top of your event)</h3>
+  <div class="cover-image-summary">
+  <% if @event.cover_image.present? %>
+    <p class="delete-image">
+      <%= image_tag(@event.cover_image_url(:cover)) %>
+      <label>
+        <%= event_form.check_box :remove_cover_image %>
+        Delete cover image
+      </label>
     </p>
- </fieldset>
-
-
-   <% if @event.cover_image.present? %>
-     <p class="clearing">
-       <label>
-         <%= event_form.check_box :remove_cover_image %>
-         Remove avatar
-       </label> 
-     </p>
-   <% end %>
-
- <legend>Upload Cover Image</legend>
-
-   <p class="clearing">
-     <%= event_form.file_field :cover_image %>
-     <%= event_form.hidden_field :cover_image_cache %>
-   </p>
-
-   <p>
-   <output id="preview_learner_avatar"></output>
-   </p>
+  <% else %>
+  
+  <p class="clearing image-picker">
+    <%= event_form.file_field :cover_image %>
+    <%= event_form.hidden_field :cover_image_cache %>
+  </p>
+  <% end %>
+  </div>
+</fieldset> 
  
  
- 
- 
- 
- <fieldset id="description">
- <ul class="thumbnails">
+<fieldset>
+  <h3 class="fieldset-title">Additional Images (included at the your event)</h3>
+  <ul class="event-images">
    <%= event_form.fields_for :images, @event.images do |images_field| %>
        <% if images_field.object.new_record? %>
-       <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span4">
-         <%= images_field.label :file, "Image:" %>
+       <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span4 image-picker">
          <%= images_field.file_field :file %>
        </li>
        <% else %>
        <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span2">
-         <div class="thumbnail">
+         <div class="event-image-thumbnail">
            <%= image_tag(images_field.object.file.url(:thumb)) %>
            <div class="caption">
              <%= images_field.check_box :_destroy %>
@@ -124,7 +123,7 @@
    </div>
  </div>
 
- <fieldset>
+ <fieldset class="evaluation-url">
    <p>
      <%= event_form.label :evaluation_link, 'Participant evaluation URL (optional)' %>
      <%= event_form.text_field :evaluation_link, :class => "xxl" %>
