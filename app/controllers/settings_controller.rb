@@ -58,6 +58,12 @@ class SettingsController < ApplicationController
             else
               preference = Preference.create_or_update(@learner, 'notification.rescheduled_or_canceled', false)
             end
+          when 'location_changed'
+            if params['notification.location_changed'] && params['notification.location_changed'] == '1'
+              preference = Preference.create_or_update(@learner, 'notification.location_changed', true)
+            else
+              preference = Preference.create_or_update(@learner, 'notification.location_changed', false)
+            end
           when 'recommendation_notification'  
             if params['notification.recommendation'] && params['notification.recommendation'] == '1'
               preference = Preference.create_or_update(@learner, 'notification.recommendation', true)

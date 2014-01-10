@@ -11,10 +11,12 @@ class Notification < ActiveRecord::Base
   EVENT_EDIT = 3
   EVENT_CANCELED = 4
   EVENT_RESCHEDULED = 5
+  EVENT_LOCATION_CHANGE = 6
   ACTIVITY = 10
   COMMENT_REPLY = 11
   ACTIVITY_NOTIFICATION_INTERVAL = Settings.activity_notification_interval
   RESCHEDULED_NOTIFICATION_INTERVAL = Settings.rescheduled_notification_interval
+  LOCATION_CHANGE_NOTIFICATION_INTERVAL = Settings.location_change_notification_interval
   RECORDING = 20
   RECOMMENDATION = 30
   INFORM_IASTATE = 40
@@ -41,6 +43,8 @@ class Notification < ActiveRecord::Base
       process_event_canceled
     when EVENT_RESCHEDULED
       process_event_rescheduled
+    when EVENT_LOCATION_CHANGE
+      process_event_location_change
     when ACTIVITY
       process_activity_notifications
     when COMMENT_REPLY
@@ -106,6 +110,13 @@ class Notification < ActiveRecord::Base
     if !event.started?
       event.learners.each{|learner| EventMailer.event_rescheduled(learner: learner, event: event).deliver unless (learner.email.blank? or !learner.send_rescheduled_or_canceled? or learner.has_event_notification_exception?(event))}
     end    
+  end
+  
+  def process_event_location_change
+    event = self.notifiable
+    if !event.started?
+      event.learners.each{|learner| EventMailer.event_location_change(learner: learner, event: event).deliver unless (learner.email.blank? or !learner.send_location_change? or learner.has_event_notification_exception?(event))}
+    end
   end
   
   def process_recommendation
@@ -176,5 +187,8 @@ class Notification < ActiveRecord::Base
     Notification.where(notifiable_id: notifiable.id, notificationtype: EVENT_RESCHEDULED, delivery_time: Time.now..RESCHEDULED_NOTIFICATION_INTERVAL.from_now).size > 0
   end
   
-
+  def self.pending_location_change_notification?(notifiable)
+    Notification.where(notifiable_id: notifiable.id, notificationtype: EVENT_LOCATION_CHANGE, delivery_time: Time.now..LOCATION_CHANGE_NOTIFICATION_INTERVAL.from_now).size > 0
+  end
+  
 end

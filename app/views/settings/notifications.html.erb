@@ -74,7 +74,23 @@
             </p>
           </fieldset>
         <%- end -%>
-        
+
+        <%= form_tag(settings_notifications_path, {remote: true}) do -%>
+          <fieldset>
+            <%= hidden_field_tag('notification_type', 'location_changed') %>
+            <p>
+              <label>
+                <%= check_box_tag('notification.location_changed', 
+                          '1',
+                          @learner.preferences.setting('notification.location_changed'),
+                          {class: 'submittable'}) %> 
+
+                <span>An event I followed has had a location change</span>
+              </label>
+            </p>
+          </fieldset>
+        <%- end -%>
+
         <%= form_tag(settings_notifications_path, {remote: true}) do -%>
           <fieldset>
             <%= hidden_field_tag('notification_type', 'recommendation_notification') %>
