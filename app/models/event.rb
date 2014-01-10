@@ -431,9 +431,13 @@ class Event < ActiveRecord::Base
     if self.session_start_changed?
       self.notifications.each{|notification| notification.update_delivery_time(self.session_start) if (notification.notificationtype == Notification::EVENT_REMINDER_EMAIL or notification.notificationtype == Notification::EVENT_REMINDER_SMS) }
     end
-    if self.session_start_changed? or self.session_length_changed? or self.location_changed?
+    if self.session_start_changed? || self.session_length_changed? || self.location_changed?
       Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
-      Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)
+      if self.location_changed?
+        Notification.create(notifiable: self, notificationtype: Notification::EVENT_LOCATION_CHANGE, delivery_time: Notification::LOCATION_CHANGE_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_location_change_notification?(self)
+      else
+        Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)
+      end
     end
     if self.is_canceled_changed?
       if self.is_canceled?

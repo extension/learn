@@ -19,6 +19,7 @@ class Preference < ActiveRecord::Base
    'notification.reminder.sms.notice' => 15.minutes,  # seconds
    'notification.activity' => true,
    'notification.rescheduled_or_canceled' => true,
+   'notification.location_changed' => true,
    'notification.recording' => true,
    'notification.recommendation' => true,
    'sharing.events.presented' => true,
