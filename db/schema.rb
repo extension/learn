@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131121191011) do
+ActiveRecord::Schema.define(:version => 20131217171434) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -173,11 +173,17 @@ ActiveRecord::Schema.define(:version => 20131121191011) do
     t.boolean  "featured",                       :default => false,    :null => false
     t.datetime "featured_at"
     t.string   "evaluation_link"
+    t.string   "cover_image"
   end
 
   add_index "events", ["conference_id"], :name => "conference_ndx"
   add_index "events", ["event_type"], :name => "event_type_ndx"
   add_index "events", ["room"], :name => "room_ndx"
+
+  create_table "events_cleanup", :id => false, :force => true do |t|
+    t.integer "id"
+    t.text    "description"
+  end
 
   create_table "images", :force => true do |t|
     t.integer  "event_id"

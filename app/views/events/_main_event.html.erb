@@ -12,24 +12,13 @@
       </div>
     <% end %>
   
+    <% if @event.cover_image.present? %>
+      <div class="event-cover-image">
+        <%= image_tag(@event.cover_image_url(:cover)) %>
+      </div>
+    <% end %>
+  
     <h2><%= @event.title -%></h2>
-    
-    <div class="rating_wrapper">
-      <% if current_learner %>
-          <% if upvoted_object = current_learner.get_upvoted_object(@event.id, 'Event') %>
-            <span id='undo_vote_event_<%= @event.id %>'><%= button_to '-', rating_path(upvoted_object), :method => :delete, :remote => true, :class => "btn" %></span>
-          <% else %>
-            <span id='upvote_event_<%= @event.id %>'><%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn btn-primary" %></span>
-          <% end %>
-        <% else %>
-          <%= render(partial: 'sign_in_to_vote')%>
-          <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
-          </div> <!-- end .sitv_element_wrapper  -->
-        <% end %>
-        <div id="event_votes" class="rating_detail">
-          <%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %>
-        </div>
-    </div>
 
       <% if @event.in_progress? %>
         <span class="happening_now"><em>Happening now</em></span>
@@ -51,38 +40,6 @@
           </p>
         </div>
       </div>
-      
-      
-      <% if @event.images.size > 0 %>
-
-        <div class="images_wrapper clearfix"> 
-        <% @event.images.each do |image| %>
-          <% if image.persisted? %>
-            <% if File.exists?(Rails.root.join("public#{image.file_url(:largethumb,false)}")) %>
-            <div class="question_image_wrapper">
-              <a data-toggle="modal" href="#myModal<%= image.id %>"><%= image_tag(image.file_url(:largethumb)) %></a>
-            </div>
-
-            <div id="myModal<%= image.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-header">
-                <p>
-                  <strong><a href="#" type="button" data-dismiss="modal" aria-hidden="true">Close</a></strong> -
-                  <%= link_to "View full size in a new window", image.file_url(), :target => "_blank" %>
-                <p>
-              </div>
-              <div class="modal-body">
-                <%= image_tag image.file_url() %>
-              </div>
-            </div>
-            <% else %>
-             <%= image_tag("missing_image.png", :size => "80x80", :class => 'missing_image size80x80') %>
-            <% end %>
-          <% end %>
-        <% end %>  
-        <br class="clearing" />
-      </div>
-
-    <% end %>
       
 
     <%- if @event.presenters.count > 0 -%>
@@ -139,7 +96,25 @@
 <div id="two_col_col_two">
   
   <aside id="event_time" class="radius10">
-
+    <div class="event-ratings-wrapper">
+    <div class="rating_wrapper">
+      <% if current_learner %>
+          <% if upvoted_object = current_learner.get_upvoted_object(@event.id, 'Event') %>
+            <span id='undo_vote_event_<%= @event.id %>'><%= button_to '-', rating_path(upvoted_object), :method => :delete, :remote => true, :class => "btn" %></span>
+          <% else %>
+            <span id='upvote_event_<%= @event.id %>'><%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn btn-primary" %></span>
+          <% end %>
+        <% else %>
+          <%= render(partial: 'sign_in_to_vote')%>
+          <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
+          </div> <!-- end .sitv_element_wrapper  -->
+        <% end %>
+        <div id="event_votes" class="rating_detail">
+          <%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %>
+        </div>
+    </div>
+    <br class="clearing" />
+    </div>
       <%-if @event.concluded? -%>
         <h4>Watch</h4>
 
@@ -166,15 +141,7 @@
               <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
            </span>
         </h3>
-
-        <p class="timezone"><%- if current_learner -%>
-          <%- if(!current_learner.has_time_zone?) -%>
-           <%= link_to("Set your time zone to display this session in your local time", settings_profile_path()) -%>
-          <%- end -%>
-        <%- end -%></p>
-
-        <h4 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h3>
-          
+        
         <p class="addtocalendar">
           <span id="event_date" class="addtocal">
             Add to calendar
@@ -187,6 +154,14 @@
             
           </span>
         </p>
+
+        <p class="timezone"><%- if current_learner -%>
+          <%- if(!current_learner.has_time_zone?) -%>
+           <%= link_to("Set your time zone to display this session in your local time", settings_profile_path()) -%>
+          <%- end -%>
+        <%- end -%></p>
+
+        <h4 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h3>
         
         <p class="location">
           Event Location: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%>

@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class ImageUploader < CarrierWave::Uploader::Base
+class CoverImageUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   include CarrierWave::RMagick
@@ -40,6 +40,10 @@ class ImageUploader < CarrierWave::Uploader::Base
     process :resize_to_limit => [1200, 0]
   end
   
+  version :cover do
+    process :resize_to_limit => [640, 0]
+  end
+  
   version :thumb do
     process :resize_to_fill => [200, 200]
   end
@@ -55,5 +59,5 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
-  
+
 end
