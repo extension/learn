@@ -11,7 +11,7 @@
 
 <div id="editform">
   <h1>Edit this event</h1>
-  <%= form_for @event do |form| -%>
+  <%= form_for @event, :html => {:multipart => true} do |form| -%>
     <%- if @event.conference -%>
       <%= render(partial: 'conference_event_form', locals: {event_form: form}) %>
     <%- else -%>
