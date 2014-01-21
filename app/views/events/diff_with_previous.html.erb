@@ -2,6 +2,7 @@
 
 <h2><%= link_to 'Revision History', history_event_path(@event.id) %> / Revision Comparison</h2>
 <h3><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></h3>
+<p>Version history does not include changes to event material links</p>
 
 <div class="revision_description_wrapper">
   <p class="revision_description">
