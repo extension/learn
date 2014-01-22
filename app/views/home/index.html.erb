@@ -110,7 +110,8 @@
   <p class="feed"><%= link_to "Subscribe to all events", feeds_events_url() %><p>
   <p class="join"><%= link_to "How to participate in Learn events", "http://create.extension.org/node/698#How_to_Participate_in_eXtension_Professional_Development" %><p>
   <% if current_learner %>
-  <p><%= link_to "See Canceled Events", canceled_events_path %></p>
+  <p><%= link_to "Canceled events", canceled_events_path %></p>
+  <p><%= link_to('Event statistics', data_overview_path) -%></p>
   <% end %>
   
 </div>
