@@ -3,6 +3,7 @@
 <div id="behindthescenes">
   <h2>Event History<h2>
   <h3><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></h3>
+  <p>Version history does not include changes to event material links</p>
 
 <table class="table">
   <thead>

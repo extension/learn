@@ -237,7 +237,7 @@ ul.ui-addtocal {
 .event-section {margin:1.5em 0 1em; clear:both;}
 
 fieldset {margin-bottom:2em;}
-.help-block {font-size:15px !important;}
+.help-block {font-size:15px !important; }
 #editform fieldset input {margin-bottom:0 !important;}
 .description {margin-bottom:1em;}
 
@@ -259,3 +259,30 @@ ul.ui-autocomplete strong {
 background: #FFFF6D;
 }
 #tag_picker_wrapper {margin-bottom:10px;}
+.event-cover-image img {width:100%;}
+.event-ratings-wrapper {
+/*  outline:1px solid lime; */
+  position:relative;
+/*  padding:1em;*/
+  }
+
+.event-ratings-wrapper .rating_wrapper {float:right; position:static; background:none;}
+
+.cover-image-summary {background:#fff; padding:10px; float:left;}
+.fieldset-title {font-size: 1.2em; color: #015890; margin-bottom: .25em; font-weight:normal;}
+.delete-image {background:#fff; padding:10px 10px 0; float:left; margin-bottom:0;}
+.delete-image label {padding:1em .25em;}
+.delete-image img {width:300px;}
+.event-image-thumbnail {margin:0; border:0;}
+.event-images {margin:0; border:0;}
+.event-images li {background:#fff; padding:10px !important; float:left; width:25%; 
+/*  border:1px solid red; */
+  margin:0 10px 0 0;
+  list-style-type:none;
+  }
+.image-picker {margin-bottom:0;}
+.event-images li.image-picker {background:#ddd;}
+.event-images img {width:100%;}
+.image-picker input {width:100%;  line-height:1em; height:1.5em;}
+.evaluation-url {margin-top:30px;}
+.label-large {font-size:14px; font-weight:normal;padding:.25em .4em;}

@@ -1,5 +1,8 @@
 <%= render(partial: 'navtabs') -%>
-<h2>Event Statistics</h2>
+<h2>Event Statistics (<%= DateTime.parse(@start_date).strftime('%b %d, %Y') %> - <%= DateTime.parse(@end_date).strftime('%b %d, %Y') %>)</h2>
+
+
+
 <%= render(partial: 'date_form') -%>
 <%- if defined?(@events.total_count) && @events.total_count > 0 -%>
 <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date) %> </p>
@@ -24,7 +27,11 @@
   <tbody>
     <%- @events.each do |event| -%>
     <tr>
-      <td><%= event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") %></td>
+      <td>
+        <%= (event.is_canceled?) ? "<span class=\"label label-inverse label-large\">canceled</span>".html_safe : "" %>
+        <%= (event.is_expired?) ? "<span class=\"label label-important label-large\">expired</span>".html_safe : "" %>
+        <%= event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") %>
+      </td>
       <td><%= display_presenters(event.presenters) %></td>
       <td><%= link_to event.title, event_path(event) %></td>
       <td><%= display_tags(event.tags) %></td>

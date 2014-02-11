@@ -130,6 +130,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    @show_og_event_images = true
     @event = Event.find(params[:id])
     @event_material_links = @event.material_links.order("created_at DESC")
     @comment = Comment.new

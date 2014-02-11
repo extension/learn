@@ -19,9 +19,13 @@ class Event < ActiveRecord::Base
   attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at, :evaluation_link
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes
+  attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
-
+  
+  # specify image uploader for carrierwave
+  mount_uploader :cover_image, CoverImageUploader
+  
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
   
