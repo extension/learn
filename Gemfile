@@ -64,9 +64,6 @@ gem "rails_config"
 # exception notification
 gem 'airbrake'
 
-#phusion passenger
-gem 'passenger'
-
 # comment and threaded discussion support
 gem 'ancestry'
 
