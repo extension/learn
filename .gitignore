@@ -1,10 +1,6 @@
 # local environment files
 .bundle
 .rvmrc
-.ruby-version
-.ruby-gemset
-/.ruby-gemset
-/.ruby-version
 .tm_properties
 .powenv
 .powrc
