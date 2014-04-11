@@ -2,7 +2,7 @@
 <div id="conference_banner"><span class="label label-info">Happening Now!</span> <span><strong><%= link_to('eXtension 2012 National Conference',conference_path(@nexc2012)) %></strong></span></div>
 <%- end -%>
 
-<div id="three_col_one">
+<div class="span5">
   <h2>Upcoming Sessions <small><%= link_to 'view all', upcoming_events_path %></small></h2>
   
   <div id="upcoming_events">
@@ -50,7 +50,7 @@
 </div>
 
 
-<div id="three_col_two">
+<div class="span3">
   <h2>More Upcoming <small><%= link_to 'view all', upcoming_events_path %></small></h2>
   
   <div id="more_upcoming_events">
@@ -62,9 +62,6 @@
   <%- end -%>
   <small><%= link_to 'View all upcoming events', upcoming_events_path %></small>
   </div>
-  
-  
-  
   
   <h2>Recent Sessions <small><%= link_to 'view all', recent_events_path %></small></h2>
   
@@ -84,7 +81,7 @@
 </div>
 
 
-<div id="three_col_three" class="marketing_blurb">
+<div class="span4">
   <h1>Free access to cutting edge Learning Events</h1>
   <p>These professional development sessions are brought to you by eXtension and are open to anyone.</p>
   

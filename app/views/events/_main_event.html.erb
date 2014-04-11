@@ -19,7 +19,9 @@
     <% end %>
   
     <h2><%= @event.title -%></h2>
-
+      
+      <%= render(:partial => 'addthis') %>
+      
       <% if @event.in_progress? %>
         <span class="happening_now"><em>Happening now</em></span>
         <br class="clearing"/>
