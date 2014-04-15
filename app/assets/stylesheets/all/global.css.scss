@@ -1,3 +1,8 @@
 @import "_variables";
 
 .clearing {clear:both !important;}
+
+ul.inline, ol.inline {margin-left: 0;list-style: none;}
+
+.extension_icon_512 {width:64px;height:64px;display:block; margin-right:2em; border:1px solid #ddd; padding:2px;}
+.extension_icon_512 img {width:64px;height:64px;display:block;}

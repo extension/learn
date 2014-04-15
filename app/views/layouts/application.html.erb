@@ -67,8 +67,9 @@
 
 
 
-
+<div id="flash_notification_wrapper" class="flash_notification_wrapper">
 <%= flash_notifications -%>
+</div>
 
 
 
@@ -91,25 +92,67 @@
       <%- end -%>
     </ul>
   </nav>
+
   
-  <%= form_tag(search_events_path, {:method => :get, id: "searchform"}) do %>
-  <p id="search">
-    <%= text_field_tag 'q', params[:q], :size => 15 %>
-    <%= submit_tag 'Search', :class => "btn" %>
-  </p>
-  <% end %>
+  
+  
+  
+
+ 
+ 
+  <div class="navbar">
+    <div class="navbar-inner">
+        <a class="btn btn-navbar mobile-menu-search-btn" data-toggle="collapse" data-target=".nav-collapse"><i class='icon-search'></i> <i class='icon-th'></i></a>
+        <!-- <a class="btn btn-navbar mobile-menu-btn" data-toggle="collapse" data-target=".nav-collapse"><i class='icon-th'></i></a> -->
+        <a class="brand" href="/"><img class='hidden-phone' src="/assets/aae_logo_small.png" alt="eXtension" /><img class='visible-phone' src="/assets/aae_logo_mobile.png" alt="eXtension" /></a>
+        <div class="nav-collapse collapse">
+
+            <%= form_tag(search_events_path, {:method => :get, id: "searchform", class: "navbar-form form-search pull-right"}) do %>
+              <div class="input-append">
+                <%= text_field_tag 'q', params[:q], :class => "input-small span2 search-query", :placeholder => "Search", :id => "search_field" %>
+                <input type="submit" value="Go" class="btn" />
+      			  </div>
+      			<% end %>
+          
+            <ul class="nav">
+              <li><%= link_to 'Upcoming', upcoming_events_path() %></li>
+            </ul>
+            
+            <div class="global-nav-mobile">
+            <% if current_learner and current_learner.is_extension_account? %>
+              <script src="https://www.extension.org/javascripts/global_nav_internal.js" type="text/javascript"></script>
+            <% else %>
+              <script src="https://www.extension.org/javascripts/global_nav_public.js" type="text/javascript"></script>
+            <% end %>
+            </div>
+            
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   <div class="row">
   <%= yield %>
   </div>
   
-  <br class="clearing" />
+  <hr class="noprint" />
+  
   <footer>
-      <ul>
-          <li><%= link_to("Contact Us", contact_us_path) %></li>
-          <li><%= link_to("Privacy","http://www.extension.org/main/privacy")%></li>
-          <li><%= link_to("Terms of Use","http://www.extension.org/main/termsofuse")%></li>
-      </ul>
+    <span class="extension_icon_512 pull-left noprint"><img id="extension_logo" src="/assets/extension_logo.jpg" alt="eXtension" /></span>
+    <ul class="inline noprint">
+      <li><%= link_to("Contact Us", contact_us_path) %></li>
+      <li><%= link_to("Privacy","http://www.extension.org/main/privacy")%></li>
+      <li><%= link_to("Terms of Use","http://www.extension.org/main/termsofuse")%></li>
+    </ul>
+    <p>&copy; <%= Time.now.utc.year %> eXtension. All rights reserved.</p>
   </footer>
 </div>
 
