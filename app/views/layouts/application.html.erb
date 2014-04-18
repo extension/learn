@@ -47,23 +47,36 @@
   <% end %>
   </div>
 
-
-
-
   <%- if (Settings.app_location == 'demo') || (Settings.app_location == 'dev') %>
     <div id="app_location" class="demo">
-      <p>You are viewing <strong>Learn <%= Settings.app_location %></strong>. The data on this demo site is regularly deleted for testing and development purposes. <strong><%= link_to("Visit the real Learn site", "http://learn.extension.org") -%></strong>.</p>
+      <p>You are viewing <strong>Learn <%= Settings.app_location %></strong>. The data on this dev site is regularly deleted for testing and development purposes. <strong><%= link_to("Visit the real Learn site", "http://learn.extension.org") -%></strong>.</p>
     </div>
   <% end %>
-
-
-
-  
   <%- if current_learner and current_learner.is_admin? -%>
     <div id="adminnotice">
       <p>You are signed in with an admin account.</p>
     </div>
   <%- end -%>
+  
+  
+
+
+    <nav id="useractions">
+      <ul>
+        <%- if current_learner -%>
+          <li><%= link_to_learner_avatar(current_learner, {image_size: :thumb}) -%> <%= link_to_learner(current_learner) %></li>
+          <li><%= link_to "Activity", learning_history_path %></li>
+          <li><%= link_to "Settings", settings_profile_path() %></li>
+          <li><%= link_to('Logout', destroy_learner_session_path, :method => :delete) %></li>
+        <%- else -%>
+          <li class="signin"><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath) )%></li>
+        <%- end -%>
+      </ul>
+    </nav>
+  
+  
+  
+  
 
 
 
@@ -74,37 +87,18 @@
 
 
 <div class="container">
-  <header class="masthead">
-    <%= link_to root_path() do %>
-      <h1><%= image_tag("learn_logo_small.png") %> <span>Learn</span></h1>
-    <%- end -%>
-  </header>
-  
-  <nav id="useractions">
-    <ul>
-      <%- if current_learner -%>
-        <li><%= link_to_learner_avatar(current_learner, {image_size: :thumb}) -%> <%= link_to_learner(current_learner) %></li>
-        <li><%= link_to "Activity", learning_history_path %></li>
-        <li><%= link_to "Settings", settings_profile_path() %></li>
-        <li><%= link_to('Logout', destroy_learner_session_path, :method => :delete) %></li>
-      <%- else -%>
-        <li class="signin"><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath) )%></li>
-      <%- end -%>
-    </ul>
-  </nav>
-
-  
-  
-  
-  
 
  
  
   <div class="navbar">
     <div class="navbar-inner">
-        <a class="btn btn-navbar mobile-menu-search-btn" data-toggle="collapse" data-target=".nav-collapse"><i class='icon-search'></i> <i class='icon-th'></i></a>
-        <!-- <a class="btn btn-navbar mobile-menu-btn" data-toggle="collapse" data-target=".nav-collapse"><i class='icon-th'></i></a> -->
-        <a class="brand" href="/"><img class='hidden-phone' src="/assets/aae_logo_small.png" alt="eXtension" /><img class='visible-phone' src="/assets/aae_logo_mobile.png" alt="eXtension" /></a>
+      <a class="btn btn-navbar mobile-menu-search-btn" data-toggle="collapse" data-target=".nav-collapse"><i class='icon-search'></i> <i class='icon-th'></i></a>
+      <!-- <a class="btn btn-navbar mobile-menu-btn" data-toggle="collapse" data-target=".nav-collapse"><i class='icon-th'></i></a> -->
+      
+      <%= link_to root_path(), :class => "brand" do %>
+        <%= image_tag("learn_logo_small.png", :class => "hidden-phone") %><%= image_tag("learn_logo_small.png", :class => "visible-phone") %>
+      <% end %>
+
         <div class="nav-collapse collapse">
 
             <%= form_tag(search_events_path, {:method => :get, id: "searchform", class: "navbar-form form-search pull-right"}) do %>
@@ -116,9 +110,13 @@
           
             <ul class="nav">
               <li><%= link_to 'Upcoming', upcoming_events_path() %></li>
+              <li><%= link_to 'Recent', recent_events_path() %></li>
+              <%- if !current_learner -%>
+              <li class="signin"><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath) )%></li>
+              <% end %>
             </ul>
             
-            <div class="global-nav-mobile">
+            <div class="global-nav-mobile hidden-desktop hidden-tablet">
             <% if current_learner and current_learner.is_extension_account? %>
               <script src="https://www.extension.org/javascripts/global_nav_internal.js" type="text/javascript"></script>
             <% else %>
