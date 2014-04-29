@@ -115,7 +115,7 @@ class Notification < ActiveRecord::Base
   def process_event_location_change
     event = self.notifiable
     if !event.started?
-      event.learners.each{|learner| EventMailer.event_location_change(learner: learner, event: event).deliver unless (learner.email.blank? or !learner.send_location_change? or learner.has_event_notification_exception?(event))}
+      event.learners.each{|learner| EventMailer.event_location_changed(learner: learner, event: event).deliver unless (learner.email.blank? or !learner.send_location_change? or learner.has_event_notification_exception?(event))}
     end
   end
   
