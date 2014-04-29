@@ -20,7 +20,7 @@
   
     <h2><%= @event.title -%></h2>
       
-      <%= render(:partial => 'addthis') %>
+      <% render(:partial => 'addthis') %>
       
       <% if @event.in_progress? %>
         <span class="happening_now"><em>Happening now</em></span>
@@ -97,25 +97,6 @@
   <div class="span5">
   
   <aside class="event-time radius10">
-    <div class="event-ratings-wrapper">
-    <div class="rating_wrapper">
-      <% if current_learner %>
-          <% if upvoted_object = current_learner.get_upvoted_object(@event.id, 'Event') %>
-            <span id='undo_vote_event_<%= @event.id %>'><%= button_to '-', rating_path(upvoted_object), :method => :delete, :remote => true, :class => "btn" %></span>
-          <% else %>
-            <span id='upvote_event_<%= @event.id %>'><%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn btn-primary" %></span>
-          <% end %>
-        <% else %>
-          <%= render(partial: 'sign_in_to_vote')%>
-          <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
-          </div> <!-- end .sitv_element_wrapper  -->
-        <% end %>
-        <div id="event_votes" class="rating_detail">
-          <%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %>
-        </div>
-    </div>
-    <br class="clearing" />
-    </div>
       <%-if @event.concluded? -%>
         <h4>Watch</h4>
 
@@ -145,7 +126,7 @@
         
         <p class="addtocalendar">
           <span id="event_date" class="addtocal">
-            Add to calendar
+            <span class="btn"><i class="icon-calendar"></i> Add to calendar</span>
             <span class="summary" style="display:none"><%= "Learn Event: #{@event.title}" %></span>
             <span class="dtstart" style="display:none"><%= add_to_cal_timestamp(@event.session_start) %></span>
             <span class="dtend" style="display:none"><%= add_to_cal_timestamp(@event.session_end) %></span>
