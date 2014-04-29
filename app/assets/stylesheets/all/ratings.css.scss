@@ -1,0 +1,12 @@
+@import "_variables";
+
+// Plus ratings
+.rating_wrapper {float:right; background:none; position:absolute; right:10px; top:.5em;}
+.rating_wrapper form {float:left; margin:0;}
+.rating_wrapper input {padding:.2em .5em !important; width: auto;height: auto; margin:1px;}
+.rating_wrapper:hover .rating_explanation.none_yet {display:block;position:absolute; z-index:100; font-weight:normal;}
+.rating_wrapper form div {background:#fff;}
+.rating_detail {float:left;}
+.rating_detail .rating_explanation {display:none; position: absolute; background:#fff; color:#000;padding:1em; @include boxshadow; width: 12em; right:0; top:2em; @include rounded10; border:1px solid #4889cd !important; }
+.rating_detail:hover .rating_explanation {display:block; position:absolute; z-index:100; cursor:pointer;}
+.rating_count {font-weight:normal; float:left; margin-left:.5em; color:#333; cursor:pointer; font-weight:bold;}

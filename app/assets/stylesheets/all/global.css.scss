@@ -14,7 +14,10 @@ ul.inline, ol.inline {margin-left: 0;list-style: none;}
 h3 {line-height:1.2em;}
 
 
-.useractions {border:1px solid #fff;}
+.useractions {
+  border:1px solid #ccc; 
+  background:#ccc;
+  }
 .useractions li {list-style:none; padding:.75em 1em; float:left;}
 .useractions li img {height:22px; width:22px;}
 
@@ -54,3 +57,7 @@ display:inline-block; font-size:13px;}
     background-image: linear-gradient(top, #049cdb, #0064cd);
 }
 .flash_notification p {padding: 1em; font-size:1.5em;}
+
+.smalltext {color:#aaa; margin-top:.5em;clear:left; float:left; font-size:.9em; line-height:1.3em;}
+.smalltext a {color:#aaa; margin-top:.5em;clear:left; float:left; font-size:.9em; line-height:1.3em;}
+.smalltext a:hover {color:#666; margin-top:.5em;clear:left; float:left; font-size:.9em; line-height:1.3em;}

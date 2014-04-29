@@ -1,2 +1,20 @@
 @import "_variables";
 .event {@include wordwrap}
+
+
+
+#event_learners {background:#fff; clear:left; margin-top:0; padding-top:0;}
+#event_learners h3 {font-size:.9em; color:#888; text-transform:uppercase; }
+#event_learner_list {width:100%;margin:0; padding:0;float:left;}
+#event_learner_list li {float:left; list-style:none;}
+#event_learner_list li a {float:left; margin-right:.6em;}
+#event_learner_list li img {width:36px; height:36px; margin:0;}
+
+.event-cover-image {border:1px solid #eee;}
+
+
+.calendarblock { width:64px; display:block; text-align:center; height:64px;padding-top:0;float:right;}
+.calendarblock .month {display:block; height:20px; line-height:25px;font-size:.7em; text-transform:uppercase; font-weight:bold;}
+.calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:1.8em; }
+
+.event-time {background:#eee; padding:10px; position:relative;}
