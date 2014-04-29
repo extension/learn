@@ -18,3 +18,12 @@
 .calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:1.8em; }
 
 .event-time {background:#eee; padding:10px; position:relative;}
+
+
+#eventconnections {background:none; @include rounded10; padding:.5em 2em 0; margin-bottom:0;}
+#eventconnections p {font-size:1.2em; margin:0 0 .65em; color:#223c95; font-weight:bold;}
+#eventconnections form {margin-top:1em;}
+#eventconnections p span {position:relative;}
+#eventconnections p:hover small {display:block;color:#fff; font-size:.9em; margin:.25em 0;}
+#eventconnections p small {display:none; position:absolute; left:1em; top:-50%;color:#fff; background:#3e83eb; border:3px solid #fff; padding:1em; width:150px; @include boxshadow; @include rounded10; z-index:150;}
+#eventconnections.placeholder {margin:2em 0;}
