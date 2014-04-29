@@ -1,3 +1,5 @@
+<div class="span12">
+
 <h1>Profile</h1>
 
 <%= render :partial => 'settings/settings_navigation' %>
@@ -25,14 +27,14 @@
     <fieldset>
       <p>
         <%= f.label :name, 'Name' %>
-        <%= f.text_field :name %>
+        <%= f.text_field :name, :class => "input-mini" %>
       </p>
     </fieldset>
     
     <fieldset>
       <p>
         <%= f.label :email, 'Email' %>
-        <%= f.text_field :email %>
+        <%= f.text_field :email, :class => "input-mini" %>
       </p>
     </fieldset>
     
@@ -47,14 +49,14 @@
   <fieldset>
     <p class="bio">
       <%= f.label :bio, 'Short Bio (140 characters)' %>
-      <%= f.text_area :bio, :rows => "2", :maxlength => 140,  :class => "l" %>
+      <%= f.text_area :bio, :rows => "2", :maxlength => 140,  :class => "input-xxlarge" %>
     </p>
   </fieldset>
   
   <fieldset>
     <p>
       <%= f.label :mobile_number, 'Phone Number (for receiving text notifications)' %>
-      <%= f.text_field :mobile_number %>
+      <%= f.text_field :mobile_number, :class => "input-medium" %>
     </p>
     
     <%- if @learner.preferences.setting("notification.reminder.sms").blank? && !@learner.mobile_number.blank? -%>
@@ -103,6 +105,7 @@
   <% end %>
 
 
+</div>
 </div>
 
 <script class="code" type="text/javascript">

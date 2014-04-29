@@ -9,8 +9,8 @@
 </div>
 <% end %>
 
-<div id="learner_info">
-  <div id="learner_info_text">
+<div class="learner-info">
+  <div class="learner-info-text">
   <h1><%= @learner.name %></h1>  
   
   <%- if(!@learner.bio.blank?) -%>
@@ -130,15 +130,15 @@
     <% else %>
   
     <% @bookmarked_events.each do |event| %>
-      <div class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>">
-        <h4>
+      <div class="bookmarked_event <%= (event.recording.present?) ? "recording_available mini" : "no_recording_available mini" %>">
+        <p>
         <% if event.is_expired %>
           <em class="expired">expired</em>
         <% end %>
         <%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span>
           <% if event.is_online_session? and event.session_start >= Time.zone.now && event.session_start < 14.days.from_now -%>
             <span class="coming_soon">Coming up soon!</span>
-          <% end %></h4>
+          <% end %></p>
       
       </div>
     <% end %>

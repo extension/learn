@@ -14,12 +14,14 @@ ul.inline, ol.inline {margin-left: 0;list-style: none;}
 h3 {line-height:1.2em;}
 
 
-.useractions {
+.user-actions {
   border:1px solid #ccc; 
   background:#ccc;
+
   }
-.useractions li {list-style:none; padding:.75em 1em; float:left;}
-.useractions li img {height:22px; width:22px;}
+.user-actions a {  color: #444;}
+.user-actions li {list-style:none; padding:.75em 1em; float:left;}
+.user-actions li img {height:22px; width:22px;}
 
 
 

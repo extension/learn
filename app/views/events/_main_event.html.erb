@@ -83,8 +83,10 @@
     </div>
     
     <%- if current_learner && !@event.is_conference_session? -%>
+      <div class="event-actions">
       <p><%= link_to('edit this event', edit_event_path(@event), :class => "btn") -%></p>
       <p><%= link_to("version history", history_event_path(@event), :class => "muted")%></p>
+      </div>
     <%- end %>
     
    </section>

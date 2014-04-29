@@ -61,8 +61,8 @@
   <%= flash_notifications -%>
   
   <%- if current_learner -%>
-    <nav class="useractions">
-      <ul>
+    <nav class="user-actions">
+      <ul class="user-actions-list">
         <li><%= link_to_learner_avatar(current_learner, {image_size: :thumb}) -%> <span class="hidden-tablet hidden-phone"><%= link_to_learner(current_learner) %></span></li>
         <li><%= link_to "Activity", learning_history_path %></li>
         <li><%= link_to "Settings", settings_profile_path() %></li>
