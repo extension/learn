@@ -7,7 +7,7 @@
   
   <div id="upcoming_events">
   <%- @upcoming_events.each do |event| -%>
-    <section class="event">
+    <section class="upcoming-events-single">
       <% if event.in_progress? %>
         <span class="happening_now"><em>Happening now</em></span>
       <% end %>
@@ -29,7 +29,7 @@
        <% end %>
       
       <%- if event.presenters.count > 0 -%>
-        <h3>Presenters</h3>
+        <h3 class="event-section-header">Presenters</h3>
         <p class="presenters"><%= display_presenters(event.presenters) %></p>
       <%- end -%>
       

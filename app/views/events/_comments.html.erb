@@ -1,8 +1,8 @@
 <section id="comments">
   
-  <h4 class="subhead_style bordered">
+  <h2 class="subhead_style bordered">
     <%= @event.comments.size %> <%= @event.comments.size == 1 ? "Comment" : "Comments"%>
-  </h4>
+  </h2>
   
   <% if current_learner %>
     <div id="new-comments-form">

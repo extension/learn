@@ -2,31 +2,41 @@
 .event {@include wordwrap}
 
 
-
-#event_learners {background:#fff; clear:left; margin-top:0; padding-top:0;}
-#event_learners h3 {font-size:.9em; color:#888; text-transform:uppercase; }
+.event-learners {padding:20px; background:#eee; clear:left; margin-top:0;}
+.event-learners h3 {font-size:.9em; color:#888; text-transform:uppercase; }
 #event_learner_list {width:100%;margin:0; padding:0;float:left;}
 #event_learner_list li {float:left; list-style:none;}
 #event_learner_list li a {float:left; margin-right:.6em;}
 #event_learner_list li img {width:36px; height:36px; margin:0;}
 
-.event-cover-image {border:1px solid #eee;}
+.event-main {border-bottom:1px solid #ccc;}
+.event-cover-image img {width: 100%;}
 
 
-.calendarblock { width:64px; display:block; text-align:center; height:64px;padding-top:0;float:right; background:#fff;}
+.calendarblock {width:64px; display:block; text-align:center; height:64px;padding-top:0; float:right; background:#fff; border:2px solid #bbb;
+/*   margin-right:-20px; margin-top:-30px;*/
+   }
 .calendarblock .month {display:block; height:20px; line-height:25px;font-size:.7em; text-transform:uppercase; font-weight:bold;}
 .calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:1.8em; }
 
-.event-time {background:#eee; padding:10px; position:relative;}
+.event-time {background:#eee; padding:20px; position:relative; margin-bottom:16px;
+/*  border:4px solid #999;*/
+color:#555;
+  }
+.session-time {
+/*  font-size:1.2em; */
+  padding:10px 0; font-weight:normal; font-size:16px;}
+.session-date {font-weight:normal; font-size:16px;}
+.session-duration {font-weight:normal; font-size:16px; /*color:#222;*/}
 
 
-#eventconnections {background:none; @include rounded10; padding:.5em 2em 0; margin-bottom:0;}
-#eventconnections p {font-size:1.2em; margin:0 0 .65em; color:#223c95; font-weight:bold;}
-#eventconnections form {margin-top:1em;}
-#eventconnections p span {position:relative;}
-#eventconnections p:hover small {display:block;color:#fff; font-size:.9em; margin:.25em 0;}
-#eventconnections p small {display:none; position:absolute; left:1em; top:-50%;color:#fff; background:#3e83eb; border:3px solid #fff; padding:1em; width:150px; @include boxshadow; @include rounded10; z-index:150;}
-#eventconnections.placeholder {margin:2em 0;}
+.event-connections {padding:20px; background:#fff; background:#eee; margin-bottom:16px;}
+.event-connections p span {position:relative;}
+.event-connections p:hover small {display:block;color:#fff; font-size:.9em; margin:.25em 0;}
+.event-connections p small {display:none; position:absolute; left:1em; top:-50%;color:#fff; background:#3e83eb; border:3px solid #fff; padding:1em; width:150px; @include boxshadow; @include rounded10; z-index:150;}
+.event-connections.placeholder {margin:2em 0;}
+
+
 
 input[type="text"].edit-event-title {font-size:1.75em; height:auto; width: 90%;}
 .edit-form {background:#eee; padding:2em;}
@@ -37,3 +47,15 @@ input[type="text"].edit-event-title {font-size:1.75em; height:auto; width: 90%;}
 .no_recording_available.mini {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:25px; }
 span.no_recording_available {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
 span.recording_available {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
+
+.event-title {font-size:30px;}
+.event-section-header {font-size:21px; margin-bottom:2px; color:#666; font-weight:normal;}
+.event-sections {
+/*  padding:.5em 1em;*/
+  margin-bottom:2em; font-size:14px;}
+.event-presenters {margin-bottom:1em;}
+.event-tags {margin:1em 0 1em;}
+.event-materials {}
+.event-colophon {background:#f5f5f5; padding:.5em 1em; margin-bottom:1em;}
+.notification-prefs {font-size:14px;}
+.upcoming-events-single {margin-bottom:50px;}

@@ -38,9 +38,9 @@
   <%- end -%>
   
 <%- end -%>
-<br class="clearing" />
+
 <%- if current_learner.has_connection_with_event?(@event) -%>
-  <div id="notification_prefs">
+  <div id="notification_prefs" class="notification-prefs">
     <%= form_tag(notificationexception_event_path, :id => @event.id, :remote => true) do %>
     <ul>
       <%- if current_learner.preferences.setting("notification.reminder.sms") and !@event.started? and !current_learner.has_event_notification_exception?(@event) -%>
@@ -62,4 +62,3 @@
     <% end %>
   </div>
 <%- end -%>
-<br class="clearing" />
