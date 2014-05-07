@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'https://engineering.extension.org/rubygems'
 
-gem 'rails', "3.2.17"
+gem 'rails', "3.2.18"
 
 # rails 3.1 default
 gem 'jquery-rails'
@@ -67,7 +67,7 @@ gem 'airbrake'
 # comment and threaded discussion support
 gem 'ancestry'
 
-# diffs 
+# diffs
 gem 'diffy'
 
 # readability port
@@ -80,7 +80,7 @@ gem "loofah"
 gem "htmlentities"
 
 # search on solr
-gem "sunspot_rails", "~> 1.3.0" 
+gem "sunspot_rails", "~> 1.3.0"
 
 # used to post-process mail to convert styles to inline
 gem "csspool"
@@ -97,7 +97,7 @@ gem 'bootstrap-wysihtml5-rails'
 
 # require sunspot_solr for test and dev
 group :test, :development do
-  gem 'sunspot_solr', "~> 1.3.0" 
+  gem 'sunspot_solr', "~> 1.3.0"
 end
 
 # delayed_job
@@ -108,7 +108,7 @@ gem "daemons"
 # tropo - sms messages
 gem "tropo-webapi-ruby"
 
-# command line scripts 
+# command line scripts
 gem "thor"
 
 # revisioning
@@ -123,7 +123,7 @@ group :development do
   gem 'pry'
   gem 'quiet_assets'
 end
- 
+
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
