@@ -10,10 +10,10 @@
 #avatar_wrapper .avatar {margin:0;}
 #avatar_wrapper .edit {width:auto; position:absolute; padding:.1em .6em; background:#fff; right:1px; top:1px; margin:0;}
 
-#extension_people_data {background:#f4f4f4; padding:2em;}
-#extension_people_data p {font-size:1.3em; color:#000;}
-#extension_people_data #people_edit {font-size:1.1em; color:#888;}
-#extension_people_data #people_edit a {color:#888;}
-#extension_people_data small a {font-size:1.1em;}
+.extension-people-data {background:#f4f4f4; padding:20px; margin-bottom:30px;}
+.extension-people-data p {font-size:1.3em; color:#000;}
+.extension-people-data #people_edit {font-size:1.1em; color:#888;}
+.extension-people-data #people_edit a {color:#888;}
+.extension-people-data small a {font-size:1.1em;}
 
 .form_group {border:3px solid #ccc; @include rounded10; clear:both; padding:1em 2em;}

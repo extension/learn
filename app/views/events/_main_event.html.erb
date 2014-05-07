@@ -27,21 +27,21 @@
         <br class="clearing"/>
       <% end %>
       
-      <div class="description"><%= @event.description.html_safe -%></div>
-      
-      
-      <div class="event-tags">
-        <div class="tags">
-          <h4 class="hide">Tags</h4>
+      <%-if !@event.concluded? -%>
+        <div class="location-section">
           <p>
-            <%-if @event.tags.length != 0 -%>
-              <%= display_tags(@event.tags) -%>
-            <%-else -%>
-              <p class="muted">This event does not have any tags</p>
-            <%-end -%>
-          </p>
+          <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%> at</span>  
+           <span class="session-time">
+              <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
+           </span>
+           </p>
+          <p>Link: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
         </div>
-      </div>
+        
+      <%- end -%>
+      
+      <div class="event-description"><%= @event.description.html_safe -%></div>
+      
       
   <div class="event-sections">
     <%- if @event.presenters.count > 0 -%>
@@ -50,13 +50,6 @@
         <p id="presenters"><i class="icon-user"></i> <%= display_presenters(@event.presenters) %></p>
       </div>
     <%- end -%>  
-      
-    <%-if !@event.concluded? -%>
-      <div class="event-section">
-        <h3 class="event-section-header">Location</h3>
-        <p><i class="icon-globe"></i> <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
-      </div>
-    <%- end -%>
     
     <% if @event.evaluation_link.present? %>
       <div class="event-section">
@@ -75,6 +68,19 @@
           <%= render partial: 'material_links/material_links_list' %>
       </div>
     <% end %>
+  </div>
+  
+  <div class="event-tags">
+    <div class="tags">
+      <h4 class="hide">Tags</h4>
+      <p>
+        <%-if @event.tags.length != 0 -%>
+          <%= display_tags(@event.tags) -%>
+        <%-else -%>
+          <p class="muted">This event does not have any tags</p>
+        <%-end -%>
+      </p>
+    </div>
   </div>
     
    <div class="event-colophon">

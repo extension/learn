@@ -34,9 +34,6 @@
 <br class="clearing" />
 
 <div class="span5">
-
-  <h1>PD Events</h1>
-  
   <h2>Presented</h2>
   <% if @learner.public_presented_events? %>
     <% if @presented_events.length == 0 %>
@@ -96,7 +93,7 @@
   <h2>Watched</h2>
   <% if @learner.public_watched_events? %>
     <% if @watched_events.length == 0 %>
-      <p>No events watched yet<p>
+      <p class="muted">No events watched yet<p>
     <% else %>
       <% @watched_events.each do |event| %>
         <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>">

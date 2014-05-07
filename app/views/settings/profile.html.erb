@@ -9,7 +9,7 @@
 <div class="form_group">
 
   <% if @learner.is_extension_account? %>
-    <div id="extension_people_data">
+    <div class="extension-people-data">
       <p><%= @learner.name %></p>
       <p><%= @learner.email %></p>
       <%- if @learner.has_time_zone? -%>

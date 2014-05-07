@@ -74,3 +74,15 @@ fieldset {margin-bottom:2em;}
 
 h3 {font-size:20px;}
 p {word-wrap: break-word;}
+
+
+#error_messages {
+	background: #ffebf3;
+	padding:1em;
+	margin: 0 2em 1em;
+    @include rounded10;
+    border:2px solid red;
+}
+#error_messages ul {margin-bottom:0;}
+#error_messages li {font-size: 1.2em;padding:0;margin:0 0 .4em; color: #9b303a}
+#error_messages h3 {color: #9b303a}
