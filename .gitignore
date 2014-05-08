@@ -20,6 +20,10 @@ solr/data
 solr/pids
 # uploads
 public/uploads
+
+# ignore public/assets from local testing
+public/assets
+
 # added by capatross generate_config
 /config/capatross.local.yml
 
