@@ -7,5 +7,5 @@
  *= require bootstrap-wysihtml5
  *= require vendor
  *= require jquery.jqplot
- *= require_tree .
+ *= require_tree ./all
 */
