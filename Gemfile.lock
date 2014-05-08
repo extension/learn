@@ -34,9 +34,6 @@ GEM
       girl_friday
     ancestry (1.3.0)
       activerecord (>= 2.3.14)
-    anjlab-bootstrap-rails (2.3.1.2)
-      railties (>= 3.0)
-      sass (>= 3.2)
     ansi (1.4.3)
     arel (3.0.3)
     bcrypt-ruby (3.0.1)
@@ -45,6 +42,8 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (2.3.2.2)
+      sass (~> 3.2)
     bootstrap-wysihtml5-rails (0.3.1.23)
       railties (>= 3.0)
     builder (3.0.4)
@@ -297,9 +296,9 @@ PLATFORMS
 DEPENDENCIES
   airbrake
   ancestry
-  anjlab-bootstrap-rails (~> 2.3.1.2)
   better_errors
   binding_of_caller
+  bootstrap-sass (~> 2.3.2.2)
   bootstrap-wysihtml5-rails
   capatross
   capistrano
