@@ -18,7 +18,7 @@ Learn::Application.routes.draw do
       post 'reply'
     end
   end
-  
+
   resources :ratings, :only => [:create, :destroy]
   resources :learners do
     member do
@@ -38,9 +38,9 @@ Learn::Application.routes.draw do
       get 'token_search'
     end
   end
-  
+
   match "ajax/:action", to: "ajax", :via => [:get, :post]
-  
+
   match "learning_history" => "learners#learning_history", :via => :get
   match "commented_history" => "learners#commented_history", :via => :get
 
@@ -51,7 +51,7 @@ Learn::Application.routes.draw do
 
   match "contact_us" => "home#contact_us", :via => :get
   match "retired" => "home#retired", :via => :get
-  
+
   # individual tag match
   match "/events/tag/:tags" => "events#tags", :as => 'events_tag'
 
@@ -79,16 +79,16 @@ Learn::Application.routes.draw do
       get 'broadcast'
     end
   end
-  
+
   resources :material_links, :only => [:create, :destroy, :edit, :update] do
     collection do
       get 'cancel_edit'
     end
   end
-  
+
   # recommended event tracking
   match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'
-  
+
   # widgets for upcoming events
   match "widgets/front_porch" => "widgets#front_porch", :via => [:get]
   match "widgets/upcoming" => "widgets#upcoming", :via => [:get]
@@ -97,6 +97,7 @@ Learn::Application.routes.draw do
     resources :events, :only => [:index], :defaults => { :format => 'xml' } do
       collection do
         get 'upcoming', :defaults => { :format => 'xml' }
+        get 'tags', :defaults => { :format => 'xml' }
       end
     end
   end
