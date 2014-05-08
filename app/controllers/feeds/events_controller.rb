@@ -32,6 +32,8 @@ class Feeds::EventsController < ApplicationController
 
 
   def tags
+    @show_start_only = (params[:show_start_only] and TRUE_VALUES.include?(params[:show_start_only]))
+
     if params[:limit].present? && (params[:limit].to_i > 0) && params[:limit].to_i <= Settings.max_feed_items
       @limit = params[:limit].to_i
     else
