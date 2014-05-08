@@ -1,3 +1,8 @@
 // Place all the styles related to the widgets controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.widget-container {background:#fff; padding:10px; width:220px;}
+.learn_widget_specific_title {line-height: 24px; font-size:21px;}
+textarea.widget-code {height:4em;}
