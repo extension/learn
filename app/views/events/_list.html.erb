@@ -1,6 +1,8 @@
+<%- if @showfeedlink -%>
 <div class="pull-right">
   <p class="feed"><%= link_to "Subscribe to this list of events", tags_feeds_events_url(tags: params[:tags], type: params[:type]) %><p>
 </div>
+<%- end -%>
 <% if @events.total_count > 0 %>
 
   <%= pagination_counts(@events) %>
