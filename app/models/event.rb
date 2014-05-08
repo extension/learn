@@ -22,13 +22,13 @@ class Event < ActiveRecord::Base
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
-  
+
   # specify image uploader for carrierwave
   mount_uploader :cover_image, CoverImageUploader
-  
+
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
-  
+
   # types
   ONLINE = 'online'
   CONFERENCE = 'conference'
@@ -54,7 +54,7 @@ class Event < ActiveRecord::Base
   has_many :notification_exceptions
   has_many :material_links
   accepts_nested_attributes_for :material_links, :reject_if => :all_blank, :allow_destroy => true
-  
+
   # conference sessions
   belongs_to :conference
 
@@ -90,6 +90,7 @@ class Event < ActiveRecord::Base
     text :title, more_like_this: true
     text :description, more_like_this: true
     text :tag_list
+    text :presenter_names
     boolean :is_canceled
     boolean :is_expired
   end
@@ -106,7 +107,7 @@ class Event < ActiveRecord::Base
   scope :tagged_with_all, lambda{|tag_list|
     joins(:tags).where("tags.name IN (#{tag_list.map{|t| "'#{Tag.normalizename(t)}'"}.join(',')})").group("events.id").having("COUNT(events.id) = #{tag_list.size}")
   }
-  
+
   scope :this_week, lambda {
     weekday = Time.now.utc.strftime('%u').to_i
     # if saturday or sunday - do next week, else this week
@@ -159,7 +160,7 @@ class Event < ActiveRecord::Base
   def connections_list
     self.learners.valid.order('event_connections.created_at')
   end
-  
+
   def set_location_if_conference
     if(self.event_type == Event::CONFERENCE)
       self.location = 'Conference Session'
@@ -237,6 +238,10 @@ class Event < ActiveRecord::Base
       @tag_list = self.tags.map(&:name).join(Tag::JOINER)
     end
     @tag_list
+  end
+
+  def presenter_names
+    self.presenters.map{|p| p.name}.join(' : ')
   end
 
   def tag_list=(provided_tag_list)
@@ -453,7 +458,7 @@ class Event < ActiveRecord::Base
       end
     end
   end
-  
+
   def set_featured_at
     if self.featured_changed?
       if self.featured == true
@@ -562,6 +567,8 @@ class Event < ActiveRecord::Base
       []
     end
   end
+
+
 
 
 
