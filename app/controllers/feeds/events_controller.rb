@@ -45,21 +45,21 @@ class Feeds::EventsController < ApplicationController
       if params[:type].present?
         if params[:type] == 'recent'
           @title = "Recent #{@list_title}"
-          @events = Event.includes(:tags).active.recent.tagged_with(params[:tags]).order('session_start DESC')
+          @events = Event.includes(:tags).active.recent.tagged_with(params[:tags]).limit(@limit).order('session_start DESC')
         elsif params[:type] == 'upcoming'
           @title = "Upcoming #{@list_title}"
-          @eventlist = Event.includes(:tags).active.upcoming.tagged_with(params[:tags]).order('session_start DESC')
+          @eventlist = Event.includes(:tags).active.upcoming.tagged_with(params[:tags]).limit(@limit).order('session_start DESC')
         else
           @title = "All #{@list_title}"
-          @eventlist = Event.includes(:tags).active.tagged_with(params[:tags]).order('session_start DESC')
+          @eventlist = Event.includes(:tags).active.tagged_with(params[:tags]).limit(@limit).order('session_start DESC')
         end
       else
         @title = "All #{@list_title}"
-        @eventlist = Event.includes(:tags).active.tagged_with(params[:tags]).order('session_start DESC')
+        @eventlist = Event.includes(:tags).active.tagged_with(params[:tags]).limit(@limit).order('session_start DESC')
       end
     else
       @title = "eXtension Professional Development Sessions"
-      @eventlist = Event.includes(:tags).active.order('session_start DESC')
+      @eventlist = Event.includes(:tags).active.limit(@limit).order('session_start DESC')
     end
 
     respond_to do |format|
