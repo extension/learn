@@ -113,7 +113,7 @@
            </p>
           <%-else -%>
             <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong>. A recording of this session has not been uploaded yet.</p>
-            <p class="no_recording_available"><strong>No Recording Yet</strong></p>
+            <p class="no-recording-available"><strong>No Recording Yet</strong></p>
           <%-end -%>
         </div>
       <%-else -%>
