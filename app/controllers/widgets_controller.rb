@@ -21,12 +21,6 @@ class WidgetsController < ApplicationController
       event_limit = params[:limit].to_i
     end
     
-    if params[:width].blank? || params[:width].to_i <= 0
-      @width = 300
-    else
-      @width = params[:width].to_i
-    end
-    
     @event_list = Event.tagged_with(@tag.name).nonconference.active.upcoming(limit = event_limit)
     if @event_list.empty?
       @generic_title = "Recent Webinars"
@@ -44,12 +38,6 @@ class WidgetsController < ApplicationController
       event_limit = 5
     else
       event_limit = params[:limit].to_i
-    end
-    
-    if params[:width].blank? || params[:width].to_i <= 0
-      @width = 300
-    else
-      @width = params[:width].to_i
     end
     
     if request.format == Mime::JS
