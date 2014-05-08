@@ -3,13 +3,9 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
- *= require twitter/bootstrap
+ *= require all/_bootstrap_overrides
  *= require bootstrap-wysihtml5
  *= require vendor
  *= require jquery.jqplot
- *= require_tree . 
+ *= require_tree .
 */
-
-$navbarCollapseWidth: 767px;
-@import "twitter/bootstrap";
-@import "twitter/bootstrap-responsive"
