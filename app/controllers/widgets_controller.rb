@@ -1,5 +1,8 @@
 class WidgetsController < ApplicationController
   
+  def index
+  end  
+  
   def front_porch
     @generic_title = "Upcoming Webinars"
     @event_type = "upcoming"

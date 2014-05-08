@@ -1,0 +1,45 @@
+<h1>Learn Widgets</h1>
+
+<h2>There are two widgets available</h2>
+
+<div class="well">
+  <h3>Front Porch</h3>
+  <p>The front porch widget is so named because it was designed for the front page of www.extension.org and includes any Learn events with the "front page" tag.</p>
+  <h4>Widget code</h4>
+  <textarea class="widget-code"><script type="text/javascript" src="https://learn.extension.org/widgets/front_porch.js"></script></textarea>
+  <h4>Default front porch widget</h4>
+  <div class="widget-container">
+    <script type="text/javascript" src="https://learn.extension.org/widgets/front_porch.js"></script>
+  </div>
+</div>
+
+<div class="well">
+  <h3>Tag-based</h3>
+  <p>Customize with any tag</p>
+  
+  <h4>Widget code</h4>
+  <textarea class="widget-code"><script type="text/javascript" src="https://learn.extension.org/widgets/upcoming.js?tags=horses&limit=3"></script></textarea>
+  <h4>Example Widget (for the tag "horses" and limit of three events)</h4>
+  <div class="widget-container">
+    <script type="text/javascript" src="https://learn.extension.org/widgets/upcoming.js?tags=horses&limit=3"></script>
+  </div>
+
+</div>
+
+<h3>Widget behavior and styling</h3>
+<p>By default, five events are returned. This can be changed with the limit parameter (i.e. limit=3)</p>
+<p>If upcoming events aren't available, the widget defaults to most recent. If a tag is not defined, the widget defaults to events tagged "front page".</p>
+
+<p>The widget markup contains css hooks to make it easier to hide or display different sections including:</p>
+<ul>
+  <li>.learn_widget_generic_title</li>
+  <li>.learn_widget_specific_title</li>
+  <li>.learn_widget_no_matches</li>
+  <li>.learn_widget_see_more</li>
+</ul>
+
+<p>The examples above have been wrapped in a div.widget-container and are styled with the following css:</p>
+<pre>
+  .widget-container {background:#fff; padding:10px; width:220px;}
+  .learn_widget_specific_title {line-height: 24px; font-size:21px;}
+</pre>
