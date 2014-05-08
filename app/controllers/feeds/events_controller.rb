@@ -48,9 +48,11 @@ class Feeds::EventsController < ApplicationController
           @title = "Upcoming #{@list_title}"
           @eventlist = Event.includes(:tags).active.upcoming.tagged_with(params[:tags]).order('session_start DESC')
         else
+          @title = "All #{@list_title}"
           @eventlist = Event.includes(:tags).active.tagged_with(params[:tags]).order('session_start DESC')
         end
       else
+        @title = "All #{@list_title}"
         @eventlist = Event.includes(:tags).active.tagged_with(params[:tags]).order('session_start DESC')
       end
     else
