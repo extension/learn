@@ -35,7 +35,7 @@ class EventsController < ApplicationController
   end
 
   def tags
-    # proof of concept - needs to be moved to something like Event.tagged_with(taglist)
+    @showfeedlink = true
     @list_title = "Sessions Tagged With '#{params[:tags]}'"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
 
@@ -50,12 +50,12 @@ class EventsController < ApplicationController
       end
     else
       if(params[:tags])
-        if params[:type].present? 
+        if params[:type].present?
           if params[:type] == 'recent'
-            @list_title = "Recent #{@list_title}" 
+            @list_title = "Recent #{@list_title}"
             @events = Event.active.recent.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
           elsif params[:type] == 'upcoming'
-            @list_title = "Upcoming #{@list_title}" 
+            @list_title = "Upcoming #{@list_title}"
             @events = Event.active.upcoming.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
           else
             @events = Event.active.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
@@ -69,52 +69,52 @@ class EventsController < ApplicationController
     end
     render :action => 'index'
   end
-  
+
   def diff_with_previous
     @event = Event.find(params[:id])
     @version = Version.find_by_id(params[:version_id])
-      
+
     return record_not_found if !@version.present? || !@event.present?
-    
+
     @previous_version = @version.previous
-    
+
     @version_submitter = Learner.find_by_id(@version.whodunnit)
-    
+
     if @version == @event.versions.first
       @previous_submitter = @event.creator
     else
       @previous_submitter = Learner.find_by_id(@previous_version.whodunnit)
     end
-    
+
     if @version.changeset[:title].present?
       @title_diff = Diffy::Diff.new(@version.changeset[:title][0], @version.changeset[:title][1]).to_s(:html).html_safe
     end
-    
+
     if @version.changeset[:description].present?
       @description_diff = Diffy::Diff.new(@version.changeset[:description][0], @version.changeset[:description][1]).to_s(:html).html_safe
     end
-    
+
     if @version.changeset[:session_start].present?
       @session_start_diff = Diffy::Diff.new(@version.changeset[:session_start][0], @version.changeset[:session_start][1]).to_s(:html).html_safe
     end
-    
+
     if @version.changeset[:session_length].present?
       @session_length_diff = Diffy::Diff.new(@version.changeset[:session_length][0], @version.changeset[:session_length][1]).to_s(:html).html_safe
     end
-    
+
     if @version.changeset[:location].present?
       @location_diff = Diffy::Diff.new(@version.changeset[:location][0], @version.changeset[:location][1]).to_s(:html).html_safe
     end
-    
+
     if @version.changeset[:evaluation_link].present?
       @evaluation_link_diff = Diffy::Diff.new(@version.changeset[:evaluation_link][0], @version.changeset[:evaluation_link][1]).to_s(:html).html_safe
     end
-    
+
     if @version.changeset[:time_zone].present?
       @time_zone_diff = Diffy::Diff.new(@version.changeset[:time_zone][0], @version.changeset[:time_zone][1]).to_s(:html).html_safe
     end
   end
-  
+
   def broadcast
     @list_title = "Broadcast Sessions"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
@@ -154,7 +154,7 @@ class EventsController < ApplicationController
         @event.add_stock_questions
       end
     end
-    
+
     if(current_learner)
       @last_viewed_at = current_learner.last_view_for_event(@event)
     end
@@ -220,12 +220,12 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(params[:event])
-    
+
     if(@event.conference_id)
       @conference = Conference.find_by_id(@event.conference_id)
     end
     @event.last_modifier = @event.creator = current_learner
-    
+
     if @event.save
       redirect_to(@event, :notice => 'Event was successfully created.')
     else
@@ -239,11 +239,11 @@ class EventsController < ApplicationController
     # max of 3 total images allowed (including existing)
     new_image_count = 3 - @event.images.count
     if new_image_count > 0
-      new_image_count.times do    
+      new_image_count.times do
         @event.images.build
       end
     end
-    
+
   end
 
   def update
@@ -268,7 +268,7 @@ class EventsController < ApplicationController
       return redirect_to(@restored_event)
     end
   end
-  
+
   def canceled
     @events = Event.where(is_canceled: true).order("session_start DESC").page(params[:page])
   end
@@ -276,7 +276,7 @@ class EventsController < ApplicationController
   def search
     # trash the utf8 param because google hates us.
     params.delete(:utf8)
-    
+
     # take quotes out to see if it's a blank field and also strip out +, -, and "  as submitted by themselves are apparently special characters
     # for solr and will make it crash, and if you ain't got no q param, no search goodies for you!
     if !params[:q] || params[:q].gsub(/["'+-]/, '').strip.blank?
@@ -300,6 +300,7 @@ class EventsController < ApplicationController
     events = Event.search do
                 with(:is_canceled, false)
                 fulltext(params[:q])
+                order_by(:session_start, :desc)
                 paginate :page => params[:page], :per_page => Event.default_per_page
               end
     @events = events.results
@@ -391,7 +392,7 @@ class EventsController < ApplicationController
       NotificationException.create(learner: current_learner, event: @event)
     end
   end
-  
+
   protected
 
   def check_for_conference
