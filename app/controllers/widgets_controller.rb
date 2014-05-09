@@ -26,7 +26,7 @@ class WidgetsController < ApplicationController
       @generic_title = "Recent Webinars"
       @event_type = "recent"
       @specific_title = "eXtension Recent Learn Events"
-      @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(@tag.name)
+      @event_list = Event.nonconference.active.recent.tagged_with(@tag.name).limit(event_limit)
     end
     
     render "widgets"
@@ -74,10 +74,10 @@ class WidgetsController < ApplicationController
       
       if params[:operator].present?
         if params[:operator].downcase == 'and'
-          @event_list = Event.nonconference.active.upcoming(limit = event_limit).tagged_with_all(@tag_list)
+          @event_list = Event.nonconference.active.upcoming.tagged_with_all(@tag_list).limit(event_limit)
         end
       elsif params[:operator].blank? || params[:operator].downcase != 'and'
-        @event_list = Event.nonconference.active.upcoming(limit = event_limit).tagged_with(params[:tags])
+        @event_list = Event.nonconference.active.upcoming.tagged_with(params[:tags]).limit(event_limit)
       end
       
       if @tag_list.length == 1
@@ -88,7 +88,7 @@ class WidgetsController < ApplicationController
         @event_type = "recent"
         @generic_title = "Recent Webinars"
         @specific_title = "eXtension Recent Learn Events in #{@tag_list.join(',')}"
-        @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(params[:tags])
+        @event_list = Event.nonconference.active.recent.tagged_with(params[:tags]).limit(event_limit)
         if @tag_list.length == 1
           @path_to_upcoming_events = events_tag_url(:tags => @tag_list.first, :type => 'recent')
         end
@@ -107,7 +107,7 @@ class WidgetsController < ApplicationController
         @path_to_upcoming_events = recent_events_url
         @event_type = "recent"
         @specific_title = "eXtension Recent Learn Events"
-        @event_list = Event.nonconference.active.recent(limit = event_limit).tagged_with(@tag.name)
+        @event_list = Event.nonconference.active.recent.tagged_with(@tag.name).limit(event_limit)
       end
     end
     
