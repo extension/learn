@@ -40,7 +40,8 @@
       <p>No events presented yet<p>
     <% else %>
       <% @presented_events.each do |event| %>
-        <p class="bookmarked_event <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>">
+        <p>
+          <i class="<%= (event.recording.present?) ? "i-recording-available mini" : "i-recording-unavailable mini" %>"></i>
           <% if event.is_expired %>
             <em class="expired">expired</em>
           <% end %>
@@ -68,7 +69,8 @@
       <p>No events attended yet<p>
     <% else %>
       <% @attended_events.each do |event| %>
-        <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>">
+        <p>
+          <i class="<%= (event.recording.present?) ? "i-recording-available mini" : "i-recording-unavailable mini" %>"></i>
           <% if event.is_expired %>
             <em class="expired">expired</em>
           <% end %>
@@ -96,7 +98,8 @@
       <p class="muted">No events watched yet<p>
     <% else %>
       <% @watched_events.each do |event| %>
-        <p class="mini <%= (event.recording.present?) ? "recording_available" : "no_recording_available" %>">
+        <p>
+          <i class="<%= (event.recording.present?) ? "i-recording-available mini" : "i-recording-unavailable mini" %>"></i>
           <% if event.is_expired %>
             <em class="expired">expired</em>
           <% end %>
@@ -127,7 +130,7 @@
     <% else %>
   
     <% @bookmarked_events.each do |event| %>
-      <div class="bookmarked_event <%= (event.recording.present?) ? "recording_available mini" : "no_recording_available mini" %>">
+        <i class="<%= (event.recording.present?) ? "i-recording-available mini" : "i-recording-unavailable mini" %>"></i>
         <p>
         <% if event.is_expired %>
           <em class="expired">expired</em>
@@ -136,8 +139,6 @@
           <% if event.is_online_session? and event.session_start >= Time.zone.now && event.session_start < 14.days.from_now -%>
             <span class="coming_soon">Coming up soon!</span>
           <% end %></p>
-      
-      </div>
     <% end %>
       
     <% if current_learner && (current_learner.id == @learner.id || @learner.public_bookmarked_events?) %>
