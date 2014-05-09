@@ -108,7 +108,7 @@
         <div id="recording_details">
          <%-if @event.has_recording? -%>
            <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong></p>
-           <p class="recording_available">
+           <p class="recording-available">
               <%= link_to("watch recording", @event.recording) -%>
            </p>
           <%-else -%>
