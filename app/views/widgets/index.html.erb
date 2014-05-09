@@ -6,10 +6,10 @@
   <h3>Front Porch</h3>
   <p>The front porch widget is so named because it was designed for the front page of www.extension.org and includes any Learn events with the "front page" tag.</p>
   <h4>Widget code</h4>
-  <textarea class="widget-code"><script type="text/javascript" src="https://learn.extension.org/widgets/front_porch.js"></script></textarea>
+  <textarea class="widget-code"><script type="text/javascript" src="<%= request.protocol + request.host_with_port %>/widgets/front_porch.js"></script></textarea>
   <h4>Default front porch widget</h4>
   <div class="widget-container">
-    <script type="text/javascript" src="https://learn.extension.org/widgets/front_porch.js"></script>
+    <script type="text/javascript" src="<%= request.protocol + request.host_with_port %>/widgets/front_porch.js"></script>
   </div>
 </div>
 
@@ -18,10 +18,10 @@
   <p>Customize with any tag</p>
   
   <h4>Widget code</h4>
-  <textarea class="widget-code"><script type="text/javascript" src="https://learn.extension.org/widgets/upcoming.js?tags=horses&limit=3"></script></textarea>
+  <textarea class="widget-code"><script type="text/javascript" src="<%= request.protocol + request.host_with_port %>/widgets/upcoming.js?tags=horses&limit=3"></script></textarea>
   <h4>Example Widget (for the tag "horses" and limit of three events)</h4>
   <div class="widget-container">
-    <script type="text/javascript" src="https://learn.extension.org/widgets/upcoming.js?tags=horses&limit=3"></script>
+    <script type="text/javascript" src="<%= request.protocol + request.host_with_port %>/widgets/upcoming.js?tags=horses&limit=3"></script>
   </div>
 
 </div>
