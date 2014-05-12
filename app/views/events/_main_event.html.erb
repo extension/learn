@@ -70,18 +70,7 @@
     <% end %>
   </div>
   
-  <div class="event-tags">
-    <div class="tags">
-      <h4 class="hide">Tags</h4>
-      <p>
-        <%-if @event.tags.length != 0 -%>
-          <%= display_tags(@event.tags) -%>
-        <%-else -%>
-          <p class="muted">This event does not have any tags</p>
-        <%-end -%>
-      </p>
-    </div>
-  </div>
+  
     
    <div class="event-colophon">
      <p><small>Created by <%= link_to_learner(@event.creator) %></small></p>
@@ -192,7 +181,19 @@
           <br class="clearing" />
        </aside>
      <%- end -%>
-
+    
+     <div class="event-tags">
+       <div class="tags">
+         <h4 class="hide">Tags</h4>
+         <p>
+           <%-if @event.tags.length != 0 -%>
+             <%= display_tags(@event.tags) -%>
+           <%-else -%>
+             <p class="muted">This event does not have any tags</p>
+           <%-end -%>
+         </p>
+       </div>
+     </div>
 
 <br class='clearing' />
 </div>
