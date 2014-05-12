@@ -86,3 +86,7 @@ p {word-wrap: break-word;}
 #error_messages ul {margin-bottom:0;}
 #error_messages li {font-size: 1.2em;padding:0;margin:0 0 .4em; color: #9b303a}
 #error_messages h3 {color: #9b303a}
+
+.radio-list li {clear:left; list-style:none;}
+.grouped-fieldsets fieldset {margin-bottom:0;}
+.normal-label {font-weight:normal;}

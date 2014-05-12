@@ -48,7 +48,7 @@
         <%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b   %e, %Y") %></span></p>
       <% end %>
       <% if current_learner && (current_learner.id == @learner.id || @learner.public_presented_events?) %>
-      <p class="view_all"><%= link_to "View all", presented_history_learner_path(@learner) %></p>
+      <p class="view_all"><%= link_to "View all", presented_history_learner_path(@learner), :class => "muted" %></p>
       <% end %>
     <% end %>
   <% else %>
@@ -77,7 +77,7 @@
         <%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
       <% end %>
       <% if current_learner && (current_learner.id == @learner.id || @learner.public_attended_events?) %>
-      <p class="view_all"><%= link_to_unless_current "View all", attended_history_learner_path(@learner) %></p>
+      <p class="view_all"><%= link_to_unless_current "View all", attended_history_learner_path(@learner), :class => "muted" %></p>
       <% end %>
     <% end %>
   <% else %>
@@ -106,7 +106,7 @@
         <%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
       <% end %>
       <% if current_learner && (current_learner.id == @learner.id || @learner.public_watched_events?) %>
-      <p class="view_all"><%= link_to_unless_current "View all", watched_history_learner_path(@learner) %></p>
+      <p class="view_all"><%= link_to_unless_current "View all", watched_history_learner_path(@learner), :class => "muted" %></p>
       <% end %>
     <% end %>
   <% else %>
@@ -142,7 +142,7 @@
     <% end %>
       
     <% if current_learner && (current_learner.id == @learner.id || @learner.public_bookmarked_events?) %>
-    <p class="view_all"><%= link_to_unless_current "View all", bookmarked_history_learner_path(@learner) %></p>
+    <p class="view_all"><%= link_to_unless_current "View all", bookmarked_history_learner_path(@learner), :class => "muted" %></p>
     <% end %>
     
     <% end %>

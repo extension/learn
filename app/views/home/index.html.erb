@@ -5,7 +5,7 @@
 <div class="span5">
   <h2>Upcoming Sessions <small><%= link_to 'view all', upcoming_events_path %></small></h2>
   
-  <div id="upcoming_events">
+  <div class="upcoming-events">
   <%- @upcoming_events.each do |event| -%>
     <section class="upcoming-events-single">
       <% if event.in_progress? %>
@@ -16,7 +16,7 @@
           <span class="date"><%= event.session_start.strftime("%d") -%></span>
        </div>
 
-      <h3><%= link_to(event.title, event_path(event.id)) -%></h3>
+      <h3 class="upcoming-events-single-description"><%= link_to(event.title, event_path(event.id)) -%></h3>
       
       <h4><%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%></h4>
       
@@ -46,7 +46,7 @@
    </section>
   <%- end -%>
   </div>
-  <small><%= link_to 'View all upcoming events', upcoming_events_path %></small>
+  <small><%= link_to 'View all upcoming events', upcoming_events_path, :class => "muted" %></small>
 </div>
 
 
@@ -57,15 +57,18 @@
   <%- @more_upcoming_events.each do |event| -%>
     <dl>
       <dt><%= link_to(event.title, event_path(event.id)) -%></span></dt>
-      <dd><%= event.session_start.strftime('%l:%M %p, %B %e, %Y %Z') %></dd>
+      <dd class="recent-event-age">
+        <%= event.session_start.strftime("%A, %B %e") -%> at <%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%>
+      </dd>
+      
     </dl>
   <%- end -%>
-  <small><%= link_to 'View all upcoming events', upcoming_events_path %></small>
+  <small><%= link_to 'View all upcoming events', upcoming_events_path, :class => "muted" %></small>
   </div>
   
-  <h2>Recent Sessions <small><%= link_to 'view all', recent_events_path %></small></h2>
+  <h2>Recent Sessions <small class="muted"><%= link_to 'view all', recent_events_path %></small></h2>
   
-  <div id="recent_events">
+  <div class="recent-events-list">
   <%- @recent_events.each do |event| -%>
     <dl>
       <% if event.has_recording? %>
@@ -73,11 +76,11 @@
       <% else %>
         <dt><span class="no_recording_available"><%= link_to(event.title, event_path(event.id)) -%></span></dt>
       <% end %>
-      <dd><%= time_ago_in_words(event.session_start) %> ago</dd>
+      <dd class="recent-event-age"><%= time_ago_in_words(event.session_start) %> ago</dd>
     </dl>
   <%- end -%>
   </div>
-  <small><%= link_to 'View all recent events', recent_events_path %></small>
+  <small><%= link_to 'View all recent events', recent_events_path, :class => "muted" %></small>
 </div>
 
 
@@ -88,9 +91,7 @@
   <p>If you have a suggestion for a topic, you can tweet to <%= link_to "@extensionLearns", "http://twitter.com/extensionLearns" %> on Twitter.</p>
     
   <%- if current_learner -%>
-      <div id="create_event">
-      <%= link_to "Create a new event", new_event_path(), :class => "btn" %>
-      </div>
+      <p><%= link_to "Create a new event", new_event_path(), :class => "btn" %></p>
   <%- else -%>
     <div id="signin">
       <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn btn-primary" )%></p>

@@ -5,7 +5,7 @@
 
 <div class="form_group notifications">
   
-  <div class="form_subgroup">
+  <div class="grouped-fieldsets">
     <h3>Send me an email when</h3>
     
     <% if @learner.email.blank? %>
@@ -16,13 +16,13 @@
           <fieldset>
             <%= hidden_field_tag('notification_type', 'email_reminder_notification') %>
             <p>
-              <label>
+              <label class="checkbox">
               <%= check_box_tag('notification.reminder.email', 
                             '1',
                             @learner.preferences.setting('notification.reminder.email'),
                             {class: 'submittable'}) %> 
 
-              <span>An event I followed is about to start</span>
+              <span class="normal-label">An event I followed is about to start</span>
               </label>
             </p>
           </fieldset>
@@ -32,13 +32,13 @@
           <fieldset>
             <%= hidden_field_tag('notification_type', 'activity_notification') %>
             <p>
-              <label>
+              <label class="checkbox">
                 <%= check_box_tag('notification.activity', 
                           '1',
                           @learner.preferences.setting('notification.activity'),
                           {class: 'submittable'}) %> 
 
-                <span>There is activity on an event I followed</span>
+                <span class="normal-label">There is activity on an event I followed</span>
               </label>
             </p>
           </fieldset>
@@ -48,13 +48,13 @@
           <fieldset>
             <%= hidden_field_tag('notification_type', 'recording_notification') %>
             <p>
-              <label>
+              <label class="checkbox">
                 <%= check_box_tag('notification.recording', 
                           '1',
                           @learner.preferences.setting('notification.recording'),
                           {class: 'submittable'}) %> 
 
-                <span>A recording is uploaded to an event I followed</span>
+                <span class="normal-label">A recording is uploaded to an event I followed</span>
               </label>
             </p>
           </fieldset>
@@ -64,13 +64,13 @@
           <fieldset>
             <%= hidden_field_tag('notification_type', 'rescheduled_or_canceled') %>
             <p>
-              <label>
+              <label class="checkbox">
                 <%= check_box_tag('notification.rescheduled_or_canceled', 
                           '1',
                           @learner.preferences.setting('notification.rescheduled_or_canceled'),
                           {class: 'submittable'}) %> 
 
-                <span>An event I followed is rescheduled or canceled</span>
+                <span class="normal-label">An event I followed is rescheduled or canceled</span>
               </label>
             </p>
           </fieldset>
@@ -80,13 +80,13 @@
           <fieldset>
             <%= hidden_field_tag('notification_type', 'location_changed') %>
             <p>
-              <label>
+              <label class="checkbox">
                 <%= check_box_tag('notification.location_changed', 
                           '1',
                           @learner.preferences.setting('notification.location_changed'),
                           {class: 'submittable'}) %> 
 
-                <span>An event I followed has had a location change</span>
+                <span class="normal-label">An event I followed has had a location change</span>
               </label>
             </p>
           </fieldset>
@@ -96,7 +96,7 @@
           <fieldset>
             <%= hidden_field_tag('notification_type', 'recommendation_notification') %>
             <p>
-              <label>
+              <label class="checkbox">
                 <%= check_box_tag('notification.recommendation', 
                           '1',
                           @learner.preferences.setting('notification.recommendation'),
@@ -123,55 +123,55 @@
         <fieldset>
           <%= hidden_field_tag('notification_type', 'sms_reminder_notification') %>
           <p>
-            <label>
+            <label class="checkbox">
               <%= check_box_tag('notification.reminder.sms', 
                       '1',
                       @learner.preferences.setting('notification.reminder.sms'), 
                       {class: 'submittable'}) %> 
                       
-                      <span>An event I followed is about to start</span>
+                      <span class="normal-label">An event I followed is about to start</span>
             </label>
           </p>
     
-          <ul id="sms_durations">
+          <ul id="sms_durations" class="radio-list">
             <li>
-              <label>
+              <label class="radio">
                 <%= radio_button_tag('notification.reminder.sms.notice', 
                       15.minutes,
                       @learner.preferences.setting('notification.reminder.sms.notice').to_f == 15.minutes || @learner.preferences.setting('notification.reminder.sms.notice').blank?,
                       {class: 'submittable'}) %> 
                       
-                      <span>15 minutes prior to start time</span>
+                      <span class="normal-label">15 minutes prior to start time</span>
               </label>
             </li>
             <li>
-              <label>
+              <label class="radio">
                 <%= radio_button_tag('notification.reminder.sms.notice', 
                       30.minutes,
                       @learner.preferences.setting('notification.reminder.sms.notice').to_f == 30.minutes,
                       {class: 'submittable'}) %> 
                       
-                      <span>30 minutes prior to start time</span>
+                      <span class="normal-label">30 minutes prior to start time</span>
               </label>
             </li>
             <li>
-              <label>
+              <label class="radio">
               <%= radio_button_tag('notification.reminder.sms.notice', 
                       45.minutes,
                       @learner.preferences.setting('notification.reminder.sms.notice').to_f == 45.minutes,
                       {class: 'submittable'}) %> 
                       
-                    <span>45 minutes prior to start time</span>
+                    <span class="normal-label">45 minutes prior to start time</span>
               </label>
             </li>
             <li>
-              <label>
+              <label class="radio">
                 <%= radio_button_tag('notification.reminder.sms.notice', 
                       60.minutes,
                       @learner.preferences.setting('notification.reminder.sms.notice').to_f == 60.minutes,
                       {class: 'submittable'}) %> 
                       
-                    <span>60 minutes prior to start time</span>
+                    <span class="normal-label">60 minutes prior to start time</span>
               </label>
             </li>
           </ul>

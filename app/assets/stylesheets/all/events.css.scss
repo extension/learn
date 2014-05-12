@@ -1,13 +1,13 @@
 @import "_variables";
-.event {@include wordwrap}
+.event, .upcoming-events {@include wordwrap}
 
 
 .event-learners {padding:20px; background:#eee; clear:left; margin-top:0;}
 .event-learners h3 {font-size:.9em; color:#888; text-transform:uppercase; }
-#event_learner_list {width:100%;margin:0; padding:0;float:left;}
-#event_learner_list li {float:left; list-style:none;}
-#event_learner_list li a {float:left; margin-right:.6em;}
-#event_learner_list li img {width:36px; height:36px; margin:0;}
+.event-learner-list {width:100%;margin:0; padding:0;float:left;}
+.event-learner-list li {float:left; list-style:none;}
+.event-learner-list li a {float:left; margin-right:.6em; margin-bottom:.6em;}
+.event-learner-list li img {width:36px; height:36px; margin:0;}
 
 .event-main {border-bottom:1px solid #ccc;}
 .event-cover-image img {width: 100%;}
@@ -80,3 +80,6 @@ span.recording_available {background: transparent url(/assets/play_button_mini.p
 .event-list-title {font-size:18px; margin-bottom:.25em;}
 .event-list-details {font-size:15px; margin-bottom:0;}
 .event-list-description {font-size:13px !important; line-height:18px; margin-bottom:1em;}
+
+.recent-event-age {font-size:13px;}
+.upcoming-events-single-description {font-size:27px;}
