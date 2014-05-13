@@ -44,7 +44,7 @@
     <%- if @event.presenters.count > 0 -%>
       <div class="event-presenters">
         <h3 class="event-section-header">Presenters</h3>
-        <p id="presenters"><i class="icon-user"></i> <%= display_presenters(@event.presenters) %></p>
+        <p id="presenters"><i class="fa fa-user"></i> <%= display_presenters(@event.presenters) %></p>
       </div>
     <%- end -%>  
     
@@ -124,7 +124,7 @@
         
         <p class="addtocalendar">
           <span id="event_date" class="addtocal">
-            <span class="btn"><i class="icon-calendar"></i> Add to calendar</span>
+            <span class="btn"><i class="fa fa-table"></i> Add to calendar</span>
             <span class="summary" style="display:none"><%= "Learn Event: #{@event.title}" %></span>
             <span class="dtstart" style="display:none"><%= add_to_cal_timestamp(@event.session_start) %></span>
             <span class="dtend" style="display:none"><%= add_to_cal_timestamp(@event.session_end) %></span>

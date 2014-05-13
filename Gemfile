@@ -19,6 +19,9 @@ group :assets do
   gem 'outfielding-jqplot-rails'
 end
 
+# replaces glyphicons
+gem 'font-awesome-rails'
+
 # storage
 gem 'mysql2'
 

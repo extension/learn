@@ -1,6 +1,6 @@
 <%- if @showfeedlink -%>
 <div class="pull-right">
-  <p><i class="icon-feed"></i> <%= link_to "Subscribe to this list of events", tags_feeds_events_url(tags: params[:tags], type: params[:type]) %><p>
+  <p><i class="fa fa-rss extension-orange"></i> <%= link_to "Subscribe to this list of events", tags_feeds_events_url(tags: params[:tags], type: params[:type]) %><p>
 </div>
 <%- end -%>
 <% if @events.total_count > 0 %>

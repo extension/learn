@@ -5,6 +5,7 @@
  *= require_self
  *= require_tree ./all
  *= require bootstrap-wysihtml5
+ *= require font-awesome
  *= require vendor
  *= require jquery.jqplot
 */
