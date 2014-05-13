@@ -17,11 +17,8 @@
         <%= image_tag(@event.cover_image_url(:cover)) %>
       </div>
     <% end %>
-  
     <h2 class="event-title"><%= @event.title -%></h2>
-      
-      <% render(:partial => 'addthis') %>
-      
+    
       <% if @event.in_progress? %>
         <span class="happening_now"><em>Happening now</em></span>
         <br class="clearing"/>
@@ -90,6 +87,10 @@
 
   <div class="span5">
   
+  <aside class="addthis-wrapper clearing">
+    <%= render(:partial => 'addthis') %>
+    <br class="clearing" />
+  </aside>
   <aside class="event-time radius10">
       <%-if @event.concluded? -%>
         <h4>Watch</h4>
