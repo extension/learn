@@ -17,10 +17,13 @@ h3 {line-height:1.2em;}
 .user-actions {
   border:1px solid #ccc; 
   background:#ccc;
-
+}
+.user-actions-list {
+/*  outline:1px solid lime; */
+/*  float:right; width:auto !important;*/
   }
 .user-actions a {  color: #444;}
-.user-actions li {list-style:none; padding:.75em 1em; float:left;}
+.user-actions li {list-style:none; padding:.75em 1em; float:right;}
 .user-actions li img {height:22px; width:22px;}
 
 
