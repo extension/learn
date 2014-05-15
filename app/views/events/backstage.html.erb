@@ -1,5 +1,6 @@
 <% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") + ' - Backstage' %>
 
+<div class="span8 offset1">
 <div id="behindthescenes">
 <h1>Behind the scenes at <small><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></small></h1>
 
@@ -8,37 +9,6 @@
 <%- attendee_count = @event.attendees.count -%>
 <%- watched_count = @event.watched.count -%>
 <%- bookmarked_count = @event.bookmarked.count -%>
-
-<section>
-  <h3>Event up-votes</h3>
-  
-  <%- if @event.ratings.count > 0 -%>
-    <p><strong><%= @event.ratings.count -%></strong> <%= @event.ratings.count > 1 ? "people" : "person" %></p>
-
-    
-    <%- if params[:type] == "table" %>
-      <table class="table people table-striped">
-        <%- @event.raters.each do |rater| %>
-        <tr>
-          <td class="avatar_td"><%= link_to_learner_avatar(rater, {image_size: :thumb, event_types: ['rated']}) -%></td>
-          <td class="name_td"><%= link_to_learner(rater, {event_types: ['rated']}) %></td>
-        </tr>
-        <%- end -%>
-        </table>
-    <%- else -%>
-      <ul class="learner_list">
-        <%- @event.raters.each do |rater| %>
-          <li><%= link_to_learner_avatar(rater, {image_size: :thumb, event_types: ['rated']}) -%></li>
-        <%- end -%>
-      </ul>
-      <br class="clearing" />
-    <%- end -%>
-    
-
-  <%- else -%>
-      <p class="zero_activity">0 votes</p>
-  <%- end -%>
-</section>
 
 <section>
   <h3>Comments</h3>
@@ -67,7 +37,7 @@
     <%- end -%>
     
   <%- else -%>
-    <p class="zero_activity">0 comments</p>
+    <p class="muted">0 comments</p>
   <%- end -%>
 </section>
 
@@ -142,7 +112,7 @@
   
   
 <%- else -%>
-  <p class="zero_activity margin">0 attendees</p>
+  <p class="muted margin">0 attendees</p>
 <%- end -%>
 
 <h4>Watched</h4>
@@ -170,7 +140,7 @@
   
   
 <%- else -%>
-  <p class="zero_activity margin">0 watched</p>
+  <p class="muted margin">0 watched</p>
 <%- end -%>
 
 <h4>Followed</h4>
@@ -198,11 +168,11 @@
   
   
 <%- else -%>
-  <p class="zero_activity margin">0 followed</p>
+  <p class="muted margin">0 followed</p>
 <%- end -%>
 <br class="clearing" />
 </section>
-
+</div>
 </div>
 
 <script class="code" type="text/javascript">
