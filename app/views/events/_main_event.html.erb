@@ -1,5 +1,5 @@
-<div id="two_col_col_one">
-  <section id="event">
+<div class="span7">
+  <section id="event" class="event-main">
     
     <%- if @event.is_conference_session? -%>
       <div class="conference-info">
@@ -17,44 +17,36 @@
         <%= image_tag(@event.cover_image_url(:cover)) %>
       </div>
     <% end %>
-  
-    <h2><%= @event.title -%></h2>
-
+    <h2 class="event-title"><%= @event.title -%></h2>
+    
       <% if @event.in_progress? %>
         <span class="happening_now"><em>Happening now</em></span>
         <br class="clearing"/>
       <% end %>
       
-      <div class="description"><%= @event.description.html_safe -%></div>
-      
-      
-      <div class="event-section">
-        <div class="tags">
-          <h4 class="hide">Tags</h4>
+      <%-if !@event.concluded? -%>
+        <div class="location-section">
           <p>
-            <%-if @event.tags.length != 0 -%>
-              <%= display_tags(@event.tags) -%>
-            <%-else -%>
-              <p class="muted">This event does not have any tags</p>
-            <%-end -%>
-          </p>
+          <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%> at</span>  
+           <span class="session-time">
+              <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
+           </span>
+           </p>
+          <p>Link: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
         </div>
-      </div>
+        
+      <%- end -%>
       
-
+      <div class="event-description"><%= @event.description.html_safe -%></div>
+      
+      
+  <div class="event-sections">
     <%- if @event.presenters.count > 0 -%>
-      <div class="event-section">
-        <h3>Presenters</h3>
-        <p id="presenters"><i class="icon-user"></i> <%= display_presenters(@event.presenters) %></p>
+      <div class="event-presenters">
+        <h3 class="event-section-header">Presenters</h3>
+        <p id="presenters"><i class="fa fa-user"></i> <%= display_presenters(@event.presenters) %></p>
       </div>
     <%- end -%>  
-      
-    <%-if !@event.concluded? -%>
-      <div class="event-section">
-        <h3>Location</h3>
-        <p><i class="icon-globe"></i> <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
-      </div>
-    <%- end -%>
     
     <% if @event.evaluation_link.present? %>
       <div class="event-section">
@@ -68,84 +60,70 @@
     <% end %>
     
     <% if !@event_material_links.blank? %>
-      <div class="event_materials">
-        <h3>Event Materials</h3>
-        <div id="material-links-list">
+      <div class="event-materials">
+        <h3 class="event-section-header">Event Materials</h3>
           <%= render partial: 'material_links/material_links_list' %>
-	      </div>
       </div>
     <% end %>
+  </div>
+  
+  
     
-    <div class="event-section">
-      <p>Created by <%= link_to_learner(@event.creator) %></p>
-    </div>
-    
-    <%- if current_learner && !@event.is_conference_session? -%>
-      <p><%= link_to('edit this event', edit_event_path(@event), :class => "btn") -%></p>
-      <p><%= link_to("version history", history_event_path(@event), :class => "muted")%></p>
-    <%- end %>
+   <div class="event-colophon">
+     <p><small>Created by <%= link_to_learner(@event.creator) %></small></p>
+     
+     <%- if current_learner && !@event.is_conference_session? -%>
+       <p><small><%= link_to('edit', edit_event_path(@event), :class => "btn btn-small") -%> <%= link_to("version history", history_event_path(@event), :class => "btn btn-small")%></small></p>
+     <%- end %>
+   </div>
     
    </section>
+   
 
    <div id="comment-section">
     <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
    </div>
 </div>
 
-
-
-<div id="two_col_col_two">
+  <div class="span5">
   
-  <aside id="event_time" class="radius10">
-    <div class="event-ratings-wrapper">
-    <div class="rating_wrapper">
-      <% if current_learner %>
-          <% if upvoted_object = current_learner.get_upvoted_object(@event.id, 'Event') %>
-            <span id='undo_vote_event_<%= @event.id %>'><%= button_to '-', rating_path(upvoted_object), :method => :delete, :remote => true, :class => "btn" %></span>
-          <% else %>
-            <span id='upvote_event_<%= @event.id %>'><%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn btn-primary" %></span>
-          <% end %>
-        <% else %>
-          <%= render(partial: 'sign_in_to_vote')%>
-          <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
-          </div> <!-- end .sitv_element_wrapper  -->
-        <% end %>
-        <div id="event_votes" class="rating_detail">
-          <%= render :partial => '/partials/ratings', locals: {rateable_object: @event} %>
-        </div>
-    </div>
-    <br class="clearing" />
-    </div>
+  <aside class="addthis-wrapper clearing">
+    <%= render(:partial => 'addthis') %>
+  </aside>
+  <aside class="event-time radius10">
       <%-if @event.concluded? -%>
         <h4>Watch</h4>
 
         <div id="recording_details">
          <%-if @event.has_recording? -%>
            <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong></p>
-           <p class="recording_available">
+           <p class="recording-available">
               <%= link_to("watch recording", @event.recording) -%>
            </p>
           <%-else -%>
             <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong>. A recording of this session has not been uploaded yet.</p>
-            <p class="no_recording_available"><strong>No Recording Yet</strong></p>
+            <p class="no-recording-available"><strong>No Recording Yet</strong></p>
           <%-end -%>
         </div>
       <%-else -%>
 
-        <h3>
-           <span id="session_date"><%= @event.session_start.strftime("%B %e, %Y") -%></span>
+        <h4>
+           
            <span class="calendarblock">
               <span class="month"><%= @event.session_start.strftime("%b") -%></span>
               <span class="date"><%= @event.session_start.strftime("%d") -%></span>
            </span>
-           <span id="session_date_time">
+           <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%> at</span>  
+           <span class="session-time">
               <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
            </span>
-        </h3>
+        </h4>
+        
+        <h4 class="session-duration"><%= "#{@event.session_length}" -%> minute session</h3>
         
         <p class="addtocalendar">
           <span id="event_date" class="addtocal">
-            Add to calendar
+            <span class="btn"><i class="fa fa-table"></i> Add to calendar</span>
             <span class="summary" style="display:none"><%= "Learn Event: #{@event.title}" %></span>
             <span class="dtstart" style="display:none"><%= add_to_cal_timestamp(@event.session_start) %></span>
             <span class="dtend" style="display:none"><%= add_to_cal_timestamp(@event.session_end) %></span>
@@ -162,11 +140,8 @@
           <%- end -%>
         <%- end -%></p>
 
-        <h4 id="session_duration"><strong><%= "#{@event.session_length}" -%> minute</strong> session</h3>
         
-        <p class="location">
-          Event Location: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%>
-        </p>
+        <p><small><strong>Location:</strong> <%= link_to(truncate(@event.location.html_safe), @event.location.html_safe, :target => "_blank") -%></small></p>
       <%-end -%>
       
       <%- if @event.is_conference_session? -%>
@@ -184,16 +159,18 @@
       <% end %>
       
     </aside>
+    
+    
 
     <%- if current_learner -%>
 
-      <aside id="eventconnections" class="radius10">
+      <aside id="eventconnections" class="event-connections radius10">
         <%= render :partial => 'connections' %>
       </aside>
 
       <%= render :partial => 'learners' %>
     <%- else -%>
-       <aside id="eventconnections" class="radius10 placeholder">
+       <aside id="eventconnections" class="event-connections radius10 placeholder">
          <%= render(partial: 'sign_in_to_vote')%>
           <%- if @event.started? -%>
             <p class="sitv_element cursor">Did you attend or watch this event or want to follow it?</p>
@@ -204,7 +181,19 @@
           <br class="clearing" />
        </aside>
      <%- end -%>
-
+    
+     <div class="event-tags">
+       <div class="tags">
+         <h4 class="hide">Tags</h4>
+         <p>
+           <%-if @event.tags.length != 0 -%>
+             <%= display_tags(@event.tags) -%>
+           <%-else -%>
+             <p class="muted">This event does not have any tags</p>
+           <%-end -%>
+         </p>
+       </div>
+     </div>
 
 <br class='clearing' />
 </div>

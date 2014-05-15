@@ -1,3 +1,4 @@
+<div class="span12">
 <%= render(partial: 'navtabs') -%>
 <h2>Overall Statistics</h2>
 <table class="table table-striped">
@@ -7,3 +8,4 @@
     <tr><td>Learners</td><td><%= EventConnection.count('DISTINCT(learner_id)') %></td></tr>
   </tbody>
 </table>
+</div>

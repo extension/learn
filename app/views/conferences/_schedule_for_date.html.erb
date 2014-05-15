@@ -22,7 +22,7 @@
                   <%- end -%>
                   <a class="accordion-toggle" data-toggle="collapse" data-parent="#timeindex_<%= index %>_events" href="#collapse_<%= event.id %>">
                   <%- if current_learner and current_learner.is_following_event?(event) -%>
-                    <span class="label label-important"><i class="icon-bookmark icon-white"></i></span>
+                    <span class="label label-important"><i class="fa fa-bookmark white"></i></span>
                   <%- end -%>
                   <%= event.title %>
                   </a>

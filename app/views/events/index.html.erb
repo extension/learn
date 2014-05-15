@@ -1,3 +1,8 @@
+<div class="span8 offset1">
+  <div class="addthis-wrapper pull-right">
+    <%= render(:partial => 'addthis') %>
+  </div>
+  <br class="clearing">
 <h1><%= @list_title %></h1>
 
 <% if params[:tags].present? %>
@@ -12,5 +17,4 @@
   <p>Showing conference sessions for <%= @conference.name %> only - <%= link_to('show all sessions',@all_events_path) %></p>
 <%- end -%>
 <%= render :partial => 'list' %>
-
-
+</div>

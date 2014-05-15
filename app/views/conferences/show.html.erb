@@ -58,7 +58,7 @@
     <%- event_date_counts = @conference.event_date_counts -%>
     <%- event_date_counts.keys.sort.each do |date| -%>
     <tr>
-    <td><i class="icon-calendar"></i><strong><%= link_to("#{date.strftime('%A, %B %e')}", schedule_conference_path(id: @conference.hashtag, date: date.to_s)) %></strong></td>
+    <td><i class="fa fa-calendar"></i><strong><%= link_to("#{date.strftime('%A, %B %e')}", schedule_conference_path(id: @conference.hashtag, date: date.to_s)) %></strong></td>
     <td><%= "#{event_date_counts[date]} Events" %></td>
     </tr>
     <%- end -%>

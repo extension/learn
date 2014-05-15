@@ -1,0 +1,42 @@
+// Place all the styles related to the comments controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "_variables";
+
+
+#comment-section {margin:0 0 1em; background:#fff;}
+
+.cc-comment {position:relative; padding: 1em 1em .5em; border-bottom:1px solid #ddd; background:#eee; margin-bottom:1em;}
+.cc-comment .content {line-height:1.6em; font-family: Georgia, serif; font-size:15px; color:#444;text-align:left; margin-bottom:0; padding:0;}
+
+.comment-actions {font-size:13px !important;}
+.comment-actions a {padding:.1em .3em; color:#777;}
+.comment-author {font-size:14px;}
+
+.cc-comment .removed {padding:.5em 1em;  display:block; margin:.5em 0; color:#666; font-size:.85em;}
+
+.nested_comments .cc-comment {margin-left: 30px;}
+.nested_comments .nested_comments .cc-comment {margin-left: 60px;}
+.nested_comments .nested_comments .nested_comments .cc-comment {margin-left: 60px;}
+
+#new-comments-form .cc-comment-form {
+  margin-bottom:2em;
+  background:#eee;
+}
+
+.cc-comment-form {
+  padding:1em;
+  background:#ddd;
+  border:1px solid #ccc; 
+  clear:both;
+}
+.cc-comment-form textarea {width:98%;}
+
+.cc-comment.cc-highlight {border:1px solid #ccc; background: #ffa; -webkit-transition: background-color 1s linear;}
+.cc-comment.comment-unviewed {background:#ffa;}
+.cc-comment-anchor {margin-top:-5em; position:absolute;}
+
+/* learn style overrides */
+.comment-author .avatar {float:none; display:inline-block; width: 40px; height: 40px;}
+.cc-comment {background:#fff;}

@@ -15,9 +15,12 @@ group :assets do
   gem 'coffee-rails', "~> 3.2.2"
   gem 'uglifier', '>= 1.0.3'
   # bootstrap in sass in rails
-  gem 'anjlab-bootstrap-rails', '~> 2.3.1.2', :require => 'bootstrap-rails'
+  gem 'bootstrap-sass', '~> 2.3.2.2'
   gem 'outfielding-jqplot-rails'
 end
+
+# replaces glyphicons
+gem 'font-awesome-rails'
 
 # storage
 gem 'mysql2'

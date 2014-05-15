@@ -1,3 +1,4 @@
+<div class="span12">
 <%= render(partial: 'navtabs') -%>
 <h2>Event Statistics (<%= DateTime.parse(@start_date).strftime('%b %d, %Y') %> - <%= DateTime.parse(@end_date).strftime('%b %d, %Y') %>)</h2>
 
@@ -51,3 +52,4 @@
 <h3>No events for the specified date range</h3>
 </div>
 <%- end -%>
+</div>

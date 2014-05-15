@@ -1,20 +1,16 @@
 <%- if @showfeedlink -%>
 <div class="pull-right">
-  <p class="feed"><%= link_to "Subscribe to this list of events", tags_feeds_events_url(tags: params[:tags], type: params[:type]) %><p>
+  <p><i class="fa fa-rss extension-orange"></i> <%= link_to "Subscribe to this list of events", tags_feeds_events_url(tags: params[:tags], type: params[:type]) %><p>
 </div>
 <%- end -%>
 <% if @events.total_count > 0 %>
 
   <%= pagination_counts(@events) %>
-  <%= paginate @events %>
 
-  <div id="event_list">
+  <div class="event-list">
     <% @events.each do |event| %>
-        <div class="event">
-          <h3>
-            <%- if event.is_online_session? -%>
-             <span class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>">
-            <%- end -%>
+        <div class="event-list-event">
+          <h3 class="event-list-title">
             <% if event.is_expired %>
               <em class="expired">expired</em>
             <% end %>
@@ -22,18 +18,29 @@
           <%- if event.in_progress? -%>
             <em class="happening_now_list">Happening now</em>
           <%- end -%>
-          <%- if event.is_online_session? # have to close the span from above, TODO - probably a better way to span the recording icon -%>
-            </span>
-          <%- end -%>
 
           </h3>
-          <p class="details">
+          <p class="event-list-details">
             <%- if event.is_conference_session? -%>
               <span class="label label-info">Conference Session</span>
             <%- end -%>
-            <strong><%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%>, <%= event.session_start.strftime("%B %e, %Y") -%></strong>. Presented by <%= display_presenters(event.presenters) %>.
+            
+            <%- if event.is_online_session? -%>
+             <i class="<%= (event.has_recording?) ? "i-recording-available mini" : "i-recording-unavailable mini" %>"></i>
+            <%- end -%>
+            
+            <span class="session-date"><%= event.session_start.strftime("%A, %B %e, %Y") -%> at</span>  
+             <span class="session-time">
+                <span id="time"><%= event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= event.session_start.strftime("%Z") -%></span></span>
+             </span>
+            
+            <%- if event.presenters.present? %>
+              - Presented by <%= display_presenters(event.presenters) %>
+            <%- end %>
           </p>
-          <p class="description"><%= event.description.truncate(280,separator: ' ').html_safe %></p>
+          <div class="event-list-description"><%= event.html_to_text((event.description.gsub(/[[:space:]]/, ' '))).truncate(280,separator: ' ') %></div>
+          
+
 
         </div>
     <% end %>

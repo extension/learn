@@ -1,11 +1,11 @@
 <%- learner_count = @event.learners.valid.count -%>
 
-<aside id="event_learners" class="radius10">
+<aside id="event_learners" class="event-learners radius10">
 <%- if learner_count > 0 -%>
   
     <h3>Connections</h3>
 
-    <ul id="event_learner_list">
+    <ul class="event-learner-list">
       <%- @event.connections_list.each do |attendee| %>
         <li><%= link_to_learner_avatar(attendee, {image_size: :thumb, event_types: ['attended', 'bookmarked', 'watched']})  -%></li>
       <%- end -%>

@@ -9,23 +9,22 @@
   </div>
 <%- end -%>
 
-<%- if @event.conference -%>
-<div id="editform">
-  <h1>Create a conference event</h1>
-  <%= form_for @event,  :html => { :class => "form-stacked"} do |form| -%>
-    <%= render(partial: 'conference_event_form', locals: {event_form: form}) %>
-  <%- end -%>
-</div>
-<%- else -%>
-
-<div id="editform">
-
+<div class="edit-form span8">
+  <%- if @event.conference -%>
+    <h1>Create a conference event</h1>
+    <%= form_for @event,  :html => { :class => "form-stacked"} do |form| -%>
+      <%= render(partial: 'conference_event_form', locals: {event_form: form}) %>
+    <%- end -%>
+  <%- else -%>
+  
   <h1>Create an event</h1>
   <%= form_for @event,  :html => { :class => "form-stacked"} do |form| -%>
     <%= render(partial: 'online_event_form', locals: {event_form: form}) %>
   <%- end -%>
+<%- end -%>
 </div>
-<div id="sidebar">
+
+<div class="span3">
   <h3>Event FAQs</h3>
   <h4>Who can create an event?</h4>
   <p>Anyone offering an online Extension education event that is open to the public.</p>
@@ -38,8 +37,6 @@
     <li>Consider all appropriate time zones when choosing the time of day</li>
   </ul>
 </div>
-<%- end -%>
-
 <script type="text/javascript">
   $(document).ready(function(){
     
