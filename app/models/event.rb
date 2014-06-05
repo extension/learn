@@ -181,7 +181,7 @@ class Event < ActiveRecord::Base
   end
 
   def presenter_tokens
-    if(@presenter_tokens.blank?)
+    if(@presenter_tokens.nil?)
       @presenter_tokens = self.presenter_ids.join(',')
     end
     @presenter_tokens
@@ -226,8 +226,8 @@ class Event < ActiveRecord::Base
   end
 
   def set_presenters_from_tokens
-    if(!@presenter_tokens.blank?)
-      self.presenter_ids = @presenter_tokens.split(',')
+    if(!self.presenter_tokens.blank?)
+      self.presenter_ids = self.presenter_tokens.split(',')
     else
       self.presenter_ids = nil
     end
@@ -282,7 +282,7 @@ class Event < ActiveRecord::Base
     begin
       cur_tz = Time.zone
       Time.zone = self.time_zone
-      self.session_start = Time.zone.parse(@session_start_string)
+      self.session_start = Time.zone.parse(self.session_start_string)
       Time.zone = cur_tz
     rescue
       self.session_start = nil
