@@ -29,7 +29,6 @@ set :use_sudo, false
 before "deploy", "deploy:checks:git_push"
 if(TRUE_VALUES.include?(ENV['MIGRATE']))
   before "deploy", "deploy:web:disable"
-  after "deploy:update_code", "deploy:update_maint_msg"
   after "deploy:update_code", "deploy:link_configs"
   after "deploy:update_code", "deploy:cleanup"
   after "deploy:update_code", "deploy:migrate"
@@ -37,7 +36,6 @@ if(TRUE_VALUES.include?(ENV['MIGRATE']))
 else
   before "deploy", "delayed_job:stop"
   before "deploy", "deploy:checks:git_migrations"
-  after "deploy:update_code", "deploy:update_maint_msg"
   after "deploy:update_code", "deploy:link_configs"
   after "deploy:update_code", "deploy:cleanup"
   after "deploy", "delayed_job:start"
@@ -54,11 +52,6 @@ before "deploy:web:enable", "delayed_job:start"
      desc "Restart #{application} mod_rails"
      task :restart, :roles => :app do
        run "touch #{current_path}/tmp/restart.txt"
-     end
-
-     desc "Update maintenance mode page/graphics (valid after an update code invocation)"
-     task :update_maint_msg, :roles => :app do
-        run "cp -f #{release_path}/public/maintenancemessage.html #{shared_path}/system/maintenancemessage.html"
      end
 
      # desc "clean out the assets and recompile"
@@ -86,24 +79,25 @@ before "deploy:web:enable", "delayed_job:start"
        ln -nfs #{shared_path}/config/sunspot.yml #{release_path}/config/sunspot.yml &&
        ln -nfs #{shared_path}/config/robots.txt #{release_path}/public/robots.txt &&
        ln -nfs #{shared_path}/config/settings.local.yml #{release_path}/config/settings.local.yml &&
-       ln -nfs #{shared_path}/sitemaps #{release_path}/public/sitemaps   
+       ln -nfs #{shared_path}/sitemaps #{release_path}/public/sitemaps
        CMD
      end
 
        # Override default web enable/disable tasks
      namespace :web do
 
-       desc "Put Apache in maintenancemode by touching the system/maintenancemode file"
-       task :disable, :roles => :app do
-         run "touch #{shared_path}/system/maintenancemode"
-       end
+      desc "Put Apache in maintenancemode by touching the maintenancemode file"
+      task :disable, :roles => :app do
+        invoke_command "touch /services/maintenance/#{vhost}.maintenancemode"
+      end
 
-       desc "Remove Apache from maintenancemode by removing the system/maintenancemode file"
-       task :enable, :roles => :app do
-         run "rm -f #{shared_path}/system/maintenancemode"
-       end
+      desc "Remove Apache from maintenancemode by removing the maintenancemode file"
+      task :enable, :roles => :app do
+        invoke_command "rm -f /services/maintenance/#{vhost}.maintenancemode"
+      end
+
      end
-     
+
      namespace :checks do
         desc "check to see if the local branch is ahead of the upstream tracking branch"
         task :git_push, :roles => :app do
@@ -118,7 +112,7 @@ before "deploy:web:enable", "delayed_job:start"
                 exit(0)
               end
             end
-          end         
+          end
         end
 
         desc "check to see if there are migrations in origin/branch "
@@ -129,10 +123,10 @@ before "deploy:web:enable", "delayed_job:start"
             diff_files = `git --no-pager diff --summary #{current_revision} #{branch} db/migrate`
             logger.info "Your local #{branch} branch has migration changes and you did not specify MIGRATE=true for this deployment"
             logger.info "#{diff_files}"
-          end         
-        end    
+          end
+        end
       end
-  
+
 
  end
 
@@ -160,7 +154,7 @@ before "deploy:web:enable", "delayed_job:start"
        invoke_command '/sbin/start delayed_job', via: 'sudo'
      end
    end
- end 
+ end
 
  #--------------------------------------------------------------------------
  # useful administrative routines
