@@ -62,24 +62,12 @@ before "deploy:web:enable", "delayed_job:start"
      desc "Link up various configs (valid after an update code invocation)"
      task :link_configs, :roles => :app do
        run <<-CMD
-       rm -rf #{release_path}/config/database.yml #{release_path}/index &&
-       rm -rf #{release_path}/public/robots.txt &&
-       rm -rf #{release_path}/config/settings.local.yml &&
-       rm -rf #{shared_path}/cache/* &&
-       rm -rf #{release_path}/tmp/temp &&
-       rm -rf #{release_path}/tmp/associations &&
-       rm -rf #{release_path}/tmp/nonces &&
-       rm -rf #{release_path}/public/uploads &&
-       ln -nfs #{shared_path}/uploads #{release_path}/public/uploads &&
-       ln -nfs #{shared_path}/nonces #{release_path}/tmp/nonces &&
-       ln -nfs #{shared_path}/temp #{release_path}/tmp/temp &&
-       ln -nfs #{shared_path}/associations #{release_path}/tmp/associations &&
-       ln -nfs #{shared_path}/cache #{release_path}/tmp/cache &&
+       rm -rf #{release_path}/config/database.yml &&
        ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
        ln -nfs #{shared_path}/config/sunspot.yml #{release_path}/config/sunspot.yml &&
        ln -nfs #{shared_path}/config/robots.txt #{release_path}/public/robots.txt &&
        ln -nfs #{shared_path}/config/settings.local.yml #{release_path}/config/settings.local.yml &&
-       ln -nfs #{shared_path}/sitemaps #{release_path}/public/sitemaps
+       ln -nfs #{shared_path}/uploads #{release_path}/public/uploads
        CMD
      end
 
