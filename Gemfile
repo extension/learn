@@ -28,8 +28,6 @@ gem 'mysql2'
 # xml parsing
 gem 'nokogiri'
 
-gem 'sitemap_generator'
-
 # image upload
 gem 'carrierwave'
 
