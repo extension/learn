@@ -63,7 +63,8 @@ before "deploy:web:enable", "delayed_job:start"
        ln -nfs #{shared_path}/config/sunspot.yml #{release_path}/config/sunspot.yml &&
        ln -nfs #{shared_path}/config/robots.txt #{release_path}/public/robots.txt &&
        ln -nfs #{shared_path}/config/settings.local.yml #{release_path}/config/settings.local.yml &&
-       ln -nfs #{shared_path}/tmp #{release_path}/tmp &&
+       ln -nfs #{shared_path}/tmpcache    #{release_path}/tmp/cache &&
+       ln -nfs #{shared_path}/tmpauth #{release_path}/tmp/auth &&
        ln -nfs #{shared_path}/uploads #{release_path}/public/uploads
        CMD
      end
