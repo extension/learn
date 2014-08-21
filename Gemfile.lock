@@ -240,8 +240,6 @@ GEM
     rsolr (1.0.8)
       builder (>= 2.1.2)
     ruby-openid (2.2.2)
-    ruby-readability (0.2.4)
-      nokogiri (>= 1.4.2)
     rvm-capistrano (1.2.7)
       capistrano (>= 2.0.0)
     sass (3.2.1)
@@ -339,7 +337,6 @@ DEPENDENCIES
   rest-client
   rinku
   rmagick
-  ruby-readability (~> 0.2.4)
   rvm-capistrano
   sass-rails (~> 3.2.4)
   shoulda (>= 3.0.0.beta)
