@@ -6,14 +6,10 @@ require 'yaml'
 require "airbrake/capistrano"
 require "bundler/capistrano"
 
-#------------------------------
-# <i>Should</i> only have to edit these three vars for standard eXtension deployments
-
 set :application, "learn"
 set :user, 'pacecar'
 set :localuser, ENV['USER']
 set :port, 24
-#------------------------------
 
 TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'yes','YES','y','Y']
 FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE','no','NO','n','N']
@@ -62,24 +58,14 @@ before "deploy:web:enable", "delayed_job:start"
      desc "Link up various configs (valid after an update code invocation)"
      task :link_configs, :roles => :app do
        run <<-CMD
-       rm -rf #{release_path}/config/database.yml #{release_path}/index &&
-       rm -rf #{release_path}/public/robots.txt &&
-       rm -rf #{release_path}/config/settings.local.yml &&
-       rm -rf #{shared_path}/cache/* &&
-       rm -rf #{release_path}/tmp/temp &&
-       rm -rf #{release_path}/tmp/associations &&
-       rm -rf #{release_path}/tmp/nonces &&
-       rm -rf #{release_path}/public/uploads &&
-       ln -nfs #{shared_path}/uploads #{release_path}/public/uploads &&
-       ln -nfs #{shared_path}/nonces #{release_path}/tmp/nonces &&
-       ln -nfs #{shared_path}/temp #{release_path}/tmp/temp &&
-       ln -nfs #{shared_path}/associations #{release_path}/tmp/associations &&
-       ln -nfs #{shared_path}/cache #{release_path}/tmp/cache &&
+       rm -rf #{release_path}/config/database.yml &&
        ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
        ln -nfs #{shared_path}/config/sunspot.yml #{release_path}/config/sunspot.yml &&
        ln -nfs #{shared_path}/config/robots.txt #{release_path}/public/robots.txt &&
        ln -nfs #{shared_path}/config/settings.local.yml #{release_path}/config/settings.local.yml &&
-       ln -nfs #{shared_path}/sitemaps #{release_path}/public/sitemaps
+       ln -nfs #{shared_path}/tmpcache    #{release_path}/tmp/cache &&
+       ln -nfs #{shared_path}/tmpauth #{release_path}/tmp/auth &&
+       ln -nfs #{shared_path}/uploads #{release_path}/public/uploads
        CMD
      end
 
@@ -152,34 +138,6 @@ before "deploy:web:enable", "delayed_job:start"
      end
      if(!started)
        invoke_command '/sbin/start delayed_job', via: 'sudo'
-     end
-   end
- end
-
- #--------------------------------------------------------------------------
- # useful administrative routines
- #--------------------------------------------------------------------------
-
- namespace :admin do
-
-   desc "Open up a remote console to #{application} (be sure to set your RAILS_ENV appropriately)"
-   task :console, :roles => :app do
-     input = ''
-     command = "cd #{current_path} && ./script/rails console #{fetch(:rails_env)}"
-     prompt = /:\d{3}:\d+(\*|>)/
-     run command do |channel, stream, data|
-       next if data.chomp == input.chomp || data.chomp == ''
-       print data
-       channel.send_data(input = $stdin.gets) if data =~ prompt
-     end
-   end
-
-   desc "Tail the server logs for #{application}"
-   task :tail_logs, :roles => :app do
-     run "tail -f #{shared_path}/log/production.log" do |channel, stream, data|
-       puts  # for an extra line break before the host name
-       puts "#{channel[:host]}: #{data}"
-       break if stream == :err
      end
    end
  end

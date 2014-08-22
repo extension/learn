@@ -13,7 +13,7 @@ Devise.setup do |config|
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
   require 'devise/orm/active_record'
-  
+
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
   # just :email. You can configure it to use [:username, :subdomain], so for
@@ -35,7 +35,7 @@ Devise.setup do |config|
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
   config.case_insensitive_keys = [ :email ]
-  
+
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
@@ -195,12 +195,12 @@ Devise.setup do |config|
   require "omniauth-facebook"
   require "omniauth-twitter"
   require "omniauth-openid"
-  
+
   # ==> OpenID configuration
   # configure storage for OpenID
   require 'openid/store/filesystem'
-  config.omniauth :open_id, :store => OpenID::Store::Filesystem.new("#{Rails.root}/tmp"), :name => 'people', :identifier => 'https://people.extension.org', :require => 'omniauth-openid'
-  config.omniauth :open_id, :store => OpenID::Store::Filesystem.new("#{Rails.root}/tmp"), :name => 'google', :identifier => 'https://www.google.com/accounts/o8/id', :require => 'omniauth-openid'
+  config.omniauth :open_id, :store => OpenID::Store::Filesystem.new("#{Rails.root}/tmp/auth"), :name => 'people', :identifier => 'https://people.extension.org', :require => 'omniauth-openid'
+  config.omniauth :open_id, :store => OpenID::Store::Filesystem.new("#{Rails.root}/tmp/auth"), :name => 'google', :identifier => 'https://www.google.com/accounts/o8/id', :require => 'omniauth-openid'
   config.omniauth :twitter, Settings.twitter_app_id, Settings.twitter_app_secret
   config.omniauth :facebook, Settings.facebook_app_id, Settings.facebook_app_secret
 

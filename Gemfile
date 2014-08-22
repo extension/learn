@@ -28,8 +28,6 @@ gem 'mysql2'
 # xml parsing
 gem 'nokogiri'
 
-gem 'sitemap_generator'
-
 # image upload
 gem 'carrierwave'
 
@@ -73,8 +71,6 @@ gem 'ancestry'
 # diffs
 gem 'diffy'
 
-# readability port
-gem "ruby-readability", "~> 0.2.4" ,:require => 'readability'
 
 # html scrubbing
 gem "loofah"
