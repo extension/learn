@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131217171434) do
+ActiveRecord::Schema.define(:version => 20140908120031) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -389,7 +389,7 @@ ActiveRecord::Schema.define(:version => 20131217171434) do
 
   create_table "widget_logs", :force => true do |t|
     t.string   "referrer_host"
-    t.string   "referrer_url"
+    t.text     "referrer_url"
     t.string   "base_widget_url"
     t.string   "widget_url"
     t.string   "widget_fingerprint"
