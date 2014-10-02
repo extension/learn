@@ -3,7 +3,6 @@
 .rvmrc
 .tm_properties
 .powenv
-.powrc
 db/*.sqlite3
 # logs
 log/*.log
