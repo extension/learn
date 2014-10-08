@@ -144,8 +144,12 @@ class Learner < ActiveRecord::Base
           key_of_learner = "learner_id" if key_of_learner.blank?
           model_to_use = association_to_learner.klass
         end
-        
-        model_to_use.where("#{key_of_learner} = #{learner_to_remove.id}" + "#{additional_conditions}").update_all(key_of_learner.to_sym => learner_to_keep.id)
+
+        begin
+          model_to_use.where("#{key_of_learner} = #{learner_to_remove.id}" + "#{additional_conditions}").update_all(key_of_learner.to_sym => learner_to_keep.id)
+        rescue ActiveRecord::RecordNotUnique
+          # don't worry about it
+        end
       when :has_and_belongs_to_many
         join_table = association_to_learner.options[:join_table]
         if !association_to_learner.options[:foreign_key].blank?
@@ -155,7 +159,7 @@ class Learner < ActiveRecord::Base
         end
         # do raw sql here to update a join table without having to instantiate the objects and do AR (delete old and add new) operations 
         # that triggers callbacks.
-        connection.execute("UPDATE #{join_table} SET #{key_of_learner} = #{learner_to_keep.id} WHERE #{key_of_learner} = #{learner_to_remove.id}")
+        connection.execute("UPDATE IGNORE #{join_table} SET #{key_of_learner} = #{learner_to_keep.id} WHERE #{key_of_learner} = #{learner_to_remove.id}")
       end
     end
     
