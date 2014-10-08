@@ -151,6 +151,7 @@ class Event < ActiveRecord::Base
 
   scope :date_filtered, lambda { |start_date,end_date| where('DATE(session_start) >= ? AND DATE(session_start) <= ?', start_date, end_date) }
 
+  scope :conference, where(event_type: CONFERENCE)
   scope :nonconference, where('event_type != ?',CONFERENCE)
   scope :broadcast, where('event_type = ?',BROADCAST)
 
