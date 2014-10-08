@@ -33,7 +33,7 @@ class Learner < ActiveRecord::Base
   has_many :preferences, :as => :prefable
   has_many :notification_exceptions
   has_many :recommendations
-  has_many :mailer_caches
+  has_many :mailer_caches, :as => :cacheable, :class_name => "MailerCache"
   has_many :answers
   has_many :events_answered, through: :event_activities, source: :event, conditions: "event_activities.activity = #{EventActivity::ANSWER} AND event_activities.trackable_type = 'Question'", uniq: true
   has_one  :portfolio_setting
