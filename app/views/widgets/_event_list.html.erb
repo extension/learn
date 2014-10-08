@@ -1,11 +1,16 @@
 <style type="text/css" media="screen">
   .learn_widget_event_time {margin-bottom:0;}
   .learn_widget_event_title {margin-top:0;}
+
+  <% if @event_type == "recent" %>
+    .learn_widget_event_time {display:none;}
+  <% end %>
+
 </style>
 <div id="learn_widget" class="<%= @event_type %>">
 	<h3 class="learn_widget_generic_title"><%= @generic_title %></h3>
   <h3 class="learn_widget_specific_title"><%= @specific_title %></h3>
-  
+
   <% if @event_list.length == 0 %>
     <h3 class="learn_widget_no_matches">There are no events at this time.</h3>
     <p class="learn_widget_see_more"><%= link_to 'Visit Learn', root_url %></p>
