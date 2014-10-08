@@ -39,7 +39,6 @@ class Learner < ActiveRecord::Base
   has_one  :portfolio_setting
   has_many :conference_connections
   has_many :conferences, through: :conference_connections, uniq: true
-  has_many :presented_conferences, through: :presented_events, source: :conference
 
   before_validation :convert_mobile_number
   validates_length_of :mobile_number, :is => 10, :allow_blank => true
@@ -48,7 +47,11 @@ class Learner < ActiveRecord::Base
   DEFAULT_TIMEZONE = 'America/New_York'
   
   scope :valid, conditions: {is_blocked: false}
-  
+
+  def presented_conferences
+    presented_events.conference.map(&:conference).uniq
+  end
+
   # override timezone writer/reader
   # returns Eastern by default, use convert=false
   # when you need a timezone string that mysql can handle
