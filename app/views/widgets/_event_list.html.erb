@@ -2,7 +2,7 @@
   .learn_widget_event_time {margin-bottom:0;}
   .learn_widget_event_title {margin-top:0;}
 
-  <% if @showdate == false %>
+  <% if (@event_type == "recent" && @showdate_on_past_events == false) %>
     .learn_widget_event_time {display:none;}
   <% end %>
 

@@ -66,7 +66,7 @@ class WidgetsController < ApplicationController
 
     @path_to_upcoming_events = upcoming_events_url
 
-    @showdate = (params[:showdate] == "false" ? false : true)
+    @showdate_on_past_events = (params[:showdate_on_past_events] == "false" ? false : true)
 
     if params[:tags].present?
       @tag_list = params[:tags].split(',')
