@@ -3,7 +3,6 @@ set :default_stage, "dev"
 require 'capistrano/ext/multistage'
 require 'capatross'
 require 'yaml'
-require "airbrake/capistrano"
 require "bundler/capistrano"
 
 set :application, "learn"
