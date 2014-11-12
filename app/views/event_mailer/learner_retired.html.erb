@@ -80,7 +80,7 @@
   <tr><td>
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
       <tr>
-        <td id="reminder_title"><%= link_to(@learner.name, learner_url(@learner.id)) -%> has been retired</td>
+        <td id="reminder_title"><%= link_to(@learner.name, portfolio_learner_url(@learner.id)) -%> has been retired</td>
       </tr>
       <tr>
         <td id="event_start_time">
@@ -90,7 +90,7 @@
               <%= image_tag("#{ssl_root_url}assets/clock.png", size: "60x60") %>
               </td>
             <td>
-          <%= link_to(learner_url(@learner.id)) do -%>
+          <%= link_to(portfolio_learner_url(@learner.id)) do -%>
           <%- end -%> 
           </td>
           </tr>
@@ -100,7 +100,7 @@
       <tr>
         <td id="button">
           <br/>
-          <%= link_to("View this learner", learner_url(@learner.id)) -%>
+          <%= link_to("View this learner", portfolio_learner_url(@learner.id)) -%>
         </td>
       </tr>
       <tr>
