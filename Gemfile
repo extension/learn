@@ -74,7 +74,7 @@ gem "loofah"
 gem "htmlentities"
 
 # search on solr
-gem "sunspot_rails", "~> 1.3.0"
+gem "sunspot_rails"
 
 # used to post-process mail to convert styles to inline
 gem "csspool"
@@ -91,7 +91,7 @@ gem 'bootstrap-wysihtml5-rails'
 
 # require sunspot_solr for test and dev
 group :test, :development do
-  gem 'sunspot_solr', "~> 1.3.0"
+  gem 'sunspot_solr'
 end
 
 # delayed_job
@@ -119,6 +119,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
+  gem 'net-http-spy'
 end
 
 group :test do
