@@ -9,16 +9,16 @@
 <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date) %> </p>
 <%= pagination_counts(@events) %>  
 <%= paginate(@events) %>
-<table class="table table-striped">
+<table class="table table-striped sortable">
   <thead>
     <tr>
-      <th>Date/Time</th>
+      <th><%= sortable "session_start", "Date/Time", @start_date, @end_date %></th>
       <th>Presenters</th>
-      <th>Title</th>
+      <th><%= sortable "title", "Title", @start_date, @end_date %></th>
       <th>Tags</th>
-      <th>Recording</th>
-      <th>Length</th>
-      <th>Bookmarked</th>
+      <th><%= sortable "recording", "Recording", @start_date, @end_date %></th>
+      <th><%= sortable "session_length", "Length", @start_date, @end_date %></th>
+      <th><%= sortable "@event.bookmarked.count", "Bookmarked" , @start_date, @end_date %></th>
       <th>Attended</th>
       <th>Watched</th>
       <th>Voters</th>

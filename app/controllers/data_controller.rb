@@ -8,6 +8,8 @@ class DataController < ApplicationController
   before_filter :authenticate_learner!
   before_filter :require_admin, only: [:presenters, :recent_recommendations, :projected_recommendations, :recommended_event, :activity ]
   
+  helper_method :sort_column, :sort_direction
+
   def overview
   end
   
@@ -30,7 +32,12 @@ class DataController < ApplicationController
       response.headers['Content-Disposition'] = 'attachment; filename=event_statistics.csv'
       render(:template => 'data/events_csvlist', :layout => false)
     else
-      @events = Event.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start DESC").page(params[:page])
+      if params[:sort]
+        @events = Event.date_filtered(@start_date,@end_date).order(sort_column + " " + sort_direction).page(params[:page])
+      else
+        @events = Event.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start DESC").page(params[:page])
+      end
+      #@events = Events.order(params[:sort])
     end
   end
   
@@ -92,5 +99,18 @@ class DataController < ApplicationController
       @end_date = Time.zone.now.strftime('%Y-%m-%d')
     end
   end
+
+  private
+
+  def sort_column
+    params[:sort] || "name"
+    #Event.column_names.include?(params[:sort]) ? params[:sort] : "name"
+
+  end
     
+  def sort_direction
+    #params[:direction] || "asc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+
+  end
 end
