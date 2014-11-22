@@ -1,0 +1,32 @@
+<h1><%= @list_title %></h1>
+
+<ul class="nav nav-tabs">
+  <li><a href="#event_results">Events</a></li>
+  <li><a href="#learner_results">Learners</a></li>
+</ul>
+
+<span class="search_section_anchor" id="events_results"></span>
+<div class="search_section">
+  <h2>Events<small> (with '<%= params[:q] %>' in the <%= @number_passed ? "id" :  "title or description" %>)</small></h2>
+  <% if @events.size > 0 %>
+    <p><%= link_to 'View all', search_events_path(:q => params[:q]) %></p>
+    <%= render :partial => 'event_list' %>
+  <% else %>
+    <h3>No results</h3>
+  <% end %>
+  <br class="clearing" />
+</div>
+
+<span class="search_section_anchor" id="learner_results"></span>
+<div class="search_section">
+  <h2>Learners<small>(with '<%= params[:q] %>' in the <%= @number_passed ? "id" : "first or last name" %>)</small></h2>
+  <% if @learners.size > 0 %>
+    <p><%= link_to 'View all', search_learners_path(:q => params[:q]) %></p>
+    <%= render :partial => 'learner_list', :locals => {:paginate_groups => false, :title => ""} %>
+  <% else %>
+    <h3>No results</h3>
+  <% end %>
+  <br class="clearing" />
+</div>
+
+<div id="search_padding"></div>

@@ -85,12 +85,21 @@
 
         <div class="nav-collapse collapse">
 
-            <%= form_tag(search_events_path, {:method => :get, id: "searchform", class: "navbar-form form-search pull-right"}) do %>
-              <div class="input-append">
-                <%= text_field_tag 'q', params[:q], :class => "input-small span2 search-query", :placeholder => "Search", :id => "search_field" %>
-                <input type="submit" value="Go" class="btn" />
-      			  </div>
-      			<% end %>
+         <%- if current_learner -%>
+           <%= form_tag(search_all_path, {:method => :get, id: "searchform", class: "navbar-form form-search pull-right"}) do %>
+             <div class="input-append">
+               <%= text_field_tag 'q', params[:q], :class => "input-small span2 search-query", :placeholder => "Search events, learners", :id => "search_field" %>
+               <input type="submit" value="Go" class="btn" />
+             </div>
+           <% end %>
+         <% else %>
+           <%= form_tag(search_events_path, {:method => :get, id: "searchform", class: "navbar-form form-search pull-right"}) do %>
+             <div class="input-append">
+               <%= text_field_tag 'q', params[:q], :class => "input-small span2 search-query", :placeholder => "Search", :id => "search_field" %>
+               <input type="submit" value="Go" class="btn" />
+             </div>
+           <% end %>
+         <% end %>
           
             <ul class="nav pull-right">
               <li><%= link_to 'Upcoming', upcoming_events_path() %></li>

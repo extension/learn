@@ -46,6 +46,12 @@ class Learner < ActiveRecord::Base
 
   DEFAULT_TIMEZONE = 'America/New_York'
 
+   # sunspot/solr search
+  searchable do
+    text :name
+    boolean :retired
+  end
+
   scope :valid, conditions: {is_blocked: false}
 
   def presented_conferences
