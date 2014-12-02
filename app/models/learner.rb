@@ -50,6 +50,7 @@ class Learner < ActiveRecord::Base
   searchable do
     text :name
     boolean :retired
+    boolean :is_admin
   end
 
   scope :valid, conditions: {is_blocked: false}

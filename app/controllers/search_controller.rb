@@ -39,6 +39,7 @@ class SearchController < ApplicationController
     @events = events.results
 
     learners = Learner.search do
+                 with(:is_admin, false)
                  with(:retired, false)
                  fulltext(params[:q])
                 paginate :page => 1, :per_page => 5
@@ -50,8 +51,9 @@ class SearchController < ApplicationController
 
   def learners
     learners = Learner.search do
-                 with(:retired, false)
-                 fulltext(params[:q])
+                with(:is_admin, false)
+                with(:retired, false)
+                fulltext(params[:q])
                 paginate :page => 1, :per_page => 10 
               end
     @learners = learners.results
