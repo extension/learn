@@ -87,8 +87,6 @@ class Event < ActiveRecord::Base
   # sunspot/solr search
   searchable do
     time :session_start
-    text :title, more_like_this: true
-    text :description, more_like_this: true
     text :tag_list
     text :presenter_names
     boolean :is_canceled

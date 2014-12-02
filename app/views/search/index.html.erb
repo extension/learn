@@ -7,7 +7,7 @@
 
 <span class="search_section_anchor" id="events_results"></span>
 <div class="search_section">
-  <h2>Events<small> (with '<%= params[:q] %>' in the <%= @number_passed ? "id" :  "title or description" %>)</small></h2>
+  <h2>Events<small> (with '<%= params[:q] %>' in the <%= @number_passed ? "id" :  "title, description or tag" %>)</small></h2>
   <% if @events.size > 0 %>
     <p><%= link_to 'View all', search_events_path(:q => params[:q]) %></p>
     <%= render :partial => 'event_list' %>
