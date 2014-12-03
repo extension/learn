@@ -18,7 +18,7 @@
       <th>Tags</th>
       <th><%= sortable "recording", "Recording", @start_date, @end_date %></th>
       <th><%= sortable "session_length", "Length", @start_date, @end_date %></th>
-      <th><%= sortable "@event.bookmarked.count", "Bookmarked" , @start_date, @end_date %></th>
+      <th><%= link_to "Bookmarked", :sort => "bookmarked", :start_date => @start_date, :end_date => @end_date %></th>
       <th>Attended</th>
       <th>Watched</th>
       <th>Voters</th>

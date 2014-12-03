@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'https://engineering.extension.org/rubygems'
 
-gem 'rails', "3.2.20"
+gem 'rails', "3.2.21"
 
 # rails 3.1 default
 gem 'jquery-rails'

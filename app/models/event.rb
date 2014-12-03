@@ -157,6 +157,10 @@ class Event < ActiveRecord::Base
 
   scope :by_date, lambda {|date| where('DATE(session_start) = ?',date)}
 
+ scope :by_bookmark_count, select("events.*, event_id, count(*) as num_bookmarks").
+                            from("event_connections").
+                            joins("join events on events.id=event_connections.event_id where event_connections.connectiontype = 3").
+                            group("event_id")
 
   def connections_list
     self.learners.valid.order('event_connections.created_at')
