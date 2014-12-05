@@ -20,12 +20,17 @@
 <span class="search_section_anchor" id="learner_results"></span>
 <div class="search_section">
   <h2>Learners<small>(with '<%= params[:q] %>' in the <%= @number_passed ? "id" : "first or last name" %>)</small></h2>
-  <% if @learners.size > 0 %>
-    <p><%= link_to 'View all', search_learners_path(:q => params[:q]) %></p>
-    <%= render :partial => 'learner_list', :locals => {:paginate_groups => false, :title => ""} %>
+  <% if current_learner %>
+    <% if @learners.size > 0 %>
+      <p><%= link_to 'View all', search_learners_path(:q => params[:q]) %></p>
+      <%= render :partial => 'learner_list', :locals => {:paginate_groups => false, :title => ""} %>
+    <% else %>
+      <h3>No results</h3>
+    <% end %>
   <% else %>
-    <h3>No results</h3>
+    <h3><%= link_to 'Login to view learners', new_learner_session_path %></h3>
   <% end %>
+
   <br class="clearing" />
 </div>
 
