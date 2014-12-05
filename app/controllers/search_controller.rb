@@ -54,6 +54,7 @@ class SearchController < ApplicationController
                 paginate :page => 1, :per_page => 10 
               end
     @learners = learners.results
+    render 'search/_learner_list'
   end
   
 end
