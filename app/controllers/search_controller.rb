@@ -27,6 +27,8 @@ class SearchController < ApplicationController
       end
     end
 
+    @list_title = "Search Results for '#{params[:q]}'"
+
     events = Event.search do
                 with(:is_canceled, false)
                 fulltext(params[:q])
@@ -43,7 +45,7 @@ class SearchController < ApplicationController
               end
     @learners = learners.results
 
-    render :action => 'index' 
+    render :action => 'index'
   end
 
   def learners
@@ -51,9 +53,9 @@ class SearchController < ApplicationController
                 with(:is_admin, false)
                 with(:retired, false)
                 fulltext(params[:q])
-                paginate :page => 1, :per_page => 10 
+                paginate :page => 1, :per_page => 10
               end
     @learners = learners.results
   end
-  
+
 end
