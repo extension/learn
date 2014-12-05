@@ -5,9 +5,6 @@
 # see LICENSE file
 
 class SearchController < ApplicationController
-  #TODO should be auth to search learners, no auth to search events 
-  before_filter :authenticate_learner!
-
   def all
      # trash the utf8 param because google hates us.
     params.delete(:utf8)
