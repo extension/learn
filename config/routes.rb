@@ -50,6 +50,7 @@ Learn::Application.routes.draw do
   match "retired" => "home#retired", :via => :get
   match "search/all" => "search#all", :via => [:get]
   match "search/learners" => "search#learners", :via => [:get]
+  match "search/events" => "search#events", :via => [:get]
 
   # individual tag match
   match "/events/tag/:tags" => "events#tags", :as => 'events_tag'
@@ -73,7 +74,6 @@ Learn::Application.routes.draw do
       get 'upcoming'
       get 'tags'
       get 'recent'
-      get 'search'
       get 'canceled'
       get 'broadcast'
     end

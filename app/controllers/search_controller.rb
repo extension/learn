@@ -5,6 +5,7 @@
 # see LICENSE file
 
 class SearchController < ApplicationController
+  before_filter :authenticate_learner!, only: [:learners]
   def all
      # trash the utf8 param because google hates us.
     params.delete(:utf8)
@@ -27,23 +28,23 @@ class SearchController < ApplicationController
       end
     end
 
+    @list_title = "Search Results for '#{params[:q]}'"
+
+    self.events 
+
+    self.learners 
+
+    render :action => 'index'
+  end
+
+  def events
     events = Event.search do
                 with(:is_canceled, false)
                 fulltext(params[:q])
                 order_by(:session_start, :desc)
-                paginate :page => 1, :per_page => 5
+                paginate :page => params[:page], :per_page => 10
               end
     @events = events.results
-
-    learners = Learner.search do
-                 with(:is_admin, false)
-                 with(:retired, false)
-                 fulltext(params[:q])
-                paginate :page => 1, :per_page => 5
-              end
-    @learners = learners.results
-
-    render :action => 'index' 
   end
 
   def learners
@@ -51,10 +52,9 @@ class SearchController < ApplicationController
                 with(:is_admin, false)
                 with(:retired, false)
                 fulltext(params[:q])
-                paginate :page => 1, :per_page => 10 
+                paginate :page => params[:page], :per_page => 10
               end
     @learners = learners.results
-    render 'search/_learner_list'
   end
-  
+
 end

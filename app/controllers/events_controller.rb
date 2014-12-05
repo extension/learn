@@ -273,41 +273,6 @@ class EventsController < ApplicationController
     @events = Event.where(is_canceled: true).order("session_start DESC").page(params[:page])
   end
 
-  def search
-    # trash the utf8 param because google hates us.
-    params.delete(:utf8)
-
-    # take quotes out to see if it's a blank field and also strip out +, -, and "  as submitted by themselves are apparently special characters
-    # for solr and will make it crash, and if you ain't got no q param, no search goodies for you!
-    if !params[:q] || params[:q].gsub(/["'+-]/, '').strip.blank?
-      flash[:error] = "Empty/invalid search terms"
-      return redirect_to root_url
-    end
-
-    # special "id of event check"
-    if (id_number = params[:q].cast_to_i) > 0
-      if(event = Event.find_by_id(id_number))
-        if(event.is_conference_session?)
-          return redirect_to(conference_event_path(event,:conference_id => event.conference.hashtag))
-        else
-          return redirect_to(event_path(event))
-        end
-      end
-    end
-
-    @list_title = "Session Search Results for '#{params[:q]}'"
-    params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    events = Event.search do
-                with(:is_canceled, false)
-                fulltext(params[:q])
-                order_by(:session_start, :desc)
-                paginate :page => params[:page], :per_page => Event.default_per_page
-              end
-    @events = events.results
-    render :action => 'index'
-  end
-
-
   def addanswer
     @event = Event.find(params[:id])
 
@@ -337,7 +302,6 @@ class EventsController < ApplicationController
       format.js
     end
   end
-
 
   def addevalanswer
     @event = Event.find(params[:id])
