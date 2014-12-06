@@ -8,7 +8,7 @@ class Learner < ActiveRecord::Base
   devise :rememberable, :trackable, :database_authenticatable
 
   # Setup accessible (or protected) attributes
-  attr_accessible :email, :remember_me, :name, :avatar, :bio, :mobile_number, :remove_avatar, :avatar_cache
+  attr_accessible :email, :remember_me, :name, :avatar, :bio, :mobile_number, :remove_avatar, :avatar_cache, :needs_search_update
 
   # specify image uploader for carrierwave
   mount_uploader :avatar, AvatarUploader
@@ -46,7 +46,8 @@ class Learner < ActiveRecord::Base
 
   DEFAULT_TIMEZONE = 'America/New_York'
 
-  scope :valid, conditions: {is_blocked: false}
+  scope :valid, lambda{ where(is_blocked: false)}
+  scope :needs_search_update, lambda{ where(needs_search_update: true)}
 
   def presented_conferences
     presented_events.conference.map(&:conference).uniq
@@ -406,6 +407,14 @@ class Learner < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  def self.reindex_learners_with_update_flag
+    self.needs_search_update.all.each do |learner|
+      # merely updating the account should trigger solr
+      learner.update_attributes({needs_search_update: false})
+    end
+    Sunspot.commit
   end
 
 
