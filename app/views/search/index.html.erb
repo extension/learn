@@ -15,8 +15,8 @@
 <div class="search_section">
   <h2>Events<small> (with '<%= params[:q] %>' in the <%= @number_passed ? "id" :  "title, description or tag" %>)</small></h2>
   <% if @events.size > 0 %>
-    <p><%= link_to 'View all', search_events_path(:q => params[:q]) %></p>
     <%= render :partial => 'event_list', :locals => {:paginate_events => false, :title => ""} %>
+    <p><%= link_to 'View all events', search_events_path(:q => params[:q]) %></p>
   <% else %>
     <h3>No results</h3>
   <% end %>
@@ -25,11 +25,11 @@
 
 <span class="search_section_anchor" id="learner_results"></span>
 <div class="search_section">
-  <h2>Learners<small>(with '<%= params[:q] %>' in the <%= @number_passed ? "id" : "first or last name" %>)</small></h2>
+  <h2>Learners<small> (with '<%= params[:q] %>' in the <%= @number_passed ? "id" : "first or last name" %>)</small></h2>
   <% if current_learner %>
     <% if @learners.size > 0 %>
-      <p><%= link_to 'View all', search_learners_path(:q => params[:q]) %></p>
       <%= render :partial => 'learner_list', :locals => {:paginate_learners => false, :title => ""} %>
+      <p><%= link_to 'View all learners', search_learners_path(:q => params[:q]) %></p>
     <% else %>
       <h3>No results</h3>
     <% end %>

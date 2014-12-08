@@ -45,6 +45,7 @@ class SearchController < ApplicationController
                 paginate :page => params[:page], :per_page => 10
               end
     @events = events.results
+    @list_title = "Search Results for '#{params[:q]}' in Events"
   end
 
   def learners
@@ -55,6 +56,7 @@ class SearchController < ApplicationController
                 paginate :page => params[:page], :per_page => 10
               end
     @learners = learners.results
+    @list_title = "Search Results for '#{params[:q]}' in Learners"
   end
 
 end
