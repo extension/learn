@@ -16,7 +16,7 @@
   <h2>Events<small> (with '<%= params[:q] %>' in the <%= @number_passed ? "id" :  "title, description or tag" %>)</small></h2>
   <% if @events.size > 0 %>
     <p><%= link_to 'View all', search_events_path(:q => params[:q]) %></p>
-    <%= render :partial => 'event_list' %>
+    <%= render :partial => 'event_list', :locals => {:paginate_events => false, :title => ""} %>
   <% else %>
     <h3>No results</h3>
   <% end %>
@@ -29,7 +29,7 @@
   <% if current_learner %>
     <% if @learners.size > 0 %>
       <p><%= link_to 'View all', search_learners_path(:q => params[:q]) %></p>
-      <%= render :partial => 'learner_list', :locals => {:paginate_groups => false, :title => ""} %>
+      <%= render :partial => 'learner_list', :locals => {:paginate_learners => false, :title => ""} %>
     <% else %>
       <h3>No results</h3>
     <% end %>

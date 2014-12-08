@@ -30,9 +30,9 @@ class SearchController < ApplicationController
 
     @list_title = "Search Results for '#{params[:q]}'"
 
-    self.events 
+    self.events
 
-    self.learners 
+    self.learners
 
     render :action => 'index'
   end

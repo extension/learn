@@ -1,5 +1,7 @@
 <% if @learners.count > 0 %>
-  <%= pagination_counts(@learners) %>
+  <% if !defined?(paginate_learners) || paginate_learners != false %>
+    <%= pagination_counts(@learners) %>
+  <% end %>
   <div class="event-list">
     <h1><%= @list_title %></h1>
     <% @learners.each do |learner| %>
@@ -13,6 +15,9 @@
         </div>
     <% end %>
   </div>
+  <% if !defined?(paginate_learners) || paginate_learners != false %>
+    <%= paginate @learners%>
+  <% end %>
 <% else %>
   <p>No users found.</p>
 <% end %>

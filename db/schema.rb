@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140908120031) do
+ActiveRecord::Schema.define(:version => 20141206164106) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -223,10 +223,12 @@ ActiveRecord::Schema.define(:version => 20140908120031) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_blocked",                         :default => false, :null => false
+    t.boolean  "needs_search_update"
   end
 
   add_index "learners", ["darmok_id"], :name => "index_learners_on_darmok_id"
   add_index "learners", ["email"], :name => "index_learners_on_email"
+  add_index "learners", ["needs_search_update"], :name => "search_update_flag_ndx"
 
   create_table "mailer_caches", :force => true do |t|
     t.string   "hashvalue",      :limit => 40,                      :null => false
