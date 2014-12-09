@@ -50,7 +50,6 @@ class SearchController < ApplicationController
 
   def learners
     learners = Learner.search do
-                with(:is_admin, false)
                 with(:retired, false)
                 fulltext(params[:q])
                 paginate :page => params[:page], :per_page => 10

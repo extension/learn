@@ -50,7 +50,6 @@ class Learner < ActiveRecord::Base
   searchable do
     text :name
     boolean :retired
-    boolean :is_admin
   end
 
   scope :valid, lambda{ where(is_blocked: false)}
