@@ -24,8 +24,8 @@ class DataController < ApplicationController
   def events
     parse_dates
     if(!params[:download].nil? and params[:download] == 'csv')
-      if !params[:tags].nil?
-        @events = Event.date_filtered(@start_date,@end_date).tagged_with(params[:tags]).order("session_start desc").page(params[:page])
+      if !params[:tags].blank?
+        @events = Event.date_filtered(@start_date,@end_date).tagged_with(params[:tags]).order("session_start ASC")
         response.headers['Content-Type'] = 'text/csv; charset=iso-8859-1; header=present'
         response.headers['Content-Disposition'] = 'attachment; filename=event_statistics.csv'
         render(:template => 'data/events_csvlist', :layout => false)
