@@ -9,8 +9,13 @@
       <%= label_tag :end_date, 'End Date' %>
       <%= text_field_tag 'end_date',@end_date,{class: 'date_filter', :size => nil} %>
       </p>
+
+      <p>
+      <%= label_tag :tags, 'Tags (search multiple tags separated by commas)' %>
+      <%= text_field_tag 'tags', params[:tags] %>
+      </p>
   </fieldset>
-  <%= submit_tag "Filter", {:id => 'filter-submit', :class => 'btn btn-primary'} %>
+  <%= submit_tag "Filter", {:name => nil, :id => 'filter-submit', :class => 'btn btn-primary'} %>
 <%- end -%>
 
 <script class="code" type="text/javascript">

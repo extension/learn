@@ -23,12 +23,21 @@ class DataController < ApplicationController
   
   def events
     parse_dates
-    
+    @tags = params[:tags]
     if(!params[:download].nil? and params[:download] == 'csv')
-      @events = Event.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start ASC")
-      response.headers['Content-Type'] = 'text/csv; charset=iso-8859-1; header=present'
-      response.headers['Content-Disposition'] = 'attachment; filename=event_statistics.csv'
-      render(:template => 'data/events_csvlist', :layout => false)
+      if !params[:tags].nil?
+        @events = Event.date_filtered(@start_date,@end_date).tagged_with(params[:tags]).order("session_start desc").page(params[:page])
+        response.headers['Content-Type'] = 'text/csv; charset=iso-8859-1; header=present'
+        response.headers['Content-Disposition'] = 'attachment; filename=event_statistics.csv'
+        render(:template => 'data/events_csvlist', :layout => false)
+      else
+        @events = Event.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start ASC")
+        response.headers['Content-Type'] = 'text/csv; charset=iso-8859-1; header=present'
+        response.headers['Content-Disposition'] = 'attachment; filename=event_statistics.csv'
+        render(:template => 'data/events_csvlist', :layout => false)
+      end
+    elsif(!params[:tags].nil? and params[:tags] != "")
+      @events = Event.date_filtered(@start_date,@end_date).tagged_with(params[:tags]).order("session_start DESC").page(params[:page])
     else
       @events = Event.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start DESC").page(params[:page])
     end

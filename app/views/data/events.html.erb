@@ -6,7 +6,7 @@
 
 <%= render(partial: 'date_form') -%>
 <%- if defined?(@events.total_count) && @events.total_count > 0 -%>
-<p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date) %> </p>
+<p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date, :tags => @tags) %> </p>
 <%= pagination_counts(@events) %>  
 <%= paginate(@events) %>
 <table class="table table-striped">
