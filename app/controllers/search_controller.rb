@@ -28,7 +28,7 @@ class SearchController < ApplicationController
       end
     end
 
-    @list_title = "Search Results for '#{params[:q]}'"
+    @all_list_title = "Search Results for '#{params[:q]}'"
 
     self.events
 
