@@ -40,17 +40,17 @@ Learn::Application.routes.draw do
   end
 
   match "ajax/:action", to: "ajax", :via => [:get, :post]
-
   match "learning_history" => "learners#learning_history", :via => :get
   match "commented_history" => "learners#commented_history", :via => :get
-
   match "settings/profile" => "settings#profile", :via => [:get, :put]
   match "settings/notifications" => "settings#notifications", :via => [:get, :post]
   match "settings/learning_profile" => "settings#learning_profile", :via => [:get, :post, :put]
   match "settings/privacy" => "settings#privacy", :via => [:get, :post]
-
   match "contact_us" => "home#contact_us", :via => :get
   match "retired" => "home#retired", :via => :get
+  match "search/all" => "search#all", :via => [:get]
+  match "search/learners" => "search#learners", :via => [:get]
+  match "search/events" => "search#events", :via => [:get]
 
   # individual tag match
   match "/events/tag/:tags" => "events#tags", :as => 'events_tag'
@@ -74,7 +74,6 @@ Learn::Application.routes.draw do
       get 'upcoming'
       get 'tags'
       get 'recent'
-      get 'search'
       get 'canceled'
       get 'broadcast'
     end

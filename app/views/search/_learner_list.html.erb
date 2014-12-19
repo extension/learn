@@ -1,0 +1,22 @@
+<% if @learners.count > 0 %>
+  <% if !defined?(paginate_learners) || paginate_learners != false %>
+    <%= pagination_counts(@learners) %>
+  <% end %>
+  <div class="event-list">
+    <% @learners.each do |learner| %>
+        <div class="event-list-event">
+           <h3 class="event-list-title">
+             <%= link_to learner.name, portfolio_learner_path(learner.id) %>
+          </h3>
+          <p class="event-list-details">
+            Created on: <span class="session-date"><%= learner.created_at.strftime("%A, %B %e, %Y") -%> </span>
+          </p>
+        </div>
+    <% end %>
+  </div>
+  <% if !defined?(paginate_learners) || paginate_learners != false %>
+    <%= paginate @learners%>
+  <% end %>
+<% else %>
+  <p>No users found.</p>
+<% end %>
