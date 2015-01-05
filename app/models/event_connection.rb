@@ -5,7 +5,9 @@
 # see LICENSE file
 
 class EventConnection < ActiveRecord::Base
-  belongs_to :event
+  belongs_to :event, :counter_cache => :bookmarks_count
+  belongs_to :event, :counter_cache => :attended_count
+  belongs_to :event, :counter_cache => :watchers_count
   belongs_to :learner
   has_many :event_activities, :as => :trackable, dependent: :destroy
   validates :learner_id, :uniqueness => {:scope => [:event_id, :connectiontype]}

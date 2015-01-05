@@ -40,15 +40,8 @@ class DataController < ApplicationController
     elsif !params[:tags].blank?
       @events = Event.date_filtered(@start_date,@end_date).tagged_with(params[:tags]).order("session_start DESC").page(params[:page])
     else
-      if params[:sort] == "bookmarked"
-        @events = Event.date_filtered(@start_date,@end_date).order("session_length").page(params[:page])
-      elsif params[:sort] and params[:sort] != "bookmarked"
-        @events = Event.date_filtered(@start_date,@end_date).order(sort_column + " " + sort_direction).page(params[:page])
-      else
-        @events = Event.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start DESC").page(params[:page])
-      end
-      
-    end
+      @events = Event.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start DESC").page(params[:page])
+    end 
   end
   
   def presenters
@@ -116,10 +109,6 @@ class DataController < ApplicationController
     params[:sort] || "name"
   end
 
-  def sort_column_by_bookmark
-    Event.by_bookmarked_count
-  end
-    
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
