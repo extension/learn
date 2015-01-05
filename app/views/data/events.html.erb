@@ -20,13 +20,13 @@
       <th>Presenters</th>
       <th><%= sortable "title", "Title", @start_date, @end_date %></th>
       <th>Tags</th>
-      <th><%= sortable "recording", "Recording", @start_date, @end_date %></th>
-      <th><%= sortable "session_length", "Length", @start_date, @end_date %></th>
-      <th><%= sortable "bookmarks_count", "Bookmarked", @start_date, @end_date %></th>
-      <th><%= sortable "attended_count", "Attended", @start_date, @end_date %></th>
-      <th><%= sortable "watchers_count", "Watched", @start_date, @end_date %></th>
-      <th>Voters</th>
-      <th>Commentators</th>
+      <th><%= sortable "recording", "Recording", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "session_length", "Length", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "bookmarks_count", "Bookmarked", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "attended_count", "Attended", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "watchers_count", "Watched", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "raters_count", "Voters", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "commentators_count", "Commentators", @start_date, @end_date, params[:tags] %></th>
     </tr>
   </thead>
   <tbody>
