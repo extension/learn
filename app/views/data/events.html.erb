@@ -16,9 +16,9 @@
 <table class="table table-striped sortable">
   <thead>
     <tr>
-      <th><%= sortable "session_start", "Date/Time", @start_date, @end_date %></th>
+      <th><%= sortable "session_start", "Date/Time", @start_date, @end_date, params[:tags] %></th>
       <th>Presenters</th>
-      <th><%= sortable "title", "Title", @start_date, @end_date %></th>
+      <th><%= sortable "title", "Title", @start_date, @end_date, params[:tags] %></th>
       <th>Tags</th>
       <th><%= sortable "recording", "Recording", @start_date, @end_date, params[:tags] %></th>
       <th><%= sortable "session_length", "Length", @start_date, @end_date, params[:tags] %></th>
