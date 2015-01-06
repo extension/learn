@@ -17,10 +17,10 @@ module Learn
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    config.autoload_paths += Dir["#{config.root}/lib/"] 
+    config.autoload_paths += Dir["#{config.root}/lib/"]
 
     # autoload lib/validators
-    config.autoload_paths += Dir["#{config.root}/lib/validators/**/"] 
+    config.autoload_paths += Dir["#{config.root}/lib/validators/**/"]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -48,7 +48,7 @@ module Learn
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
+
     # generator defaults
     config.generators do |g|
       g.test_framework  :shoulda, :fixture_replacement => :factory_girl
@@ -56,6 +56,9 @@ module Learn
 
     #get rid of pesky app errors
     config.action_dispatch.ip_spoofing_check = false
+
+    config.middleware.insert_before ActionDispatch::ParamsParser, "CatchJsonParseErrors"
+
 
   end
 end
