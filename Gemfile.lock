@@ -120,6 +120,10 @@ GEM
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    lograge (0.3.0)
+      actionpack (>= 3)
+      activesupport (>= 3)
+      railties (>= 3)
     loofah (1.2.1)
       nokogiri (>= 1.4.4)
     mail (2.5.4)
@@ -302,6 +306,7 @@ DEPENDENCIES
   inline-style (= 0.5.2ex)
   jquery-rails
   kaminari
+  lograge
   loofah
   meta_request
   mocha
