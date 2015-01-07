@@ -11,7 +11,7 @@
   <% else %>
     <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date, :tags => params[:tags]) %> </p>
   <% end %>
-<%= pagination_counts(@events) %>  
+<%= pagination_counts(@events) %>
 <%= paginate(@events) %>
 <table class="table table-striped sortable">
   <thead>
@@ -39,9 +39,9 @@
       </td>
       <td><%= display_presenters(event.presenters) %></td>
       <td><%= link_to event.title, event_path(event) %></td>
-      <td><%= display_tags(event.tags) %></td>
+      <td><div class="tag-wrapper"><%= display_tags(event.tags) %></div></td>
       <td><%= (event.has_recording?) ? link_to("link", event.recording) : "n/a" %></td>
-      <td><%= event.session_length %></td> 
+      <td><%= event.session_length %></td>
       <td><%= event.bookmarked.count %></td>
       <td><%= event.attendees.count %></td>
       <td><%= event.watched.count %></td>

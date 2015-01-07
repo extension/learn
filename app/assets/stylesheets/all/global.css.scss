@@ -15,7 +15,7 @@ h3 {line-height:1.2em;}
 
 
 .user-actions {
-  border:1px solid #ccc; 
+  border:1px solid #ccc;
   background:#ccc;
 }
 .user-actions-list {
@@ -27,9 +27,10 @@ h3 {line-height:1.2em;}
 .user-actions li img {height:22px; width:22px;}
 
 
-
-.tag {@include rounded3; background:#DBEFF2; color:#3C78AD; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
-padding:0 .35em; margin-bottom:.2em; 
+// .table .tag {word-break: break-all;}
+.tag-wrapper {overflow:hidden; width:100px;}
+.tag {@include rounded3; background:#DBEFF2; color:#3C78AD; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+padding:0 .35em; margin-bottom:.2em;
 display:inline-block; font-size:13px;}
 .tag:hover {background:#2C1946; color:#fff; text-decoration:none;}
 
