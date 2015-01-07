@@ -11,22 +11,22 @@
   <% else %>
     <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date, :tags => params[:tags]) %> </p>
   <% end %>
-<%= pagination_counts(@events) %>  
+<%= pagination_counts(@events) %>
 <%= paginate(@events) %>
-<table class="table table-striped">
+<table class="table table-striped sortable">
   <thead>
     <tr>
-      <th>Date/Time</th>
+      <th><%= sortable "session_start", "Date/Time", @start_date, @end_date, params[:tags] %></th>
       <th>Presenters</th>
-      <th>Title</th>
+      <th><%= sortable "title", "Title", @start_date, @end_date, params[:tags] %></th>
       <th>Tags</th>
-      <th>Recording</th>
-      <th>Length</th>
-      <th>Bookmarked</th>
-      <th>Attended</th>
-      <th>Watched</th>
-      <th>Voters</th>
-      <th>Commentators</th>
+      <th><%= sortable "recording", "Recording", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "session_length", "Length", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "bookmarks_count", "Bookmarked", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "attended_count", "Attended", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "watchers_count", "Watched", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "raters_count", "Voters", @start_date, @end_date, params[:tags] %></th>
+      <th><%= sortable "commentators_count", "Commentators", @start_date, @end_date, params[:tags] %></th>
     </tr>
   </thead>
   <tbody>
@@ -39,9 +39,9 @@
       </td>
       <td><%= display_presenters(event.presenters) %></td>
       <td><%= link_to event.title, event_path(event) %></td>
-      <td><%= display_tags(event.tags) %></td>
+      <td><div class="tag-wrapper"><%= display_tags(event.tags) %></div></td>
       <td><%= (event.has_recording?) ? link_to("link", event.recording) : "n/a" %></td>
-      <td><%= event.session_length %></td> 
+      <td><%= event.session_length %></td>
       <td><%= event.bookmarked.count %></td>
       <td><%= event.attendees.count %></td>
       <td><%= event.watched.count %></td>

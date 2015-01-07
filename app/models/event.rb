@@ -42,9 +42,7 @@ class Event < ActiveRecord::Base
   has_many :questions, order: 'priority,created_at', dependent: :destroy
   has_many :answers, :through => :questions
   has_many :comments, dependent: :destroy
-  has_many :commentators, through: :comments, source: :learner, :conditions => "learners.is_blocked = false", uniq: true
   has_many :ratings, :as => :rateable, :include => :learner, :conditions => "learners.is_blocked = false", dependent: :destroy
-  has_many :raters, :through => :ratings, :source => :learner, :conditions => "learners.is_blocked = false"
   has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
   has_many :presenter_connections, dependent: :destroy
@@ -54,6 +52,13 @@ class Event < ActiveRecord::Base
   has_many :notification_exceptions
   has_many :material_links
   accepts_nested_attributes_for :material_links, :reject_if => :all_blank, :allow_destroy => true
+
+  #counter_cache relations
+  has_many :bookmarks, through: :event_connections, source: :event, conditions: "connectiontype = 3"
+  has_many :attended, through: :event_connections, source: :event, conditions: "connectiontype = 4"
+  has_many :watchers, through: :event_connections, source: :event, conditions: "connectiontype = 5"
+  has_many :raters, through: :ratings, source: :learner, conditions: "learners.is_blocked = false"
+  has_many :commentators, through: :comments, source: :learner, conditions: "learners.is_blocked = false", uniq: true
 
   # conference sessions
   belongs_to :conference
@@ -156,7 +161,6 @@ class Event < ActiveRecord::Base
   scope :broadcast, where('event_type = ?',BROADCAST)
 
   scope :by_date, lambda {|date| where('DATE(session_start) = ?',date)}
-
 
   def connections_list
     self.learners.valid.order('event_connections.created_at')

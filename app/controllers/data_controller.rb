@@ -8,6 +8,8 @@ class DataController < ApplicationController
   before_filter :authenticate_learner!
   before_filter :require_admin, only: [:presenters, :recent_recommendations, :projected_recommendations, :recommended_event, :activity ]
   
+  helper_method :sort_column, :sort_direction
+
   def overview
   end
   
@@ -36,10 +38,10 @@ class DataController < ApplicationController
         render(:template => 'data/events_csvlist', :layout => false)
       end
     elsif !params[:tags].blank?
-      @events = Event.date_filtered(@start_date,@end_date).tagged_with(params[:tags]).order("session_start DESC").page(params[:page])
+      @events = Event.date_filtered(@start_date,@end_date).tagged_with(params[:tags]).order(sort_column + " " + sort_direction).page(params[:page])
     else
-      @events = Event.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start DESC").page(params[:page])
-    end
+      @events = Event.date_filtered(@start_date,@end_date).order(sort_column + " " + sort_direction).page(params[:page])
+    end 
   end
   
   def presenters
@@ -100,5 +102,14 @@ class DataController < ApplicationController
       @end_date = Time.zone.now.strftime('%Y-%m-%d')
     end
   end
-    
+
+  private
+
+  def sort_column
+    params[:sort] || "session_start"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
 end
