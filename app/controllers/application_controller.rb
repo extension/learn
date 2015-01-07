@@ -12,6 +12,12 @@ class ApplicationController < ActionController::Base
   before_filter :set_time_zone_from_learner
   before_filter :store_location
 
+  def append_info_to_payload(payload)
+    super
+    payload[:ip] = request.remote_ip
+    payload[:auth_id] = current_learner.id if current_learner
+  end
+
   def store_location
     session[:learner_return_to] = request.url unless (params[:controller] == "authmaps/omniauth_callbacks" || params[:controller] == "learners/sessions")
   end
