@@ -127,6 +127,7 @@ Learn::Application.routes.draw do
     match "/projected_recommendations" => "data#projected_recommendations", :as => 'data_projected_recommendations'
     match "/recent_recommendations" => "data#recent_recommendations", :as => 'data_recent_recommendations'
     match "/blocked_activity" => "data#blocked_activity", :as => 'data_blocked_activity'
+    match "/tags" => "data#tags", :as => 'tag_token_search'
   end
 
   resources :conferences, :only => [:index, :show, :edit, :update] do

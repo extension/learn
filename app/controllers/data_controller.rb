@@ -37,13 +37,23 @@ class DataController < ApplicationController
         response.headers['Content-Disposition'] = 'attachment; filename=event_statistics.csv'
         render(:template => 'data/events_csvlist', :layout => false)
       end
-    elsif !params[:tags].blank?
-      @events = Event.date_filtered(@start_date,@end_date).tagged_with(params[:tags]).order(sort_column + " " + sort_direction).page(params[:page])
+    elsif !params[:tag_tokens].blank?
+      @events = Event.date_filtered(@start_date,@end_date).tagged_with(params[:tag_tokens]).order(sort_column + " " + sort_direction).page(params[:page])
     else
       @events = Event.date_filtered(@start_date,@end_date).order(sort_column + " " + sort_direction).page(params[:page])
     end 
+    
   end
-  
+ 
+  def tags
+    @tags = Tag.where("name like ?", "%#{params[:q]}%")
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @tags.map(&:attributes) }
+    end
+  end
+
   def presenters
     parse_dates
     @presenter_list = PresenterConnection.event_date_filtered(@start_date,@end_date).group(:learner).count

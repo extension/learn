@@ -485,7 +485,7 @@ class Event < ActiveRecord::Base
 
   def self.tagged_with(taglist)
     # split and collect - Tag.normalizename *should* take care of any nasty chars we don't want sent to the db
-    normalizedlist = taglist.split(Tag::SPLITTER).collect{|tagname| Tag.normalizename(tagname)}
+    normalizedlist = taglist.split.collect{|tagname| Tag.find(tagname)}
     Event.includes([:tags]).where("tags.name IN (#{normalizedlist.map{|tagname| "'#{tagname}'"}.join(',')})")
   end
 
