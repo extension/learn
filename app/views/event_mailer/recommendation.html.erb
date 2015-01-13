@@ -24,8 +24,10 @@
 	tr.options  {background:#585858; color:#fff; padding:10px;}
 	tr.options td  {background:#585858; color:#ddd; padding:5px 9px;}
 	tr.options td a {color:#aaa; padding:6px; font: normal 14px  Arial, Verdana, sans-serif; text-decoration:none;}
-	tr.options td a:hover {color:#fff;}	
-	tr.date td {font: normal 12px  Arial, Verdana, sans-serif; text-align:center; padding:15px 10px; color:#888; text-transform:uppercase;}
+	tr.options td a:hover {color:#fff;}
+	tr.date td {font: normal 24px  Arial, Verdana, sans-serif; text-align:center; padding:24px 10px; color:#000;}
+  tr.divider {padding:0; height:1px; margin:0;}
+  tr.divider td {padding:0; height:1px; margin:0;}
 	.article h3 {font: bold 20px  Arial, Verdana, sans-serif; margin:0;}
 	.article h3 a {color: #0069D6; text-decoration:none;}
 	.article p {font: normal 14px  Arial, sans-serif; margin: 20px 0 0; margin:0; line-height:18px;}
@@ -36,8 +38,9 @@
 	table.footer tr.options td {color:#888; font: normal 13px  Arial, sans-serif; background:#fff; padding:0 5px;}
 	table.footer tr.options td a {color:#0069D6; font: normal 13px  Arial, sans-serif; background:#fff;}
 	td.footer {padding-top:1em;}
-	#learn_logo {height: 96px;}
+	#learn_logo {height: 100px;}
 	.bgcolor {background:#fff;}
+  .bgcolor-header {background:#ddd;}
 	.article td .dates {font: bold 17px  Arial, sans-serif;}
 	</style>
 	<%= stylesheet_link_tag("#{ssl_root_url}email/mobile.css") %>
@@ -55,7 +58,7 @@
   <tr>
     <th align="left" class="bgcolor">
       <%- logo_url = @mailer_cache.blank? ? "#{ssl_root_url}assets/logo_small.png" : "#{ssl_webmail_logo}" -%>
-      <h1 id="learn_logo"><%= image_tag(logo_url, alt: "Learn") %></h1>      
+      <h1 id="learn_logo"><%= image_tag(logo_url, alt: "Learn") %></h1>
     </th>
   </tr>
   <tr class="tagline">
@@ -66,33 +69,33 @@
       <%- if @mailer_cache -%>
         <%= link_to('View in a browser', webmail_recommendation_url(hashvalue: @mailer_cache.hashvalue)) %>
       <%- else -%>
-        <a href="">View in a browser</a> 
+        <a href="">View in a browser</a>
       <%- end -%>
       <%= link_to "Unsubscribe", settings_notifications_url() %>
     </td>
   </tr>
-  
+
   <%- ['upcoming','recent'].each do |group| -%>
     <tr>
       <td>
         <table cellpadding="0" cellspacing="0" border="0" align="center" width="599">
           <tr class="date">
-            <td width="33%" class="mobilehide bgcolor"><%= image_tag("#{ssl_root_url}assets/divider.png", class: 'spacer', size: "180x1") %></td>
-            <td width="33%" class="bgcolor">
+            <td width="599" class="bgcolor-header">
               <%- case group -%>
               <%- when 'upcoming' -%>
-                <span>Upcoming Events</span>
+                <span class="bgcolor-header">Upcoming Events</span>
               <%- when 'recent' -%>
-                <span>Recent Events</span>
+                <span class="bgcolor-header">Events You May Have Missed</span>
               <%- else -%>
-                <span>Unknown Events</span>
+                <span class="bgcolor-header">Unknown Events</span>
               <%- end -%>
             </td>
-            <td width="33%" class="mobilehide bgcolor"><%= image_tag("#{ssl_root_url}assets/divider.png", class: 'spacer', size: "180x1") %></td>
           </tr>
+
         </table>
       </td>
     </tr>
+    <%- if !@recommendation.send(group).blank? -%>
     <%- @recommendation.send(group).each do |recommended_event| -%>
       <tr>
         <td>
@@ -111,11 +114,29 @@
           </table>
         </td>
       </tr>
-  
+
       <tr><td><%= image_tag("#{ssl_root_url}assets/divider.png", class: 'spacer bgcolor', size: "599x1") %></td></tr>
     <%- end -%>
+    <%- else -%>
+      <tr>
+        <td>
+          <table cellpadding="0" cellspacing="0" border="0" align="center" width="599" class="article">
+      <%- case group -%>
+      <%- when 'upcoming' -%>
+        <tr><td><p>We don't have any upcoming events recommended for you this week. Visit <%= link_to "Learn", root_path() %> and see if we missed something.</p></td></tr>
+      <%- when 'recent' -%>
+        <tr><td><p>We don't have any recent events recommended for you this week. Visit <%= link_to "Learn", root_path() %> and see if we missed something.</p></td></tr>
+      <%- end -%>
+      <tr class="divider">
+        <td width="599" height="1px" class="bgcolor"><%= image_tag("#{ssl_root_url}assets/divider.png", class: 'spacer', size: "599x1") %></td>
+      </tr>
+          </table>
+        </td>
+      </tr>
+
+    <%- end -%>
   <%- end -%>
-  
+
   <tr>
     <td class="footer">
       <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" class="footer">
@@ -129,9 +150,8 @@
             <%- if @mailer_cache -%>
               <%= link_to('View in a browser', webmail_recommendation_url(hashvalue: @mailer_cache.hashvalue)) %>
             <%- else -%>
-              <a href="">View in a browser</a> 
+              <a href="">View in a browser</a>
             <%- end -%>
-            <%= link_to "Unsubscribe", settings_notifications_url() %>
           </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
@@ -139,6 +159,6 @@
     </td>
   </tr>
 </table>
-</div>  
+</div>
 </body>
 </html>
