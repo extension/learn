@@ -193,6 +193,15 @@
        </div>
      </div>
 
+     <% if @event.similar_events.count > 0 %>
+     <aside>
+       <h4 class="subhead_style">Related Events</h4>
+       <% @event.similar_events.each do |event,score| %>
+         <p><%= link_to(event.title, event_path(event.id), :class => "muted_link") %></p>
+       <% end %>
+     </aside>
+     <% end %>
+
 <br class='clearing' />
 </div>
 
