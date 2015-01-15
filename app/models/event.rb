@@ -485,10 +485,17 @@ class Event < ActiveRecord::Base
 
   def self.tagged_with(taglist)
     # split and collect - Tag.normalizename *should* take care of any nasty chars we don't want sent to the db
-    normalizedlist = taglist.split.collect{|tagname| Tag.find(tagname)}
+    normalizedlist = taglist.split(Tag::SPLITTER).collect{|tagname| Tag.normalizename(tagname)}
     Event.includes([:tags]).where("tags.name IN (#{normalizedlist.map{|tagname| "'#{tagname}'"}.join(',')})")
   end
 
+  def self.tagged_with_id(taglist)
+    # convert taglist to an array if ids
+    taglist = taglist.chomp.split(',').map { |x| x.to_i }
+    #get tag name from each id
+    normalizedlist = taglist.collect{|id| Tag.find(id).name}
+    Event.includes([:tags]).where("tags.name IN (#{normalizedlist.map{|tagname| "'#{tagname}'"}.join(',')})")
+  end
 
   def potential_learners(options = {})
     learners = self.learners.all
