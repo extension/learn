@@ -137,11 +137,11 @@ module ApplicationHelper
     end
   end
 
-  def sortable(column, title = nil, start_date, end_date, tags)
+  def sortable(column, title = nil, start_date, end_date, tag_tokens)
       title ||= column.titleize
       css_class = column == sort_column ? "current #{sort_direction}" : nil
       direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
-      link_to title, {:sort => column, :direction => direction, :start_date => start_date, :end_date => end_date, :tags => tags}, {:class => css_class}
+      link_to title, {:sort => column, :direction => direction, :start_date => start_date, :end_date => end_date, :tag_tokens => tag_tokens}, {:class => css_class}
   end
 
 end

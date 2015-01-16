@@ -25,6 +25,8 @@ class DataController < ApplicationController
   
   def events
     parse_dates
+    parse_tag_tokens
+
     if(!params[:download].nil? and params[:download] == 'csv')
       if !params[:tag_tokens].blank?
         @events = Event.date_filtered(@start_date,@end_date).tagged_with_id(params[:tag_tokens]).order("session_start ASC")
@@ -110,6 +112,13 @@ class DataController < ApplicationController
       @end_date = Date.parse(params[:end_date]).strftime('%Y-%m-%d')
     rescue
       @end_date = Time.zone.now.strftime('%Y-%m-%d')
+    end
+  end
+
+  def parse_tag_tokens
+    if !params[:tag_tokens].blank?
+      tag_id_array = params[:tag_tokens].chomp.split(',').map { |x| x.to_i }
+      @tag_token_names = tag_id_array.collect{|tag| {id: tag, name: Tag.find(tag).name}}
     end
   end
 

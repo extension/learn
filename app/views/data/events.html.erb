@@ -9,7 +9,7 @@
   <% if params[:tag_tokens].blank? %>
     <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date) %> </p>
   <% else %>
-    <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date, :tags => params[:tag_tokens]) %> </p>
+    <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date, :tag_tokens => params[:tag_tokens]) %> </p>
   <% end %>
 <%= pagination_counts(@events) %>
 <%= paginate(@events) %>

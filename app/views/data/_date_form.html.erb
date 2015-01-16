@@ -12,7 +12,7 @@
 
       <p>
       <%= label_tag :tag_tokens, 'Tags' %>
-      <%= text_field_tag 'tag_tokens', params[:tag_tokens] %>
+      <%= text_field_tag 'tag_tokens', nil, "data-pre" => @tag_token_names.to_json %>
       </p>
   </fieldset>
   <%= submit_tag "Filter", {:name => nil, :id => 'filter-submit', :class => 'btn btn-primary'} %>
