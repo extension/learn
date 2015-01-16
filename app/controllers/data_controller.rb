@@ -117,7 +117,7 @@ class DataController < ApplicationController
 
   def parse_tag_tokens
     if !params[:tag_tokens].blank?
-      tag_id_array = params[:tag_tokens].chomp.split(',').map { |x| x.to_i }
+      tag_id_array = params[:tag_tokens].chomp.split(',')
       @tag_token_names = tag_id_array.collect{|tag| {id: tag, name: Tag.find(tag).name}}
     end
   end
