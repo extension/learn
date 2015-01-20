@@ -39,7 +39,7 @@
       </td>
       <td><%= display_presenters(event.presenters) %></td>
       <td><%= link_to event.title, event_path(event) %></td>
-      <td><div class="tag-wrapper"><%= display_tags(event.tags) %></div></td>
+      <td><div class="tag-wrapper"><%= display_tags(event.reload.tags) %></div></td>
       <td><%= (event.has_recording?) ? link_to("link", event.recording) : "n/a" %></td>
       <td><%= event.session_length %></td>
       <td><%= event.bookmarked.count %></td>
