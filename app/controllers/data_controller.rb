@@ -115,6 +115,7 @@ class DataController < ApplicationController
     end
   end
 
+  #This method was needed to return the tag name and id for token input. It reloads the tag name after a search is performed
   def parse_tag_tokens
     if !params[:tag_tokens].blank?
       tag_id_array = params[:tag_tokens].chomp.split(',')

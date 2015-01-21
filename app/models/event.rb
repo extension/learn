@@ -490,7 +490,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.tagged_with_id(taglist)
-    # convert taglist to an array if ids
+    # convert taglist to an array of ids
     taglist = taglist.chomp.split(',')
     #get tag name from each id
     normalizedlist = Tag.where(id: taglist).pluck :name
