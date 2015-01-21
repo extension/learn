@@ -25,9 +25,11 @@ class DataController < ApplicationController
   
   def events
     parse_dates
+    parse_tag_tokens
+
     if(!params[:download].nil? and params[:download] == 'csv')
-      if !params[:tags].blank?
-        @events = Event.date_filtered(@start_date,@end_date).tagged_with(params[:tags]).order("session_start ASC")
+      if !params[:tag_tokens].blank?
+        @events = Event.date_filtered(@start_date,@end_date).tagged_with_id(params[:tag_tokens]).order("session_start ASC")
         response.headers['Content-Type'] = 'text/csv; charset=iso-8859-1; header=present'
         response.headers['Content-Disposition'] = 'attachment; filename=event_statistics.csv'
         render(:template => 'data/events_csvlist', :layout => false)
@@ -37,13 +39,23 @@ class DataController < ApplicationController
         response.headers['Content-Disposition'] = 'attachment; filename=event_statistics.csv'
         render(:template => 'data/events_csvlist', :layout => false)
       end
-    elsif !params[:tags].blank?
-      @events = Event.date_filtered(@start_date,@end_date).tagged_with(params[:tags]).order(sort_column + " " + sort_direction).page(params[:page])
+    elsif !params[:tag_tokens].blank?
+      @events = Event.date_filtered(@start_date,@end_date).tagged_with_id(params[:tag_tokens]).order(sort_column + " " + sort_direction).page(params[:page])
     else
       @events = Event.date_filtered(@start_date,@end_date).order(sort_column + " " + sort_direction).page(params[:page])
     end 
+    
   end
-  
+ 
+  def tags
+    @tags = Tag.where("name like ?", "%#{params[:q]}%")
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @tags.map(&:attributes) }
+    end
+  end
+
   def presenters
     parse_dates
     @presenter_list = PresenterConnection.event_date_filtered(@start_date,@end_date).group(:learner).count
@@ -100,6 +112,14 @@ class DataController < ApplicationController
       @end_date = Date.parse(params[:end_date]).strftime('%Y-%m-%d')
     rescue
       @end_date = Time.zone.now.strftime('%Y-%m-%d')
+    end
+  end
+
+  #This method was needed to return the tag name and id for token input. It reloads the tag name after a search is performed
+  def parse_tag_tokens
+    if !params[:tag_tokens].blank?
+      tag_id_array = params[:tag_tokens].chomp.split(',')
+      @tag_token_names = tag_id_array.collect{|tag| {id: tag, name: Tag.find(tag).name}}
     end
   end
 

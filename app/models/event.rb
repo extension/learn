@@ -489,6 +489,13 @@ class Event < ActiveRecord::Base
     Event.includes([:tags]).where("tags.name IN (#{normalizedlist.map{|tagname| "'#{tagname}'"}.join(',')})")
   end
 
+  def self.tagged_with_id(taglist)
+    # convert taglist to an array of ids
+    taglist = taglist.chomp.split(',')
+    #get tag name from each id
+    normalizedlist = Tag.where(id: taglist).pluck :name
+    Event.includes(:tags).where tags: { name: normalizedlist }
+  end
 
   def potential_learners(options = {})
     learners = self.learners.all
