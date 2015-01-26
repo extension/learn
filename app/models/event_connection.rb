@@ -5,9 +5,7 @@
 # see LICENSE file
 
 class EventConnection < ActiveRecord::Base
-  belongs_to :event, :counter_cache => :bookmarks_count
-  belongs_to :event, :counter_cache => :attended_count
-  belongs_to :event, :counter_cache => :watchers_count
+  belongs_to :event
   belongs_to :learner
   has_many :event_activities, :as => :trackable, dependent: :destroy
   validates :learner_id, :uniqueness => {:scope => [:event_id, :connectiontype]}
@@ -17,6 +15,15 @@ class EventConnection < ActiveRecord::Base
   WATCH = 5
   
   after_create :log_object_activity
+  after_save :update_counter_cache
+  after_destroy :update_counter_cache
+
+  def update_counter_cache
+    self.event.attended_count = self.event.attended.count
+    self.event.watchers_count = self.event.watchers.count
+    self.event.bookmarks_count = self.event.bookmarks.count
+    self.event.save
+  end
 
 
   def log_object_activity

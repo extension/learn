@@ -6,7 +6,7 @@
 
 class Comment < ActiveRecord::Base
   belongs_to :learner
-  belongs_to :event
+  belongs_to :event, :counter_cache => :commentators_count
   has_many :ratings, :as => :rateable, :dependent => :destroy
   has_many :raters, :through => :ratings, :source => :learner
   has_many :event_activities, :as => :trackable, dependent: :destroy

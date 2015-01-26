@@ -25,7 +25,6 @@
       <th><%= sortable "bookmarks_count", "Bookmarked", @start_date, @end_date, params[:tag_tokens] %></th>
       <th><%= sortable "attended_count", "Attended", @start_date, @end_date, params[:tag_tokens] %></th>
       <th><%= sortable "watchers_count", "Watched", @start_date, @end_date, params[:tag_tokens] %></th>
-      <th><%= sortable "raters_count", "Voters", @start_date, @end_date, params[:tag_tokens] %></th>
       <th><%= sortable "commentators_count", "Commentators", @start_date, @end_date, params[:tag_tokens] %></th>
     </tr>
   </thead>
@@ -42,11 +41,10 @@
       <td><div class="tag-wrapper"><%= display_tags(event.reload.tags) %></div></td>
       <td><%= (event.has_recording?) ? link_to("link", event.recording) : "n/a" %></td>
       <td><%= event.session_length %></td>
-      <td><%= event.bookmarked.count %></td>
-      <td><%= event.attendees.count %></td>
-      <td><%= event.watched.count %></td>
-      <td><%= event.raters.count %></td>
-      <td><%= event.commentators.count %></td>
+      <td><%= event.bookmarked.count %>(<%= event.bookmarks_count %>)</td>
+      <td><%= event.attendees.count %>(<%= event.attended_count %>)</td>
+      <td><%= event.watched.count %>(<%= event.watchers_count %>)</td>
+      <td><%= event.commentators.count %>(<%= event.commentators_count %>)</td>
     </tr>
     <%- end -%>
   </tbody>

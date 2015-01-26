@@ -57,7 +57,6 @@ class Event < ActiveRecord::Base
   has_many :bookmarks, through: :event_connections, source: :event, conditions: "connectiontype = 3"
   has_many :attended, through: :event_connections, source: :event, conditions: "connectiontype = 4"
   has_many :watchers, through: :event_connections, source: :event, conditions: "connectiontype = 5"
-  has_many :raters, through: :ratings, source: :learner, conditions: "learners.is_blocked = false"
   has_many :commentators, through: :comments, source: :learner, conditions: "learners.is_blocked = false", uniq: true
 
   # conference sessions
@@ -580,8 +579,15 @@ class Event < ActiveRecord::Base
     end
   end
 
-
-
-
+  #convenience method to reset count columns 
+  def self.reset_counter_columns
+    Event.find_each do |e|
+      e.bookmarks_count = e.bookmarks.count
+      e.attended_count = e.attended.count
+      e.watchers_count = e.watchers.count
+      e.commentators_count = e.commentators.count 
+      e.save
+    end
+  end
 
 end
