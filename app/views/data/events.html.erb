@@ -41,10 +41,10 @@
       <td><div class="tag-wrapper"><%= display_tags(event.reload.tags) %></div></td>
       <td><%= (event.has_recording?) ? link_to("link", event.recording) : "n/a" %></td>
       <td><%= event.session_length %></td>
-      <td><%= event.bookmarked.count %>(<%= event.bookmarks_count %>)</td>
-      <td><%= event.attendees.count %>(<%= event.attended_count %>)</td>
-      <td><%= event.watched.count %>(<%= event.watchers_count %>)</td>
-      <td><%= event.commentators.count %>(<%= event.commentators_count %>)</td>
+      <td><%= event.bookmarked.count %></td>
+      <td><%= event.attendees.count %></td>
+      <td><%= event.watched.count %></td>
+      <td><%= event.commentators.count %></td>
     </tr>
     <%- end -%>
   </tbody>

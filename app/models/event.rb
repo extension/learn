@@ -579,7 +579,7 @@ class Event < ActiveRecord::Base
     end
   end
 
-  #convenience method to reset count columns 
+  #convenience method to reset counter columns 
   def self.reset_counter_columns
     Event.find_each do |e|
       e.bookmarks_count = e.bookmarks.count
