@@ -19,9 +19,14 @@ class EventConnection < ActiveRecord::Base
   after_destroy :update_counter_cache
 
   def update_counter_cache
-    self.event.attended_count = self.event.attended.count
-    self.event.watchers_count = self.event.watchers.count
-    self.event.bookmarks_count = self.event.bookmarks.count
+    case self.connectiontype
+    when 3
+      self.event.bookmarks_count = self.event.bookmarks.count
+    when 4
+      self.event.attended_count = self.event.attended.count
+    when 5
+      self.event.watchers_count = self.event.watchers.count
+    end
     self.event.save
   end
 
