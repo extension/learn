@@ -190,12 +190,6 @@ class Learner < ActiveRecord::Base
     1
   end
 
-
-  # placeholder for now
-  def recommended_events(count = 4)
-    Event.limit(count)
-  end
-
   # devise override
   def active_for_authentication?
     super && !retired?

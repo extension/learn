@@ -178,7 +178,10 @@ class EventActivity < ActiveRecord::Base
       end
     end
     id_scores.each do |learner_id,score|
-      learner_scores[Learner.find_by_id(learner_id)] = score.to_f
+      learner = Learner.find_by_id(learner_id)
+      if(!learner.nil?)
+        learner_scores[learner] = score.to_f
+      end
     end
     learner_scores
   end
