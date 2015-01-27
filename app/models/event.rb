@@ -581,12 +581,12 @@ class Event < ActiveRecord::Base
 
   #convenience method to reset counter columns 
   def self.reset_counter_columns
-    Event.find_each do |e|
-      e.bookmarks_count = e.bookmarks.count
-      e.attended_count = e.attended.count
-      e.watchers_count = e.watchers.count
-      e.commentators_count = e.commentators.count 
-      e.save
+    Event.find_each do |event|
+      event.update_column(:bookmarks_count, event.bookmarks.count)
+      event.update_column(:attended_count, event.attended.count)
+      event.update_column(:watchers_count, event.watchers.count)
+      #using reset_counters here because comments is using rails counter_cache
+      Event.reset_counters(event.id, :commentators)
     end
   end
 
