@@ -20,16 +20,14 @@ class EventConnection < ActiveRecord::Base
 
   def update_counter_cache
     case self.connectiontype
-    when 3
-      self.event.bookmarks_count = self.event.bookmarks.count
-    when 4
-      self.event.attended_count = self.event.attended.count
-    when 5
-      self.event.watchers_count = self.event.watchers.count
+    when BOOKMARK
+      self.event.update_column(:bookmarks_count, self.event.bookmarks.count)
+    when ATTEND
+      self.event.update_column(:attended_count, self.event.attended.count)
+    when WATCH
+      self.event.update_column(:watchers_count, self.event.watchers.count)
     end
-    self.event.save
   end
-
 
   def log_object_activity
     EventActivity.log_object_activity(self)
