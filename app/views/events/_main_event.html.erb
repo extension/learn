@@ -1,6 +1,6 @@
 <div class="span7">
   <section id="event" class="event-main">
-    
+
     <%- if @event.is_conference_session? -%>
       <div class="conference-info">
         <p><span class="label label-info">Conference Session</span> This event is part of the <%= link_to(@event.conference.name,conference_path(:id => @event.conference.hashtag)) %></p>
@@ -11,43 +11,43 @@
         <%- end %>
       </div>
     <% end %>
-  
+
     <% if @event.cover_image.present? %>
       <div class="event-cover-image">
         <%= image_tag(@event.cover_image_url(:cover)) %>
       </div>
     <% end %>
     <h2 class="event-title"><%= @event.title -%></h2>
-    
+
       <% if @event.in_progress? %>
         <span class="happening_now"><em>Happening now</em></span>
         <br class="clearing"/>
       <% end %>
-      
+
       <%-if !@event.concluded? -%>
         <div class="location-section">
           <p>
-          <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%> at</span>  
+          <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%> at</span>
            <span class="session-time">
               <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
            </span>
            </p>
           <p>Link: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
         </div>
-        
+
       <%- end -%>
-      
+
       <div class="event-description"><%= @event.description.html_safe -%></div>
-      
-      
+
+
   <div class="event-sections">
     <%- if @event.presenters.count > 0 -%>
       <div class="event-presenters">
         <h3 class="event-section-header">Presenters</h3>
         <p id="presenters"><i class="fa fa-user"></i> <%= display_presenters(@event.presenters) %></p>
       </div>
-    <%- end -%>  
-    
+    <%- end -%>
+
     <% if @event.evaluation_link.present? %>
       <div class="event-section">
   	    <h3>Evaluation</h3>
@@ -58,7 +58,7 @@
         <% end %>
       </div>
     <% end %>
-    
+
     <% if !@event_material_links.blank? %>
       <div class="event-materials">
         <h3 class="event-section-header">Event Materials</h3>
@@ -66,19 +66,19 @@
       </div>
     <% end %>
   </div>
-  
-  
-    
+
+
+
    <div class="event-colophon">
      <p><small>Created by <%= link_to_learner(@event.creator) %></small></p>
-     
+
      <%- if current_learner && !@event.is_conference_session? -%>
        <p><small><%= link_to('edit', edit_event_path(@event), :class => "btn btn-small") -%> <%= link_to("version history", history_event_path(@event), :class => "btn btn-small")%></small></p>
      <%- end %>
    </div>
-    
+
    </section>
-   
+
 
    <div id="comment-section">
     <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
@@ -86,7 +86,7 @@
 </div>
 
   <div class="span5">
-  
+
   <aside class="addthis-wrapper clearing">
     <%= render(:partial => 'addthis') %>
   </aside>
@@ -108,19 +108,19 @@
       <%-else -%>
 
         <h4>
-           
+
            <span class="calendarblock">
               <span class="month"><%= @event.session_start.strftime("%b") -%></span>
               <span class="date"><%= @event.session_start.strftime("%d") -%></span>
            </span>
-           <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%> at</span>  
+           <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%> at</span>
            <span class="session-time">
               <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
            </span>
         </h4>
-        
+
         <h4 class="session-duration"><%= "#{@event.session_length}" -%> minute session</h3>
-        
+
         <p class="addtocalendar">
           <span id="event_date" class="addtocal">
             <span class="btn"><i class="fa fa-table"></i> Add to calendar</span>
@@ -130,7 +130,7 @@
             <span class="description" style="display:none"><%= event_url(@event) %></span>
             <span class="ics_url" style="display:none"><%= event_url(@event, :format => :ics) %></span>
             <span class="vcs_url" style="display:none"><%= event_url(@event, :format => :vcs) %></span>
-            
+
           </span>
         </p>
 
@@ -140,10 +140,10 @@
           <%- end -%>
         <%- end -%></p>
 
-        
+
         <p><small><strong>Location:</strong> <%= link_to(truncate(@event.location.html_safe), @event.location.html_safe, :target => "_blank") -%></small></p>
       <%-end -%>
-      
+
       <%- if @event.is_conference_session? -%>
       <p><%= link_to('Other Sessions at this same time', schedule_conference_path(id: @event.conference.hashtag, datetime: @event.session_start.xmlschema)) %></p>
 
@@ -157,10 +157,10 @@
         <%- end -%>
       <%- end -%>
       <% end %>
-      
+
     </aside>
-    
-    
+
+
 
     <%- if current_learner -%>
 
@@ -179,7 +179,7 @@
           <br class="clearing" />
        </aside>
      <%- end -%>
-    
+
      <div class="event-tags">
        <div class="tags">
          <h4 class="hide">Tags</h4>
@@ -193,23 +193,18 @@
        </div>
      </div>
 
-     <% if @event.similar_events.count > 0 %>
-     <aside>
-       <h4 class="subhead_style">Related Events</h4>
-       <% @event.similar_events.each do |event,score| %>
-         <p><%= link_to(event.title, event_path(event.id), :class => "muted_link") %></p>
+  <% if @event.similar_events.count > 0 %>
+    <aside>
+      <h4 class="subhead_style">Related Events</h4>
+      <% @event.similar_events.each do |event,score| %>
+          <% if event.has_recording? %>
+            <p><span class="recording_available top"><%= link_to(event.title, event_path(event.id), :class => "muted_link") -%></span></p>
+          <% else %>
+            <p><span class="no_recording_available"><%= link_to(event.title, event_path(event.id), :class => "muted_link") -%></span></p>
+          <% end %>
        <% end %>
      </aside>
      <% end %>
 
 <br class='clearing' />
 </div>
-
-
-
-
-
-
-
-
-
