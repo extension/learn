@@ -6,12 +6,14 @@
 
 class Comment < ActiveRecord::Base
   belongs_to :learner
-  belongs_to :event, :counter_cache => :commentators_count
+  belongs_to :event
   has_many :ratings, :as => :rateable, :dependent => :destroy
   has_many :raters, :through => :ratings, :source => :learner
   has_many :event_activities, :as => :trackable, dependent: :destroy
   after_create :log_object_activity
   after_create :schedule_activity_notification
+  after_save :update_counter_cache
+  after_destroy :update_counter_cache
   
   # make sure to keep this callback ahead of has_ancestry, which has its own callbacks for destroy
   before_destroy :set_orphan_flag_on_children
@@ -47,4 +49,9 @@ class Comment < ActiveRecord::Base
       Notification.create(notifiable: self, notificationtype: Notification::COMMENT_REPLY, delivery_time: 1.minute.from_now) unless self.learner == self.parent.learner
     end
   end
+ 
+  def update_counter_cache
+    self.event.update_column(:commentators_count, self.event.commentators.count)
+  end
+
 end

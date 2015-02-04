@@ -160,12 +160,10 @@ class DataController < ApplicationController
       row << event_url(event)
       row << ((event.has_recording?) ? event.recording : "n/a")
       row << event.session_length
-      # note: per https://basecamp.com/1851571/projects/5027145/todos/152102320 leaving as
-      # association counts, instead of "cache" columns
-      row << event.bookmarked.count
-      row << event.attendees.count
-      row << event.watched.count
-      row << event.commentators.count
+      row << event.bookmarks_count
+      row << event.attended_count
+      row << event.watchers_count
+      row << event.commentators_count
       csv << row
     end
   end
