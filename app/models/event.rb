@@ -53,7 +53,7 @@ class Event < ActiveRecord::Base
   has_many :material_links
   accepts_nested_attributes_for :material_links, :reject_if => :all_blank, :allow_destroy => true
 
-  #counter_cache relations
+  #counter column relations
   has_many :bookmarks, through: :event_connections, source: :event, conditions: "connectiontype = 3"
   has_many :attended, through: :event_connections, source: :event, conditions: "connectiontype = 4"
   has_many :watchers, through: :event_connections, source: :event, conditions: "connectiontype = 5"
@@ -592,7 +592,7 @@ class Event < ActiveRecord::Base
 
   #convenience method verify column counts are correct 
   def self.verify_column_counts
-    inconsistancies = Array.new
+    inconsistancies = []
     Event.find_each do |event|
       if event.bookmarks_count != event.bookmarked.count
         inconsistancies << "Bookmarks inconsistancy found in Event #{event.id} (#{event.bookmarks_count} vs. #{event.bookmarked.count})"
