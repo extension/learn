@@ -590,4 +590,21 @@ class Event < ActiveRecord::Base
     end
   end
 
+  #convenience method verify column counts are correct 
+  def self.verify_column_counts
+    inconsistancies = Array.new
+    Event.find_each do |event|
+      if event.bookmarks_count != event.bookmarked.count
+        inconsistancies << "Bookmarks inconsistancy found in Event #{event.id} (#{event.bookmarks_count} vs. #{event.bookmarked.count})"
+      elsif event.attended_count != event.attendees.count
+        inconsistancies << "Attendees inconsistancy found in Event #{event.id} (#{event.attended_count}  vs. #{event.attendees.count})"
+      elsif event.watchers_count != event.watchers.count
+        inconsistancies << "Watchers inconsistancy found in Event #{event.id} (#{event.watchers_count}  vs. #{event.watchers.count})"
+      elsif event.commentators_count != event.commentators.count
+        inconsistancies << "Commentators inconsistancy found in Event #{event.id} (#{event.commentators_count} vs. #{event.commentators.count})"
+      end
+      puts inconsistancies.inspect
+    end
+  end
+
 end
