@@ -585,26 +585,31 @@ class Event < ActiveRecord::Base
       event.update_column(:bookmarks_count, event.bookmarks.count)
       event.update_column(:attended_count, event.attended.count)
       event.update_column(:watchers_count, event.watchers.count)
-      #using reset_counters here because comments is using rails counter_cache
-      Event.reset_counters(event.id, :commentators)
+      event.update_column(:commentators_count, event.commentators.count)
     end
   end
 
   #convenience method verify column counts are correct 
   def self.verify_column_counts
-    inconsistancies = []
+    inconsistencies = []
     Event.find_each do |event|
       if event.bookmarks_count != event.bookmarked.count
-        inconsistancies << "Bookmarks inconsistancy found in Event #{event.id} (#{event.bookmarks_count} vs. #{event.bookmarked.count})"
-      elsif event.attended_count != event.attendees.count
-        inconsistancies << "Attendees inconsistancy found in Event #{event.id} (#{event.attended_count}  vs. #{event.attendees.count})"
-      elsif event.watchers_count != event.watchers.count
-        inconsistancies << "Watchers inconsistancy found in Event #{event.id} (#{event.watchers_count}  vs. #{event.watchers.count})"
-      elsif event.commentators_count != event.commentators.count
-        inconsistancies << "Commentators inconsistancy found in Event #{event.id} (#{event.commentators_count} vs. #{event.commentators.count})"
+        inconsistencies << "Bookmarks inconsistancy found in Event #{event.id} (#{event.bookmarks_count} vs. #{event.bookmarked.count})"
       end
-      puts inconsistancies.inspect
+
+      if event.attended_count != event.attendees.count
+        inconsistencies << "Attendees inconsistancy found in Event #{event.id} (#{event.attended_count}  vs. #{event.attendees.count})"
+      end
+
+      if event.watchers_count != event.watchers.count
+        inconsistencies << "Watchers inconsistancy found in Event #{event.id} (#{event.watchers_count}  vs. #{event.watchers.count})"
+      end
+      
+      if event.commentators_count != event.commentators.count
+        inconsistencies << "Commentators inconsistancy found in Event #{event.id} (#{event.commentators_count} vs. #{event.commentators.count})"
+      end
     end
+    inconsistencies
   end
 
 end
