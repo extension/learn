@@ -198,11 +198,11 @@
       <h4 class="subhead_style">Related Events</h4>
       <% @similar_events.each do |event,score| %>
         <%-if !event.concluded? -%>
-          <p><span class="coming_soon"></i><i class='fa fa-clock-o dark-gray'></i> <%= link_to(event.title, event_path(event.id), :class => "muted_link") -%> </span></p>
+          <p><span class="related_events"><i class='fa fa-clock-o black'></i> <span class="related-upcoming">Upcoming - </span><%= link_to(event.title, event_path(event.id), :class => "muted_link") -%></span></p>
         <% elsif event.has_recording? %>
-          <p><span class="recording_available top"><%= link_to(event.title, event_path(event.id), :class => "muted_link") -%></span></p>
+          <p><span class="related_events"><i class='fa fa-play-circle play-green'></i> <%= link_to(event.title, event_path(event.id), :class => "muted_link") -%></span></p>
         <% else %>
-          <p><span class="no_recording_available top"><%= link_to(event.title, event_path(event.id), :class => "muted_link") -%></span></p>
+          <p><span class="related_events"><i class='fa fa-play-circle mid-gray'></i> <%= link_to(event.title, event_path(event.id), :class => "muted_link") -%></span></p>
         <% end %>
        <% end %>
      </aside>

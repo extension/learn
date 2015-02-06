@@ -54,8 +54,9 @@ span.no_recording_available {background: transparent url(/assets/play_button_gre
 span.recording_available {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
 span.no_recording_available.top {background: transparent url(/assets/play_button_grey_mini.png) left 10% no-repeat; padding-left:24px; display:block;}
 span.recording_available.top {background: transparent url(/assets/play_button_mini.png) left .25em no-repeat; padding-left:24px; display:block;}
-span.coming_soon {padding-left:24px; display:block;}
-span.coming_soon i {margin-left:-22px;}
+span.related_events {padding-left:24px; display:block;}
+span.related_events i {margin-left:-20px;}
+.related-upcoming {font-size:10pt; color:#666;}
 
 
 .event-title {font-size:30px;}
