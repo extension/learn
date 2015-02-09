@@ -52,6 +52,12 @@ input[type="text"].edit-event-title {font-size:1.75em; height:auto; width: 90%;}
 
 span.no_recording_available {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
 span.recording_available {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
+span.no_recording_available.top {background: transparent url(/assets/play_button_grey_mini.png) left 10% no-repeat; padding-left:24px; display:block;}
+span.recording_available.top {background: transparent url(/assets/play_button_mini.png) left .25em no-repeat; padding-left:24px; display:block;}
+span.related_events {padding-left:24px; display:block;}
+span.related_events i {margin-left:-20px;}
+.related-upcoming {font-size:10pt; color:#666;}
+
 
 .event-title {font-size:30px;}
 .event-section-header {font-size:21px; margin-bottom:2px; color:#666; font-weight:normal;}
@@ -82,7 +88,7 @@ span.recording_available {background: transparent url(/assets/play_button_mini.p
 .upcoming-events-single-description {font-size:27px;}
 
 
-@media (max-width: 480px) {  
+@media (max-width: 480px) {
 .event-title {font-size:21px;}
 }
 .addthis-wrapper {margin-bottom:10px; min-height:25px;}
