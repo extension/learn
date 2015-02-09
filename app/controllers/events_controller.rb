@@ -135,6 +135,7 @@ class EventsController < ApplicationController
     @event_material_links = @event.material_links.order("created_at DESC")
     @comment = Comment.new
     @event_comments = @event.comments
+    @similar_events = @event.similar_events
     return if check_for_event_redirect
 
     # there's a global time_zone setter - but we need to
