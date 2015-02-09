@@ -144,10 +144,12 @@ class DataController < ApplicationController
     headers << 'URL'
     headers << 'Recording'
     headers << 'Length'
+    headers << 'Evaluation Link'
     headers << 'Bookmarked'
     headers << 'Attended'
     headers << 'Watched'
     headers << 'Commentators'
+    headers << 'Materials (remove comma from the end of each link)'
     csv << headers
     events.each do |event|
       row = []
@@ -160,10 +162,16 @@ class DataController < ApplicationController
       row << event_url(event)
       row << ((event.has_recording?) ? event.recording : "n/a")
       row << event.session_length
+      row << event.evaluation_link
       row << event.bookmarks_count
       row << event.attended_count
       row << event.watchers_count
       row << event.commentators_count
+      materials = ""
+      event.material_links.each do |em|
+        materials += em.reference_link + ', '
+      end  
+      row << materials
       csv << row
     end
   end
