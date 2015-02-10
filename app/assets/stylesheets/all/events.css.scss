@@ -41,19 +41,6 @@ color:#555;
 input[type="text"].edit-event-title {font-size:1.75em; height:auto; width: 90%;}
 .edit-form {background:#eee; padding:2em;}
 
-.no-recording-available {background: transparent url(/assets/play_button_grey.png) left 50% no-repeat; padding-left:45px; height:42px;}
-.recording-available {background: transparent url(/assets/play_button.png) left 50% no-repeat; padding-left:45px; height:42px;}
-
-.i-recording-available.mini {
-  background: transparent url(/assets/play_button_mini.png) left 10% no-repeat; height:20px; width:20px; display:block; float:left;}
-.i-recording-unavailable.mini {
-  background: transparent url(/assets/play_button_grey_mini.png) left 10% no-repeat; height:20px; width:20px; display:block; float:left;}
-
-
-span.no_recording_available {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
-span.recording_available {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:24px; display:block;}
-span.no_recording_available.top {background: transparent url(/assets/play_button_grey_mini.png) left 10% no-repeat; padding-left:24px; display:block;}
-span.recording_available.top {background: transparent url(/assets/play_button_mini.png) left .25em no-repeat; padding-left:24px; display:block;}
 span.related_events {padding-left:24px; display:block;}
 span.related_events i {margin-left:-20px;}
 .related-upcoming {font-size:10pt; color:#666;}
