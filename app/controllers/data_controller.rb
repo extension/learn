@@ -149,7 +149,7 @@ class DataController < ApplicationController
     headers << 'Attended'
     headers << 'Watched'
     headers << 'Commentators'
-    headers << 'Materials (remove comma from the end of each link)'
+    headers << 'Materials'
     csv << headers
     events.each do |event|
       row = []
@@ -167,11 +167,7 @@ class DataController < ApplicationController
       row << event.attended_count
       row << event.watchers_count
       row << event.commentators_count
-      materials = ""
-      event.material_links.each do |em|
-        materials += em.reference_link + ', '
-      end  
-      row << materials
+      row << event.material_links.map(&:reference_link).join(" ")
       csv << row
     end
   end
