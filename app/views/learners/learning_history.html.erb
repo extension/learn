@@ -22,7 +22,7 @@
 
 <% if @type == 'Activity' %>
   <% if defined?(@activities.total_count) && @activities.total_count > 0 %>
-    
+
     <table class="table table-striped">
       <% @activities.each do |activity| %>
         <tr>
@@ -33,7 +33,7 @@
         </tr>
       <% end %>
     </table>
-    <%= pagination_counts(@activities) %>  
+    <%= pagination_counts(@activities) %>
     <%= paginate @activities %>
   <% else %>
     <div class="noevents">
@@ -47,15 +47,18 @@
 
         <table class="table table-striped">
           <% @events.each do |event| %>
-            <tr class="<%= (event.has_recording?) ? "recording_available" : "no_recording_available" %>">
-              <td class="activity_date"><%= event.session_start.strftime("%l:%M %p, %b %e, %Y") %></td> 
+            <tr>
+              <td class="activity_date"><%= event.session_start.strftime("%l:%M %p, %b %e, %Y") %></td>
 
-              <td><%= link_to event.title, event_path(event) %></td>
+              <td>
+                <i class="<%= event.has_recording? ? "fa fa-play-circle play-green" : "fa fa-play-circle mid-gray" %>"></i>
+                <%= link_to event.title, event_path(event) %>
+              </td>
             </tr>
           <% end %>
         </table>
 
-        <%= pagination_counts(@events) %>  
+        <%= pagination_counts(@events) %>
         <%= paginate @events %>
       <% else %>
         <div class="noevents">
@@ -64,7 +67,7 @@
       <% end %>
    <% else %>
      <p><%= @type %> events are not being shared.</p>
-   <% end %>  
+   <% end %>
 <% end %>
 </div>
 

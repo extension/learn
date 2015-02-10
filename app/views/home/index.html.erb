@@ -4,7 +4,7 @@
 
 <div class="span5">
   <h2>Upcoming Sessions <small><%= link_to 'view all', upcoming_events_path %></small></h2>
-  
+
   <div class="upcoming-events">
   <%- @upcoming_events.each do |event| -%>
     <section class="upcoming-events-single">
@@ -17,26 +17,26 @@
        </div>
 
       <h3 class="upcoming-events-single-description"><%= link_to(event.title, event_path(event.id)) -%></h3>
-      
+
       <h4><%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%></h4>
-      
+
       <div class="description"><%= event.description.html_safe -%></div>
-      
+
       <% if event.cover_image.present? %>
          <div class="event-cover-image">
            <%= image_tag(event.cover_image_url(:cover)) %>
          </div>
        <% end %>
-      
+
       <%- if event.presenters.count > 0 -%>
         <h3 class="event-section-header">Presenters</h3>
         <p class="presenters"><%= display_presenters(event.presenters) %></p>
       <%- end -%>
-      
+
       <div class="tags">
         <h4 class="hide">Tags</h4>
         <p>
-          <%-if event.tags.length != 0 -%>  
+          <%-if event.tags.length != 0 -%>
             <%= display_tags(event.tags) -%>
           <%-else -%>
             There are no tags at this time
@@ -52,7 +52,7 @@
 
 <div class="span3">
   <h2>More Upcoming <small><%= link_to 'view all', upcoming_events_path %></small></h2>
-  
+
   <div id="more_upcoming_events">
   <%- @more_upcoming_events.each do |event| -%>
     <dl>
@@ -60,24 +60,26 @@
       <dd class="recent-event-age">
         <%= event.session_start.strftime("%A, %B %e") -%> at <%= event.session_start.strftime("%l:%M %p").downcase -%> <%= event.session_start.strftime("%Z") -%>
       </dd>
-      
+
     </dl>
   <%- end -%>
   <small><%= link_to 'View all upcoming events', upcoming_events_path, :class => "muted" %></small>
   </div>
-  
+
   <h2>Recent Sessions <small class="muted"><%= link_to 'view all', recent_events_path %></small></h2>
-  
+
   <div class="recent-events-list">
   <%- @recent_events.each do |event| -%>
-    <dl>
+    <p>
+      <span class="related_events">
       <% if event.has_recording? %>
-        <dt><span class="recording_available"><%= link_to(event.title, event_path(event.id)) -%></span></dt>
+        <i class='fa fa-play-circle play-green'></i> <%= link_to(event.title, event_path(event.id)) -%>
       <% else %>
-        <dt><span class="no_recording_available"><%= link_to(event.title, event_path(event.id)) -%></span></dt>
+        <i class='fa fa-play-circle mid-gray'></i> <%= link_to(event.title, event_path(event.id)) -%>
       <% end %>
-      <dd class="recent-event-age"><%= time_ago_in_words(event.session_start) %> ago</dd>
-    </dl>
+      <span class="recent-event-age"><%= time_ago_in_words(event.session_start) %> ago</span>
+      </span>
+    </p>
   <%- end -%>
   </div>
   <small><%= link_to 'View all recent events', recent_events_path, :class => "muted" %></small>
@@ -90,17 +92,17 @@
   </div>
   <h1>Free access to cutting edge learning events</h1>
   <p>These professional development sessions are brought to you by eXtension and are open to anyone.</p>
-  
-  
-  
+
+
+
   <p>If you have a suggestion for a topic, you can tweet to <%= link_to "@extensionLearns", "http://twitter.com/extensionLearns" %> on Twitter.</p>
-  
+
   <%- if current_learner -%>
       <p><%= link_to "Create a new event", new_event_path(), :class => "btn" %></p>
   <%- else -%>
     <div id="signin">
       <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn btn-primary" )%></p>
-      
+
       <h3>Why Sign in?</h3>
       <ul>
         <li>Mark events you attended, watched or are interested in</li>
@@ -109,12 +111,12 @@
       </ul>
     </div>
   <%- end -%>
-  
+
   <p><i class="fa fa-rss extension-orange"></i> <%= link_to "Subscribe to all events", feeds_events_url() %><p>
   <p class="join"><%= link_to "How to participate in Learn events", "http://create.extension.org/node/698#How_to_Participate_in_eXtension_Professional_Development" %><p>
   <% if current_learner %>
   <p><%= link_to "Canceled events", canceled_events_path %></p>
   <p><%= link_to('Event statistics', data_events_path) -%></p>
   <% end %>
-  
+
 </div>
