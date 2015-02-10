@@ -97,12 +97,20 @@
         <div id="recording_details">
          <%-if @event.has_recording? -%>
            <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong></p>
-           <p class="recording-available">
-              <%= link_to("watch recording", @event.recording) -%>
+           <p>
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x white"></i>
+                <i class='fa fa-play-circle fa-stack-2x play-green'></i>
+              </span>
+              <strong><%= link_to("Watch recording", @event.recording) -%></strong>
            </p>
           <%-else -%>
             <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong>. A recording of this session has not been uploaded yet.</p>
-            <p class="no-recording-available"><strong>No Recording Yet</strong></p>
+            <p>
+              <span class="fa-stack fa-lg">
+                <i class='fa fa-play-circle fa-stack-2x mid-gray'></i>
+              </span>
+              <strong>No Recording Yet</strong></p>
           <%-end -%>
         </div>
       <%-else -%>

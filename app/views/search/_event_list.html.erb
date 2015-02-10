@@ -23,16 +23,19 @@
             <%- if event.is_conference_session? -%>
               <span class="label label-info">Conference Session</span>
             <%- end -%>
-            
-            <%- if event.is_online_session? -%>
-             <i class="<%= (event.has_recording?) ? "i-recording-available mini" : "i-recording-unavailable mini" %>"></i>
+
+
+            <%-if !event.concluded? -%>
+              <i class='fa fa-clock-o black'></i> <span class="related-upcoming">Upcoming - </span>
+            <%- elsif event.is_online_session? -%>
+              <i class="<%= (event.has_recording?) ? "fa fa-play-circle play-green" : "fa fa-play-circle mid-gray" %>"></i>
             <%- end -%>
-            
-            <span class="session-date"><%= event.session_start.strftime("%A, %B %e, %Y") -%> at</span>  
+
+            <span class="session-date"><%= event.session_start.strftime("%A, %B %e, %Y") -%> at</span>
              <span class="session-time">
                 <span id="time"><%= event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= event.session_start.strftime("%Z") -%></span></span>
              </span>
-            
+
             <%- if event.presenters.present? %>
               - Presented by <%= display_presenters(event.presenters) %>
             <%- end %>

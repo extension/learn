@@ -11,8 +11,8 @@
 
 <div class="learner-info">
   <div class="learner-info-text">
-  <h1><%= @learner.name %></h1>  
-  
+  <h1><%= @learner.name %></h1>
+
   <%- if(!@learner.bio.blank?) -%>
     <p><%= @learner.bio %></p>
   <%- else -%>
@@ -41,7 +41,7 @@
     <% else %>
       <% @presented_events.each do |event| %>
         <p>
-          <i class="<%= (event.recording.present?) ? "i-recording-available mini" : "i-recording-unavailable mini" %>"></i>
+          <i class="<%= (event.recording.present?) ? "fa fa-play-circle play-green" : "fa fa-play-circle mid-gray" %>"></i>
           <% if event.is_expired %>
             <em class="expired">expired</em>
           <% end %>
@@ -54,7 +54,7 @@
   <% else %>
     <div class="not_sharing">
     <p>
-      Presented events are not being shared. 
+      Presented events are not being shared.
       <% if current_learner && current_learner.id == @learner.id %>
         <%= link_to 'change', settings_privacy_path %>
       <% end %>
@@ -62,7 +62,7 @@
     </div>
     <br class="clearing"/>
   <% end %>
-  
+
   <h2>Attended</h2>
   <% if @learner.public_attended_events? %>
     <% if @attended_events.length == 0 %>
@@ -70,7 +70,7 @@
     <% else %>
       <% @attended_events.each do |event| %>
         <p>
-          <i class="<%= (event.recording.present?) ? "i-recording-available mini" : "i-recording-unavailable mini" %>"></i>
+          <i class="<%= (event.recording.present?) ? "fa fa-play-circle play-green" : "fa fa-play-circle mid-gray" %>"></i>
           <% if event.is_expired %>
             <em class="expired">expired</em>
           <% end %>
@@ -83,7 +83,7 @@
   <% else %>
     <div class="not_sharing">
     <p>
-      Attended events are not being shared. 
+      Attended events are not being shared.
       <% if current_learner && current_learner.id == @learner.id %>
         <%= link_to 'change', settings_privacy_path %>
       <% end %>
@@ -91,7 +91,7 @@
     </div>
     <br class="clearing"/>
   <% end %>
-  
+
   <h2>Watched</h2>
   <% if @learner.public_watched_events? %>
     <% if @watched_events.length == 0 %>
@@ -99,7 +99,7 @@
     <% else %>
       <% @watched_events.each do |event| %>
         <p>
-          <i class="<%= (event.recording.present?) ? "i-recording-available mini" : "i-recording-unavailable mini" %>"></i>
+          <i class="<%= (event.recording.present?) ? "fa fa-play-circle play-green" : "fa fa-play-circle mid-gray" %>"></i>
           <% if event.is_expired %>
             <em class="expired">expired</em>
           <% end %>
@@ -112,7 +112,7 @@
   <% else %>
     <div class="not_sharing">
     <p>
-      Watched events are not being shared. 
+      Watched events are not being shared.
       <% if current_learner && current_learner.id == @learner.id %>
         <%= link_to 'change', settings_privacy_path %>
       <% end %>
@@ -128,10 +128,10 @@
     <% if @bookmarked_events.length == 0 %>
       <p>No events followed yet</p>
     <% else %>
-  
+
     <% @bookmarked_events.each do |event| %>
-        <i class="<%= (event.recording.present?) ? "i-recording-available mini" : "i-recording-unavailable mini" %>"></i>
         <p>
+          <i class="<%= (event.recording.present?) ? "fa fa-play-circle play-green" : "fa fa-play-circle mid-gray" %>"></i>
         <% if event.is_expired %>
           <em class="expired">expired</em>
         <% end %>
@@ -140,16 +140,16 @@
             <span class="coming_soon">Coming up soon!</span>
           <% end %></p>
     <% end %>
-      
+
     <% if current_learner && (current_learner.id == @learner.id || @learner.public_bookmarked_events?) %>
     <p class="view_all"><%= link_to_unless_current "View all", bookmarked_history_learner_path(@learner), :class => "muted" %></p>
     <% end %>
-    
+
     <% end %>
   <% else %>
     <div class="not_sharing">
     <p>
-      Followed events are not being shared. 
+      Followed events are not being shared.
       <% if current_learner && current_learner.id == @learner.id %>
         <%= link_to 'change', settings_privacy_path %>
       <% end %>
@@ -161,23 +161,23 @@
   <h2>Conferences</h3>
     <%- @presented_conferences.each do |conf| -%>
       <%- if conf.concluded? %>
-        Presented at 
+        Presented at
       <%- else -%>
-        Presenting at 
+        Presenting at
       <%- end -%>
       <%= link_to(conf.name, learner_conference_path(:id => conf.hashtag, :learner => @learner.id)) %>
     <%- end -%>
 
     <%- (@attended_conferences - @presented_conferences).each do |conf| -%>
       <%- if conf.concluded? %>
-        Attended 
+        Attended
       <%- else -%>
-        Attending 
+        Attending
       <%- end -%>
       <%= link_to(conf.name, learner_conference_path(:id => conf.hashtag, :learner => @learner.id)) %>
     <%- end -%>
   <%- end -%>
-  
+
 </div>
 
 
@@ -187,7 +187,7 @@
 
 
   <h2>Learning Plans</h2>
-  
+
   <div class="learning_section">
   <h3>Currently Learning</h3>
   <% if @learner.portfolio_setting.present? && !@learner.portfolio_setting.currently_learning.blank? %>
@@ -201,7 +201,7 @@
     </div>
   <% end %>
   </div>
-  
+
   <div class="learning_section">
   <h3>Learning Plan</h3>
   <% if @learner.portfolio_setting.present? && !@learner.portfolio_setting.learning_plan.blank? %>
