@@ -23,12 +23,6 @@
     }
 .calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:2.5em; }
 
-
-.bookmarked_event.no_recording_available h4 {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:25px; font-size:1.45em; min-height:1.3em;}
-.bookmarked_event.recording_available h4 {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:25px; font-size:1.45em; min-height:1.3em;}
-#pd_events p.no_recording_available {background: transparent url(/assets/play_button_grey_mini.png) left 50% no-repeat; padding-left:25px;min-height:1.3em; height:auto;}
-#pd_events p.recording_available {background: transparent url(/assets/play_button_mini.png) left 50% no-repeat; padding-left:25px; min-height:1.3em; height:auto;}
-
 #bookmarks .bookmarked_event h4 {line-height:1.1em;margin:0 0 .75em; font-size:1.1em; font-weight:normal;}
 
 
