@@ -1,5 +1,6 @@
 <% @page_title = "Revision History for Event ##{@event.id}"%>
 
+<div class="span12">
 <h2><%= link_to 'Revision History', history_event_path(@event.id) %> / Revision Comparison</h2>
 <h3><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></h3>
 <p>Version history does not include changes to event material links</p>
@@ -11,14 +12,14 @@
     <% else %>
       <strong>Revision <%= @previous_version.index + 1 %></strong>
     <% end %>
-      by <span class="avatar_wrapper"><%= link_to_learner_avatar(@previous_submitter, {image_size: :thumb}) %> <%= link_to_learner(@previous_submitter) %></span> at 
+      by <span class="avatar_wrapper"><%= link_to_learner_avatar(@previous_submitter, {image_size: :thumb}) %> <%= link_to_learner(@previous_submitter) %></span> at
     <% if @version == @event.versions.first %>
       <%= @event.created_at %>
     <% else %>
       <%= @previous_version.created_at %>
     <% end %>
   <p>
-  
+
   <p class="revision_description">
     <strong>Revision <%= @version.index + 1 %></strong> by <span class="avatar_wrapper"><%= link_to_learner_avatar(@version_submitter, {image_size: :thumb}) %> <%= link_to_learner(@version_submitter) %></span> at <%= @version.created_at %>
   </p>
@@ -84,3 +85,4 @@
   </p>
 <% end %>
 
+</div>
