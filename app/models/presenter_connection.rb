@@ -7,6 +7,7 @@
 class PresenterConnection < ActiveRecord::Base
   belongs_to :event
   belongs_to :learner
+  acts_as_list scope: :event
 
   after_create :create_bookmark
 

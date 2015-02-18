@@ -46,7 +46,7 @@ class Event < ActiveRecord::Base
   has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
   has_many :presenter_connections, dependent: :destroy
-  has_many :presenters, through: :presenter_connections, :source => :learner
+  has_many :presenters, through: :presenter_connections, :source => :learner, :order => 'position'
   has_many :event_activities, dependent: :destroy
   has_many :notifications, :as => :notifiable, dependent: :destroy
   has_many :notification_exceptions
