@@ -189,7 +189,7 @@ class Event < ActiveRecord::Base
 
   def presenter_tokens
     if(@presenter_tokens.nil?)
-      @presenter_tokens = self.presenter_ids.join(',')
+      @presenter_tokens = self.presenter_connections.order(:position).pluck(:learner_id).join(',')
     end
     @presenter_tokens
   end
@@ -218,10 +218,15 @@ class Event < ActiveRecord::Base
 
   def presenter_tokens_tokeninput
     if(!self.presenter_tokens.blank?)
-      presenter_list = PresenterConnection.where(event_id: self)
-      presenter_list.order(:position).collect{|presenter| {id: presenter.learner_id, name: Learner.find(presenter.learner_id).name}}
+       presenter_tokeninput = []
+       self.presenter_tokens.split(',').each do |presenter_id|
+         if(learner = Learner.where(id: presenter_id).first)
+           presenter_tokeninput << {id: learner.id, name: learner.name}
+         end
+       end
+       presenter_tokeninput
     else
-      {}
+      []
     end
   end
 
