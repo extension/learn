@@ -251,11 +251,6 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     update_params = params[:event].merge({last_modifier: current_learner})
 
-    #reorder presenters on edit
-    params[:event][:presenter_tokens].split(",").map(&:to_i).each_with_index do |id, index|
-      PresenterConnection.update_all({position: index+1}, {learner_id: id, event_id: @event.id})
-    end
-
     if @event.update_attributes(update_params)
       redirect_to(@event, :notice => 'Event was successfully updated.')
     else
