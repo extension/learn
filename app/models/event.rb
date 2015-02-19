@@ -214,8 +214,8 @@ class Event < ActiveRecord::Base
 
   def presenter_tokens_tokeninput
     if(!self.presenter_tokens.blank?)
-      presenter_list = Learner.where("id IN (#{self.presenter_tokens})").all
-      presenter_list.collect{|presenter| {id: presenter.id, name: presenter.name}}
+      presenter_list = PresenterConnection.where(event_id: self)
+      presenter_list.order(:position).collect{|presenter| {id: presenter.learner_id, name: Learner.find(presenter.learner_id).name}}
     else
       {}
     end
