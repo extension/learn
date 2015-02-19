@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141222193525) do
+ActiveRecord::Schema.define(:version => 20150217184625) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -305,6 +305,7 @@ ActiveRecord::Schema.define(:version => 20141222193525) do
     t.integer  "learner_id"
     t.integer  "event_id"
     t.datetime "created_at"
+    t.integer  "position"
   end
 
   add_index "presenter_connections", ["learner_id", "event_id"], :name => "connection_ndx", :unique => true

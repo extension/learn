@@ -231,6 +231,7 @@ class Event < ActiveRecord::Base
 
   def set_presenters_from_tokens
     if(!self.presenter_tokens.blank?)
+      self.presenters.clear
       self.presenter_ids = self.presenter_tokens.split(',')
     else
       self.presenter_ids = nil
@@ -579,7 +580,7 @@ class Event < ActiveRecord::Base
     end
   end
 
-  #convenience method to reset counter columns 
+  #convenience method to reset counter columns
   def self.reset_counter_columns
     Event.find_each do |event|
       event.update_column(:bookmarks_count, event.bookmarks.count)
@@ -589,7 +590,7 @@ class Event < ActiveRecord::Base
     end
   end
 
-  #convenience method verify column counts are correct 
+  #convenience method verify column counts are correct
   def self.verify_column_counts
     inconsistencies = []
     Event.find_each do |event|
@@ -604,7 +605,7 @@ class Event < ActiveRecord::Base
       if event.watchers_count != event.watchers.count
         inconsistencies << "Watchers inconsistancy found in Event #{event.id} (#{event.watchers_count}  vs. #{event.watchers.count})"
       end
-      
+
       if event.commentators_count != event.commentators.count
         inconsistencies << "Commentators inconsistancy found in Event #{event.id} (#{event.commentators_count} vs. #{event.commentators.count})"
       end
