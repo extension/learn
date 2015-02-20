@@ -8,6 +8,8 @@ class Event < ActiveRecord::Base
   include MarkupScrubber
   include TagUtilities
 
+  serialize :provided_presenter_order
+
   attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
@@ -46,7 +48,7 @@ class Event < ActiveRecord::Base
   has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
   has_many :presenter_connections, dependent: :destroy
-  has_many :presenters, through: :presenter_connections, :source => :learner
+  has_many :presenters, through: :presenter_connections, :source => :learner, :order => 'position'
   has_many :event_activities, dependent: :destroy
   has_many :notifications, :as => :notifiable, dependent: :destroy
   has_many :notification_exceptions
@@ -81,6 +83,7 @@ class Event < ActiveRecord::Base
   before_save :set_session_end
   before_save :set_presenters_from_tokens
   before_save :set_tags_from_tag_list
+  after_update :fix_presenter_ordering
 
   after_create :create_event_notifications
 
@@ -186,7 +189,7 @@ class Event < ActiveRecord::Base
 
   def presenter_tokens
     if(@presenter_tokens.nil?)
-      @presenter_tokens = self.presenter_ids.join(',')
+      @presenter_tokens = self.presenter_connections.order(:position).pluck(:learner_id).join(',')
     end
     @presenter_tokens
   end
@@ -206,6 +209,7 @@ class Event < ActiveRecord::Base
       previous_presenter_tokens = self.presenter_tokens
       presenter_token_array = previous_presenter_tokens.split(',')
       @presenter_tokens = provided_presenter_tokens
+      self.provided_presenter_order = provided_presenter_tokens.split(',')
       if(!((compare_token_array | presenter_token_array) - (compare_token_array & presenter_token_array)).empty?)
         @changed_attributes['presenter_tokens'] = previous_presenter_tokens
       end
@@ -214,10 +218,15 @@ class Event < ActiveRecord::Base
 
   def presenter_tokens_tokeninput
     if(!self.presenter_tokens.blank?)
-      presenter_list = Learner.where("id IN (#{self.presenter_tokens})").all
-      presenter_list.collect{|presenter| {id: presenter.id, name: presenter.name}}
+       presenter_tokeninput = []
+       self.presenter_tokens.split(',').each do |presenter_id|
+         if(learner = Learner.where(id: presenter_id).first)
+           presenter_tokeninput << {id: learner.id, name: learner.name}
+         end
+       end
+       presenter_tokeninput
     else
-      {}
+      []
     end
   end
 
@@ -234,6 +243,16 @@ class Event < ActiveRecord::Base
       self.presenter_ids = self.presenter_tokens.split(',')
     else
       self.presenter_ids = nil
+    end
+  end
+
+  def fix_presenter_ordering
+    if(!self.provided_presenter_order.blank?)
+      self.provided_presenter_order.each_with_index do |learner_id,index|
+        if(pc = self.presenter_connections.where(learner_id: learner_id).first)
+          pc.update_column(:position, index+1)
+        end
+      end
     end
   end
 
@@ -579,7 +598,7 @@ class Event < ActiveRecord::Base
     end
   end
 
-  #convenience method to reset counter columns 
+  #convenience method to reset counter columns
   def self.reset_counter_columns
     Event.find_each do |event|
       event.update_column(:bookmarks_count, event.bookmarks.count)
@@ -589,7 +608,7 @@ class Event < ActiveRecord::Base
     end
   end
 
-  #convenience method verify column counts are correct 
+  #convenience method verify column counts are correct
   def self.verify_column_counts
     inconsistencies = []
     Event.find_each do |event|
@@ -604,7 +623,7 @@ class Event < ActiveRecord::Base
       if event.watchers_count != event.watchers.count
         inconsistencies << "Watchers inconsistancy found in Event #{event.id} (#{event.watchers_count}  vs. #{event.watchers.count})"
       end
-      
+
       if event.commentators_count != event.commentators.count
         inconsistencies << "Commentators inconsistancy found in Event #{event.id} (#{event.commentators_count} vs. #{event.commentators.count})"
       end

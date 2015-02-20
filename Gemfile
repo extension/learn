@@ -112,6 +112,9 @@ gem "paper_trail", "2.5.2ex"
 # terse logging
 gem 'lograge'
 
+#add order of presenters to events
+gem 'acts_as_list'
+
 group :development do
   # require the powder gem
   gem 'powder'

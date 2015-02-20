@@ -34,7 +34,7 @@ class EventsController < ApplicationController
     render :action => 'index'
   end
 
-  def tags
+  def tag
     @showfeedlink = true
     @list_title = "Sessions Tagged With '#{params[:tags]}'"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
@@ -250,6 +250,7 @@ class EventsController < ApplicationController
   def update
     @event = Event.find(params[:id])
     update_params = params[:event].merge({last_modifier: current_learner})
+
     if @event.update_attributes(update_params)
       redirect_to(@event, :notice => 'Event was successfully updated.')
     else

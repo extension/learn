@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141222193525) do
+ActiveRecord::Schema.define(:version => 20150219174039) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -153,32 +153,33 @@ ActiveRecord::Schema.define(:version => 20141222193525) do
   add_index "event_connections", ["learner_id", "event_id", "connectiontype"], :name => "connection_ndx", :unique => true
 
   create_table "events", :force => true do |t|
-    t.text     "title",                                                  :null => false
-    t.text     "description",                                            :null => false
-    t.datetime "session_start",                                          :null => false
-    t.datetime "session_end",                                            :null => false
-    t.integer  "session_length",                                         :null => false
+    t.text     "title",                                                        :null => false
+    t.text     "description",                                                  :null => false
+    t.datetime "session_start",                                                :null => false
+    t.datetime "session_end",                                                  :null => false
+    t.integer  "session_length",                                               :null => false
     t.text     "location"
     t.text     "recording"
-    t.integer  "creator_id",                                             :null => false
-    t.integer  "last_modifier_id",                                       :null => false
+    t.integer  "creator_id",                                                   :null => false
+    t.integer  "last_modifier_id",                                             :null => false
     t.string   "time_zone"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_canceled",                      :default => false,    :null => false
-    t.boolean  "is_expired",                       :default => false,    :null => false
-    t.string   "event_type",         :limit => 25, :default => "online"
+    t.boolean  "is_canceled",                            :default => false,    :null => false
+    t.boolean  "is_expired",                             :default => false,    :null => false
+    t.string   "event_type",               :limit => 25, :default => "online"
     t.integer  "conference_id"
     t.string   "room"
-    t.boolean  "featured",                         :default => false,    :null => false
+    t.boolean  "featured",                               :default => false,    :null => false
     t.datetime "featured_at"
     t.string   "evaluation_link"
     t.string   "cover_image"
-    t.integer  "bookmarks_count",                  :default => 0,        :null => false
-    t.integer  "attended_count",                   :default => 0,        :null => false
-    t.integer  "watchers_count",                   :default => 0,        :null => false
-    t.integer  "raters_count",                     :default => 0,        :null => false
-    t.integer  "commentators_count",               :default => 0,        :null => false
+    t.integer  "bookmarks_count",                        :default => 0,        :null => false
+    t.integer  "attended_count",                         :default => 0,        :null => false
+    t.integer  "watchers_count",                         :default => 0,        :null => false
+    t.integer  "raters_count",                           :default => 0,        :null => false
+    t.integer  "commentators_count",                     :default => 0,        :null => false
+    t.text     "provided_presenter_order"
   end
 
   add_index "events", ["conference_id"], :name => "conference_ndx"
@@ -305,6 +306,7 @@ ActiveRecord::Schema.define(:version => 20141222193525) do
     t.integer  "learner_id"
     t.integer  "event_id"
     t.datetime "created_at"
+    t.integer  "position"
   end
 
   add_index "presenter_connections", ["learner_id", "event_id"], :name => "connection_ndx", :unique => true
