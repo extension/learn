@@ -34,7 +34,7 @@ class EventsController < ApplicationController
     render :action => 'index'
   end
 
-  def tag
+  def tags
     @showfeedlink = true
     @list_title = "Sessions Tagged With '#{params[:tags]}'"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
