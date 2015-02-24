@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150219174039) do
+ActiveRecord::Schema.define(:version => 20150224184639) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -384,11 +384,11 @@ ActiveRecord::Schema.define(:version => 20150219174039) do
   add_index "tags", ["name"], :name => "index_tags_on_name", :unique => true
 
   create_table "versions", :force => true do |t|
-    t.string   "item_type",                          :null => false
-    t.integer  "item_id",                            :null => false
-    t.string   "event",                              :null => false
-    t.string   "whodunnit"
-    t.string   "ipaddress"
+    t.string   "item_type",                                                   :null => false
+    t.integer  "item_id",                                                     :null => false
+    t.string   "event",                                                       :null => false
+    t.string   "whodunnit",                          :default => "1"
+    t.string   "ipaddress",                          :default => "127.0.0.1"
     t.text     "object",         :limit => 16777215
     t.text     "object_changes", :limit => 16777215
     t.datetime "created_at"
