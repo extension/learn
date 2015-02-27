@@ -234,8 +234,6 @@ GEM
     rsolr (1.0.10)
       builder (>= 2.1.2)
     ruby-openid (2.2.2)
-    rvm-capistrano (1.2.7)
-      capistrano (>= 2.0.0)
     sass (3.2.1)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -331,7 +329,6 @@ DEPENDENCIES
   rest-client
   rinku
   rmagick
-  rvm-capistrano
   sass-rails (~> 3.2.4)
   shoulda (>= 3.0.0.beta)
   sunspot_rails

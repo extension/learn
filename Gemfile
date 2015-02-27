@@ -36,7 +36,6 @@ gem 'rmagick'
 
 # Deploy with Capistrano
 gem 'capistrano'
-gem 'rvm-capistrano'
 gem 'capatross'
 
 # authentication
