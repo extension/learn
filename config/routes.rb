@@ -91,7 +91,9 @@ Learn::Application.routes.draw do
   # widgets for upcoming events
   match "widgets/front_porch" => "widgets#front_porch", :via => [:get]
   match "widgets/upcoming" => "widgets#upcoming", :via => [:get]
+  match "widgets/events" => "widgets#events", :via => [:get, :post]
   match "widgets/" => "widgets#index", :via => [:get]
+  match "widgets/generate_widget" => "widgets#generate_widget", :via => [:get, :post]
 
   namespace :feeds do
     resources :events, :only => [:index], :defaults => { :format => 'xml' } do
