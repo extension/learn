@@ -39,13 +39,15 @@
 
 </div>
 
+<div class="span12">
+<h2>Widget Code Snippet</h2>
+<p>The following code snippet will embed the example widget displayed above. Include this code on your page where you want the widget to appear.</p>
+<div id="widget-code"><textarea></textarea></div>
+</div>
 
 <div class="span12">
 
-
-
 <h3>Widget behavior and styling</h3>
-<p>By default, five events are returned. This can be changed with the limit parameter (i.e. limit=3)</p>
 <p>If upcoming events aren't available, the widget defaults to most recent. If a tag is not defined, the widget defaults to events tagged "front page".</p>
 
 <p>The widget markup contains css hooks to make it easier to hide or display different sections including:</p>
@@ -86,8 +88,7 @@
       data: $("#widget_form").serialize()
     })
     .done(function(data) {
-
-      // generate_widget_snippet();
+      generate_widget_snippet();
       $(".example-widget-container").hide().fadeIn();
     })
     .fail(function() {

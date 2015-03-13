@@ -8,7 +8,7 @@ class WidgetsController < ApplicationController
 
   def generate_widget
     @widget_key = params[:widget_key]
-    @widget_url = widgets_questions_url + ".js?" + params[:widget_params]
+    @widget_url = widgets_events_url + ".js?" + params[:widget_params]
     respond_to do |format|
       format.js {render :generate_widget}
     end
@@ -147,6 +147,7 @@ class WidgetsController < ApplicationController
       event_limit = 5
     else
       event_limit = params[:limit].to_i
+      new_params << "limit=#{event_limit}"
     end
 
     if request.format == Mime::JS
@@ -178,10 +179,11 @@ class WidgetsController < ApplicationController
     @showdate_on_past_events = (params[:showdate_on_past_events] == "false" ? false : true)
 
     if params[:tags].present?
+      new_params << "tags=#{params[:tags]}"
       @tag_list = params[:tags].split(',')
       @event_type = "upcoming"
       @generic_title = "Upcoming Webinars"
-      @specific_title = "eXtension Upcoming Learn Events in #{@tag_list.join(',')}"
+      @specific_title = "eXtension Upcoming Learn Events tagged #{@tag_list.join(',')}"
 
       if params[:operator].present?
         if params[:operator].downcase == 'and'
@@ -211,7 +213,7 @@ class WidgetsController < ApplicationController
       @path_to_upcoming_events = upcoming_events_url
       @generic_title = "Upcoming Webinars"
       @event_type = "upcoming"
-      @specific_title = "eXtension Upcoming Learn Events"
+      @specific_title = "eXtension Upcoming Learn Events tagged Front Page"
       @event_list = Event.tagged_with(@tag.name).nonconference.active.upcoming(limit = event_limit)
       if @event_list.empty?
         @generic_title = "Recent Webinars"
@@ -222,8 +224,10 @@ class WidgetsController < ApplicationController
       end
     end
 
+    @widget_params = new_params.join("&")
+
     respond_to do |format|
-      format.js {render :upcoming}
+      format.js {render :events}
     end
   end
 
