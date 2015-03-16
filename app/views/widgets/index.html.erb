@@ -1,11 +1,9 @@
 <div class="span12">
   <h1>Learn Widgets</h1>
 
-  <h2>There are two widgets available</h2>
-
   <div class="span5">
     <h2>Build a Custom Widget</h2>
-    <p>Display a list of answered questions by group, location or tag</p>
+    <p>Display a list of upcoming events.</p>
     <div class="well">
       <%= form_tag( {}, {:id => "widget_form"}) do %>
         <%= hidden_field_tag 'widget_key', @widget_key %>
@@ -14,6 +12,7 @@
 
         <div id="county_selector"></div>
         <label>Tags </label>
+        <p>If no tags are defined, featured events are displayed by default (i.e. ones tagged "front page")</p>
         <div class="formy">
           <div class="ui-widget">
             <input id="tag_picker" class="form-control text-input-large" placeholder="Type and select a tag..." />
@@ -23,7 +22,7 @@
           <p><%= text_field_tag :tags, @tags, :class => "form-control" %></p>
         </div>
 
-        <p style="display:none;">operator <%= text_field_tag :operator, @operator, :size => 3, :class => "" %></label></p>
+        <p><%= select_tag "operator", options_for_select([["Match any tag", "or"], ["Match all tags", "and"]], params[:operator] ), {:name => "operator", :class => "form-control"} %></p>
 
         <p><span id="submit-widget" class="btn btn-primary btn-large">Generate Widget</span></p>
       <% end %>
@@ -47,22 +46,20 @@
 
 <div class="span12">
 
-<h3>Widget behavior and styling</h3>
-<p>If upcoming events aren't available, the widget defaults to most recent. If a tag is not defined, the widget defaults to events tagged "front page".</p>
-
-<p>The widget markup contains css hooks to make it easier to hide or display different sections including:</p>
-<ul>
-  <li>.learn_widget_generic_title</li>
-  <li>.learn_widget_specific_title</li>
-  <li>.learn_widget_no_matches</li>
-  <li>.learn_widget_see_more</li>
+<h2>Widget behavior and styling</h2>
+<p>If upcoming events aren't available, recent events are displayed instead.</p>
+<p>The widget includes very minimal styling. This is by design so that it can inherit the styles from your site.</p>
+<p>The widget markup contains granular css hooks to make it easier to style, hide or display different sections including:</p>
+<ul class="list-group">
+  <li class="list-group-item code">.learn-widget-wrapper <span class="text-muted">(the containing div)</span></li>
+  <li class="list-group-item code">.learn-widget-wrapper.upcoming</li>
+  <li class="list-group-item code">.learn-widget-wrapper.recent</li>
+  <li class="list-group-item code">.learn-widget-generic_title</li>
+  <li class="list-group-item code">.learn-widget-specific_title</li>
+  <li class="list-group-item code">.learn-widget-no_matches</li>
+  <li class="list-group-item code">.learn-widget-see_more</li>
 </ul>
 
-<p>The examples above have been wrapped in a div.widget-container and are styled with the following css:</p>
-<pre>
-  .widget-container {background:#fff; padding:10px; width:220px;}
-  .learn_widget_specific_title {line-height: 24px; font-size:21px;}
-</pre>
 </div>
 
 

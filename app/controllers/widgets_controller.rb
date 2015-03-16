@@ -183,13 +183,13 @@ class WidgetsController < ApplicationController
       @tag_list = params[:tags].split(',')
       @event_type = "upcoming"
       @generic_title = "Upcoming Webinars"
-      @specific_title = "eXtension Upcoming Learn Events tagged #{@tag_list.join(',')}"
 
-      if params[:operator].present?
-        if params[:operator].downcase == 'and'
-          @event_list = Event.nonconference.active.upcoming.tagged_with_all(@tag_list).limit(event_limit)
-        end
-      elsif params[:operator].blank? || params[:operator].downcase != 'and'
+      if params[:operator].present? && params[:operator].downcase == 'and'
+        new_params << "operator=and"
+        @specific_title = "eXtension Upcoming Learn Events tagged #{@tag_list.to_sentence}"
+        @event_list = Event.nonconference.active.upcoming.tagged_with_all(@tag_list).limit(event_limit)
+      else
+        @specific_title = "eXtension Upcoming Learn Events tagged #{@tag_list.to_sentence(words_connector: ',', two_words_connector: ' or', last_word_connector: ' or')}"
         @event_list = Event.nonconference.active.upcoming.tagged_with(params[:tags]).limit(event_limit)
       end
 
@@ -200,7 +200,7 @@ class WidgetsController < ApplicationController
       if @event_list.empty?
         @event_type = "recent"
         @generic_title = "Recent Webinars"
-        @specific_title = "eXtension Recent Learn Events in #{@tag_list.join(',')}"
+        @specific_title = "eXtension Recent Learn Events tagged #{@tag_list.to_sentence(words_connector: ',', two_words_connector: ' or', last_word_connector: ' or')}"
         @event_list = Event.nonconference.active.recent.tagged_with(params[:tags]).limit(event_limit)
         if @tag_list.length == 1
           @path_to_upcoming_events = events_tag_url(:tags => @tag_list.first, :type => 'recent')
