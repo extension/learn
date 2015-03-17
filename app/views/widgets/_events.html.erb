@@ -2,7 +2,6 @@
 .learn-widget-wrapper {background:#fff; padding:20px; width:<%= @width %>px; border:2px solid #ccc; margin:0 0 20px;}
 .learn_widget_event_time {margin-bottom:0;}
 .learn_widget_event_title {margin-top:0;}
-
 .learn-widget-dev {background:#FFFF6D; padding:.5em;}
 
 <% if (@event_type == "recent" && @showdate_on_past_events == false) %>
@@ -16,14 +15,14 @@
   <p class="learn-widget-dev">This is a <strong>TEST</strong> widget coming from the  <strong>AaE <%= Settings.app_location.upcase %></strong> site. This should ONLY be used for TESTING purposes.</p>
   <% end %>
 
-  <h3 class="learn-widget-generic_title"><%= @generic_title %></h3>
-  <h3 class="learn-widget-specific_title"><%= @specific_title %></h3>
+  <h3 class="learn-widget-title-general"><%= @generic_title %></h3>
+  <h3 class="learn-widget-title-specific"><%= @specific_title %></h3>
 
   <% if @event_list.length == 0 %>
-  <h3 class="learn-widget-no_matches">There are no events at this time.</h3>
-  <p class="learn-widget-see_more"><%= link_to 'Visit Learn', root_url %></p>
+  <h3 class="learn-widget-no-matches">There are no events at this time.</h3>
+  <p class="learn-widget-see-more"><%= link_to 'Visit Learn', root_url %></p>
   <% else %>
   <%= get_event_links_and_times(@event_list) %>
-  <p class="learn-widget-see_more"><%= link_to 'See More', @path_to_upcoming_events %></p>
+  <p class="learn-widget-see-more"><%= link_to 'See More', @path_to_upcoming_events %></p>
   <% end %>
 </div>

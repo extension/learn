@@ -3,7 +3,7 @@ class WidgetsController < ApplicationController
   def index
     @limit = 3
     # create a unique widget div ID to use as a hook
-    @widget_key = "aae-qw-" + SecureRandom.hex(4)
+    @widget_key = "exlw-" + SecureRandom.hex(4)
   end
 
   def generate_widget
@@ -219,7 +219,7 @@ class WidgetsController < ApplicationController
         @generic_title = "Recent Webinars"
         @path_to_upcoming_events = recent_events_url
         @event_type = "recent"
-        @specific_title = "eXtension Recent Learn Events"
+        @specific_title = "eXtension Recent Learn Events tagged Front Page"
         @event_list = Event.nonconference.active.recent.tagged_with(@tag.name).limit(event_limit)
       end
     end
