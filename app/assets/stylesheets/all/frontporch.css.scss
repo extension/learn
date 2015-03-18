@@ -15,8 +15,8 @@ body {
 	margin:-5px auto;
 	background: #FFF;
 	padding:5px 26px;
-	box-shadow: 6px 0 4px -4px #666 , -6px 0 4px -4px #666; 
-	-moz-box-shadow: 6px 0 4px -4px #666, -6px 0 4px -4px #666; 
+	box-shadow: 6px 0 4px -4px #666 , -6px 0 4px -4px #666;
+	-moz-box-shadow: 6px 0 4px -4px #666, -6px 0 4px -4px #666;
 	-webkit-box-shadow: 6px 0 4px -4px #666, -6px 0 4px -4px #666;
 }
 
@@ -55,7 +55,7 @@ h2 {
 	right:0px;
 	border-bottom:1px dotted #CCC;
 }
- 
+
 .title:after {
 	content:"";
 	position: absolute;
@@ -125,7 +125,7 @@ input[type="color"],
 	*margin-right: .3em;
 	line-height: 14px;
 	vertical-align: text-top;
-	margin-top: 1px;  
+	margin-top: 1px;
 }
 
 .icon-clock-orange {
@@ -188,7 +188,7 @@ input[type="color"],
 }
 
 .navbar-inner {
-  
+
 	background:#fff;
 	border:none;
 	border-bottom:1px solid #d9d9d9;
@@ -303,7 +303,7 @@ ul.nav {
   background-image: -o-linear-gradient(top, #FF7100, #FF9E58);
   background-image: linear-gradient(to bottom, #FF7100, #FF9E58);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFF7100', endColorstr='#FFFF9E58', GradientType=0);  
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFF7100', endColorstr='#FFFF9E58', GradientType=0);
   *background-color: #FF964A;
 */}
 .navbar .btn-navbar:active,
@@ -398,7 +398,7 @@ ul.nav {
 }
 #institution_picker .btn:hover {
 	color:#EEE;
-} 
+}
 
 .tagline {
     line-height: 30px;
@@ -430,24 +430,17 @@ ul.nav {
 .meet-extension h2,
 .featured_aae_questions h2,
 .latest-tweets h2,
-h3.learn_widget_generic_title,
 .sponsors h2 {
     font-family: 'Sanchez', serif;
 	font-size: 20px;
 	color:#f86f20;
 }
-h3.learn_widget_generic_title {margin:20px 0 10px;}
 
 .featured_aae_questions a,
 .upcoming_learn_events a {
   color:#333;
   text-decoration:none;
 }
-
-.learn_widget_see_more,
-.learn_widget_specific_title {display:none;}
-
-.learn_widget_event_title a {display:block;}
 
 .upcoming_learn_events .learn_widget_event_time {
 	font-size:13px;
@@ -513,7 +506,7 @@ h3.learn_widget_generic_title {margin:20px 0 10px;}
 .aae_qw_see_more {display:none;}
 
 #aae_qw li.last {
-  border:0;  
+  border:0;
 }
 #aae_qw h3 {display:none;}
 #aae_qw h3.aae_qw_no_matches {display:block;}
@@ -679,7 +672,7 @@ ul.thumbnails.pull-right {
     font-family: 'Sanchez', serif;
 	font-size: 22px;
 	line-height: 120%;
-	margin:0px;	
+	margin:0px;
 	width:100%;
 	color:#f07b05;
 	padding:10px 0;
@@ -701,7 +694,7 @@ ul.thumbnails.pull-right {
  	border-top:1px dotted #CCC;
 	border-bottom:1px dotted #CCC;
 }
- 
+
 .article-info h3.bordered:after {
 	content:"";
 	position: absolute;
@@ -770,8 +763,8 @@ ul.thumbnails.pull-right {
     font-family: 'Sanchez', serif;
 	font-size: 22px;
 	line-height: 120%;
-	margin:0px 10px 5px 10px;	
-	color:#FFF;	
+	margin:0px 10px 5px 10px;
+	color:#FFF;
 }
 
 .callout p {
@@ -799,7 +792,7 @@ ul.thumbnails.pull-right {
 	font-weight: bold;
 	border-left:15px solid #F77923;
 	margin-left:-26px;
-	padding-left:11px;	
+	padding-left:11px;
 	line-height: 150%;
 }
 
@@ -1079,13 +1072,13 @@ width:300px;
 }
 
 .navbar {
-  background:#fff; border-bottom:10px solid #FF7B00; 
+  background:#fff; border-bottom:10px solid #FF7B00;
 /*  border-top:10px solid #FF7B00 !important; */
-  margin-top:5px; 
+  margin-top:5px;
 }
 
 .expert-navbar {
-  border: 0 !important; 
+  border: 0 !important;
 }
 
 
@@ -1114,8 +1107,8 @@ width:300px;
 
 }
 
-@media (max-width: 480px) {  
-  
+@media (max-width: 480px) {
+
 .mobile-menu-btn, .mobile-menu-search-btn  {opacity:0.7;}
 
 #expert_navbar .brand {
@@ -1138,9 +1131,9 @@ footer ul {clear:both; padding-top:20px;}
 }
 
 .navbar {
-  background:#fff; border-bottom:10px solid #FF7B00; 
+  background:#fff; border-bottom:10px solid #FF7B00;
 /*  border-top:10px solid #FF7B00 !important; */
-  margin-top:5px; 
+  margin-top:5px;
 /*  outline:5px solid red !important;*/
 }
 .expert-navbar .brand {
@@ -1156,7 +1149,7 @@ footer ul {clear:both; padding-top:20px;}
 /*  margin-left: -26px;*/
 /*  margin-right: -26px;*/
   }
-.mobile-menu-btn  {float:left !important; 
+.mobile-menu-btn  {float:left !important;
   margin-right: 10px !important;
   margin-bottom:10px !important;
   margin-left:-15px !important;

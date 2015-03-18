@@ -1,0 +1,7 @@
+var div = document.createElement('div');
+var s = document.getElementById("<%= @widget_key %>");
+while (s.firstChild) {
+  s.removeChild(s.firstChild);
+}
+s.appendChild(div);
+div.innerHTML = "<%= escape_javascript(render(:partial => 'widgets/events')) %>";

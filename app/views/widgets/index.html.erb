@@ -1,48 +1,158 @@
-<div class="span10">
-<h1>Learn Widgets</h1>
+<div class="span12">
+  <h1>Learn Widgets</h1>
 
-<h2>There are two widgets available</h2>
+  <div class="span5">
+    <h2>Build a Custom Widget</h2>
+    <p>Display a list of upcoming events.</p>
+    <div class="well">
+      <%= form_tag( {}, {:id => "widget_form"}) do %>
+        <%= hidden_field_tag 'widget_key', @widget_key %>
+        <p><label>Number of events: <%= text_field_tag :limit, @limit, :size => 3, :class => "" %></label></p>
+        <p><label>Width (pixels): <%= text_field_tag :width, @width, :size => 3, :class => "" %></label> (leave blank for auto/100%)</p>
 
+        <div id="county_selector"></div>
+        <label>Tags </label>
+        <p>If no tags are defined, featured events are displayed by default (i.e. ones tagged "front page")</p>
+        <div class="formy">
+          <div class="ui-widget">
+            <input id="tag_picker" class="form-control text-input-large" placeholder="Type and select a tag..." />
+          </div>
+        </div>
+        <div class="form-group">
+          <p><%= text_field_tag :tags, @tags, :class => "form-control" %></p>
+        </div>
 
-<div class="well">
-  <h3>Front Porch</h3>
-  <p>The front porch widget is so named because it was designed for the front page of www.extension.org and includes any Learn events with the "front page" tag.</p>
-  <h4>Widget code</h4>
-  <textarea class="widget-code"><script type="text/javascript" src="<%= request.protocol + request.host_with_port %>/widgets/front_porch.js"></script></textarea>
-  <h4>Default front porch widget</h4>
-  <div class="widget-container">
-    <script type="text/javascript" src="<%= request.protocol + request.host_with_port %>/widgets/front_porch.js"></script>
+        <p><%= select_tag "operator", options_for_select([["Match any tag", "or"], ["Match all tags", "and"]], params[:operator] ), {:name => "operator", :class => "form-control"} %></p>
+
+        <p><span id="submit-widget" class="btn btn-primary btn-large">Generate Widget</span></p>
+      <% end %>
+    </div>
   </div>
+
+  <div class="span5">
+    <div id="example-widget">
+      <h3>Live Example</h3>
+      <%= render(:partial => 'example_widget') %>
+    </div>
+  </div>
+
 </div>
 
-<div class="well">
-  <h3>Tag-based</h3>
-  <p>Customize with any tag</p>
-
-  <h4>Widget code</h4>
-  <textarea class="widget-code"><script type="text/javascript" src="<%= request.protocol + request.host_with_port %>/widgets/upcoming.js?tags=horses&limit=3"></script></textarea>
-  <h4>Example Widget (for the tag "horses" and limit of three events)</h4>
-  <div class="widget-container">
-    <script type="text/javascript" src="<%= request.protocol + request.host_with_port %>/widgets/upcoming.js?tags=horses&limit=3"></script>
-  </div>
-
+<div class="span12">
+<h2>Widget Code Snippet</h2>
+<p>The following code snippet will embed the example widget displayed above. Include this code on your page where you want the widget to appear.</p>
+<div id="widget-code"><textarea></textarea></div>
 </div>
 
-<h3>Widget behavior and styling</h3>
-<p>By default, five events are returned. This can be changed with the limit parameter (i.e. limit=3)</p>
-<p>If upcoming events aren't available, the widget defaults to most recent. If a tag is not defined, the widget defaults to events tagged "front page".</p>
+<div class="span12">
 
-<p>The widget markup contains css hooks to make it easier to hide or display different sections including:</p>
-<ul>
-  <li>.learn_widget_generic_title</li>
-  <li>.learn_widget_specific_title</li>
-  <li>.learn_widget_no_matches</li>
-  <li>.learn_widget_see_more</li>
+<h2>Widget behavior and styling</h2>
+<p>If upcoming events aren't available, recent events are displayed instead.</p>
+<p>The widget includes very minimal styling. This is by design so that it can inherit the styles from your site.</p>
+<p>The widget markup contains granular css hooks to make it easier to style, hide or display different sections including:</p>
+<ul class="list-group">
+  <li class="list-group-item code">.learn-widget-wrapper <span class="text-muted">(the containing div)</span></li>
+  <li class="list-group-item code">.learn-widget-wrapper.upcoming <span class="text-muted">(listed events are upcoming)</span></li>
+  <li class="list-group-item code">.learn-widget-wrapper.recent <span class="text-muted">(listed events are concluded)</span></li>
+  <li class="list-group-item code">.learn-widget-header-general</li>
+  <li class="list-group-item code">.learn-widget-header-specific</li>
+  <li class="list-group-item code">.learn-widget-event-date</li>
+  <li class="list-group-item code">.learn-widget-event-title</li>
+  <li class="list-group-item code">.learn-widget-no-matches</li>
+  <li class="list-group-item code">.learn-widget-see-more</li>
 </ul>
 
-<p>The examples above have been wrapped in a div.widget-container and are styled with the following css:</p>
-<pre>
-  .widget-container {background:#fff; padding:10px; width:220px;}
-  .learn_widget_specific_title {line-height: 24px; font-size:21px;}
-</pre>
 </div>
+
+
+
+
+<script class="code" type="text/javascript">
+
+  $("#submit-widget").click(function() {
+    generate_widget();
+  });
+
+  $("#widget_form").keypress(function(e) {
+    if (e.keyCode === 13) {
+      generate_widget();
+    }
+  });
+
+  function generate_widget() {
+    $.ajax({
+      type: "POST",
+      url: "<%= widgets_events_path() %>",
+      cache: false,
+      data: $("#widget_form").serialize()
+    })
+    .done(function(data) {
+      generate_widget_snippet();
+      $(".example-widget-container").hide().fadeIn();
+    })
+    .fail(function() {
+      alert("problem generating widget");
+    })
+  }
+
+  function generate_widget_snippet() {
+    widgetKey = $("#learn-widget-hook").attr("data-widget-key");
+    widgetParams = $("#learn-widget-hook").attr("data-widget-params");
+    $.ajax({
+      type: "POST",
+      url: "<%= widgets_generate_widget_path() %>",
+      data: {widget_key: widgetKey, widget_params: widgetParams},
+      cache: false
+    })
+    .done(function(data) {
+    })
+    .fail(function() {
+      alert("problem generating widget snippet");
+    })
+  }
+
+
+  $(window).bind("load", function() {
+    generate_widget();
+  });
+
+// create an instance of autocomplete plus a hack for using the 'enter' key instead of direct selection
+var doTags = {
+  onReady: function() {
+    $("#tag_picker").autocomplete({
+      source: "/ajax/tags",
+      minLength: 2,
+      select: function(e, ui) {
+        add_tag(ui.item.name);
+        $("#tag_picker").val('');
+        return false;
+      }
+    }).keypress(function(e) {
+      if (e.keyCode === 13) {
+        if ($.trim(this.value) != "") {
+          add_tag(this.value);
+        } else {
+          $("#tag_picker").val('');
+          return false;
+        }
+      }
+    }).data( "autocomplete" )._renderItem = function( ul, item ) {
+      return $( "<li></li>" )
+      .data( "item.autocomplete", item )
+      .append( "<a>"+ item.label + " <strong>(" + item.tag_count + ")</strong></a>" )
+      .appendTo( ul );
+    };
+  }
+};
+
+$( document ).ready( doTags.onReady );
+
+function add_tag(tag) {
+  if( !$("#tags").val() ) {
+    $("#tags").val(tag);
+  } else {
+    $("#tags").val( $("#tags").val() + ", " + tag);
+  }
+}
+
+</script>
