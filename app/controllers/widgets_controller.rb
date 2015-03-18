@@ -15,6 +15,9 @@ class WidgetsController < ApplicationController
     end
   end
 
+  # The front_porch and upcoming methods are used for the first version of the widget.
+  # They were replaced with the events method. (Released 3/18/2015)
+  # The legacy methods should be removed when the first generation widgets are sunsetted.
   def front_porch
     @generic_title = "Upcoming Webinars"
     @event_type = "upcoming"
