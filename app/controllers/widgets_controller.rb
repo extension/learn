@@ -4,6 +4,7 @@ class WidgetsController < ApplicationController
     @limit = 3
     # create a unique widget div ID to use as a hook
     @widget_key = "exlw-" + SecureRandom.hex(4)
+    @page_meta_description = "Build a custom eXtension events widget"
   end
 
   def generate_widget
