@@ -1,4 +1,4 @@
-<div class="span12">
+<div class="col-md-12">
 <h1>Sharing</h1>
 
 <%= render :partial => 'settings/settings_navigation' %>
@@ -17,67 +17,67 @@
       <th></th>
       <th class="small">Share</th>
       <th class="small">Keep Private</th>
-      
+
     </tr>
     <tr>
       <td>Presented events</td>
       <td class="small"><%= radio_button_tag 'sharing.events.presented', '1', @learner.public_presented_events? %></td>
       <td class="small"><%= radio_button_tag 'sharing.events.presented', '0', !@learner.public_presented_events? %></td>
-      
+
     </tr>
     <tr>
       <td>Attended events</td>
       <td class="small"><%= radio_button_tag 'sharing.events.attended', '1', @learner.public_attended_events? %></td>
       <td class="small"><%= radio_button_tag 'sharing.events.attended', '0', !@learner.public_attended_events? %></td>
-      
+
     </tr>
     <tr>
       <td>Watched events</td>
       <td class="small"><%= radio_button_tag 'sharing.events.watched', '1', @learner.public_watched_events? %></td>
       <td class="small"><%= radio_button_tag 'sharing.events.watched', '0', !@learner.public_watched_events? %></td>
-      
+
     </tr>
     <tr>
       <td>Followed events</td>
       <td class="small"><%= radio_button_tag 'sharing.events.bookmarked', '1', @learner.public_bookmarked_events? %></td>
       <td class="small"><%= radio_button_tag 'sharing.events.bookmarked', '0', !@learner.public_bookmarked_events? %></td>
-      
+
     </tr>
-    
+
     <tr>
       <td>Rated events</td>
       <td class="small"><%= radio_button_tag 'sharing.events.rated', '1', @learner.public_rated_events? %></td>
       <td class="small"><%= radio_button_tag 'sharing.events.rated', '0', !@learner.public_rated_events? %></td>
-      
+
     </tr>
-    
+
     <tr>
       <td>Answered events</td>
       <td class="small"><%= radio_button_tag 'sharing.events.answered', '1', @learner.public_answered_events? %></td>
       <td class="small"><%= radio_button_tag 'sharing.events.answered', '0', !@learner.public_answered_events? %></td>
-      
+
     </tr>
   </table>
-  
-  
-  
+
+
+
   <div class="form_subgroup">
     <h3>Go Public</h3>
     <p>By default, your Learning Portfolio is only viewable to signed-in users, but you can choose to open it up</p>
     <fieldset>
       <p>
         <label>
-          <%= check_box_tag 'sharing.portfolio', '1', @learner.public_portfolio? %> 
+          <%= check_box_tag 'sharing.portfolio', '1', @learner.public_portfolio? %>
           <span>Make my Learning Portfolio page publicly viewable</span>
         </label>
       </p>
     </fieldset>
   </div>
-  
+
   <fieldset>
-    <p><%= submit_tag "Save Changes", :class => "btn btn-primary btn-large" %></p>
+    <p><%= submit_tag "Save Changes", :class => "btn btn-default btn-primary btn-lg" %></p>
   </fieldset>
-  
+
 <%- end -%>
 
 </div>

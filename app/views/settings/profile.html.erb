@@ -1,4 +1,4 @@
-<div class="span12">
+<div class="col-md-12">
 
 <h1>Profile</h1>
 
@@ -30,20 +30,20 @@
         <%= f.text_field :name, :class => "input-xlarge" %>
       </p>
     </fieldset>
-    
+
     <fieldset>
       <p>
         <%= f.label :email, 'Email' %>
         <%= f.text_field :email, :class => "input-xlarge" %>
       </p>
     </fieldset>
-    
+
     <fieldset>
       <p>
         <%= f.label :time_zone, 'Time Zone' %>
-        <%= time_zone_select(:learner, :time_zone, ActiveSupport::TimeZone.us_zones, {:default => Learner::DEFAULT_TIMEZONE}, {:class => "span5"}) %>
+        <%= time_zone_select(:learner, :time_zone, ActiveSupport::TimeZone.us_zones, {:default => Learner::DEFAULT_TIMEZONE}, {:class => "col-md-5"}) %>
       </p>
-    </fieldset> 
+    </fieldset>
   <% end %>
 
   <fieldset>
@@ -52,13 +52,13 @@
       <%= f.text_area :bio, :rows => "2", :maxlength => 140,  :class => "input-xxlarge" %>
     </p>
   </fieldset>
-  
+
   <fieldset>
     <p>
       <%= f.label :mobile_number, 'Phone Number (for receiving text notifications)' %>
       <%= f.text_field :mobile_number, :class => "input-medium" %>
     </p>
-    
+
     <%- if @learner.preferences.setting("notification.reminder.sms").blank? && !@learner.mobile_number.blank? -%>
       <p><span class="highlight">We've got your number, but you don't have any text notifications turned on. <%= link_to "View your texting options.", settings_notifications_path %></span></p>
     <% end %>
@@ -66,7 +66,7 @@
       <p><%= link_to "See your current text notification options", settings_notifications_path %></p>
     <% end %>
   </fieldset>
-    
+
 
   <legend>Current Avatar</legend>
 
@@ -79,7 +79,7 @@
         <label>
           <%= f.check_box :remove_avatar %>
           Remove avatar
-        </label> 
+        </label>
       </p>
     <% end %>
 
@@ -95,13 +95,13 @@
     </p>
 
 
-  
-    
-    
+
+
+
     <fieldset>
-      <p><%= f.submit "Save Changes", :class => "btn btn-primary btn-large" %></p>
+      <p><%= f.submit "Save Changes", :class => "btn btn-default btn-primary btn-lg" %></p>
     </fieldset>
-    
+
   <% end %>
 
 
@@ -126,7 +126,7 @@
           reader.onload = (function(theFile) {
             return function(e) {
               // Render thumbnail.
-              $('#preview_learner_avatar').html(['Avatar Preview:<br/><img class="preview_avatar" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join(''))                 
+              $('#preview_learner_avatar').html(['Avatar Preview:<br/><img class="preview_avatar" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join(''))
             };
           })(f);
 

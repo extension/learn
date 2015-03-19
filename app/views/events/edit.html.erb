@@ -9,7 +9,7 @@
   </div>
 <%- end -%>
 
-<div class="edit-form span10">
+<div class="edit-form col-md-10">
   <h1>Edit this event</h1>
   <%= form_for @event, :html => {:multipart => true} do |form| -%>
     <%- if @event.conference -%>

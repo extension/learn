@@ -1,25 +1,25 @@
 <fieldset id="name">
   <p>
     <%= conference_form.label :name, "Conference Name" %>
-    <%= conference_form.text_field :name, {:class => 'span8'}  %>
+    <%= conference_form.text_field :name, {:class => 'col-md-8'}  %>
   </p>
 
   <p>
     <%= conference_form.label :tagline, "Tagline" %>
-    <%= conference_form.text_field :tagline, {:class => 'span8'}  %>
+    <%= conference_form.text_field :tagline, {:class => 'col-md-8'}  %>
   </p>
 
   <p>
     <%= conference_form.label :hashtag, "Hashtag" %>
-    <%= conference_form.text_field :hashtag, {:class => 'span2'}  %>
+    <%= conference_form.text_field :hashtag, {:class => 'col-md-2'}  %>
   </p>
  </fieldset>
 
- 
+
 <fieldset id="website">
   <p>
     <%= conference_form.label :website, "Website" %>
-   <%=  conference_form.text_field :website, {:class => 'span6'} %>
+   <%=  conference_form.text_field :website, {:class => 'col-md-6'} %>
   </p>
  </fieldset>
 
@@ -29,7 +29,7 @@
        <%= conference_form.text_area :description, {:rows => "7"} %>
     </p>
  </fieldset>
- 
+
  <fieldset id="datetime">
    <p>
    <%= conference_form.label :start_date, 'Conference Start Date' %>
@@ -40,23 +40,23 @@
    <%= conference_form.label :end_date, 'Conference End Date' %>
    <%= conference_form.text_field :end_date, {class: 'datepicker'} %>
    </p>
-   
+
    <p>
    <%= conference_form.label :time_zone, 'Time Zone' %>
-   <%= conference_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {:default => @conference.time_zone}, {:class => "span5"} %>
+   <%= conference_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {:default => @conference.time_zone}, {:class => "col-md-5"} %>
    </p>
-   
- </fieldset> 
+
+ </fieldset>
 
 <p>
-  <%= submit_tag 'Save Conference', :class => "btn btn-primary btn-large" %>
+  <%= submit_tag 'Save Conference', :class => "btn btn-default btn-primary btn-lg" %>
   <%- if @conference.id %>
     <%= link_to("cancel", conference_path(@conference.id), :class => "cancel") -%>
   <%- else -%>
     <%= link_to("cancel", root_path(), :class => "cancel") -%>
   <%- end -%>
 </p>
- 
+
  <script class="code" type="text/javascript">
    $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
  </script>

@@ -12,7 +12,7 @@
     <%= event_form.text_field :presenter_tokens, "data-pre" => @event.presenter_tokens_tokeninput.to_json  %>
   </p>
  </fieldset>
- 
+
 
 <fieldset id="room">
   <p>
@@ -27,17 +27,17 @@
        <%= event_form.text_area :description, {:rows => "7", :class => "wysihtml5"} %>
     </p>
  </fieldset>
- 
+
  <fieldset id="description">
   <ul class="thumbnails">
     <%= event_form.fields_for :images, @event.images do |images_field| %>
         <% if images_field.object.new_record? %>
-        <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span4">
+        <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="col-md-4">
           <%= images_field.label :file, "Image:" %>
           <%= images_field.file_field :file %>
         </li>
         <% else %>
-        <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="span2">
+        <li id="<%= images_field.object_name.gsub(/[^0-9]+/,'') %>" class="col-md-2">
           <div class="thumbnail">
             <%= image_tag(images_field.object.file.url(:thumb)) %>
             <div class="caption">
@@ -50,21 +50,21 @@
         <% end %>
       </ul>
   </fieldset>
- 
+
  <fieldset id="datetime">
    <p>
    <%= event_form.label :session_start, 'Date and Time' %>
    <%= event_form.text_field :session_start_string, {id: 'session_start', :size => nil} %>
    </p>
  </fieldset>
-   
+
  <fieldset id="session_length">
    <p>
    <%= event_form.label :session_length, 'Duration (in minutes)' %>
    <%=  event_form.text_field :session_length, :class => "xs" %>
    </p>
  </fieldset>
- 
+
  <fieldset>
 
   <%- if !@event.conference.is_virtual? -%>
@@ -78,14 +78,14 @@
   <%- else -%>
     <%= hidden_field_tag 'event[is_broadcast]', '1' %>
   <%- end -%>
-     
+
  <p>
     <%= event_form.label :location, 'Event Location (e.g., http://connect.extension.iastate.edu/learn)' %>
     <%= event_form.text_field :location, :class => "xxl" %>
     <span class="help-block">An event location is only displayed for conference sessions that are available online.</span>
     </label>
  </p>
- 
+
  <!-- TODO: use the session_start/session_end settings above to determine whether this is shown. -->
  <% if @event.concluded? %>
    <p>
@@ -93,9 +93,9 @@
       <%= event_form.text_field :recording, :class => "xxl" %>
    </p>
  <% end %>
- 
+
  </fieldset>
- 
+
  <fieldset>
    <p>
      <%= event_form.label :tags, 'Tags (comma separated -- e.g., tools, information technology, widgets)' %>
@@ -116,11 +116,11 @@
     <p><%= link_to_add_association 'Add support materials', event_form, :material_links, { form_name: 'event_form', 'data-association-insertion-method' => 'after', :class => "btn" } %><p>
 
     <%= event_form.fields_for :material_links do |material_link| %>
-      <%= render 'material_link_fields', event_form: material_link %>  
+      <%= render 'material_link_fields', event_form: material_link %>
     <% end %>
   </div>
 </fieldset>
- 
+
  <!-- While an event is going on, you can neither cancel it nor expire it -->
  <!-- Admins can cancel and expire events anytime -->
  <% if (!@event.new_record? && !@event.started?) || (current_learner.is_admin && !@event.new_record?) %>
@@ -134,7 +134,7 @@
       </p>
    </fieldset>
  <% end %>
-  
+
  <% if (!@event.new_record? && @event.concluded?) || (current_learner.is_admin && !@event.new_record?) %>
    <fieldset>
      <p class="clearing">
@@ -144,31 +144,31 @@
        <span class="help-block">Use this option when an event is out-of-date or the technical recording is poor. A prominent "expired" banner is displayed on the page, and the event is removed from our recommendation engine. Please update the "description" field explaining why, and include a link to a better session if available.</span>
        </label>
      </p>
-     
+
   </fieldset>
 <% end %>
 
 
 <p>
-  <%= submit_tag 'Save Session', :class => "btn btn-primary btn-large" %>
+  <%= submit_tag 'Save Session', :class => "btn btn-default btn-primary btn-lg" %>
   <%- if @event.id %>
     <%= link_to("cancel", event_path(@event.id), :class => "cancel") -%>
   <%- else -%>
     <%= link_to("cancel", conference_path(@event.conference), :class => "cancel") -%>
   <%- end -%>
 </p>
- 
+
  <script class="code" type="text/javascript">
    $('#session_start').datetimepicker({
     dateFormat: 'yy-mm-dd',
    	ampm: true
    });
-   
+
    $(function () {
-     $('#event_presenter_tokens').tokenInput('<%= token_search_learners_path %>', { 
+     $('#event_presenter_tokens').tokenInput('<%= token_search_learners_path %>', {
        crossDomain: false,
        prePopulate: $('#event_presenter_tokens').data('pre'),
-       theme: 'facebook' 
+       theme: 'facebook'
      });
    });
 

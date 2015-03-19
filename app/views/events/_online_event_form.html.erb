@@ -11,7 +11,7 @@
     <%= event_form.text_field :presenter_tokens, "data-pre" => @event.presenter_tokens_tokeninput.to_json  %>
   </p>
 </fieldset>
- 
+
 <fieldset id="description">
   <p>
     <%= event_form.label :description, 'Description' %>
@@ -32,7 +32,7 @@
       </label>
     </p>
   <% else %>
-  
+
   <p class="clearing image-picker">
     <%= event_form.file_field :cover_image %>
     <%= event_form.hidden_field :cover_image_cache %>
@@ -40,27 +40,27 @@
   <% end %>
   </div>
 </fieldset>
-   
+
  <fieldset id="datetime">
    <p>
    <%= event_form.label :session_start, 'Date and Time' %>
    <%= event_form.text_field :session_start_string, {id: 'session_start', :size => nil} %>
    </p>
-   
+
    <p>
    <%= event_form.label :time_zone, 'Time Zone' %>
-   <%= event_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {:default => @event.time_zone}, {:class => "span5"} %>
+   <%= event_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {:default => @event.time_zone}, {:class => "col-md-5"} %>
    </p>
-   
+
  </fieldset>
-   
+
  <fieldset id="session_length">
    <p>
    <%= event_form.label :session_length, 'Duration (in minutes)' %>
    <%=  event_form.text_field :session_length, :class => "input-mini" %>
    </p>
  </fieldset>
- 
+
  <fieldset>
  <p>
 
@@ -69,7 +69,7 @@
     <span class="help-block">Please make sure the hosting venue is available before scheduling your event.</span>
     </label>
  </p>
- 
+
  <!-- TODO: use the session_start/session_end settings above to determine whether this is shown. -->
  <% if @event.concluded? %>
    <p>
@@ -77,9 +77,9 @@
       <%= event_form.text_field :recording, :class => "input-xxlarge" %>
    </p>
  <% end %>
- 
+
  </fieldset>
- 
+
  <%= event_form.hidden_field :tag_list %>
  <div id="tag_interface" class="tag_interface">
 
@@ -90,11 +90,11 @@
      </div>
    </div>
 
- 
+
    <div id="tag_list">
    <% if @event.tags.size > 0 %>
      <% @event.tags.each do |tag| %>
-       <p id="tag_<%= tag.name %>"><span class="tag tag-topic"><span><%= tag.name %></span></span><span class="btn removetag">x</span></p>
+       <p id="tag_<%= tag.name %>"><span class="tag tag-topic"><span><%= tag.name %></span></span><span class="btn btn-default removetag">x</span></p>
      <% end %>
    <% end %>
    </div>
@@ -111,13 +111,13 @@
 <fieldset>
   <div class="material-links-wrapper">
     <p><%= link_to_add_association 'Add support materials', event_form, :material_links, { form_name: 'event_form', 'data-association-insertion-method' => 'after', :class => "btn" } %><p>
-     
+
     <%= event_form.fields_for :material_links do |material_link| %>
-      <%= render 'material_link_fields', event_form: material_link %>  
+      <%= render 'material_link_fields', event_form: material_link %>
     <% end %>
   </div>
 </fieldset>
- 
+
  <!-- While an event is going on, you can neither cancel it nor expire it -->
  <!-- Admins can cancel and expire events anytime -->
  <% if (!@event.new_record? && !@event.started?) || (current_learner.is_admin && !@event.new_record?) %>
@@ -131,7 +131,7 @@
       </p>
    </fieldset>
  <% end %>
-  
+
  <% if (!@event.new_record? && @event.concluded?) || (current_learner.is_admin && !@event.new_record?) %>
    <fieldset>
      <p class="clearing">
@@ -141,34 +141,34 @@
        <span class="help-block">Use this option when an event is out-of-date or the technical recording is poor. A prominent "expired" banner is displayed on the page, and the event is removed from our recommendation engine. Please update the "description" field explaining why, and include a link to a better session if available.</span>
        </label>
      </p>
-     
+
   </fieldset>
 <% end %>
 
 <p>
-  <%= submit_tag 'Save Session', :class => "btn btn-primary btn-large" %>
+  <%= submit_tag 'Save Session', :class => "btn btn-default btn-primary btn-lg" %>
   <%- if @event.id %>
     <%= link_to("cancel", event_path(@event.id), :class => "cancel") -%>
   <%- else -%>
     <%= link_to("cancel", root_path(), :class => "cancel") -%>
   <%- end -%>
 </p>
- 
+
  <script class="code" type="text/javascript">
    $('#session_start').datetimepicker({
     dateFormat: 'yy-mm-dd',
    	ampm: true
    });
-   
+
    $(function () {
-     $('#event_presenter_tokens').tokenInput('<%= token_search_learners_path %>', { 
+     $('#event_presenter_tokens').tokenInput('<%= token_search_learners_path %>', {
        crossDomain: false,
        prePopulate: $('#event_presenter_tokens').data('pre'),
        theme: 'facebook'
      });
    });
-   
-   
+
+
    // create an instance of autocomplete plus a hack for using the 'enter' key instead of direct selection
      $(document).ready(function(){
 
@@ -199,7 +199,7 @@
          };
 
      });
-         
+
      function add_tag(tag) {
        $("<p id='tag_"+tag+"'><span class='tag tag-topic'><span>"+tag+"</span></span> <span class='removetag'>x</span></p>" ).prependTo( "#tag_list" );
        $('#event_tag_list').val($('#event_tag_list').val() + ', ' + tag);

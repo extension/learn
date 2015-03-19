@@ -15,7 +15,7 @@ group :assets do
   gem 'coffee-rails', "~> 3.2.2"
   gem 'uglifier', '>= 1.0.3'
   # bootstrap in sass in rails
-  gem 'bootstrap-sass', '~> 2.3.2.2'
+  gem 'bootstrap-sass', '~> 3.1.1'
   gem 'outfielding-jqplot-rails'
 end
 

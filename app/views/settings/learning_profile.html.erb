@@ -1,4 +1,4 @@
-<div class="span12">
+<div class="col-md-12">
 <h1>Learning Portfolio</h1>
 
 <%= render :partial => 'settings/settings_navigation' %>
@@ -12,25 +12,25 @@
 
 <%= form_for @learning_profile, :url => settings_learning_profile_path, :html => {:class => "form-stacked"} do |f| %>
   <%= f.hidden_field :learner_id, :value => @learner.id %>
-  
+
   <fieldset>
     <p class="field">
       <%= f.label :currently_learning, 'Currently Learning (what are you interested in right now?)' %>
       <%= f.text_area :currently_learning, :rows => "5", :class => "input-xxlarge" %>
     </p>
   </fieldset>
-  
+
   <fieldset>
     <p class="field">
       <%= f.label :learning_plan, "Learning Plan (What's your long term plan of work?)" %>
       <%= f.text_area :learning_plan, :rows => "5", :class => "input-xxlarge" %>
     </p>
   </fieldset>
-    
+
   <fieldset>
-    <p><%= f.submit "Save Changes", :class => "btn btn-primary btn-large" %></p>
+    <p><%= f.submit "Save Changes", :class => "btn btn-default btn-primary btn-lg" %></p>
   </fieldset>
-  
+
 <% end %>
 
 </div>

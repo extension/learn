@@ -9,7 +9,7 @@
   </div>
 <%- end -%>
 
-<div class="edit-form span8">
+<div class="edit-form col-md-8">
   <%- if @event.conference -%>
     <h1>Create a conference event</h1>
     <%= form_for @event,  :html => { :class => "form-stacked"} do |form| -%>
@@ -24,7 +24,7 @@
 <%- end -%>
 </div>
 
-<div class="span3">
+<div class="col-md-3">
   <h3>Event FAQs</h3>
   <h4>Who can create an event?</h4>
   <p>Anyone offering an online Extension education event that is open to the public.</p>
