@@ -39,7 +39,7 @@
 </head>
 <body id="<%= params[:controller].gsub('/','-') %>">
 
-  <div class='nonmobile hidden-phone'>
+  <div class="nonmobile hidden-xs">
   <%- if current_learner and current_learner.is_extension_account? %>
     <script src="https://www.extension.org/javascripts/global_nav_internal.js" type="text/javascript"></script>
   <% else %>
@@ -90,7 +90,7 @@
         </div>
         <% end %>
 
-        <ul class="app-navbar-list list-inline pull-right app-navbar-items">
+        <ul class="nav navbar-nav">
           <li><%= link_to 'Upcoming', upcoming_events_path() %></li>
           <li><%= link_to 'Recent', recent_events_path() %></li>
           <%- if !current_learner -%>
