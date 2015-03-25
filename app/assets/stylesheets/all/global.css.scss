@@ -105,14 +105,14 @@ p {word-wrap: break-word;}
 .ask-an-expert-button {width: 180px; margin: 2em 0 2em; display: block;}
 
 
-.navbar {outline: 1px solid lime;}
-.masthead {outline: 1px solid blue;}
+// .navbar {outline: 1px solid lime;}
+// .masthead {outline: 1px solid blue;}
 .navbar-brand {height:auto !important;}
 
 
 
 @media screen and (min-width: 767px) {
-  .navbar-brand img {width:360px;}
+  .navbar-brand img {width:240px;}
 }
 
 
@@ -124,20 +124,20 @@ p {word-wrap: break-word;}
 
 @media screen and (max-width: 767px) {
   body {padding:0;}
-  #app-navbar {clear:both;}
-  .app-navbar-list {margin:0;padding:0; float:none !important; clear:both;}
+  #app-navbar {clear:both; margin:0 -30px}
+  #app-navbar ul {margin:0;padding:0; float:none !important; clear:both;}
 
 
 
-  .app-navbar-list li {
+  #app-navbar ul li {
     display:block !important;;
     float:none !important;
     text-align:left;
     padding:0;
   }
-  .app-navbar-list li a {
-    background:#FF964A;
-    color:#fff;
+  #app-navbar ul li a {
+    // background:#FF964A;
+    // color:#fff;
     text-shadow: none;
     display:block !important;;
     padding:10px;
@@ -149,6 +149,8 @@ p {word-wrap: break-word;}
 
 
 @media screen and (max-width: 979px) {
+  .navbar-brand img {width:220px;}
+  #app-navbar .global-nav-mobile {border: 1px solid red; clear:both;}
 }
 @media screen and (min-width: 979px) and (max-width: 1200px) {
   .navbar .form-search {position:relative;top:0; /*outline:lime 2px solid;*/}
@@ -159,7 +161,6 @@ p {word-wrap: break-word;}
 }
 
 @media screen and (min-width: 979px) {
-  .navbar-brand img {width:360px;}
   #publicbar .navbar-brand {font-size:2.5em;}
   .navbar #publicbar .container {width: 940px; padding:2em;}
   #publicbar.navbar-inner {height:120px !important; background: #F47B28 !important;}
@@ -167,8 +168,6 @@ p {word-wrap: break-word;}
 @media screen and (min-width: 1200px) {
   .navbar-brand img {width:auto;}
 }
-@media screen and (max-width: 450px) {
-}
 @media screen and (max-width: 480px) {
-  .navbar-brand img {width:220px;}
+  .navbar-brand img {width:200px;}
 }
