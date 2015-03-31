@@ -28,7 +28,6 @@ Learn::Application.routes.draw do
       get 'created_history'
       get 'watched_history'
       get 'bookmarked_history'
-      get 'rated_history'
       get 'answered_question_history'
       post 'block'
       post 'unblock'

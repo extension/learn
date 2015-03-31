@@ -104,15 +104,6 @@ class LearnersController < ApplicationController
     render :action => 'learning_history'
   end
   
-  def rated_history
-    @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
-    return record_not_found if !@learner
-    
-    prepare_history('Rated')
-    @events = @learner.rated_events.active.order('session_start DESC').page(params[:page])
-    render :action => 'learning_history'
-  end
-  
   def answered_question_history    
     @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
     return record_not_found if !@learner
