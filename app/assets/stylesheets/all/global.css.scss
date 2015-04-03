@@ -153,7 +153,9 @@ p {word-wrap: break-word;}
   #app-navbar .global-nav-mobile {border: 1px solid red; clear:both;}
 }
 @media screen and (min-width: 979px) and (max-width: 1200px) {
-  .navbar .form-search {position:relative;top:0; /*outline:lime 2px solid;*/}
+  .navbar .form-search {position:relative;top:0;
+    // outline:lime 2px solid;
+    }
   ul.nav {
     position: relative;
     top:0;

@@ -14,10 +14,12 @@ group :assets do
   gem 'sass-rails', "~> 3.2.4"
   gem 'coffee-rails', "~> 3.2.2"
   gem 'uglifier', '>= 1.0.3'
-  # bootstrap in sass in rails
-  gem 'bootstrap-sass', '~> 3.1.1'
+
   gem 'outfielding-jqplot-rails'
 end
+
+# bootstrap in sass in rails
+gem 'bootstrap-sass', '3.1.1.0'
 
 # replaces glyphicons
 gem 'font-awesome-rails'
