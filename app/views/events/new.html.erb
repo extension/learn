@@ -16,7 +16,7 @@
       <%= render(partial: 'conference_event_form', locals: {event_form: form}) %>
     <%- end -%>
   <%- else -%>
-  
+
   <h1>Create an event</h1>
   <%= form_for @event,  :html => { :class => "form-stacked"} do |form| -%>
     <%= render(partial: 'online_event_form', locals: {event_form: form}) %>
@@ -28,7 +28,7 @@
   <h3>Event FAQs</h3>
   <h4>Who can create an event?</h4>
   <p>Anyone offering an online Extension education event that is open to the public.</p>
-  
+
   <h4>How are events scheduled?</h4>
   <ul>
     <li><%= link_to 'View Upcoming Events', upcoming_events_path %> to see what dates/times are already scheduled if you want to avoid conflicts for your event.</li>
@@ -39,10 +39,10 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function(){
-    
+
     $('.wysihtml5').each(function(i, elem) {
       $(elem).wysihtml5('deepExtend', {
-        image: false,
+        toolbar: { "fa": true, "image": false, "blockquote": false},
         parserRules: { tags: { p: {} } }
       });
     });

@@ -10,7 +10,7 @@
 
     <p class="comment-author"><%= link_to_learner_avatar(current_learner, {image_size: :thumb}) %> <%= link_to_learner(current_learner) %></p>
 
-    <%= f.text_area :content, cols: 20, rows: 5, class: "wysihtml5" %>
+    <%= f.text_area :content, cols: 20, rows: 5, class: "wysihtml5 form-control" %>
 
     <%= f.hidden_field :event_id, value: @event.id %>
 

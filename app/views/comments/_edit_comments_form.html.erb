@@ -9,7 +9,7 @@
   <%= form_for @comment, html: {class: "no-top-margin"}, remote: true do |f| %>
     <p><%= avatar_for_learner(current_learner, {image_size: :thumb})  %></p>
 
-    <%= f.text_area :content, cols: 20, rows: 5, class: "wysihtml5" %>
+    <%= f.text_area :content, cols: 20, rows: 5, class: "wysihtml5 form-control" %>
 
     <% if @comment.ancestry.present? %>
       <%= hidden_field_tag 'parent_comment_id', @comment.ancestry %>

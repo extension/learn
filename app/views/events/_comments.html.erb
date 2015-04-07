@@ -1,9 +1,9 @@
 <section id="comments">
-  
+
   <h2 class="subhead_style bordered">
     <%= pluralize(@event.comments.size, 'Comment') -%>
   </h2>
-  
+
   <% if current_learner %>
     <div id="new-comments-form">
       <%= render partial: 'comments/new_comments_form' %>
@@ -11,25 +11,29 @@
   <% else %>
     <div class="sign_in_prompt" >
       <p>Please sign in to post a comment</p>
-      <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn" )%></p>
+      <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn btn-default" )%></p>
     </div>
   <% end %>
-  
+
   <div id="comments-list">
     <%= render :partial => 'comments/comments_list', :locals => {:comment_list => @event_comments, :parent_comment => nil} %>
   </div>
-  
+
 </section>
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#new-comments-form .wysihtml5').wysihtml5('deepExtend', {
-      image: false,
-      parserRules: { tags: { p: {} } }
+
+    $('.wysihtml5').each(function(i, elem) {
+      $(elem).wysihtml5('deepExtend', {
+        toolbar: { "fa": true, "image": false, "blockquote": false},
+        parserRules: { tags: { p: {} } }
+      });
     });
+
     var highlightedComment = window.location.hash;
     $(highlightedComment).closest(".cc-comment").addClass("cc-highlight");
-    
+
     $(".comment-timestamp").click(function() {
       $(".cc-comment").removeClass("cc-highlight");
       $(this).closest(".cc-comment").addClass("cc-highlight");

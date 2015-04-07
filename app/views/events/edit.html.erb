@@ -26,12 +26,10 @@
 
     $('.wysihtml5').each(function(i, elem) {
       $(elem).wysihtml5('deepExtend', {
-        image: false,
+        toolbar: { "fa": true, "image": false, "blockquote": false},
         parserRules: { tags: { p: {} } }
       });
     });
 
   })
 </script>
-
-

@@ -1,6 +1,6 @@
 <fieldset id="event-title">
   <p>
-    <%= event_form.text_field :title, :size => nil, :class => "edit-event-title input-xxlarge" %>
+    <%= event_form.text_field :title, :size => nil, :class => "form-control edit-event-title" %>
     <span class="help-block">Titles which are 80 characters or less are more easily shared via social media and texting</span>
   </p>
 </fieldset>
@@ -15,7 +15,7 @@
 <fieldset id="description">
   <p>
     <%= event_form.label :description, 'Description' %>
-    <%= event_form.text_area :description, {:rows => "12", :class => "wysihtml5 input-xxlarge"} %>
+    <%= event_form.text_area :description, {:rows => "12", :class => "wysihtml5 form-control"} %>
   </p>
 </fieldset>
 
@@ -41,31 +41,40 @@
   </div>
 </fieldset>
 
- <fieldset id="datetime">
-   <p>
-   <%= event_form.label :session_start, 'Date and Time' %>
-   <%= event_form.text_field :session_start_string, {id: 'session_start', :size => nil} %>
-   </p>
+<fieldset id="datetime">
+  <p>
+    <%= event_form.label :session_start, 'Date and Time' %>
+  </p>
+
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <%= event_form.text_field :session_start_string, {id: 'session_start', :size => nil, :class => "form-control"} %>
+    </div>
+  </div>
 
    <p>
    <%= event_form.label :time_zone, 'Time Zone' %>
-   <%= event_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {:default => @event.time_zone}, {:class => "col-md-5"} %>
+   <%= event_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {:default => @event.time_zone}, {:class => "form-control"} %>
    </p>
 
  </fieldset>
 
- <fieldset id="session_length">
-   <p>
-   <%= event_form.label :session_length, 'Duration (in minutes)' %>
-   <%=  event_form.text_field :session_length, :class => "input-mini" %>
-   </p>
- </fieldset>
+<fieldset id="session_length">
+  <p>
+    <%= event_form.label :session_length, 'Duration (in minutes)' %>
+  </p>
+  <div class="row">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+      <%= event_form.text_field :session_length, :class => "form-control" %>
+    </div>
+  </div>
+</fieldset>
 
  <fieldset>
  <p>
 
     <%= event_form.label :location, 'Event Location (e.g., http://connect.extension.iastate.edu/learn)' %>
-    <%= event_form.text_field :location, :class => "input-xxlarge" %>
+    <%= event_form.text_field :location, :class => "form-control" %>
     <span class="help-block">Please make sure the hosting venue is available before scheduling your event.</span>
     </label>
  </p>
@@ -74,7 +83,7 @@
  <% if @event.concluded? %>
    <p>
       <%= event_form.label :recording, 'Recording URL' %>
-      <%= event_form.text_field :recording, :class => "input-xxlarge" %>
+      <%= event_form.text_field :recording, :class => "form-control" %>
    </p>
  <% end %>
 
@@ -103,14 +112,14 @@
  <fieldset class="evaluation-url">
    <p>
      <%= event_form.label :evaluation_link, 'Participant evaluation URL (optional)' %>
-     <%= event_form.text_field :evaluation_link, :class => "input-xxlarge" %>
+     <%= event_form.text_field :evaluation_link, :class => "form-control" %>
      <span class="help-block">Displays once the event has concluded</span>
    </p>
  </fieldset>
 
 <fieldset>
   <div class="material-links-wrapper">
-    <p><%= link_to_add_association 'Add support materials', event_form, :material_links, { form_name: 'event_form', 'data-association-insertion-method' => 'after', :class => "btn" } %><p>
+    <p><%= link_to_add_association 'Add support materials', event_form, :material_links, { form_name: 'event_form', 'data-association-insertion-method' => 'after', :class => "btn btn-default" } %><p>
 
     <%= event_form.fields_for :material_links do |material_link| %>
       <%= render 'material_link_fields', event_form: material_link %>

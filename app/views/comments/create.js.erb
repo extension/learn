@@ -1,11 +1,11 @@
 <% if @comment.parent.blank? %>
 $("#new-comments-form").html("<%= escape_javascript(render partial: 'new_comments_form') %>");
 $('#new-comments-form .wysihtml5').wysihtml5('deepExtend', {
-  image: false,
+  toolbar: { "fa": true, "image": false, "blockquote": false},
   parserRules: { tags: { p: {} } }
 });
 
-<% else %> 
+<% else %>
 $("#comment-<%= @comment.parent.id %>").children(".cc-comment-form").replaceWith("<%= escape_javascript(render partial: 'comments/new_comments_form') %>");
 <% end %>
 
