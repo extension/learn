@@ -7,13 +7,13 @@
     <%= render(partial: 'evalquestion', locals: {evalquestion: evalquestion, event: @event}) %>
   <%- end -%>
 
-  <p><%= link_to("I'm Done", conference_event_path(@event, conference_id: @event.conference.hashtag), class: 'btn btn-primary') %></p>
+  <p><%= link_to("I'm Done", conference_event_path(@event, conference_id: @event.conference.hashtag), class: 'btn btn-default btn-primary') %></p>
 </div>
 
 <script class="code" type="text/javascript">
-  $('.submittable').live('change', 
+  $('.submittable').live('change',
     function() {
       $(this).parents('form:first').submit();
     }
-  );  
+  );
 </script>

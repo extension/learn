@@ -1,7 +1,7 @@
-<div class="span12">
+<div class="col-md-12">
   <h1>Learn Widgets</h1>
 
-  <div class="span5">
+  <div class="col-md-5">
     <h2>Build a Custom Widget</h2>
     <p>Display a list of upcoming events.</p>
     <div class="well">
@@ -24,12 +24,12 @@
 
         <p><%= select_tag "operator", options_for_select([["Match any tag", "or"], ["Match all tags", "and"]], params[:operator] ), {:name => "operator", :class => "form-control"} %></p>
 
-        <p><span id="submit-widget" class="btn btn-primary btn-large">Generate Widget</span></p>
+        <p><span id="submit-widget" class="btn btn-default btn-primary btn-lg">Generate Widget</span></p>
       <% end %>
     </div>
   </div>
 
-  <div class="span5">
+  <div class="col-md-5">
     <div id="example-widget">
       <h3>Live Example</h3>
       <%= render(:partial => 'example_widget') %>
@@ -38,13 +38,13 @@
 
 </div>
 
-<div class="span12">
+<div class="col-md-12">
 <h2>Widget Code Snippet</h2>
 <p>The following code snippet will embed the example widget displayed above. Include this code on your page where you want the widget to appear.</p>
 <div id="widget-code"><textarea></textarea></div>
 </div>
 
-<div class="span12">
+<div class="col-md-12">
 
 <h2>Widget behavior and styling</h2>
 <p>If upcoming events aren't available, recent events are displayed instead.</p>

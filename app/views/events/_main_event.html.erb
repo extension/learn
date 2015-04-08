@@ -1,4 +1,4 @@
-<div class="span7">
+<div class="col-md-7 col-sm-7">
   <section id="event" class="event-main">
 
     <%- if @event.is_conference_session? -%>
@@ -73,7 +73,7 @@
      <p><small>Created by <%= link_to_learner(@event.creator) %></small></p>
 
      <%- if current_learner && !@event.is_conference_session? -%>
-       <p><small><%= link_to('edit', edit_event_path(@event), :class => "btn btn-small") -%> <%= link_to("version history", history_event_path(@event), :class => "btn btn-small")%></small></p>
+       <p><small><%= link_to('edit', edit_event_path(@event), :class => "btn btn-default btn-sm") -%> <%= link_to("version history", history_event_path(@event), :class => "btn btn-default btn-sm")%></small></p>
      <%- end %>
    </div>
 
@@ -85,7 +85,7 @@
    </div>
 </div>
 
-  <div class="span5">
+  <div class="col-md-5 col-sm-5">
 
   <aside class="addthis-wrapper clearing">
     <%= render(:partial => 'addthis') %>
@@ -131,7 +131,7 @@
 
         <p class="addtocalendar">
           <span id="event_date" class="addtocal">
-            <span class="btn"><i class="fa fa-table"></i> Add to calendar</span>
+            <span class="btn btn-default"><i class="fa fa-table"></i> Add to calendar</span>
             <span class="summary" style="display:none"><%= "Learn Event: #{@event.title}" %></span>
             <span class="dtstart" style="display:none"><%= add_to_cal_timestamp(@event.session_start) %></span>
             <span class="dtend" style="display:none"><%= add_to_cal_timestamp(@event.session_end) %></span>

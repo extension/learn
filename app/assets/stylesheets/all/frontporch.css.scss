@@ -66,7 +66,7 @@ h2 {
 	border-bottom:1px dotted #CCC;
 }
 
-.span3 h3 {
+.col-md-3 h3 {
     font-family: 'Sanchez', serif;
 	font-size: 22px;
 	line-height: 120%;
@@ -886,8 +886,8 @@ label {font-weight:bold;}
 
 @media (min-width: 768px) and (max-width: 979px) {
 
-.span3 h2,
-.span3 h3 {
+.col-md-3 h2,
+.col-md-3 h3 {
 	font-size: 16px;
 }
 
@@ -1046,7 +1046,7 @@ width:300px;
 	width:100%;
 }
 
-.navbar .form-search input.search-query.span2 {
+.navbar .form-search input.search-query.col-md-2 {
 	width:100% !important;
 }
 

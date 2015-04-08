@@ -16,11 +16,11 @@
           <% if upvoted_object = current_learner.get_upvoted_object(@event.id, 'Event') %>
             <span id='undo_vote_event_<%= @event.id %>'><%= button_to '-', rating_path(upvoted_object), :method => :delete, :remote => true, :class => "btn" %></span>
           <% else %>
-            <span id='upvote_event_<%= @event.id %>'><%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn btn-primary" %></span>
+            <span id='upvote_event_<%= @event.id %>'><%= button_to '+', ratings_path(:rating => {:rateable_id => @event.id, :rateable_type => 'Event', :score => 1}), :method => :post, :remote => true, :class => "btn btn-default btn-primary" %></span>
           <% end %>
         <% else %>
           <%= render(partial: 'sign_in_to_vote')%>
-          <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
+          <%= button_to '+', {}, {:class => "btn btn-default signintovote sitv_element", :disabled => true} %>
           </div> <!-- end .sitv_element_wrapper  -->
         <% end %>
         <div id="event_votes" class="rating_detail">
@@ -34,7 +34,7 @@
       <% end %>
 
       <div class="description"><%= @event.description.html_safe -%></div>
-      
+
       <div class="tags">
         <h4 class="hide">Tags</h4>
         <p>
@@ -48,7 +48,7 @@
         <h3>Presenters</h3>
         <p id="presenters"><%= display_presenters(@event.presenters) %></p>
       <%- end -%>
-      
+
       <div class="event_materials">
         <h3>Event Materials</h3>
         <div id="material-links-list">
