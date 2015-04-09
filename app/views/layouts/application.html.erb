@@ -151,6 +151,9 @@ $(function() {
    });
    
 });
+//set event times for non-auth users
+var tz = jstz.determine();
+$.cookie('timezone', tz.name(), { path: '/' });
 </script>
 
 </body>
