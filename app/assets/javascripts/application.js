@@ -15,10 +15,10 @@
 //= require jqplot-plugins/jqplot.categoryAxisRenderer
 //= require jquery.tokeninput
 //= require jquery.tablesorter.min
-//= require bootstrap-tab
-//= require bootstrap-collapse
-//= require bootstrap-dropdown
-//= require bootstrap-modal
+//= require bootstrap/tab
+//= require bootstrap/collapse
+//= require bootstrap/dropdown
+//= require bootstrap/modal
 //= require bootstrap-wysihtml5
 //= require cocoon
 //= require_tree .

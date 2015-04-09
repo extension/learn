@@ -2,7 +2,7 @@
 <div id="conference_banner"><span class="label label-info">Happening Now!</span> <span><strong><%= link_to('eXtension 2012 National Conference',conference_path(@nexc2012)) %></strong></span></div>
 <%- end -%>
 
-<div class="span5">
+<div class="col-md-5 col-sm-5">
   <h2>Upcoming Sessions <small><%= link_to 'view all', upcoming_events_path %></small></h2>
 
   <div class="upcoming-events">
@@ -50,7 +50,7 @@
 </div>
 
 
-<div class="span3">
+<div class="col-md-3 col-sm-3">
   <h2>More Upcoming <small><%= link_to 'view all', upcoming_events_path %></small></h2>
 
   <div id="more_upcoming_events">
@@ -86,7 +86,7 @@
 </div>
 
 
-<div class="span4">
+<div class="col-md-4 col-sm-4">
   <div class="addthis-wrapper clearing">
     <%= render(:partial => 'events/addthis') %>
   </div>
@@ -98,10 +98,10 @@
   <p>If you have a suggestion for a topic, you can tweet to <%= link_to "@extensionLearns", "http://twitter.com/extensionLearns" %> on Twitter.</p>
 
   <%- if current_learner -%>
-      <p><%= link_to "Create a new event", new_event_path(), :class => "btn" %></p>
+      <p><%= link_to "Create a new event", new_event_path(), :class => "btn btn-default" %></p>
   <%- else -%>
     <div id="signin">
-      <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn btn-primary" )%></p>
+      <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn btn-default btn-primary" )%></p>
 
       <h3>Why Sign in?</h3>
       <ul>
@@ -117,6 +117,7 @@
   <% if current_learner %>
   <p><%= link_to "Canceled events", canceled_events_path %></p>
   <p><%= link_to('Event statistics', data_events_path) -%></p>
+  <p><%= link_to('Create a Learn widget', widgets_path) -%></p>
   <% end %>
   <p><%= link_to image_tag("Ask_An_Expert_logo_color.png", :class => "ask-an-expert-button", :alt =>"Ask an Expert"), contact_us_path(), :title => "One-to-one answers from a network of experts at universities across America." %></p>
 

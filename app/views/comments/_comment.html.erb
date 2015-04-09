@@ -1,13 +1,13 @@
 <div id="comment-<%= comment.id %>" class="cc-comment <%= comment_class(comment) %>">
   <div id="view-comment-<%= comment.id %>" class="cc-comment-anchor"></div>
-  
+
   <div class="content">
     <%= comment.content.html_safe %>
   </div>
-  
+
 
   <p class="comment-author"><%= link_to_learner_avatar(comment.learner, {image_size: :thumb}) %> <%= link_to_learner(comment.learner) %></p>
-  
+
   <div class='rating_wrapper'>
     <% if current_learner %>
       <% if upvoted_object = current_learner.get_upvoted_object(comment.id, 'Comment') %>
@@ -17,28 +17,28 @@
       <% end %>
     <% else %>
       <%= render(partial: '/events/sign_in_to_vote')%>
-      <%= button_to '+', {}, {:class => "btn signintovote sitv_element", :disabled => true} %>
+      <%= button_to '+', {}, {:class => "btn btn-default signintovote sitv_element", :disabled => true} %>
       </div> <!-- end .sitv_element_wrapper  -->
     <% end %>
     <div id="comment_votes_<%= comment.id %>" class="rating_detail">
       <%= render :partial => '/partials/ratings', locals: {rateable_object: comment} %>
     </div>
   </div>
-  
-  
+
+
   <p class="comment-actions">
     <%= link_to "#{time_ago_in_words(comment.updated_at)} ago", event_path(comment.event, :anchor => "view-comment-#{comment.id}"), {:class => "comment-timestamp", :title => "Link to this comment"} %>
-    
+
     <%- if current_learner && (current_learner.id == comment.learner_id) -%>
       <%= link_to 'edit', edit_comment_path(comment), remote: true %>
     <%- end %>
-    
+
     <% if current_learner %>
       <%= link_to 'reply', reply_comments_path(comment_id: comment.id), id: "reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
       <%= link_to 'cancel reply', cancel_reply_comments_path(comment_id: comment.id), style: "display: none;", class: 'cancel-reply-to-comment', id: "cancel-reply-to-comment-#{comment.id}", remote: true, :data => { :comment => comment.id } %>
     <% end %>
   </p>
-  
+
   <% if comment.parent_removed %>
     <p class="removed">The comment preceding this comment has been deleted</p>
   <% end %>
