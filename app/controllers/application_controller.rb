@@ -59,6 +59,8 @@ class ApplicationController < ActionController::Base
   def set_timezone
     if(current_learner)
       timezone = Time.zone = current_learner.time_zone
+    elsif(cookies[:user_selected_timezone])
+      timezone = Time.find_zone(cookies[:user_selected_timezone])
     else
       timezone = Time.find_zone(cookies[:timezone])
     end
