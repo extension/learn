@@ -6,10 +6,10 @@
   <h2>Upcoming Sessions <small><%= link_to 'view all', upcoming_events_path %></small></h2>
 
   <%- if !current_learner %> 
-    <%= select_tag :timezone, options_for_select(ActiveSupport::TimeZone::MAPPING,
-    cookies[:user_selected_timezone] ? Time.find_zone(cookies[:user_selected_timezone]).name : Time.find_zone(cookies[:timezone]).name) %>
+    <%= select_tag :timezone, options_for_select(ActiveSupport::TimeZone::MAPPING.merge({"Select your timezone" => "Select your timezone"}),
+        cookies[:user_selected_timezone] ? cookies[:user_selected_timezone] : "Select your timezone") %>
   <%- end -%>
-  
+
   <div class="upcoming-events">
   <%- @upcoming_events.each do |event| -%>
     <section class="upcoming-events-single">
