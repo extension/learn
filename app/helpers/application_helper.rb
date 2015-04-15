@@ -144,9 +144,15 @@ module ApplicationHelper
       link_to title, {:sort => column, :direction => direction, :start_date => start_date, :end_date => end_date, :tag_tokens => tag_tokens}, {:class => css_class}
   end
 
-  def convert_timezone(jstz_timezone)
+  def timezone_select_default
     reverse_mappings = ActiveSupport::TimeZone::MAPPING.invert
-    reverse_mappings[jstz_timezone]
+    if cookies[:user_selected_timezone]
+      cookies[:user_selected_timezone]
+    elsif cookies[:system_timezone]
+      reverse_mappings[cookies[:system_timezone]]
+    else
+      "Eastern Time (US & Canada)"
+    end
   end
 
 end

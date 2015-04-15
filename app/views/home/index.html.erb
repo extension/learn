@@ -8,8 +8,7 @@
 
 
   <%- if !current_learner %> 
-    <%= time_zone_select( :user_selected_timezone, :timezone, ActiveSupport::TimeZone.us_zones,
-        :default => cookies[:user_selected_timezone] ? cookies[:user_selected_timezone] : convert_timezone(cookies[:system_timezone])) %>
+    <%= time_zone_select( :user_selected_timezone, :timezone, ActiveSupport::TimeZone.us_zones, :default =>timezone_select_default) %>
   <%- end -%>
 
   <div class="upcoming-events">
