@@ -144,4 +144,9 @@ module ApplicationHelper
       link_to title, {:sort => column, :direction => direction, :start_date => start_date, :end_date => end_date, :tag_tokens => tag_tokens}, {:class => css_class}
   end
 
+  def convert_timezone(jstz_timezone)
+    reverse_mappings = ActiveSupport::TimeZone::MAPPING.invert
+    reverse_mappings[jstz_timezone]
+  end
+
 end

@@ -5,9 +5,11 @@
 <div class="col-md-5 col-sm-5">
   <h2>Upcoming Sessions <small><%= link_to 'view all', upcoming_events_path %></small></h2>
 
+
+
   <%- if !current_learner %> 
-    <%= select_tag :timezone, options_for_select(ActiveSupport::TimeZone::MAPPING.merge({"Select your timezone" => "Select your timezone"}),
-        cookies[:user_selected_timezone] ? cookies[:user_selected_timezone] : "Select your timezone") %>
+    <%= time_zone_select( :user_selected_timezone, :timezone, ActiveSupport::TimeZone.us_zones,
+        :default => cookies[:user_selected_timezone] ? cookies[:user_selected_timezone] : convert_timezone(cookies[:system_timezone])) %>
   <%- end -%>
 
   <div class="upcoming-events">

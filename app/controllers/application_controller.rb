@@ -61,8 +61,10 @@ class ApplicationController < ActionController::Base
       timezone = Time.zone = current_learner.time_zone
     elsif(cookies[:user_selected_timezone])
       timezone = Time.find_zone(cookies[:user_selected_timezone])
-    else
+    elsif(cookies[:system_timezone])
       timezone = Time.find_zone(cookies[:system_timezone])
+    else
+      timezone = Time.zone = Settings.default_display_timezone
     end
     Time.use_zone(timezone) { yield }
   end
