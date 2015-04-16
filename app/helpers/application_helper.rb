@@ -151,7 +151,7 @@ module ApplicationHelper
     elsif cookies[:system_timezone]
       reverse_mappings[cookies[:system_timezone]]
     else
-      "Eastern Time (US & Canada)"
+      Settings.default_display_timezone
     end
   end
 
