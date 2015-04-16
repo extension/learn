@@ -23,7 +23,7 @@ class Authmap < ActiveRecord::Base
   # UPDATE: Will handle account merges manually (through a call from the console to the merge_account_with method on the learner model)
   # on a case by case basis for now
   # TODO: Logic needs to be changed here for account merge
-  def self.process_learner_info(provider, access_token, logged_in_learner)
+  def self.process_learner_info(access_token, logged_in_learner)
     if !logged_in_learner.blank?
       return logged_in_learner
     end
