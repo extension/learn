@@ -9,8 +9,8 @@ class ApplicationController < ActionController::Base
   FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE','no','NO','n','N']
 
   protect_from_forgery
-  before_filter :set_time_zone_from_learner
   before_filter :store_location
+  around_filter :set_timezone
 
   def append_info_to_payload(payload)
     super
@@ -20,15 +20,6 @@ class ApplicationController < ActionController::Base
 
   def store_location
     session[:learner_return_to] = request.url unless (params[:controller] == "authmaps/omniauth_callbacks" || params[:controller] == "learners/sessions")
-  end
-
-  def set_time_zone_from_learner
-    if(current_learner)
-      Time.zone = current_learner.time_zone
-    else
-      Time.zone = Settings.default_display_timezone
-    end
-    true
   end
 
   # devise hook for the url to redirect to after a learner has authenticated
@@ -63,4 +54,18 @@ class ApplicationController < ActionController::Base
     render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
   end
 
+  private
+
+  def set_timezone
+    if(current_learner)
+      timezone = Time.zone = current_learner.time_zone
+    elsif(cookies[:user_selected_timezone])
+      timezone = Time.find_zone(cookies[:user_selected_timezone])
+    elsif(cookies[:system_timezone])
+      timezone = Time.find_zone(cookies[:system_timezone])
+    else
+      timezone = Time.zone = Settings.default_display_timezone
+    end
+    Time.use_zone(timezone) { yield }
+  end
 end
