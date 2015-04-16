@@ -47,7 +47,7 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   end
   
   def google
-    @learner = Authmap.find_for_google_openid(env["omniauth.auth"], current_learner)
+    @learner = Authmap.find_for_google_oauth(env["omniauth.auth"], current_learner)
     if @learner.persisted?
       if @learner.retired == false
         flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Google"
