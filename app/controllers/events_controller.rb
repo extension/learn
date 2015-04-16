@@ -143,6 +143,10 @@ class EventsController < ApplicationController
     # display to the session and not the system default
     if(@conference and !@conference.is_virtual?)
       Time.zone = @conference.time_zone
+    elsif(current_learner and current_learner.has_time_zone?)
+      Time.zone = current_learner.time_zone
+    else
+      Time.zone = @event.time_zone
     end
 
     if(!@event.is_conference_session?)
