@@ -7,8 +7,8 @@
 
 
 
-  <%- if !current_learner %> 
-    <%= time_zone_select( :user_selected_timezone, :timezone, ActiveSupport::TimeZone.us_zones, :default =>timezone_select_default) %>
+  <%- if !current_learner %>
+    <%= time_zone_select( :user_selected_timezone, :timezone, ActiveSupport::TimeZone.us_zones, {:default =>timezone_select_default}, {:class => "form-control"}) %>
   <%- end -%>
 
   <div class="upcoming-events">

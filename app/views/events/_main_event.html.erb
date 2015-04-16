@@ -126,9 +126,9 @@
               <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
            </span>
         </h4>
-        
-        <%- if !current_learner %> 
-          <%= time_zone_select( :user_selected_timezone, :timezone, ActiveSupport::TimeZone.us_zones, :default =>timezone_select_default) %>
+
+        <%- if !current_learner %>
+          <%= time_zone_select( :user_selected_timezone, :timezone, ActiveSupport::TimeZone.us_zones, {:default =>timezone_select_default}, {:class => "form-control"}) %>
         <%- end -%>
 
         <h4 class="session-duration"><%= "#{@event.session_length}" -%> minute session</h3>
