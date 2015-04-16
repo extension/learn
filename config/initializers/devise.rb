@@ -202,7 +202,7 @@ Devise.setup do |config|
   config.omniauth :open_id, :store => OpenID::Store::Filesystem.new("#{Rails.root}/tmp/auth"), :name => 'people', :identifier => 'https://people.extension.org', :require => 'omniauth-openid'
   config.omniauth :twitter, Settings.twitter_app_id, Settings.twitter_app_secret
   config.omniauth :facebook, Settings.facebook_app_id, Settings.facebook_app_secret
-  config.omniauth :google_oauth2, Settings.google_oauth_client_id, Settings.google_oauth_client_secret
+  config.omniauth :google, Settings.google_oauth_client_id, Settings.google_oauth_client_secret, :name => 'google', :strategy_class => OmniAuth::Strategies::GoogleOauth2
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
