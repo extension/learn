@@ -33,9 +33,6 @@ class Authmap < ActiveRecord::Base
 
     if authmap = Authmap.where({:authname => learner_screen_name, :source => learner_provider}).first
       return authmap.learner
-    elsif(access_token['info']['email'].present? and (authmap = Authmap.where({:email => learner_screen_name, :source => learner_provider}).first))
-      # really a special case to match the email for google openid to oauth changeover
-      return authmap.learner
     end
 
     # search for an existing learner and match the email.
