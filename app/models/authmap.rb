@@ -36,7 +36,7 @@ class Authmap < ActiveRecord::Base
     end
 
     # search for an existing learner and match the email.
-    if(access_token['info']['email'].present? and learner = Learn.where(email: access_token['info']['email']).first)
+    if(access_token['info']['email'].present? and learner = Learner.where(email: access_token['info']['email']).first)
       learner.authmaps << self.new(:authname => learner_screen_name, :source => learner_provider)
       learner.save
       learner
