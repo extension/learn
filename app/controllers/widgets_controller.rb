@@ -8,6 +8,9 @@ class WidgetsController < ApplicationController
   end
 
   def generate_widget
+    if params[:widget_params].nil?
+      render :json => { :success => false }
+    end
     @widget_key = params[:widget_key]
     @widget_url = widgets_events_url + ".js?" + params[:widget_params]
     respond_to do |format|
