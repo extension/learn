@@ -306,9 +306,6 @@ GEM
     tropo-webapi-ruby (0.1.13)
       hashie (>= 0.2.0)
       json_pure (>= 1.2.0)
-    turbo-sprockets-rails3 (0.2.9)
-      railties (>= 3.1.0)
-      sprockets (>= 2.0.0)
     turn (0.9.6)
       ansi
     tzinfo (1.2.2)
@@ -384,6 +381,5 @@ DEPENDENCIES
   sunspot_solr
   thor
   tropo-webapi-ruby
-  turbo-sprockets-rails3
   turn
   uglifier (>= 1.0.3)
