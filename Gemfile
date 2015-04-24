@@ -3,19 +3,14 @@ source 'https://engineering.extension.org/rubygems'
 
 gem 'rails', "4.2.1"
 
-gem 'jquery-rails', "~> 2.3.0"
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
-# Gems used only for assets and not required
-# in production environments by default.
-# speed up sppppppprooooockets
-#gem 'turbo-sprockets-rails3' <-- removed for rails 4
 gem 'turbolinks'
-#group :assets do <--- removed for rails 4 update
-  gem 'sass-rails'
-  gem 'coffee-rails'
-  gem 'uglifier', '>= 1.0.3'
-  gem 'outfielding-jqplot-rails'
-#end
+gem 'sass-rails'
+gem 'coffee-rails'
+gem 'uglifier', '>= 1.0.3'
+gem 'outfielding-jqplot-rails'
 
 # bootstrap in sass in rails
 gem 'bootstrap-sass', '~> 3.1.1.1'
