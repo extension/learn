@@ -54,8 +54,6 @@ GEM
     ansi (1.5.0)
     arel (6.0.0)
     bcrypt (3.1.10)
-    bcrypt-ruby (3.1.5)
-      bcrypt (>= 3.1.3)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -101,10 +99,13 @@ GEM
     delayed_job_active_record (4.0.3)
       activerecord (>= 3.0, < 5.0)
       delayed_job (>= 3.0, < 4.1)
-    devise (1.5.4)
-      bcrypt-ruby (~> 3.0)
-      orm_adapter (~> 0.0.3)
-      warden (~> 1.1)
+    devise (3.4.1)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     diffy (3.0.7)
     domain_name (0.5.24)
@@ -136,9 +137,8 @@ GEM
     inline-style (0.5.2ex)
       csspool
       nokogiri
-    jquery-rails (4.0.3)
-      rails-dom-testing (~> 1.0)
-      railties (>= 4.2.0)
+    jquery-rails (2.3.0)
+      railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.2)
     json_pure (1.8.2)
@@ -207,7 +207,7 @@ GEM
     omniauth-twitter (1.2.0)
       json (~> 1.3)
       omniauth-oauth (~> 1.1)
-    orm_adapter (0.0.7)
+    orm_adapter (0.5.0)
     outfielding-jqplot-rails (1.0.8)
     paper_trail (4.0.0.beta2)
       activerecord (>= 3.0, < 6.0)
@@ -263,6 +263,8 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
+    responders (2.1.0)
+      railties (>= 4.2.0, < 5)
     rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
@@ -306,6 +308,8 @@ GEM
     tropo-webapi-ruby (0.1.13)
       hashie (>= 0.2.0)
       json_pure (>= 1.2.0)
+    turbolinks (2.5.3)
+      coffee-rails
     turn (0.9.6)
       ansi
     tzinfo (1.2.2)
@@ -341,14 +345,14 @@ DEPENDENCIES
   daemons
   delayed_job
   delayed_job_active_record
-  devise (~> 1.5.1)
+  devise
   diffy
   factory_girl_rails
   font-awesome-rails
   honeybadger
   htmlentities
   inline-style (= 0.5.2ex)
-  jquery-rails
+  jquery-rails (~> 2.3.0)
   kaminari
   lograge
   loofah
@@ -381,5 +385,6 @@ DEPENDENCIES
   sunspot_solr
   thor
   tropo-webapi-ruby
+  turbolinks
   turn
   uglifier (>= 1.0.3)

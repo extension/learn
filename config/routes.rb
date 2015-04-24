@@ -5,10 +5,10 @@
 # see LICENSE file
 
 Learn::Application.routes.draw do
- # devise_for :learners, :path => '/', :controllers => { :sessions => "learners/sessions", :registrations => "learners/registrations" }
- # devise_for :authmaps, :controllers => { :omniauth_callbacks => "authmaps/omniauth_callbacks" } do
- #   get '/authmaps/auth/:provider' => 'authmaps/omniauth_callbacks#passthru'
- # end
+ devise_for :learners, :path => '/', :controllers => { :sessions => "learners/sessions", :registrations => "learners/registrations" }
+ devise_for :authmaps, :controllers => { :omniauth_callbacks => "authmaps/omniauth_callbacks" } do
+   get '/authmaps/auth/:provider' => 'authmaps/omniauth_callbacks#passthru'
+ end
 
   resources :comments, :only => [:create, :update, :destroy, :show, :edit] do
     collection do
@@ -52,7 +52,7 @@ Learn::Application.routes.draw do
   match "search/events" => "search#events", :via => [:get]
 
   # individual tag match
-  #match "/events/tag/:tags" => "events#tags", :as => 'events_tag'
+  match "/events/tag" => "events#tags", :via => [:get]
 
   resources :events do
     member do

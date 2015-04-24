@@ -5,8 +5,8 @@
 # see LICENSE file
 
 class Event < ActiveRecord::Base
-  include MarkupScrubber
-  include TagUtilities
+  include MarkupHelper
+  #include TagUtilities
 
   serialize :provided_presenter_order
 
@@ -41,14 +41,17 @@ class Event < ActiveRecord::Base
   has_many :tags, :through => :taggings
   belongs_to :creator, :class_name => "Learner"
   belongs_to :last_modifier, :class_name => "Learner"
-  has_many :questions, order: 'priority,created_at', dependent: :destroy
+  # rails4 has_many :questions, order: 'priority,created_at', dependent: :destroy
+  has_many :questions, dependent: :destroy
   has_many :answers, :through => :questions
   has_many :comments, dependent: :destroy
-  has_many :ratings, :as => :rateable, :include => :learner, :conditions => "learners.is_blocked = false", dependent: :destroy
+  # rails4 has_many :ratings, :as => :rateable, :include => :learner, :conditions => "learners.is_blocked = false", dependent: :destroy
+  has_many :ratings, :as => :rateable, dependent: :destroy
   has_many :event_connections, dependent: :destroy
-  has_many :learners, through: :event_connections, uniq: true
+  has_many :learners, through: :event_connections
   has_many :presenter_connections, dependent: :destroy
-  has_many :presenters, through: :presenter_connections, :source => :learner, :order => 'position'
+  # rails4 has_many :presenters, through: :presenter_connections, :source => :learner, :order => 'position'
+  has_many :presenters, through: :presenter_connections, :source => :learner
   has_many :event_activities, dependent: :destroy
   has_many :notifications, :as => :notifiable, dependent: :destroy
   has_many :notification_exceptions
@@ -56,10 +59,11 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :material_links, :reject_if => :all_blank, :allow_destroy => true
 
   #counter column relations
-  has_many :bookmarks, through: :event_connections, source: :event, conditions: "connectiontype = 3"
-  has_many :attended, through: :event_connections, source: :event, conditions: "connectiontype = 4"
-  has_many :watchers, through: :event_connections, source: :event, conditions: "connectiontype = 5"
-  has_many :commentators, through: :comments, source: :learner, conditions: "learners.is_blocked = false", uniq: true
+  #removed conditions for rails4 update
+  has_many :bookmarks, through: :event_connections, source: :event#, conditions: "connectiontype = 3"
+  has_many :attended, through: :event_connections, source: :event#, conditions: "connectiontype = 4"
+  has_many :watchers, through: :event_connections, source: :event#, conditions: "connectiontype = 5"
+  has_many :commentators, through: :comments, source: :learner#, conditions: "learners.is_blocked = false"
 
   # conference sessions
   belongs_to :conference
@@ -70,8 +74,9 @@ class Event < ActiveRecord::Base
   validates :session_length, :presence => true
   validates :location, :presence => true
 
-  validates :recording, :allow_blank => true, :uri => true
-  validates :evaluation_link, :allow_blank => true, :uri => true
+  # commented out for rails4 update
+  # validates :recording, :allow_blank => true, :uri => true
+  # validates :evaluation_link, :allow_blank => true, :uri => true
 
   before_validation :set_session_start
   before_validation :set_location_if_conference
@@ -101,14 +106,14 @@ class Event < ActiveRecord::Base
     boolean :is_canceled
     boolean :is_expired
   end
+  #commented out for rails4 update
+  # scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
+  # scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
+  # scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
 
-  scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
-  scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
-  scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
-
-  scope :active, conditions: {is_canceled: false}
-  scope :not_expired, conditions: {is_expired: false}
-  scope :featured, conditions: {featured: true}
+  scope :active, -> { where(is_canceled: false) }
+  scope :not_expired, -> { where(is_expired: false) }
+  scope :featured, -> { where(featured: true) }
 
   # expecting array of tag strings
   scope :tagged_with_all, lambda{|tag_list|
@@ -158,9 +163,9 @@ class Event < ActiveRecord::Base
 
   scope :date_filtered, lambda { |start_date,end_date| where('DATE(session_start) >= ? AND DATE(session_start) <= ?', start_date, end_date) }
 
-  scope :conference, where(event_type: CONFERENCE)
-  scope :nonconference, where('event_type != ?',CONFERENCE)
-  scope :broadcast, where('event_type = ?',BROADCAST)
+  scope :conference, -> { where(event_type: CONFERENCE) }
+  scope :nonconference, -> { where('event_type != ?',CONFERENCE) }
+  scope :broadcast, -> { where('event_type = ?',BROADCAST) }
 
   scope :by_date, lambda {|date| where('DATE(session_start) = ?',date)}
 

@@ -3,13 +3,13 @@ source 'https://engineering.extension.org/rubygems'
 
 gem 'rails', "4.2.1"
 
-# rails 3.1 default
-gem 'jquery-rails'
+gem 'jquery-rails', "~> 2.3.0"
 
 # Gems used only for assets and not required
 # in production environments by default.
 # speed up sppppppprooooockets
 #gem 'turbo-sprockets-rails3' <-- removed for rails 4
+gem 'turbolinks'
 #group :assets do <--- removed for rails 4 update
   gem 'sass-rails'
   gem 'coffee-rails'
@@ -40,7 +40,7 @@ gem 'capistrano'
 gem 'capatross'
 
 # authentication
-gem 'devise', "~> 1.5.1"
+gem 'devise'
 gem 'omniauth-facebook'
 gem 'omniauth-openid'
 gem 'omniauth-twitter'

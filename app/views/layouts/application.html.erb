@@ -24,8 +24,8 @@
   <meta name="twitter:title" content="<%= (@page_title) ? @page_title + " - eXtension Learn" : "eXtension Learn" %>">
   <meta name="twitter:description" content="<%= @page_meta_description ? @page_meta_description : "eXtension Learn: Free access to cutting edge learning events" %>">
   <meta name="twitter:image:src" content="<%= image_path("#{root_url}images/extension_logo.jpg") %>">
-  <%= stylesheet_link_tag    "application" %>
-  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
   <link href='<%= (request.ssl? ? 'https' : 'http' )%>://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
 

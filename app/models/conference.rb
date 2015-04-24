@@ -12,7 +12,7 @@ class Conference < ActiveRecord::Base
   validates :hashtag, :uniqueness => true
   validates :start_date, :presence => true
   validates :end_date, :presence => true
-  validates :website, :allow_blank => true, :uri => true
+  # validates :website, :allow_blank => true, :uri => true
 
   has_many :conference_connections
   has_many :events
@@ -21,8 +21,9 @@ class Conference < ActiveRecord::Base
   belongs_to :last_modifier, :class_name => "Learner"
   has_many :evaluation_questions
 
-  has_many :attendees, through: :conference_connections, source: :learner, conditions: ["conference_connections.connectiontype = ?", ConferenceConnection::ATTEND]
-  scope :attended, include: :conference_connections, conditions: ["conference_connections.connectiontype = ?", ConferenceConnection::ATTEND]
+  # rails4 has_many :attendees, through: :conference_connections, source: :learner, conditions: ["conference_connections.connectiontype = ?", ConferenceConnection::ATTEND]
+  has_many :attendees, through: :conference_connections, source: :learner
+  #scope :attended, include: :conference_connections, conditions: ["conference_connections.connectiontype = ?", ConferenceConnection::ATTEND]
 
 
   def self.find_by_id_or_hashtag(id,raise_not_found = true)

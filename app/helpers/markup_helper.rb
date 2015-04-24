@@ -4,7 +4,7 @@
 # === LICENSE:
 # see LICENSE file
 
-module MarkupScrubber
+module MarkupHelper
   def self.included(base)
     base.extend(self)
   end

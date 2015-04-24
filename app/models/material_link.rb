@@ -4,5 +4,6 @@ class MaterialLink < ActiveRecord::Base
   belongs_to :event
   validates :description, :reference_link, :presence => true
   validates :event_id, presence: true, on: :update
-  validates :reference_link, :uri => true
+  # rails4 validates :reference_link, :uri => true
+  validates :reference_link, presence: true
 end
