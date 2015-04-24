@@ -5,10 +5,10 @@
 # see LICENSE file
 
 Learn::Application.routes.draw do
-  devise_for :learners, :path => '/', :controllers => { :sessions => "learners/sessions", :registrations => "learners/registrations" }
-  devise_for :authmaps, :controllers => { :omniauth_callbacks => "authmaps/omniauth_callbacks" } do
-    get '/authmaps/auth/:provider' => 'authmaps/omniauth_callbacks#passthru'
-  end
+ # devise_for :learners, :path => '/', :controllers => { :sessions => "learners/sessions", :registrations => "learners/registrations" }
+ # devise_for :authmaps, :controllers => { :omniauth_callbacks => "authmaps/omniauth_callbacks" } do
+ #   get '/authmaps/auth/:provider' => 'authmaps/omniauth_callbacks#passthru'
+ # end
 
   resources :comments, :only => [:create, :update, :destroy, :show, :edit] do
     collection do
@@ -52,7 +52,7 @@ Learn::Application.routes.draw do
   match "search/events" => "search#events", :via => [:get]
 
   # individual tag match
-  match "/events/tag/:tags" => "events#tags", :as => 'events_tag'
+  #match "/events/tag/:tags" => "events#tags", :as => 'events_tag'
 
   resources :events do
     member do
@@ -85,7 +85,7 @@ Learn::Application.routes.draw do
   end
 
   # recommended event tracking
-  match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'
+  #match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'
 
   # widgets for upcoming events
   match "widgets/front_porch" => "widgets#front_porch", :via => [:get]
@@ -104,32 +104,32 @@ Learn::Application.routes.draw do
   end
 
   # webmail routes
-  scope "webmail" do
-    match "/:mailer_cache_id/logo" => "webmail#logo", :as => 'webmail_logo'
-    match "/recommendation/:hashvalue" => "webmail#recommendation", :as => 'webmail_recommendation'
-    match "/view/:hashvalue" => "webmail#view", :as => 'webmail_view'
-  end
+  # scope "webmail" do
+  #   match "/:mailer_cache_id/logo" => "webmail#logo", :as => 'webmail_logo'
+  #   match "/recommendation/:hashvalue" => "webmail#recommendation", :as => 'webmail_recommendation'
+  #   match "/view/:hashvalue" => "webmail#view", :as => 'webmail_view'
+  # end
 
   # webmail example routing
-  namespace "webmail" do
-    namespace "examples" do
-      match "/:action"
-    end
-  end
+  # namespace "webmail" do
+  #   namespace "examples" do
+  #     match "/:action"
+  #   end
+  # end
 
   # data routes
-  scope "data" do
-    match "/" => "data#overview", :as => 'data_overview'
-    match "/recommendations" => "data#recommendations", :as => 'data_recommendations'
-    match "/activity" => "data#activity", :as => 'data_activity'
-    match "/events" => "data#events", :as => 'data_events'
-    match "/presenters" => "data#presenters", :as => 'data_presenters'
-    match "/recommended_event/:event_id" => "data#recommended_event", :as => 'data_recommended_event'
-    match "/projected_recommendations" => "data#projected_recommendations", :as => 'data_projected_recommendations'
-    match "/recent_recommendations" => "data#recent_recommendations", :as => 'data_recent_recommendations'
-    match "/blocked_activity" => "data#blocked_activity", :as => 'data_blocked_activity'
-    match "/tags" => "data#tags", :as => 'tag_token_search'
-  end
+  # scope "data" do
+  #   match "/" => "data#overview", :as => 'data_overview'
+  #   match "/recommendations" => "data#recommendations", :as => 'data_recommendations'
+  #   match "/activity" => "data#activity", :as => 'data_activity'
+  #   match "/events" => "data#events", :as => 'data_events'
+  #   match "/presenters" => "data#presenters", :as => 'data_presenters'
+  #   match "/recommended_event/:event_id" => "data#recommended_event", :as => 'data_recommended_event'
+  #   match "/projected_recommendations" => "data#projected_recommendations", :as => 'data_projected_recommendations'
+  #   match "/recent_recommendations" => "data#recent_recommendations", :as => 'data_recent_recommendations'
+  #   match "/blocked_activity" => "data#blocked_activity", :as => 'data_blocked_activity'
+  #   match "/tags" => "data#tags", :as => 'tag_token_search'
+  # end
 
   resources :conferences, :only => [:index, :show, :edit, :update] do
     resources :events do
