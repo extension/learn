@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'https://engineering.extension.org/rubygems'
 
-gem 'rails', "3.2.21"
+gem 'rails', "4.2.1"
 
 # rails 3.1 default
 gem 'jquery-rails'
@@ -10,13 +10,12 @@ gem 'jquery-rails'
 # in production environments by default.
 # speed up sppppppprooooockets
 gem 'turbo-sprockets-rails3'
-group :assets do
-  gem 'sass-rails', "~> 3.2.4"
-  gem 'coffee-rails', "~> 3.2.2"
+#group :assets do <--- removed for rails 4 update
+  gem 'sass-rails'
+  gem 'coffee-rails'
   gem 'uglifier', '>= 1.0.3'
-
   gem 'outfielding-jqplot-rails'
-end
+#end
 
 # bootstrap in sass in rails
 gem 'bootstrap-sass', '~> 3.1.1.1'
@@ -109,7 +108,8 @@ gem "thor"
 
 # revisioning
 #gem "paper_trail", :git => 'git://github.com/extension/paper_trail.git'
-gem "paper_trail", "2.5.2ex"
+#gem "paper_trail", "2.5.2ex" <--removed for rails 4
+gem 'paper_trail', '~> 4.0.0.beta' #add for rails 4
 
 # terse logging
 gem 'lograge'
@@ -137,3 +137,10 @@ group :test do
   gem 'factory_girl_rails'
   gem 'mocha'
 end
+
+#rails4 gems
+gem 'protected_attributes' # https://github.com/rails/protected_attributes
+gem 'activeresource' # https://github.com/rails/activeresource
+gem 'actionpack-action_caching' # https://github.com/rails/actionpack-action_caching
+gem 'activerecord-session_store' # https://github.com/rails/activerecord-session_store
+gem 'rails-observers' # https://github.com/rails/rails-observers
