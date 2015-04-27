@@ -9,7 +9,9 @@ class WidgetsController < ApplicationController
 
   def generate_widget
     if params[:widget_params].nil?
-      render :json => { :success => false }
+      returninformation = {'message' => 'We are missing the parameters we need to generate the widget code snippet', 'success' => false}
+      return render :json => returninformation.to_json, :status => :unprocessable_entity
+      # render :json => { :success => false }
     end
     @widget_key = params[:widget_key]
     @widget_url = widgets_events_url + ".js?" + params[:widget_params]

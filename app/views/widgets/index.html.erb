@@ -84,14 +84,17 @@
       type: "POST",
       url: "<%= widgets_events_path() %>",
       cache: false,
-      data: $("#widget_form").serialize()
+      // data: $("#widget_form").serialize()
     })
     .done(function(data) {
       generate_widget_snippet();
       $(".example-widget-container").hide().fadeIn();
     })
-    .fail(function() {
-      alert("problem generating widget");
+    .fail(function(json, textStatus) {
+      m = JSON.stringify(json);
+      // alert("fail");
+      console.log("fail");
+      console.log(m);
     })
   }
 
