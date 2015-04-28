@@ -79,9 +79,9 @@
     }
   });
 
-  // The data submitted through the generate widget form is used to both
-  // render the example widget and generate the widget code snippet.
-  // The widget_key is required because that's how the dom is accessed.
+  // The data submitted through widget_form is used to both render the
+  // example widget and generate the corresponding widget code snippet.
+  // A widget_key is required because that's how the dom is accessed.
   function generate_widget() {
     $.ajax({
       type: "POST",
@@ -90,22 +90,19 @@
       data: $("#widget_form").serialize()
     })
     .done(function(data) {
+      // The example widget displayed correctly so
+      // create the corresponding widget code snippet
       generate_widget_snippet();
       $(".example-widget-container").hide().fadeIn();
     })
     .fail(function(json, responseText) {
       feedbackMessage = $.parseJSON(json.responseText).message
-      // m = JSON.stringify(json);
-      // console.log("generate_widget => fail ");
-      // console.log("responseText message: " + feedbackMessage);
       alert(feedbackMessage);
-      // console.log(m);
     })
   }
 
   function generate_widget_snippet() {
     console.log("generate_widget_snippet");
-    // alert("generate_widget_snippet");
     widgetKey = $("#learn-widget-hook").attr("data-widget-key");
     widgetParams = $("#learn-widget-hook").attr("data-widget-params");
     $.ajax({
