@@ -7,11 +7,16 @@ class WidgetsController < ApplicationController
     @page_meta_description = "Build a custom eXtension events widget"
   end
 
-  def generate_widget
+  def generate_widget_snippet
+    if params[:widget_params].nil?
+      returninformation = {'message' => 'We are missing the parameters we need to generate the widget code snippet', 'success' => false}
+      return render :json => returninformation.to_json, :status => :unprocessable_entity
+      # render :json => { :success => false }
+    end
     @widget_key = params[:widget_key]
     @widget_url = widgets_events_url + ".js?" + params[:widget_params]
     respond_to do |format|
-      format.js {render :generate_widget}
+      format.js {render :generate_widget_snippet}
     end
   end
 
@@ -137,6 +142,11 @@ class WidgetsController < ApplicationController
     if params[:widget_key].present?
       @widget_key = params[:widget_key]
       new_params << "widget_key=#{@widget_key}"
+    else
+      # this method requires a widget_key param because that's how event.js.erb
+      # locates the correct location in the dom to insert the widget.
+      returninformation = {'message' => 'We can not display the widget because the "widget key" parameter is missing.', 'success' => false}
+      return render :json => returninformation.to_json, :status => :unprocessable_entity
     end
 
     if params[:width].blank? || params[:width].to_i <= 0
