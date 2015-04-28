@@ -32,7 +32,6 @@ class Authmaps::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
 
   def people
     @learner = Authmap.find_for_people_openid(env["omniauth.auth"], current_learner)
-    logger.info "@learner is: " + @learner.inspect
     if @learner.persisted?
       if @learner.retired == false
         flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "eXtension"
