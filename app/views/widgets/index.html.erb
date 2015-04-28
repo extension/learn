@@ -111,7 +111,7 @@
     $.ajax({
       type: "POST",
       url: "<%= widgets_generate_widget_snippet_path() %>",
-      // data: {widget_key: widgetKey, widget_params: widgetParams},
+      data: {widget_key: widgetKey, widget_params: widgetParams},
       cache: false
     })
     .done(function(data) {
