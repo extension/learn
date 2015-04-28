@@ -92,7 +92,7 @@ Learn::Application.routes.draw do
   match "widgets/upcoming" => "widgets#upcoming", :via => [:get]
   match "widgets/events" => "widgets#events", :via => [:get, :post]
   match "widgets/" => "widgets#index", :via => [:get]
-  match "widgets/generate_widget" => "widgets#generate_widget", :via => [:post]
+  match "widgets/generate_widget_snippet" => "widgets#generate_widget_snippet", :via => [:post]
 
   namespace :feeds do
     resources :events, :only => [:index], :defaults => { :format => 'xml' } do

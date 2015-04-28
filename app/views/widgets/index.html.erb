@@ -79,38 +79,46 @@
     }
   });
 
+  // The data submitted through the generate widget form is used to both
+  // render the example widget and generate the widget code snippet.
+  // The widget_key is required because that's how the dom is accessed.
   function generate_widget() {
     $.ajax({
       type: "POST",
       url: "<%= widgets_events_path() %>",
       cache: false,
-      // data: $("#widget_form").serialize()
+      data: $("#widget_form").serialize()
     })
     .done(function(data) {
       generate_widget_snippet();
       $(".example-widget-container").hide().fadeIn();
     })
-    .fail(function(json, textStatus) {
-      m = JSON.stringify(json);
-      // alert("fail");
-      console.log("fail");
-      console.log(m);
+    .fail(function(json, responseText) {
+      feedbackMessage = $.parseJSON(json.responseText).message
+      // m = JSON.stringify(json);
+      // console.log("generate_widget => fail ");
+      // console.log("responseText message: " + feedbackMessage);
+      alert(feedbackMessage);
+      // console.log(m);
     })
   }
 
   function generate_widget_snippet() {
+    console.log("generate_widget_snippet");
+    // alert("generate_widget_snippet");
     widgetKey = $("#learn-widget-hook").attr("data-widget-key");
     widgetParams = $("#learn-widget-hook").attr("data-widget-params");
     $.ajax({
       type: "POST",
-      url: "<%= widgets_generate_widget_path() %>",
-      data: {widget_key: widgetKey, widget_params: widgetParams},
+      url: "<%= widgets_generate_widget_snippet_path() %>",
+      // data: {widget_key: widgetKey, widget_params: widgetParams},
       cache: false
     })
     .done(function(data) {
     })
-    .fail(function() {
-      alert("We ran into a problem generating the widget code snippet.");
+    .fail(function(json, responseText) {
+      feedbackMessage = $.parseJSON(json.responseText).message
+      alert(feedbackMessage);
     })
   }
 
