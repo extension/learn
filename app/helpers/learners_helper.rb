@@ -7,8 +7,6 @@ module LearnersHelper
     activity_array << 'watched'  if @watched_event_ids.include?(event.id)
     activity_array << 'bookmarked' if @bookmarked_event_ids.include?(event.id)
     activity_array << 'commented' if @commented_event_ids.include?(event.id)
-    activity_array << 'rated' if @rated_event_ids.include?(event.id)
-    activity_array << 'answered questions' if @answered_event_ids.include?(event.id)
     return activity_array.join(', ')
   end
 end
