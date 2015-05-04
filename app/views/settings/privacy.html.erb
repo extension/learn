@@ -43,20 +43,6 @@
       <td class="small"><%= radio_button_tag 'sharing.events.bookmarked', '0', !@learner.public_bookmarked_events? %></td>
 
     </tr>
-
-    <tr>
-      <td>Rated events</td>
-      <td class="small"><%= radio_button_tag 'sharing.events.rated', '1', @learner.public_rated_events? %></td>
-      <td class="small"><%= radio_button_tag 'sharing.events.rated', '0', !@learner.public_rated_events? %></td>
-
-    </tr>
-
-    <tr>
-      <td>Answered events</td>
-      <td class="small"><%= radio_button_tag 'sharing.events.answered', '1', @learner.public_answered_events? %></td>
-      <td class="small"><%= radio_button_tag 'sharing.events.answered', '0', !@learner.public_answered_events? %></td>
-
-    </tr>
   </table>
 
 
