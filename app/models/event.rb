@@ -5,8 +5,8 @@
 # see LICENSE file
 
 class Event < ActiveRecord::Base
-  include MarkupHelper
-  #include TagUtilities
+  include MarkupScrubber
+  include TagUtilities
 
   serialize :provided_presenter_order
 
