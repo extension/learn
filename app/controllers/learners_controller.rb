@@ -104,15 +104,6 @@ class LearnersController < ApplicationController
     render :action => 'learning_history'
   end
   
-  def answered_question_history    
-    @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
-    return record_not_found if !@learner
-    
-    prepare_history('Answered Questions')
-    @events = @learner.events_answered.active.order('session_start DESC').page(params[:page])
-    render :action => 'learning_history'
-  end
-
   def token_search
     @learners = Learner.where("name like ?", "%#{params[:q]}%")
     token_hash = @learners.collect{|learner| {id: learner.id, name: learner.name}}
