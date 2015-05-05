@@ -5,8 +5,6 @@
 <div class="col-md-5 col-sm-5">
   <h2>Upcoming Sessions <small><%= link_to 'view all', upcoming_events_path %></small></h2>
 
-
-
   <%- if !current_learner %>
   <%= time_zone_select( :user_selected_timezone, :timezone, ActiveSupport::TimeZone.us_zones, {:default =>timezone_select_default,
                         :include_blank => (timezone_select_default.nil? ? Time.zone.name : nil)}, {:class => "form-control"}) %>

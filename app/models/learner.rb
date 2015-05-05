@@ -26,7 +26,6 @@ class Learner < ActiveRecord::Base
   has_many :events, through: :event_connections
   has_many :commented_events, through: :comments, source: :event
   has_many :ratings
-  has_many :rated_events, through: :ratings, source: :rateable, source_type: 'Event'
   has_many :event_activities
   has_many :presenter_connections
   has_many :presented_events, through: :presenter_connections, source: :event
@@ -35,7 +34,6 @@ class Learner < ActiveRecord::Base
   has_many :recommendations
   has_many :mailer_caches, :as => :cacheable, :class_name => "MailerCache"
   has_many :answers
-  #has_many :events_answered, through: :event_activities, source: :event, conditions: "event_activities.activity = #{EventActivity::ANSWER} AND event_activities.trackable_type = 'Question'"
   has_one  :portfolio_setting
   has_many :conference_connections
   has_many :conferences, through: :conference_connections
@@ -374,14 +372,6 @@ class Learner < ActiveRecord::Base
   # def public_commented_events?
   #     self.preferences.setting('sharing.events.commented')
   #   end
-
-  def public_rated_events?
-    self.preferences.setting('sharing.events.rated')
-  end
-
-  def public_answered_events?
-    self.preferences.setting('sharing.events.answered')
-  end
 
   def public_portfolio?
     self.preferences.setting('sharing.portfolio')
