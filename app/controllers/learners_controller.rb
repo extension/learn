@@ -39,6 +39,7 @@ class LearnersController < ApplicationController
     @watched_events = @learner.events.active.watched.order("event_connections.created_at DESC").limit(5)
     @presented_events = @learner.presented_events.active.order("session_start DESC").limit(5)
     @bookmarked_events = @learner.events.active.bookmarked.order("event_connections.created_at DESC").limit(10)
+    @commented_events = @learner.commented_events
     @presented_conferences = @learner.presented_conferences
     @attended_conferences = @learner.conferences.attended
   end
@@ -97,7 +98,7 @@ class LearnersController < ApplicationController
     render :action => 'learning_history'
   end
   
-  def commented_history
+  def comment_history
     @learner = current_learner
     prepare_history('Commented')
     @events = @learner.commented_events.active.order('session_start DESC').page(params[:page])

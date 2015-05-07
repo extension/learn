@@ -369,9 +369,9 @@ class Learner < ActiveRecord::Base
 
   # removed private comments for now as we want to reveal every commenter,
   # TODO: might provide the option in the future to hide just the commented listview from others
-  # def public_commented_events?
-  #     self.preferences.setting('sharing.events.commented')
-  #   end
+  def commented_events?
+    self.preferences.setting('sharing.events.commented')
+  end
 
   def public_portfolio?
     self.preferences.setting('sharing.portfolio')

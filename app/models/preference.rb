@@ -26,7 +26,7 @@ class Preference < ActiveRecord::Base
    'sharing.events.attended' => true,
    'sharing.events.watched' => true,
    'sharing.events.bookmarked' => true,
-   #'sharing.events.commented' => true,
+   'sharing.events.commented' => true,
    # 'sharing.events.rated' => false,
    # 'sharing.events.answered' => false,
    'sharing.portfolio' => false
