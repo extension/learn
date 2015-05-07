@@ -159,7 +159,7 @@
 
 
   <h2>Commented</h2>
-  <% if @learner.commented_events? %>
+  <% if @learner.public_commented_events? %>
     <% if @commented_events.length == 0 %>
       <p>No comments made yet<p>
     <% else %>
