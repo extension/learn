@@ -178,7 +178,7 @@
   <% else %>
     <div class="not_sharing">
     <p>
-      Attended events are not being shared.
+      Events commented on are not being shared.
       <% if current_learner && current_learner.id == @learner.id %>
         <%= link_to 'change', settings_privacy_path %>
       <% end %>
