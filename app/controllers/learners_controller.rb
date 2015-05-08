@@ -53,45 +53,40 @@ class LearnersController < ApplicationController
   end
   
   def presented_history
-    @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
+    @learner = Learner.includes(:preferences).where(id: params[:id]).first
     return record_not_found if !@learner
-    
     prepare_history('Presented')
     @events = @learner.presented_events.active.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
   
   def created_history
-    @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
+    @learner = Learner.includes(:preferences).where(id: params[:id]).first
     return record_not_found if !@learner
-    
     prepare_history('Created')
     @events = @learner.created_events.active.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
   
   def attended_history
-    @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
+    @learner = Learner.includes(:preferences).where(id: params[:id]).first
     return record_not_found if !@learner
-    
     prepare_history('Attended')
     @events = @learner.events.active.attended.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
   
   def watched_history
-    @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
+    @learner = Learner.includes(:preferences).where(id: params[:id]).first
     return record_not_found if !@learner
-    
     prepare_history('Watched')
     @events = @learner.events.active.watched.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
   
   def bookmarked_history
-    @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
+    @learner = Learner.includes(:preferences).where(id: params[:id]).first
     return record_not_found if !@learner
-    
     prepare_history('Bookmarked')
     @list_title = "Followed by #{@learner.name}"
     @events = @learner.events.active.bookmarked.order('session_start DESC').page(params[:page])
@@ -99,7 +94,8 @@ class LearnersController < ApplicationController
   end
   
   def comment_history
-    @learner = Learner.find(:first, :conditions => {:id => params[:id]}, :include => :preferences)
+    @learner = Learner.includes(:preferences).where(id: params[:id]).first
+    return record_not_found if !@learner
     prepare_history('Commented')
     @events = @learner.commented_events.active.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
