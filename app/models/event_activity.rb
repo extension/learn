@@ -45,19 +45,19 @@ class EventActivity < ActiveRecord::Base
   }
 
   ACTIVITY_MAP = {
-    1   => "viewed",
-    2   => "viewed from a recommendation",
-    3   => "viewed from a share",
-    11  => "shared",
-    # 21  => "answered a question",
-    # 31  => "rated an event",
-    32  => "rated a comment",
-    41  => "commented",
-    42  => "commented on a comment",
-    50  => "connected",
-    52  => "followed",
-    53  => "attended",
-    54  => "watched"
+    VIEW   => "viewed",
+    VIEW_FROM_RECOMMENDATION   => "viewed from a recommendation",
+    VIEW_FROM_SHARE   => "viewed from a share",
+    SHARE  => "shared",
+    # ANSWER  => "answered a question",
+    # RATING  => "rated an event",
+    RATING_ON_COMMENT  => "rated a comment",
+    COMMENT  => "commented",
+    COMMENT_ON_COMMENT  => "commented on a comment",
+    CONNECT  => "connected",
+    CONNECT_BOOKMARK  => "followed",
+    CONNECT_ATTEND  => "attended",
+    CONNECT_WATCH  => "watched"
   }
 
   HISTORY_ITEMS = [ANSWER,RATING,RATING_ON_COMMENT,COMMENT,COMMENT_ON_COMMENT,CONNECT,CONNECT_BOOKMARK,CONNECT_ATTEND,CONNECT_WATCH]
