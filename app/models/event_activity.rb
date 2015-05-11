@@ -171,8 +171,9 @@ class EventActivity < ActiveRecord::Base
   def self.learner_scores
     id_scores= {}
     learner_scores = {}
+    valid_activities = SCORING.keys
     with_scope do
-      activity_counts = group(:learner_id).group(:activity).count
+      activity_counts = group(:learner_id).where("activity IN (#{valid_activities.join(',')})").group(:activity).count
       activity_counts.each do |(learner_id,activity), count|
         id_scores[learner_id] = id_scores[learner_id] ? id_scores[learner_id] + SCORING[activity] : SCORING[activity]
       end
