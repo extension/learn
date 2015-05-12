@@ -157,6 +157,36 @@
     </div>
   <% end %>
 
+
+  <h2>Commented</h2>
+  <% if @learner.public_commented_events? %>
+    <% if @commented_events.length == 0 %>
+      <p>No comments made yet<p>
+    <% else %>
+      <% @commented_events.each do |event| %>
+        <p>
+          <i class="<%= (event.recording.present?) ? "fa fa-play-circle play-green" : "fa fa-play-circle mid-gray" %>"></i>
+          <% if event.is_expired %>
+            <em class="expired">expired</em>
+          <% end %>
+        <%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
+      <% end %>
+      <% if current_learner && (current_learner.id == @learner.id || @learner.public_attended_events?) %>
+      <p class="view_all"><%= link_to_unless_current "View all", comment_history_learner_path(@learner), :class => "muted" %></p>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div class="not_sharing">
+    <p>
+      Events commented on are not being shared.
+      <% if current_learner && current_learner.id == @learner.id %>
+        <%= link_to 'change', settings_privacy_path %>
+      <% end %>
+    </p>
+    </div>
+    <br class="clearing"/>
+  <% end %>
+
   <%- if !@presented_conferences.blank? or !@attended_conferences.blank? -%>
   <h2>Conferences</h3>
     <%- @presented_conferences.each do |conf| -%>

@@ -126,13 +126,11 @@ class SettingsController < ApplicationController
         preference = Preference.create_or_update(@learner, 'sharing.events.bookmarked', false)
       end
       
-      # removed private comments for now as we want to reveal every commenter, 
-      # TODO: might provide the option in the future to hide just the commented listview from others
-      # if params['sharing.events.commented'].present? && params['sharing.events.commented'] == '1'
-      #         preference = Preference.create_or_update(@learner, 'sharing.events.commented', true)
-      #       else
-      #         preference = Preference.create_or_update(@learner, 'sharing.events.commented', false)
-      #       end
+      if params['sharing.events.commented'].present? && params['sharing.events.commented'] == '1'
+        preference = Preference.create_or_update(@learner, 'sharing.events.commented', true)
+      else
+        preference = Preference.create_or_update(@learner, 'sharing.events.commented', false)
+      end
       
       if params['sharing.portfolio'].present? && params['sharing.portfolio'] == '1'
         preference = Preference.create_or_update(@learner, 'sharing.portfolio', true)

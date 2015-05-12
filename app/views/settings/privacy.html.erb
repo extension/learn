@@ -41,8 +41,12 @@
       <td>Followed events</td>
       <td class="small"><%= radio_button_tag 'sharing.events.bookmarked', '1', @learner.public_bookmarked_events? %></td>
       <td class="small"><%= radio_button_tag 'sharing.events.bookmarked', '0', !@learner.public_bookmarked_events? %></td>
-
     </tr>
+    <tr>
+      <td>Commented events</td>
+      <td class="small"><%= radio_button_tag 'sharing.events.commented', '1', @learner.public_commented_events? %></td>
+      <td class="small"><%= radio_button_tag 'sharing.events.commented', '0', !@learner.public_commented_events? %></td>
+    </tr> 
   </table>
 
 
