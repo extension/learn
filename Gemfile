@@ -133,7 +133,7 @@ group :test do
   gem 'mocha'
 end
 
-#rails4 gems
+#rails 3 to 3 transition gems
 gem 'protected_attributes' # https://github.com/rails/protected_attributes
 gem 'activeresource' # https://github.com/rails/activeresource
 gem 'actionpack-action_caching' # https://github.com/rails/actionpack-action_caching
