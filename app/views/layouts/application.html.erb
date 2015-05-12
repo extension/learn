@@ -136,9 +136,9 @@ $(function() {
       $(this).delay(4000).fadeOut();
    });
 
-   $("#flash_notification").live('click', function(){
-       $(this).stop().fadeOut();;
-   });
+  $('body').on('click', '#flash_notification', function() {
+    $(this).stop().fadeOut();
+  });
 
 });
 

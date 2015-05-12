@@ -22,3 +22,7 @@
 //= require bootstrap-wysihtml5
 //= require cocoon
 //= require_tree .
+
+$('body').on('change', '#user_selected_timezone_timezone', function() {
+  alert("Hello! I am an alert box!!");
+});
