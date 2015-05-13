@@ -113,7 +113,7 @@
 
 <fieldset>
   <div class="material-links-wrapper">
-    <p><%= link_to_add_association 'Add support materials', event_form, :material_links, { form_name: 'event_form', 'data-association-insertion-method' => 'after', :class => "btn" } %><p>
+    <p><%= link_to_add_association 'Add event materials', event_form, :material_links, { form_name: 'event_form', 'data-association-insertion-method' => 'after', :class => "btn" } %><p>
 
     <%= event_form.fields_for :material_links do |material_link| %>
       <%= render 'material_link_fields', event_form: material_link %>
