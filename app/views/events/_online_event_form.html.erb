@@ -117,6 +117,14 @@
    </p>
  </fieldset>
 
+  <fieldset class="learner-registration">
+   <p>
+    <%= event_form.label :requires_registration, 'Require participants to register (optional)' %>
+    <%= event_form.check_box :requires_registration %>
+    <span class="help-block">Particpants cannot view Event Location until they enter email and name</span>
+   </p>
+ </fieldset>
+
 <fieldset>
   <div class="material-links-wrapper">
     <p><%= link_to_add_association 'Add event materials', event_form, :material_links, { form_name: 'event_form', 'data-association-insertion-method' => 'after', :class => "btn btn-default" } %><p>
