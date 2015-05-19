@@ -40,6 +40,7 @@ Learn::Application.routes.draw do
 
   match "ajax/:action", to: "ajax", :via => [:get, :post]
   match "learning_history" => "learners#learning_history", :via => :get
+  match "register_learner" => "learners#register_learner", :via => :post
   match "comment_history" => "learners#comment_history", :via => :get
   match "settings/profile" => "settings#profile", :via => [:get, :put]
   match "settings/notifications" => "settings#notifications", :via => [:get, :post]

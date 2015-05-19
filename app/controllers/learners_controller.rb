@@ -107,6 +107,10 @@ class LearnersController < ApplicationController
     render(json: token_hash)
   end
 
+  def register_learner
+    Learner.create! email: params[:email], name: params[:first_name] + " " + params[:last_name]
+  end
+
   private
   
   def prepare_history(history_type)
@@ -125,7 +129,4 @@ class LearnersController < ApplicationController
     authenticate_learner!
   end
 
-
-
-    
 end
