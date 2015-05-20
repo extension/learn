@@ -9,16 +9,85 @@
   </div>
 <%- end -%>
 
-<div class="edit-form col-md-10">
-  <h1>Edit this event</h1>
-  <%= form_for @event, :html => {:multipart => true} do |form| -%>
-    <%- if @event.conference -%>
-      <%= render(partial: 'conference_event_form', locals: {event_form: form}) %>
-    <%- else -%>
-      <%= render(partial: 'online_event_form', locals: {event_form: form}) %>
-    <%- end -%>
+<div class="edit-form col-md-9">
+  <h1>Edit event</h1>
+
+  <%- if @event.conference -%>
+    <%= render(partial: 'conference_event_form') %>
+  <%- else -%>
+    <%= render(partial: 'online_event_form') %>
   <%- end -%>
+
 </div>
+
+<div class="col-md-3">
+  <div class="well">
+  <h4>Special Actions</h4>
+
+  <p><a class="btn btn-default btn-link" data-toggle="collapse" href="#collapseCancel" aria-expanded="false" aria-controls="collapseCancel">Cancellation</a></p>
+
+  <div class="collapse" id="collapseCancel">
+
+    <!-- While an event is going on, you can neither cancel it nor expire it -->
+    <!-- Admins can cancel and expire events anytime -->
+    <% if (!@event.new_record? && !@event.started?) || (current_learner.is_admin && !@event.new_record?) %>
+      <%= form_for @event, :html => {:multipart => true} do |event_form| -%>
+
+          <p>
+            <label>
+              <%= event_form.check_box :is_canceled %>
+              Cancel Event
+              <span class="help-block">The event page is still viewable. A "Canceled" banner is displayed on the page, and an email is sent to people who followed the event. Please update the "description" field explaining why the event was canceled.</span>
+            </label>
+          </p>
+          <%- if @event.is_canceled -%>
+            <p><%= submit_tag 'Update Cancellation Status', :class => "btn btn-default btn-danger" %></p>
+          <%- else -%>
+          <p><%= submit_tag 'Cancel Event', :class => "btn btn-default btn-danger" %></p>
+          <%- end -%>
+          <% end %>
+
+
+          <% else %>
+
+    <p>This event cannot be cancelled because it's already taken place or is currently in progress. </p>
+   <% end %>
+
+  </div>
+
+  <p><a class="btn btn-default btn-link" data-toggle="collapse" href="#collapseExpire" aria-expanded="false" aria-controls="collapseExpire">Expiration</a></p>
+
+  <div class="collapse" id="collapseExpire">
+
+    <% if (!@event.new_record? && @event.concluded?) || (current_learner.is_admin && !@event.new_record?) %>
+      <%= form_for @event, :html => {:multipart => true} do |event_form| -%>
+      <fieldset>
+        <p class="clearing">
+          <label>
+          <%= event_form.check_box :is_expired %>
+          Expire Event
+          <span class="help-block">Use this option when an event is out-of-date or the technical recording is poor. A prominent "expired" banner is displayed on the page, and the event is removed from our recommendation engine. Please update the "description" field explaining why, and include a link to a better session if available.</span>
+          </label>
+        </p>
+        <p><%= submit_tag 'Expire Event', :class => "btn btn-default btn-danger" %></p>
+     </fieldset>
+     <% end %>
+  <% else %>
+    <p>This event cannot be marked as expired because it hasn't taken place yet.</p>
+   <% end %>
+
+  </div>
+
+
+
+</div>
+</div>
+
+
+
+
+
+
 
 
 <script type="text/javascript">
