@@ -108,7 +108,9 @@ class LearnersController < ApplicationController
   end
 
   def register_learner
-    Learner.create! email: params[:email], name: params[:first_name] + " " + params[:last_name]
+    @learner = Learner.create! email: params[:email], name: params[:first_name] + " " + params[:last_name]
+    EventConnection.create! learner_id: @learner.id, event_id: params[:event_id], connectiontype: 6
+    render :text => nil
   end
 
   private

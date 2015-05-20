@@ -166,6 +166,7 @@
             <%= label_tag "Last Name" %>
             <%= text_field_tag :last_name %>
             <p/>
+            <%= hidden_field_tag 'event_id', @event.id %>
             <p class="submit_register">
             <%= submit_tag "Register for this event" %>
                 <span class="help-block">Enter your name and email above and the link will be magically revealed</span>
