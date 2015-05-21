@@ -3,7 +3,8 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
-	$(".location").hide()
-	$(".submit_register").click ->
-		$(".location").show()
-		$(".registration_form").hide()
+	if $('div').hasClass 'form-group registration_form'
+		$(".location").hide()
+		$(".submit_register").click ->
+			$(".location").show()
+			$(".registration_form").hide()
