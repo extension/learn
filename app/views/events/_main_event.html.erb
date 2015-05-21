@@ -32,7 +32,7 @@
               <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
            </span>
            </p>
-          <p>Link: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
+          <p class="location-section-link">Link: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
         </div>
 
       <%- end -%>
@@ -168,9 +168,6 @@
               <%= text_field_tag :last_name %>
               <p/>
               <%= hidden_field_tag 'event_id', @event.id %>
-
-              <div id="validation_error"></div>
-              
               <p class="submit_register">
               <%= submit_tag "Register for this event", id: 'register_button' %>
                   <span class="help-block">Enter your name and email above and the link will be magically revealed</span>

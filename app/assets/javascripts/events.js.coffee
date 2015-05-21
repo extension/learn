@@ -5,6 +5,7 @@
 jQuery ->
 	if $('div').hasClass 'form-group registration_form'
 		$(".location").hide()
+		$(".location-section-link").hide()
 		$(".submit_register").click ->
 			if $("#email").val() == '' || $("#first_name").val() == '' || $("#last_name").val() == ''
 				alert('Please enter first name, last name, and email')
@@ -13,6 +14,7 @@ jQuery ->
 				return false
 			else
 				$(".location").show()
+				$(".location-section-link").show()
 				$(".registration_form").hide()
 
 	#validate email
