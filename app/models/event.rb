@@ -481,6 +481,15 @@ class Event < ActiveRecord::Base
         Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)
       end
     end
+    if self.is_deleted_changed?
+      if self.is_deleted?
+        Notification.create(notifiable: self, notificationtype: Notification::CANCELED_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
+        Notification.create(notifiable: self, notificationtype: Notification::EVENT_DELETED, delivery_time: 1.minute.from_now)
+      else
+        Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
+        Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)
+      end
+    end
   end
 
   def set_featured_at
