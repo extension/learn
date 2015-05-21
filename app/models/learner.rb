@@ -41,6 +41,7 @@ class Learner < ActiveRecord::Base
   before_validation :convert_mobile_number
   validates_length_of :mobile_number, :is => 10, :allow_blank => true
   validates_length_of :bio, :maximum => 140
+  validates :email, uniqueness: true
 
   DEFAULT_TIMEZONE = 'America/New_York'
 

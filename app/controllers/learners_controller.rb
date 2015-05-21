@@ -108,8 +108,11 @@ class LearnersController < ApplicationController
   end
 
   def register_learner
-    @learner = Learner.create! email: params[:email], name: params[:first_name] + " " + params[:last_name]
-    EventConnection.create! learner_id: @learner.id, event_id: params[:event_id], connectiontype: 6
+    begin
+      @learner = Learner.create! email: params[:email], name: params[:first_name] + " " + params[:last_name]
+      EventConnection.create! learner_id: @learner.id, event_id: params[:event_id], connectiontype: 6
+      rescue ActiveRecord::RecordInvalid => e
+    end
     render :text => nil
   end
 
