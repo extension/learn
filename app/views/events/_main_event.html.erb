@@ -168,8 +168,11 @@
               <%= text_field_tag :last_name %>
               <p/>
               <%= hidden_field_tag 'event_id', @event.id %>
+
+              <div id="validation_error"></div>
+              
               <p class="submit_register">
-              <%= submit_tag "Register for this event" %>
+              <%= submit_tag "Register for this event", id: 'register_button' %>
                   <span class="help-block">Enter your name and email above and the link will be magically revealed</span>
               <p/>
             <%- end -%>

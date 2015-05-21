@@ -6,5 +6,8 @@ jQuery ->
 	if $('div').hasClass 'form-group registration_form'
 		$(".location").hide()
 		$(".submit_register").click ->
-			$(".location").show()
-			$(".registration_form").hide()
+			if $("#email").val() == '' || $("#first_name").val() == '' || $("#last_name").val() == ''
+				$("#validation_error").text("Please enter first name, last name, and email")
+			else
+				$(".location").show()
+				$(".registration_form").hide()
