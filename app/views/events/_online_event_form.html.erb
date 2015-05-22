@@ -121,6 +121,7 @@
    <p>
     <%= event_form.check_box :requires_registration %>
     <%= event_form.label :requires_registration, 'Require participants to register (optional)' %>
+    <%= event_form.text_field :evaluator_id, :class => "form-control" %>
     <span class="help-block">Particpants cannot view Event Location until they enter email and name</span>
    </p>
  </fieldset>

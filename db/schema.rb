@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150519154343) do
+ActiveRecord::Schema.define(:version => 20150522191125) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(:version => 20150519154343) do
     t.integer  "commentators_count",                     :default => 0,        :null => false
     t.text     "provided_presenter_order"
     t.boolean  "requires_registration",                  :default => false,    :null => false
+    t.integer  "evaluator_id"
   end
 
   add_index "events", ["conference_id"], :name => "conference_ndx"

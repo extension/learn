@@ -2,6 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+#event show page
 jQuery ->
 	$group = $('.form-group.registration_form')
 	if $group.length
@@ -28,3 +29,10 @@ jQuery ->
 		if $("#email").val() == '' || $("#first_name").val() == '' || $("#last_name").val() == ''
 				alert('Please enter first name, last name, and email')
 				return false
+
+#event new/edit page
+jQuery ->
+	$("#event_evaluator_id").hide()
+	$('#event_requires_registration').change ->
+		$('#event_evaluator_id').toggle @checked
+		return
