@@ -30,7 +30,7 @@ class Notification < ActiveRecord::Base
   def process
     return true if !Settings.send_notifications
 
-    if (self.notifiable_type == 'Event') && (Event.find_by_id(self.notifiable_id).is_canceled == true) && (self.notificationtype != EVENT_CANCELED or self.notificationtype != CANCELED_IASTATE)
+    if (self.notifiable_type == 'Event') && (Event.find_by_id(self.notifiable_id).is_canceled == true) && (self.notificationtype != EVENT_CANCELED and self.notificationtype != CANCELED_IASTATE)
       return true
     end
 
