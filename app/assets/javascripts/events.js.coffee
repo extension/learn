@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 #event show page
-jQuery ->
+$ ->
 	$group = $('.form-group.registration_form')
 	if $group.length
 		$(".location").hide()
@@ -31,8 +31,13 @@ jQuery ->
 				return false
 
 #event new/edit page
-jQuery ->
-	$("#event_evaluator_id").hide()
+$ ->
+	if $("#event_requires_registration").is ':checked'
+		$("#event_evaluator_id").show()
+	else
+		$("#event_evaluator_id").hide()
 	$('#event_requires_registration').change ->
 		$('#event_evaluator_id').toggle @checked
 		return
+	$("#event_evaluator_id").autocomplete
+		source: "presenters_path"
