@@ -79,6 +79,14 @@
 
    </section>
 
+ <%- if current_learner && current_learner.id == @event.evaluator_id -%>
+      Registrant Data:</br>
+    <% @registrants.each do |r| %>
+       <%= r.learner.name %>
+       <%= r.learner.email %>
+       </br>
+    <% end %>
+ <%- end %>
 
    <div id="comment-section">
     <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
