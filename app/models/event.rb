@@ -231,6 +231,15 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def evaluator_tokeninput
+    if(!self.evaluator_id.blank?)
+      evaluator = []
+      learner = Learner.where(id: evaluator_id).first
+      evaluator << {id: learner.id, name: learner.name}
+    end
+    evaluator
+  end
+
   def description=(description)
     write_attribute(:description, self.scrub_and_sanitize(description))
   end
