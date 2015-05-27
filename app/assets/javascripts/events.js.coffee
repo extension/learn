@@ -32,12 +32,10 @@ $ ->
 
 #event new/edit page
 $ ->
-	if $("#event_requires_registration").is ':checked'
-		$("#event_evaluator_id").show()
+	if $('#event_requires_registration').is ':checked'
+		$('.token-input-list-facebook').show()
 	else
-		$("#event_evaluator_id").hide()
+		$('.token-input-list-facebook').hide()
 	$('#event_requires_registration').change ->
-		$('#event_evaluator_id').toggle @checked
+		$('.token-input-list-facebook').toggle @checked
 		return
-	$("#event_evaluator_id").autocomplete
-		source: "presenters_path"
