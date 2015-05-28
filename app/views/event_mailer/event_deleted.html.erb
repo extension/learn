@@ -65,7 +65,7 @@
     </th>
   </tr>
   <tr class="tagline">
-    <td>Learn Event Canceled</td>
+    <td>Learn Event Deleted</td>
   </tr>
   <tr class="options">
     <td>
@@ -81,10 +81,10 @@
   <tr><td>
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
       <tr>
-        <td id="reminder_title"><%= @event.title -%> has been deleted</td>
+        <td id="reminder_title">The Learn event "<%= @event.title -%>" has been deleted.</td>
       </tr>
       <tr>
-        <td id="reminder_description"><%= @last_modified_by.name %> deleted this event. </td>
+        <td id="reminder_description">The event was deleted by <%= @last_modified_by.name %>.</td>
       </tr>
     </table>
 
@@ -95,7 +95,7 @@
       <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" class="footer">
         <tr>
           <td class="bgcolor">
-            <p>This email was sent to you because you are connected with this event.</p>
+            <p>This email was sent to you because you were connected with this event.</p>
           </td>
         </tr>
         <tr class="options">
