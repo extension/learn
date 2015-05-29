@@ -9,16 +9,93 @@
   </div>
 <%- end -%>
 
-<div class="edit-form col-md-10">
-  <h1>Edit this event</h1>
-  <%= form_for @event, :html => {:multipart => true} do |form| -%>
-    <%- if @event.conference -%>
-      <%= render(partial: 'conference_event_form', locals: {event_form: form}) %>
-    <%- else -%>
-      <%= render(partial: 'online_event_form', locals: {event_form: form}) %>
-    <%- end -%>
+<div class="edit-form col-md-9">
+  <h1>Edit event</h1>
+
+  <%- if @event.conference -%>
+    <%= render(partial: 'conference_event_form') %>
+  <%- else -%>
+    <%= render(partial: 'online_event_form') %>
   <%- end -%>
+
 </div>
+
+<div class="col-md-3">
+  <h4>Special Actions</h4>
+
+  <p><a class="btn btn-default" data-toggle="collapse" href="#collapseSpecials" aria-expanded="false" aria-controls="collapseSpecials">View cancel, delete or expire options</a></p>
+
+  <div class="collapse" id="collapseSpecials">
+
+    <div class="well">
+     <% if (!@event.new_record? && @event.concluded?) || (current_learner.is_admin && !@event.new_record?) %>
+       <%= form_for @event, :html => {:multipart => true} do |event_form| -%>
+         <%- if @event.is_expired -%>
+           <%= event_form.hidden_field :is_expired, value: false %>
+           <h4>This event is expired.</h4>
+           <p><%= submit_tag 'Remove the expired warning', :class => "btn btn-default" %></p>
+         <%- else -%>
+           <%= event_form.hidden_field :is_expired, value: true %>
+           <h4>Expire event</h4>
+           <p class="help-block">When an event is out-of-date or the technical recording is poor. An "expired" banner is displayed, and the event is removed from our recommendations. Please update the "description" field explaining why, and include a link to a better session if available.</p>
+           <p><%= submit_tag 'Expire event', :class => "btn btn-default btn-warning" %></p>
+         <%- end -%>
+      <% end %>
+     <% else %>
+       <p>This event cannot be marked as expired because it hasn't taken place yet.</p>
+     <% end %>
+   </div>
+
+    <div class="well">
+    <!-- While an event is going on, you can neither cancel it nor expire it -->
+    <!-- Admins can cancel and expire events anytime -->
+    <% if (!@event.new_record? && !@event.started?) || (current_learner.is_admin && !@event.new_record?) %>
+      <%= form_for @event, :html => {:multipart => true} do |event_form| -%>
+        <%- if @event.is_canceled -%>
+        <%= event_form.hidden_field :is_canceled, value: false %>
+          <h4>This event is canceled.</h4>
+          <p><%= submit_tag 'Make this event active', :class => "btn btn-default" %></p>
+        <%- else -%>
+          <%= event_form.hidden_field :is_canceled, value: true %>
+          <h4>Cancel event</h4>
+          <p class="help-block">The event page remains viewable, a "canceled" banner is displayed, and an email is sent to people who followed the event. Please update the "description" field explaining why.</p>
+          <p><%= submit_tag 'Cancel event', :class => "btn btn-default btn-danger" %></p>
+        <%- end -%>
+      <% end %>
+    <% else %>
+      <p>This event cannot be cancelled because it's already taken place or is currently in progress. </p>
+   <% end %>
+   </div>
+
+  <div class="well">
+    <% if (!@event.new_record?) || (current_learner.is_admin && !@event.new_record?) %>
+      <%= form_for @event, :html => {:multipart => true} do |event_form| -%>
+        <%- if @event.is_deleted -%>
+          <h4>This event is deleted.</h4>
+          <%= event_form.hidden_field :is_deleted, value: false %>
+          <p><%= submit_tag 'Make this event active', :class => "btn btn-default" %></p>
+        <%- else -%>
+          <h4>Delete event</h4>
+          <%= event_form.hidden_field :is_deleted, value: true %>
+          <p class="help-block">The event page displays a 404, and an email is sent to people who followed the event. If the event needs to be recovered, please contact an eXtension staff member for help.</p>
+          <p><%= submit_tag 'Delete event', :class => "btn btn-default btn-danger" %></p>
+        <%- end -%>
+      <% end %>
+    <% else %>
+      <p>This event cannot be deleted because it's currently in progress.</p>
+    <% end %>
+
+  </div>
+
+
+</div>
+</div>
+
+
+
+
+
+
 
 
 <script type="text/javascript">

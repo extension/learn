@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
 
   # define accessible attributes
   attr_accessible :creator, :last_modifier
-  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled
+  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled, :is_deleted
   attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at, :evaluation_link
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes
@@ -101,13 +101,14 @@ class Event < ActiveRecord::Base
     text :presenter_names
     boolean :is_canceled
     boolean :is_expired
+    boolean :is_deleted
   end
 
   scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
 
-  scope :active, conditions: {is_canceled: false}
+  scope :active, conditions: {is_canceled: false, is_deleted: false}
   scope :not_expired, conditions: {is_expired: false}
   scope :featured, conditions: {featured: true}
 
@@ -485,6 +486,15 @@ class Event < ActiveRecord::Base
       if self.is_canceled?
         Notification.create(notifiable: self, notificationtype: Notification::CANCELED_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
         Notification.create(notifiable: self, notificationtype: Notification::EVENT_CANCELED, delivery_time: 1.minute.from_now)
+      else
+        Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
+        Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)
+      end
+    end
+    if self.is_deleted_changed?
+      if self.is_deleted?
+        Notification.create(notifiable: self, notificationtype: Notification::CANCELED_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
+        Notification.create(notifiable: self, notificationtype: Notification::EVENT_DELETED, delivery_time: 1.minute.from_now)
       else
         Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
         Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)

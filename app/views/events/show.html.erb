@@ -4,19 +4,26 @@
 <%- @page_type = "event" -%>
 <%- @noindex = false -%>
 
-
 <%- if @event.is_expired -%>
   <%- @noindex = true -%>
-  <div id="outofdate">
+  <div class="alert alert-warning">
     <h1>This event is expired. It is not recommended for technical reasons or is out of date.</h1>
     <h2>Please check the event description below for more details</h2>
   </div>
 <%- end -%>
 
 
+<%- if @event.is_deleted -%>
+  <div class="alert alert-danger">
+    <h1>This event has been deleted</h1>
+    <p>This content below can only be seen by eXtension admin accounts. Everyone else sees a "Page Removed" message.</p>
+  </div>
+  <div id="deleted_wrapper">
+<%- end -%>
+
 
 <%- if @event.is_canceled -%>
-  <div id="event_status">
+<div class="alert alert-danger">
     <h1>This event has been canceled</h1>
     <h2>Please check the event description below for more details</h2>
   </div>
@@ -32,38 +39,38 @@
 
 
 <script class="code" type="text/javascript">
-  $('.submittable').live('change', 
+  $('.submittable').live('change',
     function() {
       $(this).parents('form:first').submit();
     }
-  );  
+  );
 
   $(document).ready(function() {
 
     // sitv = sign in to vote
     $('.nojs_display').hide();
-    
+
     $('.sitv_element_wrapper').each(function(index) {
       var $sitv_element = $(this).find('.sitv_element')
       var $h = $sitv_element.outerHeight();
       var $w = $sitv_element.outerWidth();
       $(this).find('.sitv_targetarea').height($h).width($w);
     });
-    
+
     $('.sitv_targetarea').bind('click', function () {
       $(this).siblings('.sitv_content').fadeIn('fast');
     });
-    
+
     $('.sitv_content').mouseleave(function() {
       $(this).fadeOut('fast');
     });
-    
-    
-    
-    
+
+
+
+
     $('.addtocal').AddToCal({
       getEventDetails: function( element ) {
-        var 
+        var
           dtstart_element = element.find('.dtstart'),
           dtend_element = element.find('.dtend'),
           title_element = element.find('.summary'),
@@ -72,15 +79,15 @@
           url_vcs_element = element.find('.vcs_url');
 
         // return the required event structure
-        return { 
+        return {
           webcalurl: null,
           icalurl: url_ics_element.html(),
-          vcalurl: url_vcs_element.html(), 
-          start: dtstart_element.html(), 
-          end: dtend_element.html(), 
-          title: title_element.html(), 
-          details: details_element.html(), 
-          location: null, 
+          vcalurl: url_vcs_element.html(),
+          start: dtstart_element.html(),
+          end: dtend_element.html(),
+          title: title_element.html(),
+          details: details_element.html(),
+          location: null,
           url: null
         };
       },

@@ -1,3 +1,5 @@
+<%= form_for @event, :html => {:multipart => true} do |event_form| -%>
+
 <%= hidden_field_tag 'event[conference_id]', @event.conference_id %>
 <%= hidden_field_tag 'event[time_zone]', @event.time_zone %>
 
@@ -147,7 +149,7 @@
 
   </fieldset>
 <% end %>
-
+<%- end -%>
 
 <p>
   <%= submit_tag 'Save Session', :class => "btn btn-default btn-primary btn-lg" %>
