@@ -40,6 +40,7 @@ class SearchController < ApplicationController
   def events
     events = Event.search do
                 with(:is_canceled, false)
+                with(:is_deleted, false)
                 fulltext(params[:q])
                 order_by(:session_start, :desc)
                 paginate :page => params[:page], :per_page => 10
