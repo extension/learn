@@ -36,7 +36,7 @@
            <p><%= submit_tag 'Remove the expired warning', :class => "btn btn-default" %></p>
          <%- else -%>
            <%= event_form.hidden_field :is_expired, value: true %>
-           <h4>Expire Event</h4>
+           <h4>Expire event</h4>
            <p class="help-block">When an event is out-of-date or the technical recording is poor. An "expired" banner is displayed, and the event is removed from our recommendations. Please update the "description" field explaining why, and include a link to a better session if available.</p>
            <p><%= submit_tag 'Expire event', :class => "btn btn-default btn-warning" %></p>
          <%- end -%>
@@ -57,7 +57,7 @@
           <p><%= submit_tag 'Make this event active', :class => "btn btn-default" %></p>
         <%- else -%>
           <%= event_form.hidden_field :is_canceled, value: true %>
-          <h4>Cancel Event</h4>
+          <h4>Cancel event</h4>
           <p class="help-block">The event page remains viewable, a "canceled" banner is displayed, and an email is sent to people who followed the event. Please update the "description" field explaining why.</p>
           <p><%= submit_tag 'Cancel event', :class => "btn btn-default btn-danger" %></p>
         <%- end -%>
@@ -77,7 +77,7 @@
         <%- else -%>
           <h4>Delete event</h4>
           <%= event_form.hidden_field :is_deleted, value: true %>
-          <p class="help-block">The event is removed, and the event page displays a 404. If the event needs to be recovered, please contact an eXtension staff member for help.</p>
+          <p class="help-block">The event page displays a 404, and an email is sent to people who followed the event. If the event needs to be recovered, please contact an eXtension staff member for help.</p>
           <p><%= submit_tag 'Delete event', :class => "btn btn-default btn-danger" %></p>
         <%- end -%>
       <% end %>
