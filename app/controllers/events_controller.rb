@@ -278,7 +278,7 @@ class EventsController < ApplicationController
   end
 
   def deleted
-    @events = Event.where(is_deleted: true).order("session_start DESC").page(params[:page])
+    @events = Event.where(is_deleted: true).order("updated_at DESC").page(params[:page])
   end
 
   def addanswer
