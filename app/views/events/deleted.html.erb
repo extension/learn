@@ -1,0 +1,14 @@
+<% @list_title = "Deleted Sessions" %>
+<div class="col-md-8 offset1">
+  <div class='alert alert-warning'>
+    <p><strong>Please note:</strong> Only eXtension accounts with admin access can view deleted events.</p>
+    <%- if (!current_learner || !current_learner.is_admin?) -%>
+      <p><strong>Because you are not signed in with an admin eXtension account, you will only be able to see a "Page Removed" page if you click on any of the links below.</strong></p>
+    <%- else -%>
+      <p>Anyone can view this list, but if they click on a link and aren't signed in with an admin account, they will only be able to see a "Page Removed" page.</p>
+    <%- end -%>
+  </div>
+
+  <h1><%= @list_title %></h1>
+  <%= render :partial => 'list' %>
+</div>
