@@ -74,6 +74,7 @@ Learn::Application.routes.draw do
       get 'tags'
       get 'recent'
       get 'canceled'
+      get 'deleted'
       get 'broadcast'
     end
   end
