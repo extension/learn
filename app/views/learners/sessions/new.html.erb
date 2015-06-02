@@ -11,12 +11,14 @@
 
 <div class="row">
   <div class="col-md-6">
+    <div class="signup-option">
     <p>
       <%= link_to(authmap_omniauth_authorize_path(:people, :redirect_to => (params[:redirect_to].present?) ? params[:redirect_to] : session[:learner_return_to]), class: "btn btn-default btn-block btn-lg") do %>
         <%= image_tag("extension_logo.jpg", :size => "50x50", :class => "size50x50") %>
         Sign in with eXtension
       <%- end -%>
     </p>
+    </div>
   </div>
 
   <div class="col-md-6">
