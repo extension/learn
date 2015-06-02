@@ -1,3 +1,12 @@
 @media (min-width: 1200px) {
   .user-actions-list {width: 1170px;margin: 0 auto;}
 }
+
+
+
+
+@media screen and (min-width: 800px) {
+  .signin-header {font-size: 1.5em; line-height:1em; margin-bottom:20px; margin-top:0;}
+  .flash_notification p {padding: 1em; font-size:1.5em;}
+  .upcoming-events-single-description {font-size:27px;}
+}
