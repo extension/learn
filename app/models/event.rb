@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
-  attr_accessible :requires_registration, :evaluator_id
+  attr_accessible :requires_registration, :registration_contact_id
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
 
@@ -41,6 +41,7 @@ class Event < ActiveRecord::Base
   has_many :taggings, :as => :taggable, dependent: :destroy
   has_many :tags, :through => :taggings
   belongs_to :creator, :class_name => "Learner"
+  belongs_to :registration_contact, :class_name => "Learner"
   belongs_to :last_modifier, :class_name => "Learner"
   has_many :questions, order: 'priority,created_at', dependent: :destroy
   has_many :answers, :through => :questions
@@ -230,15 +231,6 @@ class Event < ActiveRecord::Base
     else
       []
     end
-  end
-
-  def evaluator_tokeninput
-    if(!self.evaluator_id.blank?)
-      evaluator = []
-      learner = Learner.where(id: evaluator_id).first
-      evaluator << {id: learner.id, name: learner.name}
-    end
-    evaluator
   end
 
   def description=(description)
