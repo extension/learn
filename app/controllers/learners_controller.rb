@@ -107,15 +107,10 @@ class LearnersController < ApplicationController
     render(json: token_hash)
   end
 
-  def register_learner
-    if learner = Learner.where(email: params[:email]).first
-      begin
-        EventConnection.create! learner_id: learner.id, event_id: params[:event_id], connectiontype: 6
-        rescue ActiveRecord::RecordInvalid => e
-      end
-    else
-      learner = Learner.create! email: params[:email], name: params[:first_name] + " " + params[:last_name]
-      EventConnection.create! learner_id: learner.id, event_id: params[:event_id], connectiontype: 6
+   def register_learner
+    begin
+      EventRegistration.create! first_name: params[:first_name], last_name: params[:last_name], email: params[:email], event_id: params[:event_id]
+      rescue ActiveRecord::RecordInvalid => e
     end
     head :ok
   end
