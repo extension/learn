@@ -139,6 +139,12 @@ class EventsController < ApplicationController
     @registrants = EventConnection.includes(:learner).where(event_id: @event.id, connectiontype: EventConnection::REGISTER)
     return if check_for_event_redirect
 
+    if (@event.is_deleted)
+      if (!current_learner || !current_learner.is_admin?)
+        do_410
+      end
+    end
+
     # there's a global time_zone setter - but we need to
     # do it again to make sure to force the time zone
     # display to the session and not the system default
@@ -270,6 +276,10 @@ class EventsController < ApplicationController
 
   def canceled
     @events = Event.where(is_canceled: true).order("session_start DESC").page(params[:page])
+  end
+
+  def deleted
+    @events = Event.where(is_deleted: true).order("updated_at DESC").page(params[:page])
   end
 
   def addanswer

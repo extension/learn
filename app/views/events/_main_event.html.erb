@@ -32,7 +32,7 @@
               <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
            </span>
            </p>
-          <p class="location-section-link">Link: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
+          <p>Location: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
         </div>
 
       <%- end -%>

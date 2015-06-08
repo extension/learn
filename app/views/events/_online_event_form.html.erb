@@ -1,3 +1,5 @@
+<%= form_for @event, :html => {:multipart => true} do |event_form| -%>
+
 <fieldset id="event-title">
   <p>
     <%= event_form.text_field :title, :size => nil, :class => "form-control edit-event-title" %>
@@ -73,7 +75,7 @@
  <fieldset>
  <p>
 
-    <%= event_form.label :location, 'Event Location (e.g., http://connect.extension.iastate.edu/learn)' %>
+    <%= event_form.label :location, 'Location (e.g., http://connect.extension.iastate.edu/learn)' %>
     <%= event_form.text_field :location, :class => "form-control" %>
     <span class="help-block">Please make sure the hosting venue is available before scheduling your event.</span>
     </label>
@@ -136,41 +138,23 @@
   </div>
 </fieldset>
 
- <!-- While an event is going on, you can neither cancel it nor expire it -->
- <!-- Admins can cancel and expire events anytime -->
- <% if (!@event.new_record? && !@event.started?) || (current_learner.is_admin && !@event.new_record?) %>
-   <fieldset>
-      <p class="clearing">
-        <label>
-        <%= event_form.check_box :is_canceled %>
-        Cancel this Event
-        <span class="help-block">The event page is still viewable. A "Canceled" banner is displayed on the page, and an email is sent to people who followed the event. Please update the "description" field explaining why the event was canceled. The event will eventually be removed from the site.</span>
-        </label>
-      </p>
-   </fieldset>
- <% end %>
-
- <% if (!@event.new_record? && @event.concluded?) || (current_learner.is_admin && !@event.new_record?) %>
-   <fieldset>
-     <p class="clearing">
-       <label>
-       <%= event_form.check_box :is_expired %>
-       Expire this Event
-       <span class="help-block">Use this option when an event is out-of-date or the technical recording is poor. A prominent "expired" banner is displayed on the page, and the event is removed from our recommendation engine. Please update the "description" field explaining why, and include a link to a better session if available.</span>
-       </label>
-     </p>
-
-  </fieldset>
-<% end %>
-
 <p>
-  <%= submit_tag 'Save Session', :class => "btn btn-default btn-primary btn-lg" %>
+  <%= submit_tag 'Save', :class => "btn btn-default btn-primary btn-lg" %>
   <%- if @event.id %>
     <%= link_to("cancel", event_path(@event.id), :class => "cancel") -%>
   <%- else -%>
     <%= link_to("cancel", root_path(), :class => "cancel") -%>
   <%- end -%>
 </p>
+
+
+
+<%- end -%>
+
+
+
+
+
 
  <script class="code" type="text/javascript">
    $('#session_start').datetimepicker({
