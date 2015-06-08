@@ -79,7 +79,7 @@
 
    </section>
 
- <%- if current_learner && current_learner.id == @event.evaluator_id -%>
+ <%- if current_learner && current_learner.id == @event.registration_contact_id -%>
       Registrant Data:</br>
     <% @registrants.each do |r| %>
        <%= r.learner.name %>
