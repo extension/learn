@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150520204212) do
+ActiveRecord::Schema.define(:version => 20150608142215) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -152,6 +152,14 @@ ActiveRecord::Schema.define(:version => 20150520204212) do
 
   add_index "event_connections", ["learner_id", "event_id", "connectiontype"], :name => "connection_ndx", :unique => true
 
+  create_table "event_registrations", :force => true do |t|
+    t.integer  "event_id"
+    t.text     "first_name", :null => false
+    t.text     "last_name",  :null => false
+    t.text     "email",      :null => false
+    t.datetime "created_at"
+  end
+
   create_table "events", :force => true do |t|
     t.text     "title",                                                        :null => false
     t.text     "description",                                                  :null => false
@@ -181,6 +189,8 @@ ActiveRecord::Schema.define(:version => 20150520204212) do
     t.integer  "commentators_count",                     :default => 0,        :null => false
     t.text     "provided_presenter_order"
     t.boolean  "is_deleted",                             :default => false,    :null => false
+    t.boolean  "requires_registration",                  :default => false,    :null => false
+    t.integer  "registration_contact_id"
   end
 
   add_index "events", ["conference_id"], :name => "conference_ndx"
