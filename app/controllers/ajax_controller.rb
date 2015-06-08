@@ -29,4 +29,13 @@ class AjaxController < ApplicationController
     render json: list
   end
 
+  def registration_contact
+    list = []
+    learners = Learner.order(:name).where("name like ?", "%#{params[:term]}%").limit(12)
+    learners.each do |l|
+      list << Hash[ id: l.id, label: l.name, name: l.name]
+    end
+    render json: list
+  end
+
 end
