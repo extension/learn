@@ -3,6 +3,11 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 #event show page
+
+$ ->
+ $('#event_registration_contact_id').autocomplete
+    source: $('#event_registration_contact_id').data('autocomplete-source')
+
 $ ->
 	$group = $('.form-group.registration_form')
 	if $group.length
