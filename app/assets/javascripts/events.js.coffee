@@ -7,7 +7,7 @@ $ ->
 	$group = $('.form-group.registration_form')
 	if $group.length
 		$(".location").hide()
-		$(".location-section-link").hide()
+		$(".location-section").hide()
 		$(".submit_register").click ->
 			if validateForm() == false
 				return false
@@ -16,7 +16,7 @@ $ ->
 				return false
 			else
 				$(".location").show()
-				$(".location-section-link").show()
+				$(".location-section").show()
 				$(".registration_form").hide()
 
 	#validate email
