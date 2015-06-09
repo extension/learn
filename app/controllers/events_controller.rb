@@ -3,6 +3,7 @@
 # Developed with funding for the National eXtension Initiative.
 # === LICENSE:
 # see LICENSE file
+require 'csv'
 
 class EventsController < ApplicationController
   before_filter :check_for_conference
@@ -136,7 +137,7 @@ class EventsController < ApplicationController
     @comment = Comment.new
     @event_comments = @event.comments
     @similar_events = @event.similar_events
-    @registrants = EventRegistration.includes.where(event_id: @event.id)
+    
     return if check_for_event_redirect
 
     if (@event.is_deleted)
@@ -161,6 +162,11 @@ class EventsController < ApplicationController
 
     if(current_learner)
       @last_viewed_at = current_learner.last_view_for_event(@event)
+    end
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data registrants_to_csv }
     end
 
     # log view
@@ -363,6 +369,26 @@ class EventsController < ApplicationController
       exception[0].destroy
     else
       NotificationException.create(learner: current_learner, event: @event)
+    end
+  end
+
+  def registrants_to_csv
+    @event = Event.find(params[:id])
+    registrants = EventRegistration.includes.where(event_id: @event.id)
+
+    CSV.generate do |csv|
+      headers = []
+      headers << 'First Name'
+      headers << 'Last Name'
+      headers << 'Email'
+      csv << headers
+      registrants.each do |registrant|
+        row = []
+        row << registrant.first_name
+        row << registrant.last_name
+        row << registrant.email
+        csv << row
+      end
     end
   end
 

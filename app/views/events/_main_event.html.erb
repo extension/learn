@@ -81,11 +81,7 @@
 
  <%- if current_learner && current_learner.id == @event.registration_contact_id -%>
       Registrant Data:</br>
-    <% @registrants.each do |r| %>
-       <%= r.learner.name %>
-       <%= r.learner.email %>
-       </br>
-    <% end %>
+      <%= link_to "CSV", event_path(format: "csv") %>
  <%- end %>
 
    <div id="comment-section">
