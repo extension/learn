@@ -123,8 +123,9 @@
    <p>
     <%= event_form.check_box :requires_registration %>
     <%= event_form.label :requires_registration, 'Require participants to register (optional)' %>
-    <%= event_form.text_field :registration_contact_id, data: {autocomplete_source: "/ajax/registration_contact"} %>
-    <span class="help-block">Particpants cannot view Event Location until they enter email and name</span>
+    <%= event_form.text_field :registration_contact_id %>
+    <span class="help-block">Particpants cannot view Event Location until they enter email and name. Check box to enable
+    Registration and choose a Learner to access registrant data.</span>
    </p>
  </fieldset>
 
@@ -191,6 +192,16 @@
            .append( "<a>"+ item.label + " <strong>(" + item.tag_count + ")</strong></a>" )
            .appendTo( ul );
          };
+
+         $('#event_registration_contact_id').autocomplete({
+            source: "/ajax/registration_contact",
+            minLength: 2,
+            select: function(event, ui) {
+              $('#event_registration_contact_id').val(ui.item.name);
+              $('#event_registration_contact_id').val(ui.item.id);
+              return false;
+            }
+          });
 
      });
 
