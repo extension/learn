@@ -3,11 +3,6 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 #event show page
-
-$ ->
- $('#event_registration_contact_id').autocomplete
-    source: $('#event_registration_contact_id').data('autocomplete-source')
-
 $ ->
 	$group = $('.form-group.registration_form')
 	if $group.length
@@ -37,10 +32,10 @@ $ ->
 
 #event new/edit page
 $ ->
-	if $('#event_requires_registration').is ':checked'
-		$('.token-input-list-facebook').show()
+	if $('#event_requires_registration').attr 'checked'
+		$('#event_registration_contact_id').prop('disabled', false)
 	else
-		$('.token-input-list-facebook').hide()
-	$('#event_requires_registration').change ->
-		$('.token-input-list-facebook').toggle @checked
-		return
+		$('#event_registration_contact_id').prop('disabled', true)
+	$('#event_requires_registration').click ->
+	  $('#event_registration_contact_id').attr 'disabled', !@checked
+	  return
