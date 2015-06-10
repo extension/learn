@@ -67,6 +67,7 @@ Learn::Application.routes.draw do
       get 'evaluationresults'
       get 'diff_with_previous'
       post 'restore'
+      delete 'destroy_registrants'
     end
 
     collection do

@@ -7,7 +7,7 @@ require 'csv'
 
 class EventsController < ApplicationController
   before_filter :check_for_conference
-  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history, :evaluation, :evaluationresults]
+  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history, :evaluation, :evaluationresults, :destroy_registrants]
 
   def index
     @list_title = 'All Sessions'
@@ -389,6 +389,17 @@ class EventsController < ApplicationController
         row << registrant.email
         csv << row
       end
+    end
+  end
+
+  def destroy_registrants
+    @event = Event.find(params[:id])
+    registrants = EventRegistration.includes.where(event_id: @event.id)
+    registrants.delete_all
+    
+    respond_to do |format|
+      format.html { redirect_to event_path }
+      format.xml  { head :ok }
     end
   end
 

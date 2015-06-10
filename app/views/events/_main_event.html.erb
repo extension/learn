@@ -67,8 +67,15 @@
     <% end %>
   </div>
 
-
-
+   <%- if current_learner && current_learner.id == @event.registration_contact_id -%>
+     <div class="registration-contact-">
+       <h3 class="event-section-header">Registration Data</h3>
+         <p><small>Regtration Contact <%= link_to_learner(@event.registration_contact) %></small></p>
+         <%= link_to "Download Regtration Data", event_path(format: "csv") %>
+         <%= button_to "Delete Registrants", {:controller => :events, :action => 'destroy_registrants', :id => @event.id }, :method => :delete, :confirm => "Are you sure? This will permanantly delete all registrants for this event!" %>
+     </div>
+   <%- end %>
+   </br>
    <div class="event-colophon">
      <p><small>Created by <%= link_to_learner(@event.creator) %></small></p>
 
@@ -78,11 +85,6 @@
    </div>
 
    </section>
-
- <%- if current_learner && current_learner.id == @event.registration_contact_id -%>
-      Registrant Data:</br>
-      <%= link_to "CSV", event_path(format: "csv") %>
- <%- end %>
 
    <div id="comment-section">
     <%= render :partial => 'comments', :locals => {comments: @comments, event: @event} %>
