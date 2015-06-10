@@ -13,7 +13,6 @@ class EventConnection < ActiveRecord::Base
   BOOKMARK = 3
   ATTEND = 4
   WATCH = 5
-  REGISTER = 6
   
   after_create :log_object_activity
   after_save :update_counter_cache
