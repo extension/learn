@@ -175,8 +175,8 @@
               <p/>
               <%= hidden_field_tag 'event_id', @event.id %>
               <p class="submit_register">
-              <%= submit_tag "Register for this event", id: 'register_button', :onclick => "return validateform();" %>
-                  <span class="help-block">Enter your name and email above and the link will be magically revealed</span>
+                <%= submit_tag "Register for this event", id: 'register_button', :onclick => "return validateform();" %>
+                <span class="help-block">You must register for this event to view its location.</span>
               <p/>
             <%- end -%>
           </div>
