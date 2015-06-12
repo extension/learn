@@ -112,6 +112,18 @@ class LearnersController < ApplicationController
       EventRegistration.create! first_name: params[:first_name], last_name: params[:last_name], email: params[:email], event_id: params[:event_id]
       rescue ActiveRecord::RecordInvalid => e
     end
+
+    if cookies[:event_registration]
+      cookie_array = []
+      cookie_array = cookies[:event_registration].split("&").map(&:to_i)
+      cookie_array << params[:event_id] #unless cookie_array.include(params[:event_id])
+      cookies[:event_registration] = cookie_array
+    else
+      cookie_array = []
+      cookie_array << params[:event_id]
+      cookies[:event_registration] = cookie_array
+    end
+
     head :ok
   end
 

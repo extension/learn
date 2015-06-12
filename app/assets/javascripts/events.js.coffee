@@ -5,7 +5,11 @@
 #event show page
 $ ->
 	$group = $('.form-group.registration_form')
-	if $group.length
+	#check for event_registration cookie and split and convert to array
+	if $.cookie 'event_registration'
+		registration_cookie_array = $.cookie('event_registration').split('&')
+	#if event_id is not in event_registration cookie then hide location and display registration form
+	if $group.length && $('#event_id').val() not in registration_cookie_array
 		$(".location").hide()
 		$(".location-section").hide()
 		$(".submit_register").click ->
@@ -18,6 +22,8 @@ $ ->
 				$(".location").show()
 				$(".location-section").show()
 				$(".registration_form").hide()
+	else
+		$(".registration_form").hide()
 
 	#validate email
 	validateEmail = (email) ->
