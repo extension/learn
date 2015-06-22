@@ -129,7 +129,7 @@
      <p>
       <%= event_form.check_box :requires_registration %>
       <%= event_form.label :requires_registration, 'Require participants to register (optional)' %>
-      <%= text_field_tag :registration_contact, @event.registration_contact.name %>
+      <%= text_field_tag :registration_contact, @event.registration_contact_id.blank? ? "" : @event.registration_contact.name %>
       <%= event_form.hidden_field :registration_contact_id %>
       <span class="help-block">Particpants cannot view Event Location until they enter email and name. Check box to enable
       Registration and choose a Learner to access registrant data.</span>
