@@ -119,9 +119,9 @@
    </p>
  </fieldset>
 
-  <% if @event.registration_contact_id == 21383 || !current_learner.is_admin? %>
+  <% if @event.registration_contact_id == Learner::BRIGITTE_SCOTT and !current_learner.is_admin? %>
     <fieldset class="learner-registration">
-      <span class="help-block">Registration contact is Brid Scott.</span>
+      <span class="help-block">Registration contact is Brigitte Scott.</span>
      </p>
    </fieldset>
   <% else %>
@@ -129,7 +129,8 @@
      <p>
       <%= event_form.check_box :requires_registration %>
       <%= event_form.label :requires_registration, 'Require participants to register (optional)' %>
-      <%= event_form.text_field :registration_contact_id %>
+      <%= text_field_tag :registration_contact, @event.registration_contact.name %>
+      <%= event_form.hidden_field :registration_contact_id %>
       <span class="help-block">Particpants cannot view Event Location until they enter email and name. Check box to enable
       Registration and choose a Learner to access registrant data.</span>
      </p>
@@ -200,12 +201,12 @@
            .appendTo( ul );
          };
 
-         $('#event_registration_contact_id').autocomplete({
+         $('#registration_contact').autocomplete({
             source: "/ajax/registration_contact",
             minLength: 2,
             select: function(event, ui) {
-              $('#event_registration_contact_id').val(ui.item.name);
               $('#event_registration_contact_id').val(ui.item.id);
+              $('#registration_contact').val(ui.item.name);
               return false;
             }
           });
