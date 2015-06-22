@@ -3,11 +3,10 @@
 # Developed with funding for the National eXtension Initiative.
 # === LICENSE:
 # see LICENSE file
-require 'csv'
 
 class EventsController < ApplicationController
   before_filter :check_for_conference
-  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history, :evaluation, :evaluationresults, :destroy_registrants]
+  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history, :evaluation, :evaluationresults, :destroy_registrants, :export_registrants]
 
   def index
     @list_title = 'All Sessions'
@@ -162,11 +161,6 @@ class EventsController < ApplicationController
 
     if(current_learner)
       @last_viewed_at = current_learner.last_view_for_event(@event)
-    end
-
-    respond_to do |format|
-      format.html
-      format.csv { send_data registrants_to_csv }
     end
 
     # log view
@@ -372,34 +366,25 @@ class EventsController < ApplicationController
     end
   end
 
-  def registrants_to_csv
+  def export_registrants
     @event = Event.find(params[:id])
-    registrants = EventRegistration.includes.where(event_id: @event.id)
-
-    CSV.generate do |csv|
-      headers = []
-      headers << 'First Name'
-      headers << 'Last Name'
-      headers << 'Email'
-      csv << headers
-      registrants.each do |registrant|
-        row = []
-        row << registrant.first_name
-        row << registrant.last_name
-        row << registrant.email
-        csv << row
-      end
+    if current_learner.id == @event.registration_contact_id
+      registrants = EventRegistration.includes.where(event_id: @event.id)
+      csv = RegistrantsExport.new(registrants).to_csv
+      render text: csv
     end
   end
 
   def destroy_registrants
     @event = Event.find(params[:id])
-    registrants = EventRegistration.includes.where(event_id: @event.id)
-    registrants.delete_all
-    
-    respond_to do |format|
-      format.html { redirect_to event_path }
-      format.xml  { head :ok }
+    if current_learner.id == @event.registration_contact_id
+      registrants = EventRegistration.includes.where(event_id: @event.id)
+      registrants.delete_all
+      
+      respond_to do |format|
+        format.html { redirect_to event_path }
+        format.xml  { head :ok }
+      end
     end
   end
 

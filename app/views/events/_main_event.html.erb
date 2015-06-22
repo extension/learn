@@ -71,7 +71,7 @@
      <div class="registration-contact-">
        <h3 class="event-section-header">Registration Data</h3>
          <p><small>Regtration Contact <%= link_to_learner(@event.registration_contact) %></small></p>
-         <%= link_to "Download Regtration Data", event_path(format: "csv") %>
+         <%= link_to "Export", export_registrants_path(format: "csv", :id => @event.id) %>
          <%= button_to "Delete Registrants", {:controller => :events, :action => 'destroy_registrants', :id => @event.id }, :method => :delete, :confirm => "Are you sure? This will permanantly delete all registrants for this event!" %>
      </div>
    <%- end %>

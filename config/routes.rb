@@ -51,6 +51,7 @@ Learn::Application.routes.draw do
   match "search/all" => "search#all", :via => [:get]
   match "search/learners" => "search#learners", :via => [:get]
   match "search/events" => "search#events", :via => [:get]
+  match "export_registrants" => "events#export_registrants", :via => :get
 
   # individual tag match
   match "/events/tag/:tags" => "events#tags", :as => 'events_tag'
