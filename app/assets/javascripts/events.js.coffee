@@ -5,10 +5,13 @@
 #event show page
 $ ->
 	$group = $('.form-group.registration_form')
-	#check for event_registration cookie and split and convert to array
+	#check for event_registration cookie and split and convert to array; if it does not exsist set to empty array
 	if $.cookie 'event_registration'
 		registration_cookie_array = $.cookie('event_registration').split('&')
+	else
+		registration_cookie_array = []
 	#if event_id is not in event_registration cookie then hide location and display registration form
+	#see learners#register_learner for other actions related to registration cookie
 	if $group.length && $('#event_id').val() not in registration_cookie_array
 		$(".location").hide()
 		$(".location-section").hide()
