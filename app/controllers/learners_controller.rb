@@ -121,7 +121,7 @@ class LearnersController < ApplicationController
     else
       cookie_array = []
       cookie_array << params[:event_id]
-      cookies[:event_registration] = cookie_array
+      cookies.permanent[:event_registration] = cookie_array
     end
 
     head :ok
