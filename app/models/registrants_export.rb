@@ -13,12 +13,14 @@ class RegistrantsExport
       headers << 'First Name'
       headers << 'Last Name'
       headers << 'Email'
+      headers << 'Date Registered'
       csv << headers
       registrants.each do |registrant|
         row = []
         row << registrant.first_name
         row << registrant.last_name
         row << registrant.email
+        row << registrant.created_at
         csv << row
       end
 		end
