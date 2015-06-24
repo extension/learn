@@ -70,10 +70,14 @@
   <%- if current_learner && current_learner.id == @event.registration_contact_id -%>
     <div class="event-colophon">
       <h3 class="event-section-header">Registration Data</h3>
-      <p><small>Registration Contact <%= link_to_learner(@event.registration_contact) %></small></p>
+      <p><small>Registration Contact: <%= link_to_learner(@event.registration_contact) %></small></p>
       <p>
+      <% if @registrants != nil %>
         <%= link_to "Export registration data", export_registrants_path(format: "csv", :id => @event.id), :class => "btn btn-default btn-primary" %>
         <%= button_to "Delete registration data", {:controller => :events, :action => 'destroy_registrants', :id => @event.id }, :method => :delete, :confirm => "Are you sure? This will permanantly delete all registrants for this event!", :class => "btn btn-default  btn-danger btn-sm" %>
+        <% else %>
+          No one has registered for this event.
+        <% end %>
       </p>
    </div>
    <br />
@@ -162,12 +166,9 @@
           <%- end -%>
         <%- end -%></p>
         <%- if(@event.requires_registration?) -%>
+          <span class="help-block">This event requires registration. Enter your name and email below to view the events location.</span>
           <div class="form-group registration_form">
-            <%= form_tag(register_learner_path, {remote: true}) do -%>
-              <p>
-              <%= label_tag :email %>
-              <%= text_field_tag :email %>
-              <p/>
+            <%= form_tag(register_learner_path ) do -%>
               <p>
               <%= label_tag "First Name" %>
               <%= text_field_tag :first_name %>
@@ -176,10 +177,13 @@
               <%= label_tag "Last Name" %>
               <%= text_field_tag :last_name %>
               <p/>
+              <p>
+              <%= label_tag :email %>
+              <%= text_field_tag :email %>
+              <p/>
               <%= hidden_field_tag 'event_id', @event.id %>
               <p class="submit_register">
-                <%= submit_tag "Register for this event", id: 'register_button', :onclick => "return validateform();" %>
-                <span class="help-block">You must register for this event to view its location.</span>
+                <%= submit_tag "Submit", id: 'register_button', :onclick => "return validateform();" %>
               <p/>
             <%- end -%>
           </div>

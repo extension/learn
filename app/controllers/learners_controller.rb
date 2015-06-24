@@ -108,6 +108,8 @@ class LearnersController < ApplicationController
   end
 
    def register_learner
+    @event = Event.find(params[:event_id])
+
     begin
       EventRegistration.create! first_name: params[:first_name], last_name: params[:last_name], email: params[:email], event_id: params[:event_id]
       rescue ActiveRecord::RecordInvalid => e
@@ -124,7 +126,8 @@ class LearnersController < ApplicationController
       cookies.permanent[:event_registration] = cookie_array
     end
 
-    head :ok
+    flash[:notice] = "You have successfully registered for this event."
+    redirect_to(event_path(@event)) 
   end
 
   private
