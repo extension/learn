@@ -41,10 +41,12 @@ $ ->
 
 #event new/edit page
 $ ->
-	if $('#event_requires_registration').attr 'checked'
-		$('#event_registration_contact_id').prop('disabled', false)
-	else
-		$('#event_registration_contact_id').prop('disabled', true)
-	$('#event_requires_registration').click ->
-	  $('#event_registration_contact_id').attr 'disabled', !@checked
-	  return
+		if $('#event_requires_registration').prop('checked') == true
+				$('#registration_contact').prop 'disabled', false
+		else
+				$('#registration_contact').prop 'disabled', true
+		$('#event_requires_registration').click ->
+				$('#registration_contact').attr 'disabled', !@checked
+				$('#registration_contact').val('');
+				$('#event_registration_contact_id').val('');
+				return
