@@ -141,7 +141,8 @@ class EventsController < ApplicationController
     @comment = Comment.new
     @event_comments = @event.comments
     @similar_events = @event.similar_events
-    
+    @registrants = EventRegistration.includes.where(event_id: @event.id).first
+
     return if check_for_event_redirect
 
     if (@event.is_deleted)
