@@ -167,50 +167,29 @@
         <%- end -%></p>
         <%- if(@event.requires_registration?) -%>
           <div class="form-group registration_form">
-          <span class="help-block">This event requires registration. Enter your name and email below to view the event location. <b>NOTE:</b> Return to this page at the time of the live event to enter the room.</span>
-          <% if !current_learner %>    
-              <%= form_tag(register_learner_path ) do -%>
-                <p>
-                <%= label_tag "First Name" %>
-                <%= text_field_tag :first_name %>
-                <p/>
-                <p>
-                <%= label_tag "Last Name" %>
-                <%= text_field_tag :last_name %>
-                <p/>
-                <p>
-                <%= label_tag :email %>
-                <%= text_field_tag :email %>
-                <p/>
-                <%= hidden_field_tag 'event_id', @event.id %>
-                <p class="submit_register">
-                  <%= submit_tag "Submit", id: 'register_button', :onclick => "return validateform();" %>
-                <p/>
-              <%- end -%>
-            <% else %>
-              <%= form_tag(register_learner_path ) do -%>
-                <p>
-                <%= label_tag "First Name" %>
-                <%= text_field_tag :first_name, @current_learner.first_name %>
-                <p/>
-                <p>
-                <%= label_tag "Last Name" %>
-                <%= text_field_tag :last_name, @current_learner.last_name %>
-                <p/>
-                <p>
-                <%= label_tag :email %>
-                <%= text_field_tag :email, @current_learner.email %>
-                <p/>
-                <%= hidden_field_tag 'event_id', @event.id %>
-                <p class="submit_register">
-                  <%= submit_tag "Submit", id: 'register_button', :onclick => "return validateform();" %>
-                <p/>
-              <%- end -%>
-            <% end %>
+            <span class="help-block">This event requires registration. Enter your name and email below to view the event location. <b>NOTE:</b> Return to this page at the time of the live event to enter the room.</span>
+            <%= form_tag(register_learner_path ) do -%>
+              <p>
+              <%= label_tag "First Name" %>
+              <%= text_field_tag :first_name, @current_learner ? @current_learner.first_name : "" %>
+              <p/>
+              <p>
+              <%= label_tag "Last Name" %>
+              <%= text_field_tag :last_name, @current_learner ? @current_learner.last_name : "" %>
+              <p/>
+              <p>
+              <%= label_tag :email %>
+              <%= text_field_tag :email, @current_learner ? @current_learner.email : "" %>
+              <p/>
+              <%= hidden_field_tag 'event_id', @event.id %>
+              <p class="submit_register">
+                <%= submit_tag "Submit", id: 'register_button', :onclick => "return validateform();" %>
+              <p/>
+            <%- end -%>
+          </div>
         <%- end -%>
+        <%-end -%>
         <p class="location"><small><strong>Location:</strong> <%= link_to(truncate(@event.location.html_safe), @event.location.html_safe, :target => "_blank") -%></small></p>
-      <%-end -%>
-
       <%- if @event.is_conference_session? -%>
       <p><%= link_to('Other Sessions at this same time', schedule_conference_path(id: @event.conference.hashtag, datetime: @event.session_start.xmlschema)) %></p>
 
