@@ -75,13 +75,6 @@
   </div>
 <% end %>
 
-<% if defined?(@registration_contact_diff) && @registration_contact_diff.present? %>
-  <div class="diff_box">
-    <h3>Registration Contact Changes</h3>
-    <p><%= @registration_contact_diff %></p>
-  </div>
-<% end %>
-
 <%= form_tag(restore_event_path(version: @version.id)) do %>
   <p><% if @version == @event.versions.first %>
       <%= submit_tag "Restore Original Question", {:class => 'btn'} %>

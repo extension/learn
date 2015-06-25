@@ -113,11 +113,6 @@ class EventsController < ApplicationController
     if @version.changeset[:time_zone].present?
       @time_zone_diff = Diffy::Diff.new(@version.changeset[:time_zone][0], @version.changeset[:time_zone][1]).to_s(:html).html_safe
     end
-
-    if @version.changeset[:registration_contact_id].present?
-      @registration_contact_diff = Diffy::Diff.new(Learner.find(@version.changeset[:registration_contact_id][0]).name,
-                                                   Learner.find(@version.changeset[:registration_contact_id][1]).name).to_s(:html).html_safe
-    end
   end
 
   def broadcast
