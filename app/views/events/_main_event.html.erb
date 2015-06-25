@@ -166,8 +166,8 @@
           <%- end -%>
         <%- end -%></p>
         <%- if(@event.requires_registration?) -%>
-          <span class="help-block">This event requires registration. Enter your name and email below to view the event location.</span>
           <div class="form-group registration_form">
+          <span class="help-block">This event requires registration. Enter your name and email below to view the event location.</span>
             <%= form_tag(register_learner_path ) do -%>
               <p>
               <%= label_tag "First Name" %>
