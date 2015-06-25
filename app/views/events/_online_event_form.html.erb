@@ -131,7 +131,7 @@
       <%= event_form.label :requires_registration, 'Require participants to register (optional)' %>
       <%= text_field_tag :registration_contact, @event.registration_contact_id.blank? ? "" : @event.registration_contact.name %>
       <%= event_form.hidden_field :registration_contact_id %>
-      <span class="help-block">Particpants cannot view Event Location until they enter email and name. Check the box above to enable registration and choose a single registration contact to access registration data.</span>
+      <span class="help-block">Particpants cannot view Event Location until they enter email and name. Check the box above to enable registration and choose a single registration contact to access registration data. Type a least two characters of the user name to see a list of available users. </span>
      </p>
    </fieldset>
   <% end %>
