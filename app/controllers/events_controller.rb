@@ -6,7 +6,7 @@
 
 class EventsController < ApplicationController
   before_filter :check_for_conference
-  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history, :evaluation, :evaluationresults]
+  before_filter :authenticate_learner!, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history, :evaluation, :evaluationresults, :destroy_registrants, :export_registrants]
 
   def index
     @list_title = 'All Sessions'
@@ -136,6 +136,8 @@ class EventsController < ApplicationController
     @comment = Comment.new
     @event_comments = @event.comments
     @similar_events = @event.similar_events
+    @registrants = EventRegistration.includes.where(event_id: @event.id).first
+
     return if check_for_event_redirect
 
     if (@event.is_deleted)
@@ -362,6 +364,28 @@ class EventsController < ApplicationController
       exception[0].destroy
     else
       NotificationException.create(learner: current_learner, event: @event)
+    end
+  end
+
+  def export_registrants
+    @event = Event.find(params[:id])
+    if current_learner.id == @event.registration_contact_id
+      registrants = EventRegistration.includes.where(event_id: @event.id)
+      csv = RegistrantsExport.new(registrants).to_csv
+      render text: csv
+    end
+  end
+
+  def destroy_registrants
+    @event = Event.find(params[:id])
+    if current_learner.id == @event.registration_contact_id
+      registrants = EventRegistration.includes.where(event_id: @event.id)
+      registrants.delete_all
+      
+      respond_to do |format|
+        format.html { redirect_to event_path }
+        format.xml  { head :ok }
+      end
     end
   end
 

@@ -75,7 +75,6 @@
   </div>
 <% end %>
 
-
 <%= form_tag(restore_event_path(version: @version.id)) do %>
   <p><% if @version == @event.versions.first %>
       <%= submit_tag "Restore Original Question", {:class => 'btn'} %>

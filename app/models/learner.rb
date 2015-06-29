@@ -10,6 +10,8 @@ class Learner < ActiveRecord::Base
   # Setup accessible (or protected) attributes
   attr_accessible :email, :remember_me, :name, :avatar, :bio, :mobile_number, :remove_avatar, :avatar_cache, :needs_search_update
 
+  BRIGITTE_SCOTT = 21383
+  
   # specify image uploader for carrierwave
   mount_uploader :avatar, AvatarUploader
 
@@ -405,5 +407,11 @@ class Learner < ActiveRecord::Base
     Sunspot.commit
   end
 
+  def first_name
+    name.split(' ')[0]
+  end
 
+  def last_name
+    name.split(' ')[1]
+  end
 end
