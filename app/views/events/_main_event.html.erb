@@ -73,7 +73,7 @@
       <p><small>Registration Contact: <%= link_to_learner(@event.registration_contact) %></small></p>
       <p>
       <% if @registrants != nil %>
-        <%= link_to "Export registration data", export_registrants_path(format: "csv", :id => @event.id), :class => "btn btn-default btn-primary" %>
+        <%= link_to "Export registration data", learn_registrants_path(format: "csv", :id => @event.id), :class => "btn btn-default btn-primary" %>
         <%= button_to "Delete registration data", {:controller => :events, :action => 'destroy_registrants', :id => @event.id }, :method => :delete, :confirm => "Are you sure? This will permanantly delete all registrants for this event!", :class => "btn btn-default  btn-danger btn-sm" %>
         <% else %>
           No one has registered for this event.
