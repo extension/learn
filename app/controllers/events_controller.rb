@@ -371,7 +371,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     if current_learner.id == @event.registration_contact_id
       registrants = EventRegistration.includes.where(event_id: @event.id)
-      csv = RegistrantsExport.new(registrants).to_csv
+      csv = EventRegistration.export(registrants)
       headers["Content-Disposition"] = "attachment; filename=\"event_#{@event.id}_registrants.csv\"" 
       render text: csv
     end
