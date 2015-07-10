@@ -494,7 +494,7 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def send_notifications?
+  def do_not_notify?
     self.is_deleted? or self.is_canceled? or self.is_expired?
   end
 
