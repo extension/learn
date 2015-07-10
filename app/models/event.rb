@@ -494,6 +494,10 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def send_notifications?
+    self.is_deleted? or self.is_canceled? or self.is_expired?
+  end
+
   def set_featured_at
     if self.featured_changed?
       if self.featured == true

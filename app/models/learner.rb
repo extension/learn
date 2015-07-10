@@ -325,6 +325,10 @@ class Learner < ActiveRecord::Base
     return_learners
   end
 
+  def send_notifications?(event)
+    self.email.blank? or !self.send_reminder? or self.has_event_notification_exception?(event)
+  end
+
   def send_recommendation?
     self.preferences.setting('notification.recommendation')
   end
