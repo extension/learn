@@ -325,8 +325,8 @@ class Learner < ActiveRecord::Base
     return_learners
   end
 
-  def do_not_notify?(event)
-    self.email.blank? or !self.send_reminder? or self.has_event_notification_exception?(event)
+  def send_notifications?(event)
+    !self.email.blank? and self.send_reminder? and !self.has_event_notification_exception?(event)
   end
 
   def send_recommendation?

@@ -71,11 +71,11 @@ class Notification < ActiveRecord::Base
   end
 
   def process_event_reminder_emails
-    self.notifiable.learners.each{|learner| EventMailer.reminder(learner: learner, event: self.notifiable).deliver unless (learner.do_not_notify?(self.notifiable) or self.notifiable.do_not_notify?)}
+    self.notifiable.learners.each{|learner| EventMailer.reminder(learner: learner, event: self.notifiable).deliver unless (!learner.send_notifications?(self.notifiable) or !self.notifiable.send_notifications?)}
   end
 
   def process_event_reminder_sms
-    self.notifiable.learners.each{|learner| send_sms_notification(learner) unless (learner.do_not_notify?(self.notifiable) or !learner.send_sms?(self.offset) or self.notifiable.do_not_notify?)}
+    self.notifiable.learners.each{|learner| send_sms_notification(learner) unless (!learner.send_notifications?(self.notifiable) or !learner.send_sms?(self.offset) or !self.notifiable.send_notifications?)}
   end
 
   def process_activity_notifications
