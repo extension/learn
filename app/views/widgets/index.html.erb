@@ -90,14 +90,14 @@
       data: $("#widget_form").serialize()
     })
     .done(function(data) {
-      // The example widget displayed correctly so
-      // create the corresponding widget code snippet
+      // The example widget rendered without error so generate the corresponding widget code snippet
       generate_widget_snippet();
       $(".example-widget-container").hide().fadeIn();
     })
     .fail(function(json, responseText) {
       feedbackMessage = $.parseJSON(json.responseText).message
-      alert(feedbackMessage);
+      $(".example-widget-container").html("<p class='alert alert-danger'>"+feedbackMessage+"</p>");
+      generate_widget_snippet(); // clear out the code snippet by failing it
     })
   }
 
@@ -115,7 +115,7 @@
     })
     .fail(function(json, responseText) {
       feedbackMessage = $.parseJSON(json.responseText).message
-      alert(feedbackMessage);
+      $("#widget-code").html("<p class='alert alert-danger'>"+feedbackMessage+"</p>");
     })
   }
 

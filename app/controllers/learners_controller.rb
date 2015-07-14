@@ -6,7 +6,7 @@
 
 class LearnersController < ApplicationController
   before_filter :authenticate_portfolio_if_not_public, only: [:portfolio]
-  before_filter :authenticate_learner!, except: [:portfolio]
+  before_filter :authenticate_learner!, except: [:portfolio, :register_learner]
   
   def block
     @learner = Learner.find_by_id(params[:id])
@@ -107,6 +107,29 @@ class LearnersController < ApplicationController
     render(json: token_hash)
   end
 
+   def register_learner
+    @event = Event.find(params[:event_id])
+
+    begin
+      EventRegistration.create! first_name: params[:first_name], last_name: params[:last_name], email: params[:email], event_id: params[:event_id]
+      rescue ActiveRecord::RecordInvalid => e
+    end
+
+    if cookies[:event_registration]
+      cookie_array = []
+      cookie_array = cookies[:event_registration].split("&").map(&:to_i)
+      cookie_array << params[:event_id] #unless cookie_array.include(params[:event_id])
+      cookies[:event_registration] = cookie_array
+    else
+      cookie_array = []
+      cookie_array << params[:event_id]
+      cookies.permanent[:event_registration] = cookie_array
+    end
+
+    flash[:notice] = "You have successfully registered for this event."
+    redirect_to(event_path(@event)) 
+  end
+
   private
   
   def prepare_history(history_type)
@@ -125,7 +148,4 @@ class LearnersController < ApplicationController
     authenticate_learner!
   end
 
-
-
-    
 end

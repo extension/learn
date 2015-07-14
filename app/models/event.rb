@@ -17,11 +17,12 @@ class Event < ActiveRecord::Base
 
   # define accessible attributes
   attr_accessible :creator, :last_modifier
-  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled
+  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled, :is_deleted
   attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at, :evaluation_link
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
+  attr_accessible :requires_registration, :registration_contact_id
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
 
@@ -40,6 +41,7 @@ class Event < ActiveRecord::Base
   has_many :taggings, :as => :taggable, dependent: :destroy
   has_many :tags, :through => :taggings
   belongs_to :creator, :class_name => "Learner"
+  belongs_to :registration_contact, :class_name => "Learner"
   belongs_to :last_modifier, :class_name => "Learner"
   # rails4 has_many :questions, order: 'priority,created_at', dependent: :destroy
   has_many :questions, dependent: :destroy
@@ -105,15 +107,19 @@ class Event < ActiveRecord::Base
     text :presenter_names
     boolean :is_canceled
     boolean :is_expired
+    boolean :is_deleted
   end
   #commented out for rails4 update
   # scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
   # scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   # scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
 
-  scope :active, -> { where(is_canceled: false) }
   scope :not_expired, -> { where(is_expired: false) }
   scope :featured, -> { where(featured: true) }
+  scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
+  scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
+  scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
+  scope :active, conditions: {is_canceled: false, is_deleted: false}
 
   # expecting array of tag strings
   scope :tagged_with_all, lambda{|tag_list|
@@ -485,6 +491,19 @@ class Event < ActiveRecord::Base
         Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)
       end
     end
+    if self.is_deleted_changed?
+      if self.is_deleted?
+        Notification.create(notifiable: self, notificationtype: Notification::CANCELED_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
+        Notification.create(notifiable: self, notificationtype: Notification::EVENT_DELETED, delivery_time: 1.minute.from_now)
+      else
+        Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
+        Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)
+      end
+    end
+  end
+
+  def send_notifications?
+    !self.is_deleted? and !self.is_canceled? and !self.is_expired?
   end
 
   def set_featured_at

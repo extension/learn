@@ -40,6 +40,7 @@ Learn::Application.routes.draw do
 
   match "ajax/:action" => "ajax", :via => [:get, :post]
   match "learning_history" => "learners#learning_history", :via => :get
+  match "register_learner" => "learners#register_learner", :via => :post
   match "comment_history" => "learners#comment_history", :via => :get
   match "settings/profile" => "settings#profile", :via => [:get, :put]
   match "settings/notifications" => "settings#notifications", :via => [:get, :post]
@@ -50,6 +51,7 @@ Learn::Application.routes.draw do
   match "search/all" => "search#all", :via => [:get]
   match "search/learners" => "search#learners", :via => [:get]
   match "search/events" => "search#events", :via => [:get]
+  match "learn_registrants" => "events#export_registrants", :via => :get
 
   # individual tag match
   match "/events/tag" => "events#tags", :via => [:get]
@@ -66,6 +68,7 @@ Learn::Application.routes.draw do
       get 'evaluationresults'
       get 'diff_with_previous'
       post 'restore'
+      delete 'destroy_registrants'
     end
 
     collection do
@@ -74,6 +77,7 @@ Learn::Application.routes.draw do
       get 'tags'
       get 'recent'
       get 'canceled'
+      get 'deleted'
       get 'broadcast'
     end
   end
