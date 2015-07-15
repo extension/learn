@@ -80,7 +80,7 @@
           <%= event_form.hidden_field :is_deleted, value: true %>
           <p class="help-block">The event page displays a 404, and an email is sent to people who followed the event. If the event needs to be recovered, please contact an eXtension staff member for help.</p>
           <p><%= submit_tag 'Delete event', :class => "btn btn-default btn-danger", id: "delete_event_button" %></p>
-          <p><%= event_form.text_field :reason_is_deleted, placeholder: "Reason for deleting this event", :class => "form-control" %></p>
+          <p><%= event_form.text_field :reason_is_deleted, placeholder: "Reason for deletion", :class => "form-control" %></p>
         <%- end -%>
       <% end %>
     <% else %>
