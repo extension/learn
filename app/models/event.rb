@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
 
   # define accessible attributes
   attr_accessible :creator, :last_modifier
-  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled, :is_deleted
+  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled, :is_deleted, :reason_is_deleted
   attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at, :evaluation_link
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes

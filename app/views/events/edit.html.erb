@@ -73,12 +73,14 @@
         <%- if @event.is_deleted -%>
           <h4>This event is deleted.</h4>
           <%= event_form.hidden_field :is_deleted, value: false %>
+          <%= event_form.hidden_field :reason_is_deleted, value: nil %>
           <p><%= submit_tag 'Make this event active', :class => "btn btn-default" %></p>
         <%- else -%>
           <h4>Delete event</h4>
           <%= event_form.hidden_field :is_deleted, value: true %>
           <p class="help-block">The event page displays a 404, and an email is sent to people who followed the event. If the event needs to be recovered, please contact an eXtension staff member for help.</p>
           <p><%= submit_tag 'Delete event', :class => "btn btn-default btn-danger" %></p>
+          <p><%= event_form.text_field :reason_is_deleted %></p>
         <%- end -%>
       <% end %>
     <% else %>
