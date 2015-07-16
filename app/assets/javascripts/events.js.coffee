@@ -50,7 +50,3 @@ $ ->
 				$('#registration_contact').val('');
 				$('#event_registration_contact_id').val('');
 				return
-		#disable Delete button until reason is entered
-		$("#delete_event_button").prop("disabled", true)
-		$('#event_reason_is_deleted').click ->
-			$("#delete_event_button").prop("disabled", false)

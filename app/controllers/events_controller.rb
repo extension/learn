@@ -390,6 +390,22 @@ class EventsController < ApplicationController
     end
   end
 
+  def delete_event
+    @event = Event.find(params[:id])
+    if request.post?
+      reason = params[:reason_is_deleted]
+      if reason.blank?
+        flash.now[:error] = 'Please document a reason for deleting this event.'
+        return render nil
+      end
+      @event.update_attributes(is_deleted: true,
+                               reason_is_deleted: reason
+                               )
+      flash[:success] = "Event deleted successfully"
+      redirect_to event_url(@event)
+    end
+  end
+
   protected
 
   def check_for_conference
