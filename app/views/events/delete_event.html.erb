@@ -1,20 +1,23 @@
 
-<h1>Delete this Event <%= link_to "Cancel", event_path(@event.id), :class => "btn btn-default" %></h1>
 
 <div class="bekind">
-  <h3>The event page displays a 404, and an email is sent to people who followed the event.</h3>
-</div>
-
-<div class="alert alert-warning"><h4><strong>Note:</strong> If this event needs to be recovered, please contact an eXtension staff member for help.</h4></div>
-
-
+<h2>You are about to delete this event. This means...</h2>
+<ul>
+<h3>
+  <li>The event page displays a "Page Removed" message</li>
+  <li>An email is sent to people who followed the event notifiying them the event has been deleted</li>
+  <li>If this event needs to be recovered, you will need to contact an eXtension staff member for help</li>
+</ul>
+</h3>
+</br>
 <%= form_tag delete_event_event_path(@event.id) do %>
   <p>
-    <label for="close_out_question">Reason for deleting this event</label>
+    <label>Reason for deleting this event (This will be included in the email notification)</label>
     <%= text_field_tag :reason_is_deleted, "", class: 'form-control' %>
   </p>
   
   <p>
-    <%= submit_tag 'Close Question', :class => "btn btn-primary"%>
+    <%= submit_tag 'Delete Event', :class => "btn btn-default  btn-danger"%>
+    <%= link_to "Cancel", event_path(@event.id), :class => "btn btn-default" %>
   </p>
 <% end %>
