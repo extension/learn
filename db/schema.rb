@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150608142215) do
+ActiveRecord::Schema.define(:version => 20150715135832) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(:version => 20150608142215) do
     t.boolean  "is_deleted",                             :default => false,    :null => false
     t.boolean  "requires_registration",                  :default => false,    :null => false
     t.integer  "registration_contact_id"
+    t.text     "reason_is_deleted"
   end
 
   add_index "events", ["conference_id"], :name => "conference_ndx"

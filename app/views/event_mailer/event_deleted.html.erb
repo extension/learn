@@ -84,7 +84,10 @@
         <td id="reminder_title">The Learn event "<%= @event.title -%>" has been deleted.</td>
       </tr>
       <tr>
-        <td id="reminder_description">The event was deleted by <%= @last_modified_by.name %>.</td>
+        <td id="reminder_description">
+          <p>The event was deleted by <%= @last_modified_by.name %>.</p>
+          <p>Reason: <%= @event.reason_is_deleted %>.</p>
+        </td>
       </tr>
     </table>
 

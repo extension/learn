@@ -1,0 +1,23 @@
+
+
+<div class="bekind">
+<h2>You are about to delete this event. This means...</h2>
+<ul>
+<h3>
+  <li>The event page displays a "Page Removed" message</li>
+  <li>An email is sent to people who followed the event notifiying them the event has been deleted</li>
+  <li>If this event needs to be recovered, you will need to contact an eXtension staff member for help</li>
+</ul>
+</h3>
+</br>
+<%= form_tag delete_event_event_path(@event.id) do %>
+  <p>
+    <label>Reason for deleting this event (This will be included in the email notification)</label>
+    <%= text_field_tag :reason_is_deleted, "", class: 'form-control' %>
+  </p>
+  
+  <p>
+    <%= submit_tag 'Delete Event', :class => "btn btn-default  btn-danger"%>
+    <%= link_to "Cancel", event_path(@event.id), :class => "btn btn-default" %>
+  </p>
+<% end %>

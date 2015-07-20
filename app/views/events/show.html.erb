@@ -15,7 +15,7 @@
 
 <%- if @event.is_deleted -%>
   <div class="alert alert-danger">
-    <h1>This event has been deleted</h1>
+    <h1>This event has been deleted( Reason: <%= @event.reason_is_deleted %> )</h1>
     <p>This content below can only be seen by eXtension admin accounts. Everyone else sees a "Page Removed" message.</p>
   </div>
   <div id="deleted_wrapper">
