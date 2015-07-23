@@ -167,7 +167,7 @@
         <%- end -%></p>
         <%- if(@event.requires_registration?) -%>
           <div class="form-group registration_form">
-            <span class="help-block">You must register in order to see the web address of the event. Return to this page at the time of the live event to enter the room. You will not receive an email record of your registration.</span>
+            <span class="help-block">You must register in order to see the web address of the event.</span>
 
 
             <%= form_tag(register_learner_path ) do -%>
@@ -258,3 +258,29 @@
 
 <br class='clearing' />
 </div>
+
+<!-- Registration Modal -->
+<div class="modal fade" id="registration-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Registration Notice!</h4>
+      </div>
+      <div class="modal-body">
+        Thank you for registering for this event. Return to this page at the time of the live event to enter the room. <b>You will not be emailed a registration notification</b>.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<% if session[:registration_modal] == true %>
+  <script class="code" type="text/javascript">
+    $('#registration-modal').modal('show');
+  </script>
+  <% session[:registration_modal] = false %>
+<% end %>
+
