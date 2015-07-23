@@ -126,7 +126,7 @@ class LearnersController < ApplicationController
       cookies.permanent[:event_registration] = cookie_array
     end
 
-    flash[:notice] = "You have successfully registered for this event."
+    session[:registration_modal] = true
     redirect_to(event_path(@event)) 
   end
 
