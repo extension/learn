@@ -71,6 +71,7 @@ class Event < ActiveRecord::Base
   validates :session_start, :presence => true
   validates :session_length, :presence => true
   validates :location, :presence => true
+  validates_presence_of :registration_contact_id, :if => :validate_registration_contact?
 
   validates :recording, :allow_blank => true, :uri => true
   validates :evaluation_link, :allow_blank => true, :uri => true
@@ -166,6 +167,10 @@ class Event < ActiveRecord::Base
   scope :broadcast, where('event_type = ?',BROADCAST)
 
   scope :by_date, lambda {|date| where('DATE(session_start) = ?',date)}
+
+  def validate_registration_contact?
+    requires_registration == true
+  end
 
   def connections_list
     self.learners.valid.order('event_connections.created_at')

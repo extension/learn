@@ -49,4 +49,8 @@ $ ->
 				$('#registration_contact').attr 'disabled', !@checked
 				$('#registration_contact').val('');
 				$('#event_registration_contact_id').val('');
+				if $('#event_requires_registration').prop('checked') == true
+					$('#registration_contact').attr 'placeholder', 'Enter Contact...'
+				else
+					$('#registration_contact').attr 'placeholder', ''
 				return
