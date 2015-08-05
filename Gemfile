@@ -68,6 +68,8 @@ gem 'ancestry'
 # diffs
 gem 'diffy'
 
+#email validation
+gem 'valid_email'
 
 # html scrubbing
 gem "loofah"
