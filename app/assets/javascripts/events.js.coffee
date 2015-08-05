@@ -16,28 +16,11 @@ $ ->
 		$(".location").hide()
 		$(".location-section").hide()
 		$(".submit_register").click ->
-			if validateForm() == false
-				return false
-			else if validateEmail($("#email").val()) == false
-				alert('Please enter a valid email address')
-				return false
-			else
-				$(".location").show()
-				$(".location-section").show()
-				$(".registration_form").hide()
+			$(".location").show()
+			$(".location-section").show()
+			$(".registration_form").hide()
 	else
 		$(".registration_form").hide()
-
-	#validate email
-	validateEmail = (email) ->
-	  re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
-	  re.test email
-
-	#validate email, first name and last name
-	validateForm = ->
-		if $("#email").val() == '' || $("#first_name").val() == '' || $("#last_name").val() == ''
-				alert('Please enter first name, last name, and email')
-				return false
 
 #event new/edit page
 $ ->

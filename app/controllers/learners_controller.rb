@@ -109,25 +109,29 @@ class LearnersController < ApplicationController
 
    def register_learner
     @event = Event.find(params[:event_id])
+    @registation = EventRegistration.new first_name: params[:first_name], last_name: params[:last_name], email: params[:email], event_id: params[:event_id]
 
-    begin
-      EventRegistration.create! first_name: params[:first_name], last_name: params[:last_name], email: params[:email], event_id: params[:event_id]
-      rescue ActiveRecord::RecordInvalid => e
-    end
-
-    if cookies[:event_registration]
-      cookie_array = []
-      cookie_array = cookies[:event_registration].split("&").map(&:to_i)
-      cookie_array << params[:event_id] #unless cookie_array.include(params[:event_id])
-      cookies[:event_registration] = cookie_array
+    #This is a little wonky but allows us to keep the event/email validation, but not display an error
+    if !@registation.valid? and @registation.errors.full_messages.to_sentence != "Event has already been taken"
+      errors = @registation.errors.full_messages
+      errors.delete("Event has already been taken")
+      flash[:notice] = errors.to_sentence
+      redirect_to(event_path(@event))
     else
-      cookie_array = []
-      cookie_array << params[:event_id]
-      cookies.permanent[:event_registration] = cookie_array
+      @registation.save
+      if cookies[:event_registration]
+        cookie_array = []
+        cookie_array = cookies[:event_registration].split("&").map(&:to_i)
+        cookie_array << params[:event_id] #unless cookie_array.include(params[:event_id])
+        cookies[:event_registration] = cookie_array
+      else
+        cookie_array = []
+        cookie_array << params[:event_id]
+        cookies.permanent[:event_registration] = cookie_array
+      end
+      session[:registration_modal] = true
+      redirect_to(event_path(@event))
     end
-
-    session[:registration_modal] = true
-    redirect_to(event_path(@event)) 
   end
 
   private
