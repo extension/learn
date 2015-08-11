@@ -190,8 +190,9 @@
             <%- end -%>
           </div>
         <%- end -%>
-        <%-end -%>
         <p class="location"><small><strong>Location:</strong> <%= link_to(truncate(@event.location.html_safe), @event.location.html_safe, :target => "_blank") -%></small></p>
+      <%-end -%>
+      
       <%- if @event.is_conference_session? -%>
       <p><%= link_to('Other Sessions at this same time', schedule_conference_path(id: @event.conference.hashtag, datetime: @event.session_start.xmlschema)) %></p>
 
