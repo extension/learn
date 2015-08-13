@@ -1,0 +1,24 @@
+<%- if(@event.requires_registration?) -%>
+  <div class="form-group registration_form">
+    <span class="help-block">You must register in order to see the web address of the event.</span>
+    <%= form_tag(register_learner_path ) do -%>
+      <p>
+        <%= label_tag("first_name", "First Name") %>
+        <%= text_field_tag(:first_name, (@current_learner ? @current_learner.first_name : ""), class: 'form-control') %>
+      </p>
+      <p>
+        <%= label_tag("last_name", "Last Name") %>
+        <%= text_field_tag(:last_name, (@current_learner ? @current_learner.last_name : ""), class: 'form-control') %>
+      </p>
+      <p>
+        <%= label_tag("email", "Email") %>
+        <%= text_field_tag(:email, (@current_learner ? @current_learner.email : ""), class: 'form-control') %>
+      </p>
+      <%= hidden_field_tag 'event_id', @event.id %>
+      <p class="submit_register">
+        <%= submit_tag "Register for event", id: 'register_button', class: "btn btn-default btn-primary" %>
+      <p/>
+    <%- end -%>
+  </div>
+<%- end -%>
+

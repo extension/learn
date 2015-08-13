@@ -127,7 +127,21 @@
           <%-end -%>
         </div>
       <%-else -%>
-        <%= render :partial => 'calendar_and_registration' %>
+        <%= render :partial => 'calendar' %>
+
+        <p class="timezone">
+          <%- if current_learner -%>
+            <%- if(!current_learner.has_time_zone?) -%>
+              <%= link_to("Set your time zone to display this session in your local time", settings_profile_path()) -%>
+            <%- end -%>
+          <%- else -%>
+            <%= time_zone_select( :user_selected_timezone, :timezone, ActiveSupport::TimeZone.us_zones, {:default =>timezone_select_default, :include_blank => (timezone_select_default.nil? ? Time.zone.name : nil)}, {:class => "form-control"}) %>
+          <%- end -%>
+        </p>
+
+        <%= render :partial => 'registration' %>
+        
+        <p class="location"><small><strong>Location:</strong> <%= link_to(truncate(@event.location.html_safe), @event.location.html_safe, :target => "_blank") -%></small></p>
       <%-end -%>
       
       <%- if @event.is_conference_session? -%>
@@ -145,8 +159,6 @@
       <% end %>
 
     </aside>
-
-
 
     <%- if current_learner -%>
 
