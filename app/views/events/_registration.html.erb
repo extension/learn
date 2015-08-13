@@ -1,4 +1,3 @@
-<%- if(@event.requires_registration?) -%>
   <div class="form-group registration_form">
     <span class="help-block">You must register in order to see the web address of the event.</span>
     <%= form_tag(register_learner_path ) do -%>
@@ -20,5 +19,3 @@
       <p/>
     <%- end -%>
   </div>
-<%- end -%>
-
