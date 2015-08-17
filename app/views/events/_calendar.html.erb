@@ -1,0 +1,24 @@
+<h4>
+  <span class="calendarblock">
+    <span class="month"><%= @event.session_start.strftime("%b") -%></span>
+    <span class="date"><%= @event.session_start.strftime("%d") -%></span>
+  </span>
+  <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%> at</span>
+  <span class="session-time">
+    <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
+  </span>
+</h4>
+
+<h4 class="session-duration"><%= "#{@event.session_length}" -%> minute session</h4>
+
+<p class="addtocalendar">
+  <span id="event_date" class="addtocal">
+    <span class="btn btn-default"><i class="fa fa-table"></i> Add to calendar</span>
+    <span class="summary" style="display:none"><%= "Learn Event: #{@event.title}" %></span>
+    <span class="dtstart" style="display:none"><%= add_to_cal_timestamp(@event.session_start) %></span>
+    <span class="dtend" style="display:none"><%= add_to_cal_timestamp(@event.session_end) %></span>
+    <span class="description" style="display:none"><%= event_url(@event) %></span>
+    <span class="ics_url" style="display:none"><%= event_url(@event, :format => :ics) %></span>
+    <span class="vcs_url" style="display:none"><%= event_url(@event, :format => :vcs) %></span>
+  </span>
+</p>
