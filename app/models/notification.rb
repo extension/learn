@@ -24,6 +24,7 @@ class Notification < ActiveRecord::Base
   UPDATE_IASTATE = 41
   CANCELED_IASTATE = 42
   LEARNER_RETIRED = 50
+  REGISTRATION = 52
 
 
 
@@ -65,6 +66,8 @@ class Notification < ActiveRecord::Base
       process_canceled_iastate
     when LEARNER_RETIRED
       process_learner_retired
+    when REGISTRATION
+      process_registration
     else
       # nothing
     end
@@ -138,6 +141,11 @@ class Notification < ActiveRecord::Base
     if(recommendation.learner.send_recommendation? and recommendation.learner.email.present?)
       EventMailer.recommendation(recommendation: recommendation).deliver
     end
+  end
+
+  def process_registration
+    registration = self.notifiable
+    EventMailer.registration(registration: registration).deliver
   end
 
   def process_inform_iastate

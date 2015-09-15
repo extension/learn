@@ -8,6 +8,7 @@ require 'csv'
 
 class EventRegistration < ActiveRecord::Base
   belongs_to :event
+  after_create  :create_notification
 
   # define accessible attributes
   attr_accessible :first_name, :last_name, :email, :event_id
@@ -16,6 +17,10 @@ class EventRegistration < ActiveRecord::Base
   validates :event_id, :uniqueness => {:scope => :email}
   validates_presence_of :email, :first_name, :last_name
   validates :email, :email => true
+
+  def create_notification
+    Notification.create(notificationtype: Notification::REGISTRATION, notifiable: self, delivery_time: 1.minute.from_now)
+  end
 
 
   def self.export(registrants)
