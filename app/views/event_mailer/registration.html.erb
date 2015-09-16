@@ -67,17 +67,6 @@
   <tr class="tagline">
     <td>You Have Registered for the following Event</td>
   </tr>
-  <tr class="options">
-    <td>
-      <%- if @mailer_cache -%>
-        <%= link_to('View in a browser', webmail_view_url(hashvalue: @mailer_cache.hashvalue)) %>
-      <%- else -%>
-        <a href="">View in a browser</a> 
-      <%- end -%>
-      <%= link_to "Unsubscribe", settings_notifications_url() %>
-    </td>
-  </tr>
-  
   <tr><td>
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
       <tr>
@@ -91,8 +80,10 @@
               <%= image_tag("#{ssl_root_url}assets/clock.png", size: "60x60") %>
               </td>
             <td>
-          It's today at: <br/>
           <%= link_to(event_url(@event.id)) do -%>
+          <%= @event.session_start.strftime("%B %e, %Y") -%> at
+          <%= @event.session_start.strftime("%l:%M %p %Z") -%> <br />
+          Duration: <%= @event.session_length %> Minutes <br />
           <%- end -%> 
           </td>
           </tr>
@@ -109,25 +100,13 @@
         <td id="reminder_description"><%= @event.description.html_safe %></td>
       </tr>
     </table>
-
   </td></tr>
-    
   <tr>
     <td class="footer">
       <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" class="footer">
         <tr>
           <td class="bgcolor">
-            <p>This email was sent to <%= @registration.email %>. You received this email because you registered for an event at learn.extension.org.</p>
-          </td>
-        </tr>
-        <tr class="options">
-          <td>
-            <%- if @mailer_cache -%>
-              <%= link_to('View in a browser', webmail_view_url(hashvalue: @mailer_cache.hashvalue)) %>
-            <%- else -%>
-              <a href="">View in a browser</a> 
-            <%- end -%>
-              <%= link_to "Unsubscribe", settings_notifications_url() %>
+            <p>This email was sent to <%= @registration.email %>. You received this email because you registered for an event at learn.extension.org. Return to the event location above at the specified time and date.</p>
           </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
