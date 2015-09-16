@@ -49,6 +49,7 @@ class Event < ActiveRecord::Base
   has_many :ratings, :as => :rateable, :include => :learner, :conditions => "learners.is_blocked = false", dependent: :destroy
   has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
+  has_many :event_registrations
   has_many :presenter_connections, dependent: :destroy
   has_many :presenters, through: :presenter_connections, :source => :learner, :order => 'position'
   has_many :event_activities, dependent: :destroy
@@ -463,6 +464,7 @@ class Event < ActiveRecord::Base
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 30.minutes, offset: 30.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 15.minutes, offset: 15.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::INFORM_IASTATE, delivery_time: 1.minute.from_now) unless !self.is_connect_session?
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REGISTRATION_REMINDER_EMAIL, delivery_time: self.session_start - 24.hours, offset: 24.hours)
   end
 
   # when an event is updated, the notifications need to be rescheduled if the event session_start changes

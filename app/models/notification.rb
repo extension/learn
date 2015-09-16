@@ -25,6 +25,7 @@ class Notification < ActiveRecord::Base
   CANCELED_IASTATE = 42
   LEARNER_RETIRED = 50
   REGISTRATION = 52
+  EVENT_REGISTRATION_REMINDER_EMAIL = 53
 
 
 
@@ -68,6 +69,8 @@ class Notification < ActiveRecord::Base
       process_learner_retired
     when REGISTRATION
       process_registration
+    when EVENT_REGISTRATION_REMINDER_EMAIL
+      process_event_registration_reminder_email
     else
       # nothing
     end
@@ -75,6 +78,10 @@ class Notification < ActiveRecord::Base
 
   def process_event_reminder_emails
     self.notifiable.learners.each{|learner| EventMailer.reminder(learner: learner, event: self.notifiable).deliver unless (!learner.send_notifications?(self.notifiable) or !self.notifiable.send_notifications?)}
+  end
+
+  def process_event_registration_reminder_email
+    self.notifiable.event_registrations.each{|registrant| EventMailer.registration_reminder(registration: registration).deliver}
   end
 
   def process_event_reminder_sms
