@@ -1,11 +1,11 @@
 Your Professional Development Event is Tomorrow!
 
 You have registered for the following event: <%= @event.title -%>.
-The event is located at: <%= event_url(@event.id) -%>.
+The event is located at: <%= event_url(@event.id) -%> .
 The event will occur tomorrow <%= @event.session_start.strftime("%B %e, %Y") -%> at <%= @event.session_start.strftime("%l:%M %p %Z") %>.
 Duration: <%= @event.session_length %> Minutes.
 
-Event Description: <%= ActionView::Base.full_sanitizer.sanitize(@event.description) %>.
+Event Description: <%= Event.html_to_text(@event.description) %>.
 
 This email was sent to <%= @registration.email %>. You received this email because you registered for this event at learn.extension.org.
 Return to the event location above at the specified time and date.
