@@ -35,6 +35,28 @@ class EventMailer < ActionMailer::Base
     return_email
   end
 
+  def registration(options = {})
+    @registration = options[:registration]
+    @event = Event.find(@registration.event_id)
+    @subject = options[:subject] || 'Your Learn Registration'
+
+    return_email = mail(to: @registration.email, subject: @subject)
+
+    # the email if we got it
+    return_email
+  end
+
+def registration_reminder(options = {})
+    @registration = options[:registration]
+    @event = Event.find(@registration.event_id)
+    @subject = options[:subject] || 'Your Learn Event is Tomorrow'
+
+    return_email = mail(to: @registration.email, subject: @subject)
+
+    # the email if we got it
+    return_email
+  end
+
   def reminder(options = {})
     @event = options[:event]
     @subject = "Your Learn Event is Today"
