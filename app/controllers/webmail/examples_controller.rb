@@ -76,16 +76,6 @@ class Webmail::ExamplesController < ApplicationController
     return render_mail(mail)
   end
 
-  def registration
-    mail = EventMailer.registration(registration: EventRegistration.last, cache_email: false)
-    return render_mail(mail)
-  end
-
-  def registration_reminder
-    mail = EventMailer.registration_reminder(registration: EventRegistration.last, cache_email: false)
-    return render_mail(mail)
-  end
-
   def mailtest
     mail = EventMailer.mailtest(learner: Learner.learnbot, cache_email: false)
     return render_mail(mail)

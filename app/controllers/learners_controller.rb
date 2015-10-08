@@ -130,7 +130,6 @@ class LearnersController < ApplicationController
         cookies.permanent[:event_registration] = cookie_array
       end
       session[:registration_modal] = true
-      session[:registration_email] = @registation.email
       redirect_to(event_path(@event))
     end
   end
