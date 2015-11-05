@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
-  attr_accessible :requires_registration, :registration_contact_id
+  attr_accessible :requires_registration, :registration_contact_id, :registration_description
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
 
