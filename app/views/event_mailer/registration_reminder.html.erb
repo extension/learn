@@ -97,7 +97,11 @@
         </td>
       </tr>
       <tr>
-        <td id="reminder_description"><%= @event.description.html_safe %></td>
+        <% if @event.registration_description.blank? %>
+          <td id="reminder_description"><%= @event.description.html_safe %></td>
+        <% else %>
+          <td id="reminder_description"><%= @event.registration_description.html_safe %></td>
+        <% end %>
       </tr>
     </table>
   </td></tr>
