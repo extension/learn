@@ -5,9 +5,9 @@ You have registered for the following event:
 Get more information and the URL to join at <%= event_url(@event.id) -%> .
 
 <% if @event.registration_description.blank? %>
-Event Description: <%= Event.html_to_pretty_text(@event.description) %>
+Event Description: <%= Event.html_to_pretty_text(@event.description.gsub! "\r", "") %>
 <% else %>
-Event Description: <%= Event.html_to_pretty_text(@event.registration_description) %>
+Event Description: <%= Event.html_to_pretty_text(@event.registration_description.gsub! "\r", "") %>
 <% end %>
 
 More Information:
