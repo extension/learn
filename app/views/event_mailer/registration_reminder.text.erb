@@ -4,7 +4,6 @@ Your Event is Tomorrow!
 
 Get more information and the URL to join at <%= event_url(@event.id) -%>.
 
-Event Description:
 <% if @event.registration_description.blank? %>
 Event Description: <%= Event.html_to_pretty_text(@event.description) %>
 <% else %>
