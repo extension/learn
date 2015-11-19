@@ -109,7 +109,11 @@ p {word-wrap: break-word;}
 // .masthead {outline: 1px solid blue;}
 .navbar-brand {height:auto !important;}
 
-
+// Add this overrides
+.addthis_button_pinterest_pinit {width: 44px !important;}
+.addthis_button_google_plusone {width: 64px !important;}
+.at-share-btn {margin: 6px !important;}
+.small-screen {display:none;}
 
 @media screen and (min-width: 767px) {
   .navbar-brand img {width:240px;}
@@ -126,7 +130,6 @@ p {word-wrap: break-word;}
   body {padding:0;}
   #app-navbar {clear:both; margin:0 -30px}
   #app-navbar ul {margin:0;padding:0; float:none !important; clear:both;}
-
 
 
   #app-navbar ul li {
@@ -180,4 +183,6 @@ p {word-wrap: break-word;}
 }
 @media screen and (max-width: 480px) {
   .navbar-brand img {width:160px;}
+  .small-screen {display:block;}
+  .large-screen {display:none;}
 }
