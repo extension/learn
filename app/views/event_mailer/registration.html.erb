@@ -82,7 +82,7 @@
             <td>
           <%= link_to(event_url(@event.id)) do -%>
           <%= @event.session_start.strftime("%B %e, %Y") -%> at
-          <%= @event.session_start.strftime("%l:%M %p %Z") -%> <br />
+          <%= @event.session_start.in_time_zone(@event.time_zone).strftime("%l:%M %p %Z") -%> <br />
           Duration: <%= @event.session_length %> Minutes <br />
           <%- end -%> 
           </td>

@@ -1,6 +1,6 @@
 You have registered for the following event:
 
-<%= @event.title -%>. Which will begin at <%= @event.session_start.strftime("%l:%M %p %Z") %> on <%= @event.session_start.strftime("%B %e, %Y") -%> and last <%= @event.session_length %> minutes.
+<%= @event.title -%>. Which will begin at <%= @event.session_start.in_time_zone(@event.time_zone).strftime("%l:%M %p %Z") %> on <%= @event.session_start.strftime("%B %e, %Y") -%> and last <%= @event.session_length %> minutes.
 
 More information, including the link to join the event, can be found here: <%= event_url(@event.id) -%> .
 
