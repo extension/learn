@@ -97,7 +97,7 @@ class Webmail::ExamplesController < ApplicationController
     # is this a multipart? then render the first html part by default, unless the text view is requested
     if(mail_message.multipart?)
       if(params[:view] == 'text')
-        @wordwrap = (params[:wordwrap] and params[:wordwrap] == 'no')
+        @wordwrap = (params[:wordwrap] and params[:wordwrap] == 'yes')
         @mailbody = get_first_text_body(mail_message)
         render(:template => 'webmail/text_email',:layout => false)
       else
@@ -106,7 +106,7 @@ class Webmail::ExamplesController < ApplicationController
         render(:text => inlined_content, :layout => false)
       end
     elsif(mail_message.mime_type == 'text/plain')
-      @wordwrap = (params[:wordwrap] and params[:wordwrap] == 'no')
+      @wordwrap = (params[:wordwrap] and params[:wordwrap] == 'yes')
       @mailbody = get_first_text_body(mail_message)
       render(:template => 'webmail/text_email', :layout => false)
     elsif(mail_message.mime_type == 'text/html')
