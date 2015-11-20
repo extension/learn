@@ -44,9 +44,7 @@ class EventMailer < ActionMailer::Base
         format.text
       end
     else
-      return_email = mail(to: @registration.email, subject: @subject) do |format|
-        format.html
-      end
+      return_email = mail(to: @registration.email, subject: @subject)
     end
 
     # the email if we got it
@@ -62,9 +60,7 @@ class EventMailer < ActionMailer::Base
         format.text
       end
     else
-      return_email = mail(to: @registration.email, subject: @subject) do |format|
-        format.html
-      end
+      return_email = mail(to: @registration.email, subject: @subject)
     end
 
     # the email if we got it
