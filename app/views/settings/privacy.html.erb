@@ -46,7 +46,7 @@
       <td>Commented events</td>
       <td class="small"><%= radio_button_tag 'sharing.events.commented', '1', @learner.public_commented_events? %></td>
       <td class="small"><%= radio_button_tag 'sharing.events.commented', '0', !@learner.public_commented_events? %></td>
-    </tr> 
+    </tr>
   </table>
 
 
@@ -55,12 +55,14 @@
     <h3>Go Public</h3>
     <p>By default, your Learning Portfolio is only viewable to signed-in users, but you can choose to open it up</p>
     <fieldset>
+      <div class="checkbox">
       <p>
         <label>
           <%= check_box_tag 'sharing.portfolio', '1', @learner.public_portfolio? %>
           <span>Make my Learning Portfolio page publicly viewable</span>
         </label>
       </p>
+    </div>
     </fieldset>
   </div>
 
