@@ -45,6 +45,7 @@ class EventMailer < ActionMailer::Base
       end
     else
       return_email = mail(to: @registration.email, subject: @subject)
+      @mailer_cache = MailerCache.create(learner: Learner.first, cacheable: @event)
     end
 
     # the email if we got it
