@@ -81,7 +81,7 @@ class Notification < ActiveRecord::Base
   end
 
   def process_event_registration_reminder_email
-    self.notifiable.event_registrations.each{|registration| EventMailer.registration_reminder(registration: registration).deliver}
+    self.notifiable.event_registrations.each{|registration| EventMailer.registration_reminder(registration: registration).deliver unless !self.notifiable.send_notifications?}
   end
 
   def process_event_reminder_sms
