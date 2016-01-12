@@ -9,6 +9,7 @@ class EventMailer < ActionMailer::Base
   default from: "learn@extension.org"
   default bcc: "systemsmirror@extension.org"
   helper_method :ssl_root_url, :ssl_webmail_logo
+  include GetMailBody
 
   def recommendation(options = {})
     @recommendation = options[:recommendation]
@@ -39,13 +40,25 @@ class EventMailer < ActionMailer::Base
     @registration = options[:registration]
     @event = Event.find(@registration.event_id)
     @subject = options[:subject] || 'Your Learn Registration'
+    @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
+
     if @registration.email  =~ /\.mil$/
       return_email = mail(to: @registration.email, subject: @subject) do |format|
         format.text
       end
     else
+      if(@will_cache_email)
+        # create a cached mail object that can be used for "view this in a browser" within
+        # the rendered email.
+        @mailer_cache = MailerCache.create(learner: Learner.first, cacheable: @registration)
+      end
+
       return_email = mail(to: @registration.email, subject: @subject)
-      @mailer_cache = MailerCache.create(learner: Learner.first, cacheable: @event)
+
+      if(@mailer_cache)
+        # now that we have the rendered email - update the cached mail object
+        @mailer_cache.update_attribute(:markup, get_first_html_body(return_email))
+      end
     end
 
     # the email if we got it
@@ -56,12 +69,25 @@ class EventMailer < ActionMailer::Base
     @registration = options[:registration]
     @event = Event.find(@registration.event_id)
     @subject = options[:subject] || 'Your Learn Event is Tomorrow'
+    @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
+    
     if @registration.email  =~ /\.mil$/
       return_email = mail(to: @registration.email, subject: @subject) do |format|
         format.text
       end
     else
+      if(@will_cache_email)
+        # create a cached mail object that can be used for "view this in a browser" within
+        # the rendered email.
+        @mailer_cache = MailerCache.create(learner: Learner.first, cacheable: @registration)
+      end
+
       return_email = mail(to: @registration.email, subject: @subject)
+
+      if(@mailer_cache)
+        # now that we have the rendered email - update the cached mail object
+        @mailer_cache.update_attribute(:markup, get_first_html_body(return_email))
+      end
     end
 
     # the email if we got it
