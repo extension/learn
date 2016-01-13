@@ -153,15 +153,7 @@ p {word-wrap: break-word;}
 
 @media screen and (max-width: 979px) {
   .navbar-brand img {width:220px;}
-  #app-navbar .global-nav-mobile {
-    // border: 1px solid red;
-    clear:both;
-  }
-  .global-nav-mobile ul.extension_global_nav {
-    background:#eee !important;
-  }
-  .global-nav-mobile ul.extension_global_nav .group {border:0 !important;}
-  .global-nav-mobile ul.extension_global_nav a {color:#888 !important;}
+  #app-navbar .global-nav-mobile {clear:both;}
 }
 @media screen and (min-width: 979px) and (max-width: 1200px) {
   .navbar .form-search {position:relative;top:0;

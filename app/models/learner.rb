@@ -22,6 +22,7 @@ class Learner < ActiveRecord::Base
   has_many :stock_questions
   has_many :created_events, :class_name => "Event", :foreign_key => 'creator_id'
   has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
+  has_many :registration_events, :class_name => "Event", :foreign_key => 'registration_contact_id'
   has_many :authmaps
   has_many :comments
   has_many :event_connections
