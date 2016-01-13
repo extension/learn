@@ -42,6 +42,7 @@ class EventMailer < ActionMailer::Base
     @subject = options[:subject] || 'Your Learn Registration'
     @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
 
+    #if mail is a .mil address we force text
     if @registration.email  =~ /\.mil$/
       return_email = mail(to: @registration.email, subject: @subject) do |format|
         format.text
@@ -49,7 +50,7 @@ class EventMailer < ActionMailer::Base
     else
       if(@will_cache_email)
         # create a cached mail object that can be used for "view this in a browser" within
-        # the rendered email.
+        # the rendered email. Registrations do not have a Learner, so we just get Learner.first
         @mailer_cache = MailerCache.create(learner: Learner.first, cacheable: @registration)
       end
 
@@ -71,6 +72,7 @@ class EventMailer < ActionMailer::Base
     @subject = options[:subject] || 'Your Learn Event is Tomorrow'
     @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
     
+    #if mail is a .mil address we force text
     if @registration.email  =~ /\.mil$/
       return_email = mail(to: @registration.email, subject: @subject) do |format|
         format.text
@@ -78,7 +80,7 @@ class EventMailer < ActionMailer::Base
     else
       if(@will_cache_email)
         # create a cached mail object that can be used for "view this in a browser" within
-        # the rendered email.
+        # the rendered email. Registrations do not have a Learner, so we just get Learner.first
         @mailer_cache = MailerCache.create(learner: Learner.first, cacheable: @registration)
       end
 
