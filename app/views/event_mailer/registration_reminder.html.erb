@@ -67,6 +67,15 @@
   <tr class="tagline">
     <td>Your Professional Development Event is Tomorrow</td>
   </tr>
+  <tr class="options">
+    <td>
+      <%- if @mailer_cache -%>
+        <%= link_to('View in a browser', webmail_view_url(hashvalue: @mailer_cache.hashvalue)) %>
+      <%- else -%>
+        <a href="">View in a browser</a>
+      <%- end -%>
+    </td>
+  </tr>
   <tr><td>
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
       <tr>
@@ -111,6 +120,15 @@
         <tr>
           <td class="bgcolor">
             <p>This email was sent to <%= @registration.email %>. You received this email because you registered for an event at learn.extension.org. Return to the event location above at the specified time and date.</p>
+          </td>
+        </tr>
+        <tr class="options">
+          <td>
+            <%- if @mailer_cache -%>
+              <%= link_to('View in a browser', webmail_view_url(hashvalue: @mailer_cache.hashvalue)) %>
+            <%- else -%>
+              <a href="">View in a browser</a>
+            <%- end -%>
           </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
