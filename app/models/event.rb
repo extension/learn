@@ -169,6 +169,8 @@ class Event < ActiveRecord::Base
 
   scope :by_date, lambda {|date| where('DATE(session_start) = ?',date)}
 
+SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL, Notification::EVENT_REMINDER_SMS, Notification::EVENT_REGISTRATION_REMINDER_EMAIL]
+
   def validate_registration_contact?
     requires_registration == true
   end
@@ -471,7 +473,7 @@ class Event < ActiveRecord::Base
   def update_event_notifications
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_EDIT, delivery_time: 1.minute.from_now) unless self.last_modifier == self.creator
     if self.session_start_changed?
-      self.notifications.each{|notification| notification.update_delivery_time(self.session_start) if (notification.notificationtype == Notification::EVENT_REMINDER_EMAIL or notification.notificationtype == Notification::EVENT_REMINDER_SMS) }
+      self.notifications.each{|notification| notification.update_delivery_time(self.session_start) if SESSION_START_CHANGED_NOTIFICATION_UPDATES.include?(notification.notificationtype)}
     end
     if self.session_start_changed? || self.session_length_changed? || self.location_changed?
       Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
