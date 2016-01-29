@@ -14,10 +14,10 @@
   <h3>Comments</h3>
   <% filtered_comment_count = get_filtered_comment_count(@event) %>
   <% filtered_commentators = get_filtered_commentators(@event) %>
-  
+
   <%- if filtered_comment_count > 0 -%>
     <p><strong><%= filtered_comment_count -%></strong> <%= filtered_comment_count > 1 ? "comments" : "comment" %> by <strong><%= filtered_commentators.count -%></strong> <%= filtered_commentators.count > 1 ? "people" : "person" %></p>
-    
+
     <%- if params[:type] == "table" %>
       <table class="table people table-striped">
         <%- filtered_commentators.each do |commenter| %>
@@ -35,18 +35,18 @@
       </ul>
       <br class="clearing" />
     <%- end -%>
-    
+
   <%- else -%>
     <p class="muted">0 comments</p>
   <%- end -%>
 </section>
 
-<%- if @event.is_online_session? -%>
+<%- if (@event.is_online_session? && @event.answers.count > 0) -%>
   <section id="event_questions">
   <h3>Questions</h3>
   <%- if @event.started? %>
      <%- @event.questions.each do |question| -%>
-     
+
       <div class="event_question">
         <h4>"<%= question.prompt %>"</h4>
         <ul class="question_answers">
@@ -56,7 +56,7 @@
         </ul>
         <br class="clearing" />
         <p><strong><%= question.answer_data.map{|(response,total)| total}.sum %></strong> people answered</p>
-        
+
          <%- if params[:type] == "table" %>
             <table class="table people table-striped">
               <%- question.answerers.each do |answerer| %>
@@ -74,7 +74,7 @@
              </ul>
              <br class="clearing" />
           <%- end -%>
-          
+
 
       </div>
       <%- end -%>
@@ -89,8 +89,8 @@
 <h4>Attended</h4>
 <%- if attendee_count > 0 -%>
   <p><strong><%= attendee_count -%></strong> <%= attendee_count > 1 ? "attendees" : "attendee" %></p>
-  
-  
+
+
    <%- if params[:type] == "table" %>
       <table class="table people table-striped">
         <%- @event.attendees.each do |attendee| %>
@@ -108,9 +108,9 @@
       </ul>
 
     <%- end -%>
-  
-  
-  
+
+
+
 <%- else -%>
   <p class="muted margin">0 attendees</p>
 <%- end -%>
@@ -118,7 +118,7 @@
 <h4>Watched</h4>
 <%- if watched_count > 0 -%>
   <p><strong><%= watched_count -%></strong> watched</p>
-  
+
   <%- if params[:type] == "table" %>
       <table class="table people table-striped">
         <%- @event.watched.each do |watcher| %>
@@ -136,9 +136,9 @@
       </ul>
 
     <%- end -%>
-  
-  
-  
+
+
+
 <%- else -%>
   <p class="muted margin">0 watched</p>
 <%- end -%>
@@ -146,8 +146,8 @@
 <h4>Followed</h4>
 <%- if bookmarked_count > 0 -%>
   <p><strong><%= bookmarked_count -%></strong> followed</p>
-  
-  
+
+
   <%- if params[:type] == "table" %>
       <table class="table people table-striped">
         <%- @event.bookmarked.each do |bookmarker| %>
@@ -165,8 +165,8 @@
       </ul>
 
     <%- end -%>
-  
-  
+
+
 <%- else -%>
   <p class="muted margin">0 followed</p>
 <%- end -%>
