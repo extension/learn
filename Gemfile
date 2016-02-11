@@ -1,7 +1,5 @@
 source 'http://rubygems.org'
-source 'https://engineering.extension.org/rubygems'
-
-gem 'rails', "3.2.21"
+gem 'rails', "3.2.22.1"
 
 # rails 3.1 default
 gem 'jquery-rails'
@@ -35,10 +33,6 @@ gem 'carrierwave'
 
 # image processing
 gem 'rmagick'
-
-# Deploy with Capistrano
-gem 'capistrano'
-gem 'capatross'
 
 # authentication
 gem 'devise', "~> 1.5.1"
@@ -110,8 +104,7 @@ gem "tropo-webapi-ruby"
 gem "thor"
 
 # revisioning
-#gem "paper_trail", :git => 'git://github.com/extension/paper_trail.git'
-gem "paper_trail", "2.5.2ex"
+gem "paper_trail", "2.5.2ex", :source => 'https://engineering.extension.org/rubygems'
 
 # terse logging
 gem 'lograge'
@@ -120,6 +113,10 @@ gem 'lograge'
 gem 'acts_as_list'
 
 group :development do
+  # Deploy with Capistrano
+  gem 'capistrano'
+  gem 'capatross', :source => 'https://engineering.extension.org/rubygems'
+
   # require the powder gem
   gem 'powder'
   # rails3 compatible generators
