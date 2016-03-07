@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-gem 'rails', "3.2.22.1"
+gem 'rails', "3.2.22.2"
 
 # rails 3.1 default
 gem 'jquery-rails'
