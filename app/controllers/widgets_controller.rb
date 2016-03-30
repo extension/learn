@@ -64,7 +64,11 @@ class WidgetsController < ApplicationController
       # referrer_url and widget fingerprint make a unique pairing
       referrer_url = request.referer
       if referrer_url.present?
-        referrer_host = URI(referrer_url).host
+        begin
+          referrer_host = URI.parse(URI.escape(referrer_url)).host
+        rescue URI::InvalidURIError
+          referrer_host = nil
+        end
       else
         referrer_url = nil
         referrer_host = nil
@@ -168,7 +172,11 @@ class WidgetsController < ApplicationController
       # referrer_url and widget fingerprint make a unique pairing
       referrer_url = request.referer
       if referrer_url.present?
-        referrer_host = URI(referrer_url).host
+        begin
+          referrer_host = URI.parse(URI.escape(referrer_url)).host
+        rescue URI::InvalidURIError
+          referrer_host = nil
+        end
       else
         referrer_url = nil
         referrer_host = nil
