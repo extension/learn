@@ -12,15 +12,11 @@
 <div class="edit-form col-md-8">
   <%- if @event.conference -%>
     <h1>Create a conference event</h1>
-    <%= form_for @event,  :html => { :class => "form-stacked"} do |form| -%>
-      <%= render(partial: 'conference_event_form', locals: {event_form: form}) %>
-    <%- end -%>
+      <%= render(partial: 'conference_event_form') %>
   <%- else -%>
 
   <h1>Create an event</h1>
-  <%= form_for @event,  :html => { :class => "form-stacked"} do |form| -%>
-    <%= render(partial: 'online_event_form', locals: {event_form: form}) %>
-  <%- end -%>
+    <%= render(partial: 'online_event_form') %>
 <%- end -%>
 </div>
 
