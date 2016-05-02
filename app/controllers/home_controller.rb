@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class HomeController < ApplicationController
-  
+
   def index
     @upcoming_events = Event.nonconference.active.upcoming(limit = 3)
     @recent_events = Event.nonconference.active.recent(limit = 8)
@@ -14,13 +14,17 @@ class HomeController < ApplicationController
     # temporary! nexc2012 link
     @nexc2012 = Conference.find_by_hashtag('nexc2012')
   end
-  
+
   def contact_us
     return render :template => 'home/contact_us.html.erb'
   end
-  
+
   def retired
     return render :template => 'home/retired.html.erb'
   end
-  
+
+  def hosting_prompt
+    return render :template => 'home/hosting_prompt.html.erb'
+  end
+
 end
