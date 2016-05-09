@@ -23,8 +23,8 @@ class HomeController < ApplicationController
     return render :template => 'home/retired.html.erb'
   end
 
-  def hosting_prompt
-    return render :template => 'home/hosting_prompt.html.erb'
+  def hosting
+    return render :template => 'home/hosting.html.erb'
   end
 
 end
