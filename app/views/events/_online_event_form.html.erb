@@ -1,7 +1,59 @@
 <%= form_for @event, :html => {:multipart => true} do |event_form| -%>
 
+<div class="venue-info">
+<fieldset>
+<p>
+   <%= event_form.label :location, 'URL for your webinar room or event hosting location' %>
+   <%= event_form.text_field :location, :class => "form-control" %>
+   <span class="help-block">Please make sure the hosting venue is available before scheduling your event.</span>
+   </label>
+</p>
+
+<!-- TODO: use the session_start/session_end settings above to determine whether this is shown. -->
+<% if @event.concluded? %>
+  <p>
+     <%= event_form.label :recording, 'Recording URL' %>
+     <%= event_form.text_field :recording, :class => "form-control" %>
+  </p>
+<% end %>
+</fieldset>
+
+<fieldset id="datetime">
+  <p>
+    <%= event_form.label :session_start, 'Date and Time' %>
+  </p>
+
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <%= event_form.text_field :session_start_string, {id: 'session_start', :size => nil, :class => "form-control"} %>
+    </div>
+  </div>
+
+   <p>
+   <%= event_form.label :time_zone, 'Time Zone' %>
+   <%= event_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {:default => @event.time_zone}, {:class => "form-control"} %>
+   </p>
+
+ </fieldset>
+
+<fieldset id="session_length">
+  <p>
+    <%= event_form.label :session_length, 'Duration (in minutes)' %>
+  </p>
+  <div class="row">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+      <%= event_form.text_field :session_length, :size => 3, :maxlength => 3, :class => "form-control" %>
+    </div>
+  </div>
+</fieldset>
+</div>
+
+
+
+
 <fieldset id="event-title">
   <p>
+    <%= event_form.label :title, 'Title' %>
     <%= event_form.text_field :title, :size => nil, :class => "form-control edit-event-title" %>
     <span class="help-block">Titles which are 80 characters or less are more easily shared via social media and texting</span>
   </p>
@@ -43,51 +95,7 @@
   </div>
 </fieldset>
 
-<fieldset id="datetime">
-  <p>
-    <%= event_form.label :session_start, 'Date and Time' %>
-  </p>
 
-  <div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-6">
-      <%= event_form.text_field :session_start_string, {id: 'session_start', :size => nil, :class => "form-control"} %>
-    </div>
-  </div>
-
-   <p>
-   <%= event_form.label :time_zone, 'Time Zone' %>
-   <%= event_form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {:default => @event.time_zone}, {:class => "form-control"} %>
-   </p>
-
- </fieldset>
-
-<fieldset id="session_length">
-  <p>
-    <%= event_form.label :session_length, 'Duration (in minutes)' %>
-  </p>
-  <div class="row">
-    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-      <%= event_form.text_field :session_length, :class => "form-control" %>
-    </div>
-  </div>
-</fieldset>
-
- <fieldset>
- <p>
-
-    <%= event_form.label :location, 'Location (e.g., http://connect.extension.iastate.edu/learn)' %>
-    <%= event_form.text_field :location, :class => "form-control" %>
-    <span class="help-block">Please make sure the hosting venue is available before scheduling your event.</span>
-    </label>
- </p>
-
- <!-- TODO: use the session_start/session_end settings above to determine whether this is shown. -->
- <% if @event.concluded? %>
-   <p>
-      <%= event_form.label :recording, 'Recording URL' %>
-      <%= event_form.text_field :recording, :class => "form-control" %>
-   </p>
- <% end %>
 
  </fieldset>
 
@@ -141,7 +149,7 @@
  <fieldset class="learner-registration-email">
    <%= event_form.label :registration_description, 'Emailed Description' %>
    <span class="help-block">Enter the description you want emailed to registrants in this box. If you leave this box blank then the full description of the event will be emailed to registrants. </span>
-   <%= event_form.text_area :registration_description, :rows => "8", :cols => "100" %>
+   <%= event_form.text_area :registration_description, :rows => "8", :class => "form-control" %>
  </fieldset>
 <fieldset>
   <div class="material-links-wrapper">

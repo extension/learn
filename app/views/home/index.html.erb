@@ -103,7 +103,7 @@
   <p>If you have a suggestion for a topic, you can tweet to <%= link_to "@extensionLearns", "http://twitter.com/extensionLearns" %> on Twitter.</p>
 
   <%- if current_learner -%>
-      <p><%= link_to "Create a new event", new_event_path(), :class => "btn btn-default" %></p>
+      <p><%= link_to "Create a new event", hosting_path(), :class => "btn btn-default" %></p>
   <%- else -%>
     <div id="signin">
       <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn btn-default btn-primary" )%></p>

@@ -1,0 +1,40 @@
+<div class="col-md-8 col-md-offset-1">
+  <div class="hosting-prompt">
+    <h1>Have you booked your webinar room or event hosting location?</h1>
+    <h2>1. Book a hosting option</h2>
+    <div class="col-md-6">
+      <div class="ex-webinar-option">
+        <h3>eXtension Hosting</h3>
+        <p>eXtension offers a large-capacity <strong>Zoom</strong> webinar room, which can host up to 500 participants, and it available for our <a href="https://extension.org/membership/extension-member-institutions-for-2016/">member Institutions</a>.</p>
+        <p><a href="https://extension.org/zoom/">Learn more about Zoom</a> or <a href="https://extension.org/zoom/">reserve a time slot</a>.</p>
+        <p><%= image_tag("zoom-logo.png", :class => '', :title => '') %></p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="alternate-options">
+        <h3>Third-party Hosting</h3>
+        <p>You may use any event hosting platform for Learn events. Options available at your institution might include:</p>
+          <ul>
+          <li>Adobe Connect</li>
+          <li>Google Hangouts</li>
+          <li>Ustream</li>
+          <li>Webex</li>
+          <li>Zoom</li>
+        </ul>
+        <p>These services will provide a URL, which you will need to create your Learn event listing.</p>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="prompt-section">
+      <h2>2. Grab the URL for your event</h2>
+      <p>This is the URL for your webinar room or hosting venue. It could also be a registration page.</p>
+    </div>
+    <div class="prompt-section">
+      <h2>3. You're ready to create your Learn event listing</h2>
+      <p><%= link_to "Create new event", new_event_path(), :class => "btn btn-lg btn-primary" %></p>
+    </div>
+  </div>
+  </div>
+
+</div>
