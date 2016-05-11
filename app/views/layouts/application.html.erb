@@ -60,6 +60,12 @@
     </div>
   <%- end -%>
 
+  <%- if Date.today <= Date.parse('2016-05-14') -%>
+  <div class="system-notification">
+    <p>We apologize that recordings will not be available May 11-13. Please check back on May 14.</p>
+  </div>
+  <%- end -%>
+
   <%= flash_notifications -%>
 
   <%- if current_learner -%>
