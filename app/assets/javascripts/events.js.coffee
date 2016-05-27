@@ -38,4 +38,5 @@ $ ->
 					$('#registration_contact').attr 'placeholder', ''
 					$('#event_registration_description').attr 'placeholder', ''
 					$('#event_registration_description').val('');
+					$('#event_registration_description').prop('disabled', true);
 				return
