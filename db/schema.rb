@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151102192004) do
+ActiveRecord::Schema.define(:version => 20160526174550) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -264,11 +264,21 @@ ActiveRecord::Schema.define(:version => 20151102192004) do
   add_index "mailer_caches", ["learner_id", "open_count"], :name => "open_learner_ndx"
 
   create_table "material_links", :force => true do |t|
-    t.string   "reference_link", :null => false
+    t.string   "reference_link",                        :null => false
     t.string   "description"
-    t.integer  "event_id",       :null => false
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.integer  "event_id",                              :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.string   "fingerprint"
+    t.string   "host"
+    t.text     "path"
+    t.integer  "status"
+    t.integer  "error_count",            :default => 0
+    t.datetime "last_check_at"
+    t.integer  "last_check_status"
+    t.string   "last_check_code"
+    t.boolean  "last_check_response"
+    t.text     "last_check_information"
   end
 
   create_table "notification_exceptions", :force => true do |t|
