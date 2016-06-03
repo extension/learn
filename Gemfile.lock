@@ -208,6 +208,10 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rack-tracker (1.1.0)
+      activesupport (>= 3.0)
+      rack (>= 1.4)
+      tilt (>= 1.4)
     rails (3.2.22.2)
       actionmailer (= 3.2.22.2)
       actionpack (= 3.2.22.2)
@@ -330,6 +334,7 @@ DEPENDENCIES
   powder
   pry
   quiet_assets
+  rack-tracker
   rails (= 3.2.22.2)
   rails3-generators
   rails_config
