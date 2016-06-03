@@ -140,13 +140,12 @@ class EventsController < ApplicationController
 
     if @event.tags.length != 0
       tracker do |t|
-        quoted_values = @event.tags.collect{|tag| tag.name}.join('","').html_safe
-        t.google_tag_manager :push, { pageAttributes: [quoted_values] }
+        t.google_tag_manager :push, { pageAttributes: @event.tags.map(&:name) }
       end
     end
     if @event.presenters.count > 0
       tracker do |t|
-        t.google_tag_manager :push, { eventPresenters: ["#{@event.presenters.collect{|presenter| presenter.name}.join("','").html_safe}"] }
+        t.google_tag_manager :push, { eventPresenters: @event.presenters.map(&:name) }
       end
     end
 
