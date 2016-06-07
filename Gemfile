@@ -72,7 +72,7 @@ gem "loofah"
 gem "htmlentities"
 
 # to enable Google Tag Manager
-gem 'rack-tracker'
+gem 'rack-tracker', :git => 'https://github.com/extension/rack-tracker.git', :branch => 'google_tag_manager_fix'
 
 # search on solr
 gem "sunspot_rails"
