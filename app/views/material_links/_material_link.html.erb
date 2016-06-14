@@ -1,3 +1,4 @@
 <div id="link-<%= material_link.id %>">
-  <p><i class="fa fa-file"></i> <%= link_to material_link.description, material_link.reference_link %></p>
+  <!-- the .material-link-hook class is used by Google Tag Mananger. Do not remove -->
+  <p><i class="fa fa-file"></i> <%= link_to material_link.description, material_link.reference_link, class: "material-link-hook" %></p>
 </div>
