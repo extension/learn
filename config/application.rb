@@ -60,5 +60,9 @@ module Learn
     config.middleware.insert_before ActionDispatch::ParamsParser, "CatchJsonParseErrors"
 
 
+    config.middleware.use(Rack::Tracker) do
+      handler :google_tag_manager, { container: 'GTM-PX6FPT' }
+    end
+
   end
 end

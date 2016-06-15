@@ -7,6 +7,10 @@
 class HomeController < ApplicationController
 
   def index
+    tracker do |t|
+      t.google_tag_manager :push, { pageCategory: 'home'}
+    end
+
     @upcoming_events = Event.nonconference.active.upcoming(limit = 3)
     @recent_events = Event.nonconference.active.recent(limit = 8)
     @more_upcoming_events = Event.nonconference.active.upcoming(limit = 8, offset = 3)

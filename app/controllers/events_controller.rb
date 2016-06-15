@@ -138,6 +138,19 @@ class EventsController < ApplicationController
     @similar_events = @event.similar_events
     @registrants = EventRegistration.includes.where(event_id: @event.id).first
 
+    if @event.tags.length != 0
+      tracker do |t|
+        t.google_tag_manager :push, { pageAttributes: @event.tags.map(&:name) }
+      end
+    end
+    if @event.presenters.count > 0
+      tracker do |t|
+        t.google_tag_manager :push, { eventPresenters: @event.presenters.map(&:name) }
+      end
+    end
+
+
+
     return if check_for_event_redirect
 
     if (@event.is_deleted)
@@ -372,7 +385,7 @@ class EventsController < ApplicationController
     if current_learner.id == @event.registration_contact_id
       registrants = EventRegistration.includes.where(event_id: @event.id)
       csv = EventRegistration.export(registrants)
-      headers["Content-Disposition"] = "attachment; filename=\"event_#{@event.id}_registrants.csv\"" 
+      headers["Content-Disposition"] = "attachment; filename=\"event_#{@event.id}_registrants.csv\""
       render text: csv
     end
   end
@@ -382,7 +395,7 @@ class EventsController < ApplicationController
     if current_learner.id == @event.registration_contact_id
       registrants = EventRegistration.includes.where(event_id: @event.id)
       registrants.delete_all
-      
+
       respond_to do |format|
         format.html { redirect_to event_path }
         format.xml  { head :ok }

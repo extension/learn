@@ -71,6 +71,9 @@ gem "loofah"
 # htmlentities conversion
 gem "htmlentities"
 
+# to enable Google Tag Manager
+gem 'rack-tracker', "1.1.0ex", :source => 'https://engineering.extension.org/rubygems'
+
 # search on solr
 gem "sunspot_rails"
 
