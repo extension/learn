@@ -1,13 +1,6 @@
 <div id="comment-<%= comment.id %>" class="cc-comment <%= comment_class(comment) %>">
   <div id="view-comment-<%= comment.id %>" class="cc-comment-anchor"></div>
 
-  <div class="content">
-    <%= comment.content.html_safe %>
-  </div>
-
-
-  <p class="comment-author"><%= link_to_learner_avatar(comment.learner, {image_size: :thumb}) %> <%= link_to_learner(comment.learner) %></p>
-
   <div class='rating_wrapper'>
     <% if current_learner %>
       <% if upvoted_object = current_learner.get_upvoted_object(comment.id, 'Comment') %>
@@ -25,6 +18,12 @@
     </div>
   </div>
 
+  <div class="content">
+    <%= comment.content.html_safe %>
+  </div>
+
+
+  <p class="comment-author"><%= link_to_learner_avatar(comment.learner, {image_size: :thumb}) %> <%= link_to_learner(comment.learner) %></p>
 
   <p class="comment-actions">
     <%= link_to "#{time_ago_in_words(comment.updated_at)} ago", event_path(comment.event, :anchor => "view-comment-#{comment.id}"), {:class => "comment-timestamp", :title => "Link to this comment"} %>
@@ -42,5 +41,7 @@
   <% if comment.parent_removed %>
     <p class="removed">The comment preceding this comment has been deleted</p>
   <% end %>
+
+
 
 </div>
