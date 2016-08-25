@@ -27,8 +27,8 @@ class Webmail::ExamplesController < ApplicationController
     return render_mail(mail)
   end
 
-  def activity
-    mail = EventMailer.activity(learner: Learner.learnbot, event: Event.last, cache_email: false)
+  def comment
+    mail = EventMailer.comment(learner: Learner.learnbot, event: Event.last, cache_email: false)
     return render_mail(mail)
   end
 

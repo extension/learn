@@ -5,7 +5,7 @@
 # see LICENSE file
 
 module CommentsHelper
-  # comments comes in as a set of nested hashes via ancestry's arrange method 
+  # comments comes in as a set of nested hashes via ancestry's arrange method
   # to denote parent and children comments
   # if parent_comment exists, it means we are looking at a dedicated page for a comment and it's children
   def nested_comments(comments, parent_comment = nil)
@@ -16,13 +16,13 @@ module CommentsHelper
         next
       end
       render('/comments/comment', {:comment => comment, :parent_comment => parent_comment}) + content_tag(:div, nested_comments(sub_comments, parent_comment), :class => "nested_comments")
-    end.join.html_safe  
+    end.join.html_safe
   end
 
   def comment_class(comment)
     if(current_learner and @last_viewed_at)
       if(@last_viewed_at - 5.minutes < comment.updated_at and comment.learner_id != current_learner.id)
-        'comment new'
+        'comment cc-highlight'
       else
         'comment'
       end
