@@ -71,7 +71,7 @@ class EventMailer < ActionMailer::Base
     @event = Event.find(@registration.event_id)
     @subject = options[:subject] || 'Your Learn Event is Tomorrow'
     @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
-    
+
     #if mail is a .mil address we force text
     if @registration.email  =~ /\.mil$/
       return_email = mail(to: @registration.email, subject: @subject) do |format|
@@ -146,9 +146,9 @@ class EventMailer < ActionMailer::Base
     return_email
   end
 
-  def activity(options = {})
+  def new_comment(options = {})
     @event = options[:event]
-    @subject = "There's New Activity on One of Your Learn Events"
+    @subject = "There's a New Comment on One of Your Learn Events"
     @learner = options[:learner]
     @will_cache_email = options[:cache_email].nil? ? true : options[:cache_email]
 
