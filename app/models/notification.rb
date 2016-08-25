@@ -13,7 +13,7 @@ class Notification < ActiveRecord::Base
   EVENT_RESCHEDULED = 5
   EVENT_LOCATION_CHANGE = 6
   EVENT_DELETED = 7
-  NEW_COMMENT = 10
+  COMMENT = 10
   COMMENT_REPLY = 11
   ACTIVITY_NOTIFICATION_INTERVAL = Settings.activity_notification_interval
   RESCHEDULED_NOTIFICATION_INTERVAL = Settings.rescheduled_notification_interval
@@ -51,8 +51,8 @@ class Notification < ActiveRecord::Base
       process_event_deleted
     when EVENT_LOCATION_CHANGE
       process_event_location_change
-    when NEW_COMMENT
-      process_new_comment_notifications
+    when COMMENT
+      process_comment_notifications
     when COMMENT_REPLY
       process_comment_reply
     when RECORDING
@@ -88,8 +88,8 @@ class Notification < ActiveRecord::Base
     self.notifiable.learners.each{|learner| send_sms_notification(learner) unless (!learner.send_notifications?(self.notifiable) or !learner.send_sms?(self.offset) or !self.notifiable.send_notifications?)}
   end
 
-  def process_new_comment_notifications
-    self.notifiable.learners.each{|learner| EventMailer.new_comment(learner: learner, event: self.notifiable).deliver unless (learner.email.blank? or !learner.send_activity? or learner.has_event_notification_exception?(self.notifiable))}
+  def process_comment_notifications
+    self.notifiable.learners.each{|learner| EventMailer.comment(learner: learner, event: self.notifiable).deliver unless (learner.email.blank? or !learner.send_activity? or learner.has_event_notification_exception?(self.notifiable))}
   end
 
   #still need to implement email
@@ -208,7 +208,7 @@ class Notification < ActiveRecord::Base
   end
 
   def self.pending_activity_notification?(notifiable)
-    Notification.where(notifiable_id: notifiable.id, notificationtype: NEW_COMMENT, delivery_time: Time.now..ACTIVITY_NOTIFICATION_INTERVAL.from_now).size > 0
+    Notification.where(notifiable_id: notifiable.id, notificationtype: COMMENT, delivery_time: Time.now..ACTIVITY_NOTIFICATION_INTERVAL.from_now).size > 0
   end
 
   def self.pending_rescheduled_notification?(notifiable)

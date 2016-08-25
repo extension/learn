@@ -146,7 +146,7 @@ class EventMailer < ActionMailer::Base
     return_email
   end
 
-  def new_comment(options = {})
+  def comment(options = {})
     @event = options[:event]
     @subject = "There's a New Comment on One of Your Learn Events"
     @learner = options[:learner]
