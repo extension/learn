@@ -4,7 +4,7 @@
 
 <head>
   <title>
-    There's New Activity on One of Your Events
+    There's a New Comment on One of Your Events
   </title>
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
   <style type="text/css">
@@ -66,7 +66,7 @@
     </th>
   </tr>
   <tr class="tagline">
-    <td>There's New Activity on One of Your Events</td>
+    <td>There's a New Comment on One of Your Events</td>
   </tr>
   <tr class="options">
     <td>
@@ -83,7 +83,7 @@
 
      <table cellpadding="0" cellspacing="0" border="0" align="center" width="500">
         <tr>
-          <td id="reminder_title">We've seen some interesting activity on: <br/><span>"<%= link_to(@event.title, event_url(@event.id)) -%>"</span></td>
+          <td id="reminder_title">There's a new comment on: <br/><span>"<%= link_to(@event.title, event_url(@event.id)) -%>"</span></td>
         </tr>
         <tr>
           <td id="button">
