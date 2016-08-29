@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151102192004) do
+ActiveRecord::Schema.define(:version => 20160829142515) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -154,11 +154,13 @@ ActiveRecord::Schema.define(:version => 20151102192004) do
 
   create_table "event_registrations", :force => true do |t|
     t.integer  "event_id"
-    t.text     "first_name", :null => false
-    t.text     "last_name",  :null => false
-    t.text     "email",      :null => false
+    t.string   "first_name", :default => "", :null => false
+    t.string   "last_name",  :default => "", :null => false
+    t.string   "email",      :default => "", :null => false
     t.datetime "created_at"
   end
+
+  add_index "event_registrations", ["email", "event_id"], :name => "registration_ndx", :unique => true
 
   create_table "events", :force => true do |t|
     t.text     "title",                                                        :null => false

@@ -136,7 +136,7 @@ class EventsController < ApplicationController
     @comment = Comment.new
     @event_comments = @event.comments
     @similar_events = @event.similar_events
-    @registrants = EventRegistration.includes.where(event_id: @event.id).first
+    @registrants = EventRegistration.where(event_id: @event.id).first
 
     if @event.tags.length != 0
       tracker do |t|
@@ -383,7 +383,7 @@ class EventsController < ApplicationController
   def export_registrants
     @event = Event.find(params[:id])
     if current_learner.id == @event.registration_contact_id
-      registrants = EventRegistration.includes.where(event_id: @event.id)
+      registrants = EventRegistration.where(event_id: @event.id)
       csv = EventRegistration.export(registrants)
       headers["Content-Disposition"] = "attachment; filename=\"event_#{@event.id}_registrants.csv\""
       render text: csv
@@ -393,7 +393,7 @@ class EventsController < ApplicationController
   def destroy_registrants
     @event = Event.find(params[:id])
     if current_learner.id == @event.registration_contact_id
-      registrants = EventRegistration.includes.where(event_id: @event.id)
+      registrants = EventRegistration.where(event_id: @event.id)
       registrants.delete_all
 
       respond_to do |format|
