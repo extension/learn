@@ -189,6 +189,7 @@ GEM
     posix-spawn (0.3.8)
     powder (0.3.0)
       thor (>= 0.11.5)
+    power_assert (0.3.1)
     pr_geohash (1.0.0)
     pry (0.9.10)
       coderay (~> 1.0.5)
@@ -266,6 +267,8 @@ GEM
       rails (>= 3)
       sunspot (= 2.1.1)
     sunspot_solr (2.1.1)
+    test-unit (3.2.1)
+      power_assert
     thor (0.19.1)
     tilt (1.4.1)
     treetop (1.4.15)
@@ -301,7 +304,7 @@ DEPENDENCIES
   bootstrap-wysihtml5-rails
   capatross!
   capistrano
-  carrierwave
+  carrierwave!
   cocoon
   coffee-rails (~> 3.2.2)
   csspool
@@ -314,7 +317,7 @@ DEPENDENCIES
   font-awesome-rails
   honeybadger
   htmlentities
-  inline-style (= 0.5.2ex)
+  inline-style (= 0.5.2ex)!
   jquery-rails
   kaminari
   lograge
@@ -345,6 +348,7 @@ DEPENDENCIES
   shoulda (>= 3.0.0.beta)
   sunspot_rails
   sunspot_solr
+  test-unit
   thor
   tropo-webapi-ruby
   turbo-sprockets-rails3
@@ -353,4 +357,4 @@ DEPENDENCIES
   valid_email
 
 BUNDLED WITH
-   1.10.6
+   1.13.1

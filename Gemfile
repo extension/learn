@@ -29,7 +29,7 @@ gem 'mysql2'
 gem 'nokogiri'
 
 # image upload
-gem 'carrierwave'
+gem 'carrierwave', :source => 'http://rubygems.org/'
 
 # image processing
 gem 'rmagick'
@@ -79,7 +79,7 @@ gem "sunspot_rails"
 
 # used to post-process mail to convert styles to inline
 gem "csspool"
-gem "inline-style", "0.5.2ex"
+gem "inline-style", "0.5.2ex", :source => 'https://engineering.extension.org/rubygems/'
 
 # auto_link replacement
 gem "rinku", :require => 'rails_rinku'
@@ -114,6 +114,9 @@ gem 'lograge'
 
 #add order of presenters to events
 gem 'acts_as_list'
+
+# Ruby 2.2 requirement
+gem 'test-unit'
 
 group :development do
   # Deploy with Capistrano
