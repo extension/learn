@@ -4,5 +4,6 @@ if(branch = ENV['BRANCH'])
 else
   set :branch, 'master'
 end
-set :vhost, 'dev-learn.extension.org'
+set :vhost, 'dev-learn.awsi.extension.org'
 server vhost, :app, :web, :db, :primary => true
+set :port, 22
