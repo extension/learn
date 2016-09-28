@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-gem 'rails', "3.2.22.2"
+gem 'rails', "3.2.22.5"
 
 # rails 3.1 default
 gem 'jquery-rails'
@@ -76,6 +76,8 @@ gem 'rack-tracker', "1.1.0ex", :source => 'https://engineering.extension.org/rub
 
 # search on solr
 gem "sunspot_rails"
+# rake progress
+gem "progress_bar"
 
 # used to post-process mail to convert styles to inline
 gem "csspool"
