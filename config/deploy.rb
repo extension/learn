@@ -8,7 +8,6 @@ require "bundler/capistrano"
 set :application, "learn"
 set :user, 'pacecar'
 set :localuser, ENV['USER']
-set :port, 24
 
 TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'yes','YES','y','Y']
 FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE','no','NO','n','N']
@@ -71,14 +70,16 @@ before "deploy:web:enable", "delayed_job:start"
        # Override default web enable/disable tasks
      namespace :web do
 
-      desc "Put Apache in maintenancemode by touching the maintenancemode file"
+      desc "Put Apache and Cronmon in maintenancemode by touching the maintenancemode file"
       task :disable, :roles => :app do
         invoke_command "touch /services/maintenance/#{vhost}.maintenancemode"
+        invoke_command "touch /services/maintenance/CRONMONHALT"
       end
 
-      desc "Remove Apache from maintenancemode by removing the maintenancemode file"
+      desc "Remove Apache and Cronmon from maintenancemode by removing the maintenancemode file"
       task :enable, :roles => :app do
         invoke_command "rm -f /services/maintenance/#{vhost}.maintenancemode"
+        invoke_command "rm -f /services/maintenance/CRONMONHALT"
       end
 
      end
