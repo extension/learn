@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-gem 'rails', "3.2.22.2"
+gem 'rails', "3.2.22.5"
 
 # rails 3.1 default
 gem 'jquery-rails'
@@ -29,7 +29,7 @@ gem 'mysql2'
 gem 'nokogiri'
 
 # image upload
-gem 'carrierwave'
+gem 'carrierwave', :source => 'http://rubygems.org/'
 
 # image processing
 gem 'rmagick'
@@ -76,10 +76,12 @@ gem 'rack-tracker', "1.1.0ex", :source => 'https://engineering.extension.org/rub
 
 # search on solr
 gem "sunspot_rails"
+# rake progress
+gem "progress_bar"
 
 # used to post-process mail to convert styles to inline
 gem "csspool"
-gem "inline-style", "0.5.2ex"
+gem "inline-style", "0.5.2ex", :source => 'https://engineering.extension.org/rubygems/'
 
 # auto_link replacement
 gem "rinku", :require => 'rails_rinku'
@@ -114,6 +116,9 @@ gem 'lograge'
 
 #add order of presenters to events
 gem 'acts_as_list'
+
+# Ruby 2.2 requirement
+gem 'test-unit'
 
 group :development do
   # Deploy with Capistrano
