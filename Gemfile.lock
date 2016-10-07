@@ -359,6 +359,3 @@ DEPENDENCIES
   turn
   uglifier (>= 1.0.3)
   valid_email
-
-BUNDLED WITH
-   1.13.1
