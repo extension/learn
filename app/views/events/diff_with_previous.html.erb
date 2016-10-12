@@ -8,7 +8,7 @@
 <div class="revision_description_wrapper">
   <p class="revision_description">
     <% if @version == @event.versions.first %>
-      <strong>Revision 0 (Original Question)</strong>
+      <strong>Revision 0 (Original version)</strong>
     <% else %>
       <strong>Revision <%= @previous_version.index + 1 %></strong>
     <% end %>
@@ -77,7 +77,7 @@
 
 <%= form_tag(restore_event_path(version: @version.id)) do %>
   <p><% if @version == @event.versions.first %>
-      <%= submit_tag "Restore Original Question", {:class => 'btn'} %>
+      <%= submit_tag "Restore original version", {:class => 'btn btn-default btn-primary'} %>
     <% else %>
       <%= submit_tag "Restore Revision ##{@previous_version.index + 1}", {:class => 'btn btn-default btn-primary'} %>
     <% end %>
