@@ -77,7 +77,7 @@
 
 <%= form_tag(restore_event_path(version: @version.id)) do %>
   <p><% if @version == @event.versions.first %>
-      <%= submit_tag "Restore original version", {:class => 'btn'} %>
+      <%= submit_tag "Restore original version", {:class => 'btn btn-default btn-primary'} %>
     <% else %>
       <%= submit_tag "Restore Revision ##{@previous_version.index + 1}", {:class => 'btn btn-default btn-primary'} %>
     <% end %>
