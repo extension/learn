@@ -1,4 +1,4 @@
-# learn 
+# learn
 
 ## Description
 
@@ -24,7 +24,7 @@ http://create.extension.org/Contributor_and_Business_Agreements
 
 Use of the code is subject to the eXtension Foundation Terms of Use, found at:
 
-http://www.extension.org/main/termsofuse
+https://extension.org/terms-of-use
 
 Third Party Libraries and Code
 =============================
