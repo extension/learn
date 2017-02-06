@@ -11,7 +11,7 @@ class Learner < ActiveRecord::Base
   attr_accessible :email, :remember_me, :name, :avatar, :bio, :mobile_number, :remove_avatar, :avatar_cache, :needs_search_update
 
   BRIGITTE_SCOTT = 21383
-  
+
   # specify image uploader for carrierwave
   mount_uploader :avatar, AvatarUploader
 
@@ -55,6 +55,7 @@ class Learner < ActiveRecord::Base
 
   scope :valid, lambda{ where(is_blocked: false)}
   scope :needs_search_update, lambda{ where(needs_search_update: true)}
+  scope :active, ->{where(retired: false)}
 
   def presented_conferences
     presented_events.conference.map(&:conference).uniq
