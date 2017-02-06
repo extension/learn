@@ -555,8 +555,8 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
       end
       learner_scores = mlt_event.event_activities.learner_scores
       learner_scores.each do |learner,score|
-        next if(learn.retired? or learner.is_blocked?)
-        
+        next if(learner.retired? or learner.is_blocked?)
+
         if(limit_to_learners)
           next if !limit_to_learners.include?(learner)
         end
