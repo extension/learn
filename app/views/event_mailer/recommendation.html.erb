@@ -123,9 +123,9 @@
           <table cellpadding="0" cellspacing="0" border="0" align="center" width="599" class="article">
       <%- case group -%>
       <%- when 'upcoming' -%>
-        <tr><td><p>We don't have any upcoming events recommended for you this week. Visit <%= link_to "Learn", root_path() %> and see if we missed something.</p></td></tr>
+        <tr><td><p>We don't have any upcoming events recommended for you this week. Visit <%= link_to "Learn", root_url() %> and see if we missed something.</p></td></tr>
       <%- when 'recent' -%>
-        <tr><td><p>We don't have any recent events recommended for you this week. Visit <%= link_to "Learn", root_path() %> and see if we missed something.</p></td></tr>
+        <tr><td><p>We don't have any recent events recommended for you this week. Visit <%= link_to "Learn", root_url() %> and see if we missed something.</p></td></tr>
       <%- end -%>
       <tr class="divider">
         <td width="599" height="1px" class="bgcolor"><%= image_tag("#{ssl_root_url}assets/divider.png", class: 'spacer', size: "599x1") %></td>
