@@ -120,6 +120,9 @@ gem 'acts_as_list'
 # Ruby 2.2 requirement
 gem 'test-unit'
 
+# zoom api work
+gem 'rest-client'
+
 group :development do
   # Deploy with Capistrano
   gem 'capistrano'
@@ -129,12 +132,12 @@ group :development do
   gem 'powder'
   # rails3 compatible generators
   gem "rails3-generators"
-  gem 'pry'
+  gem 'pry-rails'
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
-  gem 'net-http-spy'
+  gem 'httplog'
 end
 
 group :test do

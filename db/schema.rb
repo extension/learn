@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160829142515) do
+ActiveRecord::Schema.define(:version => 20170308142441) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -162,6 +162,18 @@ ActiveRecord::Schema.define(:version => 20160829142515) do
 
   add_index "event_registrations", ["email", "event_id"], :name => "registration_ndx", :unique => true
 
+  create_table "event_zoom_requests", :force => true do |t|
+    t.integer  "event_id"
+    t.string   "request_type"
+    t.string   "item_count"
+    t.boolean  "success"
+    t.datetime "completed_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "event_zoom_requests", ["event_id"], :name => "event_ndx"
+
   create_table "events", :force => true do |t|
     t.text     "title",                                                        :null => false
     t.text     "description",                                                  :null => false
@@ -195,6 +207,8 @@ ActiveRecord::Schema.define(:version => 20160829142515) do
     t.integer  "registration_contact_id"
     t.text     "reason_is_deleted"
     t.text     "registration_description"
+    t.boolean  "is_zoom_webinar"
+    t.string   "zoom_webinar_id"
   end
 
   add_index "events", ["conference_id"], :name => "conference_ndx"
@@ -421,5 +435,33 @@ ActiveRecord::Schema.define(:version => 20160829142515) do
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
   end
+
+  create_table "zoom_api_logs", :force => true do |t|
+    t.integer  "request_id"
+    t.integer  "response_code"
+    t.string   "endpoint"
+    t.text     "requestparams"
+    t.text     "additionaldata", :limit => 16777215
+    t.datetime "created_at"
+  end
+
+  create_table "zoom_registrations", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "learner_id"
+    t.integer  "event_connection_id"
+    t.string   "zoom_webinar_id"
+    t.string   "zoom_user_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email",                                                      :null => false
+    t.boolean  "attended",                                :default => false
+    t.text     "additionaldata",      :limit => 16777215
+    t.datetime "registered_at",                                              :null => false
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
+  end
+
+  add_index "zoom_registrations", ["email", "event_id"], :name => "registration_ndx", :unique => true
+  add_index "zoom_registrations", ["event_id", "learner_id", "email", "registered_at", "attended"], :name => "reporting_ndx"
 
 end
