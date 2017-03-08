@@ -23,6 +23,7 @@ class Event < ActiveRecord::Base
   attr_accessible :images_attributes
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
   attr_accessible :requires_registration, :registration_contact_id, :registration_description
+  attr_accessible :is_zoom_webinar, :zoom_webinar_id
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
 
@@ -623,6 +624,11 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     else
       []
     end
+  end
+
+  def zoom_webinar_id=(webinar_id)
+    webinar_id.gsub!('-','')
+    write_attribute(:zoom_webinar_id, webinar_id)
   end
 
   #convenience method to reset counter columns

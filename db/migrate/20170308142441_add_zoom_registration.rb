@@ -11,6 +11,7 @@ class AddZoomRegistration < ActiveRecord::Migration
       t.string   "last_name"
       t.string   "email",           :null => false
       t.boolean  "attended",        :default => false
+      t.integer  "time_in_session"
       t.text     "additionaldata",  :limit => 16777215
       t.datetime "registered_at",   :null => false
       t.timestamps
@@ -31,16 +32,15 @@ class AddZoomRegistration < ActiveRecord::Migration
       t.datetime "created_at"
   	end
 
-    create_table "zoom_event_list_requests" do |t|
+    create_table "zoom_event_connection_requests" do |t|
       t.references :event
       t.string     :request_type
-      t.string     :item_count
       t.boolean    :success
       t.datetime   :completed_at
       t.timestamps
   	end
 
-    add_index "zoom_event_list_requests", ["event_id"], :name => "event_ndx"
+    add_index "zoom_event_connection_requests", ["event_id"], :name => "event_ndx"
 
   end
 

@@ -7,7 +7,6 @@
 class ZoomApiLog < ActiveRecord::Base
   serialize :additionaldata
   serialize :requestparams
-  belongs_to :event
 
   attr_accessible :request_id, :response_code, :endpoint, :requestparams, :additionaldata
 
