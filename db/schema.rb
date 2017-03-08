@@ -162,18 +162,6 @@ ActiveRecord::Schema.define(:version => 20170308142441) do
 
   add_index "event_registrations", ["email", "event_id"], :name => "registration_ndx", :unique => true
 
-  create_table "event_zoom_requests", :force => true do |t|
-    t.integer  "event_id"
-    t.string   "request_type"
-    t.string   "item_count"
-    t.boolean  "success"
-    t.datetime "completed_at"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
-
-  add_index "event_zoom_requests", ["event_id"], :name => "event_ndx"
-
   create_table "events", :force => true do |t|
     t.text     "title",                                                        :null => false
     t.text     "description",                                                  :null => false
@@ -444,6 +432,18 @@ ActiveRecord::Schema.define(:version => 20170308142441) do
     t.text     "additionaldata", :limit => 16777215
     t.datetime "created_at"
   end
+
+  create_table "zoom_event_list_requests", :force => true do |t|
+    t.integer  "event_id"
+    t.string   "request_type"
+    t.string   "item_count"
+    t.boolean  "success"
+    t.datetime "completed_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "zoom_event_list_requests", ["event_id"], :name => "event_ndx"
 
   create_table "zoom_registrations", :force => true do |t|
     t.integer  "event_id"

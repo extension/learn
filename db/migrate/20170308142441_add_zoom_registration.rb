@@ -31,7 +31,7 @@ class AddZoomRegistration < ActiveRecord::Migration
       t.datetime "created_at"
   	end
 
-    create_table "event_zoom_requests" do |t|
+    create_table "zoom_event_list_requests" do |t|
       t.references :event
       t.string     :request_type
       t.string     :item_count
@@ -40,7 +40,7 @@ class AddZoomRegistration < ActiveRecord::Migration
       t.timestamps
   	end
 
-    add_index "event_zoom_requests", ["event_id"], :name => "event_ndx"
+    add_index "zoom_event_list_requests", ["event_id"], :name => "event_ndx"
 
   end
 
