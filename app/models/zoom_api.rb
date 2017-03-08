@@ -21,7 +21,13 @@ class ZoomApi
   def self.get_zoom_paged_attribute(attribute,endpoint,options = {})
     attribute_array = []
     request_options = options.dup
-    if(response = make_single_zoom_request(endpoint,request_options))
+
+    # pull out the request_id if we have one - so we can track down api calls
+    if(request_options[:request_id])
+      request_id = request_options.delete(:request_id)
+    end
+
+    if(response = make_single_zoom_request(endpoint,request_id,request_options))
       attribute_array += response[attribute]
       # additional requests
       if(response["page_count"] and response["page_count"] > 1)
@@ -30,10 +36,11 @@ class ZoomApi
         success_request = true
         while(get_next_page <= page_count and success_request)
           request_options = request_options.merge({:page_number => get_next_page})
-          if(response = make_single_zoom_request(endpoint,request_options))
+          if(response = make_single_zoom_request(endpoint,request_id,request_options))
             attribute_array += response[attribute]
             get_next_page += 1
           else
+            return nil
             success_request = false
           end
         end
@@ -44,12 +51,7 @@ class ZoomApi
     attribute_array
   end
 
-  def self.make_single_zoom_request(endpoint, options = {})
-    # for logging
-    if(options[:request_id])
-      request_id = options.delete(:request_id)
-    end
-
+  def self.make_single_zoom_request(endpoint, request_id, options = {})
     endpoint = endpoint[1..-1] if(endpoint[0] == '/') # side effects I know
     api_endpoint = "https://api.zoom.us/v1/#{endpoint}"
     baseparams = {
@@ -62,27 +64,46 @@ class ZoomApi
 
     begin
       response = RestClient.post(api_endpoint,requestparams)
+      response_error = false
+      # parse
+      begin
+        parsed_response = JSON.parse(response)
+        json_error = false
+        if(parsed_response["error"])
+          zoom_error = true
+          zoom_error_code = parsed_response["error"]["code"]
+          zoom_error_message = parsed_response["error"]["message"]
+        end
+      rescue
+        json_error = true
+      end
     rescue=> e
+      response_error = true
       response = e.response
+    end
+
+    begin
+      parsed_response = JSON.parse(response)
+      json_error = false
+    rescue
+      json_error = true
     end
 
     # log it
     ZoomApiLog.create(:request_id => request_id,
                       :response_code => response.code,
                       :endpoint => endpoint,
+                      :json_error => json_error,
+                      :zoom_error => zoom_error,
+                      :zoom_error_code => zoom_error_code,
+                      :zoom_error_message => zoom_error_message,
                       :requestparams => requestparams,
                       :additionaldata => response)
 
-
-    if(!response.code == 200)
-      return nil
+    if(!response_error and !json_error and !zoom_error)
+      return parsed_response
     else
-      begin
-        parsed_response = JSON.parse(response)
-        return parsed_response
-      rescue
-        return nil
-      end
+      return nil
     end
 
   end

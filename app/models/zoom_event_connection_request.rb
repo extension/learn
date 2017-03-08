@@ -13,5 +13,6 @@ class ZoomEventConnectionRequest < ActiveRecord::Base
   REQUEST_REGISTRANTS = 'registrants'
   REQUEST_ATTENDEES = 'attendees'
 
+  #todo slack post on failure?!?
 
 end

@@ -14,7 +14,9 @@ class ZoomRegistration < ActiveRecord::Base
   belongs_to :learner
   belongs_to :event_connection
 
-  # after_create  :create_event_connection
+  after_save :update_event_connection
+
+  scope :attended, ->{where(attended: true)}
 
 
   def self.get_zoom_registration_list(event)
@@ -27,8 +29,10 @@ class ZoomRegistration < ActiveRecord::Base
         self.create_or_update_registration(event,registration)
       end
       request_log.update_attributes(success: true, completed_at: Time.now.utc)
+      return true
     else
       request_log.update_attributes(success: false, completed_at: Time.now.utc)
+      return false
     end
   end
 
@@ -57,16 +61,19 @@ class ZoomRegistration < ActiveRecord::Base
         self.update_attendance(event,email,attendance)
       end
       request_log.update_attributes(success: true, completed_at: Time.now.utc)
+      return true
     else
       request_log.update_attributes(success: false, completed_at: Time.now.utc)
+      return false
     end
   end
 
   def self.get_zoom_list_for_event(event)
     return false if(!event.is_zoom_webinar? or event.zoom_webinar_id.blank?)
     if(event.concluded?)
-      self.get_zoom_registration_list(event)
-      self.get_zoom_attendee_list(event)
+      if(self.get_zoom_registration_list(event))
+        self.get_zoom_attendee_list(event)
+      end
     else
       self.get_zoom_registration_list(event)
     end
@@ -107,9 +114,22 @@ class ZoomRegistration < ActiveRecord::Base
     end
   end
 
-  # def create_event_connection
-  #   true
-  # end
+  def update_event_connection
+    return true if(self.learner_id.nil?)
 
+    if(!self.attended.nil? and self.attended)
+      connectiontype = EventConnection::ATTEND
+    else
+      connectiontype = EventConnection::BOOKMARK
+    end
+
+    begin
+      ec = EventConnection.create(learner_id: self.learner_id, event_id: self.event_id, connectiontype: connectiontype, added_by_api: true)
+      self.update_column(:event_connection_id, ec.id)
+    rescue ActiveRecord::RecordNotUnique => e
+      # do nothing, already bookmarked
+    end
+
+  end
 
 end

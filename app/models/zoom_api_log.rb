@@ -9,6 +9,7 @@ class ZoomApiLog < ActiveRecord::Base
   serialize :requestparams
 
   attr_accessible :request_id, :response_code, :endpoint, :requestparams, :additionaldata
+  attr_accessible :json_error, :zoom_error, :zoom_error_code, :zoom_error_message
 
   def requestparams=(params_hash)
     params_hash.delete(:api_key)

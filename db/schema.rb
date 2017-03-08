@@ -146,8 +146,9 @@ ActiveRecord::Schema.define(:version => 20170308142441) do
   create_table "event_connections", :force => true do |t|
     t.integer  "learner_id"
     t.integer  "event_id"
-    t.integer  "connectiontype", :null => false
+    t.integer  "connectiontype",                    :null => false
     t.datetime "created_at"
+    t.boolean  "added_by_api",   :default => false
   end
 
   add_index "event_connections", ["learner_id", "event_id", "connectiontype"], :name => "connection_ndx", :unique => true
@@ -428,8 +429,12 @@ ActiveRecord::Schema.define(:version => 20170308142441) do
     t.integer  "request_id"
     t.integer  "response_code"
     t.string   "endpoint"
+    t.boolean  "json_error"
+    t.boolean  "zoom_error"
+    t.string   "zoom_error_code"
+    t.string   "zoom_error_message"
     t.text     "requestparams"
-    t.text     "additionaldata", :limit => 16777215
+    t.text     "additionaldata",     :limit => 16777215
     t.datetime "created_at"
   end
 
