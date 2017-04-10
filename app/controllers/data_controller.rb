@@ -32,7 +32,7 @@ class DataController < ApplicationController
 
       if !params[:tag_tokens].blank?
         @events = Event.date_filtered(@start_date,@end_date).tagged_with_id(params[:tag_tokens]).order("session_start ASC")
-        returndata = "Event Statistics for #{@start_date} – #{@end_date}\n"
+        returndata = "Event Statistics for #{@start_date} - #{@end_date}\n"
         returndata += "Data filtered by tags: #{@tag_token_names.map{|h| h[:name]}.join('; ')}\n"
         returndata += "Please note: Event Date/Time is relative to your specified timezone: #{current_learner.time_zone.html_safe}\n\n"
         returndata += events_csv(@events)
@@ -41,7 +41,7 @@ class DataController < ApplicationController
           :disposition => "attachment; filename=event_statistics.csv")
       else
         @events = Event.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start ASC")
-        returndata = "Event Statistics for #{@start_date} – #{@end_date}\n"
+        returndata = "Event Statistics for #{@start_date} - #{@end_date}\n"
         returndata += "Please note: Event Date/Time is relative to your specified timezone: #{current_learner.time_zone.html_safe}\n\n"
         returndata += events_csv(@events)
         send_data(returndata,
