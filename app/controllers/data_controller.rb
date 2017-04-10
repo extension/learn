@@ -136,6 +136,7 @@ class DataController < ApplicationController
   CSV.generate do |csv|
     headers = []
     headers << 'Date/Time'
+    headers << 'Creator'
     headers << 'Canceled'
     headers << 'Expired'
     headers << 'Presenters'
@@ -154,6 +155,7 @@ class DataController < ApplicationController
     events.each do |event|
       row = []
       row <<  event.session_start.strftime("%Y-%m-%d %H:%M:%S")
+      row << ((event.creator.blank? ? 'Unknown' : event.creator.name))
       row << ((event.is_canceled?) ? "canceled" : "")
       row << ((event.is_expired?) ? "expired" : "")
       row << event.presenters.collect{|learner| learner.name}.join('; ')
