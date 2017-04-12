@@ -69,7 +69,7 @@
 <fieldset id="primary_audience">
   <p>
     <%= event_form.label :primary_audience, 'Primary Audience' %>
-    <%= event_form.select :primary_audience, options_for_select(audience_options), {:include_blank => true}, {:class => "form-control"} %>
+    <%= event_form.select :primary_audience, options_for_select(audience_options,@event.primary_audience), {:include_blank => true}, {:class => "form-control"} %>
   </p>
 </fieldset>
 
