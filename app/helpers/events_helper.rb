@@ -142,7 +142,7 @@ module EventsHelper
   end
 
   def audience_options
-    Event::AUDIENCE_LABELS.except(Event::AUDIENCE_UNKNOWN).invert.to_a
+    Event::AUDIENCE_LABELS.except(Event::AUDIENCE_BLANK).invert.to_a
   end
 
 end

@@ -38,13 +38,13 @@ class Event < ActiveRecord::Base
   BROADCAST = 'broadcast'
 
   # primary audience
-  AUDIENCE_UNKNOWN   = 0
+  AUDIENCE_BLANK  = 0
   AUDIENCE_EXTENSION = 1
   AUDIENCE_OTHER     = 2
   AUDIENCE_PUBLIC    = 3
 
   AUDIENCE_LABELS = {
-    AUDIENCE_UNKNOWN   => 'Unknown',
+    AUDIENCE_BLANK   => 'Not Set',
     AUDIENCE_EXTENSION => 'Extension Professionals',
     AUDIENCE_OTHER     => 'Other Professionals',
     AUDIENCE_PUBLIC    => 'Public'
