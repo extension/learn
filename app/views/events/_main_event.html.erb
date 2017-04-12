@@ -37,7 +37,6 @@
 
       <%- end -%>
 
-      <div class="event-audience">Primary Audience: <%= @event.primary_audience_label.html_safe -%></div>
       <div class="event-description"><%= @event.description.html_safe -%></div>
 
 
@@ -194,6 +193,8 @@
          </p>
        </div>
      </div>
+
+     <div class="event-audience">Primary Audience: <%= @event.primary_audience_label.html_safe -%></div>
 
   <% if @similar_events.count > 0 %>
     <aside>
