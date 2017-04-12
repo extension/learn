@@ -37,6 +37,7 @@
 
       <%- end -%>
 
+      <div class="event-audience">Primary Audience: <%= @event.primary_audience_label.html_safe -%></div>
       <div class="event-description"><%= @event.description.html_safe -%></div>
 
 
@@ -138,7 +139,7 @@
             <%= time_zone_select( :user_selected_timezone, :timezone, ActiveSupport::TimeZone.us_zones, {:default =>timezone_select_default, :include_blank => (timezone_select_default.nil? ? Time.zone.name : nil)}, {:class => "form-control"}) %>
           <%- end -%>
         </p>
-        
+
         <%- if(@event.requires_registration?) -%>
           <%= render :partial => 'registration' %>
         <%- end -%>
@@ -146,7 +147,7 @@
         <p class="location"><small><strong>Location:</strong> <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></small></p>
 
       <%-end -%>
-      
+
       <%- if @event.is_conference_session? -%>
       <p><%= link_to('Other Sessions at this same time', schedule_conference_path(id: @event.conference.hashtag, datetime: @event.session_start.xmlschema)) %></p>
 
@@ -221,7 +222,7 @@
         <h4 class="modal-title">Registration Notice!</h4>
       </div>
       <div class="modal-body">
-        Thank you for registering for this event. Return to this page at the time of the live event to enter the room. An email has been sent to <b><%= session[:registration_email] %></b> with information about your registration. 
+        Thank you for registering for this event. Return to this page at the time of the live event to enter the room. An email has been sent to <b><%= session[:registration_email] %></b> with information about your registration.
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -236,4 +237,3 @@
   </script>
   <% session[:registration_modal] = false %>
 <% end %>
-

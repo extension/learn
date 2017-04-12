@@ -7,7 +7,6 @@
 class Event < ActiveRecord::Base
   include MarkupScrubber
   include TagUtilities
-
   serialize :provided_presenter_order
 
   attr_accessor :presenter_tokens
@@ -17,7 +16,8 @@ class Event < ActiveRecord::Base
 
   # define accessible attributes
   attr_accessible :creator, :last_modifier
-  attr_accessible :title, :description, :session_length, :location, :recording, :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled, :is_deleted, :reason_is_deleted
+  attr_accessible :title, :description, :session_length, :location, :recording, :primary_audience
+  attr_accessible :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled, :is_deleted, :reason_is_deleted
   attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at, :evaluation_link
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes
@@ -36,6 +36,19 @@ class Event < ActiveRecord::Base
   ONLINE = 'online'
   CONFERENCE = 'conference'
   BROADCAST = 'broadcast'
+
+  # primary audience
+  AUDIENCE_UNKNOWN   = 0
+  AUDIENCE_EXTENSION = 1
+  AUDIENCE_OTHER     = 2
+  AUDIENCE_PUBLIC    = 3
+
+  AUDIENCE_LABELS = {
+    AUDIENCE_UNKNOWN   => 'Unknown',
+    AUDIENCE_EXTENSION => 'Extension Professionals',
+    AUDIENCE_OTHER     => 'Other Professionals',
+    AUDIENCE_PUBLIC    => 'Public'
+  }
 
   # relationships
   has_many :taggings, :as => :taggable, dependent: :destroy
@@ -196,6 +209,17 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     else
       self.event_type = Event::CONFERENCE
     end
+  end
+
+  def primary_audience=(audience_code)
+    if(audience_code.blank?)
+      audience_code = AUDIENCE_UNKNOWN
+    end
+    write_attribute(:primary_audience, audience_code)
+  end
+
+  def primary_audience_label
+    AUDIENCE_LABELS[self.primary_audience]
   end
 
   def presenter_tokens

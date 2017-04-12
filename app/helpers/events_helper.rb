@@ -141,4 +141,8 @@ module EventsHelper
     time_to_convert.utc.strftime('%Y%m%dT%H%M%SZ')
   end
 
+  def audience_options
+    Event::AUDIENCE_LABELS.except(Event::AUDIENCE_UNKNOWN).invert.to_a
+  end
+
 end
