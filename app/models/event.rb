@@ -213,7 +213,7 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
 
   def primary_audience=(audience_code)
     if(audience_code.blank?)
-      audience_code = AUDIENCE_UNKNOWN
+      audience_code = AUDIENCE_BLANK
     end
     write_attribute(:primary_audience, audience_code)
   end
