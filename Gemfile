@@ -36,7 +36,6 @@ gem 'rmagick'
 
 # authentication
 gem 'devise', "~> 1.5.1"
-gem 'omniauth-facebook'
 gem 'omniauth-openid'
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'

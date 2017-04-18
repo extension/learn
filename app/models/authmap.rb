@@ -8,10 +8,6 @@ class Authmap < ActiveRecord::Base
     return process_learner_info(access_token, logged_in_learner)
   end
 
-  def self.find_for_facebook_oauth(access_token, logged_in_learner=nil)
-    return process_learner_info(access_token, logged_in_learner)
-  end
-
   def self.find_for_people_openid(access_token, logged_in_learner=nil)
     return process_learner_info(access_token, logged_in_learner)
   end

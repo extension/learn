@@ -34,15 +34,6 @@
 
     <div class="signup-option">
       <p>
-        <%= link_to(authmap_omniauth_authorize_path(:facebook, :redirect_to => (params[:redirect_to].present?) ? params[:redirect_to] : session[:learner_return_to]), class: "btn btn-default btn-block btn-lg") do %>
-          <%= image_tag("f_logo.jpg", :size => "50x50", :class => "size50x50") %>
-          Sign in with Facebook
-        <%- end -%>
-      </p>
-    </div>
-
-    <div class="signup-option">
-      <p>
         <%= link_to(authmap_omniauth_authorize_path(:google, :redirect_to => (params[:redirect_to].present?) ? params[:redirect_to] : session[:learner_return_to]), class: "btn btn-default btn-block btn-lg") do %>
           <%= image_tag("Google_logo.png", :size => "50x50", :class => "size50x50") %>
           Sign in with Google
