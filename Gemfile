@@ -131,7 +131,7 @@ group :development do
   gem 'powder'
   # rails3 compatible generators
   gem "rails3-generators"
-  gem 'pry-rails'
+  gem 'pry'
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller'

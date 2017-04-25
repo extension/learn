@@ -6,15 +6,24 @@
 
 class ZoomApi
 
-
-  def self.get_zoom_webinar_attendee_list(webinar_id, options = {})
+  def self.get_zoom_webinar_uuid_list(webinar_id, options={})
     request_options = options.merge({id: webinar_id})
-    get_zoom_paged_attribute('attendees','webinar/attendees/list',request_options)
+    get_zoom_paged_attribute('webinars','webinar/uuid/list',request_options)
+  end
+
+  def self.get_zoom_webinar_panelists(webinar_id, options={})
+    request_options = options.merge({id: webinar_id})
+    get_zoom_paged_attribute('panelists','webinar/panelists',request_options)
   end
 
   def self.get_zoom_webinar_registration_list(webinar_id, options = {})
     request_options = options.merge({id: webinar_id})
     get_zoom_paged_attribute('attendees','webinar/registration',request_options)
+  end
+
+  def self.get_zoom_webinar_attendee_list(webinar_id, webinar_uuid, options = {})
+    request_options = options.merge({uuid: webinar_uuid, id: webinar_id})
+    get_zoom_paged_attribute('attendees','webinar/attendees/list',request_options)
   end
 
   # makes a paged request - logging and returning the requested combined array

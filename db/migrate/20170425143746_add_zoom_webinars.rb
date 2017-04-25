@@ -1,13 +1,14 @@
-class AddZoomRegistration < ActiveRecord::Migration
+class AddZoomWebinars < ActiveRecord::Migration
   def change
-    # events table changes
-    add_column(:events, :is_zoom_webinar, :boolean)
-    add_column(:events, :zoom_webinar_id, :string)
+
+    # the specific instance of this webinar
+    add_column(:events, :zoom_webinar_uuid, :string, :null => true)
 
     # event_connections table changes
     add_column(:event_connections, :added_by_api, :boolean, default: false)
 
     create_table "zoom_registrations" do |t|
+      t.references :zoom_webinar
       t.references :event
       t.references :learner
       t.references :event_connection

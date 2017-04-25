@@ -203,8 +203,6 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pry-rails (0.3.5)
-      pry (>= 0.9.10)
     quiet_assets (1.0.1)
       railties (~> 3.1)
     rack (1.4.7)
@@ -350,7 +348,7 @@ DEPENDENCIES
   paper_trail (= 2.5.2ex)!
   powder
   progress_bar
-  pry-rails
+  pry
   quiet_assets
   rack-tracker (= 1.1.0ex)!
   rails (= 3.2.22.5)

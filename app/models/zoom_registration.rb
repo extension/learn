@@ -20,7 +20,7 @@ class ZoomRegistration < ActiveRecord::Base
 
 
   def self.get_zoom_registration_list(event)
-    return false if(!event.is_zoom_webinar? or event.zoom_webinar_id.blank?)
+    return false if(event.zoom_webinar_id.blank?)
     request_type = ZoomEventConnectionRequest::REQUEST_REGISTRANTS
     request_log = ZoomEventConnectionRequest.create(event: event, request_type: request_type)
     if(registrants = ZoomApi.get_zoom_webinar_registration_list(event.zoom_webinar_id, {request_id: request_log.id}))
@@ -37,10 +37,13 @@ class ZoomRegistration < ActiveRecord::Base
   end
 
   def self.get_zoom_attendee_list(event)
-    return false if(!event.is_zoom_webinar? or event.zoom_webinar_id.blank? or !event.concluded?)
+    return false if(event.zoom_webinar_id.blank? or !event.concluded?)
+    if(event.zoom_webinar_uuid.blank?)
+      return false if(!event.set_zoom_webinar_uuid)
+    end
     request_type = ZoomEventConnectionRequest::REQUEST_ATTENDEES
     request_log = ZoomEventConnectionRequest.create(event: event, request_type: request_type)
-    if(attendees = ZoomApi.get_zoom_webinar_attendee_list(event.zoom_webinar_id, {request_id: request_log.id}))
+    if(attendees = ZoomApi.get_zoom_webinar_attendee_list(event.zoom_webinar_id, event.zoom_webinar_uuid, {request_id: request_log.id}))
       attendees_hash = {}
       attendees.each do |attendance|
         next if(attendance["email"].blank?)
@@ -69,7 +72,7 @@ class ZoomRegistration < ActiveRecord::Base
   end
 
   def self.get_zoom_list_for_event(event)
-    return false if(!event.is_zoom_webinar? or event.zoom_webinar_id.blank?)
+    return false if(event.zoom_webinar_id.blank?)
     if(event.concluded?)
       if(self.get_zoom_registration_list(event))
         self.get_zoom_attendee_list(event)

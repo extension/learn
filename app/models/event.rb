@@ -23,7 +23,6 @@ class Event < ActiveRecord::Base
   attr_accessible :images_attributes
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
   attr_accessible :requires_registration, :registration_contact_id, :registration_description
-  attr_accessible :is_zoom_webinar, :zoom_webinar_id
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
 
@@ -650,9 +649,40 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     end
   end
 
-  def zoom_webinar_id=(webinar_id)
-    webinar_id.gsub!('-','')
-    write_attribute(:zoom_webinar_id, webinar_id)
+  def zoom_webinar_id
+    return nil if(self.location.blank?)
+    begin
+      url = URI.parse(self.location)
+      return nil if (url.host != Settings.zoom_webinar_host)
+      if(url.path =~ %r{/j/(\d+)})
+        return $1
+      else
+        return nil
+      end
+    rescue
+      return nil
+    end
+  end
+
+  def set_zoom_webinar_uuid
+    return false if(!self.concluded?)
+    return false if(self.zoom_webinar_id.blank?)
+    uuidlist = ZoomApi.get_zoom_webinar_uuid_list(self.zoom_webinar_id)
+    return false if uuidlist.blank?
+    founduuid = ''
+    minimumtime = ''
+    uuidlist.each do |occurrence|
+      if(!occurrence["start_time"].blank? and !occurrence["uuid"].blank?)
+        puts "Here!  #{occurrence} #{minimumtime} #{founduuid}"
+        uuidtime = Time.parse(occurrence["start_time"])
+        timebetween = (self.session_start - uuidtime).abs
+        if(minimumtime.blank? or minimumtime >= timebetween)
+          founduuid = occurrence["uuid"]
+          minimumtime = timebetween
+        end
+      end
+    end
+    self.update_column(:zoom_webinar_uuid, founduuid) if !founduuid.blank?
   end
 
   #convenience method to reset counter columns
