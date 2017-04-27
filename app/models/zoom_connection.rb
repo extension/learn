@@ -19,21 +19,14 @@ class ZoomConnection < ActiveRecord::Base
 
   scope :attended, ->{where(attended: true)}
 
-
-  def self.get_zoom_registration_list(event)
-    return false if(event.zoom_webinar_id.blank?)
-    request_type = ZoomEventConnectionRequest::REQUEST_REGISTRANTS
-    request_log = ZoomEventConnectionRequest.create(event: event, request_type: request_type)
-    if(registrants = ZoomApi.get_zoom_webinar_registration_list(event.zoom_webinar_id, {request_id: request_log.id}))
+  def self.get_zoom_registration_list(zoom_webinar)
+    if(registrants = ZoomApi.get_zoom_webinar_registration_list(zoom_webinar.webinar_id))
       registrants.each do |registration|
         next if(registration["email"].blank?)
-        next if(Time.parse(registration["create_time"]) > event.session_start)
-        self.create_or_update_registration(event,registration)
+        self.create_or_update_registration(zoom_webinar,registration)
       end
-      request_log.update_attributes(success: true, completed_at: Time.now.utc)
       return true
     else
-      request_log.update_attributes(success: false, completed_at: Time.now.utc)
       return false
     end
   end
@@ -43,9 +36,7 @@ class ZoomConnection < ActiveRecord::Base
     if(event.zoom_webinar_uuid.blank?)
       return false if(!event.set_zoom_webinar_uuid)
     end
-    request_type = ZoomEventConnectionRequest::REQUEST_ATTENDEES
-    request_log = ZoomEventConnectionRequest.create(event: event, request_type: request_type)
-    if(attendees = ZoomApi.get_zoom_webinar_attendee_list(event.zoom_webinar_id, event.zoom_webinar_uuid, {request_id: request_log.id}))
+    if(attendees = ZoomApi.get_zoom_webinar_attendee_list(event.zoom_webinar_id, event.zoom_webinar_uuid))
       attendees_hash = {}
       attendees.each do |attendance|
         next if(attendance["email"].blank?)
@@ -67,10 +58,8 @@ class ZoomConnection < ActiveRecord::Base
       attendees_hash.each do |email,attendance|
         self.create_or_update_attendance(event,email,attendance)
       end
-      request_log.update_attributes(success: true, completed_at: Time.now.utc)
       return true
     else
-      request_log.update_attributes(success: false, completed_at: Time.now.utc)
       return false
     end
   end

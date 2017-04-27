@@ -197,7 +197,7 @@ ActiveRecord::Schema.define(:version => 20170425143746) do
     t.text     "reason_is_deleted"
     t.text     "registration_description"
     t.integer  "primary_audience",                       :default => 0,        :null => false
-    t.string   "zoom_webinar_uuid"
+    t.integer  "zoom_webinar_id"
   end
 
   add_index "events", ["conference_id"], :name => "conference_ndx"
@@ -426,7 +426,7 @@ ActiveRecord::Schema.define(:version => 20170425143746) do
   end
 
   create_table "zoom_api_logs", :force => true do |t|
-    t.integer  "request_id"
+    t.integer  "webinar_id"
     t.integer  "response_code"
     t.string   "endpoint"
     t.boolean  "json_error"
@@ -461,15 +461,20 @@ ActiveRecord::Schema.define(:version => 20170425143746) do
   add_index "zoom_connections", ["email", "event_id"], :name => "registration_ndx", :unique => true
   add_index "zoom_connections", ["event_id", "learner_id", "email", "registered_at", "attended"], :name => "reporting_ndx"
 
-  create_table "zoom_event_connection_requests", :force => true do |t|
+  create_table "zoom_webinars", :force => true do |t|
     t.integer  "event_id"
-    t.string   "request_type"
-    t.boolean  "success"
-    t.datetime "completed_at"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.integer  "webinar_id",                                                  :null => false
+    t.integer  "webinar_type"
+    t.boolean  "recurring",                                :default => false
+    t.boolean  "has_registration_url"
+    t.boolean  "api_success"
+    t.datetime "webinar_created_at"
+    t.text     "uuidlist"
+    t.text     "webinar_info",         :limit => 16777215
+    t.datetime "created_at"
   end
 
-  add_index "zoom_event_connection_requests", ["event_id"], :name => "event_ndx"
+  add_index "zoom_webinars", ["event_id"], :name => "event_ndx"
+  add_index "zoom_webinars", ["webinar_id"], :name => "webinar_id_ndx", :unique => true
 
 end

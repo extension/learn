@@ -127,7 +127,17 @@ class Event < ActiveRecord::Base
   scope :active, -> {where(is_canceled: false).where(is_deleted: false)}
   scope :not_expired, -> {where(is_expired: false)}
   scope :featured, -> {where(featured: true)}
-  scope :zoom_webinars, -> {where("location LIKE '%#{Settings.zoom_webinar_host}%'")}
+
+  # webinar id codes
+  INVALID_WEBINAR  = -1
+  INELIGIBLE_WEBINAR = -11
+  NOT_ZOOM_WEBINAR = 0
+
+  scope :zoom_webinars, -> {active.where("zoom_webinar_id > 0")}
+  scope :invalid_zoom_webinars, -> {active.where(zoom_webinar_id: INVALID_WEBINAR)}
+  scope :ineligible_zoom_webinars, -> {active.where(zoom_webinar_id: INELIGIBLE_WEBINAR)}
+  scope :fake_zoom_webinars,  -> {active.where("location LIKE '%#{Settings.zoom_webinar_host}%'").where(zoom_webinar_id: NOT_ZOOM_WEBINAR)}
+  scope :potential_zoom_webinars, -> {active.where("location LIKE '%#{Settings.zoom_webinar_host}%'").where("zoom_webinar_id IS NULL")}
 
   # expecting array of tag strings
   scope :tagged_with_all, lambda{|tag_list|
@@ -650,41 +660,20 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     end
   end
 
-  def zoom_webinar_id
-    return nil if(self.location.blank?)
-    begin
-      url = URI.parse(self.location)
-      return nil if (url.host != Settings.zoom_webinar_host)
-      if(url.path =~ %r{/j/(\d+)})
-        return $1
-      else
-        return nil
-      end
-    rescue
-      return nil
-    end
-  end
-
-  def set_zoom_webinar_uuid
-    return false if(!self.concluded?)
-    return false if(self.zoom_webinar_id.blank?)
-    uuidlist = ZoomApi.get_zoom_webinar_uuid_list(self.zoom_webinar_id)
-    return false if uuidlist.blank?
-    founduuid = ''
-    minimumtime = ''
-    uuidlist.each do |occurrence|
-      if(!occurrence["start_time"].blank? and !occurrence["uuid"].blank?)
-        puts "Here!  #{occurrence} #{minimumtime} #{founduuid}"
-        uuidtime = Time.parse(occurrence["start_time"])
-        timebetween = (self.session_start - uuidtime).abs
-        if(minimumtime.blank? or minimumtime >= timebetween)
-          founduuid = occurrence["uuid"]
-          minimumtime = timebetween
-        end
-      end
-    end
-    self.update_column(:zoom_webinar_uuid, founduuid) if !founduuid.blank?
-  end
+  def zoom_webinar_id_from_location
+   return nil if(self.location.blank?)
+   begin
+     url = URI.parse(self.location)
+     return nil if (url.host != Settings.zoom_webinar_host)
+     if(url.path =~ %r{/j/(\d+)})
+       return $1
+     else
+       return nil
+     end
+   rescue
+     return nil
+   end
+ end
 
   def get_zoom_list
     return false if(self.zoom_webinar_id.blank?)

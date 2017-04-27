@@ -1,8 +1,23 @@
 class AddZoomWebinars < ActiveRecord::Migration
   def change
 
-    # the specific instance of this webinar
-    add_column(:events, :zoom_webinar_uuid, :string, :null => true)
+    create_table "zoom_webinars" do |t|
+      t.references :event
+      t.integer    "webinar_id", :null => false
+      t.integer    "webinar_type"
+      t.boolean    "recurring", :default => false
+      t.boolean    "has_registration_url"
+      t.boolean    "api_success"
+      t.datetime   "webinar_created_at"
+      t.text       "uuidlist"
+      t.text       "webinar_info",  :limit => 16777215
+      t.datetime   "created_at"
+  	end
+
+    add_index "zoom_webinars", ["event_id"], :name => "event_ndx"
+    add_index "zoom_webinars", ["webinar_id"], :name => "webinar_id_ndx", :unique => true
+
+    add_column(:events, :zoom_webinar_id, :integer, :null => true)
 
     # event_connections table changes
     add_column(:event_connections, :added_by_api, :boolean, default: false)
@@ -12,7 +27,6 @@ class AddZoomWebinars < ActiveRecord::Migration
       t.references :event
       t.references :learner
       t.references :event_connection
-      t.string   "zoom_webinar_id"
       t.string   "zoom_user_id"
       t.string   "first_name"
       t.string   "last_name"
@@ -31,7 +45,7 @@ class AddZoomWebinars < ActiveRecord::Migration
     add_index "zoom_connections", ["event_id","learner_id","email","registered_at","attended"], :name => "reporting_ndx"
 
     create_table "zoom_api_logs" do |t|
-      t.integer  "request_id"
+      t.integer  "webinar_id"
       t.integer  "response_code"
       t.string   "endpoint"
       t.boolean  "json_error"
@@ -42,16 +56,6 @@ class AddZoomWebinars < ActiveRecord::Migration
       t.text     "additionaldata",  :limit => 16777215
       t.datetime "created_at"
   	end
-
-    create_table "zoom_event_connection_requests" do |t|
-      t.references :event
-      t.string     :request_type
-      t.boolean    :success
-      t.datetime   :completed_at
-      t.timestamps
-  	end
-
-    add_index "zoom_event_connection_requests", ["event_id"], :name => "event_ndx"
 
   end
 

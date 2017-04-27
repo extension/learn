@@ -8,31 +8,31 @@ class ZoomApi
 
   def self.get_zoom_webinar(webinar_id, options={})
     request_options = options.merge({id: webinar_id})
-    make_single_zoom_request('webinar/get',nil,request_options)
+    make_single_zoom_request('webinar/get',webinar_id,request_options)
   end
 
   def self.get_zoom_webinar_uuid_list(webinar_id, options={})
     request_options = options.merge({id: webinar_id})
-    get_zoom_paged_attribute('webinars','webinar/uuid/list',request_options)
+    get_zoom_paged_attribute('webinars','webinar/uuid/list',webinar_id,request_options)
   end
 
   def self.get_zoom_webinar_panelists(webinar_id, options={})
     request_options = options.merge({id: webinar_id})
-    get_zoom_paged_attribute('panelists','webinar/panelists',request_options)
+    get_zoom_paged_attribute('panelists','webinar/panelists',webinar_id,request_options)
   end
 
   def self.get_zoom_webinar_registration_list(webinar_id, options = {})
     request_options = options.merge({id: webinar_id})
-    get_zoom_paged_attribute('attendees','webinar/registration',request_options)
+    get_zoom_paged_attribute('attendees','webinar/registration',webinar_id,request_options)
   end
 
   def self.get_zoom_webinar_attendee_list(webinar_id, webinar_uuid, options = {})
     request_options = options.merge({uuid: webinar_uuid, id: webinar_id})
-    get_zoom_paged_attribute('attendees','webinar/attendees/list',request_options)
+    get_zoom_paged_attribute('attendees','webinar/attendees/list',webinar_id,request_options)
   end
 
   # makes a paged request - logging and returning the requested combined array
-  def self.get_zoom_paged_attribute(attribute,endpoint,options = {})
+  def self.get_zoom_paged_attribute(attribute,endpoint,webinar_id,options = {})
     attribute_array = []
     request_options = options.dup
 
@@ -65,7 +65,7 @@ class ZoomApi
     attribute_array
   end
 
-  def self.make_single_zoom_request(endpoint, request_id, options = {})
+  def self.make_single_zoom_request(endpoint, webinar_id, options = {})
     endpoint = endpoint[1..-1] if(endpoint[0] == '/') # side effects I know
     api_endpoint = "https://api.zoom.us/v1/#{endpoint}"
     baseparams = {
@@ -104,7 +104,7 @@ class ZoomApi
     end
 
     # log it
-    ZoomApiLog.create(:request_id => request_id,
+    ZoomApiLog.create(:webinar_id => webinar_id,
                       :response_code => response.code,
                       :endpoint => endpoint,
                       :json_error => json_error,
