@@ -6,6 +6,11 @@
 
 class ZoomApi
 
+  def self.get_zoom_webinar(webinar_id, options={})
+    request_options = options.merge({id: webinar_id})
+    make_single_zoom_request('webinar/get',nil,request_options)
+  end
+
   def self.get_zoom_webinar_uuid_list(webinar_id, options={})
     request_options = options.merge({id: webinar_id})
     get_zoom_paged_attribute('webinars','webinar/uuid/list',request_options)

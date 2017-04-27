@@ -4,11 +4,12 @@
 # === LICENSE:
 # see LICENSE file
 
-class ZoomRegistration < ActiveRecord::Base
+class ZoomConnection < ActiveRecord::Base
   serialize :additionaldata
   attr_accessible :event, :event_id, :learner, :learner_id, :event_connection, :event_connection_id
-  attr_accessible :zoom_webinar_id, :zoom_user_id, :first_name, :last_name, :email, :attended, :additionaldata, :registered_at
-  attr_accessible :time_in_session
+  attr_accessible :zoom_webinar_id, :zoom_user_id, :first_name, :last_name, :email, :additionaldata
+  attr_accessible :time_in_session, :registered_at, :attended_at
+  attr_accessible :registered, :panelist, :attended
 
   belongs_to :event
   belongs_to :learner
@@ -26,6 +27,7 @@ class ZoomRegistration < ActiveRecord::Base
     if(registrants = ZoomApi.get_zoom_webinar_registration_list(event.zoom_webinar_id, {request_id: request_log.id}))
       registrants.each do |registration|
         next if(registration["email"].blank?)
+        next if(Time.parse(registration["create_time"]) > event.session_start)
         self.create_or_update_registration(event,registration)
       end
       request_log.update_attributes(success: true, completed_at: Time.now.utc)
@@ -52,16 +54,18 @@ class ZoomRegistration < ActiveRecord::Base
           attendees_hash[attendance["email"]][:time_in_session] += attendance["time_in_session"].to_i
         else
           attendees_hash[attendance["email"]] = {
+            :zoom_webinar_id => event.zoom_webinar_id,
             :first_name => attendance["first_name"],
             :last_name => attendance["last_name"],
             :attended => (attendance["attended"] == 'Yes'),
             :additionaldata => {"custom_questions" => attendance["custom_questions"], "questions" => attendance["questions"]},
+            :attended_at => attendance["join_time"],
             :time_in_session => attendance["time_in_session"].to_i
           }
         end
       end
       attendees_hash.each do |email,attendance|
-        self.update_attendance(event,email,attendance)
+        self.create_or_update_attendance(event,email,attendance)
       end
       request_log.update_attributes(success: true, completed_at: Time.now.utc)
       return true
@@ -90,6 +94,7 @@ class ZoomRegistration < ActiveRecord::Base
                              registered_at: registration["create_time"],
                              first_name: registration[:first_name],
                              last_name: registration[:last_name],
+                             registered: true,
                              zoom_user_id: registration["id"],
                              zoom_webinar_id: event.zoom_webinar_id)
       else
@@ -100,6 +105,7 @@ class ZoomRegistration < ActiveRecord::Base
                          first_name: registration[:first_name],
                          last_name: registration[:last_name],
                          zoom_user_id: registration["id"],
+                         registered: true,
                          zoom_webinar_id: event.zoom_webinar_id)
       end
       true
@@ -111,9 +117,12 @@ class ZoomRegistration < ActiveRecord::Base
     end
   end
 
-  def self.update_attendance(event,email,attendance)
+  def self.create_or_update_attendance(event,email,attendance)
+    learner = Learner.where(email: email).first
     if(zr = self.where(event_id: event.id).where(email: email).first)
-      zr.update_attributes(attendance)
+      zr.update_attributes(attendance.merge({learner: learner, event: event}))
+    else
+      zr = self.create(attendance.merge({learner: learner, event: event, email: email}))
     end
   end
 

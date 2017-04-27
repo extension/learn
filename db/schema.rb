@@ -438,6 +438,29 @@ ActiveRecord::Schema.define(:version => 20170425143746) do
     t.datetime "created_at"
   end
 
+  create_table "zoom_connections", :force => true do |t|
+    t.integer  "zoom_webinar_id"
+    t.integer  "event_id"
+    t.integer  "learner_id"
+    t.integer  "event_connection_id"
+    t.string   "zoom_user_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email",                                                      :null => false
+    t.boolean  "panelist",                                :default => false
+    t.boolean  "registered",                              :default => false
+    t.boolean  "attended",                                :default => false
+    t.integer  "time_in_session"
+    t.text     "additionaldata",      :limit => 16777215
+    t.datetime "registered_at"
+    t.datetime "attended_at"
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
+  end
+
+  add_index "zoom_connections", ["email", "event_id"], :name => "registration_ndx", :unique => true
+  add_index "zoom_connections", ["event_id", "learner_id", "email", "registered_at", "attended"], :name => "reporting_ndx"
+
   create_table "zoom_event_connection_requests", :force => true do |t|
     t.integer  "event_id"
     t.string   "request_type"
@@ -448,25 +471,5 @@ ActiveRecord::Schema.define(:version => 20170425143746) do
   end
 
   add_index "zoom_event_connection_requests", ["event_id"], :name => "event_ndx"
-
-  create_table "zoom_registrations", :force => true do |t|
-    t.integer  "zoom_webinar_id"
-    t.integer  "event_id"
-    t.integer  "learner_id"
-    t.integer  "event_connection_id"
-    t.string   "zoom_user_id"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "email",                                                      :null => false
-    t.boolean  "attended",                                :default => false
-    t.integer  "time_in_session"
-    t.text     "additionaldata",      :limit => 16777215
-    t.datetime "registered_at",                                              :null => false
-    t.datetime "created_at",                                                 :null => false
-    t.datetime "updated_at",                                                 :null => false
-  end
-
-  add_index "zoom_registrations", ["email", "event_id"], :name => "registration_ndx", :unique => true
-  add_index "zoom_registrations", ["event_id", "learner_id", "email", "registered_at", "attended"], :name => "reporting_ndx"
 
 end

@@ -124,9 +124,10 @@ class Event < ActiveRecord::Base
   scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
   scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
 
-  scope :active, conditions: {is_canceled: false, is_deleted: false}
-  scope :not_expired, conditions: {is_expired: false}
-  scope :featured, conditions: {featured: true}
+  scope :active, -> {where(is_canceled: false).where(is_deleted: false)}
+  scope :not_expired, -> {where(is_expired: false)}
+  scope :featured, -> {where(featured: true)}
+  scope :zoom_webinars, -> {where("location LIKE '%#{Settings.zoom_webinar_host}%'")}
 
   # expecting array of tag strings
   scope :tagged_with_all, lambda{|tag_list|
@@ -684,6 +685,12 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     end
     self.update_column(:zoom_webinar_uuid, founduuid) if !founduuid.blank?
   end
+
+  def get_zoom_list
+    return false if(self.zoom_webinar_id.blank?)
+    ZoomConnection.get_zoom_list_for_event(self)
+  end
+
 
   #convenience method to reset counter columns
   def self.reset_counter_columns
