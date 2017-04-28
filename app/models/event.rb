@@ -23,6 +23,7 @@ class Event < ActiveRecord::Base
   attr_accessible :images_attributes
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
   attr_accessible :requires_registration, :registration_contact_id, :registration_description
+  attr_accessible :location_webinar_id, :zoom_webinar_id, :zoom_webinar_status
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
 
@@ -101,8 +102,8 @@ class Event < ActiveRecord::Base
   before_save :set_presenters_from_tokens
   before_save :set_tags_from_tag_list
   after_update :fix_presenter_ordering
-
   after_create :create_event_notifications
+  after_save :set_location_webinar_id
 
   DEFAULT_TIMEZONE = 'America/New_York'
   # page default for paginate
@@ -128,16 +129,27 @@ class Event < ActiveRecord::Base
   scope :not_expired, -> {where(is_expired: false)}
   scope :featured, -> {where(featured: true)}
 
-  # webinar id codes
-  INVALID_WEBINAR  = -1
-  INELIGIBLE_WEBINAR = -11
-  NOT_ZOOM_WEBINAR = 0
+  # zoom webinar status
+  WEBINAR_STATUS_OK = 11
+  WEBINAR_STATUS_NOT_RETRIEVED = 10
 
-  scope :zoom_webinars, -> {active.where("zoom_webinar_id > 0")}
-  scope :invalid_zoom_webinars, -> {active.where(zoom_webinar_id: INVALID_WEBINAR)}
-  scope :ineligible_zoom_webinars, -> {active.where(zoom_webinar_id: INELIGIBLE_WEBINAR)}
-  scope :fake_zoom_webinars,  -> {active.where("location LIKE '%#{Settings.zoom_webinar_host}%'").where(zoom_webinar_id: NOT_ZOOM_WEBINAR)}
-  scope :potential_zoom_webinars, -> {active.where("location LIKE '%#{Settings.zoom_webinar_host}%'").where("zoom_webinar_id IS NULL")}
+  WEBINAR_STATUS_LOCATION_BLANK = 0
+  WEBINAR_STATUS_LOCATION_NOT_URL = 1
+  WEBINAR_STATUS_LOCATION_NOT_EXTENSION_ZOOM = 2
+  WEBINAR_STATUS_LOCATION_NOT_WEBINAR_URL = 3
+  WEBINAR_STATUS_IS_RECURRING = 4
+  WEBINAR_STATUS_RETRIEVAL_ERROR = 5
+  WEBINAR_STATUS_TEMPORARY_RETRIEVAL_ERROR = 6
+
+  WEBINAR_STATUS_INVALID_SET = [WEBINAR_STATUS_LOCATION_NOT_WEBINAR_URL, WEBINAR_STATUS_IS_RECURRING, WEBINAR_STATUS_RETRIEVAL_ERROR]
+
+  scope :valid_zoom_webinars, -> {active.where(zoom_webinar_status: WEBINAR_STATUS_OK)}
+  scope :invalid_zoom_webinars, -> {active.where("zoom_webinar_status IN (#{WEBINAR_STATUS_INVALID_SET.join(',')})")}
+  scope :invalid_recurring_zoom_webinars, -> {active.where(zoom_webinar_status: WEBINAR_STATUS_IS_RECURRING)}
+  scope :temporary_invalid_zoom_webinars,  -> {active.where(zoom_webinar_status: WEBINAR_STATUS_TEMPORARY_RETRIEVAL_ERROR)}
+  scope :potential_zoom_webinars, -> {active.where(zoom_webinar_status: WEBINAR_STATUS_NOT_RETRIEVED) }
+  scope :location_not_url, -> {active.where(zoom_webinar_status: WEBINAR_STATUS_LOCATION_NOT_URL) }
+
 
   # expecting array of tag strings
   scope :tagged_with_all, lambda{|tag_list|
@@ -660,26 +672,35 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     end
   end
 
-  def zoom_webinar_id_from_location
-   return nil if(self.location.blank?)
-   begin
-     url = URI.parse(self.location)
-     return nil if (url.host != Settings.zoom_webinar_host)
-     if(url.path =~ %r{/j/(\d+)})
-       return $1
-     else
-       return nil
-     end
-   rescue
-     return nil
-   end
- end
-
-  def get_zoom_list
-    return false if(self.zoom_webinar_id.blank?)
-    ZoomConnection.get_zoom_list_for_event(self)
+  def set_location_webinar_id
+    if(self.location.blank?)
+      self.update_column(:location_webinar_id, nil)
+      self.update_column(:zoom_webinar_status, WEBINAR_STATUS_LOCATION_BLANK)
+    else
+      begin
+        url = URI.parse(self.location)
+        if(url.host != Settings.zoom_webinar_host)
+          self.update_column(:location_webinar_id, nil)
+          self.update_column(:zoom_webinar_status, WEBINAR_STATUS_LOCATION_NOT_EXTENSION_ZOOM)
+        elsif(url.path =~ %r{/j/(\d+)})
+          lwi = $1.to_i
+          if(self.location_webinar_id.blank? or self.location_webinar_id != lwi)
+            self.update_column(:location_webinar_id, lwi)
+            self.update_column(:zoom_webinar_status, WEBINAR_STATUS_NOT_RETRIEVED)
+          else
+            # no need to update
+          end
+        else
+          self.update_column(:location_webinar_id, nil)
+          self.update_column(:zoom_webinar_status, WEBINAR_STATUS_LOCATION_NOT_WEBINAR_URL)
+        end
+      rescue
+        self.update_column(:location_webinar_id, nil)
+        self.update_column(:zoom_webinar_status, WEBINAR_STATUS_LOCATION_NOT_URL)
+      end
+    end
+    true
   end
-
 
   #convenience method to reset counter columns
   def self.reset_counter_columns

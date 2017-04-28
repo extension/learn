@@ -31,12 +31,8 @@ class ZoomConnection < ActiveRecord::Base
     end
   end
 
-  def self.get_zoom_attendee_list(event)
-    return false if(event.zoom_webinar_id.blank? or !event.concluded?)
-    if(event.zoom_webinar_uuid.blank?)
-      return false if(!event.set_zoom_webinar_uuid)
-    end
-    if(attendees = ZoomApi.get_zoom_webinar_attendee_list(event.zoom_webinar_id, event.zoom_webinar_uuid))
+  def self.get_zoom_attendee_list(zoom_webinar,zoom_webinar_uuid)
+    if(attendees = ZoomApi.get_zoom_webinar_attendee_list(zoom_webinar.webinar_id, zoom_webinar_uuid))
       attendees_hash = {}
       attendees.each do |attendance|
         next if(attendance["email"].blank?)
@@ -46,6 +42,7 @@ class ZoomConnection < ActiveRecord::Base
         else
           attendees_hash[attendance["email"]] = {
             :zoom_webinar_id => event.zoom_webinar_id,
+            :zoom_uuid => zoom_webinar_uuid,
             :first_name => attendance["first_name"],
             :last_name => attendance["last_name"],
             :attended => (attendance["attended"] == 'Yes'),
@@ -64,54 +61,45 @@ class ZoomConnection < ActiveRecord::Base
     end
   end
 
-  def self.get_zoom_list_for_event(event)
-    return false if(event.zoom_webinar_id.blank?)
-    if(event.concluded?)
-      if(self.get_zoom_registration_list(event))
-        self.get_zoom_attendee_list(event)
-      end
-    else
-      self.get_zoom_registration_list(event)
-    end
-  end
 
-  def self.create_or_update_registration(event,registration)
+
+  def self.create_or_update_registration(zoom_webinar,registration)
     if(registration["approval"] == "approved")
       learner = Learner.where(email: registration["email"]).first
-      if(zr = self.where(event_id: event.id).where(email: registration["email"]).first)
-        zr.update_attributes(learner: learner,
+      if(zc = self.where(zoom_webinar_id: zoom_webinar.id).where(email: registration["email"]).first)
+        zc.update_attributes(learner: learner,
+                             event_id: zoom_webinar.event_id,
                              registered_at: registration["create_time"],
                              first_name: registration[:first_name],
                              last_name: registration[:last_name],
                              registered: true,
-                             zoom_user_id: registration["id"],
-                             zoom_webinar_id: event.zoom_webinar_id)
+                             zoom_user_id: registration["id"])
       else
-        zr = self.create(event: event,
+        zc = self.create(zoom_webinar: zoom_webinar,
+                         event_id: zoom_webinar.event_id,
                          email: registration["email"],
                          learner: learner,
                          registered_at: registration["create_time"],
                          first_name: registration[:first_name],
                          last_name: registration[:last_name],
                          zoom_user_id: registration["id"],
-                         registered: true,
-                         zoom_webinar_id: event.zoom_webinar_id)
+                         registered: true)
       end
       true
     elsif(registration["approval"] =~ %r{^cancelled})
-      if(zr = self.where(event_id: event.id).where(email: registration["email"]).first)
-        zr.destroy
+      if(zc = self.where(event_id: event.id).where(email: registration["email"]).first)
+        zc.destroy
       end
       false
     end
   end
 
-  def self.create_or_update_attendance(event,email,attendance)
+  def self.create_or_update_attendance(zoom_webinar,email,attendance)
     learner = Learner.where(email: email).first
-    if(zr = self.where(event_id: event.id).where(email: email).first)
-      zr.update_attributes(attendance.merge({learner: learner, event: event}))
+    if(zc = self.where(zoom_webinar_id: zoom_webinar.id).where(email: email).first)
+      zc.update_attributes(attendance.merge({learner: learner, zoom_webinar: zoom_webinar}))
     else
-      zr = self.create(attendance.merge({learner: learner, event: event, email: email}))
+      zc = self.create(attendance.merge({learner: learner, zoom_webinar: zoom_webinar, email: email}))
     end
   end
 

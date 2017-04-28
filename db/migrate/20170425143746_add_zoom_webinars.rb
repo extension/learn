@@ -5,9 +5,9 @@ class AddZoomWebinars < ActiveRecord::Migration
       t.references :event
       t.integer    "webinar_id", :null => false
       t.integer    "webinar_type"
-      t.boolean    "recurring", :default => false
+      t.boolean    "recurring"
       t.boolean    "has_registration_url"
-      t.boolean    "api_success"
+      t.boolean    "last_api_success"
       t.datetime   "webinar_created_at"
       t.text       "uuidlist"
       t.text       "webinar_info",  :limit => 16777215
@@ -17,7 +17,9 @@ class AddZoomWebinars < ActiveRecord::Migration
     add_index "zoom_webinars", ["event_id"], :name => "event_ndx"
     add_index "zoom_webinars", ["webinar_id"], :name => "webinar_id_ndx", :unique => true
 
+    add_column(:events, :location_webinar_id, :integer, :null => true)
     add_column(:events, :zoom_webinar_id, :integer, :null => true)
+    add_column(:events, :zoom_webinar_status, :integer, :null => true)
 
     # event_connections table changes
     add_column(:event_connections, :added_by_api, :boolean, default: false)
@@ -27,6 +29,7 @@ class AddZoomWebinars < ActiveRecord::Migration
       t.references :event
       t.references :learner
       t.references :event_connection
+      t.string   "zoom_uuid"
       t.string   "zoom_user_id"
       t.string   "first_name"
       t.string   "last_name"
@@ -41,8 +44,8 @@ class AddZoomWebinars < ActiveRecord::Migration
       t.timestamps
   	end
 
-    add_index "zoom_connections", ["email", "event_id"], :name => "registration_ndx", :unique => true
-    add_index "zoom_connections", ["event_id","learner_id","email","registered_at","attended"], :name => "reporting_ndx"
+    add_index "zoom_connections", ["email", "zoom_webinar_id"], :name => "registration_ndx", :unique => true
+    add_index "zoom_connections", ["zoom_webinar_id","event_id","learner_id","email","registered_at","attended"], :name => "reporting_ndx"
 
     create_table "zoom_api_logs" do |t|
       t.integer  "webinar_id"
