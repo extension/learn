@@ -461,8 +461,8 @@ ActiveRecord::Schema.define(:version => 20170428143157) do
     t.datetime "updated_at",                                                 :null => false
   end
 
-  add_index "zoom_connections", ["email", "event_id"], :name => "registration_ndx", :unique => true
-  add_index "zoom_connections", ["event_id", "learner_id", "email", "registered_at", "attended"], :name => "reporting_ndx"
+  add_index "zoom_connections", ["email", "zoom_webinar_id"], :name => "registration_ndx", :unique => true
+  add_index "zoom_connections", ["zoom_webinar_id", "event_id", "learner_id", "email", "registered_at", "attended"], :name => "reporting_ndx"
 
   create_table "zoom_webinars", :force => true do |t|
     t.integer  "event_id"
