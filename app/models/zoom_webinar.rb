@@ -10,6 +10,7 @@ class ZoomWebinar < ActiveRecord::Base
   attr_accessible :event, :event_id, :webinar_id
   attr_accessible :webinar_type, :recurring, :has_registration_url, :last_api_success
   attr_accessible :webinar_created_at, :uuidlist, :webinar_info
+  attr_accessible :webinar_start_at, :duration
 
   belongs_to :event
 
@@ -17,6 +18,9 @@ class ZoomWebinar < ActiveRecord::Base
   REGULAR_WEBINAR = 5
   RECURRING_WEBINAR = 6
   FIXED_RECURRING_WEBINAR = 9
+
+  after_create :get_zoom_connections
+  after_update :get_zoom_connections
 
   def self.create_or_update_from_event(event)
     return false if(event.location_webinar_id.blank?)
@@ -50,6 +54,8 @@ class ZoomWebinar < ActiveRecord::Base
         has_registration_url: !(webinarinfo["registration_url"].blank?),
         last_api_success: true,
         webinar_created_at: webinarinfo["created_at"],
+        webinar_start_at: webinarinfo["start_time"],
+        duration: webinarinfo["duration"],
         webinar_info: webinarinfo
       }
 
@@ -99,6 +105,7 @@ class ZoomWebinar < ActiveRecord::Base
 
 
   def get_zoom_connections
+    return true if !last_api_success?
     if(self.has_registration_url?)
       ZoomConnection.get_zoom_registration_list(self)
     end
@@ -106,6 +113,7 @@ class ZoomWebinar < ActiveRecord::Base
     if(self.event and self.event.concluded?)
       ZoomConnection.get_zoom_attendee_list(self,self.uuid_for_event)
     end
+    true
   end
 
 end

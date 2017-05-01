@@ -36,12 +36,7 @@ class ZoomApi
     attribute_array = []
     request_options = options.dup
 
-    # pull out the request_id if we have one - so we can track down api calls
-    if(request_options[:request_id])
-      request_id = request_options.delete(:request_id)
-    end
-
-    if(response = make_single_zoom_request(endpoint,request_id,request_options))
+    if(response = make_single_zoom_request(endpoint,webinar_id,request_options))
       attribute_array += response[attribute]
       # additional requests
       if(response["page_count"] and response["page_count"] > 1)
@@ -50,7 +45,7 @@ class ZoomApi
         success_request = true
         while(get_next_page <= page_count and success_request)
           request_options = request_options.merge({:page_number => get_next_page})
-          if(response = make_single_zoom_request(endpoint,request_id,request_options))
+          if(response = make_single_zoom_request(endpoint,webinar_id,request_options))
             attribute_array += response[attribute]
             get_next_page += 1
           else

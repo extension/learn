@@ -7,13 +7,14 @@
 class ZoomConnection < ActiveRecord::Base
   serialize :additionaldata
   attr_accessible :event, :event_id, :learner, :learner_id, :event_connection, :event_connection_id
-  attr_accessible :zoom_webinar_id, :zoom_user_id, :first_name, :last_name, :email, :additionaldata
+  attr_accessible :zoom_webinar, :zoom_webinar_id, :zoom_user_id, :first_name, :last_name, :email, :additionaldata
   attr_accessible :time_in_session, :registered_at, :attended_at
-  attr_accessible :registered, :panelist, :attended
+  attr_accessible :registered, :panelist, :attended, :zoom_uuid
 
   belongs_to :event
   belongs_to :learner
   belongs_to :event_connection
+  belongs_to :zoom_webinar
 
   after_save :update_event_connection
 
@@ -41,7 +42,7 @@ class ZoomConnection < ActiveRecord::Base
           attendees_hash[attendance["email"]][:time_in_session] += attendance["time_in_session"].to_i
         else
           attendees_hash[attendance["email"]] = {
-            :zoom_webinar_id => event.zoom_webinar_id,
+            :zoom_webinar_id => zoom_webinar.id,
             :zoom_uuid => zoom_webinar_uuid,
             :first_name => attendance["first_name"],
             :last_name => attendance["last_name"],
@@ -53,7 +54,7 @@ class ZoomConnection < ActiveRecord::Base
         end
       end
       attendees_hash.each do |email,attendance|
-        self.create_or_update_attendance(event,email,attendance)
+        self.create_or_update_attendance(zoom_webinar,email,attendance)
       end
       return true
     else
@@ -75,7 +76,7 @@ class ZoomConnection < ActiveRecord::Base
                              registered: true,
                              zoom_user_id: registration["id"])
       else
-        zc = self.create(zoom_webinar: zoom_webinar,
+        zc = self.create(zoom_webinar_id: zoom_webinar.id,
                          event_id: zoom_webinar.event_id,
                          email: registration["email"],
                          learner: learner,
@@ -97,14 +98,15 @@ class ZoomConnection < ActiveRecord::Base
   def self.create_or_update_attendance(zoom_webinar,email,attendance)
     learner = Learner.where(email: email).first
     if(zc = self.where(zoom_webinar_id: zoom_webinar.id).where(email: email).first)
-      zc.update_attributes(attendance.merge({learner: learner, zoom_webinar: zoom_webinar}))
+      zc.update_attributes(attendance.merge({learner: learner, zoom_webinar_id: zoom_webinar.id}))
     else
-      zc = self.create(attendance.merge({learner: learner, zoom_webinar: zoom_webinar, email: email}))
+      zc = self.create(attendance.merge({learner: learner, zoom_webinar_id: zoom_webinar.id, email: email}))
     end
   end
 
   def update_event_connection
     return true if(self.learner_id.nil?)
+    return true if(self.event_id.nil?)
 
     if(!self.attended.nil? and self.attended)
       connectiontype = EventConnection::ATTEND

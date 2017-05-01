@@ -472,9 +472,12 @@ ActiveRecord::Schema.define(:version => 20170428143157) do
     t.boolean  "has_registration_url"
     t.boolean  "last_api_success"
     t.datetime "webinar_created_at"
+    t.datetime "webinar_start_at"
+    t.integer  "duration"
     t.text     "uuidlist"
     t.text     "webinar_info",         :limit => 16777215
-    t.datetime "created_at"
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
   end
 
   add_index "zoom_webinars", ["event_id"], :name => "event_ndx"

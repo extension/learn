@@ -129,6 +129,7 @@ class Event < ActiveRecord::Base
   scope :not_expired, -> {where(is_expired: false)}
   scope :featured, -> {where(featured: true)}
 
+
   # zoom webinar status
   WEBINAR_STATUS_OK = 11
   WEBINAR_STATUS_NOT_RETRIEVED = 10
@@ -204,6 +205,9 @@ class Event < ActiveRecord::Base
   scope :broadcast, where('event_type = ?',BROADCAST)
 
   scope :by_date, lambda {|date| where('DATE(session_start) = ?',date)}
+
+  scope :all_upcoming, -> { where('(session_start >= ?) OR (session_start <= ? AND session_end > ?)',Time.zone.now, Time.zone.now, Time.zone.now).order("session_start ASC")}
+
 
 SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL, Notification::EVENT_REMINDER_SMS, Notification::EVENT_REGISTRATION_REMINDER_EMAIL]
 
@@ -700,6 +704,31 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
       end
     end
     true
+  end
+
+  def self.update_webinar_events
+    # potential webinars
+    self.potential_zoom_webinars.each do |e|
+      ZoomWebinar.create_or_update_from_event(e)
+    end
+
+    # temporary error webinars
+    self.temporary_invalid_zoom_webinars.each do |e|
+      ZoomWebinar.create_or_update_from_event(e)
+    end
+
+    # upcoming valid zoom webinars
+    self.all_upcoming.valid_zoom_webinars.each do |e|
+      ZoomWebinar.create_or_update_from_event(e)
+    end
+
+    # recently concluded
+    now = Time.now
+    one_week_ago = now - 1.week
+    self.valid_zoom_webinars.where("session_end > ? and session_end <= ?", one_week_ago, now).each do |e|
+      ZoomWebinar.create_or_update_from_event(e)
+    end
+
   end
 
   #convenience method to reset counter columns
