@@ -119,6 +119,9 @@ gem 'acts_as_list'
 # Ruby 2.2 requirement
 gem 'test-unit'
 
+# zoom api work
+gem 'rest-client'
+
 group :development do
   # Deploy with Capistrano
   gem 'capistrano'
@@ -133,7 +136,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
-  gem 'net-http-spy'
+  gem 'httplog'
 end
 
 group :test do

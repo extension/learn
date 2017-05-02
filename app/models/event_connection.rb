@@ -9,11 +9,11 @@ class EventConnection < ActiveRecord::Base
   belongs_to :learner
   has_many :event_activities, :as => :trackable, dependent: :destroy
   validates :learner_id, :uniqueness => {:scope => [:event_id, :connectiontype]}
-      
+
   BOOKMARK = 3
   ATTEND = 4
   WATCH = 5
-  
+
   after_create :log_object_activity
   after_save :update_counter_cache
   after_destroy :update_counter_cache
@@ -33,4 +33,3 @@ class EventConnection < ActiveRecord::Base
     EventActivity.log_object_activity(self)
   end
 end
-

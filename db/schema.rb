@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20170412152625) do
+ActiveRecord::Schema.define(:version => 20170428143157) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -146,8 +146,9 @@ ActiveRecord::Schema.define(:version => 20170412152625) do
   create_table "event_connections", :force => true do |t|
     t.integer  "learner_id"
     t.integer  "event_id"
-    t.integer  "connectiontype", :null => false
+    t.integer  "connectiontype",                    :null => false
     t.datetime "created_at"
+    t.boolean  "added_by_api",   :default => false
   end
 
   add_index "event_connections", ["learner_id", "event_id", "connectiontype"], :name => "connection_ndx", :unique => true
@@ -196,6 +197,9 @@ ActiveRecord::Schema.define(:version => 20170412152625) do
     t.text     "reason_is_deleted"
     t.text     "registration_description"
     t.integer  "primary_audience",                       :default => 0,        :null => false
+    t.integer  "location_webinar_id"
+    t.integer  "zoom_webinar_id"
+    t.integer  "zoom_webinar_status"
   end
 
   add_index "events", ["conference_id"], :name => "conference_ndx"
@@ -422,5 +426,61 @@ ActiveRecord::Schema.define(:version => 20170412152625) do
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
   end
+
+  create_table "zoom_api_logs", :force => true do |t|
+    t.integer  "webinar_id"
+    t.integer  "response_code"
+    t.string   "endpoint"
+    t.boolean  "json_error"
+    t.boolean  "zoom_error"
+    t.string   "zoom_error_code"
+    t.string   "zoom_error_message"
+    t.text     "requestparams"
+    t.text     "additionaldata",     :limit => 16777215
+    t.datetime "created_at"
+  end
+
+  create_table "zoom_connections", :force => true do |t|
+    t.integer  "zoom_webinar_id"
+    t.integer  "event_id"
+    t.integer  "learner_id"
+    t.integer  "event_connection_id"
+    t.string   "zoom_uuid"
+    t.string   "zoom_user_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email",                                                      :null => false
+    t.boolean  "panelist",                                :default => false
+    t.boolean  "registered",                              :default => false
+    t.boolean  "attended",                                :default => false
+    t.integer  "time_in_session"
+    t.text     "additionaldata",      :limit => 16777215
+    t.datetime "registered_at"
+    t.datetime "attended_at"
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
+  end
+
+  add_index "zoom_connections", ["email", "zoom_webinar_id"], :name => "registration_ndx", :unique => true
+  add_index "zoom_connections", ["zoom_webinar_id", "event_id", "learner_id", "email", "registered_at", "attended"], :name => "reporting_ndx"
+
+  create_table "zoom_webinars", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "webinar_id",                               :null => false
+    t.integer  "webinar_type"
+    t.boolean  "recurring"
+    t.boolean  "has_registration_url"
+    t.boolean  "last_api_success"
+    t.datetime "webinar_created_at"
+    t.datetime "webinar_start_at"
+    t.integer  "duration"
+    t.text     "uuidlist"
+    t.text     "webinar_info",         :limit => 16777215
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
+
+  add_index "zoom_webinars", ["event_id"], :name => "event_ndx"
+  add_index "zoom_webinars", ["webinar_id"], :name => "webinar_id_ndx", :unique => true
 
 end

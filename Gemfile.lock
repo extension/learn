@@ -62,7 +62,7 @@ GEM
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
     cocoon (1.2.3)
-    coderay (1.0.8)
+    coderay (1.1.1)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -70,6 +70,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+    colorize (0.8.1)
     csspool (3.0.2)
     daemons (1.1.9)
     debug_inspector (0.0.2)
@@ -84,6 +85,8 @@ GEM
       warden (~> 1.1)
     diff-lcs (1.2.5)
     diffy (3.0.1)
+    domain_name (0.5.20170223)
+      unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -105,7 +108,11 @@ GEM
     hike (1.2.3)
     honeybadger (2.6.1)
     htmlentities (4.3.4)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
     httpauth (0.2.0)
+    httplog (0.99.1)
+      colorize
     i18n (0.7.0)
     inline-style (0.5.2ex)
       csspool
@@ -135,7 +142,7 @@ GEM
       rack-contrib
       railties
     metaclass (0.0.1)
-    method_source (0.8.1)
+    method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.6.1)
     mocha (0.12.7)
@@ -143,7 +150,6 @@ GEM
     multi_json (1.12.1)
     multipart-post (1.1.5)
     mysql2 (0.3.15)
-    net-http-spy (0.2.1)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
@@ -151,6 +157,7 @@ GEM
     net-ssh (2.8.0)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
+    netrc (0.11.0)
     nokogiri (1.6.4.1)
       mini_portile (~> 0.6.0)
     oauth (0.4.7)
@@ -192,10 +199,10 @@ GEM
     progress_bar (1.0.5)
       highline (~> 1.6)
       options (~> 2.3.0)
-    pry (0.9.10)
-      coderay (~> 1.0.5)
-      method_source (~> 0.8)
-      slop (~> 3.3.1)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
     quiet_assets (1.0.1)
       railties (~> 3.1)
     rack (1.4.7)
@@ -236,8 +243,10 @@ GEM
     rake (11.3.0)
     rdoc (3.12.2)
       json (~> 1.4)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
+    rest-client (2.0.1)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rinku (1.7.2)
     rmagick (2.13.2)
     rsolr (1.0.10)
@@ -254,7 +263,7 @@ GEM
     shoulda-context (1.0.1)
     shoulda-matchers (1.4.1)
       activesupport (>= 3.0.0)
-    slop (3.3.3)
+    slop (3.6.0)
     sprockets (2.2.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -287,6 +296,9 @@ GEM
     uglifier (1.3.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.2)
     valid_email (0.0.7)
       activemodel
       mail
@@ -318,6 +330,7 @@ DEPENDENCIES
   font-awesome-rails
   honeybadger
   htmlentities
+  httplog
   inline-style (= 0.5.2ex)!
   jquery-rails
   kaminari
@@ -326,7 +339,6 @@ DEPENDENCIES
   meta_request
   mocha
   mysql2
-  net-http-spy
   nokogiri
   omniauth (~> 1.0)
   omniauth-google-oauth2
