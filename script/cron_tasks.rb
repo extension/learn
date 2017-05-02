@@ -22,12 +22,18 @@ class CronTasks < Thor
 
   end
 
-
-  desc "reindex", "Reindex Learners that are flagged for updates"
+  desc "hourly", "Run hourly tasks"
   method_option :environment,:default => 'production', :aliases => "-e", :desc => "Rails environment"
-  def reindex
+  def hourly
     load_rails(options[:environment])
     Learner.reindex_learners_with_update_flag
+  end
+
+  desc "daily", "Run daily tasks"
+  method_option :environment,:default => 'production', :aliases => "-e", :desc => "Rails environment"
+  def daily
+    load_rails(options[:environment])
+    Event.update_webinar_events
   end
 
 end
