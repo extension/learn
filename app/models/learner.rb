@@ -438,4 +438,25 @@ class Learner < ActiveRecord::Base
       end
     end
   end
+
+  def self.fix_duplicate_email_accounts
+    multi_accounts = Learner.group(:email).having("count(id) > 1").count
+    multi_accounts.each do |email,count|
+      next if(count <= 1)
+      next if(email.blank?)
+      # get first account - bias toward darmok_id
+      learner = Learner.where(email: email).where("darmok_id is not NULL").first
+      if(!learner)
+        learner = Learner.where(email: email).first
+      end
+      if(learner)
+        # get id's
+        ids = Learner.where(email: email).where("id != ?",learner.id).pluck(:id)
+        ids.each do |id|
+          learner.merge_account_with(id,true)
+        end
+      end
+    end
+  end
+
 end
