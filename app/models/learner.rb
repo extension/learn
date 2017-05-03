@@ -118,7 +118,7 @@ class Learner < ActiveRecord::Base
     learner_to_merge = Learner.find_by_id(learner_id)
     # we're keeping the first learner account created and merging the later one with it
     # along with destroying the later account when the merging is complete
-    if(learner_to_merge.created_at >= self.created_at or forceself)
+    if(learner_to_merge.created_at >= self.created_at or forceself or !self.darmok_id.blank?)
       learner_to_keep = self
       learner_to_remove = learner_to_merge
     else
