@@ -422,4 +422,20 @@ class Learner < ActiveRecord::Base
   def last_name
     name.split(' ')[1]
   end
+
+  def self.fix_duplicate_extension_accounts
+    multi_accounts = Learner.group(:darmok_id).having("count(id) > 1").count
+    multi_accounts.each do |darmok_id,count|
+      next if(count <= 1)
+      next if(darmok_id.nil?)
+      # get first account
+      if(learner = Learner.where(darmok_id: darmok_id).first)
+        # get id's
+        ids = Learner.where(darmok_id: darmok_id).where("id != ?",learner.id).pluck(:id)
+        ids.each do |id|
+          learner.merge_account_with(id,true)
+        end
+      end
+    end
+  end
 end
