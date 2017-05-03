@@ -27,6 +27,8 @@ class Learner < ActiveRecord::Base
   has_many :comments
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
+  has_many :zoom_connections
+  has_many :zoom_webinars, through: :zoom_connections, uniq: true
   has_many :commented_events, through: :comments, source: :event, uniq: true
   has_many :ratings
   has_many :event_activities
@@ -112,11 +114,11 @@ class Learner < ActiveRecord::Base
   # this instance method used to merge two learner accounts into one account, particularly used
   # when merging two accounts created for the same learner resulting from a learner using
   # more than one method of authentication (eg. twitter, eXtension, etc.)
-  def merge_account_with(learner_id)
+  def merge_account_with(learner_id,forceself = false)
     learner_to_merge = Learner.find_by_id(learner_id)
     # we're keeping the first learner account created and merging the later one with it
     # along with destroying the later account when the merging is complete
-    if learner_to_merge.created_at > self.created_at
+    if(learner_to_merge.created_at >= self.created_at or forceself)
       learner_to_keep = self
       learner_to_remove = learner_to_merge
     else
@@ -419,5 +421,21 @@ class Learner < ActiveRecord::Base
 
   def last_name
     name.split(' ')[1]
+  end
+
+  def self.fix_duplicate_extension_accounts
+    multi_accounts = Learner.group(:darmok_id).having("count(id) > 1").count
+    multi_accounts.each do |darmok_id,count|
+      next if(count <= 1)
+      next if(darmok_id.nil?)
+      # get first account
+      if(learner = Learner.where(darmok_id: darmok_id).first)
+        # get id's
+        ids = Learner.where(darmok_id: darmok_id).where("id != ?",learner.id).pluck(:id)
+        ids.each do |id|
+          learner.merge_account_with(id,true)
+        end
+      end
+    end
   end
 end
