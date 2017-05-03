@@ -114,11 +114,11 @@ class Learner < ActiveRecord::Base
   # this instance method used to merge two learner accounts into one account, particularly used
   # when merging two accounts created for the same learner resulting from a learner using
   # more than one method of authentication (eg. twitter, eXtension, etc.)
-  def merge_account_with(learner_id)
+  def merge_account_with(learner_id,forceself = false)
     learner_to_merge = Learner.find_by_id(learner_id)
     # we're keeping the first learner account created and merging the later one with it
     # along with destroying the later account when the merging is complete
-    if learner_to_merge.created_at > self.created_at
+    if(learner_to_merge.created_at >= self.created_at or forceself)
       learner_to_keep = self
       learner_to_remove = learner_to_merge
     else
