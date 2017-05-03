@@ -118,7 +118,7 @@ class Learner < ActiveRecord::Base
     learner_to_merge = Learner.find_by_id(learner_id)
     # we're keeping the first learner account created and merging the later one with it
     # along with destroying the later account when the merging is complete
-    if(learner_to_merge.created_at >= self.created_at or forceself)
+    if(learner_to_merge.created_at >= self.created_at or forceself or !self.darmok_id.blank?)
       learner_to_keep = self
       learner_to_remove = learner_to_merge
     else
@@ -438,4 +438,25 @@ class Learner < ActiveRecord::Base
       end
     end
   end
+
+  def self.fix_duplicate_email_accounts
+    multi_accounts = Learner.group(:email).having("count(id) > 1").count
+    multi_accounts.each do |email,count|
+      next if(count <= 1)
+      next if(email.blank?)
+      # get first account - bias toward darmok_id
+      learner = Learner.where(email: email).where("darmok_id is not NULL").first
+      if(!learner)
+        learner = Learner.where(email: email).first
+      end
+      if(learner)
+        # get id's
+        ids = Learner.where(email: email).where("id != ?",learner.id).pluck(:id)
+        ids.each do |id|
+          learner.merge_account_with(id,true)
+        end
+      end
+    end
+  end
+
 end
