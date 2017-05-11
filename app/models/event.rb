@@ -81,6 +81,8 @@ class Event < ActiveRecord::Base
   # conference sessions
   belongs_to :conference
 
+  belongs_to :zoom_webinar
+
   validates :title, :presence => true
   validates :description, :presence => true
   validates :session_start, :presence => true
