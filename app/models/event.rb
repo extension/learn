@@ -143,6 +143,7 @@ class Event < ActiveRecord::Base
   WEBINAR_STATUS_TEMPORARY_RETRIEVAL_ERROR = 6
 
   WEBINAR_STATUS_INVALID_SET = [WEBINAR_STATUS_LOCATION_NOT_WEBINAR_URL, WEBINAR_STATUS_IS_RECURRING, WEBINAR_STATUS_RETRIEVAL_ERROR]
+  EXTENSION_WEBINAR_SET = [WEBINAR_STATUS_OK, WEBINAR_STATUS_NOT_RETRIEVED,WEBINAR_STATUS_IS_RECURRING, WEBINAR_STATUS_RETRIEVAL_ERROR,WEBINAR_STATUS_TEMPORARY_RETRIEVAL_ERROR]
 
   scope :valid_zoom_webinars, -> {active.where(zoom_webinar_status: WEBINAR_STATUS_OK)}
   scope :invalid_zoom_webinars, -> {active.where("zoom_webinar_status IN (#{WEBINAR_STATUS_INVALID_SET.join(',')})")}
@@ -706,14 +707,14 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     true
   end
 
-  def self.update_webinar_events
-    # potential webinars
-    self.potential_zoom_webinars.each do |e|
+  def self.daily_webinar_events_update
+    # temporary error webinars
+    self.temporary_invalid_zoom_webinars.each do |e|
       ZoomWebinar.create_or_update_from_event(e)
     end
 
-    # temporary error webinars
-    self.temporary_invalid_zoom_webinars.each do |e|
+    # potential webinars
+    self.potential_zoom_webinars.each do |e|
       ZoomWebinar.create_or_update_from_event(e)
     end
 
@@ -730,6 +731,11 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     end
 
   end
+
+  def is_extension_webinar?
+    EXTENSION_WEBINAR_SET.include?(self.zoom_webinar_status)
+  end
+
 
   #convenience method to reset counter columns
   def self.reset_counter_columns
