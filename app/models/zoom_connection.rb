@@ -19,6 +19,24 @@ class ZoomConnection < ActiveRecord::Base
   after_save :update_event_connection
 
   scope :attended, ->{where(attended: true)}
+  scope :registered, ->{where(registered: true)}
+  scope :learners, ->{where("learner_id IS NOT NULL")}
+  scope :extension_learners, ->{joins(:learner).where("learners.darmok_id IS NOT NULL")}
+
+  def associate_to_learner
+    if(learner = Learner.where(email: self.email).first)
+      self.update_column(:learner_id, learner.id)
+    else
+      self.update_column(:learner_id,nil)
+    end
+  end
+
+  def self.associate_to_learners
+    self.find_each do |zc|
+      zc.associate_to_learner
+    end
+  end
+
 
   def self.get_zoom_registration_list(zoom_webinar)
     if(registrants = ZoomApi.get_zoom_webinar_registration_list(zoom_webinar.webinar_id))

@@ -64,6 +64,7 @@ Learn::Application.routes.draw do
       post 'makeconnection'
       post 'notificationexception'
       get 'backstage'
+      get 'webinarinfo'
       get 'history'
       get 'evaluation'
       get 'evaluationresults'

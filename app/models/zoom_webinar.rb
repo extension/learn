@@ -11,8 +11,10 @@ class ZoomWebinar < ActiveRecord::Base
   attr_accessible :webinar_type, :recurring, :has_registration_url, :last_api_success
   attr_accessible :webinar_created_at, :uuidlist, :webinar_info
   attr_accessible :webinar_start_at, :duration
+  attr_accessible :attended_count, :registered_count
 
   belongs_to :event
+  has_many :zoom_connections
 
   # types
   REGULAR_WEBINAR = 5
@@ -113,7 +115,50 @@ class ZoomWebinar < ActiveRecord::Base
     if(self.event and self.event.concluded?)
       ZoomConnection.get_zoom_attendee_list(self,self.uuid_for_event)
     end
+
+    total_registered = current_total_registered
+    total_attended = current_total_attended
+    last_total_registered = self.registered_count
+    last_total_attended = self.attended_count
+
+    if(total_registered != last_total_registered)
+      # todo: slack post?
+      self.update_column(:registered_count, total_registered)
+    end
+
+    if(total_attended != last_total_registered)
+      # todo: slack post?
+      self.update_column(:attended_count, total_attended)
+    end
+
     true
+  end
+
+
+  def current_total_registered
+    self.zoom_connections.registered.count
+  end
+
+  def current_total_attended
+    self.zoom_connections.attended.count
+  end
+
+  def connection_counts
+    returncount = {:registered => {:total => 0, :learn_account => 0, :other_account => 0, :extension_account => 0},
+                   :attended => {:total => 0, :learn_account => 0, :other_account => 0, :extension_account => 0}}
+
+    total_registered = current_total_registered
+    total_attended = current_total_attended
+    returncount[:registered][:total] = total_registered
+    returncount[:registered][:learn_account] = self.zoom_connections.registered.learners.count
+    returncount[:registered][:extension_account] = self.zoom_connections.registered.extension_learners.count
+    returncount[:registered][:other_account] = total_registered - returncount[:registered][:learn_account]
+
+    returncount[:attended][:total] = total_attended
+    returncount[:attended][:learn_account] = self.zoom_connections.attended.learners.count
+    returncount[:attended][:extension_account] = self.zoom_connections.attended.extension_learners.count
+    returncount[:attended][:other_account] = total_attended - returncount[:attended][:learn_account]
+    returncount
   end
 
 end

@@ -29,4 +29,7 @@ public/assets
 # added by capatross generate_config
 /capatross_logs
 
+# ignore local data
+/data
+
 *.sql

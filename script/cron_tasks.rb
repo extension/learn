@@ -33,7 +33,7 @@ class CronTasks < Thor
   method_option :environment,:default => 'production', :aliases => "-e", :desc => "Rails environment"
   def daily
     load_rails(options[:environment])
-    Event.update_webinar_events
+    Event.daily_webinar_events_update
   end
 
 end
