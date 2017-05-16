@@ -21,11 +21,11 @@ module ApplicationHelper
       "#{baseclass} #{type.to_s}"
     end
   end
-  
+
   def formatted_votes(rated_object, logged_in_learner)
     positive_ratings_count = rated_object.ratings.positive.count
     return_string = ''
-  
+
     if (positive_ratings_count > 0)
       return_string << "<strong class='rating_count'>+#{positive_ratings_count}</strong>"
       return_string << "<div class='rating_explanation'>#{positive_ratings_count} person up-voted this</div>"
@@ -59,6 +59,9 @@ module ApplicationHelper
   end
 
   def link_to_learner(learner, options = {})
+    if(learner.nil?)
+      return 'unknown'
+    end
     if(options[:event_types])
       is_private = learner.is_private_for_event_types?(options[:event_types])
     else
@@ -87,6 +90,9 @@ module ApplicationHelper
   end
 
   def link_to_learner_avatar(learner, options = {})
+    if(learner.nil?)
+      return ''
+    end
     learner_link = options[:learner_link]
     case learner_link
     when 'portfolio'
@@ -112,7 +118,7 @@ module ApplicationHelper
       return "<a>#{avatar_for_learner(learner,options)}</a>".html_safe
     end
   end
- 
+
   def link_to_tag(tag)
     link_to(tag.name, events_tag_path(:tags => tag.name), :class => "tag").html_safe
   end
@@ -126,7 +132,7 @@ module ApplicationHelper
       return return_string.html_safe
     end
   end
-  
+
   def pagination_counts(collection)
     if(collection.respond_to?('offset_value'))
       "<p>Displaying <strong>#{collection.offset_value + 1}-#{collection.offset_value + collection.length} of #{collection.total_count}</strong></p>".html_safe
