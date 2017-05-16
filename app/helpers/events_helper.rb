@@ -145,4 +145,38 @@ module EventsHelper
     Event::AUDIENCE_LABELS.except(Event::AUDIENCE_BLANK).invert.to_a
   end
 
+  def display_non_extension_webinar_status_for_event(event)
+    case event.zoom_webinar_status
+    when WEBINAR_STATUS_LOCATION_BLANK
+      reason = "No location has been set for this event"
+    when WEBINAR_STATUS_LOCATION_NOT_URL
+      reason = "Event location is not a URL"
+    when WEBINAR_STATUS_LOCATION_NOT_EXTENSION_ZOOM
+      reason = "Event location not hosted by eXtension"
+    when WEBINAR_STATUS_LOCATION_NOT_WEBINAR_URL
+      reason = "Event location is not a recognized eXtension webinar (may be using registration url)"
+    else
+      reason = ""
+    end
+    reason.html_safe
+  end
+
+
+  def display_extension_webinar_status_for_event(event)
+    case event.zoom_webinar_status
+    when WEBINAR_STATUS_NOT_RETRIEVED
+      reason = "The data for this webinar has not been retrieved"
+    when WEBINAR_STATUS_IS_RECURRING
+      reason = "This is a recurring webinar, attendance data is not available"
+    when WEBINAR_STATUS_RETRIEVAL_ERROR
+      reason = "There was an error retrieving the webinar data"
+    when WEBINAR_STATUS_TEMPORARY_RETRIEVAL_ERROR
+      reason = "There was a temporary error retrieving the webinar data"
+    else
+      reason = ""
+    end
+    reason.html_safe
+  end
+
+
 end
