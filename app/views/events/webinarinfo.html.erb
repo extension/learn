@@ -6,20 +6,20 @@
 <section>
 <%- if !@event.is_extension_webinar? -%>
   <p>This event is not an eXtension Webinar</p>
-  <p>Reason: <%= display_non_extension_webinar_status_for_event(event) -%></p>
+  <p>Reason: <%= display_non_extension_webinar_status_for_event(@event) -%></p>
 <%- else -%>
   <%- if @event.zoom_webinar_status != Event::WEBINAR_STATUS_OK -%>
   <p>Zoom Webinar Data not available</p>
-  <p>Reason: <%= display_extension_webinar_status_for_event(event) -%></p>
+  <p>Reason: <%= display_extension_webinar_status_for_event(@event) -%></p>
   <%- else -%>
   <%- connection_counts = @event.zoom_webinar.connection_counts -%>
-  <p>Total Registered: <%= connection_counts[:registered][:total] -%></p>
-  <p>Total Attended: <%= connection_counts[:attended][:total] -%></p>
+
   <table class="table">
     <thead>
       <th  colspan="2">Registration Details</th>
     </thead>
     <tbody>
+      <tr><td>Total Registered:</td><td><%= connection_counts[:registered][:total] -%></td></tr>
       <tr><td>Learn Accounts Registered:</td><td><%= connection_counts[:registered][:learn_account] -%></td></tr>
       <tr><td>eXtension Accounts Registered:</td><td><%= connection_counts[:registered][:extension_account] -%></td></tr>
       <tr><td>Other Registered:</td><td><%= connection_counts[:registered][:other_account] -%></td></tr>
@@ -30,6 +30,7 @@
       <th colspan="2">Attended Details</th>
     </thead>
     <tbody>
+      <tr><td>Total Attended:</td><td><%= connection_counts[:attended][:total] -%></td></tr>
       <tr><td>Learn Accounts Attended:</td><td><%= connection_counts[:attended][:learn_account] -%></td></tr>
       <tr><td>eXtension Accounts Attended:</td><td><%= connection_counts[:attended][:extension_account] -%></td></tr>
       <tr><td>Other Attended:</td><td><%= connection_counts[:attended][:other_account] -%></td></tr>
