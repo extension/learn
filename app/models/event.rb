@@ -27,6 +27,8 @@ class Event < ActiveRecord::Base
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
 
+  auto_strip_attributes :location, :recording, :squish => true
+
   # specify image uploader for carrierwave
   mount_uploader :cover_image, CoverImageUploader
 

@@ -122,6 +122,9 @@ gem 'test-unit'
 # zoom api work
 gem 'rest-client'
 
+# text cleanup
+gem "auto_strip_attributes", "~> 2.0"
+
 group :development do
   # Deploy with Capistrano
   gem 'capistrano'
