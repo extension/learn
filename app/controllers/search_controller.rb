@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class SearchController < ApplicationController
-  before_filter :authenticate_learner!, only: [:learners]
+  before_filter :signin_required, only: [:learners]
   def all
      # trash the utf8 param because google hates us.
     params.delete(:utf8)

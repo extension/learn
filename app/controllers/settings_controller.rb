@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class SettingsController < ApplicationController
-  before_filter :authenticate_learner!
+  before_filter :signin_required
   
   def profile
     @learner = current_learner

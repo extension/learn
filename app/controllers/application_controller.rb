@@ -5,33 +5,24 @@
 # see LICENSE file
 
 class ApplicationController < ActionController::Base
+  include AuthLib
+  helper_method :current_learner
+
   TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'yes','YES','y','Y']
   FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE','no','NO','n','N']
 
   protect_from_forgery
-  before_filter :store_location
-  around_filter :set_timezone
+  before_filter :touch_sign_in_settings, :store_location, :set_time_zone_from_user
+
+  def touch_sign_in_settings
+    #TODO use devise settings and update those columns
+    true
+  end
 
   def append_info_to_payload(payload)
     super
     payload[:ip] = request.remote_ip
     payload[:auth_id] = current_learner.id if current_learner
-  end
-
-  def store_location
-    session[:learner_return_to] = request.url unless (params[:controller] == "authmaps/omniauth_callbacks" || params[:controller] == "learners/sessions")
-  end
-
-  # devise hook for the url to redirect to after a learner has authenticated
-  def after_sign_in_path_for(resource)
-    stored_location_for(resource) || root_path
-  end
-
-  def stored_location_for(resource)
-    if current_learner && !params[:redirect_to].blank?
-      return params[:redirect_to]
-    end
-    return nil
   end
 
   def require_admin
@@ -58,9 +49,7 @@ class ApplicationController < ActionController::Base
     render :template => "/shared/410", :status => 410
   end
 
-  private
-
-  def set_timezone
+  def set_time_zone_from_user
     if(current_learner)
       timezone = Time.zone = current_learner.time_zone
     elsif(cookies[:user_selected_timezone])
@@ -70,6 +59,8 @@ class ApplicationController < ActionController::Base
     else
       timezone = Time.zone = Settings.default_display_timezone
     end
-    Time.use_zone(timezone) { yield }
+    Time.zone = timezone
+    true
   end
+
 end

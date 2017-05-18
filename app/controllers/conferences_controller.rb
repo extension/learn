@@ -5,9 +5,9 @@
 # see LICENSE file
 
 class ConferencesController < ApplicationController
-  before_filter :authenticate_learner!, only: [:edit, :update]
+  before_filter :signin_required, only: [:edit, :update]
   before_filter :require_admin, only: [:edit, :update]
-  
+
   def index
     if(conference = Conference.first)
       return redirect_to(conference_url(id: conference.hashtag))
@@ -31,7 +31,7 @@ class ConferencesController < ApplicationController
   def edit
     @conference = Conference.find_by_id_or_hashtag(params[:id])
   end
-  
+
   def update
     @conference = Conference.find_by_id_or_hashtag(params[:id])
     update_params = params[:conference].merge({last_modifier: current_learner})
@@ -39,7 +39,7 @@ class ConferencesController < ApplicationController
       redirect_to(@conference, :notice => 'Conference was successfully updated.')
     else
       render :action => 'edit'
-    end        
+    end
   end
 
   def allevents
@@ -60,7 +60,7 @@ class ConferencesController < ApplicationController
     force_conference_tz
     @dates = @conference.event_date_counts.keys.sort
     if(params[:date])
-      begin 
+      begin
         checkdate = Date.parse(params[:date])
         if(@dates.include?(checkdate))
           @date = checkdate

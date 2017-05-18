@@ -3,7 +3,7 @@
   <div class="sitv_targetarea"></div>
   <div class="sitv_content" style="display:none;">
     <p>Please sign in</p>
-    <p><%= link_to("Sign in", new_learner_session_path(:redirect_to => request.fullpath), :class => "btn btn-default btn-lg" )%></p>
+    <p><%= link_to("Sign in", '/auth/people', :class => "btn btn-default btn-lg" )%></p>
   </div>
 
 <%-
