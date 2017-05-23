@@ -37,7 +37,6 @@ GEM
     arel (3.0.3)
     auto_strip_attributes (2.1.0)
       activerecord (>= 3.0)
-    bcrypt-ruby (3.0.1)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -81,10 +80,6 @@ GEM
     delayed_job_active_record (0.3.3)
       activerecord (>= 2.1.0, < 4)
       delayed_job (~> 3.0)
-    devise (1.5.4)
-      bcrypt-ruby (~> 3.0)
-      orm_adapter (~> 0.0.3)
-      warden (~> 1.1)
     diff-lcs (1.2.5)
     diffy (3.0.1)
     domain_name (0.5.20170223)
@@ -97,22 +92,19 @@ GEM
     factory_girl_rails (4.1.0)
       factory_girl (~> 4.1.0)
       railties (>= 3.0.0)
-    faraday (0.8.4)
-      multipart-post (~> 1.1)
     font-awesome-rails (4.0.3.2)
       railties (>= 3.2, < 5.0)
     grit (2.5.0)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
       posix-spawn (~> 0.3.6)
-    hashie (1.2.0)
+    hashie (3.5.5)
     highline (1.6.21)
     hike (1.2.3)
     honeybadger (2.6.1)
     htmlentities (4.3.4)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    httpauth (0.2.0)
     httplog (0.99.1)
       colorize
     i18n (0.7.0)
@@ -125,8 +117,6 @@ GEM
       thor (~> 0.14)
     json (1.8.3)
     json_pure (1.7.5)
-    jwt (0.1.5)
-      multi_json (>= 1.0)
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -150,7 +140,6 @@ GEM
     mocha (0.12.7)
       metaclass (~> 0.0.1)
     multi_json (1.12.1)
-    multipart-post (1.1.5)
     mysql2 (0.3.15)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -162,33 +151,13 @@ GEM
     netrc (0.11.0)
     nokogiri (1.6.4.1)
       mini_portile (~> 0.6.0)
-    oauth (0.4.7)
-    oauth2 (0.8.0)
-      faraday (~> 0.8)
-      httpauth (~> 0.1)
-      jwt (~> 0.1.4)
-      multi_json (~> 1.0)
-      rack (~> 1.2)
-    omniauth (1.1.1)
-      hashie (~> 1.2)
-      rack
-    omniauth-google-oauth2 (0.2.6)
-      omniauth (> 1.0)
-      omniauth-oauth2 (~> 1.1)
-    omniauth-oauth (1.0.1)
-      oauth
-      omniauth (~> 1.0)
-    omniauth-oauth2 (1.1.1)
-      oauth2 (~> 0.8.0)
-      omniauth (~> 1.0)
+    omniauth (1.4.2)
+      hashie (>= 1.2, < 4)
+      rack (>= 1.0, < 3)
     omniauth-openid (1.0.1)
       omniauth (~> 1.0)
       rack-openid (~> 1.3.1)
-    omniauth-twitter (1.0.0)
-      multi_json (~> 1.3)
-      omniauth-oauth (~> 1.0)
     options (2.3.2)
-    orm_adapter (0.0.7)
     outfielding-jqplot-rails (1.0.7)
     paper_trail (2.5.2ex)
       rails (~> 3)
@@ -253,7 +222,7 @@ GEM
     rmagick (2.13.2)
     rsolr (1.0.10)
       builder (>= 2.1.2)
-    ruby-openid (2.2.2)
+    ruby-openid (2.7.0)
     sass (3.2.1)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -304,8 +273,6 @@ GEM
     valid_email (0.0.7)
       activemodel
       mail
-    warden (1.2.1)
-      rack (>= 1.0)
 
 PLATFORMS
   ruby
@@ -327,7 +294,6 @@ DEPENDENCIES
   daemons
   delayed_job
   delayed_job_active_record
-  devise (~> 1.5.1)
   diffy
   factory_girl_rails
   font-awesome-rails
@@ -344,9 +310,7 @@ DEPENDENCIES
   mysql2
   nokogiri
   omniauth (~> 1.0)
-  omniauth-google-oauth2
   omniauth-openid
-  omniauth-twitter
   outfielding-jqplot-rails
   paper_trail (= 2.5.2ex)!
   powder

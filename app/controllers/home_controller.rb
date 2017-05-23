@@ -5,6 +5,8 @@
 # see LICENSE file
 
 class HomeController < ApplicationController
+  skip_before_filter :store_location, :only => [:signin]
+
 
   def index
     tracker do |t|
@@ -29,6 +31,10 @@ class HomeController < ApplicationController
 
   def hosting
     return render :template => 'home/hosting.html.erb'
+  end
+
+  def signin
+    return render :template => 'home/signin.html.erb'
   end
 
 end

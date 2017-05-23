@@ -1,0 +1,22 @@
+<div class="col-md-8 col-md-offset-1">
+  <div class="hosting-prompt">
+    <div class="signin-prompt">
+      <h1>Do I need to sign in to attend Learn events?</h1>
+      <p>No, Learn events do not require signing in with an eXtension Account. However, individual events may require registration.</p>
+      <p><%= link_to("Go back to the Learn homepage", root_path() )%></p>
+    </div>
+
+    <div class="signin-prompt">
+      <h1>eXtension Account Holders</h1>
+      <p>If you are affiliated with the Cooperative Extension System, sign in with your eXtension account so that you can:</p>
+      <ul>
+        <li>Create new Learn events</li>
+        <li>Mark events you attended, watched or are interested in</li>
+        <li>Get text/email notifications for events</li>
+      </ul>
+      <p><%= link_to "Sign in", '/auth/people', :class => "btn btn-primary" %></p>
+    </div>
+  </div>
+
+
+</div>

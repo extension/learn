@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class CommentsController < ApplicationController
-  before_filter :authenticate_learner!, only: [:create, :update]
+  before_filter :signin_required, only: [:create, :update]
   
   def create 
     @comment = Comment.new(params[:comment])

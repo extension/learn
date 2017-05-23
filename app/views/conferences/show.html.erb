@@ -86,29 +86,4 @@
     $(this).parents('form:first').submit();
   });
 
-  $(document).ready(function() {
-    // sitv = sign in to vote
-    $('.nojs_display').hide();
-
-    $('.sitv_element_wrapper').each(function(index) {
-        var $sitv_element = $(this).find('.sitv_element')
-        var $h = $sitv_element.outerHeight();
-        var $w = $sitv_element.outerWidth();
-        $(this)
-          .find('.sitv_targetarea').height($h).width($w);
-    });
-
-    $('.sitv_targetarea').bind('click', function () {
-        $(this)
-          .siblings('.sitv_content')
-          .fadeIn('fast');
-    });
-
-    $('.sitv_content')
-      .mouseleave(function() {
-        $(this)
-          .fadeOut('fast');
-    });
-  });
-
 </script>

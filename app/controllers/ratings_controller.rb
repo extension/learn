@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class RatingsController < ApplicationController
-  before_filter :authenticate_learner!, only: [:create, :destroy]
+  before_filter :signin_required, only: [:create, :destroy]
   
   def create
     @rating = Rating.find_or_create_by_params(current_learner, params[:rating])

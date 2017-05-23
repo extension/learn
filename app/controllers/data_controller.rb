@@ -6,7 +6,7 @@
 require 'csv'
 
 class DataController < ApplicationController
-  before_filter :authenticate_learner!
+  before_filter :signin_required
   before_filter :require_admin, only: [:presenters, :recent_recommendations, :projected_recommendations, :recommended_event, :activity ]
 
   helper_method :sort_column, :sort_direction

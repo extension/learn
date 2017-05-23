@@ -4,23 +4,15 @@
 <div class="question_answers">
 <%= form_tag(addanswer_event_path(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
   <%= hidden_field_tag('question', question.id) %>
-  
-  <%- if !current_learner -%>
-    <%= render(partial: 'sign_in_to_vote')%>
-  <%- end -%>
-  
+
   <div class="control-group a_mvb">
-    <div class="controls <%= "sitv_element" if !current_learner %>">
+    <div class="controls">
       <%- question.responses.each_with_index do |response, index| -%>
         <label class="color_code_<%= index %>"><%= check_box_tag('values[]',response,is_multivote_answer_checked?(question,response),{class: 'submittable'}) %> <span><%= response %></span></label>
       <%- end -%>
     </div>
   </div>
-  
-  <%- if !current_learner -%>
-    </div> <!-- end .sitv_element_wrapper  -->
-  <%- end -%>
-  
+
 <%- end -%>
 </div>
 <script class="code" type="text/javascript">
@@ -35,13 +27,13 @@
 
 <!-- Answers -->
 <%- if !question.answers.blank? -%>
-  <div id="question_chart_<%= question.id %>" style="height:160px; width:160px;"></div> 
+  <div id="question_chart_<%= question.id %>" style="height:160px; width:160px;"></div>
   <script class="code" type="text/javascript">
     $(document).ready(function(){
       setTimeout(function(){
       var data = <%= jqplot_piegraph_data(question) %>
-      var plot1 = jQuery.jqplot ("question_chart_<%= question.id %>", [data], 
-        { 
+      var plot1 = jQuery.jqplot ("question_chart_<%= question.id %>", [data],
+        {
           seriesDefaults: {
             // Make this a pie chart.
             renderer: jQuery.jqplot.PieRenderer,
@@ -61,10 +53,10 @@
             background: '#fff'
           },
         }
-        
+
       );
     }, 100);
-      
+
     });
   </script>
   <%- else -%>

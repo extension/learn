@@ -5,10 +5,10 @@
 # see LICENSE file
 
 Learn::Application.routes.draw do
-  devise_for :learners, :path => '/', :controllers => { :sessions => "learners/sessions", :registrations => "learners/registrations" }
-  devise_for :authmaps, :controllers => { :omniauth_callbacks => "authmaps/omniauth_callbacks" } do
-    get '/authmaps/auth/:provider' => 'authmaps/omniauth_callbacks#passthru'
-  end
+  # auth
+  match '/logout', to:'auth#end', :as => 'logout'
+  match '/auth/:provider/callback', to: 'auth#success'
+  match '/auth/failure', to: 'auth#failure'
 
   resources :comments, :only => [:create, :update, :destroy, :show, :edit] do
     collection do
@@ -49,6 +49,7 @@ Learn::Application.routes.draw do
   match "contact_us" => "home#contact_us", :via => :get
   match "retired" => "home#retired", :via => :get
   match "hosting" => "home#hosting", :via => :get
+  match "signin" => "home#signin", :via => :get
   match "search/all" => "search#all", :via => [:get]
   match "search/learners" => "search#learners", :via => [:get]
   match "search/events" => "search#events", :via => [:get]

@@ -35,10 +35,7 @@ gem 'carrierwave', :source => 'http://rubygems.org/'
 gem 'rmagick'
 
 # authentication
-gem 'devise', "~> 1.5.1"
 gem 'omniauth-openid'
-gem 'omniauth-twitter'
-gem 'omniauth-google-oauth2'
 
 # oauth integration
 gem 'omniauth', "~> 1.0"

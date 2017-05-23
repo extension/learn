@@ -5,7 +5,6 @@
 # see LICENSE file
 
 class Learner < ActiveRecord::Base
-  devise :rememberable, :trackable, :database_authenticatable
 
   # Setup accessible (or protected) attributes
   attr_accessible :email, :remember_me, :name, :avatar, :bio, :mobile_number, :remove_avatar, :avatar_cache, :needs_search_update
@@ -192,11 +191,6 @@ class Learner < ActiveRecord::Base
 
   def self.learnbot_id
     1
-  end
-
-  # devise override
-  def active_for_authentication?
-    super && !retired?
   end
 
   def connected_to_event?(event)
@@ -456,6 +450,19 @@ class Learner < ActiveRecord::Base
           learner.merge_account_with(id,true)
         end
       end
+    end
+  end
+
+  def signin_allowed?
+    !self.retired? and !self.is_blocked?
+  end
+
+  # this is a stand-in until we synchronize the openid string into the learner table
+  def self.find_by_authmap(uid_string)
+    if authmap = Authmap.where({:authname => uid_string, :source => 'people'}).first
+      return authmap.learner
+    else
+      nil
     end
   end
 

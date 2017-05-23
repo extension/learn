@@ -1,5 +1,4 @@
 class Authmap < ActiveRecord::Base
-  devise :omniauthable
   belongs_to :learner
   validates :authname, :uniqueness => {:scope => :source}
 

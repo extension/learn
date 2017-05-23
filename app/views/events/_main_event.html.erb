@@ -173,9 +173,9 @@
     <%- else -%>
        <aside id="eventconnections" class="event-connections radius10 placeholder">
           <%- if @event.started? -%>
-            <p>Did you attend or watch this event or want to follow it? <%= link_to("Connect to this event", new_learner_session_path(:redirect_to => request.fullpath)) -%></p>
+            <p>Did you attend or watch this event or want to follow it? <%= link_to("Sign in to connect to this event", signin_path()) -%></p>
           <%- else -%>
-            <p class="cursor"><%= link_to("Follow this event", new_learner_session_path(:redirect_to => request.fullpath)) -%></p>
+            <p><%= link_to("Sign in to follow this event", signin_path()) -%></p>
           <%- end -%>
           <br class="clearing" />
        </aside>

@@ -6,7 +6,7 @@
 
 class Conferences::DataController < ApplicationController
   before_filter :check_for_conference
-  before_filter :authenticate_learner!
+  before_filter :signin_required
 
   def index
   end
