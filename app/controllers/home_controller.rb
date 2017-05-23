@@ -5,6 +5,8 @@
 # see LICENSE file
 
 class HomeController < ApplicationController
+  skip_before_filter :store_location, :only => [:signin]
+
 
   def index
     tracker do |t|
