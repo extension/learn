@@ -31,4 +31,8 @@ class HomeController < ApplicationController
     return render :template => 'home/hosting.html.erb'
   end
 
+  def signin
+    return render :template => 'home/signin.html.erb'
+  end
+
 end

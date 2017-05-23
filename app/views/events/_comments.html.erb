@@ -10,8 +10,7 @@
     </div>
   <% else %>
     <div class="sign_in_prompt" >
-      <p>Please sign in to post a comment</p>
-      <p><%= link_to("Sign in", '/auth/people', :class => "btn btn-default" )%></p>
+      <p><%= link_to("Please sign in to post a comment", signin_path() )%></p>
     </div>
   <% end %>
 

@@ -49,6 +49,7 @@ Learn::Application.routes.draw do
   match "contact_us" => "home#contact_us", :via => :get
   match "retired" => "home#retired", :via => :get
   match "hosting" => "home#hosting", :via => :get
+  match "signin" => "home#signin", :via => :get
   match "search/all" => "search#all", :via => [:get]
   match "search/learners" => "search#learners", :via => [:get]
   match "search/events" => "search#events", :via => [:get]

@@ -103,20 +103,8 @@
   <p>If you have a suggestion for a topic, you can tweet to <%= link_to "@extensionLearns", "http://twitter.com/extensionLearns" %> on Twitter.</p>
 
   <%- if current_learner -%>
-      <p><%= link_to "Create a new event", hosting_path(), :class => "btn btn-default" %></p>
-  <%- else -%>
-    <div id="signin">
-      <p><%= link_to("Sign in", '/auth/people', :class => "btn btn-default btn-primary" )%></p>
-
-      <h3>Why Sign in?</h3>
-      <ul>
-        <li>Mark events you attended, watched or are interested in</li>
-        <li>Get text/email notifications for events</li>
-        <li>Comment on and rate events</li>
-      </ul>
-    </div>
-  <%- end -%>
-
+     <p><%= link_to "Create a new event", hosting_path(), :class => "btn btn-default" %></p>
+ <%- end -%>
   <p><i class="fa fa-rss extension-orange"></i> <%= link_to "Subscribe to all events", feeds_events_url() %><p>
   <p class="join"><%= link_to "How to participate in Learn events", "http://create.extension.org/node/698#How_to_Participate_in_eXtension_Professional_Development" %><p>
   <% if current_learner %>
