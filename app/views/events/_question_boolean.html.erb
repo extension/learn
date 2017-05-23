@@ -5,13 +5,9 @@
 <div class="question_answers">
 <%= form_tag(addanswer_event_path(@event), {remote: true, id: "answer_form_for_question_#{question.id}"}) do -%>
   <%= hidden_field_tag('question', question.id) %>
-  
-  <%- if !current_learner -%>
-    <%= render(partial: 'sign_in_to_vote')%>
-  <%- end -%>
-  
+
   <div class="control-group a_b">
-    <div class="controls <%= "sitv_element" if !current_learner %>">
+    <div class="controls">
       <%- [0,1].each do |choice| -%>
       <label class="radio color_code_<%= choice %>">
         <%= radio_button_tag('values',choice, is_boolean_answer_checked?(question,choice), {class: 'submittable'}) %> <span><%= question.responses[choice] %></span>
@@ -19,12 +15,7 @@
       <%- end -%>
     </div>
   </div>
-  
-  
-  <%- if !current_learner -%>
-    </div> <!-- end .sitv_element_wrapper  -->
-  <%- end -%>
-  
+
 <%- end -%>
 </div>
 
@@ -40,16 +31,16 @@
 
 <!-- Answers -->
 <%- if !question.answers.blank? -%>
-  <div id="question_chart_<%= question.id %>" style="height:160px; width:160px;"></div> 
+  <div id="question_chart_<%= question.id %>" style="height:160px; width:160px;"></div>
   <script class="code" type="text/javascript">
     $(document).ready(function(){
       setTimeout(function(){
       var data = <%= jqplot_piegraph_data(question) %>
-      var plot1 = jQuery.jqplot ("question_chart_<%= question.id %>", [data], 
-        { 
+      var plot1 = jQuery.jqplot ("question_chart_<%= question.id %>", [data],
+        {
           seriesDefaults: {
             // Make this a pie chart.
-            renderer: jQuery.jqplot.PieRenderer, 
+            renderer: jQuery.jqplot.PieRenderer,
             shadow: false,
             rendererOptions: {
               // Put data labels on the pie slices.
