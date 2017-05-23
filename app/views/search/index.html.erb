@@ -34,7 +34,7 @@
       <h3>No results</h3>
     <% end %>
   <% else %>
-    <h3><%= link_to 'Login to view learners', '/auth/people' %></h3>
+    <p><%= link_to 'Sign in to view learners', signin_path() %></p>
   <% end %>
   <br class="clearing" />
 </div>
