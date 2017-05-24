@@ -234,7 +234,7 @@ ActiveRecord::Schema.define(:version => 20170524160957) do
     t.boolean  "needs_search_update"
     t.string   "openid"
     t.integer  "institution_id"
-    t.date     "last_active_at"
+    t.datetime "last_activity_at"
   end
 
   add_index "learners", ["darmok_id"], :name => "index_learners_on_darmok_id"
