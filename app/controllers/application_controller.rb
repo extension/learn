@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE','no','NO','n','N']
 
   protect_from_forgery
-  before_filter :touch_sign_in_settings, :store_location, :set_time_zone_from_user
+  before_filter :touch_sign_in_settings, :store_location, :set_time_zone_from_user, :set_last_active_at_for_learner
 
   def touch_sign_in_settings
     #TODO use devise settings and update those columns
@@ -61,6 +61,16 @@ class ApplicationController < ActionController::Base
     end
     Time.zone = timezone
     true
+  end
+
+
+  def set_last_active_at_for_learner
+    if current_learner
+      if current_learner.last_active_at != Date.today
+        current_learner.update_attribute(:last_active_at, Date.today)
+      end
+    end
+    return true
   end
 
 end
