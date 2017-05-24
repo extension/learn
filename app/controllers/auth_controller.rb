@@ -25,7 +25,7 @@ class AuthController < ApplicationController
 
     logger.info "#{authresult.inspect}"
 
-    learner = Learner.find_by_authmap(uid)
+    learner = Learner.find_by_openid(uid)
 
     if(learner)
       if(learner.retired?)

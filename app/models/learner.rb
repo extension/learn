@@ -22,7 +22,6 @@ class Learner < ActiveRecord::Base
   has_many :created_events, :class_name => "Event", :foreign_key => 'creator_id'
   has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
   has_many :registration_events, :class_name => "Event", :foreign_key => 'registration_contact_id'
-  has_many :authmaps
   has_many :comments
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
@@ -457,10 +456,9 @@ class Learner < ActiveRecord::Base
     !self.retired? and !self.is_blocked?
   end
 
-  # this is a stand-in until we synchronize the openid string into the learner table
-  def self.find_by_authmap(uid_string)
-    if authmap = Authmap.where({:authname => uid_string, :source => 'people'}).first
-      return authmap.learner
+  def self.find_by_openid(uid_string)
+    if !uid_string.blank? and learner = Learner.where({:openid => uid_string}).first
+      learner
     else
       nil
     end

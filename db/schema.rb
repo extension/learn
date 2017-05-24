@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20170511142137) do
+ActiveRecord::Schema.define(:version => 20170524160957) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -33,17 +33,6 @@ ActiveRecord::Schema.define(:version => 20170511142137) do
   end
 
   add_index "answers", ["question_id", "learner_id", "response"], :name => "index_answers_on_question_id_and_learner_id_and_response", :unique => true
-
-  create_table "authmaps", :force => true do |t|
-    t.integer  "learner_id", :null => false
-    t.string   "authname",   :null => false
-    t.string   "source",     :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "authmaps", ["authname", "source"], :name => "index_authmaps_on_authname_and_source", :unique => true
-  add_index "authmaps", ["learner_id"], :name => "index_authmaps_on_learner_id"
 
   create_table "comments", :force => true do |t|
     t.text     "content",                           :null => false
@@ -230,26 +219,22 @@ ActiveRecord::Schema.define(:version => 20170511142137) do
 
   create_table "learners", :force => true do |t|
     t.string   "email"
-    t.string   "encrypted_password",  :limit => 128
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      :default => 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
     t.string   "name"
     t.string   "time_zone"
     t.string   "mobile_number"
     t.string   "bio"
     t.string   "avatar"
-    t.boolean  "has_profile",                        :default => false, :null => false
+    t.boolean  "has_profile",         :default => false, :null => false
     t.integer  "darmok_id"
-    t.boolean  "retired",                            :default => false, :null => false
-    t.boolean  "is_admin",                           :default => false, :null => false
+    t.boolean  "retired",             :default => false, :null => false
+    t.boolean  "is_admin",            :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_blocked",                         :default => false, :null => false
+    t.boolean  "is_blocked",          :default => false, :null => false
     t.boolean  "needs_search_update"
+    t.string   "openid"
+    t.integer  "institution_id"
+    t.date     "last_active_at"
   end
 
   add_index "learners", ["darmok_id"], :name => "index_learners_on_darmok_id"
