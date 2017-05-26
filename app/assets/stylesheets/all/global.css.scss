@@ -79,6 +79,35 @@ fieldset {margin-bottom:2em;}
 h3 {font-size:20px;}
 p {word-wrap: break-word;}
 
+.learn-tagline {
+  margin-top:.3em;
+  margin-bottom:.5em;
+  color: #f47B28;
+  // color: #444;
+  // color:#fff;
+  font-weight:400;
+  font-size: 34px;
+  font-family: 'Oswald', 'Droid+Sans', sans-serif;
+}
+.marketing-module {
+  font-family: 'Droid+Sans', sans-serif;
+  font-size:18px;
+  line-height:1.3em;
+  // border-bottom:1px solid #ccc;
+  margin-bottom:20px;
+  padding-bottom:10px;
+  background: #f3f3f3;
+  // background: #f47B28;
+  padding:12px 26px 18px;
+}
+.marketing-module p {
+  // width: 18em;
+  color: #666;
+  // color:#fff;
+}
+.homepage-actions {margin:0; padding:10px;}
+.homepage-actions li {margin-bottom:10px; list-style:none;}
+
 
 #error_messages {
 	background: #ffebf3;
