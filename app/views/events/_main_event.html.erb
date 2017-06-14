@@ -169,7 +169,7 @@
         <%= render :partial => 'connections' %>
       </aside>
 
-      <%= render :partial => 'learners' %>
+
     <%- else -%>
        <aside id="eventconnections" class="event-connections radius10 placeholder">
           <%- if @event.started? -%>
@@ -195,6 +195,10 @@
      </div>
 
      <div class="event-audience">Primary Audience: <%= @event.primary_audience_label.html_safe -%></div>
+
+     <%- if current_learner -%>
+     <div class="event-audience"><%= link_to "View participation and connections", backstage_event_path(@event.id) %></div>
+     <%- end -%>
 
   <% if @similar_events.count > 0 %>
     <aside>

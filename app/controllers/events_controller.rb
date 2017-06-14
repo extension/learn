@@ -183,6 +183,9 @@ class EventsController < ApplicationController
 
   def backstage
     @event = Event.find(params[:id])
+    @attendee_count = @event.attendees.count
+    @watched_count = @event.watched.count
+    @bookmarked_count = @event.bookmarked.count
   end
 
   def webinarinfo
