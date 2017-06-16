@@ -34,11 +34,13 @@
         <p>
           <small><%= connection_counts[:registered][:extension_account] -%> <%= "eXtension Learn account".pluralize(connection_counts[:registered][:extension_account]) %></small>
         </p>
+        <%- if (connection_counts[:registered][:learn_account] - connection_counts[:registered][:extension_account]) > 0 -%>
+          <p>
+            <small><%= (connection_counts[:registered][:learn_account] - connection_counts[:registered][:extension_account]) -%> <%= "non-eXtension Learn account".pluralize((connection_counts[:registered][:learn_account] - connection_counts[:registered][:extension_account])) %></small>
+          </p>
+        <%- end -%>
         <p>
-          <small><%= (connection_counts[:registered][:learn_account] - connection_counts[:registered][:extension_account]) -%> <%= "non-eXtension Learn account".pluralize((connection_counts[:registered][:learn_account] - connection_counts[:registered][:extension_account])) %></small>
-        </p>
-        <p>
-          <small><%= connection_counts[:registered][:other_account] -%> other</small>
+          <small><%= connection_counts[:registered][:other_account] -%> other registrations <sup class="data-footnote-asterisk">*</sup></small>
         </p>
         </div>
       </div>
@@ -52,21 +54,21 @@
         <p>
           <small><%= connection_counts[:attended][:extension_account] -%> <%= "eXtension Learn account".pluralize(connection_counts[:attended][:extension_account]) %></small>
         </p>
+        <%- if (connection_counts[:attended][:learn_account] - connection_counts[:attended][:extension_account]) > 0 -%>
+          <p>
+            <small><%= (connection_counts[:attended][:learn_account] - connection_counts[:attended][:extension_account]) -%> <%= "non-eXtension Learn account".pluralize((connection_counts[:attended][:learn_account] - connection_counts[:attended][:extension_account])) %></small>
+          </p>
+        <%- end -%>
         <p>
-          <small><%= (connection_counts[:attended][:learn_account] - connection_counts[:attended][:extension_account]) -%> <%= "non-eXtension Learn account".pluralize((connection_counts[:attended][:learn_account] - connection_counts[:attended][:extension_account])) %></small>
-        </p>
-        <p>
-          <small><%= connection_counts[:attended][:other_account] -%> other</small>
+          <small><%= connection_counts[:attended][:other_account] -%> other attendees <sup class="data-footnote-asterisk">*</sup></small>
         </p>
         </div>
       </div>
     </div>
 
-    <div class="col-md-4">
+    <p class="data-footnote">* Additional information is not available here because the Zoom participation data could not be mapped to Learn accounts</p>
 
-    </div>
 
-    <br class="clearing" />
   </div>
 
   <%- end -%>
@@ -75,7 +77,15 @@
 </section>
 
 <h2>Learn Account Connections</h2>
-<p>These numbers reflect activity within the Learn application</p>
+<%- if !@event.is_extension_webinar? -%>
+  <p>These numbers reflect activity within the Learn application</p>
+<%- else -%>
+  <%- if @event.zoom_webinar_status != Event::WEBINAR_STATUS_OK -%>
+    <p>These numbers reflect activity within the Learn application</p>
+  <%- else -%>
+    <p>These numbers reflect activity within the Learn application, as well as connections created on behalf of Learn accounts matched from Zoom registrations and attendenance.</p>
+  <%- end -%>
+<%- end -%>
 <div class="event-stats">
 
   <div class="col-md-4">
