@@ -82,9 +82,6 @@ gem "inline-style", "0.5.2ex", :source => 'https://engineering.extension.org/rub
 # auto_link replacement
 gem "rinku", :require => 'rails_rinku'
 
-# http retrieval
-gem 'rest-client'
-
 # wysihtml5 + bootstrap + asset pipeline
 gem 'bootstrap-wysihtml5-rails'
 
