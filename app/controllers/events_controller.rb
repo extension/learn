@@ -6,7 +6,7 @@
 
 class EventsController < ApplicationController
   before_filter :check_for_conference
-  before_filter :signin_required, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :webinarinfo, :backstage, :history, :evaluation, :evaluationresults, :destroy_registrants, :export_registrants, :delete_event]
+  before_filter :signin_required, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history, :evaluation, :evaluationresults, :destroy_registrants, :export_registrants, :delete_event]
 
   def index
     @list_title = 'All Sessions'
@@ -182,10 +182,6 @@ class EventsController < ApplicationController
   end
 
   def backstage
-    @event = Event.find(params[:id])
-  end
-
-  def webinarinfo
     @event = Event.find(params[:id])
   end
 
