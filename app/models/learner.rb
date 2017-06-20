@@ -56,6 +56,8 @@ class Learner < ActiveRecord::Base
   scope :valid, lambda{ where(is_blocked: false)}
   scope :needs_search_update, lambda{ where(needs_search_update: true)}
   scope :active, ->{where(retired: false)}
+  scope :extension, ->{where("darmok_id IS NOT NULL")}
+  scope :non_extension, ->{where("darmok_id IS NULL")}
 
   def presented_conferences
     presented_events.conference.map(&:conference).uniq
