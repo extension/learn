@@ -21,10 +21,9 @@ class ZoomConnection < ActiveRecord::Base
   scope :attended, ->{where(attended: true)}
   scope :registered, ->{where(registered: true)}
   scope :learners, ->{where("learner_id IS NOT NULL")}
-  scope :extension_learners, ->{joins(:learner).where("learners.darmok_id IS NOT NULL")}
 
   def associate_to_learner
-    if(learner = Learner.where(email: self.email).first)
+    if(learner = Learner.extension.where(email: self.email).first)
       self.update_column(:learner_id, learner.id)
     else
       self.update_column(:learner_id,nil)
@@ -114,7 +113,7 @@ class ZoomConnection < ActiveRecord::Base
   end
 
   def self.create_or_update_attendance(zoom_webinar,email,attendance)
-    learner = Learner.where(email: email).first
+    learner = Learner.extension.where(email: email).first
     if(zc = self.where(zoom_webinar_id: zoom_webinar.id).where(email: email).first)
       zc.update_attributes(attendance.merge({learner: learner, zoom_webinar_id: zoom_webinar.id}))
     else
