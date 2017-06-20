@@ -32,13 +32,8 @@
         <span class="top-level-type">Total <%= "registrant".pluralize(connection_counts[:registered][:total]) %></span>
         <div class="participant-breakdown">
         <p>
-          <small><%= connection_counts[:registered][:extension_account] -%> <%= "eXtension Learn account".pluralize(connection_counts[:registered][:extension_account]) %></small>
+          <small><%= connection_counts[:registered][:extension_account] -%> <%= "eXtension account".pluralize(connection_counts[:registered][:extension_account]) %></small>
         </p>
-        <%- if (connection_counts[:registered][:learn_account] - connection_counts[:registered][:extension_account]) > 0 -%>
-          <p>
-            <small><%= (connection_counts[:registered][:learn_account] - connection_counts[:registered][:extension_account]) -%> <%= "non-eXtension Learn account".pluralize((connection_counts[:registered][:learn_account] - connection_counts[:registered][:extension_account])) %></small>
-          </p>
-        <%- end -%>
         <p>
           <small><%= connection_counts[:registered][:other_account] -%> other registrations <sup class="data-footnote-asterisk">*</sup></small>
         </p>
@@ -52,13 +47,8 @@
         <span class="top-level-type">Total <%= "attendee".pluralize(connection_counts[:attended][:total]) %></span>
         <div class="participant-breakdown">
         <p>
-          <small><%= connection_counts[:attended][:extension_account] -%> <%= "eXtension Learn account".pluralize(connection_counts[:attended][:extension_account]) %></small>
+          <small><%= connection_counts[:attended][:extension_account] -%> <%= "eXtension account".pluralize(connection_counts[:attended][:extension_account]) %></small>
         </p>
-        <%- if (connection_counts[:attended][:learn_account] - connection_counts[:attended][:extension_account]) > 0 -%>
-          <p>
-            <small><%= (connection_counts[:attended][:learn_account] - connection_counts[:attended][:extension_account]) -%> <%= "non-eXtension Learn account".pluralize((connection_counts[:attended][:learn_account] - connection_counts[:attended][:extension_account])) %></small>
-          </p>
-        <%- end -%>
         <p>
           <small><%= connection_counts[:attended][:other_account] -%> other attendees <sup class="data-footnote-asterisk">*</sup></small>
         </p>
