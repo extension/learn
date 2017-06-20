@@ -144,20 +144,18 @@ class ZoomWebinar < ActiveRecord::Base
   end
 
   def connection_counts
-    returncount = {:registered => {:total => 0, :learn_account => 0, :other_account => 0, :extension_account => 0},
-                   :attended => {:total => 0, :learn_account => 0, :other_account => 0, :extension_account => 0}}
+    returncount = {:registered => {:total => 0, :extension_account => 0, :other_account => 0},
+                   :attended => {:total => 0, :learn_account => 0, :other_account => 0}}
 
     total_registered = current_total_registered
     total_attended = current_total_attended
     returncount[:registered][:total] = total_registered
-    returncount[:registered][:learn_account] = self.zoom_connections.registered.learners.count
-    returncount[:registered][:extension_account] = self.zoom_connections.registered.extension_learners.count
-    returncount[:registered][:other_account] = total_registered - returncount[:registered][:learn_account]
+    returncount[:registered][:extension_account] = self.zoom_connections.registered.learners.count
+    returncount[:registered][:other_account] = total_registered - returncount[:registered][:extension_account]
 
     returncount[:attended][:total] = total_attended
-    returncount[:attended][:learn_account] = self.zoom_connections.attended.learners.count
-    returncount[:attended][:extension_account] = self.zoom_connections.attended.extension_learners.count
-    returncount[:attended][:other_account] = total_attended - returncount[:attended][:learn_account]
+    returncount[:attended][:extension_account] = self.zoom_connections.attended.learners.count
+    returncount[:attended][:other_account] = total_attended - returncount[:attended][:extension_account]
     returncount
   end
 
