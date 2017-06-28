@@ -199,9 +199,7 @@
      <%- if current_learner -%>
      <div class="participation-connection">
       <%- if !@event.is_extension_webinar? -%>
-        <%- largest_connections = {watched_count: @watched_count, attendee_count: @attendee_count, bookmarked_count: @bookmarked_count} -%>
-        <%- largest_connection = largest_connections.values.map(&:to_i).max -%>
-        <p class="event-connection-summary"><%= pluralize(largest_connection, "Connection") -%> </p>
+        <p class="event-connection-summary"><%= pluralize(@event.learners.count, "Connection") -%> </p>
       <%- else -%>
         <%- if @event.zoom_webinar_status != Event::WEBINAR_STATUS_OK -%>
           <p class="event-connection-summary">No Zoom Registration data yet</p>
