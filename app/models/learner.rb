@@ -263,7 +263,7 @@ class Learner < ActiveRecord::Base
   end
 
   def viewed_events
-    events.active.where("event_connections.connectiontype = ?", EventConnection::WATCH)
+    events.active.where("event_connections.connectiontype = ?", EventConnection::VIEW)
   end
 
   def followed_events

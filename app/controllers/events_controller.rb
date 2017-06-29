@@ -360,11 +360,11 @@ class EventsController < ApplicationController
         else
           current_learner.remove_connection_with_event(@event,EventConnection::ATTEND)
         end
-      when EventConnection::WATCH
+      when EventConnection::VIEW
         if(params[:wantsconnection] and params[:wantsconnection] == '1')
-          current_learner.connect_with_event(@event,EventConnection::WATCH)
+          current_learner.connect_with_event(@event,EventConnection::VIEW)
         else
-          current_learner.remove_connection_with_event(@event,EventConnection::WATCH)
+          current_learner.remove_connection_with_event(@event,EventConnection::VIEW)
         end
       else
         # do nothing

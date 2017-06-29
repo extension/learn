@@ -12,7 +12,7 @@ class EventConnection < ActiveRecord::Base
 
   FOLLOW = 3
   ATTEND = 4
-  WATCH = 5
+  VIEW = 5
 
   after_create :log_object_activity
   after_save :update_counter_cache
@@ -24,7 +24,7 @@ class EventConnection < ActiveRecord::Base
       self.event.update_column(:followers_count, self.event.followers.count)
     when ATTEND
       self.event.update_column(:attendees_count, self.event.attendees.count)
-    when WATCH
+    when VIEW
       self.event.update_column(:viewers_count, self.event.viewers.count)
     end
   end

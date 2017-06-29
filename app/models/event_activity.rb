@@ -25,7 +25,7 @@ class EventActivity < ActiveRecord::Base
   CONNECT                   = 50
   CONNECT_FOLLOW            = 52
   CONNECT_ATTEND            = 53
-  CONNECT_WATCH             = 54
+  CONNECT_VIEW             = 54
 
   # scoring
   SCORING = {
@@ -41,7 +41,7 @@ class EventActivity < ActiveRecord::Base
     CONNECT                   => 3,
     CONNECT_FOLLOW            => 3,
     CONNECT_ATTEND            => 3,
-    CONNECT_WATCH             => 3,
+    CONNECT_VIEW             => 3,
   }
 
   ACTIVITY_MAP = {
@@ -57,10 +57,10 @@ class EventActivity < ActiveRecord::Base
     CONNECT  => "connected",
     CONNECT_FOLLOW  => "followed",
     CONNECT_ATTEND  => "attended",
-    CONNECT_WATCH  => "viewed"
+    CONNECT_VIEW  => "viewed"
   }
 
-  HISTORY_ITEMS = [ANSWER,RATING,RATING_ON_COMMENT,COMMENT,COMMENT_ON_COMMENT,CONNECT,CONNECT_FOLLOW,CONNECT_ATTEND,CONNECT_WATCH]
+  HISTORY_ITEMS = [ANSWER,RATING,RATING_ON_COMMENT,COMMENT,COMMENT_ON_COMMENT,CONNECT,CONNECT_FOLLOW,CONNECT_ATTEND,CONNECT_VIEW]
 
   scope :views, where(activity: 1)
 
@@ -141,8 +141,8 @@ class EventActivity < ActiveRecord::Base
       activity = CONNECT_FOLLOW
     when EventConnection::ATTEND
       activity = CONNECT_ATTEND
-    when EventConnection::WATCH
-      activity = CONNECT_WATCH
+    when EventConnection::VIEW
+      activity = CONNECT_VIEW
     else
       activity = CONNECT
     end

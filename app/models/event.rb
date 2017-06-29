@@ -122,7 +122,7 @@ class Event < ActiveRecord::Base
 
   scope :followed, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::FOLLOW)}
   scope :attended, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::ATTEND)}
-  scope :viewed, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::WATCH)}
+  scope :viewed, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::VIEW)}
 
   scope :active, -> {where(is_canceled: false).where(is_deleted: false)}
   scope :not_expired, -> {where(is_expired: false)}
@@ -729,7 +729,7 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
   end
 
   def viewers
-    learners.valid.where("event_connections.connectiontype = ?", EventConnection::WATCH)
+    learners.valid.where("event_connections.connectiontype = ?", EventConnection::VIEW)
   end
 
   def followers

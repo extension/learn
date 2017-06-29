@@ -29,7 +29,7 @@
   <%- end -%>
 
   <%= form_tag(makeconnection_event_path(@event), {remote: true}) do -%>
-    <%= hidden_field_tag('connectiontype', EventConnection::WATCH) %>
+    <%= hidden_field_tag('connectiontype', EventConnection::VIEW) %>
   <div class="checkbox">
     <p>
       <label class="checkbox">
