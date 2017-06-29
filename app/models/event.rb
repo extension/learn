@@ -62,6 +62,7 @@ class Event < ActiveRecord::Base
   has_many :questions, order: 'priority,created_at', dependent: :destroy
   has_many :answers, :through => :questions
   has_many :comments, dependent: :destroy
+  has_many :commenting_learners, through: :comments, source: :learner, uniq: true
   has_many :ratings, :as => :rateable, :include => :learner, :conditions => "learners.is_blocked = false", dependent: :destroy
   has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
@@ -78,7 +79,6 @@ class Event < ActiveRecord::Base
   has_many :bookmarks, through: :event_connections, source: :event, conditions: "connectiontype = 3"
   has_many :attended, through: :event_connections, source: :event, conditions: "connectiontype = 4"
   has_many :watchers, through: :event_connections, source: :event, conditions: "connectiontype = 5"
-  has_many :commentators, through: :comments, source: :learner, conditions: "learners.is_blocked = false", uniq: true
 
   # conference sessions
   belongs_to :conference
@@ -741,6 +741,13 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     learners.valid.where("event_connections.connectiontype = ?", EventConnection::BOOKMARK)
   end
 
+  # this is a shortcut method because a former conditional association was named
+  # 'commentators' and its used in multiple places - the association is no longer
+  # conditional, and is named to reflect the purpose, this name is unique enough
+  # to apply conditions to
+  def commentators
+    commenting_learners.valid
+  end
 
 
   #convenience method to reset counter columns
