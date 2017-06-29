@@ -84,7 +84,7 @@ module ApplicationHelper
       return link_to("#{learner.name} (seen as private profile)", link_path).html_safe
     else
       # current_learner, current_learner != learner, and is_private
-      return 'private_profile'
+      return 'Private profile'
     end
 
   end

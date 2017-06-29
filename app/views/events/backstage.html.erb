@@ -1,14 +1,106 @@
 <% @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") + ' - Backstage' %>
 
-<div class="col-md-8 offset1">
+<div class="col-md-10 col-md-offset-1">
 <div id="behindthescenes">
-<h1>Behind the scenes at <small><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></small></h1>
+<h1 class="behind-title">Participation & Connections Report</h1>
+<h2><%= link_to @event.title, event_path(@event.id) %></h2>
+<p><%= @event.session_start.strftime("%b %e, %Y") %></p>
 
-<%= link_to "Grid view", backstage_event_path(@event.id) %> <%= link_to "Table view", backstage_event_path(@event.id, :type => "table") %>
 
-<%- attendee_count = @event.attendees.count -%>
-<%- watched_count = @event.watched.count -%>
-<%- bookmarked_count = @event.bookmarked.count -%>
+
+<section>
+<%- if !@event.is_extension_webinar? -%>
+  <div class="non-extension-webinar">
+    <p>There is no Zoom Webinar Data available because this event is not an eXtension Webinar</p>
+    <p>Additional info: <%= display_non_extension_webinar_status_for_event(@event) -%></p>
+  </div>
+<%- else -%>
+  <%- if @event.zoom_webinar_status != Event::WEBINAR_STATUS_OK -%>
+  <p>Zoom Webinar Data not available</p>
+  <p>Reason: <%= display_extension_webinar_status_for_event(@event) -%></p>
+  <%- else -%>
+  <%- connection_counts = @event.zoom_webinar.connection_counts -%>
+
+  <h2>Zoom Registration and Attendance</h2>
+  <p>These numbers are extracted from Zoom webinar participation data</p>
+
+  <div class="event-stats">
+
+    <div class="col-md-6">
+      <div class="event-stat">
+        <span class="top-level-number"><%= connection_counts[:registered][:total] -%></span>
+        <span class="top-level-type">Total <%= "registrant".pluralize(connection_counts[:registered][:total]) %></span>
+        <div class="participant-breakdown">
+        <p>
+          <small><%= connection_counts[:registered][:extension_account] -%> <%= "eXtension account".pluralize(connection_counts[:registered][:extension_account]) %></small>
+        </p>
+        <p>
+          <small><%= connection_counts[:registered][:other_account] -%> other registrations <sup class="data-footnote-asterisk">*</sup></small>
+        </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="event-stat">
+        <span class="top-level-number"><%= connection_counts[:attended][:total] -%></span>
+        <span class="top-level-type">Total <%= "attendee".pluralize(connection_counts[:attended][:total]) %></span>
+        <div class="participant-breakdown">
+        <p>
+          <small><%= connection_counts[:attended][:extension_account] -%> <%= "eXtension account".pluralize(connection_counts[:attended][:extension_account]) %></small>
+        </p>
+        <p>
+          <small><%= connection_counts[:attended][:other_account] -%> other attendees <sup class="data-footnote-asterisk">*</sup></small>
+        </p>
+        </div>
+      </div>
+    </div>
+
+    <p class="data-footnote">* Additional information is not available here because the Zoom participation data could not be mapped to Learn accounts</p>
+
+
+  </div>
+
+  <%- end -%>
+<%- end -%>
+<br class="clearing" />
+</section>
+
+<h2>Learn Account Connections</h2>
+<%- if !@event.is_extension_webinar? -%>
+  <p>These numbers reflect activity within the Learn application</p>
+<%- else -%>
+  <%- if @event.zoom_webinar_status != Event::WEBINAR_STATUS_OK -%>
+    <p>These numbers reflect activity within the Learn application</p>
+  <%- else -%>
+    <p>These numbers reflect activity within the Learn application, as well as connections created on behalf of Learn accounts matched from Zoom registrations and attendance.</p>
+  <%- end -%>
+<%- end -%>
+<div class="event-stats">
+
+  <div class="col-md-4">
+    <div class="event-stat">
+      <span class="top-level-number"><%= @attendee_count -%></span>
+      <span class="top-level-type"><%= "attendee".pluralize(@attendee_count) %></span>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="event-stat">
+      <span class="top-level-number"><%= @watched_count -%></span>
+      <span class="top-level-type"><%= "viewer".pluralize(@watched_count) %></span>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="event-stat">
+      <span class="top-level-number"><%= @bookmarked_count -%></span>
+      <span class="top-level-type"><%= "follower".pluralize(@bookmarked_count) %></span>
+    </div>
+  </div>
+
+  <br class="clearing" />
+</div>
 
 <section>
   <h3>Comments</h3>
@@ -27,13 +119,6 @@
         </tr>
         <%- end -%>
         </table>
-    <%- else -%>
-      <ul class="learner_list">
-        <%- filtered_commentators.each do |commenter| %>
-          <li><%= link_to_learner_avatar(commenter, {image_size: :thumb}) -%></li>
-        <%- end -%>
-      </ul>
-      <br class="clearing" />
     <%- end -%>
 
   <%- else -%>
@@ -42,139 +127,44 @@
 </section>
 
 <%- if (@event.is_online_session? && @event.answers.count > 0) -%>
-  <section id="event_questions">
-  <h3>Questions</h3>
-  <%- if @event.started? %>
-     <%- @event.questions.each do |question| -%>
-
-      <div class="event_question">
-        <h4>"<%= question.prompt %>"</h4>
-        <ul class="question_answers">
-        <%- question.answer_data.each do |(response,total)| -%>
-          <li><span>"<%= response %>"</span> <strong><%= total %></strong></li>
-        <%- end -%>
-        </ul>
-        <br class="clearing" />
-        <p><strong><%= question.answer_data.map{|(response,total)| total}.sum %></strong> people answered</p>
-
-         <%- if params[:type] == "table" %>
-            <table class="table people table-striped">
-              <%- question.answerers.each do |answerer| %>
-              <tr>
-                <td class="avatar_td"><%= link_to_learner_avatar(answerer, {image_size: :thumb, event_types: ['answered']}) -%></td>
-                <td class="name_td"><%= link_to_learner(answerer, {event_types: ['answered']}) %></td>
-              </tr>
-              <%- end -%>
-              </table>
-          <%- else -%>
-            <ul class="learner_list">
-               <%- question.answerers.uniq.each do |answerer| %>
-                 <li><%= link_to_learner_avatar(answerer, {image_size: :thumb, event_types: ['answered']}) -%></li>
-               <%- end -%>
-             </ul>
-             <br class="clearing" />
-          <%- end -%>
-
-
-      </div>
-      <%- end -%>
-  <%- end -%>
-  <br class="clearing" />
-  </section>
+  <h3>View questions</h3>
 <%- end -%>
 
 
+</div>
+</div>
+
+<div class="col-md-10 col-md-offset-1">
+<div id="behindthescenes">
 <section>
-<h3>Connections</h3>
-<h4>Attended</h4>
-<%- if attendee_count > 0 -%>
-  <p><strong><%= attendee_count -%></strong> <%= attendee_count > 1 ? "attendees" : "attendee" %></p>
-
-
-   <%- if params[:type] == "table" %>
-      <table class="table people table-striped">
-        <%- @event.attendees.each do |attendee| %>
-        <tr>
-          <td class="avatar_td"><%= link_to_learner_avatar(attendee, {image_size: :thumb, event_types: ['attended']})  -%></td>
-          <td class="name_td"><%= link_to_learner(attendee, {event_types: ['attended']}) %></td>
-        </tr>
-        <%- end -%>
-        </table>
-    <%- else -%>
-      <ul class="learner_list">
-        <%- @event.attendees.each do |attendee| %>
-          <li><%= link_to_learner_avatar(attendee, {image_size: :thumb, event_types: ['attended']})  -%></li>
-        <%- end -%>
-      </ul>
-
+<%- if @attendee_count > 0 -%>
+  <h3><%= @attendee_count -%> <%= "Attendee".pluralize(@attendee_count) %> (with Learn Accounts)</h3>
+  <div class="column">
+    <%- @event.attendees.each do |attendee| %>
+      <p><%= link_to_learner(attendee, {event_types: ['attended']}) %></p>
     <%- end -%>
-
-
-
-<%- else -%>
-  <p class="muted margin">0 attendees</p>
+  </div>
 <%- end -%>
 
-<h4>Watched</h4>
-<%- if watched_count > 0 -%>
-  <p><strong><%= watched_count -%></strong> watched</p>
-
-  <%- if params[:type] == "table" %>
-      <table class="table people table-striped">
-        <%- @event.watched.each do |watcher| %>
-        <tr>
-          <td class="avatar_td"><%= link_to_learner_avatar(watcher, {image_size: :thumb, event_types: ['watched']}) -%></td>
-          <td class="name_td"><%= link_to_learner(watcher, {event_types: ['watched']}) %></td>
-        </tr>
-        <%- end -%>
-        </table>
-    <%- else -%>
-      <ul class="learner_list">
-        <%- @event.watched.each do |watcher| %>
-          <li><%= link_to_learner_avatar(watcher, {image_size: :thumb, event_types: ['watched']}) -%></li>
-        <%- end -%>
-      </ul>
-
+<%- if @watched_count > 0 -%>
+  <h3><%= @watched_count -%> Watched (with Learn Accounts)</h3>
+  <div class="column">
+    <%- @event.watched.each do |watcher| %>
+      <p><%= link_to_learner(watcher, {event_types: ['watched']}) %></p>
     <%- end -%>
-
-
-
-<%- else -%>
-  <p class="muted margin">0 watched</p>
+  </div>
 <%- end -%>
 
-<h4>Followed</h4>
-<%- if bookmarked_count > 0 -%>
-  <p><strong><%= bookmarked_count -%></strong> followed</p>
-
-
-  <%- if params[:type] == "table" %>
-      <table class="table people table-striped">
-        <%- @event.bookmarked.each do |bookmarker| %>
-        <tr>
-          <td class="avatar_td"><%= link_to_learner_avatar(bookmarker, {image_size: :thumb, event_types: ['bookmarked']}) -%></td>
-          <td class="name_td"><%= link_to_learner(bookmarker, {event_types: ['bookmarked']}) %></td>
-        </tr>
-        <%- end -%>
-        </table>
-    <%- else -%>
-      <ul class="learner_list">
-        <%- @event.bookmarked.each do |bookmarker| %>
-          <li><%= link_to_learner_avatar(bookmarker, {image_size: :thumb, event_types: ['bookmarked']}) -%></li>
-        <%- end -%>
-      </ul>
-
+<%- if @bookmarked_count > 0 -%>
+  <h3><%= @bookmarked_count -%> Followed (with Learn Accounts)</h3>
+  <div class="column">
+    <%- @event.bookmarked.each do |bookmarker| %>
+      <p><%= link_to_learner(bookmarker, {event_types: ['bookmarked']}) %></p>
     <%- end -%>
-
-
-<%- else -%>
-  <p class="muted margin">0 followed</p>
+  </div>
 <%- end -%>
 <br class="clearing" />
 </section>
-</div>
-</div>
 
-<script class="code" type="text/javascript">
-  $("#event_questions .event_question:last").addClass("last");
-</script>
+</div>
+</div>

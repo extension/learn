@@ -137,7 +137,6 @@ class EventsController < ApplicationController
     @event_comments = @event.comments
     @similar_events = @event.similar_events
     @registrants = EventRegistration.where(event_id: @event.id).first
-
     if @event.tags.length != 0
       tracker do |t|
         t.google_tag_manager :push, { pageAttributes: @event.tags.map(&:name) }
@@ -183,6 +182,9 @@ class EventsController < ApplicationController
 
   def backstage
     @event = Event.find(params[:id])
+    @attendee_count = @event.attendees.count
+    @watched_count = @event.watched.count
+    @bookmarked_count = @event.bookmarked.count
   end
 
   def history

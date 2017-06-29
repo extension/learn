@@ -40,6 +40,9 @@ color:#555;
 
 
 
+.participation-connection p {margin:0;}
+.event-connection-summary {font-weight:bold;}
+
 input[type="text"].edit-event-title {font-size:1.5em; height:auto; }
 .edit-form {background:#eee; padding:2em;}
 
@@ -117,3 +120,32 @@ span.related_events i {margin-left:-20px;}
 
 
 .signin-header {margin-top:20px;}
+
+.top-level-number {font-size:50px; font-weight:normal; line-height:50px; display:block; text-align:center; font-family: 'Oswald', 'Droid+Sans', sans-serif;}
+.top-level-type {font-size: 21px; display:block; text-align:center;}
+.event-stats {margin: 10px 0; background: #f5f5f5; padding:20px 0 10px;}
+.event-stat {border:1px solid #bbb; padding: 20px 10px; background: #fff; margin-bottom:10px;}
+.participant-breakdown {border-top: 2px solid #ddd; padding-top: 10px; color: #777; margin: 20px auto 0; width: 15em; text-align:center;}
+.participant-breakdown p {margin:0;}
+.non-extension-webinar {padding: 12px 20px; background: #f5f5f5; color: #888;}
+.non-extension-webinar p {margin:0; padding:0; font-size:14px; }
+.data-footnote {padding: 0 20px 0; font-size:13px; clear:both; margin:0; color:#999; line-height: 1.2em; text-align:center;}
+.data-footnote-asterisk {
+  font-size: 16px;
+  // outline: 1px solid red;
+  font-weight:normal;
+  line-height: 0;
+  vertical-align: baseline;
+    position: relative;
+    top: -.15em;
+    left: -.18em;
+    color: #bbb;
+  }
+.behind-title {
+  // text-transform: uppercase;
+  letter-spacing:1px; font-weight:300; font-family: 'Oswald', 'Droid+Sans', sans-serif; color:#888; font-size: 30px;}
+.column {
+    -webkit-columns: 100px 5; /* Chrome, Safari, Opera */
+    -moz-columns: 100px 5; /* Firefox */
+    columns: 100px 5;
+}
