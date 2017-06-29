@@ -28,7 +28,7 @@ Learn::Application.routes.draw do
       get 'comment_history'
       get 'created_history'
       get 'watched_history'
-      get 'bookmarked_history'
+      get 'followed_history'
       post 'block'
       post 'unblock'
     end

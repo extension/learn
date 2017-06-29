@@ -748,8 +748,8 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
   #convenience method to reset counter columns
   def self.reset_counter_columns
     Event.find_each do |event|
-      event.update_column(:bookmarks_count, event.bookmarks.count)
-      event.update_column(:attended_count, event.attended.count)
+      event.update_column(:followers_count, event.followers.count)
+      event.update_column(:attendees_count, event.attendees.count)
       event.update_column(:watchers_count, event.watchers.count)
       event.update_column(:commentators_count, event.commentators.count)
     end

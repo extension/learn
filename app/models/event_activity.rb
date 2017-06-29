@@ -23,7 +23,7 @@ class EventActivity < ActiveRecord::Base
   COMMENT                   = 41
   COMMENT_ON_COMMENT        = 42
   CONNECT                   = 50
-  CONNECT_BOOKMARK          = 52
+  CONNECT_FOLLOW            = 52
   CONNECT_ATTEND            = 53
   CONNECT_WATCH             = 54
 
@@ -39,7 +39,7 @@ class EventActivity < ActiveRecord::Base
     COMMENT                   => 2,
     COMMENT_ON_COMMENT        => 2,
     CONNECT                   => 3,
-    CONNECT_BOOKMARK          => 3,
+    CONNECT_FOLLOW            => 3,
     CONNECT_ATTEND            => 3,
     CONNECT_WATCH             => 3,
   }
@@ -55,12 +55,12 @@ class EventActivity < ActiveRecord::Base
     COMMENT  => "commented",
     COMMENT_ON_COMMENT  => "commented on a comment",
     CONNECT  => "connected",
-    CONNECT_BOOKMARK  => "followed",
+    CONNECT_FOLLOW  => "followed",
     CONNECT_ATTEND  => "attended",
     CONNECT_WATCH  => "watched"
   }
 
-  HISTORY_ITEMS = [ANSWER,RATING,RATING_ON_COMMENT,COMMENT,COMMENT_ON_COMMENT,CONNECT,CONNECT_BOOKMARK,CONNECT_ATTEND,CONNECT_WATCH]
+  HISTORY_ITEMS = [ANSWER,RATING,RATING_ON_COMMENT,COMMENT,COMMENT_ON_COMMENT,CONNECT,CONNECT_FOLLOW,CONNECT_ATTEND,CONNECT_WATCH]
 
   scope :views, where(activity: 1)
 
@@ -138,7 +138,7 @@ class EventActivity < ActiveRecord::Base
   def self.log_connection(event_connection)
     case(event_connection.connectiontype)
     when EventConnection::FOLLOW
-      activity = CONNECT_BOOKMARK
+      activity = CONNECT_FOLLOW
     when EventConnection::ATTEND
       activity = CONNECT_ATTEND
     when EventConnection::WATCH

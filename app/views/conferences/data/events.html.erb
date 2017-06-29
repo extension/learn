@@ -11,10 +11,9 @@
       <th>Tags</th>
       <th>Recording</th>
       <th>Length</th>
-      <th>Bookmarked</th>
+      <th>Followed</th>
       <th>Attended</th>
       <th>Watched</th>
-      <th>Voters</th>
       <th>Commentators</th>
     </tr>
   </thead>
@@ -26,11 +25,10 @@
       <td><%= link_to event.title, conference_event_path(event,:conference_id => @conference.hashtag) %></td>
       <td><%= display_conference_tags(event.tags) %></td>
       <td><%= (event.has_recording?) ? link_to("link", event.recording) : "n/a" %></td>
-      <td><%= event.session_length %></td> 
-      <td><%= event.bookmarked.count %></td>
+      <td><%= event.session_length %></td>
+      <td><%= event.followers.count %></td>
       <td><%= event.attendees.count %></td>
-      <td><%= event.watched.count %></td>
-      <td><%= event.raters.count %></td>
+      <td><%= event.watchers.count %></td>
       <td><%= event.commentators.count %></td>
     </tr>
     <%- end -%>

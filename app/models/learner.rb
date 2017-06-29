@@ -376,8 +376,8 @@ class Learner < ActiveRecord::Base
     self.preferences.setting('sharing.events.watched')
   end
 
-  def public_bookmarked_events?
-    self.preferences.setting('sharing.events.bookmarked')
+  def public_followed_events?
+    self.preferences.setting('sharing.events.followed')
   end
 
   def public_commented_events?

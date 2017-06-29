@@ -80,22 +80,23 @@
 
   <div class="col-md-4">
     <div class="event-stat">
-      <span class="top-level-number"><%= @attendee_count -%></span>
-      <span class="top-level-type"><%= "attendee".pluralize(@attendee_count) %></span>
+      <span class="top-level-number"><%= @attendees_count -%></span>
+      <span class="top-level-type"><%= "attendee".pluralize(@attendees_count) %></span>
     </div>
   </div>
 
   <div class="col-md-4">
     <div class="event-stat">
-      <span class="top-level-number"><%= @watched_count -%></span>
-      <span class="top-level-type"><%= "viewer".pluralize(@watched_count) %></span>
+      <span class="top-level-number"><%= @watchers_count -%></span>
+      <span class="top-level-type"><%= "viewer".pluralize(@watchers_count) %></span>
     </div>
   </div>
 
   <div class="col-md-4">
     <div class="event-stat">
-      <span class="top-level-number"><%= @bookmarked_count -%></span>
-      <span class="top-level-type"><%= "follower".pluralize(@bookmarked_count) %></span>
+      <span class="top-level-number"><%= @followers_count -%></span>
+      <span class="top-level-type"><%= "follower".pluralize(@followers_count) %></span>
+      <span class="top-level-type"><%= "follower".pluralize(@followers_count) %></span>
     </div>
   </div>
 
@@ -137,8 +138,8 @@
 <div class="col-md-10 col-md-offset-1">
 <div id="behindthescenes">
 <section>
-<%- if @attendee_count > 0 -%>
-  <h3><%= @attendee_count -%> <%= "Attendee".pluralize(@attendee_count) %> (with Learn Accounts)</h3>
+<%- if @attendees_count > 0 -%>
+  <h3><%= @attendees_count -%> <%= "Attendee".pluralize(@attendees_count) %> (with Learn Accounts)</h3>
   <div class="column">
     <%- @event.attendees.each do |attendee| %>
       <p><%= link_to_learner(attendee, {event_types: ['attended']}) %></p>
@@ -146,20 +147,20 @@
   </div>
 <%- end -%>
 
-<%- if @watched_count > 0 -%>
-  <h3><%= @watched_count -%> Watched (with Learn Accounts)</h3>
+<%- if @watchers_count > 0 -%>
+  <h3><%= @watchers_count -%> Watched (with Learn Accounts)</h3>
   <div class="column">
-    <%- @event.watched.each do |watcher| %>
+    <%- @event.watchers.each do |watcher| %>
       <p><%= link_to_learner(watcher, {event_types: ['watched']}) %></p>
     <%- end -%>
   </div>
 <%- end -%>
 
-<%- if @bookmarked_count > 0 -%>
-  <h3><%= @bookmarked_count -%> Followed (with Learn Accounts)</h3>
+<%- if @followers_count > 0 -%>
+  <h3><%= @followers_count -%> Followed (with Learn Accounts)</h3>
   <div class="column">
-    <%- @event.bookmarked.each do |bookmarker| %>
-      <p><%= link_to_learner(bookmarker, {event_types: ['bookmarked']}) %></p>
+    <%- @event.followers.each do |follower| %>
+      <p><%= link_to_learner(follower, {event_types: ['followed']}) %></p>
     <%- end -%>
   </div>
 <%- end -%>
