@@ -120,9 +120,9 @@ class Event < ActiveRecord::Base
     boolean :is_deleted
   end
 
-  scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
-  scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
-  scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
+  scope :followed, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::FOLLOW)}
+  scope :attended, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::ATTEND)}
+  scope :watched, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::WATCH)}
 
   scope :active, -> {where(is_canceled: false).where(is_deleted: false)}
   scope :not_expired, -> {where(is_expired: false)}
