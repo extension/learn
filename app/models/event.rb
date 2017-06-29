@@ -730,16 +730,17 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
 
 
   def attendees
-    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::ATTEND)
+    learners.valid.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
   end
 
-  def watched
-    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::WATCH)
+  def watchers
+    learners.valid.where("event_connections.connectiontype = ?", EventConnection::WATCH)
   end
 
-  def bookmarked
-    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::BOOKMARK)
+  def followers
+    learners.valid.where("event_connections.connectiontype = ?", EventConnection::BOOKMARK)
   end
+
 
 
   #convenience method to reset counter columns
