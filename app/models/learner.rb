@@ -262,6 +262,20 @@ class Learner < ActiveRecord::Base
     return rating
   end
 
+  # convenience methods for consistent use between presented_events and recommended_events that
+  # help with the conditionals of the learner's connection with the event
+  def attended_events
+    events.active.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
+  end
+
+  def watched_events
+    events.active.where("event_connections.connectiontype = ?", EventConnection::WATCH)
+  end
+
+  def followed_events
+    events.active.where("event_connections.connectiontype = ?", EventConnection::FOLLOW)
+  end
+
   # this is relatively inefficient - because all learner scores for the event scope chosen
   # will end up being calculated, but it's easier to take advantage of what's already there
   # the output could be cached if needed.
