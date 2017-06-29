@@ -728,7 +728,7 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     learners.valid.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
   end
 
-  def watchers
+  def viewers
     learners.valid.where("event_connections.connectiontype = ?", EventConnection::WATCH)
   end
 
@@ -750,7 +750,7 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     Event.find_each do |event|
       event.update_column(:followers_count, event.followers.count)
       event.update_column(:attendees_count, event.attendees.count)
-      event.update_column(:watchers_count, event.watchers.count)
+      event.update_column(:viewers_count, event.viewers.count)
       event.update_column(:commentators_count, event.commentators.count)
     end
   end

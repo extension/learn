@@ -148,7 +148,7 @@ class DataController < ApplicationController
     headers << 'Evaluation Link'
     headers << 'Followers'
     headers << 'Attendees'
-    headers << 'Watchers'
+    headers << 'Viewers'
     headers << 'Commentators'
     headers << 'Materials'
     csv << headers
@@ -167,7 +167,7 @@ class DataController < ApplicationController
       row << event.evaluation_link
       row << event.followers_count
       row << event.attendees_count
-      row << event.watchers_count
+      row << event.viewers_count
       row << event.commentators_count
       row << event.material_links.map(&:reference_link).join(" ")
       csv << row

@@ -183,7 +183,7 @@ class EventsController < ApplicationController
   def backstage
     @event = Event.find(params[:id])
     @attendees_count = @event.attendees.count
-    @watchers_count = @event.watchers.count
+    @viewers_count = @event.viewers.count
     @followers_count = @event.followers.count
   end
 

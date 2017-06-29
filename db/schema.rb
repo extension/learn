@@ -176,7 +176,7 @@ ActiveRecord::Schema.define(:version => 20170629142213) do
     t.string   "cover_image"
     t.integer  "followers_count",                        :default => 0,        :null => false
     t.integer  "attendees_count",                        :default => 0,        :null => false
-    t.integer  "watchers_count",                         :default => 0,        :null => false
+    t.integer  "viewers_count",                          :default => 0,        :null => false
     t.integer  "commentators_count",                     :default => 0,        :null => false
     t.text     "provided_presenter_order"
     t.boolean  "is_deleted",                             :default => false,    :null => false

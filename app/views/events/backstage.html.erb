@@ -87,8 +87,8 @@
 
   <div class="col-md-4">
     <div class="event-stat">
-      <span class="top-level-number"><%= @watchers_count -%></span>
-      <span class="top-level-type"><%= "viewer".pluralize(@watchers_count) %></span>
+      <span class="top-level-number"><%= @viewers_count -%></span>
+      <span class="top-level-type"><%= "viewer".pluralize(@viewers_count) %></span>
     </div>
   </div>
 
@@ -146,10 +146,10 @@
   </div>
 <%- end -%>
 
-<%- if @watchers_count > 0 -%>
-  <h3><%= @watchers_count -%> Watched (with Learn Accounts)</h3>
+<%- if @viewers_count > 0 -%>
+  <h3><%= @viewers_count -%> Watched (with Learn Accounts)</h3>
   <div class="column">
-    <%- @event.watchers.each do |watcher| %>
+    <%- @event.viewers.each do |watcher| %>
       <p><%= link_to_learner(watcher, {event_types: ['watched']}) %></p>
     <%- end -%>
   </div>

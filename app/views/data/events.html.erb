@@ -24,7 +24,7 @@
       <th><%= sortable "session_length", "Length", @start_date, @end_date, params[:tag_tokens] %></th>
       <th><%= sortable "followers_count", "Followers", @start_date, @end_date, params[:tag_tokens] %></th>
       <th><%= sortable "attendees_count", "Attendees", @start_date, @end_date, params[:tag_tokens] %></th>
-      <th><%= sortable "watchers_count", "Watchers", @start_date, @end_date, params[:tag_tokens] %></th>
+      <th><%= sortable "viewers_count", "Viewers", @start_date, @end_date, params[:tag_tokens] %></th>
       <th><%= sortable "commentators_count", "Commentators", @start_date, @end_date, params[:tag_tokens] %></th>
     </tr>
   </thead>
@@ -43,7 +43,7 @@
       <td><%= event.session_length %></td>
       <td><%= event.followers_count %></td>
       <td><%= event.attendees_count %></td>
-      <td><%= event.watchers_count %></td>
+      <td><%= event.viewers_count %></td>
       <td><%= event.commentators_count %></td>
     </tr>
     <%- end -%>

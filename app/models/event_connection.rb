@@ -25,7 +25,7 @@ class EventConnection < ActiveRecord::Base
     when ATTEND
       self.event.update_column(:attendees_count, self.event.attendees.count)
     when WATCH
-      self.event.update_column(:watchers_count, self.event.watchers.count)
+      self.event.update_column(:viewers_count, self.event.viewers.count)
     end
   end
 
