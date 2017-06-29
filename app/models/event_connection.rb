@@ -10,7 +10,7 @@ class EventConnection < ActiveRecord::Base
   has_many :event_activities, :as => :trackable, dependent: :destroy
   validates :learner_id, :uniqueness => {:scope => [:event_id, :connectiontype]}
 
-  BOOKMARK = 3
+  FOLLOW = 3
   ATTEND = 4
   WATCH = 5
 
@@ -20,7 +20,7 @@ class EventConnection < ActiveRecord::Base
 
   def update_counter_cache
     case self.connectiontype
-    when BOOKMARK
+    when FOLLOW
       self.event.update_column(:bookmarks_count, self.event.bookmarks.count)
     when ATTEND
       self.event.update_column(:attended_count, self.event.attended.count)

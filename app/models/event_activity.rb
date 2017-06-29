@@ -137,7 +137,7 @@ class EventActivity < ActiveRecord::Base
 
   def self.log_connection(event_connection)
     case(event_connection.connectiontype)
-    when EventConnection::BOOKMARK
+    when EventConnection::FOLLOW
       activity = CONNECT_BOOKMARK
     when EventConnection::ATTEND
       activity = CONNECT_ATTEND

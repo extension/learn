@@ -733,7 +733,7 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
   end
 
   def followers
-    learners.valid.where("event_connections.connectiontype = ?", EventConnection::BOOKMARK)
+    learners.valid.where("event_connections.connectiontype = ?", EventConnection::FOLLOW)
   end
 
   # this is a shortcut method because a former conditional association was named

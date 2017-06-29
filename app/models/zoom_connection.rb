@@ -128,7 +128,7 @@ class ZoomConnection < ActiveRecord::Base
     if(!self.attended.nil? and self.attended)
       connectiontype = EventConnection::ATTEND
     else
-      connectiontype = EventConnection::BOOKMARK
+      connectiontype = EventConnection::FOLLOW
     end
 
     begin

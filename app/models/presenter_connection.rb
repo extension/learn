@@ -19,7 +19,7 @@ class PresenterConnection < ActiveRecord::Base
 
   def create_bookmark
     begin
-      EventConnection.create(learner: self.learner, event: self.event, connectiontype: EventConnection::BOOKMARK)
+      EventConnection.create(learner: self.learner, event: self.event, connectiontype: EventConnection::FOLLOW)
     rescue ActiveRecord::RecordNotUnique => e
       # do nothing, already bookmarked
     end

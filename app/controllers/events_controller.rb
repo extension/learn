@@ -348,11 +348,11 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     if(connectiontype = params[:connectiontype])
       case connectiontype.to_i
-      when EventConnection::BOOKMARK
+      when EventConnection::FOLLOW
         if(params[:wantsconnection] and params[:wantsconnection] == '1')
-          current_learner.connect_with_event(@event,EventConnection::BOOKMARK)
+          current_learner.connect_with_event(@event,EventConnection::FOLLOW)
         else
-          current_learner.remove_connection_with_event(@event,EventConnection::BOOKMARK)
+          current_learner.remove_connection_with_event(@event,EventConnection::FOLLOW)
         end
       when EventConnection::ATTEND
         if(params[:wantsconnection] and params[:wantsconnection] == '1')

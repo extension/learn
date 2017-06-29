@@ -1,5 +1,5 @@
 <%= form_tag(makeconnection_event_path(@event), {remote: true}) do -%>
-  <%= hidden_field_tag('connectiontype', EventConnection::BOOKMARK) %>
+  <%= hidden_field_tag('connectiontype', EventConnection::FOLLOW) %>
 <div class="checkbox">
   <p class="cursor">
       <label>
