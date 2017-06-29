@@ -195,36 +195,31 @@ class Learner < ActiveRecord::Base
   end
 
   def connected_to_event?(event)
-    !self.events.where('event_id = ?',event.id).blank?
+    !self.events.where('event_id = ?',event.id).first.nil?
   end
 
   def is_presenter_for_event?(event)
-    !self.presented_events.where('event_id = ?',event.id).blank?
+    !self.presented_events.where('event_id = ?',event.id).first.nil?
   end
 
   def is_following_event?(event)
-    find_event = self.events.bookmarked.where('event_id = ?',event.id)
-    !find_event.blank?
+    !self.followed_events.where('event_id = ?',event.id).first.nil?
   end
 
   def attended_event?(event)
-    find_event = self.events.attended.where('event_id = ?',event.id)
-    !find_event.blank?
+    !self.attended_events.where('event_id = ?',event.id).first.nil?
   end
 
   def watched_event?(event)
-    find_event = self.events.watched.where('event_id = ?',event.id)
-    !find_event.blank?
+    !self.watched_events.where('event_id = ?',event.id).first.nil?
   end
 
   def has_event_notification_exception?(event)
-    find_notification_exception = self.notification_exceptions.where('event_id = ?',event.id)
-    !find_notification_exception.blank?
+    !self.notification_exceptions.where('event_id = ?',event.id).first.nil?
   end
 
   def has_connection_with_event?(event)
-    find_event = self.events.where('event_id = ?',event.id)
-    !find_event.blank?
+    !self.events.where('event_id = ?',event.id).first.nil?
   end
 
   def connect_with_event(event,connectiontype)
@@ -232,8 +227,7 @@ class Learner < ActiveRecord::Base
   end
 
   def attending_conference?(conference)
-    find_conference = self.conferences.attended.where('conference_id = ?',conference.id)
-    !find_conference.blank?
+    !self.conferences.attended.where('conference_id = ?',conference.id).first.nil?
   end
 
   def connect_with_conference(conference,connectiontype)
