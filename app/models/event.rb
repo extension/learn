@@ -755,27 +755,4 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     end
   end
 
-  #convenience method verify column counts are correct
-  def self.verify_column_counts
-    inconsistencies = []
-    Event.find_each do |event|
-      if event.bookmarks_count != event.bookmarked.count
-        inconsistencies << "Bookmarks inconsistancy found in Event #{event.id} (#{event.bookmarks_count} vs. #{event.bookmarked.count})"
-      end
-
-      if event.attended_count != event.attendees.count
-        inconsistencies << "Attendees inconsistancy found in Event #{event.id} (#{event.attended_count}  vs. #{event.attendees.count})"
-      end
-
-      if event.watchers_count != event.watchers.count
-        inconsistencies << "Watchers inconsistancy found in Event #{event.id} (#{event.watchers_count}  vs. #{event.watchers.count})"
-      end
-
-      if event.commentators_count != event.commentators.count
-        inconsistencies << "Commentators inconsistancy found in Event #{event.id} (#{event.commentators_count} vs. #{event.commentators.count})"
-      end
-    end
-    inconsistencies
-  end
-
 end
