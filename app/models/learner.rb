@@ -23,11 +23,11 @@ class Learner < ActiveRecord::Base
   has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
   has_many :registration_events, :class_name => "Event", :foreign_key => 'registration_contact_id'
   has_many :comments
+  has_many :commented_events, through: :comments, source: :event, uniq: true
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
   has_many :zoom_connections
   has_many :zoom_webinars, through: :zoom_connections, uniq: true
-  has_many :commented_events, through: :comments, source: :event, uniq: true
   has_many :ratings
   has_many :event_activities
   has_many :presenter_connections
