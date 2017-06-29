@@ -36,7 +36,7 @@ class LearnersController < ApplicationController
     return record_not_found if !@learner
 
     @attended_events = @learner.attended_events.order("event_connections.created_at DESC").limit(5)
-    @watched_events = @learner.watched_events.order("event_connections.created_at DESC").limit(5)
+    @viewed_events = @learner.viewed_events.order("event_connections.created_at DESC").limit(5)
     @presented_events = @learner.presented_events.active.order("session_start DESC").limit(5)
     @followed_events = @learner.followed_events.order("event_connections.created_at DESC").limit(5)
     @commented_events = @learner.commented_events.active.order("created_at DESC").limit(5)
@@ -76,11 +76,11 @@ class LearnersController < ApplicationController
     render :action => 'learning_history'
   end
 
-  def watched_history
+  def viewed_history
     @learner = Learner.includes(:preferences).where(id: params[:id]).first
     return record_not_found if !@learner
-    prepare_history('Watched')
-    @events = @learner.events.active.watched.order('session_start DESC').page(params[:page])
+    prepare_history('Viewed')
+    @events = @learner.events.active.viewed.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
 

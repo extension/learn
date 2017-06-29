@@ -114,10 +114,10 @@ class SettingsController < ApplicationController
         preference = Preference.create_or_update(@learner, 'sharing.events.attended', false)
       end
 
-      if params['sharing.events.watched'].present? && params['sharing.events.watched'] == '1'
-        preference = Preference.create_or_update(@learner, 'sharing.events.watched', true)
+      if params['sharing.events.viewed'].present? && params['sharing.events.viewed'] == '1'
+        preference = Preference.create_or_update(@learner, 'sharing.events.viewed', true)
       else
-        preference = Preference.create_or_update(@learner, 'sharing.events.watched', false)
+        preference = Preference.create_or_update(@learner, 'sharing.events.viewed', false)
       end
 
       if params['sharing.events.followed'].present? && params['sharing.events.followed'] == '1'

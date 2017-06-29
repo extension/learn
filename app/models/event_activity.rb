@@ -57,7 +57,7 @@ class EventActivity < ActiveRecord::Base
     CONNECT  => "connected",
     CONNECT_FOLLOW  => "followed",
     CONNECT_ATTEND  => "attended",
-    CONNECT_WATCH  => "watched"
+    CONNECT_WATCH  => "viewed"
   }
 
   HISTORY_ITEMS = [ANSWER,RATING,RATING_ON_COMMENT,COMMENT,COMMENT_ON_COMMENT,CONNECT,CONNECT_FOLLOW,CONNECT_ATTEND,CONNECT_WATCH]

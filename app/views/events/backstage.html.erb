@@ -147,10 +147,10 @@
 <%- end -%>
 
 <%- if @viewers_count > 0 -%>
-  <h3><%= @viewers_count -%> Watched (with Learn Accounts)</h3>
+  <h3><%= @viewers_count -%> Viewed (with Learn Accounts)</h3>
   <div class="column">
     <%- @event.viewers.each do |watcher| %>
-      <p><%= link_to_learner(watcher, {event_types: ['watched']}) %></p>
+      <p><%= link_to_learner(watcher, {event_types: ['viewed']}) %></p>
     <%- end -%>
   </div>
 <%- end -%>

@@ -24,7 +24,7 @@ class Preference < ActiveRecord::Base
    'notification.recommendation' => true,
    'sharing.events.presented' => true,
    'sharing.events.attended' => true,
-   'sharing.events.watched' => true,
+   'sharing.events.viewed' => true,
    'sharing.events.followed' => true,
    'sharing.events.commented' => true,
    # 'sharing.events.rated' => false,

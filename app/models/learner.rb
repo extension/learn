@@ -210,8 +210,8 @@ class Learner < ActiveRecord::Base
     !self.attended_events.where('event_id = ?',event.id).first.nil?
   end
 
-  def watched_event?(event)
-    !self.watched_events.where('event_id = ?',event.id).first.nil?
+  def viewed_event?(event)
+    !self.viewed_events.where('event_id = ?',event.id).first.nil?
   end
 
   def has_event_notification_exception?(event)
@@ -262,7 +262,7 @@ class Learner < ActiveRecord::Base
     events.active.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
   end
 
-  def watched_events
+  def viewed_events
     events.active.where("event_connections.connectiontype = ?", EventConnection::WATCH)
   end
 
@@ -372,8 +372,8 @@ class Learner < ActiveRecord::Base
     self.preferences.setting('sharing.events.attended')
   end
 
-  def public_watched_events?
-    self.preferences.setting('sharing.events.watched')
+  def public_viewed_events?
+    self.preferences.setting('sharing.events.viewed')
   end
 
   def public_followed_events?

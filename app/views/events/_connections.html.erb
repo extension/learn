@@ -33,8 +33,8 @@
   <div class="checkbox">
     <p>
       <label class="checkbox">
-      <%= check_box_tag('wantsconnection','1',current_learner.watched_event?(@event),{class: 'submittable'}) %>
-      <span>Watched Recording</span>
+      <%= check_box_tag('wantsconnection','1',current_learner.viewed_event?(@event),{class: 'submittable'}) %>
+      <span>Viewed Recording</span>
       <span><small>It will show up in your Learning Portfolio</small></span>
       </label>
     </p>
