@@ -231,19 +231,10 @@
      <div class="event-audience">Primary Audience: <%= @event.primary_audience_label.html_safe -%></div>
 
      <%- if current_learner -%>
-     <div class="participation-connection">
-      <%- if !@event.is_extension_webinar? -%>
-        <p class="event-connection-summary"><%= pluralize(@event.learners.count, "Connection") -%> </p>
-      <%- else -%>
-        <%- if @event.zoom_webinar_status != Event::WEBINAR_STATUS_OK -%>
-          <p class="event-connection-summary">No Zoom Registration data yet</p>
-        <%- else -%>
-          <%- connection_counts = @event.zoom_webinar.connection_counts -%>
-          <p class="event-connection-summary"><%= pluralize(connection_counts[:registered][:total], "Zoom Registration") -%></p>
-        <%- end -%>
-      <%- end -%>
-      <div class="event-connection-details"><%= link_to "View participation and connection details", backstage_event_path(@event.id) %></div>
-      </div>
+     <div id="connection_counts" class="participation-connection">
+       <%= render :partial => 'connection_counts' %>
+     </div>
+     <div class="event-connection-details"><%= link_to "View participation and connection details", backstage_event_path(@event.id) %></div>
      <%- end -%>
 
   <% if @similar_events.count > 0 %>
