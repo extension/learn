@@ -92,12 +92,12 @@
     <br class="clearing"/>
   <% end %>
 
-  <h2>Watched</h2>
-  <% if @learner.public_watched_events? %>
-    <% if @watched_events.length == 0 %>
-      <p class="muted">No events watched yet<p>
+  <h2>Viewed</h2>
+  <% if @learner.public_viewed_events? %>
+    <% if @viewed_events.length == 0 %>
+      <p class="muted">No events viewed yet<p>
     <% else %>
-      <% @watched_events.each do |event| %>
+      <% @viewed_events.each do |event| %>
         <p>
           <i class="<%= (event.recording.present?) ? "fa fa-play-circle play-green" : "fa fa-play-circle mid-gray" %>"></i>
           <% if event.is_expired %>
@@ -105,14 +105,14 @@
           <% end %>
         <%= link_to event.title, event_path(event) %> <span class="event_date"><%= event.session_start.strftime("%b %e, %Y") %></span></p>
       <% end %>
-      <% if current_learner && (current_learner.id == @learner.id || @learner.public_watched_events?) %>
-      <p class="view_all"><%= link_to_unless_current "View all", watched_history_learner_path(@learner), :class => "muted" %></p>
+      <% if current_learner && (current_learner.id == @learner.id || @learner.public_viewed_events?) %>
+      <p class="view_all"><%= link_to_unless_current "View all", viewed_history_learner_path(@learner), :class => "muted" %></p>
       <% end %>
     <% end %>
   <% else %>
     <div class="not_sharing">
     <p>
-      Watched events are not being shared.
+      Viewed events are not being shared.
       <% if current_learner && current_learner.id == @learner.id %>
         <%= link_to 'change', settings_privacy_path %>
       <% end %>
@@ -124,12 +124,12 @@
 
 <div class="col-md-4">
   <h2>Following</h2>
-  <% if @learner.public_bookmarked_events? %>
-    <% if @bookmarked_events.length == 0 %>
+  <% if @learner.public_followed_events? %>
+    <% if @followed_events.length == 0 %>
       <p>No events followed yet</p>
     <% else %>
 
-    <% @bookmarked_events.each do |event| %>
+    <% @followed_events.each do |event| %>
         <p>
           <i class="<%= (event.recording.present?) ? "fa fa-play-circle play-green" : "fa fa-play-circle mid-gray" %>"></i>
         <% if event.is_expired %>
@@ -141,8 +141,8 @@
           <% end %></p>
     <% end %>
 
-    <% if current_learner && (current_learner.id == @learner.id || @learner.public_bookmarked_events?) %>
-    <p class="view_all"><%= link_to_unless_current "View all", bookmarked_history_learner_path(@learner), :class => "muted" %></p>
+    <% if current_learner && (current_learner.id == @learner.id || @learner.public_followed_events?) %>
+    <p class="view_all"><%= link_to_unless_current "View all", followed_history_learner_path(@learner), :class => "muted" %></p>
     <% end %>
 
     <% end %>

@@ -128,14 +128,14 @@ class ZoomConnection < ActiveRecord::Base
     if(!self.attended.nil? and self.attended)
       connectiontype = EventConnection::ATTEND
     else
-      connectiontype = EventConnection::BOOKMARK
+      connectiontype = EventConnection::FOLLOW
     end
 
     begin
       ec = EventConnection.create(learner_id: self.learner_id, event_id: self.event_id, connectiontype: connectiontype, added_by_api: true)
       self.update_column(:event_connection_id, ec.id)
     rescue ActiveRecord::RecordNotUnique => e
-      # do nothing, already bookmarked
+      # do nothing, already following
     end
 
   end

@@ -32,15 +32,15 @@
 
     </tr>
     <tr>
-      <td>Watched events</td>
-      <td class="small"><%= radio_button_tag 'sharing.events.watched', '1', @learner.public_watched_events? %></td>
-      <td class="small"><%= radio_button_tag 'sharing.events.watched', '0', !@learner.public_watched_events? %></td>
+      <td>Viewed events</td>
+      <td class="small"><%= radio_button_tag 'sharing.events.viewed', '1', @learner.public_viewed_events? %></td>
+      <td class="small"><%= radio_button_tag 'sharing.events.viewed', '0', !@learner.public_viewed_events? %></td>
 
     </tr>
     <tr>
       <td>Followed events</td>
-      <td class="small"><%= radio_button_tag 'sharing.events.bookmarked', '1', @learner.public_bookmarked_events? %></td>
-      <td class="small"><%= radio_button_tag 'sharing.events.bookmarked', '0', !@learner.public_bookmarked_events? %></td>
+      <td class="small"><%= radio_button_tag 'sharing.events.followed', '1', @learner.public_followed_events? %></td>
+      <td class="small"><%= radio_button_tag 'sharing.events.followed', '0', !@learner.public_followed_events? %></td>
     </tr>
     <tr>
       <td>Commented events</td>

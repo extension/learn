@@ -62,6 +62,7 @@ class Event < ActiveRecord::Base
   has_many :questions, order: 'priority,created_at', dependent: :destroy
   has_many :answers, :through => :questions
   has_many :comments, dependent: :destroy
+  has_many :commenting_learners, through: :comments, source: :learner, uniq: true
   has_many :ratings, :as => :rateable, :include => :learner, :conditions => "learners.is_blocked = false", dependent: :destroy
   has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
@@ -73,12 +74,6 @@ class Event < ActiveRecord::Base
   has_many :notification_exceptions
   has_many :material_links
   accepts_nested_attributes_for :material_links, :reject_if => :all_blank, :allow_destroy => true
-
-  #counter column relations
-  has_many :bookmarks, through: :event_connections, source: :event, conditions: "connectiontype = 3"
-  has_many :attended, through: :event_connections, source: :event, conditions: "connectiontype = 4"
-  has_many :watchers, through: :event_connections, source: :event, conditions: "connectiontype = 5"
-  has_many :commentators, through: :comments, source: :learner, conditions: "learners.is_blocked = false", uniq: true
 
   # conference sessions
   belongs_to :conference
@@ -125,9 +120,9 @@ class Event < ActiveRecord::Base
     boolean :is_deleted
   end
 
-  scope :bookmarked, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::BOOKMARK]
-  scope :attended, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::ATTEND]
-  scope :watched, include: :event_connections, conditions: ["event_connections.connectiontype = ?", EventConnection::WATCH]
+  scope :followed, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::FOLLOW)}
+  scope :attended, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::ATTEND)}
+  scope :viewed, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::VIEW)}
 
   scope :active, -> {where(is_canceled: false).where(is_deleted: false)}
   scope :not_expired, -> {where(is_expired: false)}
@@ -493,18 +488,6 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     self.questions
   end
 
-  def attendees
-    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::ATTEND)
-  end
-
-  def watched
-    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::WATCH)
-  end
-
-  def bookmarked
-    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::BOOKMARK)
-  end
-
   # when an event is created, up to 6 notifications need to be created.
   # 1 notification via email (180 minutes before)
   # conference sessions will go out 1 hour before
@@ -741,37 +724,35 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
   end
 
 
+  def attendees
+    learners.valid.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
+  end
+
+  def viewers
+    learners.valid.where("event_connections.connectiontype = ?", EventConnection::VIEW)
+  end
+
+  def followers
+    learners.valid.where("event_connections.connectiontype = ?", EventConnection::FOLLOW)
+  end
+
+  # this is a shortcut method because a former conditional association was named
+  # 'commentators' and its used in multiple places - the association is no longer
+  # conditional, and is named to reflect the purpose, this name is unique enough
+  # to apply conditions to
+  def commentators
+    commenting_learners.valid
+  end
+
+
   #convenience method to reset counter columns
   def self.reset_counter_columns
     Event.find_each do |event|
-      event.update_column(:bookmarks_count, event.bookmarks.count)
-      event.update_column(:attended_count, event.attended.count)
-      event.update_column(:watchers_count, event.watchers.count)
+      event.update_column(:followers_count, event.followers.count)
+      event.update_column(:attendees_count, event.attendees.count)
+      event.update_column(:viewers_count, event.viewers.count)
       event.update_column(:commentators_count, event.commentators.count)
     end
-  end
-
-  #convenience method verify column counts are correct
-  def self.verify_column_counts
-    inconsistencies = []
-    Event.find_each do |event|
-      if event.bookmarks_count != event.bookmarked.count
-        inconsistencies << "Bookmarks inconsistancy found in Event #{event.id} (#{event.bookmarks_count} vs. #{event.bookmarked.count})"
-      end
-
-      if event.attended_count != event.attendees.count
-        inconsistencies << "Attendees inconsistancy found in Event #{event.id} (#{event.attended_count}  vs. #{event.attendees.count})"
-      end
-
-      if event.watchers_count != event.watchers.count
-        inconsistencies << "Watchers inconsistancy found in Event #{event.id} (#{event.watchers_count}  vs. #{event.watchers.count})"
-      end
-
-      if event.commentators_count != event.commentators.count
-        inconsistencies << "Commentators inconsistancy found in Event #{event.id} (#{event.commentators_count} vs. #{event.commentators.count})"
-      end
-    end
-    inconsistencies
   end
 
 end

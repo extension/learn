@@ -146,9 +146,9 @@ class DataController < ApplicationController
     headers << 'Recording'
     headers << 'Length'
     headers << 'Evaluation Link'
-    headers << 'Bookmarked'
-    headers << 'Attended'
-    headers << 'Watched'
+    headers << 'Followers'
+    headers << 'Attendees'
+    headers << 'Viewers'
     headers << 'Commentators'
     headers << 'Materials'
     csv << headers
@@ -165,9 +165,9 @@ class DataController < ApplicationController
       row << ((event.has_recording?) ? event.recording : "n/a")
       row << event.session_length
       row << event.evaluation_link
-      row << event.bookmarks_count
-      row << event.attended_count
-      row << event.watchers_count
+      row << event.followers_count
+      row << event.attendees_count
+      row << event.viewers_count
       row << event.commentators_count
       row << event.material_links.map(&:reference_link).join(" ")
       csv << row

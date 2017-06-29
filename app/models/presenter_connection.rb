@@ -9,7 +9,7 @@ class PresenterConnection < ActiveRecord::Base
   belongs_to :learner
   acts_as_list scope: :event
 
-  after_create :create_bookmark
+  after_create :create_follow
 
   scope :event_date_filtered, lambda { |start_date,end_date| includes(:event).where('DATE(events.session_start) >= ? AND DATE(events.session_start) <= ?', start_date, end_date) }
 
@@ -17,11 +17,11 @@ class PresenterConnection < ActiveRecord::Base
     self.event_activities.destroy_all
   end
 
-  def create_bookmark
+  def create_follow
     begin
-      EventConnection.create(learner: self.learner, event: self.event, connectiontype: EventConnection::BOOKMARK)
+      EventConnection.create(learner: self.learner, event: self.event, connectiontype: EventConnection::FOLLOW)
     rescue ActiveRecord::RecordNotUnique => e
-      # do nothing, already bookmarked
+      # do nothing, already following
     end
   end
 end

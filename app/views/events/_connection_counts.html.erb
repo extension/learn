@@ -1,0 +1,10 @@
+ <%- if !@event.is_extension_webinar? -%>
+   <p class="event-connection-summary"><%= pluralize(@event.learners.count, "Connection") -%> </p>
+ <%- else -%>
+   <%- if @event.zoom_webinar_status != Event::WEBINAR_STATUS_OK -%>
+     <p class="event-connection-summary">No Zoom Registration data yet</p>
+   <%- else -%>
+     <%- connection_counts = @event.zoom_webinar.connection_counts -%>
+     <p class="event-connection-summary"><%= pluralize(connection_counts[:registered][:total], "Zoom Registration") -%></p>
+   <%- end -%>
+ <%- end -%>

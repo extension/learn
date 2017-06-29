@@ -23,11 +23,11 @@ class Learner < ActiveRecord::Base
   has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
   has_many :registration_events, :class_name => "Event", :foreign_key => 'registration_contact_id'
   has_many :comments
+  has_many :commented_events, through: :comments, source: :event, uniq: true
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
   has_many :zoom_connections
   has_many :zoom_webinars, through: :zoom_connections, uniq: true
-  has_many :commented_events, through: :comments, source: :event, uniq: true
   has_many :ratings
   has_many :event_activities
   has_many :presenter_connections
@@ -195,36 +195,31 @@ class Learner < ActiveRecord::Base
   end
 
   def connected_to_event?(event)
-    !self.events.where('event_id = ?',event.id).blank?
+    !self.events.where('event_id = ?',event.id).first.nil?
   end
 
   def is_presenter_for_event?(event)
-    !self.presented_events.where('event_id = ?',event.id).blank?
+    !self.presented_events.where('event_id = ?',event.id).first.nil?
   end
 
   def is_following_event?(event)
-    find_event = self.events.bookmarked.where('event_id = ?',event.id)
-    !find_event.blank?
+    !self.followed_events.where('event_id = ?',event.id).first.nil?
   end
 
   def attended_event?(event)
-    find_event = self.events.attended.where('event_id = ?',event.id)
-    !find_event.blank?
+    !self.attended_events.where('event_id = ?',event.id).first.nil?
   end
 
-  def watched_event?(event)
-    find_event = self.events.watched.where('event_id = ?',event.id)
-    !find_event.blank?
+  def viewed_event?(event)
+    !self.viewed_events.where('event_id = ?',event.id).first.nil?
   end
 
   def has_event_notification_exception?(event)
-    find_notification_exception = self.notification_exceptions.where('event_id = ?',event.id)
-    !find_notification_exception.blank?
+    !self.notification_exceptions.where('event_id = ?',event.id).first.nil?
   end
 
   def has_connection_with_event?(event)
-    find_event = self.events.where('event_id = ?',event.id)
-    !find_event.blank?
+    !self.events.where('event_id = ?',event.id).first.nil?
   end
 
   def connect_with_event(event,connectiontype)
@@ -232,8 +227,7 @@ class Learner < ActiveRecord::Base
   end
 
   def attending_conference?(conference)
-    find_conference = self.conferences.attended.where('conference_id = ?',conference.id)
-    !find_conference.blank?
+    !self.conferences.attended.where('conference_id = ?',conference.id).first.nil?
   end
 
   def connect_with_conference(conference,connectiontype)
@@ -260,6 +254,20 @@ class Learner < ActiveRecord::Base
   def get_upvoted_object(object_id, object_type)
     rating = Rating.where(rateable_type: object_type, rateable_id: object_id, learner_id: self.id, score: 1).first
     return rating
+  end
+
+  # convenience methods for consistent use between presented_events and recommended_events that
+  # help with the conditionals of the learner's connection with the event
+  def attended_events
+    events.active.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
+  end
+
+  def viewed_events
+    events.active.where("event_connections.connectiontype = ?", EventConnection::VIEW)
+  end
+
+  def followed_events
+    events.active.where("event_connections.connectiontype = ?", EventConnection::FOLLOW)
   end
 
   # this is relatively inefficient - because all learner scores for the event scope chosen
@@ -364,12 +372,12 @@ class Learner < ActiveRecord::Base
     self.preferences.setting('sharing.events.attended')
   end
 
-  def public_watched_events?
-    self.preferences.setting('sharing.events.watched')
+  def public_viewed_events?
+    self.preferences.setting('sharing.events.viewed')
   end
 
-  def public_bookmarked_events?
-    self.preferences.setting('sharing.events.bookmarked')
+  def public_followed_events?
+    self.preferences.setting('sharing.events.followed')
   end
 
   def public_commented_events?

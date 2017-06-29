@@ -182,9 +182,9 @@ class EventsController < ApplicationController
 
   def backstage
     @event = Event.find(params[:id])
-    @attendee_count = @event.attendees.count
-    @watched_count = @event.watched.count
-    @bookmarked_count = @event.bookmarked.count
+    @attendees_count = @event.attendees.count
+    @viewers_count = @event.viewers.count
+    @followers_count = @event.followers.count
   end
 
   def history
@@ -348,11 +348,11 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     if(connectiontype = params[:connectiontype])
       case connectiontype.to_i
-      when EventConnection::BOOKMARK
+      when EventConnection::FOLLOW
         if(params[:wantsconnection] and params[:wantsconnection] == '1')
-          current_learner.connect_with_event(@event,EventConnection::BOOKMARK)
+          current_learner.connect_with_event(@event,EventConnection::FOLLOW)
         else
-          current_learner.remove_connection_with_event(@event,EventConnection::BOOKMARK)
+          current_learner.remove_connection_with_event(@event,EventConnection::FOLLOW)
         end
       when EventConnection::ATTEND
         if(params[:wantsconnection] and params[:wantsconnection] == '1')
@@ -360,11 +360,11 @@ class EventsController < ApplicationController
         else
           current_learner.remove_connection_with_event(@event,EventConnection::ATTEND)
         end
-      when EventConnection::WATCH
+      when EventConnection::VIEW
         if(params[:wantsconnection] and params[:wantsconnection] == '1')
-          current_learner.connect_with_event(@event,EventConnection::WATCH)
+          current_learner.connect_with_event(@event,EventConnection::VIEW)
         else
-          current_learner.remove_connection_with_event(@event,EventConnection::WATCH)
+          current_learner.remove_connection_with_event(@event,EventConnection::VIEW)
         end
       else
         # do nothing

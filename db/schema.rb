@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20170524160957) do
+ActiveRecord::Schema.define(:version => 20170629142213) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -174,10 +174,9 @@ ActiveRecord::Schema.define(:version => 20170524160957) do
     t.datetime "featured_at"
     t.string   "evaluation_link"
     t.string   "cover_image"
-    t.integer  "bookmarks_count",                        :default => 0,        :null => false
-    t.integer  "attended_count",                         :default => 0,        :null => false
-    t.integer  "watchers_count",                         :default => 0,        :null => false
-    t.integer  "raters_count",                           :default => 0,        :null => false
+    t.integer  "followers_count",                        :default => 0,        :null => false
+    t.integer  "attendees_count",                        :default => 0,        :null => false
+    t.integer  "viewers_count",                          :default => 0,        :null => false
     t.integer  "commentators_count",                     :default => 0,        :null => false
     t.text     "provided_presenter_order"
     t.boolean  "is_deleted",                             :default => false,    :null => false
