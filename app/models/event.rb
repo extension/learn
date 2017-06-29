@@ -493,18 +493,6 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     self.questions
   end
 
-  def attendees
-    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::ATTEND)
-  end
-
-  def watched
-    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::WATCH)
-  end
-
-  def bookmarked
-    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::BOOKMARK)
-  end
-
   # when an event is created, up to 6 notifications need to be created.
   # 1 notification via email (180 minutes before)
   # conference sessions will go out 1 hour before
@@ -738,6 +726,19 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
 
   def is_extension_webinar?
     EXTENSION_WEBINAR_SET.include?(self.zoom_webinar_status)
+  end
+
+
+  def attendees
+    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::ATTEND)
+  end
+
+  def watched
+    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::WATCH)
+  end
+
+  def bookmarked
+    learners.where("event_connections.connectiontype = ? AND learners.is_blocked = false", EventConnection::BOOKMARK)
   end
 
 
