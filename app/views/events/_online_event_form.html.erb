@@ -46,6 +46,15 @@
     </div>
   </div>
 </fieldset>
+
+  <fieldset id="is_mfln_event">
+    <p>
+      <%= event_form.check_box :is_mfln %>
+      <%= event_form.label :is_mfln, 'This is a Military Families Learning Network (MFLN) event' %>
+      <span class="help-block">This event is presented on behalf of the <a href="https://militaryfamilies.extension.org">Military Families Learning Network</a>.</span>
+    </p>
+  </fieldset>
+
 </div>
 
 
@@ -134,30 +143,20 @@
    </p>
  </fieldset>
 
-  <% if @event.registration_contact_id == Learner::BRIGITTE_SCOTT and !current_learner.is_admin? %>
-    <fieldset class="learner-registration">
-      <span class="help-block">
-        <%= event_form.check_box :requires_registration, disabled: true %>
-        Registration contact is Brigitte Scott.
-      </span>
-     </p>
-   </fieldset>
-  <% else %>
     <fieldset class="learner-registration">
       <p>
         <%= event_form.check_box :requires_registration %>
         <%= event_form.label :requires_registration, 'Require participants to register (optional)' %>
-        <%= text_field_tag :registration_contact, @event.registration_contact_id.blank? ? "" : @event.registration_contact.name %>
-        <%= event_form.hidden_field :registration_contact_id %>
         <span class="help-block">Participants cannot view Event Location until they enter email and name. Check the box above to enable registration and choose a single registration contact to access registration data. Type a least two characters of the user name to see a list of available users. </span>
       </p>
     </fieldset>
-  <% end %>
  <fieldset class="learner-registration-email">
    <%= event_form.label :registration_description, 'Emailed Description' %>
    <span class="help-block">Enter the description you want emailed to registrants in this box. If you leave this box blank then the full description of the event will be emailed to registrants. </span>
    <%= event_form.text_area :registration_description, :rows => "8", :class => "form-control" %>
  </fieldset>
+
+
 <fieldset>
   <div class="material-links-wrapper">
     <p><%= link_to_add_association 'Add event materials', event_form, :material_links, { form_name: 'event_form', 'data-association-insertion-method' => 'after', :class => "btn btn-default" } %><p>
@@ -221,17 +220,6 @@
            .append( "<a>"+ item.label + " <strong>(" + item.tag_count + ")</strong></a>" )
            .appendTo( ul );
          };
-
-         $('#registration_contact').autocomplete({
-            source: "/ajax/registration_contact",
-            minLength: 2,
-            select: function(event, ui) {
-              $('#event_registration_contact_id').val(ui.item.id);
-              $('#registration_contact').val(ui.item.name);
-              return false;
-            }
-          });
-
      });
 
      function add_tag(tag) {

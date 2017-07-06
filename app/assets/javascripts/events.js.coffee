@@ -21,21 +21,14 @@ $ ->
 #event new/edit page
 $ ->
 		if $('#event_requires_registration').prop('checked') == true
-				$('#registration_contact').prop 'disabled', false
 				$('#event_registration_description').prop 'disabled', false
 		else
-				$('#registration_contact').prop 'disabled', true
 				$('#event_registration_description').prop 'disabled', true
 		$('#event_requires_registration').click ->
-				$('#registration_contact').attr 'disabled', !@checked
-				$('#registration_contact').val('');
-				$('#event_registration_contact_id').val('');
 				if $('#event_requires_registration').prop('checked') == true
 					$('#event_registration_description').prop 'disabled', false
-					$('#registration_contact').attr 'placeholder', 'Enter Contact...'
 					$('#event_registration_description').attr 'placeholder', 'Enter description to be emailed (optional)...'
 				else
-					$('#registration_contact').attr 'placeholder', ''
 					$('#event_registration_description').attr 'placeholder', ''
 					$('#event_registration_description').val('');
 					$('#event_registration_description').prop('disabled', true);

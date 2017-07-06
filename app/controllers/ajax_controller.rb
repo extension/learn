@@ -17,25 +17,15 @@ class AjaxController < ApplicationController
     tags.each do |t|
       list <<  Hash[ id: t.id, label: t.name, name: t.name, tag_count: "#{number_with_delimiter(t.tag_count, :delimiter => ',')}"] if t.name != search_term
     end
-    
+
     tag_count_description = "not used yet"
-    
+
     param_tag = Tag.used_at_least_once.find_by_name(search_term)
     if param_tag
       tag_count_description = number_with_delimiter(param_tag.tag_count, :delimiter => ',')
     end
-    
+
     list.unshift(Hash[id: nil, label: search_term, name: search_term, tag_count: tag_count_description])
     render json: list
   end
-
-  def registration_contact
-    list = []
-    learners = Learner.order(:name).where("name like ?", "%#{params[:term]}%").limit(12)
-    learners.each do |l|
-      list << Hash[ id: l.id, label: l.name, name: l.name]
-    end
-    render json: list
-  end
-
 end

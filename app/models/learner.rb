@@ -9,8 +9,6 @@ class Learner < ActiveRecord::Base
   # Setup accessible (or protected) attributes
   attr_accessible :email, :remember_me, :name, :avatar, :bio, :mobile_number, :remove_avatar, :avatar_cache, :needs_search_update
 
-  BRIGITTE_SCOTT = 21383
-
   # specify image uploader for carrierwave
   mount_uploader :avatar, AvatarUploader
 
@@ -21,7 +19,6 @@ class Learner < ActiveRecord::Base
   has_many :stock_questions
   has_many :created_events, :class_name => "Event", :foreign_key => 'creator_id'
   has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
-  has_many :registration_events, :class_name => "Event", :foreign_key => 'registration_contact_id'
   has_many :comments
   has_many :commented_events, through: :comments, source: :event, uniq: true
   has_many :event_connections
@@ -472,6 +469,10 @@ class Learner < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  def is_mfln_registration_contact?
+    Settings.mfln_registration_contacts.include?(self.id)
   end
 
 end
