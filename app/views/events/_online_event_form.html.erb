@@ -57,7 +57,21 @@
 
 </div>
 
+<div id="mfln_event_additions" <%= @event.is_mfln? ? '' : 'style=\"display: none;\"' -%>">
+  <fieldset id="mfln_registration" <%= @event.is_mfln? ? '' : 'disabled' -%>>
+    <legend>MFLN Event Registration</legend>
 
+       <p>
+         <%= event_form.check_box :requires_registration %>
+         <%= event_form.label :requires_registration, 'Require participants to register (optional)' %>
+         <span class="help-block">Participants cannot view Event Location until they enter email and name. Check the box above to enable registration and choose a single registration contact to access registration data. Type a least two characters of the user name to see a list of available users. </span>
+       </p>
+    <%= event_form.label :registration_description, 'Emailed Description' %>
+    <span class="help-block">Enter the description you want emailed to registrants in this box. If you leave this box blank then the full description of the event will be emailed to registrants. </span>
+    <%= event_form.text_area :registration_description, :rows => "8", :class => "form-control" %>
+
+  </fieldset>
+</div>
 
 
 <fieldset id="event-title">
@@ -143,20 +157,6 @@
    </p>
  </fieldset>
 
-    <fieldset class="learner-registration">
-      <p>
-        <%= event_form.check_box :requires_registration %>
-        <%= event_form.label :requires_registration, 'Require participants to register (optional)' %>
-        <span class="help-block">Participants cannot view Event Location until they enter email and name. Check the box above to enable registration and choose a single registration contact to access registration data. Type a least two characters of the user name to see a list of available users. </span>
-      </p>
-    </fieldset>
- <fieldset class="learner-registration-email">
-   <%= event_form.label :registration_description, 'Emailed Description' %>
-   <span class="help-block">Enter the description you want emailed to registrants in this box. If you leave this box blank then the full description of the event will be emailed to registrants. </span>
-   <%= event_form.text_area :registration_description, :rows => "8", :class => "form-control" %>
- </fieldset>
-
-
 <fieldset>
   <div class="material-links-wrapper">
     <p><%= link_to_add_association 'Add event materials', event_form, :material_links, { form_name: 'event_form', 'data-association-insertion-method' => 'after', :class => "btn btn-default" } %><p>
@@ -238,4 +238,15 @@
         tag.fadeOut(500);
       });
 
+      // mfln event
+      $('#event_is_mfln').click( function(){
+          if($('#event_is_mfln').prop('checked') == true) {
+            $('#mfln_event_additions').show();
+            add_tag('<%= Event::MFLN_TAG -%>');
+            $('#mfln_registration').prop('disabled',false);
+          } else {
+            $('#mfln_event_additions').hide();
+            $('#mfln_registration').prop('disabled',true);
+          }
+        });
  </script>

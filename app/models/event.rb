@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
-  attr_accessible :requires_registration, :registration_description
+  attr_accessible :is_mfln, :requires_registration, :registration_description
   attr_accessible :location_webinar_id, :zoom_webinar_id, :zoom_webinar_status
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
@@ -34,6 +34,8 @@ class Event < ActiveRecord::Base
 
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
+
+  MFLN_TAG = 'militaryfamilies'
 
   # types
   ONLINE = 'online'

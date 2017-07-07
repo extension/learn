@@ -17,19 +17,3 @@ $ ->
 		$(".location-section").hide()
 	else
 		$(".registration_form").hide()
-
-#event new/edit page
-$ ->
-		if $('#event_requires_registration').prop('checked') == true
-				$('#event_registration_description').prop 'disabled', false
-		else
-				$('#event_registration_description').prop 'disabled', true
-		$('#event_requires_registration').click ->
-				if $('#event_requires_registration').prop('checked') == true
-					$('#event_registration_description').prop 'disabled', false
-					$('#event_registration_description').attr 'placeholder', 'Enter description to be emailed (optional)...'
-				else
-					$('#event_registration_description').attr 'placeholder', ''
-					$('#event_registration_description').val('');
-					$('#event_registration_description').prop('disabled', true);
-				return
