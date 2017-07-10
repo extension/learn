@@ -57,7 +57,7 @@
 
 </div>
 
-<div id="mfln_event_additions" <%= @event.is_mfln? ? '' : 'style=\"display: none;\"' -%>">
+<div id="mfln_event_additions" <%= @event.is_mfln? ? '' : raw("style='display: none'") -%>">
   <fieldset id="mfln_registration" <%= @event.is_mfln? ? '' : 'disabled' -%>>
     <legend>MFLN Event Registration</legend>
 
