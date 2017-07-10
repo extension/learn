@@ -230,6 +230,15 @@
        $("#tag_picker").autocomplete("close");
   		};
 
+      function remove_tag(tag) {
+        if($("#tag_"+tag).length) {
+          $("#tag_"+tag).remove();
+          var current_list = $('#event_tag_list').val();
+          new_list = current_list.replace(tag, "");
+          $('#event_tag_list').val(new_list);
+        };
+      }
+
      // remove tags
       $("#tag_list").on("click", ".removetag", function(){
         var tag = $(this).closest("p");
@@ -247,6 +256,7 @@
             add_tag('<%= Event::MFLN_TAG -%>');
             $('#mfln_registration').prop('disabled',false);
           } else {
+            remove_tag('<%= Event::MFLN_TAG -%>');
             $('#mfln_event_additions').hide();
             $('#mfln_registration').prop('disabled',true);
           }
