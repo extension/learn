@@ -101,6 +101,7 @@ class Event < ActiveRecord::Base
   before_save :set_session_end
   before_save :set_presenters_from_tokens
   before_save :set_tags_from_tag_list
+  before_save :check_mfln_for_registration
   after_update :fix_presenter_ordering
   after_create :create_event_notifications
   after_save :set_location_webinar_id
@@ -351,6 +352,11 @@ class Event < ActiveRecord::Base
       end
     end
     self.tags = tags_to_set.uniq
+  end
+
+  def check_mfln_for_registration
+    self.requires_registration = false if(!self.is_mfln?)
+    true
   end
 
   def session_start_string
