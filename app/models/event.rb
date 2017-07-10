@@ -299,6 +299,10 @@ class Event < ActiveRecord::Base
     write_attribute(:location, self.scrub_and_sanitize(location))
   end
 
+  def registration_description=(registration_description)
+    write_attribute(:registration_description, self.scrub_and_sanitize(registration_description))
+  end
+
   def set_presenters_from_tokens
     if(!self.presenter_tokens.blank?)
       self.presenter_ids = self.presenter_tokens.split(',')
