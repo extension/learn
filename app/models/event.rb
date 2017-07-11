@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
-  attr_accessible :requires_registration, :registration_contact_id, :registration_description
+  attr_accessible :is_mfln, :requires_registration, :registration_description
   attr_accessible :location_webinar_id, :zoom_webinar_id, :zoom_webinar_status
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
@@ -34,6 +34,8 @@ class Event < ActiveRecord::Base
 
   # revisioning
   has_paper_trail :on => [:update], :virtual => [:presenter_tokens, :tag_list]
+
+  MFLN_TAG = 'militaryfamilies'
 
   # types
   ONLINE = 'online'
@@ -57,7 +59,6 @@ class Event < ActiveRecord::Base
   has_many :taggings, :as => :taggable, dependent: :destroy
   has_many :tags, :through => :taggings
   belongs_to :creator, :class_name => "Learner"
-  belongs_to :registration_contact, :class_name => "Learner"
   belongs_to :last_modifier, :class_name => "Learner"
   has_many :questions, order: 'priority,created_at', dependent: :destroy
   has_many :answers, :through => :questions
@@ -67,6 +68,7 @@ class Event < ActiveRecord::Base
   has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
   has_many :event_registrations
+
   has_many :presenter_connections, dependent: :destroy
   has_many :presenters, through: :presenter_connections, :source => :learner, :order => 'position'
   has_many :event_activities, dependent: :destroy
@@ -85,7 +87,6 @@ class Event < ActiveRecord::Base
   validates :session_start, :presence => true
   validates :session_length, :presence => true
   validates :location, :presence => true
-  validates_presence_of :registration_contact_id, :if => :validate_registration_contact?
 
   validates :recording, :allow_blank => true, :uri => true
   validates :evaluation_link, :allow_blank => true, :uri => true
@@ -100,6 +101,7 @@ class Event < ActiveRecord::Base
   before_save :set_session_end
   before_save :set_presenters_from_tokens
   before_save :set_tags_from_tag_list
+  before_save :check_mfln_for_registration
   after_update :fix_presenter_ordering
   after_create :create_event_notifications
   after_save :set_location_webinar_id
@@ -208,12 +210,9 @@ class Event < ActiveRecord::Base
 
   scope :all_upcoming, -> { where('(session_start >= ?) OR (session_start <= ? AND session_end > ?)',Time.zone.now, Time.zone.now, Time.zone.now).order("session_start ASC")}
 
+  scope :mfln_events, -> { where('')}
 
-SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL, Notification::EVENT_REMINDER_SMS, Notification::EVENT_REGISTRATION_REMINDER_EMAIL]
-
-  def validate_registration_contact?
-    requires_registration == true
-  end
+  SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL, Notification::EVENT_REMINDER_SMS, Notification::EVENT_REGISTRATION_REMINDER_EMAIL]
 
   def connections_list
     self.learners.valid.order('event_connections.created_at')
@@ -300,6 +299,10 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
     write_attribute(:location, self.scrub_and_sanitize(location))
   end
 
+  def registration_description=(registration_description)
+    write_attribute(:registration_description, self.scrub_and_sanitize(registration_description))
+  end
+
   def set_presenters_from_tokens
     if(!self.presenter_tokens.blank?)
       self.presenter_ids = self.presenter_tokens.split(',')
@@ -353,6 +356,11 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
       end
     end
     self.tags = tags_to_set.uniq
+  end
+
+  def check_mfln_for_registration
+    self.requires_registration = false if(!self.is_mfln?)
+    true
   end
 
   def session_start_string
@@ -742,6 +750,10 @@ SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL
   # to apply conditions to
   def commentators
     commenting_learners.valid
+  end
+
+  def is_mfln_registration_event?
+    self.is_mfln? and self.requires_registration?
   end
 
 

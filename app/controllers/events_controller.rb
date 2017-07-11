@@ -136,7 +136,6 @@ class EventsController < ApplicationController
     @comment = Comment.new
     @event_comments = @event.comments
     @similar_events = @event.similar_events
-    @registrants = EventRegistration.where(event_id: @event.id).first
     if @event.tags.length != 0
       tracker do |t|
         t.google_tag_manager :push, { pageAttributes: @event.tags.map(&:name) }
@@ -384,7 +383,7 @@ class EventsController < ApplicationController
 
   def export_registrants
     @event = Event.find(params[:id])
-    if current_learner.id == @event.registration_contact_id
+    if(@event.is_mfln_registration_event? and current_learner.is_mfln_registration_contact?)
       registrants = EventRegistration.where(event_id: @event.id)
       csv = EventRegistration.export(registrants)
       headers["Content-Disposition"] = "attachment; filename=\"event_#{@event.id}_registrants.csv\""
@@ -394,7 +393,7 @@ class EventsController < ApplicationController
 
   def destroy_registrants
     @event = Event.find(params[:id])
-    if current_learner.id == @event.registration_contact_id
+    if(@event.is_mfln_registration_event? and current_learner.is_mfln_registration_contact?)
       registrants = EventRegistration.where(event_id: @event.id)
       registrants.delete_all
 

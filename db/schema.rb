@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20170629142213) do
+ActiveRecord::Schema.define(:version => 20170706163554) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -181,13 +181,13 @@ ActiveRecord::Schema.define(:version => 20170629142213) do
     t.text     "provided_presenter_order"
     t.boolean  "is_deleted",                             :default => false,    :null => false
     t.boolean  "requires_registration",                  :default => false,    :null => false
-    t.integer  "registration_contact_id"
     t.text     "reason_is_deleted"
     t.text     "registration_description"
     t.integer  "primary_audience",                       :default => 0,        :null => false
     t.integer  "location_webinar_id"
     t.integer  "zoom_webinar_id"
     t.integer  "zoom_webinar_status"
+    t.boolean  "is_mfln",                                :default => false
   end
 
   add_index "events", ["conference_id"], :name => "conference_ndx"
