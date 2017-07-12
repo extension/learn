@@ -1,6 +1,8 @@
 <ul class="nav nav-tabs">
 	<%= nav_item(data_overview_path, 'Overall') -%>
 	<%= nav_item(data_events_path, 'Events') -%>
+	<%= nav_item(data_zoom_webinars_path, 'Zoom Webinars') -%>
+
   <%= nav_item(data_presenters_path, 'Presenters') if current_learner.is_admin? -%>
 	<%= nav_item(data_recommendations_path, 'Recommendations') if current_learner.is_admin? -%>
 	<%= nav_item(data_projected_recommendations_path, 'Projected Recommendations') if current_learner.is_admin? -%>

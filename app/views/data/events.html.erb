@@ -4,7 +4,7 @@
 
 
 
-<%= render(partial: 'date_form') -%>
+<%= render(partial: 'date_form', locals: {showtagfield: true}) -%>
 <%- if defined?(@events.total_count) && @events.total_count > 0 -%>
   <% if params[:tag_tokens].blank? %>
     <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'events', :download => 'csv', :start_date => @start_date, :end_date => @end_date) %> </p>
@@ -16,16 +16,17 @@
 <table class="table table-striped sortable">
   <thead>
     <tr>
-      <th><%= sortable "session_start", "Date/Time", @start_date, @end_date, params[:tag_tokens] %></th>
+      <th><%= sortable_link("session_start", "Date/Time", @start_date, @end_date, params[:tag_tokens]) %></th>
       <th>Presenters</th>
-      <th><%= sortable "title", "Title", @start_date, @end_date, params[:tag_tokens] %></th>
+      <th><%= sortable_link("title", "Title", @start_date, @end_date, params[:tag_tokens]) %></th>
       <th>Tags</th>
-      <th><%= sortable "recording", "Recording", @start_date, @end_date, params[:tag_tokens] %></th>
-      <th><%= sortable "session_length", "Length", @start_date, @end_date, params[:tag_tokens] %></th>
-      <th><%= sortable "followers_count", "Followers", @start_date, @end_date, params[:tag_tokens] %></th>
-      <th><%= sortable "attendees_count", "Attendees", @start_date, @end_date, params[:tag_tokens] %></th>
-      <th><%= sortable "viewers_count", "Viewers", @start_date, @end_date, params[:tag_tokens] %></th>
-      <th><%= sortable "commentators_count", "Commentators", @start_date, @end_date, params[:tag_tokens] %></th>
+      <th><%= sortable_link("primary_audience","Audience",@start_date, @end_date, params[:tag_tokens]) -%></th>
+      <th><%= sortable_link("recording", "Recording", @start_date, @end_date, params[:tag_tokens]) %></th>
+      <th><%= sortable_link("session_length", "Length", @start_date, @end_date, params[:tag_tokens]) %></th>
+      <th><%= sortable_link("followers_count", "Followers", @start_date, @end_date, params[:tag_tokens]) %></th>
+      <th><%= sortable_link("attendees_count", "Attendees", @start_date, @end_date, params[:tag_tokens]) %></th>
+      <th><%= sortable_link("viewers_count", "Viewers", @start_date, @end_date, params[:tag_tokens]) %></th>
+      <th><%= sortable_link("commentators_count", "Commentators", @start_date, @end_date, params[:tag_tokens]) %></th>
     </tr>
   </thead>
   <tbody>
@@ -39,6 +40,7 @@
       <td><%= display_presenters(event.presenters) %></td>
       <td><%= link_to event.title, event_path(event) %></td>
       <td><div class="tag-wrapper"><%= display_tags(event.reload.tags) %></div></td>
+      <td><%= event.primary_audience_label -%></td>
       <td><%= (event.has_recording?) ? link_to("link", event.recording) : "n/a" %></td>
       <td><%= event.session_length %></td>
       <td><%= event.followers_count %></td>

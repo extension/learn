@@ -162,7 +162,7 @@ module EventsHelper
   end
 
 
-  def display_extension_webinar_status_for_event(event)
+  def display_extension_webinar_status_invalid_reason(event)
     case event.zoom_webinar_status
     when Event::WEBINAR_STATUS_NOT_RETRIEVED
       reason = "The data for this webinar has not been retrieved"

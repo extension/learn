@@ -132,6 +132,7 @@ Learn::Application.routes.draw do
     match "/recommendations" => "data#recommendations", :as => 'data_recommendations'
     match "/activity" => "data#activity", :as => 'data_activity'
     match "/events" => "data#events", :as => 'data_events'
+    match "/zoom_webinars" => "data#zoom_webinars", :as => 'data_zoom_webinars'
     match "/presenters" => "data#presenters", :as => 'data_presenters'
     match "/recommended_event/:event_id" => "data#recommended_event", :as => 'data_recommended_event'
     match "/projected_recommendations" => "data#projected_recommendations", :as => 'data_projected_recommendations'

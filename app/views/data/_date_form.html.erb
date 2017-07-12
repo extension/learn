@@ -10,10 +10,12 @@
       <%= text_field_tag 'end_date',@end_date,{class: 'date_filter', :size => nil} %>
       </p>
 
-      <p>
-      <%= label_tag :tag_tokens, 'Tags' %>
-      <%= text_field_tag 'tag_tokens', nil, "data-pre" => @tag_token_names.to_json %>
-      </p>
+      <%- if(defined?(showtagfield) and showtagfield) -%>
+        <p>
+        <%= label_tag :tag_tokens, 'Tags' %>
+        <%= text_field_tag 'tag_tokens', nil, "data-pre" => @tag_token_names.to_json %>
+        </p>
+      <%- end -%>
   </fieldset>
   <%= submit_tag "Filter", {:name => nil, :id => 'filter-submit', :class => 'btn btn-default btn-primary'} %>
 <%- end -%>
@@ -23,11 +25,13 @@
    dateFormat: 'yy-mm-dd'
   });
 
-  $(function() {
-    $("#tag_tokens").tokenInput("/data/tags.json", {
-      crossDomain: false,
-      prePopulate: $("#tag_tokens").data("pre"),
-      theme: "facebook"
+  <%- if(defined?(showtagfield) and showtagfield) -%>
+    $(function() {
+      $("#tag_tokens").tokenInput("/data/tags.json", {
+        crossDomain: false,
+        prePopulate: $("#tag_tokens").data("pre"),
+        theme: "facebook"
+      });
     });
-});
+  <%- end -%>
 </script>

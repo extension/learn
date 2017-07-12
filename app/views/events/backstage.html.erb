@@ -17,7 +17,7 @@
 <%- else -%>
   <%- if @event.zoom_webinar_status != Event::WEBINAR_STATUS_OK -%>
   <p>Zoom Webinar Data not available</p>
-  <p>Reason: <%= display_extension_webinar_status_for_event(@event) -%></p>
+  <p>Reason: <%= display_extension_webinar_status_invalid_reason(@event) -%></p>
   <%- else -%>
   <%- connection_counts = @event.zoom_webinar.connection_counts -%>
 
