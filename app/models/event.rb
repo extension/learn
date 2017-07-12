@@ -146,8 +146,11 @@ class Event < ActiveRecord::Base
   WEBINAR_STATUS_INVALID_SET = [WEBINAR_STATUS_LOCATION_NOT_WEBINAR_URL, WEBINAR_STATUS_IS_RECURRING, WEBINAR_STATUS_RETRIEVAL_ERROR]
   EXTENSION_WEBINAR_SET = [WEBINAR_STATUS_OK, WEBINAR_STATUS_NOT_RETRIEVED,WEBINAR_STATUS_IS_RECURRING, WEBINAR_STATUS_RETRIEVAL_ERROR,WEBINAR_STATUS_TEMPORARY_RETRIEVAL_ERROR]
 
+
   scope :valid_zoom_webinars, -> {active.where(zoom_webinar_status: WEBINAR_STATUS_OK)}
   scope :invalid_zoom_webinars, -> {active.where("zoom_webinar_status IN (#{WEBINAR_STATUS_INVALID_SET.join(',')})")}
+  scope :zoom_webinars, -> {active.where("zoom_webinar_status IN (#{EXTENSION_WEBINAR_SET.join(',')})")}
+
   scope :invalid_recurring_zoom_webinars, -> {active.where(zoom_webinar_status: WEBINAR_STATUS_IS_RECURRING)}
   scope :temporary_invalid_zoom_webinars,  -> {active.where(zoom_webinar_status: WEBINAR_STATUS_TEMPORARY_RETRIEVAL_ERROR)}
   scope :potential_zoom_webinars, -> {active.where(zoom_webinar_status: WEBINAR_STATUS_NOT_RETRIEVED) }
@@ -731,6 +734,21 @@ class Event < ActiveRecord::Base
     EXTENSION_WEBINAR_SET.include?(self.zoom_webinar_status)
   end
 
+  def extension_webinar_status_invalid_reason
+    case self.zoom_webinar_status
+    when Event::WEBINAR_STATUS_NOT_RETRIEVED
+      reason = "The data for this webinar has not been retrieved"
+    when Event::WEBINAR_STATUS_IS_RECURRING
+      reason = "This is a recurring webinar, attendance data is not available"
+    when Event::WEBINAR_STATUS_RETRIEVAL_ERROR
+      reason = "There was an error retrieving the webinar data"
+    when Event::WEBINAR_STATUS_TEMPORARY_RETRIEVAL_ERROR
+      reason = "There was a temporary error retrieving the webinar data"
+    else
+      reason = ""
+    end
+    reason
+  end
 
   def attendees
     learners.valid.where("event_connections.connectiontype = ?", EventConnection::ATTEND)

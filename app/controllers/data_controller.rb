@@ -29,7 +29,6 @@ class DataController < ApplicationController
     parse_tag_tokens # sets @tag_token_names (hash of id/name)
 
     if(!params[:download].nil? and params[:download] == 'csv')
-
       if !params[:tag_tokens].blank?
         @events = Event.date_filtered(@start_date,@end_date).tagged_with_id(params[:tag_tokens]).order("session_start ASC")
         returndata = "Event Statistics for #{@start_date} - #{@end_date}\n"
@@ -55,6 +54,22 @@ class DataController < ApplicationController
     end
 
   end
+
+  def zoom_webinars
+    parse_dates
+    if(!params[:download].nil? and params[:download] == 'csv')
+      @events = Event.active.zoom_webinars.date_filtered(@start_date,@end_date).includes([:tags, :presenters]).order("session_start ASC")
+      returndata = "Zoom Webinar Event Statistics for #{@start_date} - #{@end_date}\n"
+      returndata += "Please note: Event Date/Time is relative to your specified timezone: #{current_learner.time_zone.html_safe}\n\n"
+      returndata += events_csv(@events)
+      send_data(returndata,
+        :type => 'text/csv; charset=utf-8; header=present',
+        :disposition => "attachment; filename=event_statistics.csv")
+    else
+      @events = Event.active.zoom_webinars.date_filtered(@start_date,@end_date).order(sort_column + " " + sort_direction).page(params[:page])
+    end
+  end
+
 
   def tags
     @tags = Tag.where("name like ?", "%#{params[:q]}%")
@@ -143,6 +158,8 @@ class DataController < ApplicationController
     headers << 'Title'
     headers << 'Tags'
     headers << 'URL'
+    headers << 'Audience'
+    headers << 'Extension Zoom Webinar'
     headers << 'Recording'
     headers << 'Length'
     headers << 'Evaluation Link'
@@ -150,6 +167,10 @@ class DataController < ApplicationController
     headers << 'Attendees'
     headers << 'Viewers'
     headers << 'Commentators'
+    headers << 'Zoom Registrants'
+    headers << 'Zoom eXtension Registrants'
+    headers << 'Zoom Attendees'
+    headers << 'Zoom eXtension Attendees'
     headers << 'Materials'
     csv << headers
     events.each do |event|
@@ -162,6 +183,8 @@ class DataController < ApplicationController
       row << event.title
       row << event.tags.collect{|tag| tag.name}.join('; ')
       row << event_url(event)
+      row << event.primary_audience_label
+      row << (event.is_extension_webinar? ? 'Yes' : 'No')
       row << ((event.has_recording?) ? event.recording : "n/a")
       row << event.session_length
       row << event.evaluation_link
@@ -169,6 +192,26 @@ class DataController < ApplicationController
       row << event.attendees_count
       row << event.viewers_count
       row << event.commentators_count
+      if(event.is_extension_webinar?)
+        if event.zoom_webinar_status != Event::WEBINAR_STATUS_OK
+          row << event.extension_webinar_status_invalid_reason
+          row << '-'
+          row << '-'
+          row << '-'
+        else
+          connection_counts = event.zoom_webinar.connection_counts
+          row << connection_counts[:registered][:total]
+          row << connection_counts[:registered][:extension_account]
+          row << connection_counts[:attended][:total]
+          row << connection_counts[:attended][:extension_account]
+        end
+      else
+        row << 'n/a'
+        row << 'n/a'
+        row << 'n/a'
+        row << 'n/a'
+      end
+
       row << event.material_links.map(&:reference_link).join(" ")
       csv << row
     end

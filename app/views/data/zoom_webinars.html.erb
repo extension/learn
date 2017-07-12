@@ -1,0 +1,52 @@
+<div class="col-md-12">
+<%= render(partial: 'navtabs') -%>
+<h2>Event Statistics (<%= DateTime.parse(@start_date).strftime('%b %d, %Y') %> - <%= DateTime.parse(@end_date).strftime('%b %d, %Y') %>)</h2>
+
+
+
+<%= render(partial: 'date_form', locals: {showtagfield: false}) -%>
+<%- if defined?(@events.total_count) && @events.total_count > 0 -%>
+  <p id="csv"><%= link_to('Download a list of these results (csv)',:action => 'zoom_webinars', :download => 'csv', :start_date => @start_date, :end_date => @end_date) %> </p>
+  <%= pagination_counts(@events) %>
+  <%= paginate(@events) %>
+  <table class="table table-striped sortable">
+    <thead>
+      <tr>
+        <th><%= sortable_link("session_start", "Date/Time", @start_date, @end_date, nil) %></th>
+        <th>Presenters</th>
+        <th>Title</th>
+        <th><%= sortable_link("primary_audience","Audience",@start_date, @end_date, params[:tag_tokens]) -%></th>
+        <th>Recording</th>
+        <th>Registrants</th>
+        <th>eXtension Registrants</th>
+        <th>Attendees</th>
+        <th>eXtension Attendees</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%- @events.each do |event| -%>
+      <tr>
+        <td><%= event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") %></td>
+        <td><%= display_presenters(event.presenters) %></td>
+        <td><%= link_to event.title, event_path(event) %></td>
+        <td><%= event.primary_audience_label -%></td>
+        <td><%= (event.has_recording?) ? link_to("link", event.recording) : "n/a" %></td>
+        <%- if event.zoom_webinar_status != Event::WEBINAR_STATUS_OK -%>
+          <td colspan=4><%= display_extension_webinar_status_invalid_reason(event) -%></td>
+        <%- else -%>
+          <%- connection_counts = event.zoom_webinar.connection_counts -%>
+          <td><%= connection_counts[:registered][:total]  %></td>
+          <td><%= connection_counts[:registered][:extension_account]  %></td>
+          <td><%= connection_counts[:attended][:total] %></td>
+          <td><%= connection_counts[:attended][:extension_account] %></td>
+        <%- end -%>
+      </tr>
+      <%- end -%>
+    </tbody>
+  </table>
+<%- else -%>
+  <div class="noevents">
+    <h3>No zoom webinar events for the specified date range</h3>
+  </div>
+<%- end -%>
+</div>
