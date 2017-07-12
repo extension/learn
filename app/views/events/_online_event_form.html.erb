@@ -57,7 +57,7 @@
 
 </div>
 
-<div id="mfln_event_additions" <%= @event.is_mfln? ? '' : raw("style='display: none'") -%>">
+<div id="mfln_event_additions">
   <fieldset id="mfln_registration">
     <legend>MFLN Event Registration</legend>
 
@@ -194,6 +194,27 @@
 
    // create an instance of autocomplete plus a hack for using the 'enter' key instead of direct selection
      $(document).ready(function(){
+
+         $('#event_description').wysihtml5('deepExtend', {
+           toolbar: { "fa": true, "image": false, "blockquote": false},
+           parserRules: { tags: { p: {} } }
+         });
+
+         // hide mfln registration
+         $('#event_registration_description').wysihtml5('deepExtend', {
+             toolbar: { "fa": true, "image": false, "blockquote": false},
+             parserRules: { tags: { p: {} }},
+          	"events": {
+          		"load": function() {
+                <%- if @event.is_mfln? -%>
+                  $('#mfln_event_additions').show();
+                <%- else -%>
+                  $('#mfln_event_additions').hide();
+                <%- end -%>
+          			console.log("Loaded!");
+          		}
+            }
+          });
 
          $("#tag_picker").autocomplete({
            source: "/ajax/tags",
