@@ -7,6 +7,24 @@
 <p><%= @event.session_start.strftime("%b %e, %Y") %></p>
 
 
+<%- if(current_learner and @event.is_mfln_registration_event? and current_learner.is_mfln_registration_contact?) -%>
+  <div class="event-colophon">
+    <h3 class="event-section-header">MFLN Private Registration Data</h3>
+    <p>This data is available only to MFLN Registration Contacts</p>
+    <p>
+    <%- if @event.event_registrations.count > 0 -%>
+      <p><strong><%= pluralize(@event.event_registrations.count, "email address") -%></strong> <%= (@event.event_registrations.count > 1) ? 'are' : 'is' -%> registered for this event</p>
+      <p><%= link_to "Export registration data", learn_registrants_path(format: "csv", :id => @event.id), :class => "btn btn-default btn-primary" %></p>
+      <%= button_to "Delete registration data", {:controller => :events, :action => 'destroy_registrants', :id => @event.id }, :method => :delete, :confirm => "Are you sure? This will permanantly delete all registrants for this event!", :class => "btn btn-default  btn-danger btn-sm" %>
+      
+    <%- else -%>
+        No one has registered for this event.
+      <%- end -%>
+    </p>
+ </div>
+ <br />
+ <%- end %>
+
 
 <section>
 <%- if !@event.is_extension_webinar? -%>
