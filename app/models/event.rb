@@ -672,6 +672,11 @@ class Event < ActiveRecord::Base
     self.session_length >= 480
   end
 
+  def is_multiday_event?
+    # anything longer than 24 hours is multi-day
+    self.session_length >= 1440
+  end
+
   def evaluation_questions
     if(self.is_conference_session?)
       self.conference.evaluation_questions.order('questionorder')

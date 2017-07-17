@@ -1,8 +1,24 @@
+<%- if(@event.is_multiday_event?) -%>
+  <div class="calendarblock multi-day">
+    <%- if @event.session_start.strftime("%b") != @event.session_end.strftime("%b") -%>
+      <span class="month"><%= @event.session_start.strftime("%b") -%><span class="multi-day-hyphen">-</span><%= @event.session_end.strftime("%b") -%></span>
+    <%- else -%>
+      <span class="month"><%= @event.session_start.strftime("%b") -%></span>
+    <%- end -%>
+    <span class="date multi-day"><%= @event.session_start.strftime("%d") -%><span class="multi-day-hyphen">-</span><%= @event.session_end.strftime("%d") -%></span>
+  </div>
+<%- else -%>
+  <span class="calendarblock">
+    <span class="month"><%= @event.session_start.strftime("%b") -%></span>
+    <span class="date"><%= @event.session_start.strftime("%d") -%></span>
+  </span>
+<%- end -%>
+
 <%- if(@event.is_long_event?) -%>
 <h4 class="session-duration">This is a <%= display_session_duration(@event) -%></h4>
 
 <h4>
-Event begins at:
+Begins:
 <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%></span>
 <span class="session-time">
   <span id="time">
@@ -13,7 +29,7 @@ Event begins at:
 </h4>
 
 <h4>
-Event ends at:
+Ends:
 <span class="session-date"><%= @event.session_end.strftime("%A, %B %e") -%></span>
 <span class="session-time">
   <span id="time">
@@ -24,16 +40,11 @@ Event ends at:
 </h4>
 
 <%- else -%>
-  <h4>
-    <span class="calendarblock">
-      <span class="month"><%= @event.session_start.strftime("%b") -%></span>
-      <span class="date"><%= @event.session_start.strftime("%d") -%></span>
-    </span>
-    <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%> at</span>
-    <span class="session-time">
-      <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
-    </span>
-  </h4>
+  <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%> at</span>
+  <span class="session-time">
+    <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
+  </span>
+
   <h4 class="session-duration"><%= display_session_duration(@event) -%></h4>
 <%- end -%>
 

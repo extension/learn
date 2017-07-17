@@ -17,7 +17,7 @@
         <span class="label label-info"><em>Happening now</em></span>
       <% end %>
 
-      <%- if event.is_long_event? -%>
+      <%- if event.is_multiday_event? -%>
         <div class="calendarblock multi-day">
             <%- if event.session_start.strftime("%b") != event.session_end.strftime("%b") -%>
               <span class="month"><%= event.session_start.strftime("%b") -%><span class="multi-day-hyphen">-</span><%= event.session_end.strftime("%b") -%></span>
