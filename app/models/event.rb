@@ -673,8 +673,7 @@ class Event < ActiveRecord::Base
   end
 
   def is_multiday_event?
-    # anything longer than 24 hours is multi-day
-    self.session_length >= 1440
+    (self.session_end.to_date - self.session_start.to_date + 1).to_i > 1
   end
 
   def evaluation_questions
