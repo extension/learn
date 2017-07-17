@@ -16,10 +16,25 @@
       <% if event.in_progress? %>
         <span class="happening_now"><em>Happening now</em></span>
       <% end %>
-      <div class="calendarblock">
-          <span class="month"><%= event.session_start.strftime("%b") -%></span>
-          <span class="date"><%= event.session_start.strftime("%d") -%></span>
-       </div>
+
+      <%- if event.is_long_event? -%>
+        <div class="calendarblock multi-day">
+          <span class="multi-day-tag">Multi-day</span>
+            <%- if event.session_start.strftime("%b") != event.session_end.strftime("%b") -%>
+              <span class="month"><%= event.session_start.strftime("%b") -%><span class="multi-day-hyphen">-</span><%= event.session_end.strftime("%b") -%></span>
+            <%- else -%>
+              <span class="month"><%= event.session_start.strftime("%b") -%></span>
+            <%- end -%>
+            <span class="date multi-day"><%= event.session_start.strftime("%d") -%><span class="multi-day-hyphen">-</span><%= event.session_end.strftime("%d") -%></span>
+         </div>
+      <%- else -%>
+        <div class="calendarblock">
+            <span class="month"><%= event.session_start.strftime("%b") -%></span>
+            <span class="date"><%= event.session_start.strftime("%d") -%></span>
+         </div>
+      <%- end -%>
+
+
 
       <h3 class="upcoming-events-single-description"><%= link_to(event.title, event_path(event.id)) -%></h3>
 

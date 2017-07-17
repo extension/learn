@@ -1,9 +1,6 @@
 @import "_variables";
 .event-audience {font-size:14px; color:#888; margin:1em 0 1em;}
 
-.event, .upcoming-events {@include wordwrap}
-
-
 .event-learners {padding:20px; background:#eee; clear:left; margin-top:0;}
 .event-learners h3 {font-size:.9em; color:#888; text-transform:uppercase; }
 .event-learner-list {width:100%;margin:0; padding:0;float:left;}
@@ -15,11 +12,13 @@
 .event-cover-image img {width: 100%;}
 
 
-.calendarblock {width:64px; display:block; text-align:center; height:64px;padding-top:0; float:right; background:#fff; border:2px solid #bbb;
-/*   margin-right:-20px; margin-top:-30px;*/
-   }
+.calendarblock {width:64px; display:block; text-align:center; height:64px;padding-top:0; float:right; background:#fff; border:2px solid #bbb;}
+.calendarblock.multi-day {width:96px; height:76px;}
 .calendarblock .month {display:block; height:20px; line-height:25px;font-size:.7em; text-transform:uppercase; font-weight:bold;}
-.calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:1.8em; }
+.calendarblock .date {display:block; height:40px; line-height:43px;font-weight:bold; font-size:1.8em;}
+.calendarblock .date.multi-day {display:block; height:50px; line-height:30px;font-weight:bold; font-size:1.7em; }
+.multi-day-tag {background: #f47B28; color: #fff; display: block; text-transform:uppercase; font-size:9px; letter-spacing:1px; line-height:15px;}
+.multi-day-hyphen {padding: 0 3px;}
 
 .event-time {background:#eee; padding:20px; position:relative; margin-bottom:16px;
 /*  border:4px solid #999;*/
