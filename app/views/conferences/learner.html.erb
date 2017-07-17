@@ -44,7 +44,7 @@
         <h3>
         <%= link_to event.title, event_path(event) %> 
         <%- if event.in_progress? -%>
-          <em class="happening_now_list">Happening now</em>
+          <em class="label label-info_list">Happening now</em>
         <%- end -%>
         <small><strong><%= event.session_start.strftime("%l:%M %p").downcase -%>, <%= event.session_start.strftime("%B %e, %Y") -%></strong> in <%= display_room(event.room) %></small>
         </h3>

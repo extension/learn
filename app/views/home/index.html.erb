@@ -14,7 +14,7 @@
   <%- @upcoming_events.each do |event| -%>
     <section class="upcoming-events-single">
       <% if event.in_progress? %>
-        <span class="happening_now"><em>Happening now</em></span>
+        <span class="label label-info"><em>Happening now</em></span>
       <% end %>
 
       <%- if event.is_long_event? -%>

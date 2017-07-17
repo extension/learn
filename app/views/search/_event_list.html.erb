@@ -16,7 +16,7 @@
             <% end %>
           <%= link_to event.title, event_path(event) %>
           <%- if event.in_progress? -%>
-            <em class="happening_now_list">Happening now</em>
+            <em class="label label-info_list">Happening now</em>
           <%- end -%>
           </h3>
           <p class="event-list-details">
