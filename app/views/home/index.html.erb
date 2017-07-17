@@ -19,7 +19,6 @@
 
       <%- if event.is_long_event? -%>
         <div class="calendarblock multi-day">
-          <span class="multi-day-tag">Multi-day</span>
             <%- if event.session_start.strftime("%b") != event.session_end.strftime("%b") -%>
               <span class="month"><%= event.session_start.strftime("%b") -%><span class="multi-day-hyphen">-</span><%= event.session_end.strftime("%b") -%></span>
             <%- else -%>
