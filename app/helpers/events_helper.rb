@@ -178,5 +178,23 @@ module EventsHelper
     reason.html_safe
   end
 
+  def display_session_duration(event)
+    if(event.is_long_event?)
+      end_minus_start = event.session_end.to_date - event.session_start.to_date
+      "#{(end_minus_start+1).to_i} day event".html_safe
+    elsif(event.session_length <= 120)
+      "#{event.session_length} minute event".html_safe
+    else
+      (hours,minutes) = event.session_length.divmod(60)
+      if(minutes == 0)
+        "#{hours} hour event".html_safe
+      else
+        "#{hours} hour, #{minutes} minute event".html_safe
+      end
+    end
+  end
+
+
+
 
 end

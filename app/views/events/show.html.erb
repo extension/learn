@@ -54,21 +54,28 @@
     <h2 class="event-title"><%= @event.title -%></h2>
 
       <% if @event.in_progress? %>
-        <span class="happening_now"><em>Happening now</em></span>
+        <span class="label label-info"><em>Happening now</em></span>
         <br class="clearing"/>
       <% end %>
 
       <%-if !@event.concluded? -%>
         <div class="location-section">
-          <p>
+          <p>Event starts:
           <span class="session-date"><%= @event.session_start.strftime("%A, %B %e") -%> at</span>
            <span class="session-time">
               <span id="time"><%= @event.session_start.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_start.strftime("%Z") -%></span></span>
            </span>
            </p>
+
+           <p>Event ends:
+           <span class="session-date"><%= @event.session_end.strftime("%A, %B %e") -%> at</span>
+            <span class="session-time">
+               <span id="time"><%= @event.session_end.strftime("%l:%M %p").downcase -%> <span id="timezone"><%= @event.session_end.strftime("%Z") -%></span></span>
+            </span>
+            </p>
+
           <p>Location: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
         </div>
-
       <%- end -%>
 
       <div class="event-description"><%= @event.description.html_safe -%></div>
@@ -126,8 +133,19 @@
         <h4>Watch</h4>
 
         <div id="recording_details">
+          <%- if @event.is_long_event? -%>
+          <p>
+             This <strong><%= display_session_duration(@event) -%></strong> took place from
+             <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong>
+             until <strong><%= @event.session_end.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong>
+          </p>
+          <%- else -%>
+          <p>
+             This <strong><%= display_session_duration(@event) -%></strong> took place
+             <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong>.
+          </p>
+          <%- end -%>
          <%-if @event.has_recording? -%>
-           <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong></p>
            <p>
               <span class="fa-stack fa-lg">
                 <i class="fa fa-circle fa-stack-2x white"></i>
@@ -135,13 +153,11 @@
               </span>
               <strong><%= link_to("Watch recording", @event.recording) -%></strong>
            </p>
-          <%-else -%>
-            <p>This <strong><%= "#{@event.session_length}" -%> minute</strong> session took place <strong><%= @event.session_start.strftime("%l:%M %p, %B %e, %Y %Z") -%></strong>. A recording of this session has not been uploaded yet.</p>
-            <p>
+          <%- else -%>
               <span class="fa-stack fa-lg">
                 <i class='fa fa-play-circle fa-stack-2x mid-gray'></i>
               </span>
-              <strong>No Recording Yet</strong></p>
+              <strong>No Recording Yet</strong>
           <%-end -%>
         </div>
       <%-else -%>
