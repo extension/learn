@@ -167,6 +167,13 @@ class WidgetsController < ApplicationController
       new_params << "limit=#{event_limit}"
     end
 
+    if params[:event_type] == "recent"
+      event_type = "recent"
+      new_params << "event_type=recent"
+    else
+      event_type = "upcoming"
+    end
+
     if request.format == Mime::JS
       # logging of widget use
       # referrer_url and widget fingerprint make a unique pairing
@@ -202,16 +209,16 @@ class WidgetsController < ApplicationController
     if params[:tags].present?
       new_params << "tags=#{params[:tags]}"
       @tag_list = params[:tags].split(',')
-      @event_type = "upcoming"
-      @generic_title = "Upcoming Webinars"
+      @event_type = event_type
+      @generic_title = "#{event_type.capitalize} Webinars"
 
       if params[:operator].present? && params[:operator].downcase == 'and'
         new_params << "operator=and"
-        @specific_title = "eXtension Upcoming Learn Events tagged #{@tag_list.to_sentence}"
-        @event_list = Event.nonconference.active.upcoming.tagged_with_all(@tag_list).limit(event_limit)
+        @specific_title = "eXtension #{@event_type.capitalize} Learn Events tagged #{@tag_list.to_sentence}"
+        @event_list = Event.nonconference.active.recency(@event_type).tagged_with_all(@tag_list).limit(event_limit)
       else
-        @specific_title = "eXtension Upcoming Learn Events tagged #{@tag_list.to_sentence(words_connector: ',', two_words_connector: ' or', last_word_connector: ' or')}"
-        @event_list = Event.nonconference.active.upcoming.tagged_with(params[:tags]).limit(event_limit)
+        @specific_title = "eXtension #{@event_type.capitalize} Learn Events tagged #{@tag_list.to_sentence(words_connector: ',', two_words_connector: ' or', last_word_connector: ' or')}"
+        @event_list = Event.nonconference.active.recency(@event_type).tagged_with(params[:tags]).limit(event_limit)
       end
 
       if @tag_list.length == 1
