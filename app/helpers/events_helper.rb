@@ -163,19 +163,7 @@ module EventsHelper
 
 
   def display_extension_webinar_status_invalid_reason(event)
-    case event.zoom_webinar_status
-    when Event::WEBINAR_STATUS_NOT_RETRIEVED
-      reason = "The data for this webinar has not been retrieved"
-    when Event::WEBINAR_STATUS_IS_RECURRING
-      reason = "This is a recurring webinar, attendance data is not available"
-    when Event::WEBINAR_STATUS_RETRIEVAL_ERROR
-      reason = "There was an error retrieving the webinar data"
-    when Event::WEBINAR_STATUS_TEMPORARY_RETRIEVAL_ERROR
-      reason = "There was a temporary error retrieving the webinar data"
-    else
-      reason = ""
-    end
-    reason.html_safe
+    event.extension_webinar_status_invalid_reason.html_safe
   end
 
   def display_session_duration(event)
