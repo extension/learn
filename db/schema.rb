@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20170706163554) do
+ActiveRecord::Schema.define(:version => 20170725134631) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -450,7 +450,7 @@ ActiveRecord::Schema.define(:version => 20170706163554) do
 
   create_table "zoom_webinars", :force => true do |t|
     t.integer  "event_id"
-    t.integer  "webinar_id",                                              :null => false
+    t.integer  "webinar_id",                                                  :null => false
     t.integer  "webinar_type"
     t.boolean  "recurring"
     t.boolean  "has_registration_url"
@@ -460,10 +460,13 @@ ActiveRecord::Schema.define(:version => 20170706163554) do
     t.integer  "duration"
     t.text     "uuidlist"
     t.text     "webinar_info",         :limit => 16777215
-    t.datetime "created_at",                                              :null => false
-    t.datetime "updated_at",                                              :null => false
+    t.datetime "created_at",                                                  :null => false
+    t.datetime "updated_at",                                                  :null => false
     t.integer  "registered_count",                         :default => 0
     t.integer  "attended_count",                           :default => 0
+    t.boolean  "manual_connections",                       :default => false
+    t.text     "manual_attendance",    :limit => 16777215
+    t.text     "manual_registration",  :limit => 16777215
   end
 
   add_index "zoom_webinars", ["event_id"], :name => "event_ndx"
