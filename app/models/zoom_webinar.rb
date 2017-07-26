@@ -37,6 +37,7 @@ class ZoomWebinar < ActiveRecord::Base
     if(!webinarinfo = ZoomApi.get_zoom_webinar(webinar_id))
       if(!zw = self.where(webinar_id: webinar_id).first)
         self.create(create_attributes.merge(last_api_success: false))
+        event.update_column(:zoom_webinar_id, zw.id)
         event.update_column(:zoom_webinar_status, Event::WEBINAR_STATUS_TEMPORARY_RETRIEVAL_ERROR)
       else
         # was last pull successful - mark as temporary failed
@@ -44,7 +45,7 @@ class ZoomWebinar < ActiveRecord::Base
           self.create(create_attributes.merge(last_api_success: false))
           event.update_column(:zoom_webinar_status, Event::WEBINAR_STATUS_TEMPORARY_RETRIEVAL_ERROR)
         else
-          event.update_column(:zoom_webinar_id, nil)
+          event.update_column(:zoom_webinar_id, zw.id)
           event.update_column(:zoom_webinar_status, Event::WEBINAR_STATUS_RETRIEVAL_ERROR)
         end
       end
