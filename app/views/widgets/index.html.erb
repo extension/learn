@@ -9,6 +9,7 @@
         <%= hidden_field_tag 'widget_key', @widget_key %>
         <p><label>Number of events: <%= text_field_tag :limit, @limit, :size => 3, :class => "" %></label></p>
         <p><label>Width (pixels): <%= text_field_tag :width, @width, :size => 3, :class => "" %></label> (leave blank for auto/100%)</p>
+        <p><label>Upcoming or recent:</label> <%= select_tag "event_type", options_for_select([["Upcoming events", "upcoming"], ["Recent events", "recent"]], params[:event_type] ), {:name => "event_type", :class => "form-control"} %></p>
 
         <div id="county_selector"></div>
         <label>Tags </label>
