@@ -203,9 +203,9 @@ class Event < ActiveRecord::Base
   # in_progress is not being used right now, but wanted to add it as a convenience if we ever need just in progress events
   scope :in_progress, lambda { |limit=3| where('session_start <= ? AND session_end > ?', Time.zone.now, Time.zone.now).order("session_start ASC").limit(limit) }
 
-  scope :recency, lambda{|recency_type="upcoming", limit=3, offset=0|
-    if(recency_type == "recent")
-      where('session_start < ?',Time.zone.now).order("session_start DESC").limit(limit) 
+  scope :upcoming_or_recent, lambda{|upcoming_or_recent_type="upcoming", limit=3, offset=0|
+    if(upcoming_or_recent_type == "recent")
+      where('session_start < ?',Time.zone.now).order("session_start DESC").limit(limit)
     else
       where('(session_start >= ?) OR (session_start <= ? AND session_end > ?)',Time.zone.now, Time.zone.now, Time.zone.now).order("session_start ASC").limit(limit).offset(offset)
     end
