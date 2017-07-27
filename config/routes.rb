@@ -97,8 +97,8 @@ Learn::Application.routes.draw do
   match "/recommended_event/:id" => "events#recommended", :as => 'recommended_event'
 
   # widgets for upcoming events
-  match "widgets/front_porch" => "widgets#front_porch", :via => [:get]
-  match "widgets/upcoming" => "widgets#upcoming", :via => [:get]
+  match "widgets/front_porch" => "widgets#deprecated", :via => [:get]
+  match "widgets/upcoming" => "widgets#deprecated", :via => [:get]
   match "widgets/events" => "widgets#events", :via => [:get, :post]
   match "widgets/" => "widgets#index", :via => [:get]
   match "widgets/generate_widget_snippet" => "widgets#generate_widget_snippet", :via => [:post]
