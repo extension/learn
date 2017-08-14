@@ -37,12 +37,9 @@
 
     <%- if @event.is_conference_session? -%>
       <div class="conference-info">
-        <p><span class="label label-info">Conference Session</span> This event is part of the <%= link_to(@event.conference.name,conference_path(:id => @event.conference.hashtag)) %></p>
+        <p><span class="label label-info">Conference Session</span> This event was part of the eXtension 2012 National Conference</p>
         <p id="session_id"><span class="badge badge-info">Session #<%= @event.id %></span></p>
         <h3><%= display_room(@event.room) -%></h3>
-        <%- if current_learner -%>
-          <p><span class="edit"><%= link_to('edit this event', edit_conference_event_path(@event, :conference_id => @event.conference.id), :class => "editlink") -%></span></p>
-        <%- end %>
       </div>
     <% end %>
 
@@ -111,7 +108,7 @@
    <div class="event-colophon">
      <p><small>Created by <%= link_to_learner(@event.creator) %></small></p>
 
-     <%- if current_learner && !@event.is_conference_session? -%>
+     <%- if current_learner -%>
        <p><small><%= link_to('edit', edit_event_path(@event), :class => "btn btn-default btn-sm") -%> <%= link_to("version history", history_event_path(@event), :class => "btn btn-default btn-sm")%></small></p>
      <%- end %>
    </div>
@@ -181,19 +178,6 @@
 
       <%-end -%>
 
-      <%- if @event.is_conference_session? -%>
-      <p><%= link_to('Other Sessions at this same time', schedule_conference_path(id: @event.conference.hashtag, datetime: @event.session_start.xmlschema)) %></p>
-
-      <%-if @event.started? -%>
-        <%- if current_learner -%>
-          <%- if current_learner.is_presenter_for_event?(@event) -%>
-            <p><%= link_to('Evaluation results for this session', evaluationresults_event_path(@event)) %></p>
-          <%- else -%>
-            <p><%= link_to('Evaluate this session', evaluation_event_path(@event)) %></p>
-          <%- end -%>
-        <%- end -%>
-      <%- end -%>
-      <% end %>
 
     </aside>
 
