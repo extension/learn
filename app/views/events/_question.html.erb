@@ -1,8 +1,0 @@
-<%- case question.responsetype -%>
-<%- when Question::BOOLEAN -%>
-  <%= render(partial: 'question_boolean', locals: {question: question})%>
-<%- when Question::SCALE -%>
-  <%= render(partial: 'question_scale', locals: {question: question})%>
-<%- when Question::MULTIVOTE_BOOLEAN -%>
-  <%= render(partial: 'question_multivoteboolean', locals: {question: question})%>
-<%- end -%>

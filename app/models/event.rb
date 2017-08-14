@@ -60,8 +60,6 @@ class Event < ActiveRecord::Base
   has_many :tags, :through => :taggings
   belongs_to :creator, :class_name => "Learner"
   belongs_to :last_modifier, :class_name => "Learner"
-  has_many :questions, order: 'priority,created_at', dependent: :destroy
-  has_many :answers, :through => :questions
   has_many :comments, dependent: :destroy
   has_many :commenting_learners, through: :comments, source: :learner, uniq: true
   has_many :ratings, :as => :rateable, :include => :learner, :conditions => "learners.is_blocked = false", dependent: :destroy
@@ -476,23 +474,6 @@ class Event < ActiveRecord::Base
   # calculate end of session time by adding session_length times 60 (session_length is in minutes) to session_start
   def set_session_end
     self.session_end = self.session_start + (self.session_length * 60)
-  end
-
-  # gets a random list of stock questions and creates associated questions from them
-  #
-  # @param [Hash] options options for the stock question creation
-  # @option options [Integer] :creator - the Learner ID to attach as the creator
-  # @option options [Integer] :max_count - the max count of random questions to retrieve and copy
-  #
-  # @return [Array] array of questions created
-  def add_stock_questions(options = {})
-    max_count = options[:max_count] || StockQuestion::DEFAULT_RANDOM_COUNT
-
-    stock_question_list = StockQuestion.random_questions(max_count)
-    stock_question_list.each do |sq|
-      self.questions << Question.create_from_stock_question(sq)
-    end
-    self.questions
   end
 
   # when an event is created, up to 6 notifications need to be created.

@@ -5,7 +5,7 @@
 # see LICENSE file
 
 class EventsController < ApplicationController
-  before_filter :signin_required, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history, :destroy_registrants, :export_registrants, :delete_event]
+  before_filter :signin_required, only: [:edit, :update, :new, :create, :makeconnection, :backstage, :history, :destroy_registrants, :export_registrants, :delete_event]
 
   def index
     @list_title = 'All Sessions'
@@ -231,36 +231,6 @@ class EventsController < ApplicationController
 
   def deleted
     @events = Event.where(is_deleted: true).order("updated_at DESC").page(params[:page])
-  end
-
-  def addanswer
-    @event = Event.find(params[:id])
-
-    # validate question
-    @question = Question.find_by_id(params[:question])
-    if(@question.nil?)
-      return record_not_found
-    end
-
-    if(@question.event != @event)
-      return bad_request('Invalid question specified')
-    end
-
-    # simple type checking for values
-    if(@question.responsetype != Question::MULTIVOTE_BOOLEAN and !params[:values])
-      return bad_request('Empty values specified')
-    end
-
-    if((@question.responsetype == Question::MULTIVOTE_BOOLEAN) and params[:values] and !params[:values].is_a?(Array))
-      return bad_request('Must provide array values for this question type')
-    end
-
-    # create or update answers
-    @question.create_or_update_answers(learner: current_learner, update_value: params[:values])
-
-    respond_to do |format|
-      format.js
-    end
   end
 
   def makeconnection

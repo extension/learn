@@ -80,8 +80,6 @@ class EventActivity < ActiveRecord::Base
 
   def self.log_object_activity(object)
     case object.class.name
-    when 'Answer'
-      self.log_answer(object)
     when 'Rating'
       self.log_rating(object)
     when 'Comment'
@@ -106,10 +104,6 @@ class EventActivity < ActiveRecord::Base
   end
 
   def self.log_share
-  end
-
-  def self.log_answer(answer)
-    self.create_or_update({learner: answer.learner, event: answer.event, activity: ANSWER, trackable: answer.question}, {answer: answer.id})
   end
 
   def self.log_rating(rating)
