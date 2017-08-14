@@ -18,7 +18,7 @@ class Event < ActiveRecord::Base
   attr_accessible :creator, :last_modifier
   attr_accessible :title, :description, :session_length, :location, :recording, :primary_audience
   attr_accessible :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled, :is_deleted, :reason_is_deleted
-  attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at, :evaluation_link
+  attr_accessible :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at, :evaluation_link
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
@@ -682,14 +682,6 @@ class Event < ActiveRecord::Base
 
   def is_multiday_event?
     (self.session_end.to_date - self.session_start.to_date + 1).to_i > 1
-  end
-
-  def evaluation_questions
-    if(self.is_conference_session?)
-      self.conference.evaluation_questions.order('questionorder')
-    else
-      []
-    end
   end
 
   def set_location_webinar_id

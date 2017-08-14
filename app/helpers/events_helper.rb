@@ -28,42 +28,6 @@ module EventsHelper
     end
   end
 
-  def is_multichoice_evalanswer_checked?(event,evalquestion,response)
-    if(!current_learner)
-      false
-    else
-      answer = evalquestion.answer_for_learner_and_event(current_learner,event)
-      if(!answer)
-        false
-      elsif(answer.response == response)
-        true
-      else
-        false
-      end
-    end
-  end
-
-  def learner_has_trigger_response?(event,evalquestion)
-    if(!current_learner)
-      false
-    else
-      answer = evalquestion.answer_for_learner_and_event(current_learner,event)
-      if(!answer)
-        false
-      else
-        evalquestion.is_trigger_response?(answer.response)
-      end
-    end
-  end
-
-  def evalquestion_secondary_response_for_event(evalquestion,event)
-    if(answer = evalquestion.answer_for_learner_and_event(current_learner,event))
-      answer.secondary_response
-    else
-      ''
-    end
-  end
-
   # we don't display comments from those who are blocked, and we also don't show the children of those comments,
   # we're getting the count of just the comments that are shown.
   def get_filtered_comment_count(event)
