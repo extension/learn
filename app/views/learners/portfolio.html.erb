@@ -187,27 +187,6 @@
     <br class="clearing"/>
   <% end %>
 
-  <%- if !@presented_conferences.blank? or !@attended_conferences.blank? -%>
-  <h2>Conferences</h3>
-    <%- @presented_conferences.each do |conf| -%>
-      <%- if conf.concluded? %>
-        Presented at
-      <%- else -%>
-        Presenting at
-      <%- end -%>
-      <%= link_to(conf.name, learner_conference_path(:id => conf.hashtag, :learner => @learner.id)) %>
-    <%- end -%>
-
-    <%- (@attended_conferences - @presented_conferences).each do |conf| -%>
-      <%- if conf.concluded? %>
-        Attended
-      <%- else -%>
-        Attending
-      <%- end -%>
-      <%= link_to(conf.name, learner_conference_path(:id => conf.hashtag, :learner => @learner.id)) %>
-    <%- end -%>
-  <%- end -%>
-
 </div>
 
 

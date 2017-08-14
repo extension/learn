@@ -35,8 +35,6 @@ class Learner < ActiveRecord::Base
   has_many :mailer_caches, :as => :cacheable, :class_name => "MailerCache"
   has_many :answers
   has_one  :portfolio_setting
-  has_many :conference_connections
-  has_many :conferences, through: :conference_connections, uniq: true
 
   before_validation :convert_mobile_number
   validates_length_of :mobile_number, :is => 10, :allow_blank => true
@@ -55,10 +53,6 @@ class Learner < ActiveRecord::Base
   scope :active, ->{where(retired: false)}
   scope :extension, ->{where("darmok_id IS NOT NULL")}
   scope :non_extension, ->{where("darmok_id IS NULL")}
-
-  def presented_conferences
-    presented_events.conference.map(&:conference).uniq
-  end
 
   # override timezone writer/reader
   # returns Eastern by default, use convert=false
@@ -221,20 +215,6 @@ class Learner < ActiveRecord::Base
 
   def connect_with_event(event,connectiontype)
     self.event_connections.create(event: event, connectiontype: connectiontype)
-  end
-
-  def attending_conference?(conference)
-    !self.conferences.attended.where('conference_id = ?',conference.id).first.nil?
-  end
-
-  def connect_with_conference(conference,connectiontype)
-    self.conference_connections.create(conference: conference, connectiontype: connectiontype)
-  end
-
-  def remove_connection_with_conference(conference,connectiontype)
-    if(connection = ConferenceConnection.where('learner_id =?',self.id).where('conference_id = ?',conference.id).where('connectiontype = ?',connectiontype).first)
-      connection.destroy
-    end
   end
 
   def remove_connection_with_event(event,connectiontype)
