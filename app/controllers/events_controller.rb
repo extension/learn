@@ -10,26 +10,20 @@ class EventsController < ApplicationController
   def index
     @list_title = 'All Sessions'
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    if(@conference)
-      @conference_display = true
-      @events = @conference.events.active.order('session_start ASC').page(params[:page])
-      @all_events_path = events_path
-    else
-      @events = Event.active.order('session_start DESC').page(params[:page])
-    end
+    @events = Event.active.order('session_start DESC').page(params[:page])
   end
 
   def upcoming
     @list_title = 'Upcoming Sessions'
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events = Event.nonconference.active.upcoming.order('session_start DESC').page(params[:page])
+    @events = Event.active.upcoming.order('session_start DESC').page(params[:page])
     render :action => 'index'
   end
 
   def recent
     @list_title = "Recent Sessions"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events =  Event.nonconference.active.recent.order('session_start DESC').page(params[:page])
+    @events =  Event.active.recent.order('session_start DESC').page(params[:page])
     render :action => 'index'
   end
 

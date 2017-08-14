@@ -13,8 +13,5 @@
 <% end %>
 <% end %>
 
-<%- if @conference_display -%>
-  <p>Showing conference sessions for <%= @conference.name %> only - <%= link_to('show all sessions',@all_events_path) %></p>
-<%- end -%>
 <%= render :partial => 'list' %>
 </div>

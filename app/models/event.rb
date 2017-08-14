@@ -76,10 +76,6 @@ class Event < ActiveRecord::Base
   has_many :notification_exceptions
   has_many :material_links
   accepts_nested_attributes_for :material_links, :reject_if => :all_blank, :allow_destroy => true
-
-  # conference sessions
-  belongs_to :conference
-
   belongs_to :zoom_webinar
 
   validates :title, :presence => true
@@ -92,7 +88,6 @@ class Event < ActiveRecord::Base
   validates :evaluation_link, :allow_blank => true, :uri => true
 
   before_validation :set_session_start
-  before_validation :set_location_if_conference
 
   before_update :schedule_recording_notification
   before_update :update_event_notifications
@@ -214,7 +209,6 @@ class Event < ActiveRecord::Base
   scope :date_filtered, lambda { |start_date,end_date| where('DATE(session_start) >= ? AND DATE(session_start) <= ?', start_date, end_date) }
 
   scope :conference, where(event_type: CONFERENCE)
-  scope :nonconference, where('event_type != ?',CONFERENCE)
   scope :broadcast, where('event_type = ?',BROADCAST)
 
   scope :by_date, lambda {|date| where('DATE(session_start) = ?',date)}
@@ -227,12 +221,6 @@ class Event < ActiveRecord::Base
 
   def connections_list
     self.learners.valid.order('event_connections.created_at')
-  end
-
-  def set_location_if_conference
-    if(self.event_type == Event::CONFERENCE)
-      self.location = 'Conference Session'
-    end
   end
 
   def is_broadcast

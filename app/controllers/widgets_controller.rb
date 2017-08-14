@@ -102,10 +102,10 @@ class WidgetsController < ApplicationController
       if params[:operator].present? && params[:operator].downcase == 'and'
         new_params << "operator=and"
         @specific_title = "eXtension #{@event_type.capitalize} Learn Events tagged #{@tag_list.to_sentence}"
-        @event_list = Event.nonconference.active.upcoming_or_recent(@event_type).tagged_with_all(@tag_list).limit(event_limit)
+        @event_list = Event.active.upcoming_or_recent(@event_type).tagged_with_all(@tag_list).limit(event_limit)
       else
         @specific_title = "eXtension #{@event_type.capitalize} Learn Events tagged #{@tag_list.to_sentence(words_connector: ',', two_words_connector: ' or', last_word_connector: ' or')}"
-        @event_list = Event.nonconference.active.upcoming_or_recent(@event_type).tagged_with(params[:tags]).limit(event_limit)
+        @event_list = Event.active.upcoming_or_recent(@event_type).tagged_with(params[:tags]).limit(event_limit)
       end
 
       if @tag_list.length == 1
@@ -116,7 +116,7 @@ class WidgetsController < ApplicationController
         @event_type = "recent"
         @generic_title = "Recent Webinars"
         @specific_title = "eXtension Recent Learn Events tagged #{@tag_list.to_sentence(words_connector: ',', two_words_connector: ' or', last_word_connector: ' or')}"
-        @event_list = Event.nonconference.active.recent.tagged_with(params[:tags]).limit(event_limit)
+        @event_list = Event.active.recent.tagged_with(params[:tags]).limit(event_limit)
         if @tag_list.length == 1
           @path_to_upcoming_events = events_tag_url(:tags => @tag_list.first, :type => 'recent')
         end
@@ -129,13 +129,13 @@ class WidgetsController < ApplicationController
       @generic_title = "Upcoming Webinars"
       @event_type = "upcoming"
       @specific_title = "eXtension Upcoming Learn Events tagged Front Page"
-      @event_list = Event.tagged_with(@tag.name).nonconference.active.upcoming(limit = event_limit)
+      @event_list = Event.tagged_with(@tag.name).active.upcoming(limit = event_limit)
       if @event_list.empty?
         @generic_title = "Recent Webinars"
         @path_to_upcoming_events = recent_events_url
         @event_type = "recent"
         @specific_title = "eXtension Recent Learn Events tagged Front Page"
-        @event_list = Event.nonconference.active.recent.tagged_with(@tag.name).limit(event_limit)
+        @event_list = Event.active.recent.tagged_with(@tag.name).limit(event_limit)
       end
     end
 

@@ -8,7 +8,7 @@ class Feeds::EventsController < ApplicationController
 
   def index
     # TODO: tag lookups and any other params - maybe
-    @eventlist = Event.nonconference.active.order('updated_at DESC').limit(((params[:limit].present?) && (params[:limit].to_i > 0)) ? params[:limit] : Settings.default_feed_items)
+    @eventlist = Event.active.order('updated_at DESC').limit(((params[:limit].present?) && (params[:limit].to_i > 0)) ? params[:limit] : Settings.default_feed_items)
     @title = "eXtension Professional Development Sessions"
     respond_to do |format|
       format.xml { render :layout => false, :content_type => "application/atom+xml" }
@@ -22,7 +22,7 @@ class Feeds::EventsController < ApplicationController
       event_limit = 5
     end
 
-    @eventlist = Event.nonconference.active.upcoming(limit = event_limit)
+    @eventlist = Event.active.upcoming(limit = event_limit)
     @title = "Upcoming eXtension Professional Development Sessions"
 
     respond_to do |format|

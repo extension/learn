@@ -13,12 +13,9 @@ class HomeController < ApplicationController
       t.google_tag_manager :push, { pageCategory: 'home'}
     end
 
-    @upcoming_events = Event.nonconference.active.upcoming(limit = 3)
-    @recent_events = Event.nonconference.active.recent(limit = 8)
-    @more_upcoming_events = Event.nonconference.active.upcoming(limit = 8, offset = 3)
-
-    # temporary! nexc2012 link
-    @nexc2012 = Conference.find_by_hashtag('nexc2012')
+    @upcoming_events = Event.active.upcoming(limit = 3)
+    @recent_events = Event.active.recent(limit = 8)
+    @more_upcoming_events = Event.active.upcoming(limit = 8, offset = 3)
   end
 
   def contact_us

@@ -20,11 +20,7 @@ class SearchController < ApplicationController
     # special "id of event check"
     if (id_number = params[:q].cast_to_i) > 0
       if(event = Event.find_by_id(id_number))
-        if(event.is_conference_session?)
-          return redirect_to(conference_event_path(event,:conference_id => event.conference.hashtag))
-        else
-          return redirect_to(event_path(event))
-        end
+        return redirect_to(event_path(event))
       end
     end
 
