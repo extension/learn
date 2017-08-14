@@ -15,8 +15,6 @@ class Learner < ActiveRecord::Base
   has_many :activity_logs
   has_many :learner_activities
   has_many :learner_activities_as_recipient, :class_name => "LearnerActivity", :foreign_key => 'recipient_id'
-  has_many :questions
-  has_many :stock_questions
   has_many :created_events, :class_name => "Event", :foreign_key => 'creator_id'
   has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
   has_many :comments
@@ -25,7 +23,6 @@ class Learner < ActiveRecord::Base
   has_many :events, through: :event_connections, uniq: true
   has_many :zoom_connections
   has_many :zoom_webinars, through: :zoom_connections, uniq: true
-  has_many :ratings
   has_many :event_activities
   has_many :presenter_connections
   has_many :presented_events, through: :presenter_connections, source: :event
@@ -35,8 +32,6 @@ class Learner < ActiveRecord::Base
   has_many :mailer_caches, :as => :cacheable, :class_name => "MailerCache"
   has_many :answers
   has_one  :portfolio_setting
-  has_many :conference_connections
-  has_many :conferences, through: :conference_connections, uniq: true
 
   before_validation :convert_mobile_number
   validates_length_of :mobile_number, :is => 10, :allow_blank => true
@@ -55,10 +50,6 @@ class Learner < ActiveRecord::Base
   scope :active, ->{where(retired: false)}
   scope :extension, ->{where("darmok_id IS NOT NULL")}
   scope :non_extension, ->{where("darmok_id IS NULL")}
-
-  def presented_conferences
-    presented_events.conference.map(&:conference).uniq
-  end
 
   # override timezone writer/reader
   # returns Eastern by default, use convert=false
@@ -223,20 +214,6 @@ class Learner < ActiveRecord::Base
     self.event_connections.create(event: event, connectiontype: connectiontype)
   end
 
-  def attending_conference?(conference)
-    !self.conferences.attended.where('conference_id = ?',conference.id).first.nil?
-  end
-
-  def connect_with_conference(conference,connectiontype)
-    self.conference_connections.create(conference: conference, connectiontype: connectiontype)
-  end
-
-  def remove_connection_with_conference(conference,connectiontype)
-    if(connection = ConferenceConnection.where('learner_id =?',self.id).where('conference_id = ?',conference.id).where('connectiontype = ?',connectiontype).first)
-      connection.destroy
-    end
-  end
-
   def remove_connection_with_event(event,connectiontype)
     if(connection = EventConnection.where('learner_id =?',self.id).where('event_id = ?',event.id).where('connectiontype = ?',connectiontype).first)
       connection.destroy
@@ -246,11 +223,6 @@ class Learner < ActiveRecord::Base
   #get the mobile number down to just the digits
   def convert_mobile_number
     self.mobile_number = self.mobile_number.to_s.gsub(/[^0-9]/, '') if self.mobile_number
-  end
-
-  def get_upvoted_object(object_id, object_type)
-    rating = Rating.where(rateable_type: object_type, rateable_id: object_id, learner_id: self.id, score: 1).first
-    return rating
   end
 
   # convenience methods for consistent use between presented_events and recommended_events that
@@ -279,9 +251,9 @@ class Learner < ActiveRecord::Base
     event_scope = modified_options.delete(:event_scope) || 'recommendation_epoch'
 
     if(event_scope == 'all')
-      event_list = Event.nonconference.active.not_expired.potential_learners(modified_options)
+      event_list = Event.active.not_expired.potential_learners(modified_options)
     else
-      event_list = Event.nonconference.active.not_expired.send(event_scope).potential_learners(modified_options)
+      event_list = Event.active.not_expired.send(event_scope).potential_learners(modified_options)
     end
     event_list.each do |event,learner_list|
       if(show_zeros and learner_list.blank?)
@@ -308,9 +280,9 @@ class Learner < ActiveRecord::Base
     event_scope = modified_options.delete(:event_scope) || 'recommendation_epoch'
 
     if(event_scope == 'all')
-      event_list = Event.nonconference.active.not_expired.potential_learners(modified_options)
+      event_list = Event.active.not_expired.potential_learners(modified_options)
     else
-      event_list = Event.nonconference.active.not_expired.send(event_scope).potential_learners(modified_options)
+      event_list = Event.active.not_expired.send(event_scope).potential_learners(modified_options)
     end
 
     event_list.each do |event,learner_list|

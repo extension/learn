@@ -1,6 +1,0 @@
-<%- case evalquestion.responsetype -%>
-<%- when EvaluationQuestion::MULTIPLE_CHOICE -%>
-  <%= render(partial: 'evalquestion_multiple_choice', locals: {evalquestion: evalquestion, event: event})%>
-<%- when EvaluationQuestion::COMPOUND_MULTIPLE_OPEN -%>  
-  <%= render(partial: 'evalquestion_compound_multiple_open', locals: {evalquestion: evalquestion, event: event})%>
-<%- end -%>

@@ -16,7 +16,7 @@
       <p><strong><%= pluralize(@event.event_registrations.count, "email address") -%></strong> <%= (@event.event_registrations.count > 1) ? 'are' : 'is' -%> registered for this event</p>
       <p><%= link_to "Export registration data", learn_registrants_path(format: "csv", :id => @event.id), :class => "btn btn-default btn-primary" %></p>
       <%= button_to "Delete registration data", {:controller => :events, :action => 'destroy_registrants', :id => @event.id }, :method => :delete, :confirm => "Are you sure? This will permanantly delete all registrants for this event!", :class => "btn btn-default  btn-danger btn-sm" %>
-      
+
     <%- else -%>
         No one has registered for this event.
       <%- end -%>
@@ -143,11 +143,6 @@
     <p class="muted">0 comments</p>
   <%- end -%>
 </section>
-
-<%- if (@event.is_online_session? && @event.answers.count > 0) -%>
-  <h3>View questions</h3>
-<%- end -%>
-
 
 </div>
 </div>

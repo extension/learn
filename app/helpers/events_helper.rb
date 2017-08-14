@@ -6,64 +6,6 @@
 
 module EventsHelper
 
-  def is_boolean_answer_checked?(question,answer_value)
-    if(!current_learner)
-      false
-    elsif(!(value = question.answer_value_for_learner_and_response(learner: current_learner)))
-      false
-    else
-      value == answer_value
-    end
-  end
-
-
-  def is_multivote_answer_checked?(question,response)
-    if(!current_learner)
-      false
-    elsif(!(value = question.answer_value_for_learner_and_response(learner: current_learner, response: response)))
-      false
-    else
-      # should always be true
-      value == 1
-    end
-  end
-
-  def is_multichoice_evalanswer_checked?(event,evalquestion,response)
-    if(!current_learner)
-      false
-    else
-      answer = evalquestion.answer_for_learner_and_event(current_learner,event)
-      if(!answer)
-        false
-      elsif(answer.response == response)
-        true
-      else
-        false
-      end
-    end
-  end
-
-  def learner_has_trigger_response?(event,evalquestion)
-    if(!current_learner)
-      false
-    else
-      answer = evalquestion.answer_for_learner_and_event(current_learner,event)
-      if(!answer)
-        false
-      else
-        evalquestion.is_trigger_response?(answer.response)
-      end
-    end
-  end
-
-  def evalquestion_secondary_response_for_event(evalquestion,event)
-    if(answer = evalquestion.answer_for_learner_and_event(current_learner,event))
-      answer.secondary_response
-    else
-      ''
-    end
-  end
-
   # we don't display comments from those who are blocked, and we also don't show the children of those comments,
   # we're getting the count of just the comments that are shown.
   def get_filtered_comment_count(event)
@@ -94,35 +36,6 @@ module EventsHelper
     else
       return event.commentators
     end
-  end
-
-  def scale_value(question)
-    if(!current_learner)
-      nil
-    else
-      question.answer_value_for_learner_and_response(learner: current_learner)
-    end
-  end
-
-  def multivote_scale_value(question,response)
-    if(!current_learner)
-      nil
-    else
-      question.answer_value_for_learner_and_response(learner: current_learner, response: response)
-    end
-  end
-
-
-  def jqplot_bargraph_data(question)
-    question.answer_data.map{|(label,value)| value}.to_json.html_safe
-  end
-
-  def jqplot_bargraph_xaxis_labels(question)
-     (question.range_start..question.range_end).to_a.map{|i|i.to_s}.to_json.html_safe
-  end
-
-  def jqplot_piegraph_data(question)
-    question.answer_data.to_json.html_safe
   end
 
   def display_presenters(presenters)

@@ -12,13 +12,12 @@ class Event < ActiveRecord::Base
   attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
-  attr_accessor :is_broadcast
 
   # define accessible attributes
   attr_accessible :creator, :last_modifier
   attr_accessible :title, :description, :session_length, :location, :recording, :primary_audience
   attr_accessible :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled, :is_deleted, :reason_is_deleted
-  attr_accessible :conference, :conference_id, :room, :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at, :evaluation_link
+  attr_accessible :event_type, :presenter_ids, :featured, :featured_at, :evaluation_link
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
@@ -60,11 +59,8 @@ class Event < ActiveRecord::Base
   has_many :tags, :through => :taggings
   belongs_to :creator, :class_name => "Learner"
   belongs_to :last_modifier, :class_name => "Learner"
-  has_many :questions, order: 'priority,created_at', dependent: :destroy
-  has_many :answers, :through => :questions
   has_many :comments, dependent: :destroy
   has_many :commenting_learners, through: :comments, source: :learner, uniq: true
-  has_many :ratings, :as => :rateable, :include => :learner, :conditions => "learners.is_blocked = false", dependent: :destroy
   has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
   has_many :event_registrations
@@ -76,10 +72,6 @@ class Event < ActiveRecord::Base
   has_many :notification_exceptions
   has_many :material_links
   accepts_nested_attributes_for :material_links, :reject_if => :all_blank, :allow_destroy => true
-
-  # conference sessions
-  belongs_to :conference
-
   belongs_to :zoom_webinar
 
   validates :title, :presence => true
@@ -92,7 +84,6 @@ class Event < ActiveRecord::Base
   validates :evaluation_link, :allow_blank => true, :uri => true
 
   before_validation :set_session_start
-  before_validation :set_location_if_conference
 
   before_update :schedule_recording_notification
   before_update :update_event_notifications
@@ -214,7 +205,6 @@ class Event < ActiveRecord::Base
   scope :date_filtered, lambda { |start_date,end_date| where('DATE(session_start) >= ? AND DATE(session_start) <= ?', start_date, end_date) }
 
   scope :conference, where(event_type: CONFERENCE)
-  scope :nonconference, where('event_type != ?',CONFERENCE)
   scope :broadcast, where('event_type = ?',BROADCAST)
 
   scope :by_date, lambda {|date| where('DATE(session_start) = ?',date)}
@@ -227,25 +217,6 @@ class Event < ActiveRecord::Base
 
   def connections_list
     self.learners.valid.order('event_connections.created_at')
-  end
-
-  def set_location_if_conference
-    if(self.event_type == Event::CONFERENCE)
-      self.location = 'Conference Session'
-    end
-  end
-
-  def is_broadcast
-    (self.event_type == Event::BROADCAST)
-  end
-
-  # should only be exposed in a conference context
-  def is_broadcast=(broadcast_boolean)
-    if(broadcast_boolean.to_i == 1)
-      self.event_type = Event::BROADCAST
-    else
-      self.event_type = Event::CONFERENCE
-    end
   end
 
   def primary_audience=(audience_code)
@@ -490,35 +461,12 @@ class Event < ActiveRecord::Base
     self.session_end = self.session_start + (self.session_length * 60)
   end
 
-  # gets a random list of stock questions and creates associated questions from them
-  #
-  # @param [Hash] options options for the stock question creation
-  # @option options [Integer] :creator - the Learner ID to attach as the creator
-  # @option options [Integer] :max_count - the max count of random questions to retrieve and copy
-  #
-  # @return [Array] array of questions created
-  def add_stock_questions(options = {})
-    max_count = options[:max_count] || StockQuestion::DEFAULT_RANDOM_COUNT
-
-    stock_question_list = StockQuestion.random_questions(max_count)
-    stock_question_list.each do |sq|
-      self.questions << Question.create_from_stock_question(sq)
-    end
-    self.questions
-  end
-
   # when an event is created, up to 6 notifications need to be created.
   # 1 notification via email (180 minutes before)
-  # conference sessions will go out 1 hour before
   # 4 via sms (60,45,30,15 minutes)
-  # we'll leave conference sessions alone for now
   # 1 Potential Email if the event is scheduled for iowa state's connect system
   def create_event_notifications
-    if(self.is_conference_session?)
-      Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 1.hours, offset: 1.hours)
-    else
-      Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 3.hours, offset: 3.hours)
-    end
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 3.hours, offset: 3.hours)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 60.minutes, offset: 60.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 45.minutes, offset: 45.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 30.minutes, offset: 30.minutes)
@@ -682,14 +630,6 @@ class Event < ActiveRecord::Base
 
   def is_multiday_event?
     (self.session_end.to_date - self.session_start.to_date + 1).to_i > 1
-  end
-
-  def evaluation_questions
-    if(self.is_conference_session?)
-      self.conference.evaluation_questions.order('questionorder')
-    else
-      []
-    end
   end
 
   def set_location_webinar_id

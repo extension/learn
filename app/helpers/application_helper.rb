@@ -22,20 +22,6 @@ module ApplicationHelper
     end
   end
 
-  def formatted_votes(rated_object, logged_in_learner)
-    positive_ratings_count = rated_object.ratings.positive.count
-    return_string = ''
-
-    if (positive_ratings_count > 0)
-      return_string << "<strong class='rating_count'>+#{positive_ratings_count}</strong>"
-      return_string << "<div class='rating_explanation'>#{positive_ratings_count} person up-voted this</div>"
-      return return_string.html_safe
-    else
-      return_string << "<strong class='rating_explanation none_yet'>Be the first to up-vote this</strong>"
-      return return_string.html_safe
-    end
-  end
-
   def avatar_for_learner(learner, options = {})
     image_size = options[:image_size] || :thumb
     case image_size

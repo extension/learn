@@ -10,14 +10,8 @@
 <%- end -%>
 
 <div class="edit-form col-md-8">
-  <%- if @event.conference -%>
-    <h1>Create a conference event</h1>
-      <%= render(partial: 'conference_event_form') %>
-  <%- else -%>
-
   <h1>Create an event</h1>
-    <%= render(partial: 'online_event_form') %>
-<%- end -%>
+  <%= render(partial: 'online_event_form') %>
 </div>
 
 <div class="col-md-3">

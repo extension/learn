@@ -5,32 +5,25 @@
 # see LICENSE file
 
 class EventsController < ApplicationController
-  before_filter :check_for_conference
-  before_filter :signin_required, only: [:addanswer, :edit, :update, :new, :create, :makeconnection, :backstage, :history, :evaluation, :evaluationresults, :destroy_registrants, :export_registrants, :delete_event]
+  before_filter :signin_required, only: [:edit, :update, :new, :create, :makeconnection, :backstage, :history, :destroy_registrants, :export_registrants, :delete_event]
 
   def index
     @list_title = 'All Sessions'
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    if(@conference)
-      @conference_display = true
-      @events = @conference.events.active.order('session_start ASC').page(params[:page])
-      @all_events_path = events_path
-    else
-      @events = Event.active.order('session_start DESC').page(params[:page])
-    end
+    @events = Event.active.order('session_start DESC').page(params[:page])
   end
 
   def upcoming
     @list_title = 'Upcoming Sessions'
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events = Event.nonconference.active.upcoming.order('session_start DESC').page(params[:page])
+    @events = Event.active.upcoming.order('session_start DESC').page(params[:page])
     render :action => 'index'
   end
 
   def recent
     @list_title = "Recent Sessions"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
-    @events =  Event.nonconference.active.recent.order('session_start DESC').page(params[:page])
+    @events =  Event.active.recent.order('session_start DESC').page(params[:page])
     render :action => 'index'
   end
 
@@ -39,34 +32,25 @@ class EventsController < ApplicationController
     @list_title = "Sessions Tagged With '#{params[:tags]}'"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
 
-    if(@conference)
-      @conference_display = true
-      if(params[:tags])
-        @events = @conference.events.tagged_with(params[:tags]).order('session_start ASC').page(params[:page])
-        @all_events_path = events_tag_path(:tags => params[:tags])
-      else
-        @events = @conference.events.order('session_start ASC').page(params[:page])
-        @all_events_path = events_path
-      end
-    else
-      if(params[:tags])
-        if params[:type].present?
-          if params[:type] == 'recent'
-            @list_title = "Recent #{@list_title}"
-            @events = Event.active.recent.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
-          elsif params[:type] == 'upcoming'
-            @list_title = "Upcoming #{@list_title}"
-            @events = Event.active.upcoming.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
-          else
-            @events = Event.active.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
-          end
+
+    if(params[:tags])
+      if params[:type].present?
+        if params[:type] == 'recent'
+          @list_title = "Recent #{@list_title}"
+          @events = Event.active.recent.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
+        elsif params[:type] == 'upcoming'
+          @list_title = "Upcoming #{@list_title}"
+          @events = Event.active.upcoming.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
         else
           @events = Event.active.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
         end
       else
-        @events = Event.active.order('session_start DESC').page(params[:page])
+        @events = Event.active.tagged_with(params[:tags]).order('session_start DESC').page(params[:page])
       end
+    else
+      @events = Event.active.order('session_start DESC').page(params[:page])
     end
+
     render :action => 'index'
   end
 
@@ -119,13 +103,7 @@ class EventsController < ApplicationController
     @list_title = "Broadcast Sessions"
     params[:page].present? ? (@page_title = "#{@list_title} - Page #{params[:page]}") : (@page_title = @list_title)
 
-    if(@conference)
-      @conference_display = true
-      @events = @conference.events.broadcast.order('session_start ASC').page(params[:page])
-      @all_events_path = broadcast_events_path
-    else
-      @events = Event.active.broadcast.order('session_start DESC').page(params[:page])
-    end
+    @events = Event.active.broadcast.order('session_start DESC').page(params[:page])
     render :action => 'index'
   end
 
@@ -148,26 +126,9 @@ class EventsController < ApplicationController
     end
 
 
-
-    return if check_for_event_redirect
-
     if (@event.is_deleted)
       if (!current_learner || !current_learner.is_admin?)
         do_410
-      end
-    end
-
-    # there's a global time_zone setter - but we need to
-    # do it again to make sure to force the time zone
-    # display to the session and not the system default
-    if(@conference and !@conference.is_virtual?)
-      Time.zone = @conference.time_zone
-    end
-
-    if(!@event.is_conference_session?)
-      # make sure the event has sense making questions
-      if(@event.questions.count == 0 and !@event.is_conference_session?)
-        @event.add_stock_questions
       end
     end
 
@@ -190,20 +151,6 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
   end
 
-  def evaluation
-    @event = Event.find(params[:id])
-    if(!@event.is_conference_session?)
-      return redirect_to(event_path(@event))
-    end
-  end
-
-  def evaluationresults
-    @event = Event.find(params[:id])
-    if(!@event.is_conference_session?)
-      return redirect_to(event_path(@event))
-    end
-  end
-
   def recommended
     begin
       recommended_event = RecommendedEvent.find(params[:id])
@@ -222,27 +169,16 @@ class EventsController < ApplicationController
 
     3.times{@event.images.build}
 
-    if(@conference)
-      @event.session_start = @conference.default_time
-      @event.session_length = @conference.default_length
-      @event.event_type = Event::CONFERENCE
-      @event.time_zone = @conference.time_zone
-      @event.conference = @conference
-    else
-      # seed defaults
-      @event.session_start = Time.parse("14:00")
-      if(current_learner)
-        @event.time_zone = Time.zone
-      end
+    # seed defaults
+    @event.session_start = Time.parse("14:00")
+    if(current_learner)
+      @event.time_zone = Time.zone
     end
   end
 
   def create
     @event = Event.new(params[:event])
 
-    if(@event.conference_id)
-      @conference = Conference.find_by_id(@event.conference_id)
-    end
     @event.last_modifier = @event.creator = current_learner
 
     if @event.save
@@ -295,52 +231,6 @@ class EventsController < ApplicationController
 
   def deleted
     @events = Event.where(is_deleted: true).order("updated_at DESC").page(params[:page])
-  end
-
-  def addanswer
-    @event = Event.find(params[:id])
-
-    # validate question
-    @question = Question.find_by_id(params[:question])
-    if(@question.nil?)
-      return record_not_found
-    end
-
-    if(@question.event != @event)
-      return bad_request('Invalid question specified')
-    end
-
-    # simple type checking for values
-    if(@question.responsetype != Question::MULTIVOTE_BOOLEAN and !params[:values])
-      return bad_request('Empty values specified')
-    end
-
-    if((@question.responsetype == Question::MULTIVOTE_BOOLEAN) and params[:values] and !params[:values].is_a?(Array))
-      return bad_request('Must provide array values for this question type')
-    end
-
-    # create or update answers
-    @question.create_or_update_answers(learner: current_learner, update_value: params[:values])
-
-    respond_to do |format|
-      format.js
-    end
-  end
-
-  def addevalanswer
-    @event = Event.find(params[:id])
-
-    # validate question
-    @evalquestion = EvaluationQuestion.find_by_id(params[:evalquestion])
-    if(@evalquestion.nil?)
-      return record_not_found
-    end
-
-    @evalquestion.create_or_update_answers(learner: current_learner, event: @event, params: params)
-
-    respond_to do |format|
-      format.js
-    end
   end
 
   def makeconnection
@@ -420,45 +310,4 @@ class EventsController < ApplicationController
     end
   end
 
-  protected
-
-  def check_for_conference
-    if(params[:conference_id])
-      @conference = Conference.find_by_id_or_hashtag(params[:conference_id],false)
-
-      if(@conference)
-        # if not a virtual conference - force the timezone to be
-        # that of the conference
-        if(!@conference.is_virtual?)
-          Time.zone = @conference.time_zone
-        end
-      end
-    end
-  end
-
-  # must have @event
-  def check_for_event_redirect
-    if(@event.event_type == Event::CONFERENCE)
-      if(!@conference)
-        redirect_to(conference_event_url(:conference_id => @event.conference.hashtag, :id => @event.id))
-        return true
-      elsif(@event.conference != @conference)
-        redirect_to(conference_event_url(:conference_id => @event.conference.hashtag, :id => @event.id))
-        return true
-      else
-        return false
-      end
-    elsif(@event.event_type == Event::BROADCAST)
-      # set the canonical to the event path
-      @canonical_link = event_url(@event)
-      return false
-    else
-      if(@conference)
-        redirect_to(event_url(@event))
-        return true
-      else
-        return false
-      end
-    end
-  end
 end

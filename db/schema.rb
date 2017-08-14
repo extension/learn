@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20170706163554) do
+ActiveRecord::Schema.define(:version => 20170814135110) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -22,17 +22,6 @@ ActiveRecord::Schema.define(:version => 20170706163554) do
   end
 
   add_index "activity_logs", ["learner_id", "loggable_id", "loggable_type"], :name => "activity_ndx"
-
-  create_table "answers", :force => true do |t|
-    t.integer  "question_id", :null => false
-    t.integer  "learner_id",  :null => false
-    t.string   "response"
-    t.integer  "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "answers", ["question_id", "learner_id", "response"], :name => "index_answers_on_question_id_and_learner_id_and_response", :unique => true
 
   create_table "comments", :force => true do |t|
     t.text     "content",                           :null => false
@@ -46,34 +35,6 @@ ActiveRecord::Schema.define(:version => 20170706163554) do
 
   add_index "comments", ["ancestry"], :name => "index_comments_on_ancestry"
   add_index "comments", ["learner_id", "event_id"], :name => "index_comments_on_learner_id_and_event_id"
-
-  create_table "conference_connections", :force => true do |t|
-    t.integer  "learner_id",       :null => false
-    t.integer  "conference_id",    :null => false
-    t.integer  "connectiontype",   :null => false
-    t.string   "role_description"
-    t.datetime "created_at"
-  end
-
-  add_index "conference_connections", ["learner_id", "conference_id", "connectiontype"], :name => "connection_ndx", :unique => true
-
-  create_table "conferences", :force => true do |t|
-    t.string   "name",                                :null => false
-    t.string   "hashtag",                             :null => false
-    t.string   "tagline"
-    t.string   "website"
-    t.text     "description"
-    t.string   "time_zone"
-    t.date     "start_date",                          :null => false
-    t.date     "end_date",                            :null => false
-    t.boolean  "is_virtual",       :default => false
-    t.integer  "creator_id",                          :null => false
-    t.integer  "last_modifier_id",                    :null => false
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
-  end
-
-  add_index "conferences", ["hashtag"], :name => "hashtag_ndx", :unique => true
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -90,35 +51,6 @@ ActiveRecord::Schema.define(:version => 20170706163554) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
-
-  create_table "evaluation_answers", :force => true do |t|
-    t.integer  "evaluation_question_id", :null => false
-    t.integer  "learner_id",             :null => false
-    t.integer  "event_id",               :null => false
-    t.text     "response"
-    t.text     "secondary_response"
-    t.integer  "value"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-  end
-
-  add_index "evaluation_answers", ["evaluation_question_id", "learner_id", "event_id"], :name => "question_answer_learner_ndx", :unique => true
-
-  create_table "evaluation_questions", :force => true do |t|
-    t.integer  "conference_id"
-    t.text     "prompt"
-    t.text     "secondary_prompt"
-    t.integer  "questionorder"
-    t.string   "responsetype"
-    t.text     "responses"
-    t.integer  "range_start"
-    t.integer  "range_end"
-    t.integer  "creator_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-  end
-
-  add_index "evaluation_questions", ["conference_id"], :name => "conference_ndx"
 
   create_table "event_activities", :force => true do |t|
     t.integer  "learner_id",                                  :null => false
@@ -168,8 +100,6 @@ ActiveRecord::Schema.define(:version => 20170706163554) do
     t.boolean  "is_canceled",                            :default => false,    :null => false
     t.boolean  "is_expired",                             :default => false,    :null => false
     t.string   "event_type",               :limit => 25, :default => "online"
-    t.integer  "conference_id"
-    t.string   "room"
     t.boolean  "featured",                               :default => false,    :null => false
     t.datetime "featured_at"
     t.string   "evaluation_link"
@@ -190,9 +120,7 @@ ActiveRecord::Schema.define(:version => 20170706163554) do
     t.boolean  "is_mfln",                                :default => false
   end
 
-  add_index "events", ["conference_id"], :name => "conference_ndx"
   add_index "events", ["event_type"], :name => "event_type_ndx"
-  add_index "events", ["room"], :name => "room_ndx"
 
   create_table "events_cleanup", :id => false, :force => true do |t|
     t.integer "id"
@@ -315,30 +243,6 @@ ActiveRecord::Schema.define(:version => 20170706163554) do
 
   add_index "presenter_connections", ["learner_id", "event_id"], :name => "connection_ndx", :unique => true
 
-  create_table "questions", :force => true do |t|
-    t.text     "prompt"
-    t.string   "responsetype"
-    t.text     "responses"
-    t.integer  "range_start"
-    t.integer  "range_end"
-    t.integer  "priority"
-    t.integer  "event_id",     :null => false
-    t.integer  "learner_id",   :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "ratings", :force => true do |t|
-    t.integer  "rateable_id",   :null => false
-    t.string   "rateable_type", :null => false
-    t.integer  "score",         :null => false
-    t.integer  "learner_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "ratings", ["learner_id", "rateable_type", "rateable_id"], :name => "index_ratings_on_learner_id_and_rateable_type_and_rateable_id", :unique => true
-
   create_table "recommendations", :force => true do |t|
     t.integer  "learner_id"
     t.date     "day"
@@ -357,18 +261,6 @@ ActiveRecord::Schema.define(:version => 20170706163554) do
   end
 
   add_index "recommended_events", ["recommendation_id", "event_id"], :name => "recommended_event_ndx"
-
-  create_table "stock_questions", :force => true do |t|
-    t.boolean  "active"
-    t.text     "prompt"
-    t.string   "responsetype"
-    t.text     "responses"
-    t.integer  "range_start"
-    t.integer  "range_end"
-    t.integer  "learner_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
