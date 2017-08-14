@@ -135,11 +135,3 @@ group :development do
   gem 'meta_request'
   gem 'httplog'
 end
-
-group :test do
-  # Pretty printed test output
-  gem 'turn', :require => false
-  gem 'shoulda', '>= 3.0.0.beta'
-  gem 'factory_girl_rails'
-  gem 'mocha'
-end
