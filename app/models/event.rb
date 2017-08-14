@@ -12,13 +12,12 @@ class Event < ActiveRecord::Base
   attr_accessor :presenter_tokens
   attr_accessor :tag_list
   attr_accessor :session_start_string
-  attr_accessor :is_broadcast
 
   # define accessible attributes
   attr_accessible :creator, :last_modifier
   attr_accessible :title, :description, :session_length, :location, :recording, :primary_audience
   attr_accessible :presenter_tokens, :tag_list, :session_start_string, :time_zone, :is_expired, :is_canceled, :is_deleted, :reason_is_deleted
-  attr_accessible :event_type, :presenter_ids, :is_broadcast, :featured, :featured_at, :evaluation_link
+  attr_accessible :event_type, :presenter_ids, :featured, :featured_at, :evaluation_link
   attr_accessible :material_links_attributes
   attr_accessible :images_attributes
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
@@ -219,19 +218,6 @@ class Event < ActiveRecord::Base
 
   def connections_list
     self.learners.valid.order('event_connections.created_at')
-  end
-
-  def is_broadcast
-    (self.event_type == Event::BROADCAST)
-  end
-
-  # should only be exposed in a conference context
-  def is_broadcast=(broadcast_boolean)
-    if(broadcast_boolean.to_i == 1)
-      self.event_type = Event::BROADCAST
-    else
-      self.event_type = Event::CONFERENCE
-    end
   end
 
   def primary_audience=(audience_code)
@@ -478,16 +464,10 @@ class Event < ActiveRecord::Base
 
   # when an event is created, up to 6 notifications need to be created.
   # 1 notification via email (180 minutes before)
-  # conference sessions will go out 1 hour before
   # 4 via sms (60,45,30,15 minutes)
-  # we'll leave conference sessions alone for now
   # 1 Potential Email if the event is scheduled for iowa state's connect system
   def create_event_notifications
-    if(self.is_conference_session?)
-      Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 1.hours, offset: 1.hours)
-    else
-      Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 3.hours, offset: 3.hours)
-    end
+    Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_EMAIL, delivery_time: self.session_start - 3.hours, offset: 3.hours)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 60.minutes, offset: 60.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 45.minutes, offset: 45.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 30.minutes, offset: 30.minutes)

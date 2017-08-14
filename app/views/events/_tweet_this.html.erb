@@ -1,8 +1,0 @@
-<%= link_to("Tweet ##{@event.conference.hashtag} ##{@event.id}", 
-            "https://twitter.com/intent/tweet?button_hashtag=#{@event.conference.hashtag}",
-            {class: 'twitter-hashtag-button', 
-             data: {hashtags: "#{@event.conference.hashtag},#{@event.id}",
-                    dnt: 'true',
-                    size: 'large'}
-            }) -%>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
