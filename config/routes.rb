@@ -60,15 +60,11 @@ Learn::Application.routes.draw do
 
   resources :events do
     member do
-      post 'addanswer'
-      post 'addevalanswer'
       post 'makeconnection'
       post 'notificationexception'
       get 'backstage'
       get 'webinarinfo'
       get 'history'
-      get 'evaluation'
-      get 'evaluationresults'
       get 'diff_with_previous'
       post 'restore'
       delete 'destroy_registrants'
@@ -140,29 +136,6 @@ Learn::Application.routes.draw do
     match "/blocked_activity" => "data#blocked_activity", :as => 'data_blocked_activity'
     match "/tags" => "data#tags", :as => 'tag_token_search'
   end
-
-  resources :conferences, :only => [:index, :show, :edit, :update] do
-    resources :events do
-      collection do
-        get 'tags'
-        get 'broadcast'
-      end
-    end
-    resources :data, :controller => 'conferences/data', :only => [:index] do
-      collection do
-        get 'events'
-        get 'evaluation'
-        get 'evaluationbysession'
-      end
-    end
-    member do
-      get 'allevents'
-      get 'schedule'
-      post 'makeconnection'
-      get 'learner'
-    end
-  end
-
 
   root :to => 'home#index'
 
