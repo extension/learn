@@ -61,7 +61,6 @@ class Event < ActiveRecord::Base
   belongs_to :last_modifier, :class_name => "Learner"
   has_many :comments, dependent: :destroy
   has_many :commenting_learners, through: :comments, source: :learner, uniq: true
-  has_many :ratings, :as => :rateable, :include => :learner, :conditions => "learners.is_blocked = false", dependent: :destroy
   has_many :event_connections, dependent: :destroy
   has_many :learners, through: :event_connections, uniq: true
   has_many :event_registrations

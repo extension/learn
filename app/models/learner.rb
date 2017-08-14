@@ -23,7 +23,6 @@ class Learner < ActiveRecord::Base
   has_many :events, through: :event_connections, uniq: true
   has_many :zoom_connections
   has_many :zoom_webinars, through: :zoom_connections, uniq: true
-  has_many :ratings
   has_many :event_activities
   has_many :presenter_connections
   has_many :presented_events, through: :presenter_connections, source: :event
@@ -224,11 +223,6 @@ class Learner < ActiveRecord::Base
   #get the mobile number down to just the digits
   def convert_mobile_number
     self.mobile_number = self.mobile_number.to_s.gsub(/[^0-9]/, '') if self.mobile_number
-  end
-
-  def get_upvoted_object(object_id, object_type)
-    rating = Rating.where(rateable_type: object_type, rateable_id: object_id, learner_id: self.id, score: 1).first
-    return rating
   end
 
   # convenience methods for consistent use between presented_events and recommended_events that

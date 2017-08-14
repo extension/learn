@@ -243,17 +243,6 @@ ActiveRecord::Schema.define(:version => 20170814135110) do
 
   add_index "presenter_connections", ["learner_id", "event_id"], :name => "connection_ndx", :unique => true
 
-  create_table "ratings", :force => true do |t|
-    t.integer  "rateable_id",   :null => false
-    t.string   "rateable_type", :null => false
-    t.integer  "score",         :null => false
-    t.integer  "learner_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "ratings", ["learner_id", "rateable_type", "rateable_id"], :name => "index_ratings_on_learner_id_and_rateable_type_and_rateable_id", :unique => true
-
   create_table "recommendations", :force => true do |t|
     t.integer  "learner_id"
     t.date     "day"
@@ -272,18 +261,6 @@ ActiveRecord::Schema.define(:version => 20170814135110) do
   end
 
   add_index "recommended_events", ["recommendation_id", "event_id"], :name => "recommended_event_ndx"
-
-  create_table "stock_questions", :force => true do |t|
-    t.boolean  "active"
-    t.text     "prompt"
-    t.string   "responsetype"
-    t.text     "responses"
-    t.integer  "range_start"
-    t.integer  "range_end"
-    t.integer  "learner_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

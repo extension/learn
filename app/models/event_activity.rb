@@ -80,8 +80,6 @@ class EventActivity < ActiveRecord::Base
 
   def self.log_object_activity(object)
     case object.class.name
-    when 'Rating'
-      self.log_rating(object)
     when 'Comment'
       self.log_comment(object)
     when 'EventConnection'
@@ -104,20 +102,6 @@ class EventActivity < ActiveRecord::Base
   end
 
   def self.log_share
-  end
-
-  def self.log_rating(rating)
-    if(rating.rateable.is_a?(Comment))
-      activity = RATING_ON_COMMENT
-      event = rating.rateable.event
-      self.create(learner: rating.learner, event: event, activity: activity, trackable: rating)
-    elsif(rating.rateable.is_a?(Event))
-      activity = RATING
-      event = rating.rateable
-      self.create_or_update({learner: rating.learner, event: event, activity: activity, trackable: rating} )
-    else
-      nil
-    end
   end
 
   def self.log_comment(comment)

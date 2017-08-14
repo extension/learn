@@ -19,7 +19,6 @@ Learn::Application.routes.draw do
     end
   end
 
-  resources :ratings, :only => [:create, :destroy]
   resources :learners do
     member do
       get 'portfolio'
