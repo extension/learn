@@ -143,11 +143,13 @@
           <%- end -%>
          <%-if @event.has_recording? -%>
            <p>
+             <%= link_to(@event.recording, :class => "watch-recording") do -%>
               <span class="fa-stack fa-lg">
                 <i class="fa fa-circle fa-stack-2x white"></i>
                 <i class='fa fa-play-circle fa-stack-2x play-green'></i>
               </span>
-              <strong><%= link_to("Watch recording", @event.recording) -%></strong>
+              <strong>Watch recording</strong>
+              <%- end -%>
            </p>
           <%- else -%>
               <span class="fa-stack fa-lg">

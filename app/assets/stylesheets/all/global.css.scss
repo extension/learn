@@ -132,7 +132,8 @@ p {word-wrap: break-word;}
 .play-green {color:#198F3B;}
 
 .ask-an-expert-button {width: 180px; margin: 2em 0 2em; display: block;}
-
+.watch-recording {display: inline-block; padding:4px 20px 4px 10px; border-radius: 20px;}
+.watch-recording:hover {background: #fff; text-decoration:none;}
 
 // .navbar {outline: 1px solid lime;}
 // .masthead {outline: 1px solid blue;}
