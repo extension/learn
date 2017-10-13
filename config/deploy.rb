@@ -5,14 +5,14 @@ require 'capatross'
 require 'yaml'
 require "bundler/capistrano"
 
-set :application, "learn"
-set :user, 'pacecar'
-set :localuser, ENV['USER']
-
 TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'yes','YES','y','Y']
 FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE','no','NO','n','N']
 
+set :application, "learn"
 set :repository, "git@github.com:extension/#{application}.git"
+set :user, 'pacecar'
+set :gateway, 'deploy.extension.org'
+ssh_options[:forward_agent] = true
 set :use_sudo, false
 set :scm, :git
 set :migrate_target, :latest
