@@ -129,7 +129,7 @@ class LearnersController < ApplicationController
       end
       session[:registration_modal] = true
       session[:registration_email] = @registation.email
-      redirect_to(event_path(@event))
+      redirect_to(event_path(@event), :notice => "Thank you. An email has been sent to #{session[:registration_email]} with your registration.")
     end
   end
 
