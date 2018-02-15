@@ -234,24 +234,6 @@
 <br class='clearing' />
 </div>
 
-<!-- Registration Modal -->
-<div class="modal fade" id="registration-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Registration Notice!</h4>
-      </div>
-      <div class="modal-body">
-        Thank you for registering for this event. Return to this page at the time of the live event to enter the room. An email has been sent to <b><%= session[:registration_email] %></b> with information about your registration.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
 
 <%- if @event.is_canceled -%>
   <br class='clearing' />
@@ -260,11 +242,6 @@
 
 
 <script class="code" type="text/javascript">
-
-  <%- if session[:registration_modal] == true -%>
-    $('#registration-modal').modal('show');
-    <%- session[:registration_modal] = false -%>
-  <%- end -%>
 
   $('.submittable').live('change',
     function() {
