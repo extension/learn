@@ -175,7 +175,13 @@
           <%= render :partial => 'registration' %>
         <%- end -%>
 
-        <p class="location"><small><strong>Location:</strong> <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></small></p>
+        <div class="location registration-location">
+          <p>
+            <strong>Webinar URL:</strong>
+            <span class="registration-url"><%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></span>
+          </p>
+          <p class="registration-location-note"><strong>Note</strong>: <strong>The above URL might change</strong>. When it's time for the webinar to begin, please visit this page to get the correct URL.</p>
+        </div>
 
       <%-end -%>
 
@@ -183,22 +189,10 @@
     </aside>
 
     <%- if current_learner -%>
-
       <aside id="eventconnections" class="event-connections radius10">
         <%= render :partial => 'connections' %>
       </aside>
-
-
-    <%- else -%>
-       <aside id="eventconnections" class="event-connections radius10 placeholder">
-          <%- if @event.started? -%>
-            <p>Did you attend or watch this event or want to follow it? <%= link_to("Sign in to connect to this event", signin_path()) -%></p>
-          <%- else -%>
-            <p><%= link_to("Sign in to follow this event", signin_path()) -%></p>
-          <%- end -%>
-          <br class="clearing" />
-       </aside>
-     <%- end -%>
+    <%- end -%>
 
      <div class="event-tags">
        <div class="tags">
