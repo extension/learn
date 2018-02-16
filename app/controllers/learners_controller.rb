@@ -107,16 +107,16 @@ class LearnersController < ApplicationController
 
    def register_learner
     @event = Event.find(params[:event_id])
-    @registation = EventRegistration.new first_name: params[:first_name], last_name: params[:last_name], email: params[:email], event_id: params[:event_id]
+    @registration = EventRegistration.new first_name: params[:first_name], last_name: params[:last_name], email: params[:email], event_id: params[:event_id]
 
     #This is a little wonky but allows us to keep the event/email validation, but not display an error
-    if !@registation.valid? and @registation.errors.full_messages.to_sentence != "Event has already been taken"
-      errors = @registation.errors.full_messages
+    if !@registration.valid? and @registration.errors.full_messages.to_sentence != "Event has already been taken"
+      errors = @registration.errors.full_messages
       errors.delete("Event has already been taken")
       flash[:notice] = errors.to_sentence
       redirect_to(event_path(@event))
     else
-      @registation.save
+      @registration.save
       if cookies[:event_registration]
         cookie_array = []
         cookie_array = cookies[:event_registration].split("&").map(&:to_i)
@@ -128,7 +128,7 @@ class LearnersController < ApplicationController
         cookies.permanent[:event_registration] = cookie_array
       end
       session[:registration_modal] = true
-      session[:registration_email] = @registation.email
+      session[:registration_email] = @registration.email
       redirect_to(event_path(@event), :notice => "Thank you. A confirmation email has been sent to #{session[:registration_email]}.")
     end
   end
