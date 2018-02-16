@@ -1,0 +1,7 @@
+<div class="location registration-location">
+  <p>
+    <strong>Webinar URL:</strong>
+    <span class="registration-url"><%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></span>
+  </p>
+  <p class="registration-location-note"><strong>Note</strong>: <strong>The above URL might change</strong>. When it's time for the webinar to begin, please visit this page to get the correct URL.</p>
+</div>

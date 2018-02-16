@@ -110,6 +110,9 @@ class EventsController < ApplicationController
   def show
     @show_og_event_images = true
     @event = Event.find(params[:id])
+    if(@event.requires_registration?)
+      @has_registration_cookie = check_for_registration_cookie
+    end
     @event_material_links = @event.material_links.order("created_at DESC")
     @comment = Comment.new
     @event_comments = @event.comments
@@ -307,6 +310,21 @@ class EventsController < ApplicationController
                                )
       flash[:success] = "Event deleted successfully"
       redirect_to event_url(@event)
+    end
+  end
+
+  protected
+
+  def check_for_registration_cookie
+    if(evreglist = cookies.signed[:evreglist])
+      return evreglist.include?(@event.id)
+    elsif(cookies[:event_registration]) # old cookie - let's check and convert
+      evreglist = cookies[:event_registration].split("&").map(&:to_i)
+      cookies.delete(:event_registration)
+      cookies.permanent.signed[:evreglist] = evreglist
+      return evreglist.include?(@event.id)
+    else
+      return false
     end
   end
 
