@@ -70,7 +70,13 @@
             </span>
             </p>
 
-          <p>Location: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
+            <%- if(@event.requires_registration?) -%>
+              <%- if(@has_registration_cookie) -%>
+                <p>Location: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
+              <%- end -%>
+            <%- else -%>
+              <p>Location: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
+            <%- end -%>
         </div>
       <%- end -%>
 
