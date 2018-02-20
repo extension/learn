@@ -105,31 +105,34 @@ class LearnersController < ApplicationController
     render(json: token_hash)
   end
 
-   def register_learner
+  def register_learner
     @event = Event.find(params[:event_id])
-    @registation = EventRegistration.new first_name: params[:first_name], last_name: params[:last_name], email: params[:email], event_id: params[:event_id]
+    @registration = EventRegistration.new(first_name: params[:first_name],
+                                          last_name: params[:last_name],
+                                          email: params[:email],
+                                          event_id: params[:event_id])
 
     #This is a little wonky but allows us to keep the event/email validation, but not display an error
-    if !@registation.valid? and @registation.errors.full_messages.to_sentence != "Event has already been taken"
-      errors = @registation.errors.full_messages
+
+    # we are explicitly filtering out the duplicate event+email error but keeping the rest of the validations
+    # as a user error.  It probably should be highlighted on the form itself, but one thing at a time.
+    if !@registration.valid? and @registration.errors.full_messages.to_sentence != "Event has already been taken"
+      errors = @registration.errors.full_messages
       errors.delete("Event has already been taken")
       flash[:notice] = errors.to_sentence
       redirect_to(event_path(@event))
     else
-      @registation.save
-      if cookies[:event_registration]
-        cookie_array = []
-        cookie_array = cookies[:event_registration].split("&").map(&:to_i)
-        cookie_array << params[:event_id] #unless cookie_array.include(params[:event_id])
-        cookies[:event_registration] = cookie_array
+      @registration.save
+      if(evreglist = cookies.signed[:evreglist])
+        # push the token for this event into the cookie
+        evreglist << @event.id
+        evreglist.uniq!
+        cookies.permanent.signed[:evreglist] = evreglist
       else
-        cookie_array = []
-        cookie_array << params[:event_id]
-        cookies.permanent[:event_registration] = cookie_array
+        evreglist = [@event.id]
+        cookies.permanent.signed[:evreglist] = evreglist
       end
-      session[:registration_modal] = true
-      session[:registration_email] = @registation.email
-      redirect_to(event_path(@event), :notice => "Thank you. A confirmation email has been sent to #{session[:registration_email]}.")
+      redirect_to(event_path(@event), :notice => "Thank you. A confirmation email has been sent to #{@registration.email}.")
     end
   end
 
