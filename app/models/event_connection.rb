@@ -14,7 +14,7 @@ class EventConnection < ActiveRecord::Base
   ATTEND = 4
   VIEW = 5
 
-  after_create :log_object_activity
+  after_create :log_connection
   after_save :update_counter_cache
   after_destroy :update_counter_cache
 
@@ -29,7 +29,7 @@ class EventConnection < ActiveRecord::Base
     end
   end
 
-  def log_object_activity
-    EventActivity.log_object_activity(self)
+  def log_connection
+    EventActivity.log_connection(self)
   end
 end

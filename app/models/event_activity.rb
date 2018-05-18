@@ -35,8 +35,6 @@ class EventActivity < ActiveRecord::Base
 
   HISTORY_ITEMS = [CONNECT,CONNECT_FOLLOW,CONNECT_ATTEND,CONNECT_VIEW]
 
-  scope :views, where(activity: 1)
-
   # don't recommend making this a callback, instead
   # intentionally call it where appropriate (like EventActivity.create_or_update)
   def create_activity_log(additional_information)
@@ -49,24 +47,6 @@ class EventActivity < ActiveRecord::Base
 
   def self.description_for_id(id_number)
     ACTIVITY_MAP[id_number]
-  end
-
-  def self.log_object_activity(object)
-    case object.class.name
-    when 'EventConnection'
-      self.log_connection(object)
-    else
-      nil
-    end
-  end
-
-  def self.log_comment(comment)
-    if(comment.is_reply?)
-      activity = COMMENT_ON_COMMENT
-    else
-      activity = COMMENT
-    end
-    self.create_or_update({learner: comment.learner, event: comment.event, activity: activity, trackable: comment})
   end
 
   def self.log_connection(event_connection)

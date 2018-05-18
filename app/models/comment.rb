@@ -8,7 +8,6 @@ class Comment < ActiveRecord::Base
   belongs_to :learner
   belongs_to :event
   has_many :event_activities, :as => :trackable, dependent: :destroy
-  after_create :log_object_activity
   after_create :schedule_activity_notification
   after_save :update_counter_cache
   after_destroy :update_counter_cache
@@ -21,10 +20,6 @@ class Comment < ActiveRecord::Base
   has_ancestry :orphan_strategy => :rootify
 
   validates :content, :learner_id, :event_id, :presence => true
-
-  def log_object_activity
-    EventActivity.log_object_activity(self)
-  end
 
   def set_orphan_flag_on_children
     self.children.update_all(parent_removed: true)
