@@ -1,7 +1,0 @@
-<% if @event_comments.present? && @event_comments.length > 0 %>
-  <% if @parent_comment.present? %>
-    <%= nested_comments(@event_comments.arrange(:order => 'created_at DESC'), @parent_comment) %>
-  <% else %>
-    <%= nested_comments(@event_comments.arrange(:order => 'created_at DESC')) %>
-  <% end %>
-<% end %>

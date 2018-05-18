@@ -26,7 +26,6 @@
       <th><%= sortable_link("followers_count", "Followers", @start_date, @end_date, params[:tag_tokens]) %></th>
       <th><%= sortable_link("attendees_count", "Attendees", @start_date, @end_date, params[:tag_tokens]) %></th>
       <th><%= sortable_link("viewers_count", "Viewers", @start_date, @end_date, params[:tag_tokens]) %></th>
-      <th><%= sortable_link("commentators_count", "Commentators", @start_date, @end_date, params[:tag_tokens]) %></th>
     </tr>
   </thead>
   <tbody>
@@ -46,7 +45,6 @@
       <td><%= event.followers_count %></td>
       <td><%= event.attendees_count %></td>
       <td><%= event.viewers_count %></td>
-      <td><%= event.commentators_count %></td>
     </tr>
     <%- end -%>
   </tbody>

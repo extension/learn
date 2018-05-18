@@ -1,5 +1,0 @@
-<% if !defined?(@errors) || @errors.blank? %>
-  $("#comment-<%= @comment.id %>").replaceWith("<%= escape_javascript(render partial: 'comments/comment', locals: { comment: @comment }) %>");
-<% else %>
-  $("#comment-<%= @comment.id %>").html("<%= escape_javascript(render partial: 'edit_comments_form') %>");
-<% end %>

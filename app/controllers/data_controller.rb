@@ -166,7 +166,6 @@ class DataController < ApplicationController
     headers << 'Followers'
     headers << 'Attendees'
     headers << 'Viewers'
-    headers << 'Commentators'
     headers << 'Zoom Registrants'
     headers << 'Zoom eXtension Registrants'
     headers << 'Zoom Attendees'
@@ -191,7 +190,6 @@ class DataController < ApplicationController
       row << event.followers_count
       row << event.attendees_count
       row << event.viewers_count
-      row << event.commentators_count
       if(event.is_extension_webinar?)
         if event.zoom_webinar_status != Event::WEBINAR_STATUS_OK
           row << event.extension_webinar_status_invalid_reason

@@ -17,8 +17,6 @@ class Learner < ActiveRecord::Base
   has_many :learner_activities_as_recipient, :class_name => "LearnerActivity", :foreign_key => 'recipient_id'
   has_many :created_events, :class_name => "Event", :foreign_key => 'creator_id'
   has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
-  has_many :comments
-  has_many :commented_events, through: :comments, source: :event, uniq: true
   has_many :event_connections
   has_many :events, through: :event_connections, uniq: true
   has_many :zoom_connections
@@ -347,10 +345,6 @@ class Learner < ActiveRecord::Base
 
   def public_followed_events?
     self.preferences.setting('sharing.events.followed')
-  end
-
-  def public_commented_events?
-    self.preferences.setting('sharing.events.commented')
   end
 
   def public_portfolio?

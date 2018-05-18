@@ -10,21 +10,11 @@ Learn::Application.routes.draw do
   match '/auth/:provider/callback', to: 'auth#success'
   match '/auth/failure', to: 'auth#failure'
 
-  resources :comments, :only => [:create, :update, :destroy, :show, :edit] do
-    collection do
-      get 'cancel_edit'
-      get 'cancel_reply'
-      get 'reply'
-      post 'reply'
-    end
-  end
-
   resources :learners do
     member do
       get 'portfolio'
       get 'presented_history'
       get 'attended_history'
-      get 'comment_history'
       get 'created_history'
       get 'viewed_history'
       get 'followed_history'
@@ -40,7 +30,6 @@ Learn::Application.routes.draw do
   match "ajax/:action", to: "ajax", :via => [:get, :post]
   match "learning_history" => "learners#learning_history", :via => :get
   match "register_learner" => "learners#register_learner", :via => :post
-  match "comment_history" => "learners#comment_history", :via => :get
   match "settings/profile" => "settings#profile", :via => [:get, :put]
   match "settings/notifications" => "settings#notifications", :via => [:get, :post]
   match "settings/learning_profile" => "settings#learning_profile", :via => [:get, :post, :put]

@@ -114,8 +114,6 @@ class EventsController < ApplicationController
       @has_registration_cookie = check_for_registration_cookie
     end
     @event_material_links = @event.material_links.order("created_at DESC")
-    @comment = Comment.new
-    @event_comments = @event.comments
     @similar_events = @event.similar_events
     if @event.tags.length != 0
       tracker do |t|

@@ -27,11 +27,6 @@ class Webmail::ExamplesController < ApplicationController
     return render_mail(mail)
   end
 
-  def comment
-    mail = EventMailer.comment(learner: Learner.learnbot, event: Event.last, cache_email: false)
-    return render_mail(mail)
-  end
-
   def event_edit
     mail = EventMailer.event_edit(learner: Learner.learnbot, event: Event.last, cache_email: false)
     return render_mail(mail)
@@ -49,11 +44,6 @@ class Webmail::ExamplesController < ApplicationController
 
   def event_location_changed
     mail = EventMailer.event_location_changed(learner: Learner.learnbot, event: Event.last, cache_email: false)
-    return render_mail(mail)
-  end
-
-  def comment_reply
-    mail = EventMailer.comment_reply(learner: Learner.learnbot, comment: Comment.last, cache_email: false)
     return render_mail(mail)
   end
 
