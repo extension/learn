@@ -13,7 +13,6 @@ class EventActivity < ActiveRecord::Base
 
   # types of activities - gaps are between types
   # in case we may need to group/expand
-  SHARE                     = 11
   ANSWER                    = 21
   RATING                    = 31
   RATING_ON_COMMENT         = 32
@@ -26,7 +25,6 @@ class EventActivity < ActiveRecord::Base
 
   # scoring
   SCORING = {
-    SHARE                     => 1,
     # ANSWER                    => 1,
     # RATING                    => 1,
     RATING_ON_COMMENT         => 1,
@@ -39,7 +37,6 @@ class EventActivity < ActiveRecord::Base
   }
 
   ACTIVITY_MAP = {
-    SHARE  => "shared",
     # ANSWER  => "answered a question",
     # RATING  => "rated an event",
     RATING_ON_COMMENT  => "rated a comment",
@@ -78,10 +75,6 @@ class EventActivity < ActiveRecord::Base
     else
       nil
     end
-  end
-
-
-  def self.log_share
   end
 
   def self.log_comment(comment)
