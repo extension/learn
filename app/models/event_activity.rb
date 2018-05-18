@@ -13,11 +13,6 @@ class EventActivity < ActiveRecord::Base
 
   # types of activities - gaps are between types
   # in case we may need to group/expand
-  ANSWER                    = 21
-  RATING                    = 31
-  RATING_ON_COMMENT         = 32
-  COMMENT                   = 41
-  COMMENT_ON_COMMENT        = 42
   CONNECT                   = 50
   CONNECT_FOLLOW            = 52
   CONNECT_ATTEND            = 53
@@ -25,11 +20,6 @@ class EventActivity < ActiveRecord::Base
 
   # scoring
   SCORING = {
-    # ANSWER                    => 1,
-    # RATING                    => 1,
-    RATING_ON_COMMENT         => 1,
-    COMMENT                   => 2,
-    COMMENT_ON_COMMENT        => 2,
     CONNECT                   => 3,
     CONNECT_FOLLOW            => 3,
     CONNECT_ATTEND            => 3,
@@ -37,18 +27,13 @@ class EventActivity < ActiveRecord::Base
   }
 
   ACTIVITY_MAP = {
-    # ANSWER  => "answered a question",
-    # RATING  => "rated an event",
-    RATING_ON_COMMENT  => "rated a comment",
-    COMMENT  => "commented",
-    COMMENT_ON_COMMENT  => "commented on a comment",
     CONNECT  => "connected",
     CONNECT_FOLLOW  => "followed",
     CONNECT_ATTEND  => "attended",
     CONNECT_VIEW  => "viewed"
   }
 
-  HISTORY_ITEMS = [ANSWER,RATING,RATING_ON_COMMENT,COMMENT,COMMENT_ON_COMMENT,CONNECT,CONNECT_FOLLOW,CONNECT_ATTEND,CONNECT_VIEW]
+  HISTORY_ITEMS = [CONNECT,CONNECT_FOLLOW,CONNECT_ATTEND,CONNECT_VIEW]
 
   scope :views, where(activity: 1)
 
@@ -68,8 +53,6 @@ class EventActivity < ActiveRecord::Base
 
   def self.log_object_activity(object)
     case object.class.name
-    when 'Comment'
-      self.log_comment(object)
     when 'EventConnection'
       self.log_connection(object)
     else
