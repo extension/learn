@@ -139,8 +139,6 @@ class EventsController < ApplicationController
       @last_viewed_at = current_learner.last_view_for_event(@event)
     end
 
-    # log view
-    EventActivity.log_view(current_learner,@event) if(current_learner)
   end
 
   def backstage
@@ -163,7 +161,6 @@ class EventsController < ApplicationController
 
     # log recommendation view, attach to learner on the recommendation, even if they aren't current_learner
     recommended_event.update_attribute(:viewed, true)
-    EventActivity.log_view(recommended_event.recommendation.learner,recommended_event.event,'recommendation')
     return redirect_to(event_url(recommended_event.event), status: 301)
   end
 

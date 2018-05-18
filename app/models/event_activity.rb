@@ -13,9 +13,6 @@ class EventActivity < ActiveRecord::Base
 
   # types of activities - gaps are between types
   # in case we may need to group/expand
-  VIEW                      = 1
-  VIEW_FROM_RECOMMENDATION  = 2
-  VIEW_FROM_SHARE           = 3
   SHARE                     = 11
   ANSWER                    = 21
   RATING                    = 31
@@ -29,9 +26,6 @@ class EventActivity < ActiveRecord::Base
 
   # scoring
   SCORING = {
-    VIEW                      => 0,
-    VIEW_FROM_RECOMMENDATION  => 2,
-    VIEW_FROM_SHARE           => 2,
     SHARE                     => 1,
     # ANSWER                    => 1,
     # RATING                    => 1,
@@ -45,9 +39,6 @@ class EventActivity < ActiveRecord::Base
   }
 
   ACTIVITY_MAP = {
-    VIEW   => "viewed",
-    VIEW_FROM_RECOMMENDATION   => "viewed from a recommendation",
-    VIEW_FROM_SHARE   => "viewed from a share",
     SHARE  => "shared",
     # ANSWER  => "answered a question",
     # RATING  => "rated an event",
@@ -89,17 +80,6 @@ class EventActivity < ActiveRecord::Base
     end
   end
 
-  def self.log_view(learner,event,source = nil)
-    case source
-    when 'recommendation'
-      activity = VIEW_FROM_RECOMMENDATION
-    when 'share'
-      activity = VIEW_FROM_SHARE
-    else
-      activity = VIEW
-    end
-    self.create_or_update(learner: learner, event: event, activity: activity, trackable: event)
-  end
 
   def self.log_share
   end
