@@ -52,9 +52,6 @@ gem "rails_config"
 # exception notification
 gem 'honeybadger'
 
-# comment and threaded discussion support
-gem 'ancestry'
-
 # diffs
 gem 'diffy'
 

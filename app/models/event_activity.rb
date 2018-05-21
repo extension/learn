@@ -13,15 +13,6 @@ class EventActivity < ActiveRecord::Base
 
   # types of activities - gaps are between types
   # in case we may need to group/expand
-  VIEW                      = 1
-  VIEW_FROM_RECOMMENDATION  = 2
-  VIEW_FROM_SHARE           = 3
-  SHARE                     = 11
-  ANSWER                    = 21
-  RATING                    = 31
-  RATING_ON_COMMENT         = 32
-  COMMENT                   = 41
-  COMMENT_ON_COMMENT        = 42
   CONNECT                   = 50
   CONNECT_FOLLOW            = 52
   CONNECT_ATTEND            = 53
@@ -29,40 +20,20 @@ class EventActivity < ActiveRecord::Base
 
   # scoring
   SCORING = {
-    VIEW                      => 0,
-    VIEW_FROM_RECOMMENDATION  => 2,
-    VIEW_FROM_SHARE           => 2,
-    SHARE                     => 1,
-    # ANSWER                    => 1,
-    # RATING                    => 1,
-    RATING_ON_COMMENT         => 1,
-    COMMENT                   => 2,
-    COMMENT_ON_COMMENT        => 2,
-    CONNECT                   => 3,
-    CONNECT_FOLLOW            => 3,
-    CONNECT_ATTEND            => 3,
-    CONNECT_VIEW             => 3,
+    CONNECT                   => 1,
+    CONNECT_FOLLOW            => 1,
+    CONNECT_ATTEND            => 1,
+    CONNECT_VIEW             => 1,
   }
 
   ACTIVITY_MAP = {
-    VIEW   => "viewed",
-    VIEW_FROM_RECOMMENDATION   => "viewed from a recommendation",
-    VIEW_FROM_SHARE   => "viewed from a share",
-    SHARE  => "shared",
-    # ANSWER  => "answered a question",
-    # RATING  => "rated an event",
-    RATING_ON_COMMENT  => "rated a comment",
-    COMMENT  => "commented",
-    COMMENT_ON_COMMENT  => "commented on a comment",
     CONNECT  => "connected",
     CONNECT_FOLLOW  => "followed",
     CONNECT_ATTEND  => "attended",
     CONNECT_VIEW  => "viewed"
   }
 
-  HISTORY_ITEMS = [ANSWER,RATING,RATING_ON_COMMENT,COMMENT,COMMENT_ON_COMMENT,CONNECT,CONNECT_FOLLOW,CONNECT_ATTEND,CONNECT_VIEW]
-
-  scope :views, where(activity: 1)
+  HISTORY_ITEMS = [CONNECT,CONNECT_FOLLOW,CONNECT_ATTEND,CONNECT_VIEW]
 
   # don't recommend making this a callback, instead
   # intentionally call it where appropriate (like EventActivity.create_or_update)
@@ -76,41 +47,6 @@ class EventActivity < ActiveRecord::Base
 
   def self.description_for_id(id_number)
     ACTIVITY_MAP[id_number]
-  end
-
-  def self.log_object_activity(object)
-    case object.class.name
-    when 'Comment'
-      self.log_comment(object)
-    when 'EventConnection'
-      self.log_connection(object)
-    else
-      nil
-    end
-  end
-
-  def self.log_view(learner,event,source = nil)
-    case source
-    when 'recommendation'
-      activity = VIEW_FROM_RECOMMENDATION
-    when 'share'
-      activity = VIEW_FROM_SHARE
-    else
-      activity = VIEW
-    end
-    self.create_or_update(learner: learner, event: event, activity: activity, trackable: event)
-  end
-
-  def self.log_share
-  end
-
-  def self.log_comment(comment)
-    if(comment.is_reply?)
-      activity = COMMENT_ON_COMMENT
-    else
-      activity = COMMENT
-    end
-    self.create_or_update({learner: comment.learner, event: comment.event, activity: activity, trackable: comment})
   end
 
   def self.log_connection(event_connection)

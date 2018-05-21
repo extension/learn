@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20170814135110) do
+ActiveRecord::Schema.define(:version => 20180518144237) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -22,19 +22,6 @@ ActiveRecord::Schema.define(:version => 20170814135110) do
   end
 
   add_index "activity_logs", ["learner_id", "loggable_id", "loggable_type"], :name => "activity_ndx"
-
-  create_table "comments", :force => true do |t|
-    t.text     "content",                           :null => false
-    t.string   "ancestry"
-    t.integer  "learner_id",                        :null => false
-    t.integer  "event_id",                          :null => false
-    t.boolean  "parent_removed", :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "comments", ["ancestry"], :name => "index_comments_on_ancestry"
-  add_index "comments", ["learner_id", "event_id"], :name => "index_comments_on_learner_id_and_event_id"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -107,7 +94,6 @@ ActiveRecord::Schema.define(:version => 20170814135110) do
     t.integer  "followers_count",                        :default => 0,        :null => false
     t.integer  "attendees_count",                        :default => 0,        :null => false
     t.integer  "viewers_count",                          :default => 0,        :null => false
-    t.integer  "commentators_count",                     :default => 0,        :null => false
     t.text     "provided_presenter_order"
     t.boolean  "is_deleted",                             :default => false,    :null => false
     t.boolean  "requires_registration",                  :default => false,    :null => false
@@ -121,11 +107,6 @@ ActiveRecord::Schema.define(:version => 20170814135110) do
   end
 
   add_index "events", ["event_type"], :name => "event_type_ndx"
-
-  create_table "events_cleanup", :id => false, :force => true do |t|
-    t.integer "id"
-    t.text    "description"
-  end
 
   create_table "images", :force => true do |t|
     t.integer  "event_id"

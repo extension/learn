@@ -6,27 +6,27 @@
 
 class Recommendation < ActiveRecord::Base
   belongs_to :learner
-  has_many :recommended_events
+  has_many :recommended_events, dependent: :destroy
   has_many :events, :through => :recommended_events
   has_one :mailer_cache, :as => :cacheable
-  
+
   before_create :set_day
   after_create  :create_notification
-  
+
   def upcoming
     self.recommended_events.this_week
   end
-  
+
   def recent
     self.recommended_events.last_week
   end
-  
+
   def set_day
     if(self.day.blank?)
       self.day = Date.today
     end
   end
-  
+
   def self.create_from_epoch
     learners_events = Learner.recommended_events
     learners_events.each do |learner,eventlist|
@@ -34,13 +34,13 @@ class Recommendation < ActiveRecord::Base
       recommendation.events = eventlist
     end
   end
-  
+
   def create_notification
     if(self.learner.send_recommendation?)
       Notification.create(notificationtype: Notification::RECOMMENDATION, notifiable: self, delivery_time: self.class.delivery_time(self.learner.time_zone))
     end
   end
-  
+
   def self.delivery_time(time_zone)
     # get date of next monday, utc
     monday = Time.now.utc.beginning_of_week
@@ -49,6 +49,6 @@ class Recommendation < ActiveRecord::Base
     now = Time.zone.now
     (monday_four_am > now) ? monday_four_am : now
   end
-        
+
 
 end

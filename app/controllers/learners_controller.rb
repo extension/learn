@@ -39,7 +39,6 @@ class LearnersController < ApplicationController
     @viewed_events = @learner.viewed_events.order("event_connections.created_at DESC").limit(5)
     @presented_events = @learner.presented_events.active.order("session_start DESC").limit(5)
     @followed_events = @learner.followed_events.order("event_connections.created_at DESC").limit(5)
-    @commented_events = @learner.commented_events.active.order("created_at DESC").limit(5)
   end
 
   def learning_history
@@ -88,14 +87,6 @@ class LearnersController < ApplicationController
     prepare_history('Followed')
     @list_title = "Followed by #{@learner.name}"
     @events = @learner.followed_events.order('session_start DESC').page(params[:page])
-    render :action => 'learning_history'
-  end
-
-  def comment_history
-    @learner = Learner.includes(:preferences).where(id: params[:id]).first
-    return record_not_found if !@learner
-    prepare_history('Commented')
-    @events = @learner.commented_events.active.order('session_start DESC').page(params[:page])
     render :action => 'learning_history'
   end
 

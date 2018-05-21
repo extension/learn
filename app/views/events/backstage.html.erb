@@ -120,30 +120,6 @@
   <br class="clearing" />
 </div>
 
-<section>
-  <h3>Comments</h3>
-  <% filtered_comment_count = get_filtered_comment_count(@event) %>
-  <% filtered_commentators = get_filtered_commentators(@event) %>
-
-  <%- if filtered_comment_count > 0 -%>
-    <p><strong><%= filtered_comment_count -%></strong> <%= filtered_comment_count > 1 ? "comments" : "comment" %> by <strong><%= filtered_commentators.count -%></strong> <%= filtered_commentators.count > 1 ? "people" : "person" %></p>
-
-    <%- if params[:type] == "table" %>
-      <table class="table people table-striped">
-        <%- filtered_commentators.each do |commenter| %>
-        <tr>
-          <td class="avatar_td"><%= link_to_learner_avatar(commenter, {image_size: :thumb}) -%></td>
-          <td class="name_td"><%= link_to_learner(commenter) %></td>
-        </tr>
-        <%- end -%>
-        </table>
-    <%- end -%>
-
-  <%- else -%>
-    <p class="muted">0 comments</p>
-  <%- end -%>
-</section>
-
 </div>
 </div>
 

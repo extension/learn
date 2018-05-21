@@ -12,26 +12,23 @@ class Learner < ActiveRecord::Base
   # specify image uploader for carrierwave
   mount_uploader :avatar, AvatarUploader
 
-  has_many :activity_logs
-  has_many :learner_activities
+  has_many :activity_logs, dependent: :destroy
+  has_many :learner_activities, dependent: :destroy
   has_many :learner_activities_as_recipient, :class_name => "LearnerActivity", :foreign_key => 'recipient_id'
   has_many :created_events, :class_name => "Event", :foreign_key => 'creator_id'
   has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
-  has_many :comments
-  has_many :commented_events, through: :comments, source: :event, uniq: true
-  has_many :event_connections
+  has_many :event_connections, dependent: :destroy
   has_many :events, through: :event_connections, uniq: true
-  has_many :zoom_connections
+  has_many :zoom_connections, dependent: :destroy
   has_many :zoom_webinars, through: :zoom_connections, uniq: true
-  has_many :event_activities
-  has_many :presenter_connections
+  has_many :event_activities, dependent: :destroy
+  has_many :presenter_connections, dependent: :destroy
   has_many :presented_events, through: :presenter_connections, source: :event
-  has_many :preferences, :as => :prefable
-  has_many :notification_exceptions
-  has_many :recommendations
-  has_many :mailer_caches, :as => :cacheable, :class_name => "MailerCache"
-  has_many :answers
-  has_one  :portfolio_setting
+  has_many :preferences, :as => :prefable, dependent: :destroy
+  has_many :notification_exceptions, dependent: :destroy
+  has_many :recommendations, dependent: :destroy
+  has_many :mailer_caches, :as => :cacheable, :class_name => "MailerCache", dependent: :destroy
+  has_one  :portfolio_setting, dependent: :destroy
 
   before_validation :convert_mobile_number
   validates_length_of :mobile_number, :is => 10, :allow_blank => true
@@ -347,10 +344,6 @@ class Learner < ActiveRecord::Base
 
   def public_followed_events?
     self.preferences.setting('sharing.events.followed')
-  end
-
-  def public_commented_events?
-    self.preferences.setting('sharing.events.commented')
   end
 
   def public_portfolio?
