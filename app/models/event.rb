@@ -717,14 +717,6 @@ class Event < ActiveRecord::Base
     learners.valid.where("event_connections.connectiontype = ?", EventConnection::FOLLOW)
   end
 
-  # this is a shortcut method because a former conditional association was named
-  # 'commentators' and its used in multiple places - the association is no longer
-  # conditional, and is named to reflect the purpose, this name is unique enough
-  # to apply conditions to
-  def commentators
-    commenting_learners.valid
-  end
-
   def is_mfln_registration_event?
     self.is_mfln? and self.requires_registration?
   end
@@ -736,7 +728,6 @@ class Event < ActiveRecord::Base
       event.update_column(:followers_count, event.followers.count)
       event.update_column(:attendees_count, event.attendees.count)
       event.update_column(:viewers_count, event.viewers.count)
-      event.update_column(:commentators_count, event.commentators.count)
     end
   end
 
