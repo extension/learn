@@ -19,6 +19,10 @@ class CleanupEventActivitiesAndMore < ActiveRecord::Migration
 
     # drop old events_cleanup table
     drop_table('events_cleanup')
+
+    # remove all email open views
+    ActivityLog.where(loggable_type: 'MailerCache').delete_all
+
   end
 
 end
