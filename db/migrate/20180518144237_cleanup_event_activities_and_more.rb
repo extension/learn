@@ -18,7 +18,7 @@ class CleanupEventActivitiesAndMore < ActiveRecord::Migration
     execute "DELETE FROM preferences where name = 'sharing.events.commented'"
 
     # drop old events_cleanup table
-    drop_table(:events_cleanup)
+    drop_table('events_cleanup')
   end
 
 end
