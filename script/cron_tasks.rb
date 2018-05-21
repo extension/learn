@@ -20,6 +20,21 @@ class CronTasks < Thor
       require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
     end
 
+    def clean_up_mailer_caches
+      MailerCache.delete_all(["created_at < ?", 1.month.ago])
+      puts "Cleaned up Mailer Caches more than 1 month old"
+    end
+
+    def clean_up_notifications
+      Notification.delete_all(["delivery_time < ?", 1.month.ago])
+      puts "Cleaned up Notifications delivered more than 1 month ago"
+    end
+
+    def clean_up_recommendations
+      Recommendation.destroy_all(["created_at < ?", 1.month.ago])
+      puts "Cleaned up Notifications delivered more than 1 month ago"
+    end
+
   end
 
   desc "hourly", "Run hourly tasks"
@@ -34,6 +49,9 @@ class CronTasks < Thor
   def daily
     load_rails(options[:environment])
     Event.daily_webinar_events_update
+    clean_up_mailer_caches
+    clean_up_notifications
+    clean_up_recommendations
   end
 
 end
