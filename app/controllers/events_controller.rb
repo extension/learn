@@ -133,10 +133,6 @@ class EventsController < ApplicationController
       end
     end
 
-    if(current_learner)
-      @last_viewed_at = current_learner.last_view_for_event(@event)
-    end
-
   end
 
   def backstage

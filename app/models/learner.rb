@@ -363,15 +363,6 @@ class Learner < ActiveRecord::Base
     return false
   end
 
-  def last_view_for_event(event)
-    activity = self.event_activities.views.where(event_id: event.id).first
-    if(!activity.blank?)
-      activity.activity_logs.order('created_at DESC').pluck(:created_at).first
-    else
-      nil
-    end
-  end
-
   def self.reindex_learners_with_update_flag
     self.needs_search_update.all.each do |learner|
       # merely updating the account should trigger solr
