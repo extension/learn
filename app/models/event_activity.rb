@@ -20,10 +20,10 @@ class EventActivity < ActiveRecord::Base
 
   # scoring
   SCORING = {
-    CONNECT                   => 3,
-    CONNECT_FOLLOW            => 3,
-    CONNECT_ATTEND            => 3,
-    CONNECT_VIEW             => 3,
+    CONNECT                   => 1,
+    CONNECT_FOLLOW            => 1,
+    CONNECT_ATTEND            => 1,
+    CONNECT_VIEW             => 1,
   }
 
   ACTIVITY_MAP = {
