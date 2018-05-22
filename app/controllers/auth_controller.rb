@@ -31,9 +31,6 @@ class AuthController < ApplicationController
       if(learner.retired?)
         flash[:error] = "Your account is currently marked as retired."
         return redirect_to(root_url)
-      elsif(learner.is_blocked?)
-        flash[:error] = "Your account is currently marked as blocked."
-        return redirect_to(root_url)
       else
         set_current_learner(learner)
         flash[:success] = "You are signed in as #{current_learner.name}"

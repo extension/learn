@@ -214,7 +214,7 @@ class Event < ActiveRecord::Base
   SESSION_START_CHANGED_NOTIFICATION_UPDATES = [Notification::EVENT_REMINDER_EMAIL, Notification::EVENT_REMINDER_SMS, Notification::EVENT_REGISTRATION_REMINDER_EMAIL]
 
   def connections_list
-    self.learners.valid.order('event_connections.created_at')
+    self.learners.order('event_connections.created_at')
   end
 
   def primary_audience=(audience_code)
@@ -559,7 +559,7 @@ class Event < ActiveRecord::Base
       end
       learner_scores = mlt_event.event_activities.learner_scores
       learner_scores.each do |learner,score|
-        next if(learner.retired? or learner.is_blocked?)
+        next if(learner.retired?)
 
         if(limit_to_learners)
           next if !limit_to_learners.include?(learner)
@@ -706,15 +706,15 @@ class Event < ActiveRecord::Base
   end
 
   def attendees
-    learners.valid.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
+    learners.where("event_connections.connectiontype = ?", EventConnection::ATTEND)
   end
 
   def viewers
-    learners.valid.where("event_connections.connectiontype = ?", EventConnection::VIEW)
+    learners.where("event_connections.connectiontype = ?", EventConnection::VIEW)
   end
 
   def followers
-    learners.valid.where("event_connections.connectiontype = ?", EventConnection::FOLLOW)
+    learners.where("event_connections.connectiontype = ?", EventConnection::FOLLOW)
   end
 
   def is_mfln_registration_event?
