@@ -42,7 +42,6 @@ class Learner < ActiveRecord::Base
     boolean :retired
   end
 
-  scope :valid, lambda{ where(is_blocked: false)}
   scope :needs_search_update, lambda{ where(needs_search_update: true)}
   scope :active, ->{where(retired: false)}
   scope :extension, ->{where("darmok_id IS NOT NULL")}
@@ -416,7 +415,7 @@ class Learner < ActiveRecord::Base
   end
 
   def signin_allowed?
-    !self.retired? and !self.is_blocked?
+    !self.retired?
   end
 
   def self.find_by_openid(uid_string)

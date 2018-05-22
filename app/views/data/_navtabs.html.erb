@@ -5,5 +5,4 @@
 
   <%= nav_item(data_presenters_path, 'Presenters') if current_learner.is_admin? -%>
   <%= nav_item(data_activity_path, 'All Activity') if current_learner.is_admin? -%>
-  <%= nav_item(data_blocked_activity_path, 'Blocked Learners') if current_learner.is_admin? %>
 </ul>

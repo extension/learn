@@ -19,11 +19,6 @@ class DataController < ApplicationController
     @activity = @activity.page(params[:page])
   end
 
-  def blocked_activity
-    learner_activity = LearnerActivity.blocking.order("created_at DESC")
-    @activities = learner_activity.page(params[:page])
-  end
-
   def events
     parse_dates
     parse_tag_tokens # sets @tag_token_names (hash of id/name)
