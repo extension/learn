@@ -21,18 +21,18 @@ class CronTasks < Thor
     end
 
     def clean_up_mailer_caches
-      MailerCache.delete_all(["created_at < ?", 3.months.ago])
-      puts "Cleaned up Mailer Caches more than 3 months old"
+      MailerCache.delete_all(["created_at < ?", 2.months.ago])
+      puts "Cleaned up Mailer Caches more than 2 months old"
     end
 
     def clean_up_notifications
-      Notification.delete_all(["delivery_time < ?", 3.months.ago])
-      puts "Cleaned up Notifications delivered more than 3 months ago"
+      Notification.delete_all(["delivery_time < ?", 2.months.ago])
+      puts "Cleaned up Notifications delivered more than 2 months ago"
     end
 
     def clean_up_recommendations
-      Recommendation.destroy_all(["created_at < ?", 3.months.ago])
-      puts "Cleaned up Notifications delivered more than 3 months ago"
+      Recommendation.destroy_all(["created_at < ?", 2.months.ago])
+      puts "Cleaned up Recommendations created more than 2 months ago"
     end
 
   end
