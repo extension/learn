@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20180518144237) do
+ActiveRecord::Schema.define(:version => 20180522132438) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -115,16 +115,6 @@ ActiveRecord::Schema.define(:version => 20180518144237) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "learner_activities", :force => true do |t|
-    t.integer  "learner_id",   :null => false
-    t.integer  "recipient_id", :null => false
-    t.integer  "activity",     :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "learner_activities", ["learner_id", "recipient_id", "activity"], :name => "learner_activity_ndx"
-
   create_table "learners", :force => true do |t|
     t.string   "email"
     t.string   "name"
@@ -138,7 +128,6 @@ ActiveRecord::Schema.define(:version => 20180518144237) do
     t.boolean  "is_admin",            :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_blocked",          :default => false, :null => false
     t.boolean  "needs_search_update"
     t.string   "openid"
     t.integer  "institution_id"
@@ -150,18 +139,17 @@ ActiveRecord::Schema.define(:version => 20180518144237) do
   add_index "learners", ["needs_search_update"], :name => "search_update_flag_ndx"
 
   create_table "mailer_caches", :force => true do |t|
-    t.string   "hashvalue",      :limit => 40,                      :null => false
+    t.string   "hashvalue",      :limit => 40,       :null => false
     t.integer  "learner_id"
     t.integer  "cacheable_id"
     t.string   "cacheable_type", :limit => 30
-    t.integer  "open_count",                         :default => 0
     t.text     "markup",         :limit => 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "mailer_caches", ["hashvalue"], :name => "hashvalue_ndx"
-  add_index "mailer_caches", ["learner_id", "open_count"], :name => "open_learner_ndx"
+  add_index "mailer_caches", ["learner_id"], :name => "open_learner_ndx"
 
   create_table "material_links", :force => true do |t|
     t.string   "reference_link", :null => false
