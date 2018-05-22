@@ -18,8 +18,6 @@ Learn::Application.routes.draw do
       get 'created_history'
       get 'viewed_history'
       get 'followed_history'
-      post 'block'
-      post 'unblock'
     end
 
     collection do
@@ -113,15 +111,10 @@ Learn::Application.routes.draw do
   # data routes
   scope "data" do
     match "/" => "data#overview", :as => 'data_overview'
-    match "/recommendations" => "data#recommendations", :as => 'data_recommendations'
     match "/activity" => "data#activity", :as => 'data_activity'
     match "/events" => "data#events", :as => 'data_events'
     match "/zoom_webinars" => "data#zoom_webinars", :as => 'data_zoom_webinars'
     match "/presenters" => "data#presenters", :as => 'data_presenters'
-    match "/recommended_event/:event_id" => "data#recommended_event", :as => 'data_recommended_event'
-    match "/projected_recommendations" => "data#projected_recommendations", :as => 'data_projected_recommendations'
-    match "/recent_recommendations" => "data#recent_recommendations", :as => 'data_recent_recommendations'
-    match "/blocked_activity" => "data#blocked_activity", :as => 'data_blocked_activity'
     match "/tags" => "data#tags", :as => 'tag_token_search'
   end
 
