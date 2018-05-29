@@ -120,9 +120,10 @@ group :development do
   # Deploy with Capistrano
   gem 'capistrano'
   gem 'capatross', :source => 'https://engineering.extension.org/rubygems'
-
   # require the powder gem
   gem 'powder'
+  # require puma for those switching to puma
+  gem 'puma'
   # rails3 compatible generators
   gem "rails3-generators"
   gem 'pry'
