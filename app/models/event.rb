@@ -469,7 +469,6 @@ class Event < ActiveRecord::Base
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 45.minutes, offset: 45.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 30.minutes, offset: 30.minutes)
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REMINDER_SMS, delivery_time: self.session_start - 15.minutes, offset: 15.minutes)
-    Notification.create(notifiable: self, notificationtype: Notification::INFORM_IASTATE, delivery_time: 1.minute.from_now) unless !self.is_connect_session?
     Notification.create(notifiable: self, notificationtype: Notification::EVENT_REGISTRATION_REMINDER_EMAIL, delivery_time: self.session_start - 24.hours, offset: 24.hours)
   end
 
@@ -480,7 +479,6 @@ class Event < ActiveRecord::Base
       self.notifications.each{|notification| notification.update_delivery_time(self.session_start) if SESSION_START_CHANGED_NOTIFICATION_UPDATES.include?(notification.notificationtype)}
     end
     if self.session_start_changed? || self.session_length_changed? || self.location_changed?
-      Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
       if self.location_changed?
         Notification.create(notifiable: self, notificationtype: Notification::EVENT_LOCATION_CHANGE, delivery_time: Notification::LOCATION_CHANGE_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_location_change_notification?(self)
       else
@@ -489,19 +487,15 @@ class Event < ActiveRecord::Base
     end
     if self.is_canceled_changed?
       if self.is_canceled?
-        Notification.create(notifiable: self, notificationtype: Notification::CANCELED_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
         Notification.create(notifiable: self, notificationtype: Notification::EVENT_CANCELED, delivery_time: 1.minute.from_now)
       else
-        Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
         Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)
       end
     end
     if self.is_deleted_changed?
       if self.is_deleted?
-        Notification.create(notifiable: self, notificationtype: Notification::CANCELED_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
         Notification.create(notifiable: self, notificationtype: Notification::EVENT_DELETED, delivery_time: 1.minute.from_now)
       else
-        Notification.create(notifiable: self, notificationtype: Notification::UPDATE_IASTATE, delivery_time: 1.minute.from_now) if self.is_connect_session?
         Notification.create(notifiable: self, notificationtype: Notification::EVENT_RESCHEDULED, delivery_time: Notification::RESCHEDULED_NOTIFICATION_INTERVAL.from_now) unless Notification.pending_rescheduled_notification?(self)
       end
     end
@@ -607,10 +601,6 @@ class Event < ActiveRecord::Base
     if self.recording_changed? and !self.recording.blank?
       Notification.create(notifiable: self, notificationtype: Notification::RECORDING, delivery_time: 1.minute.from_now)
     end
-  end
-
-  def is_connect_session?
-    self.location.match(Settings.iastate_connect_url).nil? ? false : true
   end
 
   def is_online_session?

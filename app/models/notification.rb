@@ -18,9 +18,6 @@ class Notification < ActiveRecord::Base
   LOCATION_CHANGE_NOTIFICATION_INTERVAL = Settings.location_change_notification_interval
   RECORDING = 20
   RECOMMENDATION = 30
-  INFORM_IASTATE = 40
-  UPDATE_IASTATE = 41
-  CANCELED_IASTATE = 42
   LEARNER_RETIRED = 50
   REGISTRATION = 52
   EVENT_REGISTRATION_REMINDER_EMAIL = 53
@@ -30,7 +27,7 @@ class Notification < ActiveRecord::Base
   def process
     return true if !Settings.send_notifications
 
-    if (self.notifiable_type == 'Event') && (Event.find_by_id(self.notifiable_id).is_canceled == true) && (self.notificationtype != EVENT_CANCELED and self.notificationtype != CANCELED_IASTATE)
+    if (self.notifiable_type == 'Event') && (Event.find_by_id(self.notifiable_id).is_canceled == true) && self.notificationtype != EVENT_CANCELED
       return true
     end
 
@@ -53,12 +50,6 @@ class Notification < ActiveRecord::Base
       process_recording_notifications
     when RECOMMENDATION
       process_recommendation
-    when INFORM_IASTATE
-      process_inform_iastate
-    when UPDATE_IASTATE
-      process_update_iastate
-    when CANCELED_IASTATE
-      process_canceled_iastate
     when LEARNER_RETIRED
       process_learner_retired
     when REGISTRATION
@@ -98,7 +89,6 @@ class Notification < ActiveRecord::Base
     if !event.started?
       event.learners.each{|learner| EventMailer.event_canceled(learner: learner, event: event).deliver unless (learner.email.blank? or !learner.send_rescheduled_or_canceled? or learner.has_event_notification_exception?(event))}
       EventMailer.event_canceled(learner: Learner.learnbot, event: event).deliver
-      EventMailer.inform_iastate_canceled(event: event).deliver
     end
   end
 
@@ -114,7 +104,6 @@ class Notification < ActiveRecord::Base
     if !event.started?
       event.learners.each{|learner| EventMailer.event_deleted(learner: learner, event: event).deliver unless (learner.email.blank? or !learner.send_rescheduled_or_canceled? or learner.has_event_notification_exception?(event))}
       EventMailer.event_deleted(learner: Learner.learnbot, event: event).deliver
-      EventMailer.inform_iastate_canceled(event: event).deliver
     end
   end
 
@@ -136,21 +125,6 @@ class Notification < ActiveRecord::Base
   def process_registration
     registration = self.notifiable
     EventMailer.registration(registration: registration).deliver
-  end
-
-  def process_inform_iastate
-    event = self.notifiable
-    EventMailer.inform_iastate_new(event: event).deliver unless event.started?
-  end
-
-  def process_update_iastate
-    event = self.notifiable
-    EventMailer.inform_iastate_update(event: event).deliver unless event.started?
-  end
-
-  def process_canceled_iastate
-    event = self.notifiable
-    EventMailer.inform_iastate_canceled(event: event).deliver unless event.started?
   end
 
   def process_learner_retired
