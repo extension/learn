@@ -18,6 +18,9 @@ class EventRegistration < ActiveRecord::Base
   validates_presence_of :email, :first_name, :last_name
   validates :email, :email => true
 
+  auto_strip_attributes :first_name, :last_name, :email, :squish => true
+
+
   def create_notification
     Notification.create(notificationtype: Notification::REGISTRATION, notifiable: self, delivery_time: 1.minute.from_now)
   end
