@@ -163,6 +163,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    puma (3.11.4)
     quiet_assets (1.0.1)
       railties (~> 3.1)
     rack (1.4.7)
@@ -294,6 +295,7 @@ DEPENDENCIES
   powder
   progress_bar
   pry
+  puma
   quiet_assets
   rack-tracker (= 1.1.0ex)!
   rails (= 3.2.22.5)

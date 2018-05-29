@@ -15,9 +15,6 @@ recommended_events: 3
 activity_notification_interval: 28800.0
 rescheduled_notification_interval: 900.0
 location_change_notification_interval: 900.0
-iastate_support_email: 'extensionwcc@iastate.edu'
-iastate_connect_url: 'connect.extension.iastate.edu'
-extension_pd_coordinator: 'beth.raney@extension.org'
 engineering_list: 'engineering@extension.org'
 default_display_timezone: 'Eastern Time (US & Canada)'
 google_oauth_client_id: 'notset'

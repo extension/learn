@@ -47,21 +47,6 @@ class Webmail::ExamplesController < ApplicationController
     return render_mail(mail)
   end
 
-  def inform_iastate_new
-    mail = EventMailer.inform_iastate_new(event: Event.last, cache_email: false)
-    return render_mail(mail)
-  end
-
-  def inform_iastate_update
-    mail = EventMailer.inform_iastate_update(event: Event.last, cache_email: false)
-    return render_mail(mail)
-  end
-
-  def inform_iastate_canceled
-    mail = EventMailer.inform_iastate_canceled(event: Event.last, cache_email: false)
-    return render_mail(mail)
-  end
-
   def learner_retired
     mail = EventMailer.learner_retired(learner: Learner.last, cache_email: false)
     return render_mail(mail)
