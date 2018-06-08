@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20180522132438) do
+ActiveRecord::Schema.define(:version => 20180608183157) do
 
   create_table "activity_logs", :force => true do |t|
     t.integer  "learner_id",                  :null => false
@@ -104,6 +104,8 @@ ActiveRecord::Schema.define(:version => 20180522132438) do
     t.integer  "zoom_webinar_id"
     t.integer  "zoom_webinar_status"
     t.boolean  "is_mfln",                                :default => false
+    t.boolean  "redirect_event",                         :default => false
+    t.text     "redirect_url"
   end
 
   add_index "events", ["event_type"], :name => "event_type_ndx"

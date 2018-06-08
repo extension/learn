@@ -110,6 +110,10 @@ class EventsController < ApplicationController
   def show
     @show_og_event_images = true
     @event = Event.find(params[:id])
+    if(@event.redirect_event?)
+      return redirect_to(@event.redirect_url,:status => :moved_permanently)
+    end
+
     if(@event.requires_registration?)
       @has_registration_cookie = check_for_registration_cookie
     end
@@ -301,6 +305,48 @@ class EventsController < ApplicationController
                                )
       flash[:success] = "Event deleted successfully"
       redirect_to event_url(@event)
+    end
+  end
+
+  def redirect_event
+    @event = Event.find(params[:id])
+    if request.post?
+      redirect_url = params[:redirect_url]
+      if redirect_url.blank?
+        flash.now[:error] = 'A URL to redirect this event to is required.'
+        return render
+      end
+
+      # we validate in the model, but this is friendlier
+      begin
+        uri = URI.parse(redirect_url)
+        if(uri.class != URI::HTTP and uri.class != URI::HTTPS)
+          flash.now[:error] = 'This URL must be to a http:// or http:// location.'
+          return render
+        end
+        if(uri.host.nil?)
+          flash.now[:error] = 'This URL must be have a valid host.'
+          return render
+        end
+      rescue URI::InvalidURIError
+        flash.now[:error] = 'This URL is not a valid URL.'
+        return render
+      end
+
+      if(@event.update_attributes(redirect_event: true, redirect_url: params[:redirect_url]))
+        flash[:success] = "Event redirected."
+        redirect_to show_redirect_event_url(@event)
+      else
+        error_messages = @event.errors.full_messages.join("<br/>").html_safe
+        flash.now[:error] = error_messages
+      end
+    end
+  end
+
+  def show_redirect
+    @event = Event.find(params[:id])
+    if(!@event.redirect_event?)
+      return redirect_to event_url(@event)
     end
   end
 
