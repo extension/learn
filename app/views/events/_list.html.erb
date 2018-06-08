@@ -20,6 +20,9 @@
           <%- end -%>
 
           </h3>
+          <%- if event.redirect_event? -%>
+          <p>This event listing is now at: <%= link_to(event.redirect_url) -%></p>
+          <%- else -%>
           <p class="event-list-details">
             <%- if event.is_conference_session? -%>
               <span class="label label-info">Conference Session</span>
@@ -39,9 +42,7 @@
             <%- end %>
           </p>
           <div class="event-list-description"><%= event.html_to_text((event.description.gsub(/[[:space:]]/, ' '))).truncate(280,separator: ' ') %></div>
-
-
-
+          <%- end -%>
         </div>
     <% end %>
   </div>
