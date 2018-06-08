@@ -13,8 +13,8 @@
 <div class="col-md-7 col-sm-7">
   <section id="event" class="event-main">
 
-    <h2 class="event-title"><%= @event.title -%></h2>
-     <div class="event-colophon">
+    <h3><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></h3>
+    <div class="event-colophon">
        <p><small>Created by <%= link_to_learner(@event.creator) %></small></p>
 
        <%- if current_learner -%>
