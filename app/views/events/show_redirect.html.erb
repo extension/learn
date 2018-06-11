@@ -1,0 +1,27 @@
+<%- @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") -%>
+<%- @page_meta_description = raw("#{Event.html_to_text(@event.description.gsub(/[[:space:]]/, ' ')).truncate(140, separator: ' ')}") -%>
+<%- @page_type = "event" -%>
+<%- @noindex = true -%>
+
+<%- if @event.redirect_event -%>
+  <div class="alert alert-danger">
+    <h1>This event redirects to another url</h1>
+    <p>URL: <%= link_to(@event.redirect_url) %></p>
+  </div>
+<%- end -%>
+
+<div class="col-md-7 col-sm-7">
+  <section id="event" class="event-main">
+
+    <h3><%= link_to @event.title + " (" +  @event.session_start.strftime("%b %e, %Y") + ")", event_path(@event.id) %></h3>
+    <div class="event-colophon">
+       <p><small>Created by <%= link_to_learner(@event.creator) %></small></p>
+
+       <%- if current_learner -%>
+         <p><small><%= link_to('edit', edit_event_path(@event), :class => "btn btn-default btn-sm") -%> <%= link_to("version history", history_event_path(@event), :class => "btn btn-default btn-sm")%></small></p>
+       <%- end %>
+     </div>
+
+   </section>
+
+</div>

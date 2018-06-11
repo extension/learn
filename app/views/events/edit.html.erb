@@ -17,9 +17,33 @@
 <div class="col-md-3">
   <h4>Special Actions</h4>
 
-  <p><a class="btn btn-default" data-toggle="collapse" href="#collapseSpecials" aria-expanded="false" aria-controls="collapseSpecials">View cancel, delete or expire options</a></p>
+  <div class="well">
+    <p><a class="btn btn-default" data-toggle="collapse" href="#collapseSpecials" aria-expanded="false" aria-controls="collapseSpecials">View Special Actions</a></p>
+    <p>Special Actions include redirecting, expiring, cancelling, or deleting an event</p>
+  </div>
+
 
   <div class="collapse" id="collapseSpecials">
+
+    <div class="well">
+      <%- if @event.redirect_event? -%>
+        <%= form_for @event, :html => {:multipart => true} do |event_form| -%>
+          <h4>This event is redirecting to another URL.</h4>
+          <p><%= link_to(@event.redirect_url) -%></p>
+          <%= event_form.hidden_field :redirect_event, value: false %>
+          <%= event_form.hidden_field :redirect_url, value: nil %>
+          <p><%= submit_tag 'Stop redirecting', :class => "btn btn-default" %></p>
+        <%- end -%>
+      <%- else -%>
+        <h4>Redirect event</h4>
+        <p class="help-block">The event page will automatically redirect to the URL that you provide.
+          The event description in list views will indicate that it has been redirected.
+          You can still go back and <%= link_to('edit the event', edit_event_path(@event)) -%> if an error is
+          made in the redirection.</p>
+        <p>
+        <%= button_to "Redirect event", redirect_event_event_path(@event), :method => :get, :class => "btn btn-default  btn-danger" %>
+      <%- end -%>
+    </div>
 
     <div class="well">
      <% if (!@event.new_record? && @event.concluded?) || (current_learner.is_admin && !@event.new_record?) %>

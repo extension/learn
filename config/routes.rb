@@ -56,6 +56,9 @@ Learn::Application.routes.draw do
       delete 'destroy_registrants'
       get 'delete_event'
       post 'delete_event'
+      get 'redirect_event'
+      post 'redirect_event'
+      get 'show_redirect'
     end
 
     collection do

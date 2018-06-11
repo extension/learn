@@ -1,0 +1,22 @@
+
+
+<div class="bekind">
+<h2>You are about to redirect this event. This means...</h2>
+<ul>
+<h3>
+  <li>Any link to the event URL (<%= event_url(@event) -%>) whether external or internal to Learn, will immediately redirect to the listed URL</li>
+  <li>All listings that include the event (e.g. by tag) will display a redirect message instead of the event description</li>
+</ul>
+</h3>
+</br>
+<%= form_tag redirect_event_event_path(@event.id) do %>
+  <p>
+    <label>The URL to redirect to (e.g. http://extension.org/about )</label>
+    <%= text_field_tag :redirect_url, (params[:redirect_url] || ""), class: 'form-control' %>
+  </p>
+
+  <p>
+    <%= submit_tag 'Redirect Event', :class => "btn btn-default  btn-danger"%>
+    <%= link_to "Cancel", event_path(@event.id), :class => "btn btn-default" %>
+  </p>
+<% end %>

@@ -23,6 +23,7 @@ class Event < ActiveRecord::Base
   attr_accessible :cover_image, :remove_cover_image, :cover_image_cache
   attr_accessible :is_mfln, :requires_registration, :registration_description
   attr_accessible :location_webinar_id, :zoom_webinar_id, :zoom_webinar_status
+  attr_accessible :redirect_event, :redirect_url
   has_many :images, :dependent => :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
 
@@ -80,6 +81,8 @@ class Event < ActiveRecord::Base
 
   validates :recording, :allow_blank => true, :uri => true
   validates :evaluation_link, :allow_blank => true, :uri => true
+  validates :redirect_url, :allow_blank => true, :uri => true
+
 
   before_validation :set_session_start
 
