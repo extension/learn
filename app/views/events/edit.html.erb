@@ -29,7 +29,7 @@
       <%- if @event.redirect_event? -%>
         <%= form_for @event, :html => {:multipart => true} do |event_form| -%>
           <h4>This event is redirecting to another URL.</h4>
-          <p><%= link_to(@event.redirect_url) -%></p>
+          <p><%= link_to(@event.redirect_url,@event.redirect_url) -%></p>
           <%= event_form.hidden_field :redirect_event, value: false %>
           <%= event_form.hidden_field :redirect_url, value: nil %>
           <p><%= submit_tag 'Stop redirecting', :class => "btn btn-default" %></p>

@@ -21,7 +21,7 @@
 
           </h3>
           <%- if event.redirect_event? -%>
-          <p>This event listing is now at: <%= link_to(event.redirect_url) -%></p>
+          <p>This event listing is now at: <%= link_to(event.redirect_url,event.redirect_url) -%></p>
           <%- else -%>
           <p class="event-list-details">
             <%- if event.is_conference_session? -%>

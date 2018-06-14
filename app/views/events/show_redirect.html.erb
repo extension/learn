@@ -6,7 +6,7 @@
 <%- if @event.redirect_event -%>
   <div class="alert alert-danger">
     <h1>This event redirects to another url</h1>
-    <p>URL: <%= link_to(@event.redirect_url) %></p>
+    <p>URL: <%= link_to(@event.redirect_url,@event.redirect_url) %></p>
   </div>
 <%- end -%>
 
