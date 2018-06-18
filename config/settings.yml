@@ -1,10 +1,6 @@
-twitter_app_id: 'notset'
-twitter_app_secret: 'notset'
 session_token: '123456789012345678901234567890'
-airbrake_api_key: 'notset'
 urlwriter_host: 'learn.test'
 app_location: 'localdev'
-darmokdatabase: 'prod_darmok'
 tropo_url: "http://api.tropo.com/1.0/sessions"
 tropo_token: "notset"
 send_notifications: false
@@ -17,7 +13,8 @@ rescheduled_notification_interval: 900.0
 location_change_notification_interval: 900.0
 engineering_list: 'engineering@extension.org'
 default_display_timezone: 'Eastern Time (US & Canada)'
-google_oauth_client_id: 'notset'
-google_oauth_client_secret: 'notset'
+zoom_api_key: 'notset'
+zoom_api_secret: 'notset'
+zoom_webinar_id: 'notset'
 zoom_webinar_host: 'extension.zoom.us'
 mfln_registration_contacts: []
