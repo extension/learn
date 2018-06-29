@@ -36,11 +36,14 @@ class Learner < ActiveRecord::Base
 
   DEFAULT_TIMEZONE = 'America/New_York'
 
-   # sunspot/solr search
-  searchable do
-    text :name
-    boolean :retired
-  end
+  #  # sunspot/solr search
+  # searchable do
+  #   text :name
+  #   boolean :retired
+  # end
+
+  # elasticsearch
+  update_index('learners#learner') { self }
 
   scope :needs_search_update, lambda{ where(needs_search_update: true)}
   scope :active, ->{where(retired: false)}
@@ -367,7 +370,6 @@ class Learner < ActiveRecord::Base
       # merely updating the account should trigger solr
       learner.update_attributes({needs_search_update: false})
     end
-    Sunspot.commit
   end
 
   def first_name
