@@ -18,5 +18,5 @@ zoom_api_secret: 'notset'
 zoom_webinar_id: 'notset'
 zoom_webinar_host: 'extension.zoom.us'
 mfln_registration_contacts: []
-elasticsearch_prefix: 'localdev'
+elasticsearch_prefix: 'localdev_learn'
 elasticsearch_host_and_port: 'localhost:9200'
