@@ -34,16 +34,8 @@ class SearchController < ApplicationController
   end
 
   def events
-    # events = Event.search do
-    #             with(:is_canceled, false)
-    #             with(:is_deleted, false)
-    #             fulltext(params[:q])
-    #             order_by(:session_start, :desc)
-    #             paginate :page => params[:page], :per_page => 10
-    #           end
-    # @events = events.results
-    # @list_title = "Search Results for '#{params[:q]}' in Events"
-    @events = []
+    @events = EventsIndex.not_canceled_or_deleted.globalsearch(params[:q]).order(session_start: :desc).page(params[:page]).load
+    @list_title = "Search Results for '#{params[:q]}' in Events"
   end
 
   def learners
