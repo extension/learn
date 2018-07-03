@@ -411,19 +411,20 @@ class Event < ActiveRecord::Base
 
   # return a list of similar articles using sunspot
   def similar_events(count = 4)
-    search_results = self.more_like_this do
-      with(:is_canceled, false)
-      with(:is_expired, false)
-      paginate(:page => 1, :per_page => count)
-      adjust_solr_params do |params|
-        params[:fl] = 'id,score'
-      end
-    end
-    return_results = {}
-    search_results.each_hit_with_result do |hit,event|
-      return_results[event] = hit.score
-    end
-    return_results
+    # search_results = self.more_like_this do
+    #   with(:is_canceled, false)
+    #   with(:is_expired, false)
+    #   paginate(:page => 1, :per_page => count)
+    #   adjust_solr_params do |params|
+    #     params[:fl] = 'id,score'
+    #   end
+    # end
+    # return_results = {}
+    # search_results.each_hit_with_result do |hit,event|
+    #   return_results[event] = hit.score
+    # end
+    # return_results
+    {}
   end
 
   def concluded?
