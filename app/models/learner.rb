@@ -43,7 +43,9 @@ class Learner < ActiveRecord::Base
   # end
 
   # elasticsearch
-  update_index('learners#learner') { self }
+  if(Settings.elasticsearch_enabled)
+    update_index('learners#learner') { self }
+  end
 
   scope :needs_search_update, lambda{ where(needs_search_update: true)}
   scope :active, ->{where(retired: false)}

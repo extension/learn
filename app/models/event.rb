@@ -102,17 +102,10 @@ class Event < ActiveRecord::Base
   # page default for paginate
   paginates_per 15
 
-  # # sunspot/solr search
-  # searchable do
-  #   time :session_start
-  #   text :title, more_like_this: true
-  #   text :description, more_like_this: true
-  #   text :tag_list
-  #   text :presenter_names
-  #   boolean :is_canceled
-  #   boolean :is_expired
-  #   boolean :is_deleted
-  # end
+  # elasticsearch
+  if(Settings.elasticsearch_enabled)
+    update_index('events#event') { self }
+  end
 
   scope :followed, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::FOLLOW)}
   scope :attended, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::ATTEND)}
