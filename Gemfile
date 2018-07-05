@@ -70,8 +70,6 @@ gem 'rack-tracker', "1.1.0ex", :source => 'https://engineering.extension.org/rub
 # elasticsearch
 gem 'chewy'
 
-# search on solr
-# gem "sunspot_rails"
 # rake progress
 gem "progress_bar"
 
@@ -84,11 +82,6 @@ gem "rinku", :require => 'rails_rinku'
 
 # wysihtml5 + bootstrap + asset pipeline
 gem 'bootstrap-wysihtml5-rails'
-
-# require sunspot_solr for test and dev
-group :test, :development do
-  # gem 'sunspot_solr'
-end
 
 # delayed_job
 gem "delayed_job"
