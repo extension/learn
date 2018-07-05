@@ -3,7 +3,8 @@
     <%= pagination_counts(@learners) %>
   <% end %>
   <div class="event-list">
-    <% @learners.each do |learner| %>
+    <% @learners.each do |indexed_learner| %>
+      <%- learner = Learner.find(indexed_learner.id) -%>
         <div class="event-list-event">
            <h3 class="event-list-title">
              <%= link_to learner.name, portfolio_learner_path(learner.id) %>

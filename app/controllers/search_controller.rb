@@ -34,7 +34,7 @@ class SearchController < ApplicationController
 
   def events
     if(Settings.elasticsearch_enabled)
-      @events = EventsIndex.not_canceled_or_deleted.globalsearch(params[:q]).order(session_start: :desc).page(params[:page]).load
+      @events = EventsIndex.not_canceled_or_deleted.globalsearch(params[:q]).order(session_start: :desc).page(params[:page])
     else
       @events = []
     end
@@ -43,7 +43,7 @@ class SearchController < ApplicationController
 
   def learners
     if(Settings.elasticsearch_enabled)
-      @learners = LearnersIndex.not_retired.by_name(params[:q]).page(params[:page]).load
+      @learners = LearnersIndex.not_retired.by_name(params[:q]).page(params[:page])
     else
       @learners = []
     end
