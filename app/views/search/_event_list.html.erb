@@ -6,9 +6,10 @@
 <% if !defined?(paginate_events) || paginate_events != false %>
   <%= pagination_counts(@events) %>
 <% end %>
-  <% if @events.total_count > 0 %>
+  <%- if defined?(@events.total_count) && @events.total_count > 0 -%>
   <div class="event-list">
-    <% @events.each do |event| %>
+    <% @events.each do |indexed_event| %>
+      <%- event = Event.find(indexed_event.id) -%>
         <div class="event-list-event">
           <h3 class="event-list-title">
             <% if event.is_expired %>
