@@ -26,6 +26,25 @@ class EventsIndex < Chewy::Index
                         fields: [:title,:description,:taglist,:presenter_names]})
   end
 
+  def self.similar_to_event(event)
+    query(
+      more_like_this: {
+          fields: [
+            :title,
+            :description
+          ],
+          like: [
+            {
+              "_index" => self.index_name,
+              "_type" => EventsIndex::Event.type_name,
+              "_id" => "#{event.id}"
+            }
+          ],
+          min_term_freq: 2,
+          max_query_terms: 25
+        }
+    ).order("_score")
+  end
 
 
 end
