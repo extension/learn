@@ -67,8 +67,9 @@ gem "htmlentities"
 # to enable Google Tag Manager
 gem 'rack-tracker', "1.1.0ex", :source => 'https://engineering.extension.org/rubygems'
 
-# search on solr
-gem "sunspot_rails"
+# elasticsearch
+gem 'chewy'
+
 # rake progress
 gem "progress_bar"
 
@@ -81,11 +82,6 @@ gem "rinku", :require => 'rails_rinku'
 
 # wysihtml5 + bootstrap + asset pipeline
 gem 'bootstrap-wysihtml5-rails'
-
-# require sunspot_solr for test and dev
-group :test, :development do
-  gem 'sunspot_solr'
-end
 
 # delayed_job
 gem "delayed_job"

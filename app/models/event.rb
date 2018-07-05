@@ -102,16 +102,9 @@ class Event < ActiveRecord::Base
   # page default for paginate
   paginates_per 15
 
-  # sunspot/solr search
-  searchable do
-    time :session_start
-    text :title, more_like_this: true
-    text :description, more_like_this: true
-    text :tag_list
-    text :presenter_names
-    boolean :is_canceled
-    boolean :is_expired
-    boolean :is_deleted
+  # elasticsearch
+  if(Settings.elasticsearch_enabled)
+    update_index('events#event') { self }
   end
 
   scope :followed, -> {joins(:event_connections).where("event_connections.connectiontype = ?", EventConnection::FOLLOW)}
@@ -416,19 +409,16 @@ class Event < ActiveRecord::Base
     end
   end
 
-  # return a list of similar articles using sunspot
+  # return a list of similar articles using elasticsearch
   def similar_events(count = 4)
-    search_results = self.more_like_this do
-      with(:is_canceled, false)
-      with(:is_expired, false)
-      paginate(:page => 1, :per_page => count)
-      adjust_solr_params do |params|
-        params[:fl] = 'id,score'
-      end
-    end
     return_results = {}
-    search_results.each_hit_with_result do |hit,event|
-      return_results[event] = hit.score
+    if(Settings.elasticsearch_enabled)
+      search_results = EventsIndex.not_canceled_or_deleted.similar_to_event(self).limit(count)
+      search_results.each do |indexed_event|
+        if(db_event = self.class.find_by_id(indexed_event.id))
+          return_results[db_event] = indexed_event._score
+        end
+      end
     end
     return_results
   end

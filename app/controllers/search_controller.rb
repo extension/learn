@@ -10,8 +10,7 @@ class SearchController < ApplicationController
      # trash the utf8 param because google hates us.
     params.delete(:utf8)
 
-    # take quotes out to see if it's a blank field and also strip out +, -, and "  as submitted by themselves are apparently special characters
-    # for solr and will make it crash, and if you ain't got no q param, no search goodies for you!
+    # take quotes out to see if it's a blank field and also strip out +, -, and "  as submitted by themselves
     if !params[:q] || params[:q].gsub(/["'+-]/, '').strip.blank?
       flash[:error] = "Empty/invalid search terms"
       return redirect_to root_url
@@ -34,24 +33,12 @@ class SearchController < ApplicationController
   end
 
   def events
-    events = Event.search do
-                with(:is_canceled, false)
-                with(:is_deleted, false)
-                fulltext(params[:q])
-                order_by(:session_start, :desc)
-                paginate :page => params[:page], :per_page => 10
-              end
-    @events = events.results
+    @events = EventsIndex.not_canceled_or_deleted.globalsearch(params[:q]).order(session_start: :desc).page(params[:page]).load
     @list_title = "Search Results for '#{params[:q]}' in Events"
   end
 
   def learners
-    learners = Learner.search do
-                with(:retired, false)
-                fulltext(params[:q])
-                paginate :page => params[:page], :per_page => 10
-              end
-    @learners = learners.results
+    @learners = LearnersIndex.not_retired.by_name(params[:q]).page(params[:page]).load
     @list_title = "Search Results for '#{params[:q]}' in Learners"
   end
 
