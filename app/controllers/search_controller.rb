@@ -33,12 +33,20 @@ class SearchController < ApplicationController
   end
 
   def events
-    @events = EventsIndex.not_canceled_or_deleted.globalsearch(params[:q]).order(session_start: :desc).page(params[:page]).load
+    if(Settings.elasticsearch_enabled)
+      @events = EventsIndex.not_canceled_or_deleted.globalsearch(params[:q]).order(session_start: :desc).page(params[:page]).load
+    else
+      @events = []
+    end
     @list_title = "Search Results for '#{params[:q]}' in Events"
   end
 
   def learners
-    @learners = LearnersIndex.not_retired.by_name(params[:q]).page(params[:page]).load
+    if(Settings.elasticsearch_enabled)
+      @learners = LearnersIndex.not_retired.by_name(params[:q]).page(params[:page]).load
+    else
+      @learners = []
+    end
     @list_title = "Search Results for '#{params[:q]}' in Learners"
   end
 
