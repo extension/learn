@@ -112,7 +112,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     if(@event.redirect_event?)
       # check for militaryfamilies registration cookie, and show a special view
-      if(@event.requires_registration?)
+      if(@event.requires_registration? and !@event.concluded?)
         @has_registration_cookie = check_for_registration_cookie
         if(@has_registration_cookie)
           return render(template: 'events/show_redirect_and_location')
