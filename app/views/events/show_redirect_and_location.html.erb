@@ -1,0 +1,52 @@
+<%- @page_title = @event.title + " - " +  @event.session_start.strftime("%b %e, %Y") -%>
+<%- @page_meta_description = raw("#{Event.html_to_text(@event.description.gsub(/[[:space:]]/, ' ')).truncate(140, separator: ' ')}") -%>
+<%- @page_type = "event" -%>
+<%- @noindex = true -%>
+
+
+<div class="col-md-9 col-sm-9">
+  <section id="event" class="event-main">
+
+    <h2 class="event-title"><%= @event.title -%></h2>
+
+      <% if @event.in_progress? %>
+        <span class="label label-info"><em>Happening now</em></span>
+        <br class="clearing"/>
+      <% end %>
+
+      <%-if !@event.concluded? -%>
+        <div class="location-section">
+            <%- if(@event.requires_registration?) -%>
+              <%- if(@has_registration_cookie) -%>
+                <p>Location: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
+              <%- end -%>
+            <%- else -%>
+              <p>Location: <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%></p>
+            <%- end -%>
+        </div>
+      <%- end -%>
+
+      <div class="event-description">
+        <div class="alert alert-danger">
+          <h1>The details for this event are now at a new website!</h1>
+          <p>More information: <%= link_to(@event.redirect_url,@event.redirect_url) %></p>
+        </div>
+        <p>This details for this event are now available at: <%= link_to(@event.redirect_url,@event.redirect_url) %>. You are seeing this information because you've previously
+        registered for this event.</p>
+
+        <p><strong>Please make note of the event location!</strong> ( <%= auto_link(@event.location.html_safe, :all, :target => "_blank") -%> ) You will not need to register for the event again at the <%= link_to("new website",@event.redirect_url) %>.</p>
+      </div>
+
+
+    <div class="event-colophon">
+       <%- if current_learner -%>
+         <p><small>You are signed in with an eXtensionID and can edit this event or view the event history.</small></p>
+         <p><small>
+           <%= link_to('edit', edit_event_path(@event), :class => "btn btn-default btn-sm") -%> <%= link_to("version history", history_event_path(@event), :class => "btn btn-default btn-sm")%>
+         </small></p>
+       <%- end %>
+     </div>
+
+   </section>
+
+</div>
