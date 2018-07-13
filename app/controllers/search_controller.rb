@@ -34,7 +34,7 @@ class SearchController < ApplicationController
 
   def events
     if(Settings.elasticsearch_enabled)
-      @events = EventsIndex.not_canceled_or_deleted.globalsearch(params[:q]).order(session_start: :desc).page(params[:page])
+      @events = EventsIndex.not_canceled_or_deleted.globalsearch(params[:q]).page(params[:page])
     else
       @events = []
     end
