@@ -22,8 +22,16 @@ class EventsIndex < Chewy::Index
   end
 
   def self.globalsearch(searchquery)
-    query(multi_match: {query: searchquery,
-                        fields: [:title,:description,:taglist,:presenter_names]})
+    query(multi_match: {
+          query: searchquery,
+          fields: [
+            :title,
+            :description,
+            :taglist,
+            :presenter_names
+          ]
+      }
+    )
   end
 
   def self.similar_to_event(event)
