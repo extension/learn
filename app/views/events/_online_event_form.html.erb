@@ -196,13 +196,13 @@
      $(document).ready(function(){
 
          $('#event_description').wysihtml5('deepExtend', {
-           toolbar: { "fa": true, "image": false, "blockquote": false},
+           toolbar: { "fa": true, "image": false, "link": true, "blockquote": false},
            parserRules: { tags: { p: {} } }
          });
 
          // hide mfln registration
          $('#event_registration_description').wysihtml5('deepExtend', {
-             toolbar: { "fa": true, "image": false, "blockquote": false},
+             toolbar: { "fa": true, "image": false, "link": true, "blockquote": false},
              parserRules: { tags: { p: {} }},
           	"events": {
           		"load": function() {
@@ -211,7 +211,6 @@
                 <%- else -%>
                   $('#mfln_event_additions').hide();
                 <%- end -%>
-          			console.log("Loaded!");
           		}
             }
           });
