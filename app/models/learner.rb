@@ -13,8 +13,6 @@ class Learner < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
 
   has_many :activity_logs, dependent: :destroy
-  has_many :learner_activities, dependent: :destroy
-  has_many :learner_activities_as_recipient, :class_name => "LearnerActivity", :foreign_key => 'recipient_id'
   has_many :created_events, :class_name => "Event", :foreign_key => 'creator_id'
   has_many :modified_events, :class_name => "Event", :foreign_key => 'last_modifier_id'
   has_many :event_connections, dependent: :destroy
