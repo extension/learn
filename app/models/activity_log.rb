@@ -13,7 +13,5 @@ class ActivityLog < ActiveRecord::Base
   validates :loggable, :presence => true
 
   scope :event_activity_records, conditions: {'loggable_type' => 'EventActivity'}
-  scope :learner_activity_records, conditions: {'loggable_type' => 'LearnerActivity'}
-
 
 end
