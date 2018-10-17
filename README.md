@@ -6,6 +6,9 @@ Learn is the evolution of the eXtension "learn" site - a place where Cooperative
 
 Learn is a project sponsored by the eXtension initiative of the Cooperative Extension Service. The development work is currently led by a team of technical staff at North Carolina State University.
 
+This app runs at:
+https://learn.extension.org/
+
 ## License
 
 This source code is Copyright (c) North Carolina State University
