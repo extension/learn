@@ -170,30 +170,6 @@ class EventsController < ApplicationController
     return redirect_to(event_url(recommended_event.event), status: 301)
   end
 
-  def new
-    @event = Event.new
-
-    3.times{@event.images.build}
-
-    # seed defaults
-    @event.session_start = Time.parse("14:00")
-    if(current_learner)
-      @event.time_zone = Time.zone
-    end
-  end
-
-  def create
-    @event = Event.new(params[:event])
-
-    @event.last_modifier = @event.creator = current_learner
-
-    if @event.save
-      redirect_to(@event, :notice => 'Event was successfully created.')
-    else
-      render :action => 'new'
-    end
-  end
-
   def edit
     @event = Event.find(params[:id])
 
