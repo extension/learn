@@ -95,9 +95,6 @@
         <ul class="nav navbar-nav pull-right">
           <li><%= link_to 'Upcoming', upcoming_events_path() %></li>
           <li><%= link_to 'Recent', recent_events_path() %></li>
-          <%- if current_learner -%>
-            <li><%= link_to "Create an event", hosting_path() %></li>
-          <%- end -%>
           <%- if !current_learner -%>
             <li><%= link_to("Sign in", signin_path() )%></li>
           <% end %>
