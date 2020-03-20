@@ -17,7 +17,7 @@ group :assets do
 end
 
 # bootstrap in sass in rails
-gem 'bootstrap-sass', '~> 3.1.1.1'
+gem 'bootstrap-sass', '~> 3.4.1'
 
 # replaces glyphicons
 gem 'font-awesome-rails'
